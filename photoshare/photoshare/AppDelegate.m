@@ -7,11 +7,67 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginViewController.h"
+#import "ReferFriendViewController.h"
+#import "EarningViewController.h"
+#import "CommunityViewController.h"
+#import "AccountViewController.h"
+#import "PhotoViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds] ] ;
+    
+    LoginViewController *vi = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
+    
+    ReferFriendViewController *rf = [[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:nil] ;
+    
+    EarningViewController *ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
+
+    CommunityViewController *com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:nil] ;
+
+    AccountViewController *acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
+    
+    PhotoViewController *ph = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil] ;
+
+    
+    
+    
+    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
+    
+    nv.navigationBar.barStyle = UIBarStyleBlackTranslucent ;
+ 
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage  imageNamed:@"community-iconX30.png"] tag:1];
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earnings-iconX30.png"] tag:2];
+    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"icon-takephotoX30.png"] tag:3];
+    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"folder-icon-bottomX30.png"] tag:4];
+    UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-itemX30.png"] tag:5];
+    
+    
+    UITabBarController *tbc = [[UITabBarController alloc] init] ;
+    
+   
+    
+    
+    [rf setTabBarItem:tabBarItem];
+    [ea setTabBarItem:tabBarItem2];
+    [ph setTabBarItem:tabBarItem3];
+    [com setTabBarItem:tabBarItem4];
+    [acc setTabBarItem:tabBarItem5];
+    
+    tbc.viewControllers = [[NSArray alloc] initWithObjects:rf,ea,ph,com,acc, nil];
+    
+    
+    
+    self.window.rootViewController = tbc ;
+    
+    [self.window makeKeyAndVisible];
+    
+    
     // Override point for customization after application launch.
     return YES;
 }
