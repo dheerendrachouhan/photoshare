@@ -13,15 +13,47 @@
 		FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC976398188FEB89008DF1F8 /* InfoPlist.strings */; };
 		FC97639C188FEB89008DF1F8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97639B188FEB89008DF1F8 /* main.m */; };
 		FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97639F188FEB89008DF1F8 /* AppDelegate.m */; };
-		FC9763A3188FEB89008DF1F8 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9763A1188FEB89008DF1F8 /* Main_iPhone.storyboard */; };
-		FC9763A6188FEB89008DF1F8 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9763A4188FEB89008DF1F8 /* Main_iPad.storyboard */; };
-		FC9763A9188FEB89008DF1F8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763A8188FEB89008DF1F8 /* ViewController.m */; };
 		FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC9763AA188FEB89008DF1F8 /* Images.xcassets */; };
 		FC9763B2188FEB89008DF1F8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC9763B1188FEB89008DF1F8 /* XCTest.framework */; };
 		FC9763B3188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC9763B4188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
 		FC9763BC188FEB89008DF1F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC9763BA188FEB89008DF1F8 /* InfoPlist.strings */; };
 		FC9763BE188FEB89008DF1F8 /* photoshareTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763BD188FEB89008DF1F8 /* photoshareTests.m */; };
+		FC9763CC188FF21A008DF1F8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763CA188FF21A008DF1F8 /* LoginViewController.m */; };
+		FC9763CD188FF21A008DF1F8 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC9763CB188FF21A008DF1F8 /* LoginViewController.xib */; };
+		FC9763E6188FFC50008DF1F8 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763D3188FFC50008DF1F8 /* 123-mobile-logo.png */; };
+		FC9763E7188FFC50008DF1F8 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763D4188FFC50008DF1F8 /* cog-item.png */; };
+		FC9763E8188FFC50008DF1F8 /* community-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763D5188FFC50008DF1F8 /* community-icon.png */; };
+		FC9763E9188FFC50008DF1F8 /* earnings-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763D6188FFC50008DF1F8 /* earnings-icon.png */; };
+		FC9763ED188FFC50008DF1F8 /* home-photo-quicklink.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763DA188FFC50008DF1F8 /* home-photo-quicklink.png */; };
+		FC9763EE188FFC50008DF1F8 /* icon-takephoto.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763DB188FFC50008DF1F8 /* icon-takephoto.png */; };
+		FC9763EF188FFC50008DF1F8 /* login-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763DC188FFC50008DF1F8 /* login-logo.png */; };
+		FC9763F0188FFC50008DF1F8 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763DD188FFC50008DF1F8 /* next.png */; };
+		FC9763F1188FFC50008DF1F8 /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763DE188FFC50008DF1F8 /* previous.png */; };
+		FC9763F2188FFC50008DF1F8 /* private-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763DF188FFC50008DF1F8 /* private-icon.png */; };
+		FC9763F3188FFC50008DF1F8 /* share-email.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763E0188FFC50008DF1F8 /* share-email.png */; };
+		FC9763F4188FFC50008DF1F8 /* share-facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763E1188FFC50008DF1F8 /* share-facebook.png */; };
+		FC9763F5188FFC50008DF1F8 /* share-sms.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763E2188FFC50008DF1F8 /* share-sms.png */; };
+		FC9763F6188FFC50008DF1F8 /* share-to-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763E3188FFC50008DF1F8 /* share-to-folder.png */; };
+		FC9763F7188FFC50008DF1F8 /* share-twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763E4188FFC50008DF1F8 /* share-twitter.png */; };
+		FC9763F8188FFC50008DF1F8 /* shared-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9763E5188FFC50008DF1F8 /* shared-icon.png */; };
+		FC9763FC189003E9008DF1F8 /* CommunityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763FA189003E9008DF1F8 /* CommunityViewController.m */; };
+		FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */; };
+		FC976401189003F8008DF1F8 /* EarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763FF189003F8008DF1F8 /* EarningViewController.m */; };
+		FC976402189003F8008DF1F8 /* EarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC976400189003F8008DF1F8 /* EarningViewController.xib */; };
+		FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC976404189004E0008DF1F8 /* ReferFriendViewController.m */; };
+		FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC976405189004E0008DF1F8 /* ReferFriendViewController.xib */; };
+		FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97640918900505008DF1F8 /* AccountViewController.m */; };
+		FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC97640A18900505008DF1F8 /* AccountViewController.xib */; };
+		FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97641018900734008DF1F8 /* PhotoViewController.m */; };
+		FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC97641118900734008DF1F8 /* PhotoViewController.xib */; };
+		FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97641518900B00008DF1F8 /* HomeViewController.m */; };
+		FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC97641618900B00008DF1F8 /* HomeViewController.xib */; };
+		FC976428189013E9008DF1F8 /* community-iconX30.png in Resources */ = {isa = PBXBuildFile; fileRef = FC976427189013E9008DF1F8 /* community-iconX30.png */; };
+		FC97642A18901518008DF1F8 /* cog-itemX30.png in Resources */ = {isa = PBXBuildFile; fileRef = FC97642918901518008DF1F8 /* cog-itemX30.png */; };
+		FC976432189018C9008DF1F8 /* earnings-iconX30.png in Resources */ = {isa = PBXBuildFile; fileRef = FC976431189018C9008DF1F8 /* earnings-iconX30.png */; };
+		FC976434189019AB008DF1F8 /* icon-takephotoX30.png in Resources */ = {isa = PBXBuildFile; fileRef = FC976433189019AB008DF1F8 /* icon-takephotoX30.png */; };
+		FC97643A18901AE2008DF1F8 /* folder-icon-bottomX30.png in Resources */ = {isa = PBXBuildFile; fileRef = FC97643918901AE2008DF1F8 /* folder-icon-bottomX30.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,16 +77,54 @@
 		FC97639D188FEB89008DF1F8 /* photoshare-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "photoshare-Prefix.pch"; sourceTree = "<group>"; };
 		FC97639E188FEB89008DF1F8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FC97639F188FEB89008DF1F8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		FC9763A2188FEB89008DF1F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		FC9763A5188FEB89008DF1F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		FC9763A7188FEB89008DF1F8 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		FC9763A8188FEB89008DF1F8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		FC9763AA188FEB89008DF1F8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FC9763B0188FEB89008DF1F8 /* photoshareTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = photoshareTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC9763B1188FEB89008DF1F8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FC9763B9188FEB89008DF1F8 /* photoshareTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "photoshareTests-Info.plist"; sourceTree = "<group>"; };
 		FC9763BB188FEB89008DF1F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FC9763BD188FEB89008DF1F8 /* photoshareTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = photoshareTests.m; sourceTree = "<group>"; };
+		FC9763C9188FF21A008DF1F8 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		FC9763CA188FF21A008DF1F8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		FC9763CB188FF21A008DF1F8 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		FC9763D3188FFC50008DF1F8 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
+		FC9763D4188FFC50008DF1F8 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
+		FC9763D5188FFC50008DF1F8 /* community-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "community-icon.png"; sourceTree = "<group>"; };
+		FC9763D6188FFC50008DF1F8 /* earnings-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earnings-icon.png"; sourceTree = "<group>"; };
+		FC9763DA188FFC50008DF1F8 /* home-photo-quicklink.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-photo-quicklink.png"; sourceTree = "<group>"; };
+		FC9763DB188FFC50008DF1F8 /* icon-takephoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-takephoto.png"; sourceTree = "<group>"; };
+		FC9763DC188FFC50008DF1F8 /* login-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-logo.png"; sourceTree = "<group>"; };
+		FC9763DD188FFC50008DF1F8 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
+		FC9763DE188FFC50008DF1F8 /* previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previous.png; sourceTree = "<group>"; };
+		FC9763DF188FFC50008DF1F8 /* private-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "private-icon.png"; sourceTree = "<group>"; };
+		FC9763E0188FFC50008DF1F8 /* share-email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-email.png"; sourceTree = "<group>"; };
+		FC9763E1188FFC50008DF1F8 /* share-facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-facebook.png"; sourceTree = "<group>"; };
+		FC9763E2188FFC50008DF1F8 /* share-sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-sms.png"; sourceTree = "<group>"; };
+		FC9763E3188FFC50008DF1F8 /* share-to-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-to-folder.png"; sourceTree = "<group>"; };
+		FC9763E4188FFC50008DF1F8 /* share-twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-twitter.png"; sourceTree = "<group>"; };
+		FC9763E5188FFC50008DF1F8 /* shared-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shared-icon.png"; sourceTree = "<group>"; };
+		FC9763F9189003E9008DF1F8 /* CommunityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityViewController.h; sourceTree = "<group>"; };
+		FC9763FA189003E9008DF1F8 /* CommunityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityViewController.m; sourceTree = "<group>"; };
+		FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityViewController.xib; sourceTree = "<group>"; };
+		FC9763FE189003F8008DF1F8 /* EarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarningViewController.h; sourceTree = "<group>"; };
+		FC9763FF189003F8008DF1F8 /* EarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EarningViewController.m; sourceTree = "<group>"; };
+		FC976400189003F8008DF1F8 /* EarningViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EarningViewController.xib; sourceTree = "<group>"; };
+		FC976403189004E0008DF1F8 /* ReferFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferFriendViewController.h; sourceTree = "<group>"; };
+		FC976404189004E0008DF1F8 /* ReferFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferFriendViewController.m; sourceTree = "<group>"; };
+		FC976405189004E0008DF1F8 /* ReferFriendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferFriendViewController.xib; sourceTree = "<group>"; };
+		FC97640818900505008DF1F8 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
+		FC97640918900505008DF1F8 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
+		FC97640A18900505008DF1F8 /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
+		FC97640F18900734008DF1F8 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
+		FC97641018900734008DF1F8 /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
+		FC97641118900734008DF1F8 /* PhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewController.xib; sourceTree = "<group>"; };
+		FC97641418900B00008DF1F8 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		FC97641518900B00008DF1F8 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		FC97641618900B00008DF1F8 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		FC976427189013E9008DF1F8 /* community-iconX30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "community-iconX30.png"; sourceTree = "<group>"; };
+		FC97642918901518008DF1F8 /* cog-itemX30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-itemX30.png"; sourceTree = "<group>"; };
+		FC976431189018C9008DF1F8 /* earnings-iconX30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earnings-iconX30.png"; sourceTree = "<group>"; };
+		FC976433189019AB008DF1F8 /* icon-takephotoX30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-takephotoX30.png"; sourceTree = "<group>"; };
+		FC97643918901AE2008DF1F8 /* folder-icon-bottomX30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-bottomX30.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,14 +184,25 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
+				FC97640D1890050C008DF1F8 /* Layouts */,
 				FC97639E188FEB89008DF1F8 /* AppDelegate.h */,
 				FC97639F188FEB89008DF1F8 /* AppDelegate.m */,
-				FC9763A1188FEB89008DF1F8 /* Main_iPhone.storyboard */,
-				FC9763A4188FEB89008DF1F8 /* Main_iPad.storyboard */,
-				FC9763A7188FEB89008DF1F8 /* ViewController.h */,
-				FC9763A8188FEB89008DF1F8 /* ViewController.m */,
 				FC9763AA188FEB89008DF1F8 /* Images.xcassets */,
 				FC976396188FEB89008DF1F8 /* Supporting Files */,
+				FC9763C9188FF21A008DF1F8 /* LoginViewController.h */,
+				FC9763CA188FF21A008DF1F8 /* LoginViewController.m */,
+				FC9763F9189003E9008DF1F8 /* CommunityViewController.h */,
+				FC9763FA189003E9008DF1F8 /* CommunityViewController.m */,
+				FC9763FE189003F8008DF1F8 /* EarningViewController.h */,
+				FC9763FF189003F8008DF1F8 /* EarningViewController.m */,
+				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
+				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
+				FC97640818900505008DF1F8 /* AccountViewController.h */,
+				FC97640918900505008DF1F8 /* AccountViewController.m */,
+				FC97640F18900734008DF1F8 /* PhotoViewController.h */,
+				FC97641018900734008DF1F8 /* PhotoViewController.m */,
+				FC97641418900B00008DF1F8 /* HomeViewController.h */,
+				FC97641518900B00008DF1F8 /* HomeViewController.m */,
 			);
 			path = photoshare;
 			sourceTree = "<group>";
@@ -129,6 +210,7 @@
 		FC976396188FEB89008DF1F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FC9763D2188FFC2D008DF1F8 /* images */,
 				FC976397188FEB89008DF1F8 /* photoshare-Info.plist */,
 				FC976398188FEB89008DF1F8 /* InfoPlist.strings */,
 				FC97639B188FEB89008DF1F8 /* main.m */,
@@ -153,6 +235,48 @@
 				FC9763BA188FEB89008DF1F8 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FC9763D2188FFC2D008DF1F8 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				FC97643918901AE2008DF1F8 /* folder-icon-bottomX30.png */,
+				FC976433189019AB008DF1F8 /* icon-takephotoX30.png */,
+				FC976431189018C9008DF1F8 /* earnings-iconX30.png */,
+				FC97642918901518008DF1F8 /* cog-itemX30.png */,
+				FC976427189013E9008DF1F8 /* community-iconX30.png */,
+				FC9763D3188FFC50008DF1F8 /* 123-mobile-logo.png */,
+				FC9763D4188FFC50008DF1F8 /* cog-item.png */,
+				FC9763D5188FFC50008DF1F8 /* community-icon.png */,
+				FC9763D6188FFC50008DF1F8 /* earnings-icon.png */,
+				FC9763DA188FFC50008DF1F8 /* home-photo-quicklink.png */,
+				FC9763DB188FFC50008DF1F8 /* icon-takephoto.png */,
+				FC9763DC188FFC50008DF1F8 /* login-logo.png */,
+				FC9763DD188FFC50008DF1F8 /* next.png */,
+				FC9763DE188FFC50008DF1F8 /* previous.png */,
+				FC9763DF188FFC50008DF1F8 /* private-icon.png */,
+				FC9763E0188FFC50008DF1F8 /* share-email.png */,
+				FC9763E1188FFC50008DF1F8 /* share-facebook.png */,
+				FC9763E2188FFC50008DF1F8 /* share-sms.png */,
+				FC9763E3188FFC50008DF1F8 /* share-to-folder.png */,
+				FC9763E4188FFC50008DF1F8 /* share-twitter.png */,
+				FC9763E5188FFC50008DF1F8 /* shared-icon.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		FC97640D1890050C008DF1F8 /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				FC97641618900B00008DF1F8 /* HomeViewController.xib */,
+				FC97641118900734008DF1F8 /* PhotoViewController.xib */,
+				FC97640A18900505008DF1F8 /* AccountViewController.xib */,
+				FC976405189004E0008DF1F8 /* ReferFriendViewController.xib */,
+				FC976400189003F8008DF1F8 /* EarningViewController.xib */,
+				FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */,
+				FC9763CB188FF21A008DF1F8 /* LoginViewController.xib */,
+			);
+			name = Layouts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,10 +355,36 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC9763A6188FEB89008DF1F8 /* Main_iPad.storyboard in Resources */,
+				FC9763F0188FFC50008DF1F8 /* next.png in Resources */,
+				FC9763ED188FFC50008DF1F8 /* home-photo-quicklink.png in Resources */,
+				FC9763F5188FFC50008DF1F8 /* share-sms.png in Resources */,
+				FC9763E7188FFC50008DF1F8 /* cog-item.png in Resources */,
+				FC976434189019AB008DF1F8 /* icon-takephotoX30.png in Resources */,
+				FC9763EE188FFC50008DF1F8 /* icon-takephoto.png in Resources */,
+				FC976402189003F8008DF1F8 /* EarningViewController.xib in Resources */,
+				FC9763F7188FFC50008DF1F8 /* share-twitter.png in Resources */,
+				FC9763F2188FFC50008DF1F8 /* private-icon.png in Resources */,
+				FC9763F6188FFC50008DF1F8 /* share-to-folder.png in Resources */,
+				FC9763EF188FFC50008DF1F8 /* login-logo.png in Resources */,
+				FC9763CD188FF21A008DF1F8 /* LoginViewController.xib in Resources */,
+				FC9763E8188FFC50008DF1F8 /* community-icon.png in Resources */,
+				FC9763F1188FFC50008DF1F8 /* previous.png in Resources */,
+				FC976432189018C9008DF1F8 /* earnings-iconX30.png in Resources */,
+				FC9763E9188FFC50008DF1F8 /* earnings-icon.png in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
-				FC9763A3188FEB89008DF1F8 /* Main_iPhone.storyboard in Resources */,
+				FC97643A18901AE2008DF1F8 /* folder-icon-bottomX30.png in Resources */,
+				FC97642A18901518008DF1F8 /* cog-itemX30.png in Resources */,
+				FC9763F3188FFC50008DF1F8 /* share-email.png in Resources */,
+				FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */,
+				FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */,
+				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
+				FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */,
+				FC9763F8188FFC50008DF1F8 /* shared-icon.png in Resources */,
+				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
+				FC9763E6188FFC50008DF1F8 /* 123-mobile-logo.png in Resources */,
+				FC976428189013E9008DF1F8 /* community-iconX30.png in Resources */,
+				FC9763F4188FFC50008DF1F8 /* share-facebook.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,7 +403,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC9763A9188FEB89008DF1F8 /* ViewController.m in Sources */,
+				FC9763FC189003E9008DF1F8 /* CommunityViewController.m in Sources */,
+				FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */,
+				FC976401189003F8008DF1F8 /* EarningViewController.m in Sources */,
+				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
+				FC9763CC188FF21A008DF1F8 /* LoginViewController.m in Sources */,
+				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
+				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,
 				FC97639C188FEB89008DF1F8 /* main.m in Sources */,
 			);
@@ -284,22 +440,6 @@
 				FC976399188FEB89008DF1F8 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		FC9763A1188FEB89008DF1F8 /* Main_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FC9763A2188FEB89008DF1F8 /* Base */,
-			);
-			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		FC9763A4188FEB89008DF1F8 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FC9763A5188FEB89008DF1F8 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		FC9763BA188FEB89008DF1F8 /* InfoPlist.strings */ = {
@@ -396,6 +536,7 @@
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
 				INFOPLIST_FILE = "photoshare/photoshare-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -409,6 +550,7 @@
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
 				INFOPLIST_FILE = "photoshare/photoshare-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
