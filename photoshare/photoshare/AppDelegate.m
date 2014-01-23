@@ -13,7 +13,7 @@
 #import "CommunityViewController.h"
 #import "AccountViewController.h"
 #import "PhotoViewController.h"
-
+#import "HomeViewController.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -51,7 +51,7 @@
     UITabBarController *tbc = [[UITabBarController alloc] init] ;
     
    
-    
+    HomeViewController *home=[[HomeViewController alloc] init];
     
     [rf setTabBarItem:tabBarItem];
     [ea setTabBarItem:tabBarItem2];
@@ -59,11 +59,11 @@
     [com setTabBarItem:tabBarItem4];
     [acc setTabBarItem:tabBarItem5];
     
-    tbc.viewControllers = [[NSArray alloc] initWithObjects:rf,ea,ph,com,acc, nil];
+    tbc.viewControllers = [[NSArray alloc] initWithObjects:home,rf,ea,ph,com,acc, nil];//rmove rf
     
     
-    
-    self.window.rootViewController = tbc ;
+    [tbc setSelectedIndex:0];
+    self.window.rootViewController = tbc ;//tbc
     
     [self.window makeKeyAndVisible];
     

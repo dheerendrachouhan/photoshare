@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommunityViewController : UIViewController
-
+@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource>
+{
+    IBOutlet UICollectionView *collectionview;
+    UIButton *addFolderBtn;
+}
+-(IBAction)backToView:(id)sender;
 @end
