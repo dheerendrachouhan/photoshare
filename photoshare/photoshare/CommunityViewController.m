@@ -27,10 +27,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    UINib *cellNib = [UINib nibWithNibName:@"CommunityCollectionCell"
-                                    bundle:[NSBundle mainBundle]];
-    [collectionview registerNib:cellNib
-            forCellWithReuseIdentifier:@"CVCell"];
+
 }
 -(IBAction)backToView:(id)sender
 {
