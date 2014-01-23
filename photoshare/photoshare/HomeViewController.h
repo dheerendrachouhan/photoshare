@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface HomeViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationControllerDelegate>
 {
     IBOutlet UIButton *totalEarningBtn;
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UILabel *welcomeName;
     IBOutlet UILabel *communityCountLbl;
+    
+    UINavigationController *navController;
     
     UIImagePickerController *imagePicker;
 }

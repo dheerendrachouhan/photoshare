@@ -12,6 +12,9 @@
 {
     IBOutlet UICollectionView *collectionview;
     UIButton *addFolderBtn;
+    IBOutlet UILabel *diskSpaceTitle;
+    IBOutlet UILabel *diskSpaceBlueLabel;
+
 }
 -(IBAction)backToView:(id)sender;
 @end

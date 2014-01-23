@@ -7,6 +7,7 @@
 //
 
 #import "HomeViewController.h"
+#import "CommonTopView.h"
 #import "CommunityViewController.h"
 @interface HomeViewController ()
 
@@ -26,16 +27,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
-        
-   
+    // Do any additional setup after loading the view from its nib.
     //rounded the Community Count Label
     communityCountLbl.layer.cornerRadius=12;
     communityCountLbl.layer.borderWidth=2;
     communityCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
+    CommonTopView *topView=[[CommonTopView alloc] init];
+    [self.view addSubview:topView];
     [self setContent];
     
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    /*CommonTopView *topView=[CommonTopView sharedTopView];
+    [self.view addSubview:topView];*/
 }
 -(void)setContent
 {
@@ -66,8 +73,10 @@
 }
 -(IBAction)goToCommunity:(id)sender
 {
-    CommunityViewController *comm=[[CommunityViewController alloc] init];
-    [self presentViewController:comm animated:YES completion:nil];
+    //CommunityViewController *comm=[[CommunityViewController alloc] init];
+    //navController =[[UINavigationController alloc] initWithRootViewController:comm];
+    [self.tabBarController setSelectedIndex:3];
+    //[self presentViewController:comm animated:YES completion:nil];
 }
 -(IBAction)gotoPhotos:(id)sender
 {

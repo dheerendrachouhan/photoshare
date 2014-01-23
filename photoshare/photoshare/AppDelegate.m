@@ -53,17 +53,17 @@
    
     HomeViewController *home=[[HomeViewController alloc] init];
     
-    [rf setTabBarItem:tabBarItem];
+    [home setTabBarItem:tabBarItem];
     [ea setTabBarItem:tabBarItem2];
     [ph setTabBarItem:tabBarItem3];
     [com setTabBarItem:tabBarItem4];
     [acc setTabBarItem:tabBarItem5];
     
-    tbc.viewControllers = [[NSArray alloc] initWithObjects:home,rf,ea,ph,com,acc, nil];//rmove rf
+    tbc.viewControllers = [[NSArray alloc] initWithObjects:home,ea,ph,com,acc, nil];
     
     
     [tbc setSelectedIndex:0];
-    self.window.rootViewController = tbc ;//tbc
+    self.window.rootViewController = tbc ;
     
     [self.window makeKeyAndVisible];
     
