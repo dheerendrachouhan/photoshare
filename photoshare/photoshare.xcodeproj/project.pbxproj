@@ -7,28 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E16F38D01890D6B900064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38BD1890D6B900064806 /* 123-mobile-logo.png */; };
-		E16F38D11890D6B900064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38BE1890D6B900064806 /* cog-item.png */; };
-		E16F38D21890D6B900064806 /* community-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38BF1890D6B900064806 /* community-icon.png */; };
-		E16F38D31890D6B900064806 /* earnings-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C01890D6B900064806 /* earnings-icon.png */; };
-		E16F38D41890D6B900064806 /* folder-icon-bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C11890D6B900064806 /* folder-icon-bottom.png */; };
-		E16F38D51890D6B900064806 /* folder-icon-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C21890D6B900064806 /* folder-icon-grey.png */; };
-		E16F38D61890D6B900064806 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C31890D6B900064806 /* folder-icon.png */; };
-		E16F38D71890D6B900064806 /* home-photo-quicklink.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C41890D6B900064806 /* home-photo-quicklink.png */; };
-		E16F38D81890D6B900064806 /* icon-takephoto.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C51890D6B900064806 /* icon-takephoto.png */; };
-		E16F38D91890D6B900064806 /* login-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C61890D6B900064806 /* login-logo.png */; };
-		E16F38DA1890D6B900064806 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C71890D6B900064806 /* next.png */; };
-		E16F38DB1890D6B900064806 /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C81890D6B900064806 /* previous.png */; };
-		E16F38DC1890D6B900064806 /* private-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38C91890D6B900064806 /* private-icon.png */; };
-		E16F38DD1890D6B900064806 /* share-email.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38CA1890D6B900064806 /* share-email.png */; };
-		E16F38DE1890D6B900064806 /* share-facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38CB1890D6B900064806 /* share-facebook.png */; };
-		E16F38DF1890D6B900064806 /* share-sms.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38CC1890D6B900064806 /* share-sms.png */; };
-		E16F38E01890D6B900064806 /* share-to-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38CD1890D6B900064806 /* share-to-folder.png */; };
-		E16F38E11890D6B900064806 /* share-twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38CE1890D6B900064806 /* share-twitter.png */; };
-		E16F38E21890D6B900064806 /* shared-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38CF1890D6B900064806 /* shared-icon.png */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
-		E16F38E81891181000064806 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E71891181000064806 /* back.png */; };
-		E16F38EA1891233000064806 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E91891233000064806 /* wall.jpg */; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
@@ -68,28 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E16F38BD1890D6B900064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
-		E16F38BE1890D6B900064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
-		E16F38BF1890D6B900064806 /* community-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "community-icon.png"; sourceTree = "<group>"; };
-		E16F38C01890D6B900064806 /* earnings-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earnings-icon.png"; sourceTree = "<group>"; };
-		E16F38C11890D6B900064806 /* folder-icon-bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-bottom.png"; sourceTree = "<group>"; };
-		E16F38C21890D6B900064806 /* folder-icon-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-grey.png"; sourceTree = "<group>"; };
-		E16F38C31890D6B900064806 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
-		E16F38C41890D6B900064806 /* home-photo-quicklink.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-photo-quicklink.png"; sourceTree = "<group>"; };
-		E16F38C51890D6B900064806 /* icon-takephoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-takephoto.png"; sourceTree = "<group>"; };
-		E16F38C61890D6B900064806 /* login-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-logo.png"; sourceTree = "<group>"; };
-		E16F38C71890D6B900064806 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
-		E16F38C81890D6B900064806 /* previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previous.png; sourceTree = "<group>"; };
-		E16F38C91890D6B900064806 /* private-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "private-icon.png"; sourceTree = "<group>"; };
-		E16F38CA1890D6B900064806 /* share-email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-email.png"; sourceTree = "<group>"; };
-		E16F38CB1890D6B900064806 /* share-facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-facebook.png"; sourceTree = "<group>"; };
-		E16F38CC1890D6B900064806 /* share-sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-sms.png"; sourceTree = "<group>"; };
-		E16F38CD1890D6B900064806 /* share-to-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-to-folder.png"; sourceTree = "<group>"; };
-		E16F38CE1890D6B900064806 /* share-twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-twitter.png"; sourceTree = "<group>"; };
-		E16F38CF1890D6B900064806 /* shared-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shared-icon.png"; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
-		E16F38E71891181000064806 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
-		E16F38E91891233000064806 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
 		FC97638C188FEB89008DF1F8 /* photoshare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoshare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC97638F188FEB89008DF1F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC976391188FEB89008DF1F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -242,27 +200,6 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				E16F38E91891233000064806 /* wall.jpg */,
-				E16F38E71891181000064806 /* back.png */,
-				E16F38BD1890D6B900064806 /* 123-mobile-logo.png */,
-				E16F38BE1890D6B900064806 /* cog-item.png */,
-				E16F38BF1890D6B900064806 /* community-icon.png */,
-				E16F38C01890D6B900064806 /* earnings-icon.png */,
-				E16F38C11890D6B900064806 /* folder-icon-bottom.png */,
-				E16F38C21890D6B900064806 /* folder-icon-grey.png */,
-				E16F38C31890D6B900064806 /* folder-icon.png */,
-				E16F38C41890D6B900064806 /* home-photo-quicklink.png */,
-				E16F38C51890D6B900064806 /* icon-takephoto.png */,
-				E16F38C61890D6B900064806 /* login-logo.png */,
-				E16F38C71890D6B900064806 /* next.png */,
-				E16F38C81890D6B900064806 /* previous.png */,
-				E16F38C91890D6B900064806 /* private-icon.png */,
-				E16F38CA1890D6B900064806 /* share-email.png */,
-				E16F38CB1890D6B900064806 /* share-facebook.png */,
-				E16F38CC1890D6B900064806 /* share-sms.png */,
-				E16F38CD1890D6B900064806 /* share-to-folder.png */,
-				E16F38CE1890D6B900064806 /* share-twitter.png */,
-				E16F38CF1890D6B900064806 /* shared-icon.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -358,37 +295,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E16F38D31890D6B900064806 /* earnings-icon.png in Resources */,
-				E16F38D71890D6B900064806 /* home-photo-quicklink.png in Resources */,
-				E16F38DF1890D6B900064806 /* share-sms.png in Resources */,
-				E16F38D81890D6B900064806 /* icon-takephoto.png in Resources */,
 				FC976402189003F8008DF1F8 /* EarningViewController.xib in Resources */,
-				E16F38D01890D6B900064806 /* 123-mobile-logo.png in Resources */,
-				E16F38DD1890D6B900064806 /* share-email.png in Resources */,
-				E16F38E21890D6B900064806 /* shared-icon.png in Resources */,
 				FC9763CD188FF21A008DF1F8 /* LoginViewController.xib in Resources */,
-				E16F38DA1890D6B900064806 /* next.png in Resources */,
-				E16F38D61890D6B900064806 /* folder-icon.png in Resources */,
-				E16F38DC1890D6B900064806 /* private-icon.png in Resources */,
-				E16F38E11890D6B900064806 /* share-twitter.png in Resources */,
 				E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
-				E16F38D11890D6B900064806 /* cog-item.png in Resources */,
-				E16F38DB1890D6B900064806 /* previous.png in Resources */,
 				FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */,
-				E16F38D41890D6B900064806 /* folder-icon-bottom.png in Resources */,
 				FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
-				E16F38EA1891233000064806 /* wall.jpg in Resources */,
-				E16F38E01890D6B900064806 /* share-to-folder.png in Resources */,
-				E16F38D91890D6B900064806 /* login-logo.png in Resources */,
-				E16F38D21890D6B900064806 /* community-icon.png in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */,
-				E16F38E81891181000064806 /* back.png in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
-				E16F38D51890D6B900064806 /* folder-icon-grey.png in Resources */,
-				E16F38DE1890D6B900064806 /* share-facebook.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
