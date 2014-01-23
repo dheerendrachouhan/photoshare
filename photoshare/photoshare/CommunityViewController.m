@@ -27,6 +27,35 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    UINib *cellNib = [UINib nibWithNibName:@"CommunityCollectionCell"
+                                    bundle:[NSBundle mainBundle]];
+    [collectionview registerNib:cellNib
+            forCellWithReuseIdentifier:@"CVCell"];
+}
+-(IBAction)backToView:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+//collection view delegate method
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return 45;
+}
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier=@"CVCell";
+    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    
+    if([indexPath row]==2)
+    {
+        UIImageView *folderIdentfierImage=(UIImageView *)[cell viewWithTag:102];
+        folderIdentfierImage.hidden=YES;
+    }
+    UILabel *folderNamelbl=(UILabel *)[cell viewWithTag:103];
+    folderNamelbl.text=@"myFolder";
+    
+    return cell;
 }
 
 - (void)didReceiveMemoryWarning
