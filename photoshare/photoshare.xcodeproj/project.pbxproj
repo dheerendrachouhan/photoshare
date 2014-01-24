@@ -275,9 +275,9 @@
 		FC976396188FEB89008DF1F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FC9763D2188FFC2D008DF1F8 /* images */,
 				E17222CE189281F600F28748 /* ContentManager.h */,
 				E17222CF189281F600F28748 /* ContentManager.m */,
-				FC9763D2188FFC2D008DF1F8 /* images */,
 				FC976397188FEB89008DF1F8 /* photoshare-Info.plist */,
 				FC976398188FEB89008DF1F8 /* InfoPlist.strings */,
 				FC97639B188FEB89008DF1F8 /* main.m */,

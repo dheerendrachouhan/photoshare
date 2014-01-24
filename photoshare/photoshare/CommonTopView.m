@@ -25,7 +25,7 @@ static CommonTopView *topView=nil;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.frame=CGRectMake(0, 20, 320, 50 );
+        self.frame=CGRectMake(0, 0, 320, 50 );
         self.backgroundColor=[UIColor whiteColor];
         topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 6)];
         

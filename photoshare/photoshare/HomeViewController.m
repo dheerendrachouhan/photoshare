@@ -22,6 +22,7 @@
     if (self) {
         // Custom initialization
     }
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
     return self;
 }
 
@@ -33,7 +34,7 @@
     //tab bar
     //AppDelegate *delegate=[UIApplication sharedApplication].delegate;
     //[self.view addSubview:delegate.tbc.view];
-    
+   
     
     //navController.view.frame=CGRectMake(0, 70, 320, 30);
    // navController.view.backgroundColor=[UIColor blackColor];
@@ -45,15 +46,13 @@
     communityCountLbl.layer.cornerRadius=12;
     communityCountLbl.layer.borderWidth=2;
     communityCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
-    CommonTopView *topView=[[CommonTopView alloc] init];
-    [self.view addSubview:topView];
+    
     [self setContent];
     
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden=YES;
     
 }
 -(void)setContent
