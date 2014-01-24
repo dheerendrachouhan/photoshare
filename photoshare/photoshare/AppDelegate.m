@@ -72,7 +72,7 @@
     
     UITabBarController *tbc = [[UITabBarController alloc] init] ;
     
-   
+   //navigation controllers
     
     [navControllerhome setTabBarItem:tabBarItem];
     [navControllerearning setTabBarItem:tabBarItem2];
