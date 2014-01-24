@@ -58,6 +58,9 @@
     diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
     [diskSpaceBlueLabel removeFromSuperview];
     [self.view addSubview:diskSpaceLabel];
+    
+    
+       
 }
 
 -(void)setDataForCollectionView
@@ -160,25 +163,31 @@
 
 -(void)addFolder
 {
-    addEditController.isAddFolder=YES;
-    addEditController.isEditFolder=NO;
-    [self pushNavigationController];
+ 
+    AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] init] ;
+       aec1.isAddFolder=YES;
+    aec1.isEditFolder=NO;
+   
+    [self.navigationController pushViewController:aec1 animated:YES];
+
 }
 -(void)editFolder:(NSIndexPath *)indexPath
 {
    
-    addEditController.isAddFolder=NO;
-    addEditController.isEditFolder=YES;
-    addEditController.folderIndex=[indexPath row];
+    
 
-    [self.navigationController pushViewController:addEditController animated:YES];
+    AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] init] ;
+    aec.isAddFolder=NO;
+    aec.isEditFolder=YES;
+    aec.folderIndex=[indexPath row];
+    [self.navigationController pushViewController:aec animated:YES];
 
    // [self pushNavigationController];
     
 }
 -(void)pushNavigationController
 {
-    [self.navigationController pushViewController:addEditController animated:YES];
+  //  [self.navigationController pushViewController:addEditController animated:YES];
 }
 -(void)check
 {

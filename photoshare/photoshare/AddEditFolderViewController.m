@@ -8,6 +8,7 @@
 
 #import "AddEditFolderViewController.h"
 #import "CommonTopView.h"
+#import "CommunityViewController.h"
 @interface AddEditFolderViewController ()
 
 @end
@@ -24,7 +25,13 @@
    
     return self;
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    //self.navigationController.navigationBar.delegate=self;
+//self.navigationController.navigationItem.backBarButtonItem.action=@selector(backButtonDidPressed:);
 
+   // self.navigationItem.backBarButtonItem.action = @selector(backButtonDidPressed:);
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -33,7 +40,7 @@
     //add Commpn top view
     CommonTopView *topView=[[CommonTopView alloc] init];
     [self.view addSubview:topView];
-     self.navigationItem.backBarButtonItem.action = @selector(backButtonDidPressed:);
+   
     
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
@@ -118,10 +125,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (void)backButtonDidPressed:(id)aResponder {
-    NSLog(@"Back Navigation");
-    //do your stuff
-    //but don't forget to dismiss the viewcontroller
-    [self.navigationController popViewControllerAnimated:TRUE];
+
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+   // CommunityViewController *cvc = [[CommunityViewController alloc] init] ;
+    
+    
+   // [self.navigationController popToViewController:cvc animated:YES];
+    NSLog(@"disapp--") ;
+//[self.navigationController dismissViewControllerAnimated:YES completion:NULL];
+
 }
+
+
+
+
 @end
