@@ -59,7 +59,7 @@
 
     
     
-    self.nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
+    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
     
     self.nv.navigationBar.barStyle = UIBarStyleBlackTranslucent ;
  
@@ -83,7 +83,8 @@
     tbc.viewControllers = [[NSArray alloc] initWithObjects:navControllerhome, navControllerearning,navControllerphoto, navControllercommunity, navControlleraccount, nil];
     
     
-    self.window.rootViewController = vi ;
+    
+    self.window.rootViewController = tbc ;
     
     [self.window makeKeyAndVisible];
     
