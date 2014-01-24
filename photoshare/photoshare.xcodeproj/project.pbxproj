@@ -33,6 +33,10 @@
 		E16F3918189131C600064806 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E16F3917189131C600064806 /* wall.jpg */; };
 		E16F391B1891325600064806 /* CommonTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E16F391A1891325600064806 /* CommonTopView.m */; };
 		E16F392018914D4A00064806 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F391F18914D4A00064806 /* back.png */; };
+		E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222AC18923AF900F28748 /* CollectionViewCell.m */; };
+		E17222AF1892470600F28748 /* add_folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222AE1892470600F28748 /* add_folder.png */; };
+		E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B11892518B00F28748 /* AddEditFolderViewController.m */; };
+		E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E17222B21892518B00F28748 /* AddEditFolderViewController.xib */; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
@@ -99,6 +103,12 @@
 		E16F39191891325600064806 /* CommonTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTopView.h; sourceTree = "<group>"; };
 		E16F391A1891325600064806 /* CommonTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTopView.m; sourceTree = "<group>"; };
 		E16F391F18914D4A00064806 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		E17222AB18923AF900F28748 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		E17222AC18923AF900F28748 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		E17222AE1892470600F28748 /* add_folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_folder.png; sourceTree = "<group>"; };
+		E17222B01892518B00F28748 /* AddEditFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEditFolderViewController.h; sourceTree = "<group>"; };
+		E17222B11892518B00F28748 /* AddEditFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEditFolderViewController.m; sourceTree = "<group>"; };
+		E17222B21892518B00F28748 /* AddEditFolderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddEditFolderViewController.xib; sourceTree = "<group>"; };
 		FC97638C188FEB89008DF1F8 /* photoshare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoshare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC97638F188FEB89008DF1F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC976391188FEB89008DF1F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -204,6 +214,10 @@
 				FC9763CA188FF21A008DF1F8 /* LoginViewController.m */,
 				FC9763F9189003E9008DF1F8 /* CommunityViewController.h */,
 				FC9763FA189003E9008DF1F8 /* CommunityViewController.m */,
+				E17222AB18923AF900F28748 /* CollectionViewCell.h */,
+				E17222AC18923AF900F28748 /* CollectionViewCell.m */,
+				E17222B01892518B00F28748 /* AddEditFolderViewController.h */,
+				E17222B11892518B00F28748 /* AddEditFolderViewController.m */,
 				FC9763FE189003F8008DF1F8 /* EarningViewController.h */,
 				FC9763FF189003F8008DF1F8 /* EarningViewController.m */,
 				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
@@ -253,6 +267,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E17222AE1892470600F28748 /* add_folder.png */,
 				E16F391F18914D4A00064806 /* back.png */,
 				E16F3917189131C600064806 /* wall.jpg */,
 				E16F3915189130A800064806 /* folder-icon.png */,
@@ -291,6 +306,7 @@
 				FC976400189003F8008DF1F8 /* EarningViewController.xib */,
 				FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */,
 				E16F38E518910DB000064806 /* CommunityCollectionCell.xib */,
+				E17222B21892518B00F28748 /* AddEditFolderViewController.xib */,
 				FC9763CB188FF21A008DF1F8 /* LoginViewController.xib */,
 			);
 			name = Layouts;
@@ -403,6 +419,8 @@
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
+				E17222AF1892470600F28748 /* add_folder.png in Resources */,
+				E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */,
 				FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */,
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
@@ -424,6 +442,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */,
 				FC9763FC189003E9008DF1F8 /* CommunityViewController.m in Sources */,
 				FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */,
 				FC976401189003F8008DF1F8 /* EarningViewController.m in Sources */,
@@ -433,6 +452,7 @@
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
 				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,
+				E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */,
 				FC97639C188FEB89008DF1F8 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

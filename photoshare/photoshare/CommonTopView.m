@@ -25,8 +25,12 @@ static CommonTopView *topView=nil;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.frame=CGRectMake(0, 16, 320, 60 );
+        self.frame=CGRectMake(0, 20, 320, 50 );
         self.backgroundColor=[UIColor whiteColor];
+        topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 6)];
+        
+        topBlueLbl.backgroundColor=[UIColor colorWithRed:0.102 green:0.522 blue:0.773 alpha:1];
+        
         logoImg=[[UIImageView alloc] initWithFrame:CGRectMake(7, 14, 50, 30)];
         logoImg.image=[UIImage imageNamed:@"123-mobile-logo.png"];
         
@@ -54,6 +58,7 @@ static CommonTopView *topView=nil;
         [totalEarningView addGestureRecognizer:tapGesture];
         
     }
+    [self addSubview:topBlueLbl];
     [self addSubview:logoImg];
     [self addSubview: totalEarningView];
     [self addSubview:totalEarningHeading];

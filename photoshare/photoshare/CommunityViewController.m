@@ -8,6 +8,8 @@
 
 #import "CommunityViewController.h"
 #import "CommonTopView.h"
+#import "CollectionViewCell.h"
+#import "AddEditFolderViewController.h"
 @interface CommunityViewController ()
 
 @end
@@ -26,13 +28,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    //set data for Collection view
+
+    [self setDataForCollectionView];
+
+    //add Commpn top view
     CommonTopView *topView=[[CommonTopView alloc] init];
     [self.view addSubview:topView];
     // Do any additional setup after loading the view from its nib.
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
-    
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
+    
+    //add the Tap gesture for collection view
+    UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc ]initWithTarget:self action:@selector(tapHandle:)];
+    [collectionview addGestureRecognizer:tapGesture];
+    
+    //add the LongPress gesture to the collection view
+    UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
+    longPressGesture.minimumPressDuration=0.5;
+    [collectionview addGestureRecognizer:longPressGesture];
+    
+    //set up the diskspace progress
     NSInteger spacePerCentage=50;
     NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%li%@)",(long)spacePerCentage,@"%"];
     diskSpaceTitle.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
@@ -44,6 +60,28 @@
     diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
     [diskSpaceBlueLabel removeFromSuperview];
     [self.view addSubview:diskSpaceLabel];
+    
+}
+-(void)setDataForCollectionView
+{
+    folderNameArray=[[NSMutableArray alloc] init];
+    for (int i=0; i<40; i++) {
+        [folderNameArray addObject:@"BirthDay"];
+    }
+    float no=[folderNameArray count]/12;
+    float nomodules=[folderNameArray count]%12;
+    if(nomodules!=0)
+    {
+        noOfPagesInCollectionView=no+1;
+    }
+    else
+    {
+        noOfPagesInCollectionView=no;
+    }
+    
+    NSLog(@"%d",noOfPagesInCollectionView);
+    
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -51,6 +89,9 @@
     [collectionview reloadData];
     
 }
+
+
+
 -(IBAction)backToView:(id)sender
 {
     [self.tabBarController setSelectedIndex:0];
@@ -58,30 +99,115 @@
 //collection view delegate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 45;
+    
+    return [folderNameArray count]+noOfPagesInCollectionView;
 }
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+-(CollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier=@"CVCell";
-    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    obj_Cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
-     NSLog(@"random Index %ld",(long)[indexPath row]);
-    /*if([indexPath row]==11)
+    obj_Cell.folder_imgV.hidden=NO;
+    obj_Cell.folder_name.text = [NSString stringWithFormat:@"Folder %d",(int)[indexPath row]];
+    if(([indexPath row]+1)%12==0 || ([indexPath row]+1)==[folderNameArray count]+noOfPagesInCollectionView)
     {
-        UIImageView *folderIdentfierImage=(UIImageView *)[cell viewWithTag:102];
-        folderIdentfierImage.hidden=YES;
-    }*/
-    UILabel *folderNamelbl=(UILabel *)[cell viewWithTag:103];
-    folderNamelbl.text=@"myFolder";
-    
-    return cell;
+        obj_Cell.folder_imgV.image=[UIImage imageNamed:@"add_folder.png"];
+        obj_Cell.icon_img.hidden=YES;
+        obj_Cell.folder_name.text=@"Add Folder";
+    }
+    else
+    {
+        obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+        obj_Cell.icon_img.hidden=NO;
+        obj_Cell.folder_name.text=[folderNameArray objectAtIndex:([indexPath row]-indexPath.row/12)];
+    }
+    return obj_Cell;
 }
-
-
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+//tap gesture method
+-(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
-    NSLog(@"selected index is %ld",(long)[indexPath row]);
+    CGPoint p = [gestureRecognizer locationInView:collectionview];
+    
+    NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
+    if (indexPath != nil){
+        
+        if(([indexPath row]+1)%12==0 || ([indexPath row]+1)==[folderNameArray count]+noOfPagesInCollectionView)
+        {
+            [self addFolder];
+            NSLog(@"Add Folder selected index is %ld",(long)[indexPath row]);
+        }
+        
+    }
 }
+//longPress Gesture
+-(void)longPressHandle:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:collectionview];
+    
+    NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
+    if (indexPath != nil){
+        
+        if(([indexPath row]+1)%12!=0 || ([indexPath row]+1)!=[folderNameArray count]+noOfPagesInCollectionView)
+        {
+            NSLog(@"Edit Folder selected index is %ld",(long)[indexPath row]);
+
+            [self editFolder:indexPath];
+        }
+    }
+}
+
+-(void)addFolder
+{
+    AddEditFolderViewController *addEditController=[[AddEditFolderViewController alloc] init];
+    addEditController.isAddFolder=YES;
+    addEditController.isEditFolder=NO;
+    [self presentViewController:addEditController  animated:YES completion:nil];
+}
+-(void)editFolder:(NSIndexPath *)indexPath
+{
+    AddEditFolderViewController *addEditController=[[AddEditFolderViewController alloc] init];
+    addEditController.isAddFolder=NO;
+    addEditController.isEditFolder=YES;
+    addEditController.folderIndex=[indexPath row];
+    [self presentViewController:addEditController  animated:YES completion:nil];
+}
+
+
+/*-(void)check{
+ 
+     NSArray *arrV = [collectionview indexPathsForVisibleItems];
+    NSIndexPath *last_index = [arrV firstObject];
+    NSLog(@"roow-- %d %@",(int)[last_index row],arrV);
+    
+    UICollectionViewCell *cell_obj = [collectionview cellForItemAtIndexPath:last_index];
+    cell_obj.backgroundColor = [UIColor greenColor];
+    
+}*/
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    //[self performSelector:@selector(check) withObject:self afterDelay:5.0f];
+    
+    //[arr removeAllObjects];
+    
+//    for (CollectionViewCell *cell in [collectionview visibleCells]) {
+//        NSIndexPath *indexPath = [collectionview indexPathForCell:cell];
+//        NSLog(@"%d",(int)indexPath.row);
+//        [arr addObject:indexPath];
+//    }
+//    
+//    NSIndexPath *last_index = [arr lastObject];
+//    UICollectionViewCell *cell_obj = [collectionview cellForItemAtIndexPath:last_index];
+//    cell_obj.hidden = YES;
+}
+
+//-(void)test:(NSArray *)indexArr {
+//    NSIndexPath *last_index = [indexArr lastObject];
+//    CollectionViewCell *cell_obj = [collectionview cellForItemAtIndexPath:last_index];
+//    cell_obj.hidden = YES;
+//}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

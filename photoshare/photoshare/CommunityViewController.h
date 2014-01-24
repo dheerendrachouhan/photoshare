@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class CollectionViewCell;
 @interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource>
 {
     IBOutlet UICollectionView *collectionview;
     UIButton *addFolderBtn;
     IBOutlet UILabel *diskSpaceTitle;
     IBOutlet UILabel *diskSpaceBlueLabel;
+        
+    CollectionViewCell *obj_Cell;
+
+    NSMutableArray *folderNameArray;
+    int noOfPagesInCollectionView;
 
 }
 -(IBAction)backToView:(id)sender;

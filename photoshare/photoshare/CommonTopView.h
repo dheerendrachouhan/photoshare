@@ -10,6 +10,7 @@
 
 @interface CommonTopView : UIView
 {
+    UILabel *topBlueLbl;
     UIImageView *logoImg;
     
     UIView *totalEarningView;

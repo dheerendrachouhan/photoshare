@@ -27,6 +27,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    HomeViewController *home=[[HomeViewController alloc] init];
+    navController =[[UINavigationController alloc] initWithRootViewController:home];
+    //navController.view.frame=CGRectMake(0, 70, 320, 30);
+   // navController.view.backgroundColor=[UIColor blackColor];
+    //[self presentViewController:navController animated:YES completion:Nil];
+    //self.title=@"Home";
     
     // Do any additional setup after loading the view from its nib.
     //rounded the Community Count Label
@@ -41,8 +47,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    /*CommonTopView *topView=[CommonTopView sharedTopView];
-    [self.view addSubview:topView];*/
+    
 }
 -(void)setContent
 {
@@ -73,8 +78,9 @@
 }
 -(IBAction)goToCommunity:(id)sender
 {
-    //CommunityViewController *comm=[[CommunityViewController alloc] init];
-    //navController =[[UINavigationController alloc] initWithRootViewController:comm];
+    CommunityViewController *comm=[[CommunityViewController alloc] init];
+    
+    
     [self.tabBarController setSelectedIndex:3];
     //[self presentViewController:comm animated:YES completion:nil];
 }
