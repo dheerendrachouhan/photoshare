@@ -57,8 +57,7 @@
     UILabel *diskSpaceLabel=[[UILabel alloc] initWithFrame:CGRectMake(x, y,2.8*spacePerCentage, height)];
     diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
     [diskSpaceBlueLabel removeFromSuperview];
-    [self.view addSubview:diskSpaceLabel];
-    
+    [self.view addSubview:diskSpaceLabel];    
     
        
 }
@@ -154,9 +153,7 @@
         
         if(([indexPath row]+1)%12!=0 || ([indexPath row]+1)!=[folderNameArray count]+noOfPagesInCollectionView)
         {
-            NSLog(@"Edit Folder selected index is %ld",(long)[indexPath row]);
-
-            [self editFolder:indexPath];
+          [self editFolder:indexPath];
         }
     }
 }
@@ -180,15 +177,13 @@
     aec.isAddFolder=NO;
     aec.isEditFolder=YES;
     aec.folderIndex=[indexPath row];
+   
     [self.navigationController pushViewController:aec animated:YES];
 
    // [self pushNavigationController];
     
 }
--(void)pushNavigationController
-{
-  //  [self.navigationController pushViewController:addEditController animated:YES];
-}
+
 -(void)check
 {
     NSArray *arr=[collectionview visibleCells];

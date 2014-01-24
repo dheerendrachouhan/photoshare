@@ -168,18 +168,7 @@
     [self deregisterFromKeyboardNotifications];
     [super viewWillDisappear:animated];
 }
--(UINavigationController *)createNavController
-{
-    HomeViewController *home=[[HomeViewController alloc] init];
-    //create navigation bar
-    UINavigationController *nav =[[UINavigationController alloc] initWithRootViewController:home];
-    nav.delegate=self;
-    CommonTopView *topView=[[CommonTopView alloc] init];
-    nav.navigationBar.translucent=NO;
-    [nav.navigationBar addSubview:topView];
-    
-    return nav;
-}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

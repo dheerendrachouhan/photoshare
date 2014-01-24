@@ -25,22 +25,12 @@
    
     return self;
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    //self.navigationController.navigationBar.delegate=self;
-//self.navigationController.navigationItem.backBarButtonItem.action=@selector(backButtonDidPressed:);
 
-   // self.navigationItem.backBarButtonItem.action = @selector(backButtonDidPressed:);
-}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    //add Commpn top view
-    CommonTopView *topView=[[CommonTopView alloc] init];
-    [self.view addSubview:topView];
-   
     
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
@@ -131,7 +121,7 @@
 {
    // CommunityViewController *cvc = [[CommunityViewController alloc] init] ;
     
-    
+    //[self.navigationController popViewControllerAnimated:YES];
    // [self.navigationController popToViewController:cvc animated:YES];
     NSLog(@"disapp--") ;
 //[self.navigationController dismissViewControllerAnimated:YES completion:NULL];

@@ -75,7 +75,7 @@
     
     CommunityViewController *comm=[[CommunityViewController alloc] init];    
     [self.navigationController pushViewController:comm animated:YES];
-    comm.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 95);
+     comm.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 95);
 }
 -(IBAction)gotoPhotos:(id)sender
 {
