@@ -48,11 +48,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [collectionview reloadData];
     
 }
 -(IBAction)backToView:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.tabBarController setSelectedIndex:0];
 }
 //collection view delegate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -64,7 +65,7 @@
     static NSString *cellIdentifier=@"CVCell";
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    
+     NSLog(@"random Index %ld",(long)[indexPath row]);
     /*if([indexPath row]==11)
     {
         UIImageView *folderIdentfierImage=(UIImageView *)[cell viewWithTag:102];
@@ -75,6 +76,8 @@
     
     return cell;
 }
+
+
 -(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"selected index is %ld",(long)[indexPath row]);
