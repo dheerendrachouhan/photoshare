@@ -9,12 +9,15 @@
 #import "CommunityViewController.h"
 #import "CommonTopView.h"
 #import "CollectionViewCell.h"
+#import "HomeViewController.h"
 
 @interface CommunityViewController ()
 
 @end
 
 @implementation CommunityViewController
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,6 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+   
     //set data for Collection view
     [self setDataForCollectionView];
     addEditController=[[AddEditFolderViewController alloc] init];
@@ -58,7 +62,7 @@
     diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
     [diskSpaceBlueLabel removeFromSuperview];
     [self.view addSubview:diskSpaceLabel];    
-    
+     [collectionview reloadData];
        
 }
 
@@ -83,10 +87,11 @@
     
     
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    [collectionview reloadData];
+  [super viewWillAppear:animated];
+  [collectionview reloadData];
     
 }
 
@@ -161,25 +166,31 @@
 -(void)addFolder
 {
  
-    AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] init] ;
+    AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
        aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
    
-    [self.navigationController pushViewController:aec1 animated:YES];
-
+  
+    
+    [self.navigationController pushViewController:aec1 animated:NO];
+   
 }
 -(void)editFolder:(NSIndexPath *)indexPath
 {
    
     
 
-    AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] init] ;
+    AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
     aec.isAddFolder=NO;
     aec.isEditFolder=YES;
     aec.folderIndex=[indexPath row];
-   
-    [self.navigationController pushViewController:aec animated:YES];
-
+    
+    CommunityViewController *cm = [[CommunityViewController alloc] init];
+    HomeViewController *hm = [[HomeViewController alloc] init] ;
+    [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
+  
+    [self.navigationController pushViewController:aec animated:NO];
+    
    // [self pushNavigationController];
     
 }
@@ -227,6 +238,8 @@
 //    CollectionViewCell *cell_obj = [collectionview cellForItemAtIndexPath:last_index];
 //    cell_obj.hidden = YES;
 //}
+
+
 
 
 - (void)didReceiveMemoryWarning
