@@ -66,7 +66,7 @@
 {
     folderNameArray=[[NSMutableArray alloc] init];
     for (int i=0; i<40; i++) {
-        [folderNameArray addObject:@"BirthDay"];
+        [folderNameArray addObject:[@"BirthDay" stringByAppendingString:[NSString stringWithFormat:@"%i",i]]];
     }
     float no=[folderNameArray count]/12;
     float nomodules=[folderNameArray count]%12;
@@ -100,6 +100,7 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     
+    //return [folderNameArray count]+noOfPagesInCollectionView;
     return [folderNameArray count]+noOfPagesInCollectionView;
 }
 -(CollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -114,12 +115,15 @@
         obj_Cell.folder_imgV.image=[UIImage imageNamed:@"add_folder.png"];
         obj_Cell.icon_img.hidden=YES;
         obj_Cell.folder_name.text=@"Add Folder";
+        [self check];
     }
     else
     {
         obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
         obj_Cell.icon_img.hidden=NO;
         obj_Cell.folder_name.text=[folderNameArray objectAtIndex:([indexPath row]-indexPath.row/12)];
+        obj_Cell.folder_name.text=[NSString stringWithFormat:@"folder %d",(int)[indexPath section]];
+        
     }
     return obj_Cell;
 }
@@ -171,7 +175,15 @@
     addEditController.folderIndex=[indexPath row];
     [self presentViewController:addEditController  animated:YES completion:nil];
 }
-
+-(void)check
+{
+    NSArray *arr=[collectionview visibleCells];
+    UICollectionViewCell *cell=(UICollectionViewCell *)[arr lastObject];
+    NSIndexPath *indexPath = [collectionview indexPathForCell:cell];
+    
+    NSLog(@"Visible cell %ld",[arr count]);
+    
+}
 
 /*-(void)check{
  
