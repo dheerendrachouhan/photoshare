@@ -7,6 +7,7 @@
 //
 
 #import "EarningViewController.h"
+#import "PastPayementViewController.h"
 
 @interface EarningViewController ()
 
@@ -26,8 +27,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
 }
+
+
+- (IBAction)viewPastPaymentsBtn:(id)sender {
+    PastPayementViewController *ppVC = [[PastPayementViewController alloc] init];
+    [self presentViewController:ppVC animated:YES completion:nil];
+    
+}
+
+- (IBAction)financeCalculatorBtn:(id)sender {
+}
+
+- (IBAction)inviteMoreFriendsBtn:(id)sender {
+}
+
+- (IBAction)yourReferrelBtn:(id)sender {
+}
+
 
 - (void)didReceiveMemoryWarning
 {
