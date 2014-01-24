@@ -21,7 +21,7 @@ static ContentManager *objContantManager = nil;
 }
 
 
--(void)storeData:(id)storeObj:(NSString *)storeKey{
+-(void)storeData:(id)storeObj :(NSString *)storeKey{
     
     
     @try {
@@ -45,7 +45,7 @@ static ContentManager *objContantManager = nil;
     return getData;
 }
 
--(void)showAlert:(NSString *)alrttittle:(NSString *)msg:(NSString *)btnTittle:(NSString *)otherBtn{
+-(void)showAlert:(NSString *)alrttittle :(NSString *)msg :(NSString *)btnTittle :(NSString *)otherBtn{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alrttittle message:msg delegate:nil cancelButtonTitle:btnTittle otherButtonTitles:otherBtn, nil];
     [alert show];
 }

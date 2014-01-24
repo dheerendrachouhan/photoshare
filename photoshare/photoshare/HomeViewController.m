@@ -78,7 +78,7 @@
 }
 -(IBAction)goToCommunity:(id)sender
 {
-    CommunityViewController *comm=[[CommunityViewController alloc] init];
+   // CommunityViewController *comm=[[CommunityViewController alloc] init];
     
     
     [self.tabBarController setSelectedIndex:3];

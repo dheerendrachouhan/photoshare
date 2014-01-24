@@ -90,7 +90,7 @@
 - (void)drawRect:(CGRect)rect
 {
     self.context = UIGraphicsGetCurrentContext();
-    int count = [self.values count];
+    int count = (int)[self.values count];
     float startx = self.startPoint.x;
     float starty = self.startPoint.y;
     float barMargin = 22;

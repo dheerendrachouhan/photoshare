@@ -15,8 +15,7 @@
 
 +(ContentManager *)sharedManager;
 
--(void)storeData:(id)storedObj:(NSString *)storeKey;
+-(void)storeData:(id)storedObj :(NSString *)storeKey;
 -(id)getData:(NSString *)getKey;
--(void)showAlert:(NSString *)alrttittle:(NSString *)msg:(NSString *)btnTittle:(NSString *)otherBtn;
-
+-(void)showAlert:(NSString *)alrttittle :(NSString *)msg :(NSString *)btnTittle :(NSString *)otherBtn;
 @end
