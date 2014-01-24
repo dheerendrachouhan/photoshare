@@ -51,9 +51,10 @@
         
     }
     
-    HomeViewController *homeVC = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    [self presentViewController:homeVC animated:YES completion:Nil];
-    
+    HomeViewController *home=[[HomeViewController alloc] init];
+    UINavigationController *nav =[[UINavigationController alloc] initWithRootViewController:home];
+    nav.delegate=self;
+    [self presentViewController:nav animated:YES completion:Nil];    
 }
 
 //forgot password function

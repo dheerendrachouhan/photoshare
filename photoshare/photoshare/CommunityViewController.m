@@ -29,7 +29,8 @@
 {
     [super viewDidLoad];
     //set data for Collection view
-
+    self.navigationController.navigationBarHidden=NO;
+    
     [self setDataForCollectionView];
 
     //add Commpn top view

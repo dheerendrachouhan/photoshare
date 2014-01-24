@@ -15,14 +15,14 @@
 #import "PhotoViewController.h"
 #import "HomeViewController.h"
 @implementation AppDelegate
-
+@synthesize window,nv,tbc;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds] ] ;
     
-    //LoginViewController *vi = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
+    LoginViewController *vi = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
     
     ReferFriendViewController *rf = [[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:nil] ;
     
@@ -37,9 +37,9 @@
     
     
     
-    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
+    self.nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
     
-    nv.navigationBar.barStyle = UIBarStyleBlackTranslucent ;
+    self.nv.navigationBar.barStyle = UIBarStyleBlackTranslucent ;
  
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage  imageNamed:@"community-iconX30.png"] tag:1];
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earnings-iconX30.png"] tag:2];
@@ -48,22 +48,22 @@
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-itemX30.png"] tag:5];
     
     
-    UITabBarController *tbc = [[UITabBarController alloc] init] ;
+    self.tbc = [[UITabBarController alloc] init] ;
     
    
-    HomeViewController *home=[[HomeViewController alloc] init];
     
-    [home setTabBarItem:tabBarItem];
+    
+    [rf setTabBarItem:tabBarItem];
     [ea setTabBarItem:tabBarItem2];
     [ph setTabBarItem:tabBarItem3];
     [com setTabBarItem:tabBarItem4];
     [acc setTabBarItem:tabBarItem5];
     
-    tbc.viewControllers = [[NSArray alloc] initWithObjects:home,ea,ph,com,acc, nil];
+    self.tbc.viewControllers = [[NSArray alloc] initWithObjects:rf,ea,ph,com,acc, nil];
     
     
-    //[tbc setSelectedIndex:0];
-    self.window.rootViewController = tbc ;
+    
+    self.window.rootViewController = vi ;
     
     [self.window makeKeyAndVisible];
     
