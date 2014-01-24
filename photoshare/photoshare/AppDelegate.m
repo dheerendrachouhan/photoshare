@@ -33,11 +33,33 @@
     AccountViewController *acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
     
     PhotoViewController *ph = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil] ;
+    
+    HomeViewController *hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil] ;
+
+
+    UINavigationController* navControllerhome = [[UINavigationController alloc]
+                                             
+                                             initWithRootViewController:hm];
+    
+    UINavigationController* navControllerearning = [[UINavigationController alloc]
+                                             
+                                             initWithRootViewController:ea];
+    
+    UINavigationController* navControllerphoto = [[UINavigationController alloc]
+                                                    
+                                                    initWithRootViewController:ph];
+    
+    UINavigationController* navControllercommunity = [[UINavigationController alloc]
+                                             
+                                             initWithRootViewController:com];
+    
+    UINavigationController* navControlleraccount = [[UINavigationController alloc]
+                                             
+                                             initWithRootViewController:acc];
 
     
     
-    
-    self.nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
+    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
     
     self.nv.navigationBar.barStyle = UIBarStyleBlackTranslucent ;
  
@@ -50,20 +72,19 @@
     
     self.tbc = [[UITabBarController alloc] init] ;
     
-   
+   //navigation controllers
+    
+    [navControllerhome setTabBarItem:tabBarItem];
+    [navControllerearning setTabBarItem:tabBarItem2];
+    [navControllerphoto setTabBarItem:tabBarItem3];
+    [navControllercommunity setTabBarItem:tabBarItem4];
+    [navControlleraccount setTabBarItem:tabBarItem5];
+    
+    tbc.viewControllers = [[NSArray alloc] initWithObjects:navControllerhome, navControllerearning,navControllerphoto, navControllercommunity, navControlleraccount, nil];
     
     
-    [rf setTabBarItem:tabBarItem];
-    [ea setTabBarItem:tabBarItem2];
-    [ph setTabBarItem:tabBarItem3];
-    [com setTabBarItem:tabBarItem4];
-    [acc setTabBarItem:tabBarItem5];
     
-    self.tbc.viewControllers = [[NSArray alloc] initWithObjects:rf,ea,ph,com,acc, nil];
-    
-    
-    
-    self.window.rootViewController = vi ;
+    self.window.rootViewController = tbc ;
     
     [self.window makeKeyAndVisible];
     
