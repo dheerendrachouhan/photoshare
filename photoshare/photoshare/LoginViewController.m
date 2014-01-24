@@ -14,6 +14,7 @@
 #import "AccountViewController.h"
 #import "PhotoViewController.h"
 #import "ResetPasswordController.h"
+#import "CommonTopView.h"
 
 @interface LoginViewController ()
 
@@ -51,9 +52,8 @@
         
     }
     
-    HomeViewController *homeVC = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    [self presentViewController:homeVC animated:YES completion:Nil];
-    
+    UINavigationController *nav=[self createNavController];
+    [self presentViewController:nav animated:YES completion:Nil];    
 }
 
 //forgot password function
@@ -169,7 +169,18 @@
     [self deregisterFromKeyboardNotifications];
     [super viewWillDisappear:animated];
 }
-
+-(UINavigationController *)createNavController
+{
+    HomeViewController *home=[[HomeViewController alloc] init];
+    //create navigation bar
+    UINavigationController *nav =[[UINavigationController alloc] initWithRootViewController:home];
+    nav.delegate=self;
+    CommonTopView *topView=[[CommonTopView alloc] init];
+    nav.navigationBar.translucent=NO;
+    [nav.navigationBar addSubview:topView];
+    
+    return nav;
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

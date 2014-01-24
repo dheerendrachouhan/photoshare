@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface LoginViewController : UIViewController <UITextFieldDelegate>
+@interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate>
 {
     IBOutlet UIImageView *loginBackgroundImage;
     IBOutlet UIImageView *loginLogoImage;

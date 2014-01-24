@@ -7,6 +7,7 @@
 //
 
 #import "HomeViewController.h"
+#import "AppDelegate.h"
 #import "CommonTopView.h"
 #import "CommunityViewController.h"
 @interface HomeViewController ()
@@ -21,14 +22,20 @@
     if (self) {
         // Custom initialization
     }
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    HomeViewController *home=[[HomeViewController alloc] init];
-    navController =[[UINavigationController alloc] initWithRootViewController:home];
+    
+    
+    //tab bar
+    //AppDelegate *delegate=[UIApplication sharedApplication].delegate;
+    //[self.view addSubview:delegate.tbc.view];
+   
+    
     //navController.view.frame=CGRectMake(0, 70, 320, 30);
    // navController.view.backgroundColor=[UIColor blackColor];
     //[self presentViewController:navController animated:YES completion:Nil];
@@ -39,8 +46,7 @@
     communityCountLbl.layer.cornerRadius=12;
     communityCountLbl.layer.borderWidth=2;
     communityCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
-    CommonTopView *topView=[[CommonTopView alloc] init];
-    [self.view addSubview:topView];
+    
     [self setContent];
     
 }
@@ -78,11 +84,10 @@
 }
 -(IBAction)goToCommunity:(id)sender
 {
-   // CommunityViewController *comm=[[CommunityViewController alloc] init];
     
+    CommunityViewController *comm=[[CommunityViewController alloc] init];
     
-    [self.tabBarController setSelectedIndex:3];
-    //[self presentViewController:comm animated:YES completion:nil];
+    [self.navigationController pushViewController:comm animated:YES];
 }
 -(IBAction)gotoPhotos:(id)sender
 {

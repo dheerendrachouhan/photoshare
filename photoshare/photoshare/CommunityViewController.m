@@ -22,6 +22,7 @@
     if (self) {
         // Custom initialization
     }
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 85);
     return self;
 }
 
@@ -29,12 +30,12 @@
 {
     [super viewDidLoad];
     //set data for Collection view
-
     [self setDataForCollectionView];
 
-    //add Commpn top view
-    CommonTopView *topView=[[CommonTopView alloc] init];
-    [self.view addSubview:topView];
+    //set navigationBar frame
+    
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 85);
+    
     // Do any additional setup after loading the view from its nib.
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
@@ -60,7 +61,6 @@
     diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
     [diskSpaceBlueLabel removeFromSuperview];
     [self.view addSubview:diskSpaceLabel];
-    
 }
 -(void)setDataForCollectionView
 {
