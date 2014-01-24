@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <UITextFieldDelegate>
+{
+    IBOutlet UIImageView *loginBackgroundImage;
+    IBOutlet UIImageView *loginLogoImage;
+    IBOutlet UITextField *nameTextField;
+    IBOutlet UITextField *passwordTextField;
+    IBOutlet UIButton *signinBtn;
+    IBOutlet UIScrollView *scrollView;
+    BOOL usrFlt, pwsFlt;
+    IBOutlet UIButton *namecancelBtn;
+    IBOutlet UIButton *passwordcancelBtn;
+}
 
 @end

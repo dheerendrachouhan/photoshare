@@ -49,12 +49,8 @@
 		FC9763B4188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
 		FC9763BC188FEB89008DF1F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC9763BA188FEB89008DF1F8 /* InfoPlist.strings */; };
 		FC9763BE188FEB89008DF1F8 /* photoshareTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763BD188FEB89008DF1F8 /* photoshareTests.m */; };
-		FC9763CC188FF21A008DF1F8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763CA188FF21A008DF1F8 /* LoginViewController.m */; };
-		FC9763CD188FF21A008DF1F8 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC9763CB188FF21A008DF1F8 /* LoginViewController.xib */; };
 		FC9763FC189003E9008DF1F8 /* CommunityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763FA189003E9008DF1F8 /* CommunityViewController.m */; };
 		FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */; };
-		FC976401189003F8008DF1F8 /* EarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9763FF189003F8008DF1F8 /* EarningViewController.m */; };
-		FC976402189003F8008DF1F8 /* EarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC976400189003F8008DF1F8 /* EarningViewController.xib */; };
 		FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC976404189004E0008DF1F8 /* ReferFriendViewController.m */; };
 		FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC976405189004E0008DF1F8 /* ReferFriendViewController.xib */; };
 		FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97640918900505008DF1F8 /* AccountViewController.m */; };
@@ -125,15 +121,9 @@
 		FC9763B9188FEB89008DF1F8 /* photoshareTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "photoshareTests-Info.plist"; sourceTree = "<group>"; };
 		FC9763BB188FEB89008DF1F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FC9763BD188FEB89008DF1F8 /* photoshareTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = photoshareTests.m; sourceTree = "<group>"; };
-		FC9763C9188FF21A008DF1F8 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		FC9763CA188FF21A008DF1F8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		FC9763CB188FF21A008DF1F8 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		FC9763F9189003E9008DF1F8 /* CommunityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityViewController.h; sourceTree = "<group>"; };
 		FC9763FA189003E9008DF1F8 /* CommunityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityViewController.m; sourceTree = "<group>"; };
 		FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityViewController.xib; sourceTree = "<group>"; };
-		FC9763FE189003F8008DF1F8 /* EarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarningViewController.h; sourceTree = "<group>"; };
-		FC9763FF189003F8008DF1F8 /* EarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EarningViewController.m; sourceTree = "<group>"; };
-		FC976400189003F8008DF1F8 /* EarningViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EarningViewController.xib; sourceTree = "<group>"; };
 		FC976403189004E0008DF1F8 /* ReferFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferFriendViewController.h; sourceTree = "<group>"; };
 		FC976404189004E0008DF1F8 /* ReferFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferFriendViewController.m; sourceTree = "<group>"; };
 		FC976405189004E0008DF1F8 /* ReferFriendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferFriendViewController.xib; sourceTree = "<group>"; };
@@ -172,6 +162,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E388F2421892546E005BB5E5 /* Barchart */ = {
+			isa = PBXGroup;
+			children = (
+				E388F230189253F4005BB5E5 /* JXBarChartView.h */,
+				E388F231189253F4005BB5E5 /* JXBarChartView.m */,
+			);
+			name = Barchart;
+			sourceTree = "<group>";
+		};
 		FC976383188FEB89008DF1F8 = {
 			isa = PBXGroup;
 			children = (
@@ -205,13 +204,12 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
+				E388F2421892546E005BB5E5 /* Barchart */,
 				FC97640D1890050C008DF1F8 /* Layouts */,
 				FC97639E188FEB89008DF1F8 /* AppDelegate.h */,
 				FC97639F188FEB89008DF1F8 /* AppDelegate.m */,
 				FC9763AA188FEB89008DF1F8 /* Images.xcassets */,
 				FC976396188FEB89008DF1F8 /* Supporting Files */,
-				FC9763C9188FF21A008DF1F8 /* LoginViewController.h */,
-				FC9763CA188FF21A008DF1F8 /* LoginViewController.m */,
 				FC9763F9189003E9008DF1F8 /* CommunityViewController.h */,
 				FC9763FA189003E9008DF1F8 /* CommunityViewController.m */,
 				E17222AB18923AF900F28748 /* CollectionViewCell.h */,
@@ -222,6 +220,14 @@
 				FC9763FF189003F8008DF1F8 /* EarningViewController.m */,
 				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
 				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
+				E388F229189253F4005BB5E5 /* EarningViewController.h */,
+				E388F22A189253F4005BB5E5 /* EarningViewController.m */,
+				E388F243189254FF005BB5E5 /* PastPayementViewController.h */,
+				E388F244189254FF005BB5E5 /* PastPayementViewController.m */,
+				E388F232189253F4005BB5E5 /* LoginViewController.h */,
+				E388F233189253F4005BB5E5 /* LoginViewController.m */,
+				E388F235189253F4005BB5E5 /* ResetPasswordController.h */,
+				E388F236189253F4005BB5E5 /* ResetPasswordController.m */,
 				FC97640818900505008DF1F8 /* AccountViewController.h */,
 				FC97640918900505008DF1F8 /* AccountViewController.m */,
 				FC97640F18900734008DF1F8 /* PhotoViewController.h */,
@@ -299,11 +305,14 @@
 		FC97640D1890050C008DF1F8 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
+				E388F22B189253F4005BB5E5 /* EarningViewController.xib */,
+				E388F245189254FF005BB5E5 /* PastPayementViewController.xib */,
+				E388F234189253F4005BB5E5 /* LoginViewController.xib */,
+				E388F237189253F4005BB5E5 /* ResetPasswordController.xib */,
 				FC97641618900B00008DF1F8 /* HomeViewController.xib */,
 				FC97641118900734008DF1F8 /* PhotoViewController.xib */,
 				FC97640A18900505008DF1F8 /* AccountViewController.xib */,
 				FC976405189004E0008DF1F8 /* ReferFriendViewController.xib */,
-				FC976400189003F8008DF1F8 /* EarningViewController.xib */,
 				FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */,
 				E16F38E518910DB000064806 /* CommunityCollectionCell.xib */,
 				E17222B21892518B00F28748 /* AddEditFolderViewController.xib */,
@@ -388,16 +397,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC976402189003F8008DF1F8 /* EarningViewController.xib in Resources */,
 				E16F390618912C9C00064806 /* earnings-iconX30.png in Resources */,
 				E16F392018914D4A00064806 /* back.png in Resources */,
 				E16F390518912C9C00064806 /* earnings-icon.png in Resources */,
+				E388F2211892528F005BB5E5 /* arrows_blue.png in Resources */,
 				E16F390E18912C9C00064806 /* private-icon.png in Resources */,
+				E388F2221892528F005BB5E5 /* cancel_btn.png in Resources */,
 				E16F390218912C9C00064806 /* cog-itemX30.png in Resources */,
 				E16F390D18912C9C00064806 /* previous.png in Resources */,
+				E388F22618925297005BB5E5 /* login2_new.png in Resources */,
+				E388F247189254FF005BB5E5 /* PastPayementViewController.xib in Resources */,
+				E388F241189253F4005BB5E5 /* ResetPasswordController.xib in Resources */,
 				E16F391218912C9C00064806 /* share-to-folder.png in Resources */,
 				E16F390A18912C9C00064806 /* icon-takephotoX30.png in Resources */,
-				FC9763CD188FF21A008DF1F8 /* LoginViewController.xib in Resources */,
 				E16F391418912C9C00064806 /* shared-icon.png in Resources */,
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
@@ -422,8 +434,10 @@
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
 				E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */,
 				FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */,
+				E388F2241892528F005BB5E5 /* horizontal_blue.png in Resources */,
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
+				E388F23F189253F4005BB5E5 /* LoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,13 +458,17 @@
 			files = (
 				E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */,
 				FC9763FC189003E9008DF1F8 /* CommunityViewController.m in Sources */,
+				E388F23D189253F4005BB5E5 /* JXBarChartView.m in Sources */,
+				E388F239189253F4005BB5E5 /* EarningViewController.m in Sources */,
 				FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */,
-				FC976401189003F8008DF1F8 /* EarningViewController.m in Sources */,
 				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
-				FC9763CC188FF21A008DF1F8 /* LoginViewController.m in Sources */,
 				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
+				E388F246189254FF005BB5E5 /* PastPayementViewController.m in Sources */,
 				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
+				E388F240189253F4005BB5E5 /* ResetPasswordController.m in Sources */,
+				E388F23E189253F4005BB5E5 /* LoginViewController.m in Sources */,
+				E388F238189253F4005BB5E5 /* ContentManager.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,
 				E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */,
 				FC97639C188FEB89008DF1F8 /* main.m in Sources */,

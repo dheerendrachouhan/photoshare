@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface EarningViewController : UIViewController
+{
+    IBOutlet UILabel *totalEarningLabel;
+    IBOutlet UILabel *projectedEarninglabel;
+    IBOutlet UILabel *peopleReferredLabel;
+}
 
 @end

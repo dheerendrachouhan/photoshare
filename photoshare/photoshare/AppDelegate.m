@@ -62,7 +62,7 @@
     tbc.viewControllers = [[NSArray alloc] initWithObjects:home,ea,ph,com,acc, nil];
     
     
-    [tbc setSelectedIndex:0];
+    //[tbc setSelectedIndex:0];
     self.window.rootViewController = tbc ;
     
     [self.window makeKeyAndVisible];
