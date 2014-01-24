@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddEditFolderViewController.h"
 @class CollectionViewCell;
 @interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource>
 {
@@ -16,7 +17,7 @@
     IBOutlet UILabel *diskSpaceBlueLabel;
         
     CollectionViewCell *obj_Cell;
-
+    AddEditFolderViewController *addEditController;
     NSMutableArray *folderNameArray;
     int noOfPagesInCollectionView;
 

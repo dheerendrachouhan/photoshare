@@ -9,7 +9,7 @@
 #import "CommunityViewController.h"
 #import "CommonTopView.h"
 #import "CollectionViewCell.h"
-#import "AddEditFolderViewController.h"
+
 @interface CommunityViewController ()
 
 @end
@@ -22,7 +22,7 @@
     if (self) {
         // Custom initialization
     }
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 85);
+    
     return self;
 }
 
@@ -31,11 +31,8 @@
     [super viewDidLoad];
     //set data for Collection view
     [self setDataForCollectionView];
-
+    addEditController=[[AddEditFolderViewController alloc] init];
     //set navigationBar frame
-    
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 85);
-    
     // Do any additional setup after loading the view from its nib.
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
@@ -46,7 +43,7 @@
     
     //add the LongPress gesture to the collection view
     UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
-    longPressGesture.minimumPressDuration=0.5;
+    longPressGesture.minimumPressDuration=0.9;
     [collectionview addGestureRecognizer:longPressGesture];
     
     //set up the diskspace progress
@@ -62,6 +59,7 @@
     [diskSpaceBlueLabel removeFromSuperview];
     [self.view addSubview:diskSpaceLabel];
 }
+
 -(void)setDataForCollectionView
 {
     folderNameArray=[[NSMutableArray alloc] init];
@@ -122,7 +120,7 @@
         obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
         obj_Cell.icon_img.hidden=NO;
         obj_Cell.folder_name.text=[folderNameArray objectAtIndex:([indexPath row]-indexPath.row/12)];
-        obj_Cell.folder_name.text=[NSString stringWithFormat:@"folder %d",(int)[indexPath section]];
+        
         
     }
     return obj_Cell;
@@ -162,18 +160,25 @@
 
 -(void)addFolder
 {
-    AddEditFolderViewController *addEditController=[[AddEditFolderViewController alloc] init];
     addEditController.isAddFolder=YES;
     addEditController.isEditFolder=NO;
-    [self presentViewController:addEditController  animated:YES completion:nil];
+    [self pushNavigationController];
 }
 -(void)editFolder:(NSIndexPath *)indexPath
 {
-    AddEditFolderViewController *addEditController=[[AddEditFolderViewController alloc] init];
+   
     addEditController.isAddFolder=NO;
     addEditController.isEditFolder=YES;
     addEditController.folderIndex=[indexPath row];
-    [self presentViewController:addEditController  animated:YES completion:nil];
+
+    [self.navigationController pushViewController:addEditController animated:YES];
+
+   // [self pushNavigationController];
+    
+}
+-(void)pushNavigationController
+{
+    [self.navigationController pushViewController:addEditController animated:YES];
 }
 -(void)check
 {
@@ -201,7 +206,7 @@
     //[self performSelector:@selector(check) withObject:self afterDelay:5.0f];
     
     //[arr removeAllObjects];
-    
+   
 //    for (CollectionViewCell *cell in [collectionview visibleCells]) {
 //        NSIndexPath *indexPath = [collectionview indexPathForCell:cell];
 //        NSLog(@"%d",(int)indexPath.row);

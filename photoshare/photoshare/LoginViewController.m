@@ -51,9 +51,8 @@
     {
         
     }
-    
-    UINavigationController *nav=[self createNavController];
-    [self presentViewController:nav animated:YES completion:Nil];    
+    //HomeViewController *home=[[HomeViewController alloc]init];
+   //[self presentViewController:home animated:YES completion:Nil];
 }
 
 //forgot password function

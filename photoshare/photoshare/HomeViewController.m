@@ -22,7 +22,7 @@
     if (self) {
         // Custom initialization
     }
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
+    
     return self;
 }
 
@@ -30,18 +30,6 @@
 {
     [super viewDidLoad];
     
-    
-    //tab bar
-    //AppDelegate *delegate=[UIApplication sharedApplication].delegate;
-    //[self.view addSubview:delegate.tbc.view];
-   
-    
-    //navController.view.frame=CGRectMake(0, 70, 320, 30);
-   // navController.view.backgroundColor=[UIColor blackColor];
-    //[self presentViewController:navController animated:YES completion:Nil];
-    //self.title=@"Home";
-    
-    // Do any additional setup after loading the view from its nib.
     //rounded the Community Count Label
     communityCountLbl.layer.cornerRadius=12;
     communityCountLbl.layer.borderWidth=2;
@@ -85,9 +73,9 @@
 -(IBAction)goToCommunity:(id)sender
 {
     
-    CommunityViewController *comm=[[CommunityViewController alloc] init];
-    
+    CommunityViewController *comm=[[CommunityViewController alloc] init];    
     [self.navigationController pushViewController:comm animated:YES];
+    comm.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 95);
 }
 -(IBAction)gotoPhotos:(id)sender
 {

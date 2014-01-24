@@ -14,6 +14,7 @@
 #import "AccountViewController.h"
 #import "PhotoViewController.h"
 #import "HomeViewController.h"
+#import "CommonTopView.h"
 @implementation AppDelegate
 @synthesize window,nv,tbc;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -37,25 +38,19 @@
     HomeViewController *hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil] ;
 
 
-    UINavigationController* navControllerhome = [[UINavigationController alloc]
-                                             
-                                             initWithRootViewController:hm];
+    UINavigationController* navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
     
-    UINavigationController* navControllerearning = [[UINavigationController alloc]
-                                             
-                                             initWithRootViewController:ea];
+    CommonTopView *topView=[[CommonTopView alloc] init];
+    navControllerhome.navigationBar.translucent=NO;
+    [navControllerhome.navigationBar addSubview:topView];
+    navControllerhome.navigationBar.frame=CGRectMake(0, 20, 320, 70);
+    UINavigationController* navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
     
-    UINavigationController* navControllerphoto = [[UINavigationController alloc]
-                                                    
-                                                    initWithRootViewController:ph];
+    UINavigationController* navControllerphoto = [[UINavigationController alloc] initWithRootViewController:ph];
     
-    UINavigationController* navControllercommunity = [[UINavigationController alloc]
-                                             
-                                             initWithRootViewController:com];
+    UINavigationController* navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
     
-    UINavigationController* navControlleraccount = [[UINavigationController alloc]
-                                             
-                                             initWithRootViewController:acc];
+    UINavigationController* navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
 
     
     
