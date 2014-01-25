@@ -8,6 +8,7 @@
 
 #import "EarningViewController.h"
 #import "PastPayementViewController.h"
+#import "MyReferralViewController.h"
 
 @interface EarningViewController ()
 
@@ -44,6 +45,9 @@
 }
 
 - (IBAction)yourReferrelBtn:(id)sender {
+    MyReferralViewController *mtReffVC = [[MyReferralViewController alloc] init];
+    
+    [self.navigationController pushViewController:mtReffVC animated:YES];
 }
 
 
