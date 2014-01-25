@@ -7,10 +7,10 @@
 //
 
 #import "CommunityViewController.h"
-#import "CommonTopView.h"
+#import "ContentManager.h"
 #import "CollectionViewCell.h"
 #import "HomeViewController.h"
-
+#import "AddEditFolderViewController.h"
 @interface CommunityViewController ()
 
 @end
@@ -32,10 +32,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //set title for navigation controller
+    self.title=@"Community folders";
    
     //set data for Collection view
     [self setDataForCollectionView];
-    addEditController=[[AddEditFolderViewController alloc] init];
+    
     //set navigationBar frame
     // Do any additional setup after loading the view from its nib.
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
@@ -47,7 +49,7 @@
     
     //add the LongPress gesture to the collection view
     UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
-    longPressGesture.minimumPressDuration=0.9;
+    longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
     
     //set up the diskspace progress
@@ -68,10 +70,12 @@
 
 -(void)setDataForCollectionView
 {
-    folderNameArray=[[NSMutableArray alloc] init];
-    for (int i=0; i<40; i++) {
+    ContentManager *contentManagerObj=[ContentManager sharedManager];
+    folderNameArray=[contentManagerObj getData:@"FolderArray"];
+    
+    /*for (int i=0; i<40; i++) {
         [folderNameArray addObject:[@"BirthDay" stringByAppendingString:[NSString stringWithFormat:@"%i",i]]];
-    }
+    }*/
     float no=[folderNameArray count]/12;
     float nomodules=[folderNameArray count]%12;
     if(nomodules!=0)
@@ -82,7 +86,10 @@
     {
         noOfPagesInCollectionView=no;
     }
-    
+    if([folderNameArray count]==0)
+    {
+        noOfPagesInCollectionView=1;
+    }
     NSLog(@"%d",noOfPagesInCollectionView);
     
     
@@ -91,20 +98,17 @@
 -(void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
+    [self setDataForCollectionView];
   [collectionview reloadData];
     
 }
 
 
 
--(IBAction)backToView:(id)sender
-{
-    [self.tabBarController setSelectedIndex:0];
-}
+
 //collection view delegate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    
     //return [folderNameArray count]+noOfPagesInCollectionView;
     return [folderNameArray count]+noOfPagesInCollectionView;
 }
@@ -155,8 +159,9 @@
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
-        
-        if(([indexPath row]+1)%12!=0 || ([indexPath row]+1)!=[folderNameArray count]+noOfPagesInCollectionView)
+        NSLog(@"1::::%ld",([indexPath row]+1)%12);
+        NSLog(@"2::::%ld",[folderNameArray count]+noOfPagesInCollectionView);
+        if(([indexPath row]+1)%12!=0 && ([indexPath row]+1)!=[folderNameArray count]+noOfPagesInCollectionView)
         {
           [self editFolder:indexPath];
         }
@@ -177,21 +182,16 @@
 }
 -(void)editFolder:(NSIndexPath *)indexPath
 {
-   
-    
-
     AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
     aec.isAddFolder=NO;
     aec.isEditFolder=YES;
-    aec.folderIndex=[indexPath row];
+    aec.folderIndex=([indexPath row]-indexPath.row/12);
     
     CommunityViewController *cm = [[CommunityViewController alloc] init];
     HomeViewController *hm = [[HomeViewController alloc] init] ;
     [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
   
     [self.navigationController pushViewController:aec animated:NO];
-    
-   // [self pushNavigationController];
     
 }
 

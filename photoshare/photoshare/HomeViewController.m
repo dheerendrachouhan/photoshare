@@ -8,8 +8,10 @@
 
 #import "HomeViewController.h"
 #import "AppDelegate.h"
-#import "CommonTopView.h"
 #import "CommunityViewController.h"
+#import "PhotoGalleryViewController.h"
+#import "CommonTopView.h"
+#import "EarningViewController.h"
 @interface HomeViewController ()
 
 @end
@@ -34,6 +36,10 @@
     communityCountLbl.layer.cornerRadius=12;
     communityCountLbl.layer.borderWidth=2;
     communityCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
+    CommonTopView *topView=[[CommonTopView alloc] init];
+    self.navigationController.navigationBar.translucent=NO;
+    [self.navigationController.navigationBar addSubview:topView];
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
     
     [self setContent];
     
@@ -41,6 +47,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
     
 }
 -(void)setContent
@@ -66,16 +73,23 @@
     }
     else
     {
-        imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     }
     [self presentViewController:imagePicker animated:YES completion:nil];
+}
+-(IBAction)goToPublicFolder:(id)sender
+{
+    PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+    [self.navigationController pushViewController:photoGallery animated:YES];
+    photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 90);
+    
 }
 -(IBAction)goToCommunity:(id)sender
 {
     
     CommunityViewController *comm=[[CommunityViewController alloc] init];    
     [self.navigationController pushViewController:comm animated:YES];
-     comm.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 95);
+     comm.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 90);
 }
 -(IBAction)gotoPhotos:(id)sender
 {
@@ -96,6 +110,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)earnigView
+{
+    EarningViewController *earningView=[[EarningViewController alloc] init];
+    //HomeViewController *home=[[HomeViewController alloc] init];
+    //[home.navigationController pushViewController:earningView animated:YES];
+    [self.tabBarController setSelectedIndex:1];
 }
 
 @end
