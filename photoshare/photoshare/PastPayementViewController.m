@@ -8,6 +8,7 @@
 
 #import "PastPayementViewController.h"
 #import "JXBarChartView.h"
+#import "CommonTopView.h"
 
 @interface PastPayementViewController ()
 
@@ -43,7 +44,7 @@
     int maximumArrayValue = highestNumber.intValue;
     
     //Initiating the frame of bar graph
-    CGRect frame = CGRectMake(0, 60, 320, 458);
+    CGRect frame = CGRectMake(0, 80, 320, 458);
     JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(20, 20) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:30 barMaxWidth:150 gradient:nil];
     
     [self.view addSubview:barChartView];

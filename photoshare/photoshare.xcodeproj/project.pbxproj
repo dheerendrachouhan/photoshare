@@ -53,6 +53,11 @@
 		E17222DE18928DE700F28748 /* arrows_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DB18928DE700F28748 /* arrows_blue.png */; };
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
+		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
+		E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188D961893829C004ACF77 /* MyReferralViewController.xib */; };
+		E3188D9C18938888004ACF77 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D9A18938888004ACF77 /* CustomCell.m */; };
+		E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188D9B18938888004ACF77 /* CustomCell.xib */; };
+		E3188D9F18939171004ACF77 /* cellImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E3188D9E18939171004ACF77 /* cellImage.png */; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
@@ -144,6 +149,13 @@
 		E17222DB18928DE700F28748 /* arrows_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrows_blue.png; sourceTree = "<group>"; };
 		E17222DC18928DE700F28748 /* cancel_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_btn.png; sourceTree = "<group>"; };
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
+		E3188D941893829C004ACF77 /* MyReferralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyReferralViewController.h; sourceTree = "<group>"; };
+		E3188D951893829C004ACF77 /* MyReferralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyReferralViewController.m; sourceTree = "<group>"; };
+		E3188D961893829C004ACF77 /* MyReferralViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyReferralViewController.xib; sourceTree = "<group>"; };
+		E3188D9918938888004ACF77 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		E3188D9A18938888004ACF77 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
+		E3188D9B18938888004ACF77 /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
+		E3188D9E18939171004ACF77 /* cellImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellImage.png; sourceTree = "<group>"; };
 		FC97638C188FEB89008DF1F8 /* photoshare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoshare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC97638F188FEB89008DF1F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC976391188FEB89008DF1F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -275,6 +287,10 @@
 				FC97640918900505008DF1F8 /* AccountViewController.m */,
 				FC97640F18900734008DF1F8 /* PhotoViewController.h */,
 				FC97641018900734008DF1F8 /* PhotoViewController.m */,
+				E3188D941893829C004ACF77 /* MyReferralViewController.h */,
+				E3188D951893829C004ACF77 /* MyReferralViewController.m */,
+				E3188D9918938888004ACF77 /* CustomCell.h */,
+				E3188D9A18938888004ACF77 /* CustomCell.m */,
 			);
 			path = photoshare;
 			sourceTree = "<group>";
@@ -314,6 +330,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E3188D9E18939171004ACF77 /* cellImage.png */,
 				E17222DB18928DE700F28748 /* arrows_blue.png */,
 				E17222DC18928DE700F28748 /* cancel_btn.png */,
 				E17222DD18928DE700F28748 /* cancel_red.png */,
@@ -360,6 +377,8 @@
 				E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */,
 				E17222BA1892817800F28748 /* EarningViewController.xib */,
 				E17222C41892819A00F28748 /* PastPayementViewController.xib */,
+				E3188D961893829C004ACF77 /* MyReferralViewController.xib */,
+				E3188D9B18938888004ACF77 /* CustomCell.xib */,
 				E17222C9189281B000F28748 /* ResetPasswordController.xib */,
 				E17222D8189285A100F28748 /* LoginViewController.xib */,
 			);
@@ -443,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E16F390618912C9C00064806 /* earnings-iconX30.png in Resources */,
+				E3188D9F18939171004ACF77 /* cellImage.png in Resources */,
 				E17222E018928DE700F28748 /* cancel_red.png in Resources */,
 				E16F392018914D4A00064806 /* back.png in Resources */,
 				E16F390518912C9C00064806 /* earnings-icon.png in Resources */,
@@ -455,6 +475,7 @@
 				E16F391418912C9C00064806 /* shared-icon.png in Resources */,
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
+				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
 				E16F391318912C9C00064806 /* share-twitter.png in Resources */,
 				E16F390818912C9C00064806 /* home-photo-quicklink.png in Resources */,
 				E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */,
@@ -476,6 +497,7 @@
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
+				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E17222CB189281B000F28748 /* ResetPasswordController.xib in Resources */,
 				E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */,
@@ -508,9 +530,11 @@
 				E17222D0189281F600F28748 /* ContentManager.m in Sources */,
 				E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */,
 				FC9763FC189003E9008DF1F8 /* CommunityViewController.m in Sources */,
+				E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */,
 				FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */,
 				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
 				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
+				E3188D9C18938888004ACF77 /* CustomCell.m in Sources */,
 				E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */,
 				E17222D9189285A100F28748 /* LoginViewController.m in Sources */,
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,

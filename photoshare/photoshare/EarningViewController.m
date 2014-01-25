@@ -8,6 +8,7 @@
 
 #import "EarningViewController.h"
 #import "PastPayementViewController.h"
+#import "MyReferralViewController.h"
 
 @interface EarningViewController ()
 
@@ -32,9 +33,9 @@
 
 
 - (IBAction)viewPastPaymentsBtn:(id)sender {
-    PastPayementViewController *ppVC = [[PastPayementViewController alloc] init];
-    [self presentViewController:ppVC animated:YES completion:nil];
+    PastPayementViewController *pastPay = [[PastPayementViewController alloc] init];
     
+    [self.navigationController pushViewController:pastPay animated:YES];
 }
 
 - (IBAction)financeCalculatorBtn:(id)sender {
@@ -44,6 +45,9 @@
 }
 
 - (IBAction)yourReferrelBtn:(id)sender {
+    MyReferralViewController *mtReffVC = [[MyReferralViewController alloc] init];
+    
+    [self.navigationController pushViewController:mtReffVC animated:YES];
 }
 
 
