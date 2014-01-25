@@ -32,9 +32,9 @@
 
 
 - (IBAction)viewPastPaymentsBtn:(id)sender {
-    PastPayementViewController *ppVC = [[PastPayementViewController alloc] init];
-    [self presentViewController:ppVC animated:YES completion:nil];
+    PastPayementViewController *pastPay = [[PastPayementViewController alloc] init];
     
+    [self.navigationController pushViewController:pastPay animated:YES];
 }
 
 - (IBAction)financeCalculatorBtn:(id)sender {
