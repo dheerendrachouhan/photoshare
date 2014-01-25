@@ -78,7 +78,6 @@
     tbc.viewControllers = [[NSArray alloc] initWithObjects:navControllerhome, navControllerearning,navControllerphoto, navControllercommunity, navControlleraccount, nil];
     
     
-    
     self.window.rootViewController = tbc ;
     
     [self.window makeKeyAndVisible];

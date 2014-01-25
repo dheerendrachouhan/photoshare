@@ -22,5 +22,6 @@
 -(IBAction)goToTotalEarning:(id)sender;
 -(IBAction)takePhoto:(id)sender;
 -(IBAction)goToCommunity:(id)sender;
+-(IBAction)goToPublicFolder:(id)sender;
 -(IBAction)gotoPhotos:(id)sender;
 @end
