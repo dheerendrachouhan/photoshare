@@ -117,16 +117,7 @@
 }
 
 
--(void) viewWillDisappear:(BOOL)animated
-{
-   // CommunityViewController *cvc = [[CommunityViewController alloc] init] ;
-    
-    //[self.navigationController popViewControllerAnimated:YES];
-   // [self.navigationController popToViewController:cvc animated:YES];
-    NSLog(@"disapp--") ;
-//[self.navigationController dismissViewControllerAnimated:YES completion:NULL];
 
-}
 
 
 

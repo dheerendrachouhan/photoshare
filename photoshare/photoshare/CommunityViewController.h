@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AddEditFolderViewController.h"
 @class CollectionViewCell;
-@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate>
 {
     IBOutlet UICollectionView *collectionview;
     UIButton *addFolderBtn;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddEditFolderViewController : UIViewController<UITextFieldDelegate,UINavigationBarDelegate>
+@interface AddEditFolderViewController : UIViewController<UITextFieldDelegate,UINavigationBarDelegate, UINavigationControllerDelegate>
 {
     IBOutlet UILabel *headingLabel;
     IBOutlet UIView *folderNameView;
