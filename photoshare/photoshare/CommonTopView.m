@@ -7,6 +7,8 @@
 //
 
 #import "CommonTopView.h"
+#import "EarningViewController.h"
+#import "HomeViewController.h"
 @implementation CommonTopView
 
 
@@ -69,6 +71,10 @@ static CommonTopView *topView=nil;
 -(void)goToEarningViewController
 {
     NSLog(@"Earning");
+    EarningViewController *earningView=[[EarningViewController alloc] init];
+    HomeViewController *home=[[HomeViewController alloc] init];
+    //[home.navigationController pushViewController:earningView animated:YES];
+    [home earnigView];
 }
 
 

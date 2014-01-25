@@ -40,12 +40,11 @@
 
     UINavigationController* navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
     
-    CommonTopView *topView=[[CommonTopView alloc] init];
-    navControllerhome.navigationBar.translucent=NO;
-    [navControllerhome.navigationBar addSubview:topView];
-    navControllerhome.navigationBar.frame=CGRectMake(0, 20, 320, 70);
+ 
     UINavigationController* navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
-    
+//    navControllerearning.navigationBar.translucent=NO;
+//    [navControllerearning.navigationBar addSubview:topView];
+//    navControllerearning.navigationBar.frame=CGRectMake(0, 20, 320, 70);
     UINavigationController* navControllerphoto = [[UINavigationController alloc] initWithRootViewController:ph];
     
     UINavigationController* navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];

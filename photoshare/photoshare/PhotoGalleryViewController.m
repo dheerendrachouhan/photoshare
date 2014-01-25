@@ -49,11 +49,42 @@
     
     //collection view
     [collectionview registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CVCell"];
+    
+    UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
+    [collectionview addGestureRecognizer:tapGesture];
 }
 -(void)setDataForCollectionView
 {
     ContentManager *contentManagerObj=[ContentManager sharedManager];
     imgArray =[contentManagerObj getData:@"publicImgArray"];
+}
+-(IBAction)addPhoto:(id)sender
+{
+    UIImagePickerController *imagePiceker=[[UIImagePickerController alloc] init];
+    imagePiceker.delegate=self;
+    imagePiceker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+}
+-(IBAction)deletePhoto:(id)sender
+{
+    addPhotoBtn.hidden=YES;
+    sharePhotoBtn.hidden=YES;
+}
+
+-(IBAction)sharePhoto:(id)sender
+{
+    
+}
+-(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:collectionview];
+    
+    NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
+    if (indexPath != nil){
+        
+        UICollectionViewCell *cell=[collectionview dequeueReusableCellWithReuseIdentifier:@"CVCell" forIndexPath:indexPath];
+        UIButton *checkBtn=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        
+    }
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {

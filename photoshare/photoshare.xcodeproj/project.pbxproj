@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */; };
 		E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */; };
+		E169DAB21893C85E00BE0B5B /* TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E169DAB01893C85E00BE0B5B /* TopViewController.m */; };
+		E169DAB31893C85E00BE0B5B /* TopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E169DAB11893C85E00BE0B5B /* TopViewController.xib */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -96,6 +98,9 @@
 		E169DAAA18939FF500BE0B5B /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoGalleryViewController.h; sourceTree = "<group>"; };
 		E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoGalleryViewController.m; sourceTree = "<group>"; };
 		E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoGalleryViewController.xib; sourceTree = "<group>"; };
+		E169DAAF1893C85E00BE0B5B /* TopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopViewController.h; sourceTree = "<group>"; };
+		E169DAB01893C85E00BE0B5B /* TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopViewController.m; sourceTree = "<group>"; };
+		E169DAB11893C85E00BE0B5B /* TopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopViewController.xib; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -291,6 +296,9 @@
 				E3188D951893829C004ACF77 /* MyReferralViewController.m */,
 				E3188D9918938888004ACF77 /* CustomCell.h */,
 				E3188D9A18938888004ACF77 /* CustomCell.m */,
+				E169DAAF1893C85E00BE0B5B /* TopViewController.h */,
+				E169DAB01893C85E00BE0B5B /* TopViewController.m */,
+				E169DAB11893C85E00BE0B5B /* TopViewController.xib */,
 			);
 			path = photoshare;
 			sourceTree = "<group>";
@@ -482,6 +490,7 @@
 				E16F390318912C9C00064806 /* community-icon.png in Resources */,
 				E16F3918189131C600064806 /* wall.jpg in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
+				E169DAB31893C85E00BE0B5B /* TopViewController.xib in Resources */,
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
@@ -525,6 +534,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E169DAB21893C85E00BE0B5B /* TopViewController.m in Sources */,
 				E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */,
 				E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */,
 				E17222D0189281F600F28748 /* ContentManager.m in Sources */,

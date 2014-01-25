@@ -159,8 +159,9 @@
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
-        
-        if(([indexPath row]+1)%12!=0 || ([indexPath row]+1)!=[folderNameArray count]+noOfPagesInCollectionView)
+        NSLog(@"1::::%ld",([indexPath row]+1)%12);
+        NSLog(@"2::::%ld",[folderNameArray count]+noOfPagesInCollectionView);
+        if(([indexPath row]+1)%12!=0 && ([indexPath row]+1)!=[folderNameArray count]+noOfPagesInCollectionView)
         {
           [self editFolder:indexPath];
         }

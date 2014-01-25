@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate>
+@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     IBOutlet UIButton *addPhotoBtn;
     IBOutlet UIButton *deletePhotoBtn;
@@ -16,4 +16,7 @@
     IBOutlet UICollectionView *collectionview;
     NSMutableArray *imgArray;
 }
+-(IBAction)addPhoto:(id)sender;
+-(IBAction)deletePhoto:(id)sender;
+-(IBAction)sharePhoto:(id)sender;
 @end
