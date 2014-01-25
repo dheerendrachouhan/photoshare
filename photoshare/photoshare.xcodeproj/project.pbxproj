@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */; };
+		E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -94,6 +96,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E169DAAA18939FF500BE0B5B /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoGalleryViewController.h; sourceTree = "<group>"; };
+		E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoGalleryViewController.m; sourceTree = "<group>"; };
+		E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoGalleryViewController.xib; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -277,6 +282,8 @@
 				E17222AC18923AF900F28748 /* CollectionViewCell.m */,
 				E17222B01892518B00F28748 /* AddEditFolderViewController.h */,
 				E17222B11892518B00F28748 /* AddEditFolderViewController.m */,
+				E169DAAA18939FF500BE0B5B /* PhotoGalleryViewController.h */,
+				E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */,
 				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
 				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
 				E17222B81892817800F28748 /* EarningViewController.h */,
@@ -378,6 +385,7 @@
 				FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */,
 				E16F38E518910DB000064806 /* CommunityCollectionCell.xib */,
 				E17222B21892518B00F28748 /* AddEditFolderViewController.xib */,
+				E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */,
 				E17222BA1892817800F28748 /* EarningViewController.xib */,
 				E17222C41892819A00F28748 /* PastPayementViewController.xib */,
 				E3188D961893829C004ACF77 /* MyReferralViewController.xib */,
@@ -497,6 +505,7 @@
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
 				E17222DF18928DE700F28748 /* cancel_btn.png in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
+				E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
@@ -530,6 +539,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */,
+				E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */,
 				E17222D0189281F600F28748 /* ContentManager.m in Sources */,
 				E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */,
 				FC9763FC189003E9008DF1F8 /* CommunityViewController.m in Sources */,

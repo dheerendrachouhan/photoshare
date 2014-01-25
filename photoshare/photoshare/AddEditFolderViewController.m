@@ -9,13 +9,14 @@
 #import "AddEditFolderViewController.h"
 #import "CommonTopView.h"
 #import "CommunityViewController.h"
+#import "ContentManager.h"
 @interface AddEditFolderViewController ()
 
 @end
 
 @implementation AddEditFolderViewController
 
-@synthesize isAddFolder,isEditFolder;
+@synthesize isAddFolder,isEditFolder,folderIndex;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -69,6 +70,9 @@
         addButton.hidden=YES;
         saveButton.hidden=NO;
         deleteButton.hidden=NO;
+        ContentManager *contantManagerObj=[ContentManager sharedManager];
+        folderName.text=[[contantManagerObj getData:@"FolderArray"] objectAtIndex:self.folderIndex];
+        
     }
     else if(isAddFolder)
     {
@@ -98,17 +102,74 @@
         [shareWithUser becomeFirstResponder];
     }
 }
+-(UIAlertView *)alertView
+{
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+    return alert;
+}
 -(IBAction)addFolder:(id)sender
 {
+    UIAlertView *alert=[self alertView];
     
+    ContentManager *contentManagerObj=[ContentManager sharedManager];
+    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
+    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
+    int index = (int)[folderArray indexOfObject:folderName.text];
+    if(index!=-1)
+    {
+        alert.message=@"Folder Already Available";
+    }
+    else
+    {
+        [folderArray addObject:folderName.text];
+        NSLog(@"Folder Array %@",folderArray);
+        [contentManagerObj storeData:folderArray :@"FolderArray"];
+        NSLog(@"Folder Array %@",[contentManagerObj getData:@"FolderArray"]);
+        alert.message=@"Successfully Added";
+    }
+    folderName.text=@"";
+    shareWithUser.text=@"";
+    
+    [alert show];
 }
 -(IBAction)saveFolder:(id)sender
 {
+    ContentManager *contentManagerObj=[ContentManager sharedManager];
+    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
+    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
+    [folderArray replaceObjectAtIndex:self.folderIndex withObject:folderName.text];
+    [contentManagerObj storeData:folderArray :@"FolderArray"];
     
+    UIAlertView *alert=[self alertView];
+    alert.message=@"Folder Save Successfully";
+     [alert show];
 }
 -(IBAction)deleteFolder:(id)sender
 {
+    ContentManager *contentManagerObj=[ContentManager sharedManager];
+    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
+    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
+    [folderArray removeObjectAtIndex:self.folderIndex];
+    [contentManagerObj storeData:folderArray :@"FolderArray"];
     
+    UIAlertView *alert=[self alertView];
+    alert.message=@"Folder Deleted";
+     [alert show];
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex==0&&[alertView.message isEqualToString:@"Successfully Added"])
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if(buttonIndex==0&&[alertView.message isEqualToString:@"Folder Deleted"])
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if(buttonIndex==0&&[alertView.message isEqualToString:@"Folder Save Successfully"])
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 - (void)didReceiveMemoryWarning
 {

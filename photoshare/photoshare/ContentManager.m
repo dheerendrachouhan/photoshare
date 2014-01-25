@@ -26,7 +26,6 @@ static ContentManager *objContantManager = nil;
     
     @try {
         NSUserDefaults *defaultData = [NSUserDefaults standardUserDefaults];
-        [defaultData removeObjectForKey:storeKey];
         [defaultData setObject:storeObj forKey:storeKey];
         
         [defaultData synchronize];
