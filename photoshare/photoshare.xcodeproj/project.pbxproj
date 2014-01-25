@@ -60,6 +60,9 @@
 		E3188D9C18938888004ACF77 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D9A18938888004ACF77 /* CustomCell.m */; };
 		E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188D9B18938888004ACF77 /* CustomCell.xib */; };
 		E3188D9F18939171004ACF77 /* cellImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E3188D9E18939171004ACF77 /* cellImage.png */; };
+		E3188DA21893968A004ACF77 /* FinanceCalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */; };
+		E3188DA4189396C0004ACF77 /* FinanceCalculatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */; };
+		E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E3188DA91893BABF004ACF77 /* currencyselector_btn.png */; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
@@ -161,6 +164,10 @@
 		E3188D9A18938888004ACF77 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		E3188D9B18938888004ACF77 /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 		E3188D9E18939171004ACF77 /* cellImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellImage.png; sourceTree = "<group>"; };
+		E3188DA01893968A004ACF77 /* FinanceCalculatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinanceCalculatorViewController.h; sourceTree = "<group>"; };
+		E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinanceCalculatorViewController.m; sourceTree = "<group>"; };
+		E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinanceCalculatorViewController.xib; sourceTree = "<group>"; };
+		E3188DA91893BABF004ACF77 /* currencyselector_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = currencyselector_btn.png; sourceTree = "<group>"; };
 		FC97638C188FEB89008DF1F8 /* photoshare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoshare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC97638F188FEB89008DF1F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC976391188FEB89008DF1F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -286,6 +293,13 @@
 				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
 				E17222B81892817800F28748 /* EarningViewController.h */,
 				E17222B91892817800F28748 /* EarningViewController.m */,
+				E3188D941893829C004ACF77 /* MyReferralViewController.h */,
+				E3188D951893829C004ACF77 /* MyReferralViewController.m */,
+				E3188D9918938888004ACF77 /* CustomCell.h */,
+				E3188D9A18938888004ACF77 /* CustomCell.m */,
+				E3188DA01893968A004ACF77 /* FinanceCalculatorViewController.h */,
+				E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */,
+				E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */,
 				E17222C21892819A00F28748 /* PastPayementViewController.h */,
 				E17222C31892819A00F28748 /* PastPayementViewController.m */,
 				FC97640818900505008DF1F8 /* AccountViewController.h */,
@@ -338,6 +352,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E3188DA91893BABF004ACF77 /* currencyselector_btn.png */,
 				E3188D9E18939171004ACF77 /* cellImage.png */,
 				E17222DB18928DE700F28748 /* arrows_blue.png */,
 				E17222DC18928DE700F28748 /* cancel_btn.png */,
@@ -482,6 +497,7 @@
 				E17222CD189281C000F28748 /* login2_new.png in Resources */,
 				E16F391418912C9C00064806 /* shared-icon.png in Resources */,
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
+				E3188DA4189396C0004ACF77 /* FinanceCalculatorViewController.xib in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
 				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
 				E16F391318912C9C00064806 /* share-twitter.png in Resources */,
@@ -495,6 +511,7 @@
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
 				E16F3916189130A800064806 /* folder-icon.png in Resources */,
+				E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */,
 				FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */,
 				FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */,
 				E16F390718912C9C00064806 /* folder-icon-bottomX30.png in Resources */,
@@ -553,6 +570,7 @@
 				E17222CA189281B000F28748 /* ResetPasswordController.m in Sources */,
 				E17222BB1892817800F28748 /* EarningViewController.m in Sources */,
 				E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */,
+				E3188DA21893968A004ACF77 /* FinanceCalculatorViewController.m in Sources */,
 				FC97639C188FEB89008DF1F8 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -137,8 +137,8 @@
 - (void)setLabelValues:(UILabel *)label
 {
     label.textColor = [UIColor colorWithRed:0.125 green:0.514 blue:0.769 alpha:1];
-    label.font = [UIFont systemFontOfSize:28.0];
-    [label setTextAlignment:NSTextAlignmentLeft];
+    label.font = [UIFont systemFontOfSize:23.0];
+    [label setTextAlignment:NSTextAlignmentRight];
     label.adjustsFontSizeToFitWidth = YES;
     label.backgroundColor = [UIColor clearColor];
 }

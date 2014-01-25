@@ -9,6 +9,7 @@
 #import "EarningViewController.h"
 #import "PastPayementViewController.h"
 #import "MyReferralViewController.h"
+#import "FinanceCalculatorViewController.h"
 
 @interface EarningViewController ()
 
@@ -39,6 +40,9 @@
 }
 
 - (IBAction)financeCalculatorBtn:(id)sender {
+    FinanceCalculatorViewController *financeCalci = [[FinanceCalculatorViewController alloc] init];
+    
+    [self.navigationController pushViewController:financeCalci animated:YES];
 }
 
 - (IBAction)inviteMoreFriendsBtn:(id)sender {
