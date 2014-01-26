@@ -9,6 +9,7 @@
 #import "CommonTopView.h"
 #import "EarningViewController.h"
 #import "HomeViewController.h"
+#import "LoginViewController.h"
 @implementation CommonTopView
 
 
@@ -71,11 +72,11 @@ static CommonTopView *topView=nil;
 -(void)goToEarningViewController
 {
     NSLog(@"Earning");
-    EarningViewController *earningView=[[EarningViewController alloc] init];
-    HomeViewController *home=[[HomeViewController alloc] init];
-    //[home.navigationController pushViewController:earningView animated:YES];
-    [home earnigView];
-}
+ 
+    UITabBarController *tb = (UITabBarController *) self.window.rootViewController ;
+    
+    [tb setSelectedIndex:1] ;
+ }
 
 
 @end
