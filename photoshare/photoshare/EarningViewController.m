@@ -30,19 +30,24 @@
 {
     [super viewDidLoad];
     
+     [self.navigationItem setTitle:@"Finance"];
 }
+
 
 
 - (IBAction)viewPastPaymentsBtn:(id)sender {
     PastPayementViewController *pastPay = [[PastPayementViewController alloc] init];
     
     [self.navigationController pushViewController:pastPay animated:YES];
+    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
+   
 }
 
 - (IBAction)financeCalculatorBtn:(id)sender {
     FinanceCalculatorViewController *financeCalci = [[FinanceCalculatorViewController alloc] init];
     
     [self.navigationController pushViewController:financeCalci animated:YES];
+    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
 }
 
 - (IBAction)inviteMoreFriendsBtn:(id)sender {
@@ -52,6 +57,7 @@
     MyReferralViewController *mtReffVC = [[MyReferralViewController alloc] init];
     
     [self.navigationController pushViewController:mtReffVC animated:YES];
+    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
 }
 
 
