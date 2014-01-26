@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "WebserviceController.h"
 
-@interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate>
+@interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, WebserviceDelegate>
 {
     IBOutlet UIImageView *loginBackgroundImage;
     IBOutlet UIImageView *loginLogoImage;
