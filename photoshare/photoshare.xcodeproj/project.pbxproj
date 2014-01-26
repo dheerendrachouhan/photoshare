@@ -85,6 +85,7 @@
 		FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC97641118900734008DF1F8 /* PhotoViewController.xib */; };
 		FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97641518900B00008DF1F8 /* HomeViewController.m */; };
 		FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC97641618900B00008DF1F8 /* HomeViewController.xib */; };
+		FCB0B77518945C0F001722B3 /* WebserviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB0B77418945C0F001722B3 /* WebserviceController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +200,8 @@
 		FC97641418900B00008DF1F8 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		FC97641518900B00008DF1F8 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		FC97641618900B00008DF1F8 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		FCB0B77318945C0F001722B3 /* WebserviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceController.h; sourceTree = "<group>"; };
+		FCB0B77418945C0F001722B3 /* WebserviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +270,7 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
+				FCB0B76D18945BC2001722B3 /* webservice */,
 				E388F2421892546E005BB5E5 /* Barchart */,
 				FC97640D1890050C008DF1F8 /* Layouts */,
 				FC97639E188FEB89008DF1F8 /* AppDelegate.h */,
@@ -406,6 +410,15 @@
 				E17222D8189285A100F28748 /* LoginViewController.xib */,
 			);
 			name = Layouts;
+			sourceTree = "<group>";
+		};
+		FCB0B76D18945BC2001722B3 /* webservice */ = {
+			isa = PBXGroup;
+			children = (
+				FCB0B77318945C0F001722B3 /* WebserviceController.h */,
+				FCB0B77418945C0F001722B3 /* WebserviceController.m */,
+			);
+			name = webservice;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -567,6 +580,7 @@
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
 				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,
+				FCB0B77518945C0F001722B3 /* WebserviceController.m in Sources */,
 				E17222CA189281B000F28748 /* ResetPasswordController.m in Sources */,
 				E17222BB1892817800F28748 /* EarningViewController.m in Sources */,
 				E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */,
