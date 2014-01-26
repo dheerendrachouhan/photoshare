@@ -47,8 +47,8 @@
 
 //perform function on reset button pressed
 - (IBAction)resetpwdFunct:(id)sender {
-    LoginViewController *lg = [[LoginViewController alloc] init];
-    [self presentViewController:lg animated:YES completion:nil];
+    
+    [self dismissViewControllerAnimated:YES completion:nil] ;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
