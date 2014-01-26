@@ -17,104 +17,94 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Finance" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZxV-JF-LU1">
-                    <rect key="frame" x="128" y="66" width="61" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total Earnings:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CEg-39-a7b">
-                    <rect key="frame" x="19" y="132" width="113" height="21"/>
+                    <rect key="frame" x="19" y="54" width="113" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.40371890943877553" green="0.40371890943877553" blue="0.40371890943877553" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Projected Earnings:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yh5-UP-AFp">
-                    <rect key="frame" x="19" y="192" width="150" height="21"/>
+                    <rect key="frame" x="19" y="114" width="150" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.40371890939999999" green="0.40371890939999999" blue="0.40371890939999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="People Referred:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ML-5j-qB9">
-                    <rect key="frame" x="20" y="253" width="133" height="21"/>
+                    <rect key="frame" x="20" y="175" width="133" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.40371890939999999" green="0.40371890939999999" blue="0.40371890939999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="£14" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5AV-B1-S3P">
-                    <rect key="frame" x="168" y="116" width="137" height="50"/>
+                    <rect key="frame" x="168" y="38" width="137" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="42"/>
                     <color key="textColor" red="0.060034193106107803" green="0.55776014965814003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="£10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Arp-bu-6t7">
-                    <rect key="frame" x="168" y="177" width="137" height="51"/>
+                    <rect key="frame" x="168" y="99" width="137" height="51"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="42"/>
                     <color key="textColor" red="0.060034193110000002" green="0.55776014969999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="14" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DsL-xo-nEw">
-                    <rect key="frame" x="168" y="234" width="137" height="51"/>
+                    <rect key="frame" x="168" y="156" width="137" height="51"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="42"/>
                     <color key="textColor" red="0.060034193110000002" green="0.55776014969999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J1w-19-qa8">
-                    <rect key="frame" x="15" y="358" width="295" height="2"/>
+                    <rect key="frame" x="15" y="280" width="295" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </progressView>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gFO-2t-gIY">
-                    <rect key="frame" x="15" y="417" width="295" height="2"/>
+                    <rect key="frame" x="15" y="339" width="295" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </progressView>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="haU-mo-7wD">
-                    <rect key="frame" x="15" y="467" width="295" height="2"/>
+                    <rect key="frame" x="15" y="389" width="295" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </progressView>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EEN-Xa-3LF">
-                    <rect key="frame" x="15" y="467" width="295" height="2"/>
+                    <rect key="frame" x="15" y="389" width="295" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </progressView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="View past payments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiB-JO-buV">
-                    <rect key="frame" x="45" y="324" width="168" height="21"/>
+                    <rect key="frame" x="45" y="246" width="168" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.40371890939999999" green="0.40371890939999999" blue="0.40371890939999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Finance Calculator" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GjZ-WM-iyX">
-                    <rect key="frame" x="45" y="380" width="144" height="21"/>
+                    <rect key="frame" x="45" y="302" width="144" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.40371890939999999" green="0.40371890939999999" blue="0.40371890939999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Invite more friends" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ffr-Ve-PIY">
-                    <rect key="frame" x="45" y="434" width="142" height="21"/>
+                    <rect key="frame" x="45" y="356" width="142" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.40371890939999999" green="0.40371890939999999" blue="0.40371890939999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your referrels" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zd3-Rf-pEr">
-                    <rect key="frame" x="45" y="479" width="101" height="21"/>
+                    <rect key="frame" x="45" y="401" width="101" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.40371890939999999" green="0.40371890939999999" blue="0.40371890939999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Be-S2-sMJ">
-                    <rect key="frame" x="-4" y="92" width="357" height="2"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </progressView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E9L-vm-e6T">
-                    <rect key="frame" x="16" y="314" width="294" height="40"/>
+                    <rect key="frame" x="16" y="236" width="294" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="imageEdgeInsets" minX="-11" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" image="arrows_blue.png">
@@ -125,7 +115,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XD1-cz-72Z">
-                    <rect key="frame" x="15" y="372" width="295" height="37"/>
+                    <rect key="frame" x="15" y="294" width="295" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="imageEdgeInsets" minX="-11" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" image="arrows_blue.png">
@@ -136,7 +126,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfS-kf-Tow">
-                    <rect key="frame" x="15" y="424" width="300" height="37"/>
+                    <rect key="frame" x="15" y="346" width="300" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="imageEdgeInsets" minX="-11" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" image="arrows_blue.png">
@@ -147,7 +137,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="992-bC-Jnr">
-                    <rect key="frame" x="15" y="472" width="295" height="36"/>
+                    <rect key="frame" x="15" y="394" width="295" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="imageEdgeInsets" minX="-11" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" image="arrows_blue.png">
