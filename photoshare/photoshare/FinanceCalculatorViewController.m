@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+     [self.navigationItem setTitle:@"Calculator"];
 	// Do any additional setup after loading the view.
     border1.layer.borderColor = [UIColor colorWithRed:0.039 green:0.451 blue:1 alpha:1].CGColor;
     border1.layer.borderWidth = 2.0f;
