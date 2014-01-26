@@ -22,10 +22,7 @@
     
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds] ] ;
-    
-    LoginViewController *vi = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
-    
-    ReferFriendViewController *rf = [[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:nil] ;
+  
     
     EarningViewController *ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
 
@@ -37,25 +34,45 @@
     
     HomeViewController *hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil] ;
 
-
+    CommonTopView *topView=[[CommonTopView alloc] init];
+    
+    
     UINavigationController* navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
     
+    navControllerhome.navigationBar.translucent=NO;
+  //  [navControllerhome.view addSubview:topView];
+  //  navControllerhome.navigationBar.frame=CGRectMake(0, 20, 320, 70);
  
     UINavigationController* navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
-//    navControllerearning.navigationBar.translucent=NO;
-//    [navControllerearning.navigationBar addSubview:topView];
-//    navControllerearning.navigationBar.frame=CGRectMake(0, 20, 320, 70);
+   // CommonTopView *topView1=[[CommonTopView alloc] init];
+    
+   // CGRect tmpFram = navControllerhome.navigationBar.frame;
+    //tmpFram.origin.y += 300;
+  //  navControllerhome.navigationBar.frame = tmpFram;
+    
+    //navControllerearning.navigationBar.frame = CGRectMake(0.0, 200, 320.0, 100);
+
+   navControllerearning.navigationBar.translucent=NO;
+ //   [navControllerearning.view addSubview:topView1];
+ //   navControllerearning.navigationBar.frame=CGRectMake(0, 10, 320, 200);
     UINavigationController* navControllerphoto = [[UINavigationController alloc] initWithRootViewController:ph];
     
     UINavigationController* navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
+   // CommonTopView *topView2=[[CommonTopView alloc] init];
+    navControllercommunity.navigationBar.translucent=NO;
+  //  [navControllercommunity.view addSubview:topView2];
+  //  navControllercommunity.navigationBar.frame=CGRectMake(0, 20, 320, 70);
+    
     
     UINavigationController* navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
-
+  //  CommonTopView *topView3=[[CommonTopView alloc] init];
+   navControlleraccount.navigationBar.translucent=NO;
+  //  [navControlleraccount.view addSubview:topView3];
+ //   navControlleraccount.navigationBar.frame=CGRectMake(0, 20, 320, 70);
     
+   // UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
     
-    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:rf] ;
-    
-    self.nv.navigationBar.barStyle = UIBarStyleBlackTranslucent ;
+    //self.nv.navigationBar.barStyle = UIBarStyleBlackTranslucent ;
  
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage  imageNamed:@"community-iconX30.png"] tag:1];
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earnings-iconX30.png"] tag:2];
@@ -76,6 +93,12 @@
     
     tbc.viewControllers = [[NSArray alloc] initWithObjects:navControllerhome, navControllerearning,navControllerphoto, navControllercommunity, navControlleraccount, nil];
     
+    
+    topView.frame = CGRectMake(0, 5, 320, 30) ;
+    [tbc.view addSubview:topView];
+    
+    
+     
     
     self.window.rootViewController = tbc ;
     
