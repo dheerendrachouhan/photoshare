@@ -15,6 +15,7 @@
 #import "PhotoViewController.h"
 #import "ResetPasswordController.h"
 #import "CommonTopView.h"
+#import "WebserviceController.h"
 
 @interface LoginViewController ()
 
@@ -42,18 +43,36 @@
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;
     pwsFlt = NO;
+    
+    
+   
 }
 
 //user sign in function
 - (IBAction)userSignInBtn:(id)sender {
     
-    if(![nameTextField.text length] > 0)
+    NSString *username = [nameTextField text];
+    NSString *password = [passwordTextField text];
+    
+    [self dismissViewControllerAnimated:YES completion:nil] ;
+    if([nameTextField.text length] > 0)
     {
-        
+        WebserviceController *wc = [[WebserviceController alloc] init] ;
+        wc.delegate = self;
+        NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
+        [wc call:postStr controller:@"authentication" method:@"login"] ;
     }
-    //HomeViewController *home=[[HomeViewController alloc]init];
-   //[self presentViewController:home animated:YES completion:Nil];
+   
 }
+
+-(void) webserviceCallback:(NSString *)data
+{
+    NSLog(@"login callback");
+   [self dismissViewControllerAnimated:YES completion:nil] ;
+
+}
+
+
 
 //forgot password function
 - (IBAction)forgotPasswordBtn:(id)sender {
