@@ -28,6 +28,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    [self.navigationItem setTitle:@"Past Payment"];
+    
     // Do any additional setup after loading the view from its nib.
     NSMutableArray *textIndicators = [[NSMutableArray alloc] initWithObjects:@"Date 1", @"Date 2", @"Date 3", @"Date 4", @"Date 5",@"Date 6",@"Date 7",@"Date 8", nil];
     NSMutableArray *values = [[NSMutableArray alloc] initWithObjects:@20, @5, @10, @150, @7, @4, @1, @12,  nil];
