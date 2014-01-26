@@ -12,6 +12,8 @@
 #import "PhotoGalleryViewController.h"
 #import "CommonTopView.h"
 #import "EarningViewController.h"
+#import "WebserviceController.h"
+#import "LoginViewController.h"
 @interface HomeViewController ()
 
 @end
@@ -32,18 +34,22 @@
 {
     [super viewDidLoad];
     
+    
+    LoginViewController *loginv = [[LoginViewController alloc] init] ;
+    [self.navigationController presentViewController:loginv animated:NO completion:nil];
+    
     //rounded the Community Count Label
     communityCountLbl.layer.cornerRadius=12;
     communityCountLbl.layer.borderWidth=2;
     communityCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
-    CommonTopView *topView=[[CommonTopView alloc] init];
-    self.navigationController.navigationBar.translucent=NO;
-    [self.navigationController.navigationBar addSubview:topView];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
+  
     
     [self setContent];
     
 }
+
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -57,7 +63,7 @@
 
 -(IBAction)goToTotalEarning:(id)sender
 {
-    
+   
 }
 -(IBAction)takePhoto:(id)sender
 {
@@ -80,16 +86,18 @@
 -(IBAction)goToPublicFolder:(id)sender
 {
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+   
     [self.navigationController pushViewController:photoGallery animated:YES];
-    photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 90);
+     photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
     
 }
 -(IBAction)goToCommunity:(id)sender
 {
     
-    CommunityViewController *comm=[[CommunityViewController alloc] init];    
+    CommunityViewController *comm=[[CommunityViewController alloc] init];
+    comm.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
     [self.navigationController pushViewController:comm animated:YES];
-     comm.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 90);
+    
 }
 -(IBAction)gotoPhotos:(id)sender
 {
@@ -113,10 +121,15 @@
 }
 -(void)earnigView
 {
+    NSLog(@" earning view call --") ;
     EarningViewController *earningView=[[EarningViewController alloc] init];
     //HomeViewController *home=[[HomeViewController alloc] init];
     //[home.navigationController pushViewController:earningView animated:YES];
-    [self.tabBarController setSelectedIndex:1];
+    PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+  //  [self.navigationController pushViewController:photoGallery animated:YES];
+
+    [self presentViewController:photoGallery animated:NO completion:nil];
+    //[self.tabBarController setSelectedIndex:1];
 }
 
 @end
