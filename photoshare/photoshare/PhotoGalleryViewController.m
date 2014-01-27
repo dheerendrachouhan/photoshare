@@ -170,23 +170,58 @@
         [base64images addObject:base64string];
         [dic setObject:base64images forKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
         [manager storeData:dic :@"dictionaryOfYourImgArray"];
-
     }
     [imgArray addObject:image];
     [collectionview reloadData];
 }
 -(IBAction)deletePhoto:(id)sender
 {
-    addPhotoBtn.hidden=YES;
-    sharePhotoBtn.hidden=YES;
-    isDeleteMode=YES;
+    UIButton *btn=(UIButton *)sender;
+    if(btn.selected==NO)
+    {
+        NSLog(@"Not selected");
+        addPhotoBtn.hidden=YES;
+        sharePhotoBtn.hidden=YES;
+        isDeleteMode=YES;
+    }
+    else
+    {
+        [self resetButton];
+        NSLog(@"Selected");
+    }
+    
+   
+    btn.selected=!btn.selected;
 }
 
 -(IBAction)sharePhoto:(id)sender
 {
-    addPhotoBtn.hidden=YES;
-    deletePhotoBtn.hidden=YES;
-    sharePhotoBtn.frame=deletePhotoBtn.frame;
+    
+    UIButton *btn=(UIButton *)sender;
+    if(btn.selected==NO)
+    {
+        NSLog(@"Not selected");
+        addPhotoBtn.hidden=YES;
+        deletePhotoBtn.hidden=YES;
+        sharePhotoBtn.frame=deletePhotoBtn.frame;
+    }
+    else
+    {
+        [self resetButton];
+        NSLog(@"Selected");
+    }
+    
+    btn.selected=!btn.selected;
+
+}
+-(void)resetButton
+{
+    addPhotoBtn.hidden=NO;
+    deletePhotoBtn.hidden=NO;
+    sharePhotoBtn.hidden=NO;
+    addPhotoBtn.frame=CGRectMake(5, 417, 100, 30);
+    deletePhotoBtn.frame=CGRectMake(110, 417, 100, 30);
+    sharePhotoBtn.frame=CGRectMake(215, 417, 100, 30);
 }
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
