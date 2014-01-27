@@ -16,6 +16,8 @@
     IBOutlet UICollectionView *collectionview;
     NSMutableArray *imgArray;
     BOOL isDeleteMode;
+    BOOL isShareMode;
+    NSMutableArray *selectedImagesIndex;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;

@@ -54,6 +54,7 @@
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
+		E18648D41896596200175E8D /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = E18648D31896596200175E8D /* checkbox.png */; };
 		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
 		E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188D961893829C004ACF77 /* MyReferralViewController.xib */; };
 		E3188D9C18938888004ACF77 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D9A18938888004ACF77 /* CustomCell.m */; };
@@ -156,6 +157,7 @@
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
 		E18648D01896285800175E8D /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		E18648D11896285800175E8D /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		E18648D31896596200175E8D /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		E3188D941893829C004ACF77 /* MyReferralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyReferralViewController.h; sourceTree = "<group>"; };
 		E3188D951893829C004ACF77 /* MyReferralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyReferralViewController.m; sourceTree = "<group>"; };
 		E3188D961893829C004ACF77 /* MyReferralViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyReferralViewController.xib; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E18648D31896596200175E8D /* checkbox.png */,
 				E3188DA91893BABF004ACF77 /* currencyselector_btn.png */,
 				E3188D9E18939171004ACF77 /* cellImage.png */,
 				E17222DB18928DE700F28748 /* arrows_blue.png */,
@@ -540,6 +543,7 @@
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
+				E18648D41896596200175E8D /* checkbox.png in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E17222CB189281B000F28748 /* ResetPasswordController.xib in Resources */,

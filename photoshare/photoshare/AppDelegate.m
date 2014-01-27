@@ -94,7 +94,7 @@
     tbc.viewControllers = [[NSArray alloc] initWithObjects:navControllerhome, navControllerearning,navControllerphoto, navControllercommunity, navControlleraccount, nil];
     
     
-    topView.frame = CGRectMake(0, 5, 320, 30) ;
+    topView.frame = CGRectMake(0, 20, 320, 50) ;
     [tbc.view addSubview:topView];
     
     

@@ -28,7 +28,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    selectedImagesIndex=[[NSMutableArray alloc] init];
     
     
     //set the design of the button
@@ -52,6 +52,12 @@
     
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setDataForCollectionView];
+    [collectionview reloadData];
 }
 -(void)setDataForCollectionView
 {
@@ -100,12 +106,7 @@
         [imgArray addObject:img];
     }
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self setDataForCollectionView];
-    [collectionview reloadData];
-}
+
 -(IBAction)addPhoto:(id)sender
 {
     UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ", nil];
@@ -186,6 +187,23 @@
     }
     else
     {
+        ContentManager *manager=[ContentManager sharedManager];
+        NSMutableArray *base64images=[[NSMutableArray alloc] init];
+        NSMutableDictionary *dic=[[manager getData:@"dictionaryOfYourImgArray"]   mutableCopy];
+        base64images=[[dic objectForKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]] mutableCopy];
+        for (int i=0; i<selectedImagesIndex.count; i++) {
+            
+            [base64images removeObjectAtIndex:[[selectedImagesIndex objectAtIndex:i] integerValue]];
+            
+            [imgArray removeObjectAtIndex:[[selectedImagesIndex objectAtIndex:i] integerValue]];
+
+        }
+        [dic setObject:base64images forKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
+        [manager storeData:dic :@"dictionaryOfYourImgArray"];
+        
+        [collectionview reloadData];
+        NSLog(@"Successfull delete");
+        
         [self resetButton];
         NSLog(@"Selected");
     }
@@ -204,16 +222,19 @@
         addPhotoBtn.hidden=YES;
         deletePhotoBtn.hidden=YES;
         sharePhotoBtn.frame=deletePhotoBtn.frame;
+        isShareMode=YES;
     }
     else
     {
-        [self resetButton];
         NSLog(@"Selected");
+        [self resetButton];
+
     }
     
     btn.selected=!btn.selected;
 
 }
+//reset the button hidden no and previous frame
 -(void)resetButton
 {
     addPhotoBtn.hidden=NO;
@@ -222,6 +243,11 @@
     addPhotoBtn.frame=CGRectMake(5, 417, 100, 30);
     deletePhotoBtn.frame=CGRectMake(110, 417, 100, 30);
     sharePhotoBtn.frame=CGRectMake(215, 417, 100, 30);
+    
+    isShareMode=NO;
+    isDeleteMode=NO;
+    
+    [selectedImagesIndex removeAllObjects];
 }
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
@@ -230,15 +256,38 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
         
-        UICollectionViewCell *cell=[collectionview dequeueReusableCellWithReuseIdentifier:@"CVCell" forIndexPath:indexPath];
-        UIButton *checkBtn=[[UIButton alloc] initWithFrame:cell.frame];
-        checkBtn.layer.borderWidth=1;
-        checkBtn.layer.borderColor=[UIColor greenColor].CGColor;
-       
-        cell.hidden=YES;
-        
+        UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
+        if(isDeleteMode || isShareMode)
+        {
+            if(cell.selected==NO)
+            {
+                /*UIButton *checkBtn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 15, 15)];
+                checkBtn.layer.borderWidth=2;
+                checkBtn.layer.borderColor=[UIColor redColor].CGColor   ;
+                checkBtn.tag=1001;*/
+                UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
+                checkBoxImg.layer.masksToBounds=YES;
+                checkBoxImg.image=[UIImage imageNamed:@"checkbox.png"];
+                checkBoxImg.tag=1001;
+                [cell.contentView addSubview:checkBoxImg];
+                
+                [selectedImagesIndex addObject:[NSNumber numberWithInteger:[indexPath row]]];
+            }
+            else
+            {
+                UIImageView *checkBox=(UIImageView *)[cell viewWithTag:1001];
+                [checkBox removeFromSuperview];
+                [selectedImagesIndex removeObject:[NSNumber numberWithInteger:[indexPath row]]];
+            }
+        }
+        else  //view Image
+        {
+            
+        }
+        cell.selected=!cell.selected;
     }
 }
+
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [imgArray count];
