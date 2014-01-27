@@ -98,8 +98,6 @@
     [tbc.view addSubview:topView];
     
     
-     
-    
     self.window.rootViewController = tbc ;
     
     [self.window makeKeyAndVisible];

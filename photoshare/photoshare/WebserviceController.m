@@ -20,11 +20,9 @@
 {
     
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://localserver/api/index.php/%@/%@",controller,method ]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.10.200:8080/api/index.php/%@/%@",controller,method ]];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];    
     
     NSString *postString = postData ; //@"username=user&password=user";
     NSData *requestData = [postString dataUsingEncoding:NSUTF8StringEncoding];

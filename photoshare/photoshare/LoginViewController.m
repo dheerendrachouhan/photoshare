@@ -53,9 +53,14 @@
     
     NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];
-    
-    [self dismissViewControllerAnimated:YES completion:nil] ;
-    if([nameTextField.text length] > 0)
+    if(nameTextField.text.length==0||passwordTextField.text.length==0)
+    {
+        
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter UserName and Password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    //[self dismissViewControllerAnimated:YES completion:nil] ;
+    else if([nameTextField.text length] > 0 || [passwordTextField.text length] > 0)
     {
         WebserviceController *wc = [[WebserviceController alloc] init] ;
         wc.delegate = self;
@@ -67,9 +72,23 @@
 
 -(void) webserviceCallback:(NSString *)data
 {
-    NSLog(@"login callback");
-   [self dismissViewControllerAnimated:YES completion:nil] ;
-
+    NSLog(@"login callback%@",data);
+    
+    NSDictionary *JSON =
+    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]
+                                    options: NSJSONReadingMutableContainers
+                                      error: Nil];
+     NSLog(@"login callback%@",JSON);
+    if([[JSON objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
+        {
+            [self dismissViewControllerAnimated:YES completion:nil] ;
+            NSLog(@"Successful Login");
+        }
+    else
+    {
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[JSON objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
 
 

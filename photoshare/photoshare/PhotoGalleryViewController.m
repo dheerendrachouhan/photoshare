@@ -58,6 +58,7 @@
     [super viewWillAppear:animated];
     [self setDataForCollectionView];
     [collectionview reloadData];
+    frameForShareBtn=sharePhotoBtn.frame;
 }
 -(void)setDataForCollectionView
 {
@@ -190,12 +191,22 @@
         ContentManager *manager=[ContentManager sharedManager];
         NSMutableArray *base64images=[[NSMutableArray alloc] init];
         NSMutableDictionary *dic=[[manager getData:@"dictionaryOfYourImgArray"]   mutableCopy];
-        base64images=[[dic objectForKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]] mutableCopy];
-        for (int i=0; i<selectedImagesIndex.count; i++) {
+        base64images=[dic objectForKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
+      
+        //sort the index array in descending order
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        NSArray *sortedArray;
+        sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
+        NSLog(@"sortedArray%@",sortedArray);
+        
+        
+        for (int i=0; i<sortedArray.count; i++) {
             
-            [base64images removeObjectAtIndex:[[selectedImagesIndex objectAtIndex:i] integerValue]];
+            [base64images removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
             
-            [imgArray removeObjectAtIndex:[[selectedImagesIndex objectAtIndex:i] integerValue]];
+            [imgArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
 
         }
         [dic setObject:base64images forKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
@@ -240,10 +251,8 @@
     addPhotoBtn.hidden=NO;
     deletePhotoBtn.hidden=NO;
     sharePhotoBtn.hidden=NO;
-    addPhotoBtn.frame=CGRectMake(5, 417, 100, 30);
-    deletePhotoBtn.frame=CGRectMake(110, 417, 100, 30);
-    sharePhotoBtn.frame=CGRectMake(215, 417, 100, 30);
     
+    sharePhotoBtn.frame=frameForShareBtn;
     isShareMode=NO;
     isDeleteMode=NO;
     
