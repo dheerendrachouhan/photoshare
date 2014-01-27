@@ -30,11 +30,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self.navigationItem setTitle:@"My Referrals"];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 8;
+    return 10;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

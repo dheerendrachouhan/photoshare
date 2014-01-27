@@ -10,6 +10,7 @@
 #import "PastPayementViewController.h"
 #import "MyReferralViewController.h"
 #import "FinanceCalculatorViewController.h"
+#import "ReferFriendViewController.h"
 
 @interface EarningViewController ()
 
@@ -31,6 +32,9 @@
     [super viewDidLoad];
     
      [self.navigationItem setTitle:@"Finance"];
+    //Navigation Back Title
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
 }
 
 
@@ -51,6 +55,10 @@
 }
 
 - (IBAction)inviteMoreFriendsBtn:(id)sender {
+    ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
+    
+    [self.navigationController pushViewController:referFriend animated:YES];
+    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
 }
 
 - (IBAction)yourReferrelBtn:(id)sender {

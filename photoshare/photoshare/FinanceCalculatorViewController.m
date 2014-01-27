@@ -76,6 +76,10 @@
     if(first >=0)
     {
         first++;
+        if(first >= 100)
+        {
+            first = 99;
+        }
         firstGem.text = [NSString stringWithFormat:@"%d",first];
         [self calculateUserGem];
     }
@@ -105,6 +109,10 @@
     if(second >=0)
     {
         second++;
+        if(second >= 100)
+        {
+            second = 99;
+        }
         secondGem.text = [NSString stringWithFormat:@"%d",second];
         [self calculateUserGem];
     }
@@ -133,6 +141,10 @@
     if(third >=0)
     {
         third++;
+        if(third >= 100)
+        {
+            third = 99;
+        }
         thirdGem.text = [NSString stringWithFormat:@"%d",third];
         [self calculateUserGem];
     }
