@@ -13,4 +13,10 @@
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UIImageView *settingBackgroundImage;
 }
+
+-(IBAction)editProfile:(id)sender;
+-(IBAction)userSecurity:(id)sender;
+-(IBAction)referFriend:(id)sender ;
+-(IBAction)logout:(id)sender ;
+-(IBAction)termCondition:(id)sender;
 @end

@@ -7,6 +7,11 @@
 //
 
 #import "AccountViewController.h"
+#import "EditProfileViewController.h"
+#import "UserSecurityViewController.h"
+#import "TermConditionViewController.h"
+#import "ReferFriendViewController.h"
+#import "LoginViewController.h"
 
 @interface AccountViewController ()
 
@@ -27,6 +32,60 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+}
+
+-(IBAction)editProfile:(id)sender
+{
+    self.navigationController.navigationBarHidden = NO;
+
+    EditProfileViewController *ep = [[EditProfileViewController alloc] init] ;
+    
+    [self.navigationController pushViewController:ep animated:YES] ;
+    ep.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+}
+-(IBAction)userSecurity:(id)sender
+{
+    self.navigationController.navigationBarHidden = NO;
+
+    UserSecurityViewController *us = [[UserSecurityViewController alloc] init] ;
+    
+    [self.navigationController pushViewController:us animated:YES] ;
+    us.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+
+}
+-(IBAction)referFriend:(id)sender
+{
+    self.navigationController.navigationBarHidden = NO;
+
+    ReferFriendViewController *rf = [[ReferFriendViewController alloc] init] ;
+    
+    [self.navigationController pushViewController:rf animated:YES] ;
+rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    
+}
+-(IBAction)logout:(id)sender
+{
+    LoginViewController *login = [[LoginViewController alloc] init] ;
+    
+    [self.navigationController presentViewController:login animated:NO completion:nil] ;
+
+
+}
+-(IBAction)termCondition:(id)sender
+{
+    self.navigationController.navigationBarHidden = NO;
+
+    TermConditionViewController *tc = [[TermConditionViewController alloc] init] ;
+    
+    [self.navigationController pushViewController:tc animated:YES] ;
+tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+}
+
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = YES;
+
 }
 
 - (void)didReceiveMemoryWarning
