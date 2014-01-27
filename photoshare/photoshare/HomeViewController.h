@@ -19,7 +19,7 @@
     IBOutlet UIButton *totalEarningBtn;
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UILabel *welcomeName;
-    IBOutlet UILabel *communityCountLbl;
+    IBOutlet UILabel *photoCountLbl;
     
     UINavigationController *navController;
     

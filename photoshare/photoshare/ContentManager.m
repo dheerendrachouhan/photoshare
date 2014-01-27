@@ -29,7 +29,7 @@ static ContentManager *objContantManager = nil;
         [defaultData setObject:storeObj forKey:storeKey];
         
         [defaultData synchronize];
-        NSLog(@"school info %@",[defaultData objectForKey:storeKey]);
+       
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception.description);
