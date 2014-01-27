@@ -301,10 +301,7 @@
         {
             if(cell.selected==NO)
             {
-                /*UIButton *checkBtn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 15, 15)];
-                checkBtn.layer.borderWidth=2;
-                checkBtn.layer.borderColor=[UIColor redColor].CGColor   ;
-                checkBtn.tag=1001;*/
+                
                 UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
                 checkBoxImg.layer.masksToBounds=YES;
                 checkBoxImg.image=[UIImage imageNamed:@"checkbox.png"];
