@@ -11,6 +11,7 @@
 #import "CollectionViewCell.h"
 #import "HomeViewController.h"
 #import "AddEditFolderViewController.h"
+#import "PhotoGalleryViewController.h"
 @interface CommunityViewController ()
 
 @end
@@ -52,18 +53,7 @@
     longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
     
-    //set up the diskspace progress
-    NSInteger spacePerCentage=50;
-    NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%li%@)",(long)spacePerCentage,@"%"];
-    diskSpaceTitle.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-    diskSpaceTitle.text=diskTitle;
-    float x=diskSpaceBlueLabel.frame.origin.x;
-    float y=diskSpaceBlueLabel.frame.origin.y;
-    float height=diskSpaceBlueLabel.frame.size.height;
-    UILabel *diskSpaceLabel=[[UILabel alloc] initWithFrame:CGRectMake(x, y,2.8*spacePerCentage, height)];
-    diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
-    [diskSpaceBlueLabel removeFromSuperview];
-    [self.view addSubview:diskSpaceLabel];    
+    
      [collectionview reloadData];
        
 }
@@ -71,7 +61,12 @@
 -(void)setDataForCollectionView
 {
     ContentManager *contentManagerObj=[ContentManager sharedManager];
-    folderNameArray=[contentManagerObj getData:@"FolderArray"];
+    folderNameArray=[[NSMutableArray alloc] init];
+    if([contentManagerObj getData:@"FolderArray"]==Nil)
+    {
+        [contentManagerObj storeData:folderNameArray :@"FolderArray"];
+    }
+    folderNameArray =[contentManagerObj getData:@"FolderArray"];
     
     /*for (int i=0; i<40; i++) {
         [folderNameArray addObject:[@"BirthDay" stringByAppendingString:[NSString stringWithFormat:@"%i",i]]];
@@ -100,11 +95,26 @@
   [super viewWillAppear:animated];
     [self setDataForCollectionView];
   [collectionview reloadData];
-    
+    //set title for navigation controller
+    self.title=@"Community folders";
+    blueLabelImgFrame=diskSpaceBlueLabel.frame;
+    [self setTheDiskSpace];
 }
-
-
-
+-(void)setTheDiskSpace
+{
+    //set up the diskspace progress
+    NSInteger spacePerCentage=50;
+    NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%li%@)",(long)spacePerCentage,@"%"];
+    diskSpaceTitle.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+    diskSpaceTitle.text=diskTitle;
+    float x=blueLabelImgFrame.origin.x;
+    float y=blueLabelImgFrame.origin.y;
+    float height=blueLabelImgFrame.size.height;
+    UILabel *diskSpaceLabel=[[UILabel alloc] initWithFrame:CGRectMake(x, y,2.8*spacePerCentage, height)];
+    diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
+    [diskSpaceBlueLabel removeFromSuperview];
+    [self.view addSubview:diskSpaceLabel];
+}
 
 //collection view delegate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -132,7 +142,6 @@
         obj_Cell.icon_img.hidden=NO;
         obj_Cell.folder_name.text=[folderNameArray objectAtIndex:([indexPath row]-indexPath.row/12)];
         
-        
     }
     return obj_Cell;
 }
@@ -149,6 +158,15 @@
             [self addFolder];
             NSLog(@"Add Folder selected index is %ld",(long)[indexPath row]);
         }
+        else
+        {
+            PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+            photoGallery.isPublicFolder=NO;
+            photoGallery.selectedFolderIndex=([indexPath row]-indexPath.row/12);
+            [self.navigationController pushViewController:photoGallery animated:YES];
+            photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
+
+        }
         
     }
 }
@@ -159,8 +177,7 @@
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
-        NSLog(@"1::::%ld",([indexPath row]+1)%12);
-        NSLog(@"2::::%ld",[folderNameArray count]+noOfPagesInCollectionView);
+       
         if(([indexPath row]+1)%12!=0 && ([indexPath row]+1)!=[folderNameArray count]+noOfPagesInCollectionView)
         {
           [self editFolder:indexPath];
@@ -174,9 +191,6 @@
     AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
        aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
-   
-  
-    
     [self.navigationController pushViewController:aec1 animated:NO];
    
 }

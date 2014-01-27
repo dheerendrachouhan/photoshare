@@ -9,5 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface ReferFriendViewController : UIViewController
+{
+    IBOutlet UISegmentedControl *toolboxController;
+    IBOutlet UIWebView *webViewReferral;
+}
+
+@property (nonatomic, retain) IBOutlet UISegmentedControl *toolboxController;
+@property (nonatomic, retain) IBOutlet UIWebView *webViewReferral;
 
 @end

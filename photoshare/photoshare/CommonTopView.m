@@ -28,7 +28,7 @@ static CommonTopView *topView=nil;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.frame=CGRectMake(0, 0, 320, 50 );
+        self.frame=CGRectMake(0, 20, 320, 50 );
         self.backgroundColor=[UIColor whiteColor];
         topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 6)];
         
@@ -38,7 +38,7 @@ static CommonTopView *topView=nil;
         logoImg.image=[UIImage imageNamed:@"123-mobile-logo.png"];
         
         
-        totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(220,10, 100, 45)];
+        totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(220,20, 100, 50)];
         //totalEarningView.backgroundColor=[UIColor grayColor];
         totalEarningView.layer.cornerRadius=10;
         
@@ -59,7 +59,6 @@ static CommonTopView *topView=nil;
         
         UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToEarningViewController)];
         [totalEarningView addGestureRecognizer:tapGesture];
-        
     }
     [self addSubview:topBlueLbl];
     [self addSubview:logoImg];
@@ -77,6 +76,10 @@ static CommonTopView *topView=nil;
     
     [tb setSelectedIndex:1] ;
  }
-
+-(void)setTheTotalEarning:(NSString *)totalEarn
+{
+    totalEarning.text=totalEarn;
+    
+}
 
 @end

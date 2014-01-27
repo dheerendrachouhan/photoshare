@@ -47,7 +47,6 @@
     shareWithUserView.layer.borderColor=tfBackViewBorderColor.CGColor;
     
     
-    
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
     float btnCornerRadius=8;
@@ -113,11 +112,12 @@
     
     ContentManager *contentManagerObj=[ContentManager sharedManager];
     NSMutableArray *folderArray=[[NSMutableArray alloc] init];
-    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
-    int index = (int)[folderArray indexOfObject:folderName.text];
-    if(index!=-1)
+    //folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
+
+    
+    if([folderArray containsObject:@"folderName.text"])
     {
-        alert.message=@"Folder Already Available";
+       alert.message=@"Folder Already Available";
     }
     else
     {

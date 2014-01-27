@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */; };
 		E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */; };
-		E169DAB21893C85E00BE0B5B /* TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E169DAB01893C85E00BE0B5B /* TopViewController.m */; };
-		E169DAB31893C85E00BE0B5B /* TopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E169DAB11893C85E00BE0B5B /* TopViewController.xib */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -41,7 +39,7 @@
 		E17222AF1892470600F28748 /* add_folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222AE1892470600F28748 /* add_folder.png */; };
 		E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B11892518B00F28748 /* AddEditFolderViewController.m */; };
 		E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E17222B21892518B00F28748 /* AddEditFolderViewController.xib */; };
-		E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B6189280FE00F28748 /* JXBarChartView.m */; };
+		E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B6189280FE00F28748 /* JXBarChartView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		E17222BB1892817800F28748 /* EarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B91892817800F28748 /* EarningViewController.m */; };
 		E17222BC1892817800F28748 /* EarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E17222BA1892817800F28748 /* EarningViewController.xib */; };
 		E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222C31892819A00F28748 /* PastPayementViewController.m */; };
@@ -55,6 +53,10 @@
 		E17222DE18928DE700F28748 /* arrows_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DB18928DE700F28748 /* arrows_blue.png */; };
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
+		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
+		E18648D41896596200175E8D /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = E18648D31896596200175E8D /* checkbox.png */; };
+		E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
+		E18648DA18969A1E00175E8D /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18648D918969A1E00175E8D /* AssetsLibrary.framework */; };
 		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
 		E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188D961893829C004ACF77 /* MyReferralViewController.xib */; };
 		E3188D9C18938888004ACF77 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D9A18938888004ACF77 /* CustomCell.m */; };
@@ -63,6 +65,13 @@
 		E3188DA21893968A004ACF77 /* FinanceCalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */; };
 		E3188DA4189396C0004ACF77 /* FinanceCalculatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */; };
 		E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E3188DA91893BABF004ACF77 /* currencyselector_btn.png */; };
+		E31AA48B18962DFA0065F8E2 /* ReferralStageFourVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AA48918962DFA0065F8E2 /* ReferralStageFourVC.m */; };
+		E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */; };
+		E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AA48E189662C00065F8E2 /* EditMessageVC.m */; };
+		E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31AA48F189662C00065F8E2 /* EditMessageVC.xib */; };
+		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
+		E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */; };
+		E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4C31896AA160065F8E2 /* AddressBook.framework */; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
@@ -106,9 +115,6 @@
 		E169DAAA18939FF500BE0B5B /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoGalleryViewController.h; sourceTree = "<group>"; };
 		E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoGalleryViewController.m; sourceTree = "<group>"; };
 		E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoGalleryViewController.xib; sourceTree = "<group>"; };
-		E169DAAF1893C85E00BE0B5B /* TopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopViewController.h; sourceTree = "<group>"; };
-		E169DAB01893C85E00BE0B5B /* TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopViewController.m; sourceTree = "<group>"; };
-		E169DAB11893C85E00BE0B5B /* TopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopViewController.xib; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -162,6 +168,12 @@
 		E17222DB18928DE700F28748 /* arrows_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrows_blue.png; sourceTree = "<group>"; };
 		E17222DC18928DE700F28748 /* cancel_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_btn.png; sourceTree = "<group>"; };
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
+		E18648D01896285800175E8D /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		E18648D11896285800175E8D /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		E18648D31896596200175E8D /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
+		E18648D618969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
+		E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
+		E18648D918969A1E00175E8D /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		E3188D941893829C004ACF77 /* MyReferralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyReferralViewController.h; sourceTree = "<group>"; };
 		E3188D951893829C004ACF77 /* MyReferralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyReferralViewController.m; sourceTree = "<group>"; };
 		E3188D961893829C004ACF77 /* MyReferralViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyReferralViewController.xib; sourceTree = "<group>"; };
@@ -173,6 +185,15 @@
 		E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinanceCalculatorViewController.m; sourceTree = "<group>"; };
 		E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinanceCalculatorViewController.xib; sourceTree = "<group>"; };
 		E3188DA91893BABF004ACF77 /* currencyselector_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = currencyselector_btn.png; sourceTree = "<group>"; };
+		E31AA48818962DFA0065F8E2 /* ReferralStageFourVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferralStageFourVC.h; sourceTree = "<group>"; };
+		E31AA48918962DFA0065F8E2 /* ReferralStageFourVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferralStageFourVC.m; sourceTree = "<group>"; };
+		E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferralStageFourVC.xib; sourceTree = "<group>"; };
+		E31AA48D189662C00065F8E2 /* EditMessageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMessageVC.h; sourceTree = "<group>"; };
+		E31AA48E189662C00065F8E2 /* EditMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMessageVC.m; sourceTree = "<group>"; };
+		E31AA48F189662C00065F8E2 /* EditMessageVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMessageVC.xib; sourceTree = "<group>"; };
+		E31AA49218969D730065F8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		E31AA4C31896AA160065F8E2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		FC97638C188FEB89008DF1F8 /* photoshare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoshare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC97638F188FEB89008DF1F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC976391188FEB89008DF1F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -217,6 +238,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */,
+				E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */,
+				E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */,
 				FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */,
 				FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */,
 				FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */,
@@ -236,6 +260,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E18648CF1896285800175E8D /* base64 */ = {
+			isa = PBXGroup;
+			children = (
+				E18648D01896285800175E8D /* Base64.h */,
+				E18648D11896285800175E8D /* Base64.m */,
+			);
+			path = base64;
+			sourceTree = "<group>";
+		};
+		E18648D5189699B100175E8D /* AssetsLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				E18648D618969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.h */,
+				E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */,
+			);
+			name = AssetsLibrary;
+			sourceTree = "<group>";
+		};
 		E388F2421892546E005BB5E5 /* Barchart */ = {
 			isa = PBXGroup;
 			children = (
@@ -267,6 +309,9 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E31AA4C31896AA160065F8E2 /* AddressBook.framework */,
+				E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */,
+				E31AA49218969D730065F8E2 /* MessageUI.framework */,
 				FC97638F188FEB89008DF1F8 /* Foundation.framework */,
 				FC976391188FEB89008DF1F8 /* CoreGraphics.framework */,
 				FC976393188FEB89008DF1F8 /* UIKit.framework */,
@@ -278,6 +323,8 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
+				E18648D5189699B100175E8D /* AssetsLibrary */,
+				E18648CF1896285800175E8D /* base64 */,
 				FCB0B76D18945BC2001722B3 /* webservice */,
 				E388F2421892546E005BB5E5 /* Barchart */,
 				FC97640D1890050C008DF1F8 /* Layouts */,
@@ -303,6 +350,12 @@
 				E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */,
 				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
 				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
+				E31AA48818962DFA0065F8E2 /* ReferralStageFourVC.h */,
+				E31AA48918962DFA0065F8E2 /* ReferralStageFourVC.m */,
+				E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */,
+				E31AA48D189662C00065F8E2 /* EditMessageVC.h */,
+				E31AA48E189662C00065F8E2 /* EditMessageVC.m */,
+				E31AA48F189662C00065F8E2 /* EditMessageVC.xib */,
 				E17222B81892817800F28748 /* EarningViewController.h */,
 				E17222B91892817800F28748 /* EarningViewController.m */,
 				E3188D941893829C004ACF77 /* MyReferralViewController.h */,
@@ -311,7 +364,6 @@
 				E3188D9A18938888004ACF77 /* CustomCell.m */,
 				E3188DA01893968A004ACF77 /* FinanceCalculatorViewController.h */,
 				E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */,
-				E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */,
 				E17222C21892819A00F28748 /* PastPayementViewController.h */,
 				E17222C31892819A00F28748 /* PastPayementViewController.m */,
 				FC97640818900505008DF1F8 /* AccountViewController.h */,
@@ -322,9 +374,6 @@
 				E3188D951893829C004ACF77 /* MyReferralViewController.m */,
 				E3188D9918938888004ACF77 /* CustomCell.h */,
 				E3188D9A18938888004ACF77 /* CustomCell.m */,
-				E169DAAF1893C85E00BE0B5B /* TopViewController.h */,
-				E169DAB01893C85E00BE0B5B /* TopViewController.m */,
-				E169DAB11893C85E00BE0B5B /* TopViewController.xib */,
 			);
 			path = photoshare;
 			sourceTree = "<group>";
@@ -416,7 +465,9 @@
 				E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */,
 				E17222BA1892817800F28748 /* EarningViewController.xib */,
 				E17222C41892819A00F28748 /* PastPayementViewController.xib */,
+				E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */,
 				E3188D961893829C004ACF77 /* MyReferralViewController.xib */,
+				E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */,
 				E3188D9B18938888004ACF77 /* CustomCell.xib */,
 				E17222C9189281B000F28748 /* ResetPasswordController.xib */,
 				E17222D8189285A100F28748 /* LoginViewController.xib */,
@@ -532,7 +583,6 @@
 				E16F390318912C9C00064806 /* community-icon.png in Resources */,
 				E16F3918189131C600064806 /* wall.jpg in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
-				E169DAB31893C85E00BE0B5B /* TopViewController.xib in Resources */,
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
@@ -544,6 +594,7 @@
 				FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */,
 				E16F390718912C9C00064806 /* folder-icon-bottomX30.png in Resources */,
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
+				E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */,
 				E17222DF18928DE700F28748 /* cancel_btn.png in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
 				E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */,
@@ -552,6 +603,7 @@
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
+				E18648D41896596200175E8D /* checkbox.png in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E17222CB189281B000F28748 /* ResetPasswordController.xib in Resources */,
@@ -560,6 +612,7 @@
 				E17222DA189285A100F28748 /* LoginViewController.xib in Resources */,
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
 				E17222BC1892817800F28748 /* EarningViewController.xib in Resources */,
+				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
 			);
@@ -580,7 +633,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E169DAB21893C85E00BE0B5B /* TopViewController.m in Sources */,
 				E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */,
 				E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */,
 				E17222D0189281F600F28748 /* ContentManager.m in Sources */,
@@ -591,11 +643,15 @@
 				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
 				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
 				E3188D9C18938888004ACF77 /* CustomCell.m in Sources */,
+				E18648D21896285800175E8D /* Base64.m in Sources */,
+				E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */,
 				E17222D9189285A100F28748 /* LoginViewController.m in Sources */,
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
+				E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */,
 				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,
+				E31AA48B18962DFA0065F8E2 /* ReferralStageFourVC.m in Sources */,
 				FCB0B77518945C0F001722B3 /* WebserviceController.m in Sources */,
 				E17222CA189281B000F28748 /* ResetPasswordController.m in Sources */,
 				E17222BB1892817800F28748 /* EarningViewController.m in Sources */,

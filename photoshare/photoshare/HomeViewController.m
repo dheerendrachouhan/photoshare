@@ -7,6 +7,7 @@
 //
 
 #import "HomeViewController.h"
+#import "ContentManager.h"
 #import "AppDelegate.h"
 #import "CommunityViewController.h"
 #import "PhotoGalleryViewController.h"
@@ -38,11 +39,12 @@
     LoginViewController *loginv = [[LoginViewController alloc] init] ;
     [self.navigationController presentViewController:loginv animated:NO completion:nil];
     
+    
     //rounded the Community Count Label
-    communityCountLbl.layer.cornerRadius=12;
-    communityCountLbl.layer.borderWidth=2;
-    communityCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
-  
+    photoCountLbl.layer.cornerRadius=12;
+    photoCountLbl.layer.borderWidth=2;
+    photoCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
+    
     
     [self setContent];
     
@@ -53,8 +55,18 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
-    
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 50);
+    ContentManager *manager=[ContentManager sharedManager];
+    NSArray *publicImgArray=[manager getData:@"publicImgArray"];
+    if([publicImgArray count]==0)
+    {
+        photoCountLbl.hidden=YES;
+    }
+    else
+    {
+        photoCountLbl.hidden=NO;
+        photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)[publicImgArray count]];        
+    }
 }
 -(void)setContent
 {
@@ -86,7 +98,7 @@
 -(IBAction)goToPublicFolder:(id)sender
 {
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
-   
+    photoGallery.isPublicFolder=YES;
     [self.navigationController pushViewController:photoGallery animated:YES];
      photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
     
@@ -112,7 +124,8 @@
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    //UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
 }
 - (void)didReceiveMemoryWarning
 {

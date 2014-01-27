@@ -20,6 +20,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
+    //check is Application is First Launch
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+    {
+        NSLog(@"// app already launched");
+    }
+    else
+    {
+        NSLog(@"// First time launched");
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds] ] ;
   
@@ -94,11 +107,9 @@
     tbc.viewControllers = [[NSArray alloc] initWithObjects:navControllerhome, navControllerearning,navControllerphoto, navControllercommunity, navControlleraccount, nil];
     
     
-    topView.frame = CGRectMake(0, 5, 320, 30) ;
+    topView.frame = CGRectMake(0, 20, 320, 50) ;
     [tbc.view addSubview:topView];
     
-    
-     
     
     self.window.rootViewController = tbc ;
     
@@ -108,7 +119,7 @@
     // Override point for customization after application launch.
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
