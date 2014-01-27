@@ -86,6 +86,10 @@
 		FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97641518900B00008DF1F8 /* HomeViewController.m */; };
 		FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC97641618900B00008DF1F8 /* HomeViewController.xib */; };
 		FCB0B77518945C0F001722B3 /* WebserviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB0B77418945C0F001722B3 /* WebserviceController.m */; };
+		FCC76CA51896A24500F4B41A /* backimg.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC76CA41896A24500F4B41A /* backimg.png */; };
+		FCC76CA71896A39C00F4B41A /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC76CA61896A39C00F4B41A /* line.png */; };
+		FCC76CA91896A64000F4B41A /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC76CA81896A64000F4B41A /* bg.png */; };
+		FCC76CAB1896A93C00F4B41A /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC76CAA1896A93C00F4B41A /* arrow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -202,6 +206,10 @@
 		FC97641618900B00008DF1F8 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		FCB0B77318945C0F001722B3 /* WebserviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceController.h; sourceTree = "<group>"; };
 		FCB0B77418945C0F001722B3 /* WebserviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceController.m; sourceTree = "<group>"; };
+		FCC76CA41896A24500F4B41A /* backimg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backimg.png; sourceTree = "<group>"; };
+		FCC76CA61896A39C00F4B41A /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line.png; sourceTree = "<group>"; };
+		FCC76CA81896A64000F4B41A /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		FCC76CAA1896A93C00F4B41A /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,6 +364,10 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				FCC76CAA1896A93C00F4B41A /* arrow.png */,
+				FCC76CA81896A64000F4B41A /* bg.png */,
+				FCC76CA61896A39C00F4B41A /* line.png */,
+				FCC76CA41896A24500F4B41A /* backimg.png */,
 				E3188DA91893BABF004ACF77 /* currencyselector_btn.png */,
 				E3188D9E18939171004ACF77 /* cellImage.png */,
 				E17222DB18928DE700F28748 /* arrows_blue.png */,
@@ -507,6 +519,7 @@
 				E16F390D18912C9C00064806 /* previous.png in Resources */,
 				E16F391218912C9C00064806 /* share-to-folder.png in Resources */,
 				E16F390A18912C9C00064806 /* icon-takephotoX30.png in Resources */,
+				FCC76CA91896A64000F4B41A /* bg.png in Resources */,
 				E17222CD189281C000F28748 /* login2_new.png in Resources */,
 				E16F391418912C9C00064806 /* shared-icon.png in Resources */,
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
@@ -526,6 +539,8 @@
 				E16F3916189130A800064806 /* folder-icon.png in Resources */,
 				E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */,
 				FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */,
+				FCC76CAB1896A93C00F4B41A /* arrow.png in Resources */,
+				FCC76CA71896A39C00F4B41A /* line.png in Resources */,
 				FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */,
 				E16F390718912C9C00064806 /* folder-icon-bottomX30.png in Resources */,
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
@@ -534,6 +549,7 @@
 				E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
+				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
