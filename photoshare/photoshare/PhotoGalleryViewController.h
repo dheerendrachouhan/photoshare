@@ -18,7 +18,7 @@
     BOOL isDeleteMode;
     BOOL isShareMode;
     NSMutableArray *selectedImagesIndex;
-    
+    NSString *refrenceUrlofImg;
     CGRect frameForShareBtn;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;

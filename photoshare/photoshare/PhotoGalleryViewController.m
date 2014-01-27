@@ -10,6 +10,7 @@
 #import "ContentManager.h"
 #import "Base64.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "WebserviceController.h"
 @interface PhotoGalleryViewController ()
 
 @end
@@ -156,18 +157,32 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     
-    NSLog(@"Info is %@ ",info);
+   
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-    
-    [self.library saveImage:image toAlbum:@"Touch Code Magazine" withCompletionBlock:^(NSError *error) {
-        if (error!=nil) {
-            NSLog(@"Big error: %@", [error description]);
-        }
-    }];
+    refrenceUrlofImg=[info objectForKey:UIImagePickerControllerReferenceURL];
+     NSLog(@"Refrence  is %@ ",refrenceUrlofImg);
+    if(isPublicFolder)
+    {
+        [self.library saveImage:image toAlbum:@"Public Folder" withCompletionBlock:^(NSError *error) {
+            if (error!=nil) {
+                NSLog(@"Big error: %@", [error description]);
+            }
+        }];
 
+    }
+    else
+    {
+        [self.library saveImage:image toAlbum:@"Private Folder" withCompletionBlock:^(NSError *error) {
+            if (error!=nil) {
+                NSLog(@"Big error: %@", [error description]);
+            }
+        }];
+
+    }
+    
     
     NSData *imgData=UIImagePNGRepresentation(image);
     [Base64 initialize];
@@ -191,6 +206,7 @@
     [imgArray addObject:image];
     [collectionview reloadData];
 }
+//-(void)saveImage
 -(IBAction)deletePhoto:(id)sender
 {
     UIButton *btn=(UIButton *)sender;

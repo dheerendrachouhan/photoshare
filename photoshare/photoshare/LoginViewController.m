@@ -52,8 +52,8 @@
 - (IBAction)userSignInBtn:(id)sender {
     
     //Without Validation
-    [self dismissViewControllerAnimated:YES completion:nil] ;
-    /*NSString *username = [nameTextField text];
+    //[self dismissViewControllerAnimated:YES completion:nil] ;
+    NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];
     if(nameTextField.text.length==0||passwordTextField.text.length==0)
     {
@@ -68,7 +68,7 @@
         wc.delegate = self;
         NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
         [wc call:postStr controller:@"authentication" method:@"login"] ;
-    }*/
+    }
    
 }
 
