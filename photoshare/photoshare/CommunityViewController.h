@@ -18,7 +18,7 @@
     CollectionViewCell *obj_Cell;
     NSMutableArray *folderNameArray;
     int noOfPagesInCollectionView;
-
+    CGRect blueLabelImgFrame;
 }
--(IBAction)backToView:(id)sender;
+
 @end

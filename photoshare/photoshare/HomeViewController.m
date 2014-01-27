@@ -55,7 +55,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 50);
     ContentManager *manager=[ContentManager sharedManager];
     NSArray *publicImgArray=[manager getData:@"publicImgArray"];
     if([publicImgArray count]==0)

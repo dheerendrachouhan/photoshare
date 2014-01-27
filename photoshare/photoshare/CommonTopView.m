@@ -59,7 +59,6 @@ static CommonTopView *topView=nil;
         
         UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToEarningViewController)];
         [totalEarningView addGestureRecognizer:tapGesture];
-        
     }
     [self addSubview:topBlueLbl];
     [self addSubview:logoImg];
@@ -77,6 +76,10 @@ static CommonTopView *topView=nil;
     
     [tb setSelectedIndex:1] ;
  }
-
+-(void)setTheTotalEarning:(NSString *)totalEarn
+{
+    totalEarning.text=totalEarn;
+    
+}
 
 @end

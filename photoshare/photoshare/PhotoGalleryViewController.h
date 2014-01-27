@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <AssetsLibrary/AssetsLibrary.h>
 @interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
 {
     IBOutlet UIButton *addPhotoBtn;
@@ -18,11 +18,12 @@
     BOOL isDeleteMode;
     BOOL isShareMode;
     NSMutableArray *selectedImagesIndex;
-    
+    NSString *refrenceUrlofImg;
     CGRect frameForShareBtn;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;
+@property(nonatomic,retain)ALAssetsLibrary *library;
 -(IBAction)addPhoto:(id)sender;
 -(IBAction)deletePhoto:(id)sender;
 -(IBAction)sharePhoto:(id)sender;

@@ -112,11 +112,12 @@
     
     ContentManager *contentManagerObj=[ContentManager sharedManager];
     NSMutableArray *folderArray=[[NSMutableArray alloc] init];
-    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
-    int index = (int)[folderArray indexOfObject:folderName.text];
-    if(index!=-1)
+    //folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
+
+    
+    if([folderArray containsObject:@"folderName.text"])
     {
-        alert.message=@"Folder Already Available";
+       alert.message=@"Folder Already Available";
     }
     else
     {

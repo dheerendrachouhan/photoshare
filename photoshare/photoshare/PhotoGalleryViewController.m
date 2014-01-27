@@ -9,12 +9,15 @@
 #import "PhotoGalleryViewController.h"
 #import "ContentManager.h"
 #import "Base64.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "WebserviceController.h"
 @interface PhotoGalleryViewController ()
 
 @end
 
 @implementation PhotoGalleryViewController
 @synthesize isPublicFolder,selectedFolderIndex;
+@synthesize library;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,7 +32,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     selectedImagesIndex=[[NSMutableArray alloc] init];
-    
+    //initialize the assets Library
+    library=[[ALAssetsLibrary alloc] init];
     
     //set the design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
@@ -152,8 +156,34 @@
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    
+   
+    
     [self dismissViewControllerAnimated:YES completion:nil];
+    
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
+    refrenceUrlofImg=[info objectForKey:UIImagePickerControllerReferenceURL];
+     NSLog(@"Refrence  is %@ ",refrenceUrlofImg);
+    if(isPublicFolder)
+    {
+        [self.library saveImage:image toAlbum:@"Public Folder" withCompletionBlock:^(NSError *error) {
+            if (error!=nil) {
+                NSLog(@"Big error: %@", [error description]);
+            }
+        }];
+
+    }
+    else
+    {
+        [self.library saveImage:image toAlbum:@"Private Folder" withCompletionBlock:^(NSError *error) {
+            if (error!=nil) {
+                NSLog(@"Big error: %@", [error description]);
+            }
+        }];
+
+    }
+    
+    
     NSData *imgData=UIImagePNGRepresentation(image);
     [Base64 initialize];
     NSString *base64string=[Base64 encode:imgData];
@@ -176,6 +206,7 @@
     [imgArray addObject:image];
     [collectionview reloadData];
 }
+//-(void)saveImage
 -(IBAction)deletePhoto:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
@@ -189,28 +220,44 @@
     else
     {
         ContentManager *manager=[ContentManager sharedManager];
-        NSMutableArray *base64images=[[NSMutableArray alloc] init];
-        NSMutableDictionary *dic=[[manager getData:@"dictionaryOfYourImgArray"]   mutableCopy];
-        base64images=[dic objectForKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
-      
+         NSMutableArray *base64images=[[NSMutableArray alloc] init];
         //sort the index array in descending order
         NSSortDescriptor *sortDescriptor;
         sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
         NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
         NSArray *sortedArray;
         sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
-        NSLog(@"sortedArray%@",sortedArray);
-        
-        
-        for (int i=0; i<sortedArray.count; i++) {
+        if(isPublicFolder)
+        {
+            base64images=[[manager getData:@"publicImgArray"] mutableCopy];
             
-            [base64images removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-            
-            [imgArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-
+            for (int i=0; i<sortedArray.count; i++) {
+                
+                [base64images removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                
+                [imgArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                
+            }
+            [manager storeData:base64images :@"publicImgArray"];
         }
-        [dic setObject:base64images forKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
-        [manager storeData:dic :@"dictionaryOfYourImgArray"];
+        else
+        {
+            
+            NSMutableDictionary *dic=[[manager getData:@"dictionaryOfYourImgArray"]   mutableCopy];
+            base64images=[[dic objectForKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]] mutableCopy];
+            
+            for (int i=0; i<sortedArray.count; i++) {
+                
+                [base64images removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                
+                [imgArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                
+            }
+            [dic setObject:base64images forKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
+            [manager storeData:dic :@"dictionaryOfYourImgArray"];
+
+            
+        }
         
         [collectionview reloadData];
         NSLog(@"Successfull delete");
@@ -270,10 +317,7 @@
         {
             if(cell.selected==NO)
             {
-                /*UIButton *checkBtn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 15, 15)];
-                checkBtn.layer.borderWidth=2;
-                checkBtn.layer.borderColor=[UIColor redColor].CGColor   ;
-                checkBtn.tag=1001;*/
+                
                 UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
                 checkBoxImg.layer.masksToBounds=YES;
                 checkBoxImg.image=[UIImage imageNamed:@"checkbox.png"];
