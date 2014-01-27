@@ -14,7 +14,7 @@
 @end
 
 @implementation PhotoGalleryViewController
-
+@synthesize isPublicFolder,selectedFolderIndex;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,8 +29,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    //set title
-    self.title=@"Public Folder";
+    
     
     //set the design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
@@ -53,24 +52,59 @@
     
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
-    [self setDataForCollectionView];
 }
 -(void)setDataForCollectionView
 {
     ContentManager *contentManagerObj=[ContentManager sharedManager];
     [Base64 initialize];
     imgArray = [[NSMutableArray alloc] init];
-    if([contentManagerObj getData:@"publicImgArray"]==nil)
+    NSArray *base64images=[[NSArray alloc] init];
+    NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
+    if(self.isPublicFolder==YES)
     {
-        [contentManagerObj storeData:imgArray :@"publicImgArray"];
+        //set title
+        self.title=@"Public Folder";
+        if([contentManagerObj getData:@"publicImgArray"]==nil)
+        {
+            [contentManagerObj storeData:imgArray :@"publicImgArray"];
+        }
+        base64images =[contentManagerObj getData:@"publicImgArray"];
+
     }
-    NSArray *base64images =[contentManagerObj getData:@"publicImgArray"];
-    for (int i=0; i<[base64images count]; i++) {
+    else
+    {
+        //set Folder Name in Right Side of navigation bar
+        NSString *folderName=[[contentManagerObj getData:@"FolderArray"] objectAtIndex:self.selectedFolderIndex];
+        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithTitle:folderName  style:UIBarButtonItemStylePlain target:self action:nil];
+        foldernameButton.tintColor=[UIColor blackColor];
+        self.navigationItem.rightBarButtonItem = foldernameButton;
+        
+        if([contentManagerObj getData:@"dictionaryOfYourImgArray"]==nil)
+        {
+            [contentManagerObj storeData:dic :@"dictionaryOfYourImgArray"];
+        }
+        dic=[[contentManagerObj getData:@"dictionaryOfYourImgArray"] mutableCopy];
+        if([[contentManagerObj getData:@"dictionaryOfYourImgArray"] objectForKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]]==nil)
+        {
+            
+            [dic setObject:imgArray forKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
+            [contentManagerObj storeData:dic :@"dictionaryOfYourImgArray"];
+        }
+        
+        base64images =[[contentManagerObj getData:@"dictionaryOfYourImgArray"] objectForKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
+    }
+        for (int i=0; i<[base64images count]; i++) {
         NSString *base64string=[base64images objectAtIndex:i];
         NSData *imgData=[Base64 decode:base64string];
         UIImage *img=[UIImage imageWithData:imgData];
         [imgArray addObject:img];
     }
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setDataForCollectionView];
+    [collectionview reloadData];
 }
 -(IBAction)addPhoto:(id)sender
 {
@@ -123,10 +157,21 @@
     NSString *base64string=[Base64 encode:imgData];
     ContentManager *manager=[ContentManager sharedManager];
     NSMutableArray *base64images=[[NSMutableArray alloc] init];
-    base64images=[[manager getData:@"publicImgArray"] mutableCopy];
-    [base64images addObject:base64string];
-    [manager storeData:base64images :@"publicImgArray"];
-    
+    if(isPublicFolder)
+    {
+        base64images=[[manager getData:@"publicImgArray"]   mutableCopy];
+        [base64images addObject:base64string];
+        [manager storeData:base64images :@"publicImgArray"];
+    }
+    else
+    {
+        NSMutableDictionary *dic=[[manager getData:@"dictionaryOfYourImgArray"]   mutableCopy];
+        base64images=[[dic objectForKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]] mutableCopy];
+        [base64images addObject:base64string];
+        [dic setObject:base64images forKey:[NSString stringWithFormat:@"Folder_%d",selectedFolderIndex]];
+        [manager storeData:dic :@"dictionaryOfYourImgArray"];
+
+    }
     [imgArray addObject:image];
     [collectionview reloadData];
 }

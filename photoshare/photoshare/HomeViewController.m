@@ -98,7 +98,7 @@
 -(IBAction)goToPublicFolder:(id)sender
 {
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
-   
+    photoGallery.isPublicFolder=YES;
     [self.navigationController pushViewController:photoGallery animated:YES];
      photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
     

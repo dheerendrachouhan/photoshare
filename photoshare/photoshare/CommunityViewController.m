@@ -11,6 +11,7 @@
 #import "CollectionViewCell.h"
 #import "HomeViewController.h"
 #import "AddEditFolderViewController.h"
+#import "PhotoGalleryViewController.h"
 @interface CommunityViewController ()
 
 @end
@@ -153,6 +154,15 @@
         {
             [self addFolder];
             NSLog(@"Add Folder selected index is %ld",(long)[indexPath row]);
+        }
+        else
+        {
+            PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+            photoGallery.isPublicFolder=NO;
+            photoGallery.selectedFolderIndex=([indexPath row]-indexPath.row/12);
+            [self.navigationController pushViewController:photoGallery animated:YES];
+            photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
+
         }
         
     }
