@@ -51,7 +51,9 @@
 //user sign in function
 - (IBAction)userSignInBtn:(id)sender {
     
-    NSString *username = [nameTextField text];
+    //Without Validation
+    [self dismissViewControllerAnimated:YES completion:nil] ;
+    /*NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];
     if(nameTextField.text.length==0||passwordTextField.text.length==0)
     {
@@ -59,14 +61,14 @@
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter UserName and Password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     }
-    //[self dismissViewControllerAnimated:YES completion:nil] ;
+    
     else if([nameTextField.text length] > 0 || [passwordTextField.text length] > 0)
     {
         WebserviceController *wc = [[WebserviceController alloc] init] ;
         wc.delegate = self;
         NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
         [wc call:postStr controller:@"authentication" method:@"login"] ;
-    }
+    }*/
    
 }
 
@@ -81,6 +83,8 @@
      NSLog(@"login callback%@",JSON);
     if([[JSON objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
         {
+            CommonTopView *topView=[CommonTopView sharedTopView];
+            [topView setTheTotalEarning:@"19"];
             [self dismissViewControllerAnimated:YES completion:nil] ;
             NSLog(@"Successful Login");
         }
