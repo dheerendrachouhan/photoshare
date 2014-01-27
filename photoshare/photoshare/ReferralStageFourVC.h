@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <AddressBookUI/AddressBookUI.h>
 
-@interface ReferralStageFourVC : UIViewController
+
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;
@@ -20,6 +23,7 @@
     IBOutlet UIButton *sendMessageBtn;
     IBOutlet UIScrollView *scrollView;
     BOOL setterEdit;
+    BOOL fbFilter,twFilter,mailFilter,smsFilter;
 }
 
 @property (nonatomic, strong) NSString *stringStr;

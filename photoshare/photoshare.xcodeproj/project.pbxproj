@@ -39,7 +39,7 @@
 		E17222AF1892470600F28748 /* add_folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222AE1892470600F28748 /* add_folder.png */; };
 		E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B11892518B00F28748 /* AddEditFolderViewController.m */; };
 		E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E17222B21892518B00F28748 /* AddEditFolderViewController.xib */; };
-		E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B6189280FE00F28748 /* JXBarChartView.m */; };
+		E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B6189280FE00F28748 /* JXBarChartView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		E17222BB1892817800F28748 /* EarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B91892817800F28748 /* EarningViewController.m */; };
 		E17222BC1892817800F28748 /* EarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E17222BA1892817800F28748 /* EarningViewController.xib */; };
 		E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222C31892819A00F28748 /* PastPayementViewController.m */; };
@@ -67,6 +67,9 @@
 		E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */; };
 		E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AA48E189662C00065F8E2 /* EditMessageVC.m */; };
 		E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31AA48F189662C00065F8E2 /* EditMessageVC.xib */; };
+		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
+		E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */; };
+		E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4C31896AA160065F8E2 /* AddressBook.framework */; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
@@ -179,6 +182,9 @@
 		E31AA48D189662C00065F8E2 /* EditMessageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMessageVC.h; sourceTree = "<group>"; };
 		E31AA48E189662C00065F8E2 /* EditMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMessageVC.m; sourceTree = "<group>"; };
 		E31AA48F189662C00065F8E2 /* EditMessageVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMessageVC.xib; sourceTree = "<group>"; };
+		E31AA49218969D730065F8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		E31AA4C31896AA160065F8E2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		FC97638C188FEB89008DF1F8 /* photoshare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoshare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC97638F188FEB89008DF1F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC976391188FEB89008DF1F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -219,6 +225,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */,
+				E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */,
+				E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */,
 				FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */,
 				FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */,
 				FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */,
@@ -278,6 +287,9 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E31AA4C31896AA160065F8E2 /* AddressBook.framework */,
+				E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */,
+				E31AA49218969D730065F8E2 /* MessageUI.framework */,
 				FC97638F188FEB89008DF1F8 /* Foundation.framework */,
 				FC976391188FEB89008DF1F8 /* CoreGraphics.framework */,
 				FC976393188FEB89008DF1F8 /* UIKit.framework */,

@@ -37,6 +37,12 @@
     self.navigationItem.backBarButtonItem = backButton;
     customImage.layer.cornerRadius = 5;
     
+    //Filter
+    fbFilter = NO;
+    twFilter = NO;
+    mailFilter = NO;
+    smsFilter = NO;
+    
     //hide done button
     [sendMessageBtn setHidden:YES];
     
@@ -71,6 +77,130 @@
         userMessage.text = self.stringStr;
     }
 }
+
+//Filter Reference.
+- (IBAction)fbFilter_Btn:(id)sender {
+    fbFilter = YES;
+    twFilter = NO;
+    mailFilter = NO;
+    smsFilter = NO;
+}
+
+- (IBAction)twFilter_Btn:(id)sender {
+    twFilter = YES;
+    fbFilter = NO;
+    mailFilter = NO;
+    smsFilter = NO;
+}
+
+- (IBAction)emailFilter_Btn:(id)sender {
+    mailFilter = YES;
+    fbFilter = NO;
+    twFilter = NO;
+    smsFilter = NO;
+    //[self mailTo];
+    [self showContactListPicker];
+}
+
+- (IBAction)smsFilter_Btn:(id)sender {
+    smsFilter = YES;
+    fbFilter = NO;
+    twFilter = NO;
+    mailFilter = NO;
+}
+
+//Email from Contacts
+-(void) mailTo {
+
+    //send to link
+    NSString *schoolEmailID = @"";
+    // Email Subject
+    NSString *emailTitle = @"Join 123 Friday";
+    // Email Content
+    NSString *messageBody = userMessage.text; // Change the message body to HTML
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"Select mails"];
+    
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:YES];
+    [mc setToRecipients:toRecipents];
+    
+    // Present mail view controller on screen
+    [self presentViewController:mc animated:YES completion:NULL];
+    
+}
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+//Contact List
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
+{
+    [self displayPerson:person];
+    [self dismissModalViewControllerAnimated:YES];
+    return NO;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
+{
+    return NO;
+}
+
+//Setting the contact List
+- (void)displayPerson:(ABRecordRef)person
+{
+    NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,kABPersonFirstNameProperty);
+    NSString *emailID = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonEmailProperty);
+    NSString* phone = nil;
+    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person,kABPersonPhoneProperty);
+    
+    if (ABMultiValueGetCount(phoneNumbers) > 0) {
+        phone = (__bridge_transfer NSString*)
+        ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+    } else {
+        phone = @"[None]";
+    }
+    CFRelease(phoneNumbers);
+}
+
+-(void)showContactListPicker
+{
+    ABPeoplePickerNavigationController *picker =
+    [[ABPeoplePickerNavigationController alloc] init];
+    
+    picker.peoplePickerDelegate = self;
+
+    [self presentModalViewController:picker animated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
