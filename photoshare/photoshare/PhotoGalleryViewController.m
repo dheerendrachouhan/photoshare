@@ -8,6 +8,7 @@
 
 #import "PhotoGalleryViewController.h"
 #import "ContentManager.h"
+#import "Base64.h"
 @interface PhotoGalleryViewController ()
 
 @end
@@ -52,27 +53,95 @@
     
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
+    [self setDataForCollectionView];
 }
 -(void)setDataForCollectionView
 {
     ContentManager *contentManagerObj=[ContentManager sharedManager];
-    imgArray =[contentManagerObj getData:@"publicImgArray"];
+    [Base64 initialize];
+    imgArray = [[NSMutableArray alloc] init];
+    if([contentManagerObj getData:@"publicImgArray"]==nil)
+    {
+        [contentManagerObj storeData:imgArray :@"publicImgArray"];
+    }
+    NSArray *base64images =[contentManagerObj getData:@"publicImgArray"];
+    for (int i=0; i<[base64images count]; i++) {
+        NSString *base64string=[base64images objectAtIndex:i];
+        NSData *imgData=[Base64 decode:base64string];
+        UIImage *img=[UIImage imageWithData:imgData];
+        [imgArray addObject:img];
+    }
 }
 -(IBAction)addPhoto:(id)sender
 {
-    UIImagePickerController *imagePiceker=[[UIImagePickerController alloc] init];
-    imagePiceker.delegate=self;
-    imagePiceker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+    UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ", nil];
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+}
+//action sheet delegate Method
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UIImagePickerController *imagePicker=[[UIImagePickerController alloc] init];
+    imagePicker.delegate=self;
+    
+    if(buttonIndex==0)  //From Camera
+    {
+        NSLog(@"camera");
+        
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+        {
+            imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:imagePicker animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera is Not Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil , nil];
+            [alert show];
+        }
+    }
+    else if(buttonIndex==1)//From Gallery
+    {
+        NSLog(@"gallery");
+        imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    else if(buttonIndex==2)//Cancel Button
+    {
+        NSLog(@"Cancel Button Click");
+    }
+}
+//imagePicker delegate Method
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
+    NSData *imgData=UIImagePNGRepresentation(image);
+    [Base64 initialize];
+    NSString *base64string=[Base64 encode:imgData];
+    ContentManager *manager=[ContentManager sharedManager];
+    NSMutableArray *base64images=[[NSMutableArray alloc] init];
+    base64images=[[manager getData:@"publicImgArray"] mutableCopy];
+    [base64images addObject:base64string];
+    [manager storeData:base64images :@"publicImgArray"];
+    
+    [imgArray addObject:image];
+    [collectionview reloadData];
 }
 -(IBAction)deletePhoto:(id)sender
 {
     addPhotoBtn.hidden=YES;
     sharePhotoBtn.hidden=YES;
+    isDeleteMode=YES;
 }
 
 -(IBAction)sharePhoto:(id)sender
 {
-    
+    addPhotoBtn.hidden=YES;
+    deletePhotoBtn.hidden=YES;
+    sharePhotoBtn.frame=deletePhotoBtn.frame;
 }
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
@@ -82,7 +151,11 @@
     if (indexPath != nil){
         
         UICollectionViewCell *cell=[collectionview dequeueReusableCellWithReuseIdentifier:@"CVCell" forIndexPath:indexPath];
-        UIButton *checkBtn=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        UIButton *checkBtn=[[UIButton alloc] initWithFrame:cell.frame];
+        checkBtn.layer.borderWidth=1;
+        checkBtn.layer.borderColor=[UIColor greenColor].CGColor;
+       
+        cell.hidden=YES;
         
     }
 }
@@ -94,8 +167,10 @@
 {
     static NSString *identifier=@"CVCell";
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    cell.backgroundColor=[UIColor blackColor];
-    UIImageView *imgView=[[UIImageView alloc] initWithFrame:cell.frame];
+    
+    UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+    imgView.layer.masksToBounds=YES;
+    imgView.tag=100;
     [imgView setImage:[imgArray objectAtIndex:[indexPath row]]];
     [cell.contentView addSubview:imgView];
     

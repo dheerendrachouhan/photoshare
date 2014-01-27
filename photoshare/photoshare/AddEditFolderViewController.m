@@ -47,7 +47,6 @@
     shareWithUserView.layer.borderColor=tfBackViewBorderColor.CGColor;
     
     
-    
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
     float btnCornerRadius=8;

@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */; };
 		E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */; };
-		E169DAB21893C85E00BE0B5B /* TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E169DAB01893C85E00BE0B5B /* TopViewController.m */; };
-		E169DAB31893C85E00BE0B5B /* TopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E169DAB11893C85E00BE0B5B /* TopViewController.xib */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -55,6 +53,7 @@
 		E17222DE18928DE700F28748 /* arrows_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DB18928DE700F28748 /* arrows_blue.png */; };
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
+		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
 		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
 		E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188D961893829C004ACF77 /* MyReferralViewController.xib */; };
 		E3188D9C18938888004ACF77 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D9A18938888004ACF77 /* CustomCell.m */; };
@@ -102,9 +101,6 @@
 		E169DAAA18939FF500BE0B5B /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoGalleryViewController.h; sourceTree = "<group>"; };
 		E169DAAB18939FF500BE0B5B /* PhotoGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoGalleryViewController.m; sourceTree = "<group>"; };
 		E169DAAC18939FF500BE0B5B /* PhotoGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoGalleryViewController.xib; sourceTree = "<group>"; };
-		E169DAAF1893C85E00BE0B5B /* TopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopViewController.h; sourceTree = "<group>"; };
-		E169DAB01893C85E00BE0B5B /* TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopViewController.m; sourceTree = "<group>"; };
-		E169DAB11893C85E00BE0B5B /* TopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopViewController.xib; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -158,6 +154,8 @@
 		E17222DB18928DE700F28748 /* arrows_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrows_blue.png; sourceTree = "<group>"; };
 		E17222DC18928DE700F28748 /* cancel_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_btn.png; sourceTree = "<group>"; };
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
+		E18648D01896285800175E8D /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		E18648D11896285800175E8D /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		E3188D941893829C004ACF77 /* MyReferralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyReferralViewController.h; sourceTree = "<group>"; };
 		E3188D951893829C004ACF77 /* MyReferralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyReferralViewController.m; sourceTree = "<group>"; };
 		E3188D961893829C004ACF77 /* MyReferralViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyReferralViewController.xib; sourceTree = "<group>"; };
@@ -228,6 +226,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E18648CF1896285800175E8D /* base64 */ = {
+			isa = PBXGroup;
+			children = (
+				E18648D01896285800175E8D /* Base64.h */,
+				E18648D11896285800175E8D /* Base64.m */,
+			);
+			path = base64;
+			sourceTree = "<group>";
+		};
 		E388F2421892546E005BB5E5 /* Barchart */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +277,7 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
+				E18648CF1896285800175E8D /* base64 */,
 				FCB0B76D18945BC2001722B3 /* webservice */,
 				E388F2421892546E005BB5E5 /* Barchart */,
 				FC97640D1890050C008DF1F8 /* Layouts */,
@@ -303,7 +311,6 @@
 				E3188D9A18938888004ACF77 /* CustomCell.m */,
 				E3188DA01893968A004ACF77 /* FinanceCalculatorViewController.h */,
 				E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */,
-				E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */,
 				E17222C21892819A00F28748 /* PastPayementViewController.h */,
 				E17222C31892819A00F28748 /* PastPayementViewController.m */,
 				FC97640818900505008DF1F8 /* AccountViewController.h */,
@@ -314,9 +321,6 @@
 				E3188D951893829C004ACF77 /* MyReferralViewController.m */,
 				E3188D9918938888004ACF77 /* CustomCell.h */,
 				E3188D9A18938888004ACF77 /* CustomCell.m */,
-				E169DAAF1893C85E00BE0B5B /* TopViewController.h */,
-				E169DAB01893C85E00BE0B5B /* TopViewController.m */,
-				E169DAB11893C85E00BE0B5B /* TopViewController.xib */,
 			);
 			path = photoshare;
 			sourceTree = "<group>";
@@ -405,6 +409,7 @@
 				E17222BA1892817800F28748 /* EarningViewController.xib */,
 				E17222C41892819A00F28748 /* PastPayementViewController.xib */,
 				E3188D961893829C004ACF77 /* MyReferralViewController.xib */,
+				E3188DA3189396C0004ACF77 /* FinanceCalculatorViewController.xib */,
 				E3188D9B18938888004ACF77 /* CustomCell.xib */,
 				E17222C9189281B000F28748 /* ResetPasswordController.xib */,
 				E17222D8189285A100F28748 /* LoginViewController.xib */,
@@ -519,7 +524,6 @@
 				E16F390318912C9C00064806 /* community-icon.png in Resources */,
 				E16F3918189131C600064806 /* wall.jpg in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
-				E169DAB31893C85E00BE0B5B /* TopViewController.xib in Resources */,
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
@@ -564,7 +568,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E169DAB21893C85E00BE0B5B /* TopViewController.m in Sources */,
 				E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */,
 				E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */,
 				E17222D0189281F600F28748 /* ContentManager.m in Sources */,
@@ -575,6 +578,7 @@
 				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
 				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
 				E3188D9C18938888004ACF77 /* CustomCell.m in Sources */,
+				E18648D21896285800175E8D /* Base64.m in Sources */,
 				E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */,
 				E17222D9189285A100F28748 /* LoginViewController.m in Sources */,
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,

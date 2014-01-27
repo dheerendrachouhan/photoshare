@@ -71,7 +71,12 @@
 -(void)setDataForCollectionView
 {
     ContentManager *contentManagerObj=[ContentManager sharedManager];
-    folderNameArray=[contentManagerObj getData:@"FolderArray"];
+    folderNameArray=[[NSMutableArray alloc] init];
+    if([contentManagerObj getData:@"FolderArray"]==Nil)
+    {
+        [contentManagerObj storeData:folderNameArray :@"FolderArray"];
+    }
+    folderNameArray =[contentManagerObj getData:@"FolderArray"];
     
     /*for (int i=0; i<40; i++) {
         [folderNameArray addObject:[@"BirthDay" stringByAppendingString:[NSString stringWithFormat:@"%i",i]]];
@@ -174,9 +179,6 @@
     AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
        aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
-   
-  
-    
     [self.navigationController pushViewController:aec1 animated:NO];
    
 }
