@@ -169,24 +169,23 @@
     
 }
 //call back Method
--(void)webserviceCallback:(NSString *)data
+-(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Collection return %@",data);
-    NSDictionary *JSON =
-    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
+   
     
     ContentManager *manager=[ContentManager sharedManager];
-    NSLog(@"exit  %@",[JSON objectForKey:@"exit_code"]);
-    int exitCode=[[JSON objectForKey:@"exit_code"] intValue];
+    NSLog(@"exit  %@",[data objectForKey:@"exit_code"]);
+    int exitCode=[[data objectForKey:@"exit_code"] intValue];
     if(exitCode ==1)
     {
-        [manager showAlert:@"Message" msg:[JSON objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
+        [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
         [self.navigationController popViewControllerAnimated:YES];
     }
     
     else
     {
-        [manager showAlert:@"Message" msg:[JSON objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
+        [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
 }
 - (void)didReceiveMemoryWarning

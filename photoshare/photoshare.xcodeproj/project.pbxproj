@@ -59,6 +59,8 @@
 		E182627A1897CAA100C1C799 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262791897CAA100C1C799 /* iconr3.png */; };
 		E182627C1897CB3A00C1C799 /* folder_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627B1897CB3A00C1C799 /* folder_lock.png */; };
 		E18262801897CBE700C1C799 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627F1897CBE700C1C799 /* edit.png */; };
+		E18262821897F6DC00C1C799 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262811897F6DC00C1C799 /* facebook.png */; };
+		E18262841897F71700C1C799 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262831897F71700C1C799 /* twitter.png */; };
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
 		E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
@@ -82,8 +84,6 @@
 		E31C75B318976DAA00A8CC7F /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75AC18976DAA00A8CC7F /* UserSecurityViewController.m */; };
 		E31C75B418976DAA00A8CC7F /* UserSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31C75AD18976DAA00A8CC7F /* UserSecurityViewController.xib */; };
 		E31C75BE189799B500A8CC7F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31C75BD189799B500A8CC7F /* Social.framework */; };
-		E31C75C11897A7DC00A8CC7F /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E31C75BF1897A7DC00A8CC7F /* facebook.png */; };
-		E31C75C21897A7DC00A8CC7F /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E31C75C01897A7DC00A8CC7F /* twitter.png */; };
 		E31C75C61897A82600A8CC7F /* FBTWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75C41897A82500A8CC7F /* FBTWViewController.m */; };
 		E31C75C71897A82600A8CC7F /* FBTWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31C75C51897A82600A8CC7F /* FBTWViewController.xib */; };
 		E31C75CD1897ECE400A8CC7F /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75CC1897ECE400A8CC7F /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -196,6 +196,8 @@
 		E18262791897CAA100C1C799 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E182627B1897CB3A00C1C799 /* folder_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder_lock.png; sourceTree = "<group>"; };
 		E182627F1897CBE700C1C799 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		E18262811897F6DC00C1C799 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
+		E18262831897F71700C1C799 /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
 		E18648D01896285800175E8D /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		E18648D11896285800175E8D /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		E18648D618969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
@@ -228,10 +230,7 @@
 		E31C75AB18976DAA00A8CC7F /* UserSecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSecurityViewController.h; sourceTree = "<group>"; };
 		E31C75AC18976DAA00A8CC7F /* UserSecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSecurityViewController.m; sourceTree = "<group>"; };
 		E31C75AD18976DAA00A8CC7F /* UserSecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController.xib; sourceTree = "<group>"; };
-		E31C75BB1897730800A8CC7F /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		E31C75BD189799B500A8CC7F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		E31C75BF1897A7DC00A8CC7F /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
-		E31C75C01897A7DC00A8CC7F /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
 		E31C75C31897A82500A8CC7F /* FBTWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBTWViewController.h; sourceTree = "<group>"; };
 		E31C75C41897A82500A8CC7F /* FBTWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBTWViewController.m; sourceTree = "<group>"; };
 		E31C75C51897A82600A8CC7F /* FBTWViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FBTWViewController.xib; sourceTree = "<group>"; };
@@ -501,6 +500,8 @@
 				FCC76CA41896A24500F4B41A /* backimg.png */,
 				E3188DA91893BABF004ACF77 /* currencyselector_btn.png */,
 				E3188D9E18939171004ACF77 /* cellImage.png */,
+				E18262831897F71700C1C799 /* twitter.png */,
+				E18262811897F6DC00C1C799 /* facebook.png */,
 				E17222DB18928DE700F28748 /* arrows_blue.png */,
 				E17222DC18928DE700F28748 /* cancel_btn.png */,
 				E17222DD18928DE700F28748 /* cancel_red.png */,
@@ -658,7 +659,6 @@
 				E16F390E18912C9C00064806 /* private-icon.png in Resources */,
 				E16F390218912C9C00064806 /* cog-itemX30.png in Resources */,
 				E16F390D18912C9C00064806 /* previous.png in Resources */,
-				E31C75C11897A7DC00A8CC7F /* facebook.png in Resources */,
 				E16F391218912C9C00064806 /* share-to-folder.png in Resources */,
 				E16F390A18912C9C00064806 /* icon-takephotoX30.png in Resources */,
 				FCC76CA91896A64000F4B41A /* bg.png in Resources */,
@@ -667,6 +667,7 @@
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
 				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
+				E18262841897F71700C1C799 /* twitter.png in Resources */,
 				E16F391318912C9C00064806 /* share-twitter.png in Resources */,
 				E16F390818912C9C00064806 /* home-photo-quicklink.png in Resources */,
 				E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */,
@@ -674,6 +675,7 @@
 				E16F3918189131C600064806 /* wall.jpg in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
+				E18262821897F6DC00C1C799 /* facebook.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
 				E16F3916189130A800064806 /* folder-icon.png in Resources */,
@@ -707,7 +709,6 @@
 				FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */,
 				E17222DA189285A100F28748 /* LoginViewController.xib in Resources */,
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
-				E31C75C21897A7DC00A8CC7F /* twitter.png in Resources */,
 				E17222BC1892817800F28748 /* EarningViewController.xib in Resources */,
 				E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */,
 				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,

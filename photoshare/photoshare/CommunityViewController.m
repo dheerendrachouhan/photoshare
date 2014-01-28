@@ -13,6 +13,7 @@
 #import "AddEditFolderViewController.h"
 #import "PhotoGalleryViewController.h"
 #import "JSONDictionary.h"
+#import "SVProgressHUD.h"
 @interface CommunityViewController ()
 
 @end
@@ -80,7 +81,7 @@
 //get collection  info array from server
 -(void)getTheCollectionInfoArrayFromServer
 {
-   
+    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
     isGetCollectionInfo=YES;
     webServices.delegate=self;
     //get the user id from nsuserDefaults
@@ -93,14 +94,12 @@
    
     
 }
--(void)webserviceCallback:(NSString *)data
+-(void)webserviceCallback:(NSDictionary *)data
 {
     //NSLog(@"Call Back getList %@",data);
    
-    NSDictionary *JSON =
-    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
     
-    NSMutableArray *outPutData=[JSON objectForKey:@"output_data"] ;
+    NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
     if(isGetCollectionInfo)
     {
         collectionNameArray=[[NSMutableArray alloc] init];
@@ -131,6 +130,7 @@
         progressView.progress=0.2;
         isGetStorage=NO;
         [collectionview reloadData];
+        [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
     }
     
     // NSLog(@"Dic is %@",dic);
@@ -143,15 +143,8 @@
     //set up the diskspace progress
     NSInteger spacePerCentage=50;
     NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%li%@)",(long)spacePerCentage,@"%"];
-    //diskSpaceTitle.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-    //diskSpaceTitle.text=diskTitle;
-    float x=20;
-    float y=self.view.frame.size.height-62;
-    float height=2;
-    UILabel *diskSpaceLabel=[[UILabel alloc] initWithFrame:CGRectMake(x, y,2.8*spacePerCentage, height)];
-    diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
-    //[diskSpaceBlueLabel removeFromSuperview];
-    [self.view addSubview:diskSpaceLabel];
+    diskSpaceTitle.text=diskTitle;
+   
 }
 
 //collection view delegate method
@@ -172,13 +165,38 @@
         obj_Cell.folder_imgV.image=[UIImage imageNamed:@"add_folder.png"];
         obj_Cell.icon_img.hidden=YES;
         obj_Cell.folder_name.text=@"Add Folder";
-        [self check];
+       
     }
     else
     {
-        obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-        obj_Cell.icon_img.hidden=NO;
-        obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:([indexPath row]-indexPath.row/12)];
+       
+        int sharing=[[collectionSharingArray objectAtIndex:indexPath.row] intValue];
+       
+        if([collectionSharedArray objectAtIndex:indexPath.row])
+        {
+            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+            obj_Cell.icon_img.hidden=NO;
+            obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
+        }
+        else
+        {
+            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder_lock.png"];
+            obj_Cell.icon_img.hidden=NO;
+            obj_Cell.icon_img.image=[UIImage imageNamed:@"private-icon.png"];
+        }
+        if(sharing==1)
+        {
+            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+            obj_Cell.icon_img.hidden=NO;
+            obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
+        }
+        else
+        {
+            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+            obj_Cell.icon_img.hidden=YES;
+        }
+        obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:indexPath.row];
+        
         
     }
     return obj_Cell;
@@ -191,7 +209,7 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
         
-        if(([indexPath row]+1)%12==0 || ([indexPath row]+1)==[collectionNameArray count]+noOfPagesInCollectionView)
+        if(([indexPath row]+1)==([collectionNameArray count]+1))
         {
             [self addFolder];
             NSLog(@"Add Folder selected index is %ld",(long)[indexPath row]);
@@ -200,7 +218,7 @@
         {
             PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
             photoGallery.isPublicFolder=NO;
-            photoGallery.selectedFolderIndex=([indexPath row]-indexPath.row/12);
+            photoGallery.selectedFolderIndex=indexPath.row;
             photoGallery.folderName=[collectionNameArray objectAtIndex:[indexPath row]];
             
             [self.navigationController pushViewController:photoGallery animated:YES];
@@ -246,16 +264,6 @@
     [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
   
     [self.navigationController pushViewController:aec animated:NO];
-}
-
--(void)check
-{
-    NSArray *arr=[collectionview visibleCells];
-    UICollectionViewCell *cell=(UICollectionViewCell *)[arr lastObject];
-    NSIndexPath *indexPath = [collectionview indexPathForCell:cell];
-    
-    NSLog(@"Visible cell %ld",(unsigned long)[arr count]);
-    
 }
 
 

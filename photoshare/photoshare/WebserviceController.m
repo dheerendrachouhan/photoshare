@@ -43,13 +43,14 @@
 
 -(void) connection: (NSURLConnection *) connection didReceiveData:(NSData *)data
 {
-    NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] ;
+    //NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] ;
     
   // NSLog(@"Result : %@",output);
-  
-    [self.delegate webserviceCallback:output];
-   
+    NSDictionary *JSON =
+    [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
 
+    [self.delegate webserviceCallback:JSON];
+    
 }
 
 

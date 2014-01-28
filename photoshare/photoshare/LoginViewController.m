@@ -72,18 +72,17 @@
     }
 }
 
--(void) webserviceCallback:(NSString *)data
+-(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
     
-    NSDictionary *JSON =
-    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
+    
    
          //validate the user
-    if([[JSON objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
+    if([[data objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
         {
             //get the userId
-            NSMutableArray *outPutData=[JSON objectForKey:@"output_data"] ;
+            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
             NSDictionary *dic=[outPutData objectAtIndex:0];
             //Setting values globally
             ContentManager *objManager=[ContentManager sharedManager];
@@ -108,7 +107,7 @@
         }
     else
     {
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[JSON objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     }
 }
