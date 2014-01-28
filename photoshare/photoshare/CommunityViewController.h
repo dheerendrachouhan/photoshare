@@ -13,13 +13,23 @@
 {
     IBOutlet UICollectionView *collectionview;
     UIButton *addFolderBtn;
+    IBOutlet UIProgressView *progressView;
     IBOutlet UILabel *diskSpaceTitle;
-    IBOutlet UILabel *diskSpaceBlueLabel;
-        
     CollectionViewCell *obj_Cell;
-    NSMutableArray *folderNameArray;
+    
+    NSMutableArray *collectionNameArray;
+    NSMutableArray *collectionIdArray;
+    NSMutableArray *collectionDefaultArray;
+    NSMutableArray *collectionSharingArray;
+    NSMutableArray *collectionSharedArray;
+    
+    
     int noOfPagesInCollectionView;
-    CGRect blueLabelImgFrame;
+    WebserviceController *webServices;
+    
+    UIActivityIndicatorView *indicator;
+    BOOL isGetStorage;
+    BOOL isGetCollectionInfo;
 }
 
 @end

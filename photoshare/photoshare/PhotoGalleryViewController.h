@@ -24,6 +24,7 @@
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;
 @property(nonatomic,retain)ALAssetsLibrary *library;
+@property(nonatomic,retain)NSString *folderName;
 -(IBAction)addPhoto:(id)sender;
 -(IBAction)deletePhoto:(id)sender;
 -(IBAction)sharePhoto:(id)sender;

@@ -19,11 +19,14 @@
     IBOutlet UITextField *folderName;
     IBOutlet UITextField *shareWithUser;
     
+    int userID;
+    WebserviceController *webServices;
 }
 
 @property(nonatomic,assign)BOOL isAddFolder;
 @property(nonatomic,assign)BOOL isEditFolder;
-@property(nonatomic,assign)int folderIndex;
+@property(nonatomic,assign)NSInteger collectionId;
+@property(nonatomic,retain)NSString *setFolderName;
 
 -(IBAction)clearTextField:(id)sender;
 -(IBAction)addFolder:(id)sender;

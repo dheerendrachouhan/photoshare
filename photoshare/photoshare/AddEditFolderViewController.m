@@ -17,7 +17,7 @@
 
 @implementation AddEditFolderViewController
 
-@synthesize isAddFolder,isEditFolder,folderIndex;
+@synthesize isAddFolder,isEditFolder,collectionId,setFolderName;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -70,8 +70,8 @@
         addButton.hidden=YES;
         saveButton.hidden=NO;
         deleteButton.hidden=NO;
-        ContentManager *contantManagerObj=[ContentManager sharedManager];
-        folderName.text=[[contantManagerObj getData:@"FolderArray"] objectAtIndex:self.folderIndex];
+        
+        folderName.text=self.setFolderName;
         
     }
     else if(isAddFolder)
@@ -82,7 +82,18 @@
         deleteButton.hidden=YES;
     }
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear: animated];
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
+    
+     webServices=[[WebserviceController alloc] init];
+    
+    //get the user id from nsuserDefaults
+    ContentManager *manager=[ContentManager sharedManager];
+    userID=[[manager getData:@"user_id"] intValue];
+}
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return [textField resignFirstResponder];
@@ -109,85 +120,52 @@
 }
 -(IBAction)addFolder:(id)sender
 {
-    [self storeCollectionInfoInServer:folderName.text sharing:1 writeUserIds:@"1,2" readUserIds:@"1,3"];
+    [self addCollectionInfoInServer:folderName.text sharing:1 writeUserIds:[NSString stringWithFormat:@"%d",userID] readUserIds:@""];
     
-    
-    /*UIAlertView *alert=[self alertView];
-    
-    ContentManager *contentManagerObj=[ContentManager sharedManager];
-    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
-    //folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
-
-    
-    if([folderArray containsObject:@"folderName.text"])
-    {
-       alert.message=@"Folder Already Available";
-    }
-    else
-    {
-        [folderArray addObject:folderName.text];
-        NSLog(@"Folder Array %@",folderArray);
-        [contentManagerObj storeData:folderArray :@"FolderArray"];
-        NSLog(@"Folder Array %@",[contentManagerObj getData:@"FolderArray"]);
-        alert.message=@"Successfully Added";
-    }
-    folderName.text=@"";
-    shareWithUser.text=@"";
-    
-    [alert show];*/
+   
 }
+
 -(IBAction)saveFolder:(id)sender
 {
-    ContentManager *contentManagerObj=[ContentManager sharedManager];
-    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
-    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
-    [folderArray replaceObjectAtIndex:self.folderIndex withObject:folderName.text];
-    [contentManagerObj storeData:folderArray :@"FolderArray"];
-    
-    UIAlertView *alert=[self alertView];
-    alert.message=@"Folder Save Successfully";
-     [alert show];
+   
+    [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:0 writeUserIds:[NSString stringWithFormat:@"%d",userID] readUserIds:@""];
 }
 -(IBAction)deleteFolder:(id)sender
 {
-    ContentManager *contentManagerObj=[ContentManager sharedManager];
-    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
-    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
-    [folderArray removeObjectAtIndex:self.folderIndex];
-    [contentManagerObj storeData:folderArray :@"FolderArray"];
-    
-    UIAlertView *alert=[self alertView];
-    alert.message=@"Folder Deleted";
-     [alert show];
+    [self deleteCollectionInfoInServer:userID collecId:self.collectionId];
 }
-//alert delegate method
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex==0&&[alertView.message isEqualToString:@"Successfully Added"])
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if(buttonIndex==0&&[alertView.message isEqualToString:@"Folder Deleted"])
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if(buttonIndex==0&&[alertView.message isEqualToString:@"Folder Save Successfully"])
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
+
 //store collection info in server
--(void)storeCollectionInfoInServer:(NSString *)collectionName sharing:(int)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+-(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(int)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
 {
-    WebserviceController *webService=[[WebserviceController alloc] init];
-    webService.delegate=self;
-    //get the user id from nsuserDefaults
-    ContentManager *manager=[ContentManager sharedManager];
-    NSNumber *userId=[manager getData:@"user_id"];
-    //store data
-    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_name=%@&collection_sharing=%d&collection_write_user_ids=%@&collection_read_user_ids=%@",[userId intValue],collectionName,sharing,writeUserIds,readUserIds];
+   
+    webServices.delegate=self;
     
-    [webService call:data controller:@"collection" method:@"store"];
+    //store data
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_name=%@&collection_sharing=%d&collection_write_user_ids=%@&collection_read_user_ids=%@",userID,collectionName,sharing,writeUserIds,readUserIds];
+    
+    [webServices call:data controller:@"collection" method:@"store"];
+    
+}
+-(void)editCollectionInfoInServer:(int)collecId collectionName:(NSString *)collectionName sharing:(int)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+{
+   
+    webServices.delegate=self;
+    
+    //edit data
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d&collection_name=%@&collection_sharing=%d&collection_write_user_ids=%@&collection_read_user_ids=%@",userID,collecId,collectionName,sharing,writeUserIds,readUserIds];
+    
+    [webServices call:data controller:@"collection" method:@"change"];
+    
+}
+-(void)deleteCollectionInfoInServer:(int)userid collecId:(int)collecId
+{
+    webServices.delegate=self;
+    
+    //delete data
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",userID,collecId];
+    
+    [webServices call:data controller:@"collection" method:@"delete"];
     
 }
 //call back Method
@@ -198,13 +176,17 @@
     [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
     
     ContentManager *manager=[ContentManager sharedManager];
-    if([[JSON objectForKey:@"user_message"] isEqualToString:@"Collection Created."])
+    NSLog(@"exit  %@",[JSON objectForKey:@"exit_code"]);
+    int exitCode=[[JSON objectForKey:@"exit_code"] intValue];
+    if(exitCode ==1)
     {
-        [manager showAlert:@"New Folder" msg:@"Successfully Added" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        [manager showAlert:@"Message" msg:[JSON objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
+        [self.navigationController popViewControllerAnimated:YES];
     }
+    
     else
     {
-        [manager showAlert:@"New Folder" msg:@"You already have a Folder with that name." cancelBtnTitle:@"Ok" otherBtn:Nil];
+        [manager showAlert:@"Message" msg:[JSON objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
 }
 - (void)didReceiveMemoryWarning

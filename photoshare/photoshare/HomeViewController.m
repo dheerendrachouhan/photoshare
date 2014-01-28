@@ -58,7 +58,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
+    self.navigationController.navigationBarHidden=YES;
     ContentManager *manager=[ContentManager sharedManager];
     NSArray *publicImgArray=[manager getData:@"publicImgArray"];
     if([publicImgArray count]==0)
@@ -112,7 +112,7 @@
     CommunityViewController *comm=[[CommunityViewController alloc] init];
     
     [self.navigationController pushViewController:comm animated:YES];
-    
+       
 }
 -(IBAction)gotoPhotos:(id)sender
 {
