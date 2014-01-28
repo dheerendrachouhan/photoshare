@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditProfileViewController">
             <connections>
                 <outlet property="changeimg" destination="4IY-ll-Bcg" id="AUH-ou-Ocu"/>
+                <outlet property="img" destination="SKB-KU-Nxk" id="fSm-4Q-mKp"/>
                 <outlet property="name" destination="H0E-F4-JhT" id="wzo-nM-aVY"/>
                 <outlet property="save" destination="obq-Zr-qVs" id="h41-4n-hNT"/>
                 <outlet property="surname" destination="BQt-dc-45i" id="9H6-CA-u7J"/>
@@ -30,21 +31,21 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="obq-Zr-qVs">
-                    <rect key="frame" x="144" y="373" width="46" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="obq-Zr-qVs">
+                    <rect key="frame" x="141" y="373" width="53" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                    <state key="normal" title="Save">
+                    <state key="normal" image="save.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="saveProfile:" destination="-1" eventType="touchDown" id="lbc-pu-syL"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4IY-ll-Bcg">
-                    <rect key="frame" x="85" y="327" width="171" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4IY-ll-Bcg">
+                    <rect key="frame" x="82" y="328" width="176" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
-                    <state key="normal" title="Change Profile Picture">
+                    <state key="normal" image="profile.png">
                         <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -62,10 +63,29 @@
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="occ-yA-PhQ">
+                    <rect key="frame" x="255" y="100" width="15" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="cancel_btn.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WVd-7H-yVU">
+                    <rect key="frame" x="255" y="150" width="15" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="cancel_btn.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
+    <resources>
+        <image name="cancel_btn.png" width="50" height="50"/>
+        <image name="profile.png" width="176" height="30"/>
+        <image name="save.png" width="53" height="30"/>
+    </resources>
 </document>

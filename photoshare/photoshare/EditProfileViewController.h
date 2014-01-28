@@ -13,7 +13,7 @@
 
     IBOutlet UITextField *name ;
     IBOutlet UITextField *surname;
-    IBOutlet UIImage *img ;
+    IBOutlet UIImageView *img ;
     IBOutlet UIButton *changeimg ;
     IBOutlet UIButton *save;
     

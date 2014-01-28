@@ -7,6 +7,7 @@
 //
 
 #import "EditProfileViewController.h"
+#import "WebserviceController.h"
 
 @interface EditProfileViewController ()
 
@@ -27,6 +28,28 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+   
+    float btnBorderWidth=2;
+    float btnCornerRadius=8;
+    img.layer.cornerRadius=btnCornerRadius;
+    img.layer.borderWidth=btnBorderWidth;
+    img.layer.borderColor=[[UIColor darkGrayColor] CGColor];
+    
+    img.layer.backgroundColor = [[UIColor grayColor] CGColor];
+    
+   img =  [img initWithImage:[UIImage imageNamed:@"checkbox.png"]];
+    
+    
+    [self getDetails] ;
+    
+}
+
+
+-(void) getDetails
+{
+    NSString *postStr = [NSString stringWithFormat:@""];
+
 }
 
 
