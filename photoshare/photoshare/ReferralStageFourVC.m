@@ -28,13 +28,15 @@
     if (self) {
         // Custom initialization
     }
+    objManager = [ContentManager sharedManager];
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    objManager = [ContentManager sharedManager];
+    
     setterEdit = NO;
     [userMessage setEditable:NO];
     // Do any additional setup after loading the view from its nib.
@@ -134,7 +136,7 @@
             fb.successType = @"fb";
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
-                    [objManager showAlert:@"Cancelled" :@"Post Cancelled" :@"Ok" :nil];
+                    [objManager showAlert:@"Cancelled" msg:@"Post Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
                     break;
                 case SLComposeViewControllerResultDone:
                     [self.navigationController pushViewController:fb animated:YES];
@@ -165,7 +167,7 @@
             tw.successType = @"tw";
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
-                    [objManager showAlert:@"Cancelled" :@"Tweet Cancelled" :@"Ok" :nil];
+                    [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
                     break;
                 case SLComposeViewControllerResultDone:
                     [self.navigationController pushViewController:tw animated:YES];
@@ -212,17 +214,17 @@
     switch (result)
     {
         case MFMailComposeResultCancelled:
-            [objManager showAlert:@"Cancelled" :@"Mail cancelled" :@"Ok" :nil];
+            [objManager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         case MFMailComposeResultSaved:
-            [objManager showAlert:@"Saved" :@"You mail is saved in draft" :@"Ok" :nil];
+            [objManager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         case MFMailComposeResultSent:
             [alert show];
             
             break;
         case MFMailComposeResultFailed:
-            [objManager showAlert:@"Mail sent failure" :[error localizedDescription]:@"Ok" :nil];
+            [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         default:
             break;
@@ -250,10 +252,10 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully refferd your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
 	switch (result) {
 		case MessageComposeResultCancelled:
-			[objManager showAlert:@"Cancelled" :@"Message Composed Cancelled" :@"Ok" :nil];
+			[objManager showAlert:@"Cancelled" msg:@"Message Composed Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
 			break;
 		case MessageComposeResultFailed:
-			[objManager showAlert:@"Failed" :@"Something went wrong!! Please try again" :@"Ok" :nil];
+			[objManager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
 		case MessageComposeResultSent:
             [alert show];
@@ -281,7 +283,7 @@
     {
         if([userSelectedEmail length]==0)
         {
-            [objManager showAlert:@"No Email" :@"No Email Found" :@"Ok" :nil];
+            [objManager showAlert:@"NO Email" msg:@"No Email Found" cancelBtnTitle:@"Ok" otherBtn:nil];
         }
         else {
             [self mailTo];
@@ -291,7 +293,7 @@
     {
         if([userSelectedPhone length]==0)
         {
-            [objManager showAlert:@"No Phone" :@"Phone no not found" :@"Ok" :nil];
+            [objManager showAlert:@"No Phone" msg:@"Phone no not found" cancelBtnTitle:@"Ok" otherBtn:nil];
         }
         else {
             [self sendInAppSMS];
