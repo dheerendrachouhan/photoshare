@@ -56,7 +56,6 @@
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
 		E18648D41896596200175E8D /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = E18648D31896596200175E8D /* checkbox.png */; };
 		E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
-		E18648DA18969A1E00175E8D /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18648D918969A1E00175E8D /* AssetsLibrary.framework */; };
 		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
 		E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188D961893829C004ACF77 /* MyReferralViewController.xib */; };
 		E3188D9C18938888004ACF77 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D9A18938888004ACF77 /* CustomCell.m */; };
@@ -72,6 +71,15 @@
 		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
 		E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */; };
 		E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4C31896AA160065F8E2 /* AddressBook.framework */; };
+		FC85D52A1896E29B006AD7E0 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = FC85D5291896E29B006AD7E0 /* checkbox.png */; };
+		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
+		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
+		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
+		FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D5321896F01F006AD7E0 /* UserSecurityViewController.xib */; };
+		FC85D5381896F327006AD7E0 /* TermConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5361896F327006AD7E0 /* TermConditionViewController.m */; };
+		FC85D5391896F327006AD7E0 /* TermConditionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D5371896F327006AD7E0 /* TermConditionViewController.xib */; };
+		FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FC85D53A1897F6D6006AD7E0 /* profile.png */; };
+		FC85D53D1897F9E3006AD7E0 /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = FC85D53C1897F9E3006AD7E0 /* save.png */; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
@@ -173,7 +181,6 @@
 		E18648D31896596200175E8D /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		E18648D618969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
-		E18648D918969A1E00175E8D /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		E3188D941893829C004ACF77 /* MyReferralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyReferralViewController.h; sourceTree = "<group>"; };
 		E3188D951893829C004ACF77 /* MyReferralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyReferralViewController.m; sourceTree = "<group>"; };
 		E3188D961893829C004ACF77 /* MyReferralViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyReferralViewController.xib; sourceTree = "<group>"; };
@@ -194,6 +201,18 @@
 		E31AA49218969D730065F8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		E31AA4C31896AA160065F8E2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		FC85D5291896E29B006AD7E0 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
+		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
+		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
+		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
+		FC85D5301896F01F006AD7E0 /* UserSecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSecurityViewController.h; sourceTree = "<group>"; };
+		FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSecurityViewController.m; sourceTree = "<group>"; };
+		FC85D5321896F01F006AD7E0 /* UserSecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController.xib; sourceTree = "<group>"; };
+		FC85D5351896F327006AD7E0 /* TermConditionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermConditionViewController.h; sourceTree = "<group>"; };
+		FC85D5361896F327006AD7E0 /* TermConditionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermConditionViewController.m; sourceTree = "<group>"; };
+		FC85D5371896F327006AD7E0 /* TermConditionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermConditionViewController.xib; sourceTree = "<group>"; };
+		FC85D53A1897F6D6006AD7E0 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		FC85D53C1897F9E3006AD7E0 /* save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = save.png; sourceTree = "<group>"; };
 		FC97638C188FEB89008DF1F8 /* photoshare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoshare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC97638F188FEB89008DF1F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC976391188FEB89008DF1F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -374,6 +393,15 @@
 				E3188D951893829C004ACF77 /* MyReferralViewController.m */,
 				E3188D9918938888004ACF77 /* CustomCell.h */,
 				E3188D9A18938888004ACF77 /* CustomCell.m */,
+				FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */,
+				FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */,
+				FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */,
+				FC85D5301896F01F006AD7E0 /* UserSecurityViewController.h */,
+				FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */,
+				FC85D5321896F01F006AD7E0 /* UserSecurityViewController.xib */,
+				FC85D5351896F327006AD7E0 /* TermConditionViewController.h */,
+				FC85D5361896F327006AD7E0 /* TermConditionViewController.m */,
+				FC85D5371896F327006AD7E0 /* TermConditionViewController.xib */,
 			);
 			path = photoshare;
 			sourceTree = "<group>";
@@ -413,6 +441,9 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				FC85D53C1897F9E3006AD7E0 /* save.png */,
+				FC85D53A1897F6D6006AD7E0 /* profile.png */,
+				FC85D5291896E29B006AD7E0 /* checkbox.png */,
 				FCC76CAA1896A93C00F4B41A /* arrow.png */,
 				FCC76CA81896A64000F4B41A /* bg.png */,
 				FCC76CA61896A39C00F4B41A /* line.png */,
@@ -597,12 +628,18 @@
 				E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */,
 				E17222DF18928DE700F28748 /* cancel_btn.png in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
+				FC85D52A1896E29B006AD7E0 /* checkbox.png in Resources */,
 				E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */,
+				FC85D5391896F327006AD7E0 /* TermConditionViewController.xib in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
+				FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */,
+				FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
+				FC85D53D1897F9E3006AD7E0 /* save.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
+				FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */,
 				E18648D41896596200175E8D /* checkbox.png in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
@@ -641,7 +678,9 @@
 				E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */,
 				FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */,
 				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
+				FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */,
 				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
+				FC85D5381896F327006AD7E0 /* TermConditionViewController.m in Sources */,
 				E3188D9C18938888004ACF77 /* CustomCell.m in Sources */,
 				E18648D21896285800175E8D /* Base64.m in Sources */,
 				E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
@@ -656,6 +695,7 @@
 				E17222CA189281B000F28748 /* ResetPasswordController.m in Sources */,
 				E17222BB1892817800F28748 /* EarningViewController.m in Sources */,
 				E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */,
+				FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */,
 				E3188DA21893968A004ACF77 /* FinanceCalculatorViewController.m in Sources */,
 				FC97639C188FEB89008DF1F8 /* main.m in Sources */,
 			);
