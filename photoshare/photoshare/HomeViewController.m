@@ -15,6 +15,8 @@
 #import "EarningViewController.h"
 #import "WebserviceController.h"
 #import "LoginViewController.h"
+#import "ContentManager.h"
+
 @interface HomeViewController ()
 
 @end
@@ -26,6 +28,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        objManager = [ContentManager sharedManager];
     }
     
     return self;

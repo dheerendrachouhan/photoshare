@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebserviceController.h"
 
-@interface EarningViewController : UIViewController
+@class ContentManager;
+@interface EarningViewController : UIViewController<WebserviceDelegate>
 {
     IBOutlet UILabel *totalEarningLabel;
     IBOutlet UILabel *projectedEarninglabel;
     IBOutlet UILabel *peopleReferredLabel;
+    ContentManager *objManager;
 }
 
 @end

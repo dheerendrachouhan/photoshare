@@ -9,6 +9,9 @@
 #import "JXBarChartView.h"
 
 @interface JXBarChartView()
+{
+    CGRect screenFrame;
+}
 @property (nonatomic) CGContextRef context;
 @property (nonatomic, strong) NSMutableArray *textIndicatorsLabels;
 @property (nonatomic, strong) NSMutableArray *digitIndicatorsLabels;
@@ -37,6 +40,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        screenFrame =frame;
         _values = values;
         _maxValue = maxValue;
         _textIndicatorsLabels = [[NSMutableArray alloc] initWithCapacity:[values count]];
@@ -137,7 +141,15 @@
 - (void)setLabelValues:(UILabel *)label
 {
     label.textColor = [UIColor colorWithRed:0.125 green:0.514 blue:0.769 alpha:1];
-    label.font = [UIFont systemFontOfSize:23.0];
+    if(screenFrame.size.height == 370)
+    {
+        label.font = [UIFont systemFontOfSize:18.0];
+    }
+    else
+    {
+        label.font = [UIFont systemFontOfSize:23.0];
+    }
+    
     [label setTextAlignment:NSTextAlignmentRight];
     label.adjustsFontSizeToFitWidth = YES;
     label.backgroundColor = [UIColor clearColor];

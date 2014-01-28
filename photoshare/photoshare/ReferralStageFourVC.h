@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import <Social/Social.h>
+#import "WebserviceController.h"
 
-
-@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate>
+@class ContentManager;
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;
@@ -20,10 +22,10 @@
     IBOutlet UIImageView *customImage;
     IBOutlet UITextView *userMessage;
     IBOutlet UIButton *editMessageBtn;
-    IBOutlet UIButton *sendMessageBtn;
     IBOutlet UIScrollView *scrollView;
     BOOL setterEdit;
     BOOL fbFilter,twFilter,mailFilter,smsFilter;
+    ContentManager *objManager;
 }
 
 @property (nonatomic, strong) NSString *stringStr;

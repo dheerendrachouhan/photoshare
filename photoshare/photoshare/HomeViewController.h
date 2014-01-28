@@ -14,6 +14,7 @@
 -(void)earningView;
 
 @end
+@class ContentManager;
 @interface HomeViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate>
 {
     IBOutlet UIButton *totalEarningBtn;
@@ -24,6 +25,7 @@
     UINavigationController *navController;
     
     UIImagePickerController *imagePicker;
+    ContentManager *objManager;
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 -(IBAction)goToTotalEarning:(id)sender;

@@ -70,7 +70,6 @@
         NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
         [wc call:postStr controller:@"authentication" method:@"login"] ;
     }
-   
 }
 
 -(void) webserviceCallback:(NSString *)data
@@ -83,12 +82,18 @@
          //validate the user
     if([[JSON objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
         {
-            CommonTopView *topView=[CommonTopView sharedTopView];
-            [topView setTheTotalEarning:@"19"];
-            
             //get the userId
             NSMutableArray *outPutData=[JSON objectForKey:@"output_data"] ;
             NSDictionary *dic=[outPutData objectAtIndex:0];
+            //Setting values globally
+            ContentManager *objManager=[ContentManager sharedManager];
+            objManager.loginDetailsDict = dic;
+            
+            //Setting the TopView
+            CommonTopView *topView=[CommonTopView sharedTopView];
+            [topView setTheTotalEarning:[NSString stringWithFormat:@"%@",[objManager.loginDetailsDict objectForKey:@"total_earnings"]]];
+            ///
+            
             NSNumber *userid=[dic objectForKey:@"user_id"];
             
             NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
