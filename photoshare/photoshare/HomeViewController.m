@@ -55,7 +55,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 50);
+    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 70);
     ContentManager *manager=[ContentManager sharedManager];
     NSArray *publicImgArray=[manager getData:@"publicImgArray"];
     if([publicImgArray count]==0)
@@ -100,14 +100,14 @@
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     photoGallery.isPublicFolder=YES;
     [self.navigationController pushViewController:photoGallery animated:YES];
-     photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
+     
     
 }
 -(IBAction)goToCommunity:(id)sender
 {
     
     CommunityViewController *comm=[[CommunityViewController alloc] init];
-    comm.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
+    
     [self.navigationController pushViewController:comm animated:YES];
     
 }

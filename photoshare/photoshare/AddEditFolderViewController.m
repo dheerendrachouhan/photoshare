@@ -10,6 +10,7 @@
 #import "CommonTopView.h"
 #import "CommunityViewController.h"
 #import "ContentManager.h"
+
 @interface AddEditFolderViewController ()
 
 @end
@@ -108,7 +109,10 @@
 }
 -(IBAction)addFolder:(id)sender
 {
-    UIAlertView *alert=[self alertView];
+    [self storeCollectionInfoInServer:folderName.text sharing:1 writeUserIds:@"1,2" readUserIds:@"1,3"];
+    
+    
+    /*UIAlertView *alert=[self alertView];
     
     ContentManager *contentManagerObj=[ContentManager sharedManager];
     NSMutableArray *folderArray=[[NSMutableArray alloc] init];
@@ -130,7 +134,7 @@
     folderName.text=@"";
     shareWithUser.text=@"";
     
-    [alert show];
+    [alert show];*/
 }
 -(IBAction)saveFolder:(id)sender
 {
@@ -156,6 +160,7 @@
     alert.message=@"Folder Deleted";
      [alert show];
 }
+//alert delegate method
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex==0&&[alertView.message isEqualToString:@"Successfully Added"])
@@ -169,6 +174,37 @@
     else if(buttonIndex==0&&[alertView.message isEqualToString:@"Folder Save Successfully"])
     {
         [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+//store collection info in server
+-(void)storeCollectionInfoInServer:(NSString *)collectionName sharing:(int)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+{
+    WebserviceController *webService=[[WebserviceController alloc] init];
+    webService.delegate=self;
+    //get the user id from nsuserDefaults
+    ContentManager *manager=[ContentManager sharedManager];
+    NSNumber *userId=[manager getData:@"user_id"];
+    //store data
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_name=%@&collection_sharing=%d&collection_write_user_ids=%@&collection_read_user_ids=%@",[userId intValue],collectionName,sharing,writeUserIds,readUserIds];
+    
+    [webService call:data controller:@"collection" method:@"store"];
+    
+}
+//call back Method
+-(void)webserviceCallback:(NSString *)data
+{
+    NSLog(@"Collection return %@",data);
+    NSDictionary *JSON =
+    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
+    
+    ContentManager *manager=[ContentManager sharedManager];
+    if([[JSON objectForKey:@"user_message"] isEqualToString:@"Collection Created."])
+    {
+        [manager showAlert:@"New Folder" msg:@"Successfully Added" cancelBtnTitle:@"Ok" otherBtn:Nil];
+    }
+    else
+    {
+        [manager showAlert:@"New Folder" msg:@"You already have a Folder with that name." cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
 }
 - (void)didReceiveMemoryWarning

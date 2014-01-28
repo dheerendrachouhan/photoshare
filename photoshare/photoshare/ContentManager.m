@@ -44,7 +44,7 @@ static ContentManager *objContantManager = nil;
     return getData;
 }
 
--(void)showAlert:(NSString *)alrttittle :(NSString *)msg :(NSString *)btnTittle :(NSString *)otherBtn{
+-(void)showAlert:(NSString *)alrttittle msg:(NSString *)msg cancelBtnTitle:(NSString *)btnTittle otherBtn:(NSString *)otherBtn{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alrttittle message:msg delegate:nil cancelButtonTitle:btnTittle otherButtonTitles:otherBtn, nil];
     [alert show];
 }
