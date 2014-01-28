@@ -34,7 +34,7 @@
     selectedImagesIndex=[[NSMutableArray alloc] init];
     //initialize the assets Library
     library=[[ALAssetsLibrary alloc] init];
-    
+    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 105);
     //set the design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
@@ -60,6 +60,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+     self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 105);
     [self setDataForCollectionView];
     [collectionview reloadData];
     frameForShareBtn=sharePhotoBtn.frame;
@@ -205,8 +206,18 @@
     }
     [imgArray addObject:image];
     [collectionview reloadData];
+    
 }
-//-(void)saveImage
+-(void)savePhotosOnServer
+{
+    WebserviceController *webService=[[WebserviceController alloc] init];
+    //get the user id from nsuserDefaults
+    ContentManager *manager=[ContentManager sharedManager];
+    NSNumber *userId=[manager getData:@"user_id"];
+    //store data
+    [webService call:@"" controller:@"photo" method:@"store"];
+    //user_id,file,photo_title,photo_description,photo_collections
+}
 -(IBAction)deletePhoto:(id)sender
 {
     UIButton *btn=(UIButton *)sender;

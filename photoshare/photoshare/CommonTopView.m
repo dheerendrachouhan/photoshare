@@ -42,13 +42,13 @@ static CommonTopView *topView=nil;
         //totalEarningView.backgroundColor=[UIColor grayColor];
         totalEarningView.layer.cornerRadius=10;
         
-        totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(225, 10, 100, 21)];
+        totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(225, 7, 100, 21)];
         totalEarningHeading.textAlignment=NSTextAlignmentCenter;
         totalEarningHeading.text=@"total earnings";
         totalEarningHeading.font=[UIFont fontWithName:@"verdana" size:11];
         totalEarningHeading.textColor=[UIColor blackColor];
         
-        totalEarning=[[UILabel alloc] initWithFrame:CGRectMake(225, 23, 100, 24)];
+        totalEarning=[[UILabel alloc] initWithFrame:CGRectMake(225, 23, 100, 20)];
         totalEarning.font=[UIFont fontWithName:@"verdana" size:18];
         
         totalEarning.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];

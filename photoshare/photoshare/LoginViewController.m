@@ -16,7 +16,7 @@
 #import "ResetPasswordController.h"
 #import "CommonTopView.h"
 #import "WebserviceController.h"
-
+#import "ContentManager.h"
 @interface LoginViewController ()
 
 @end
@@ -39,13 +39,13 @@
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
     //add the border color in username and password textfield
+    //temp Hidden
+    loginBackgroundImage.hidden=YES;
     
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;
     pwsFlt = NO;
     
-    
-   
 }
 
 //user sign in function
@@ -77,16 +77,28 @@
     NSLog(@"login callback%@",data);
     
     NSDictionary *JSON =
-    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]
-                                    options: NSJSONReadingMutableContainers
-                                      error: Nil];
-     NSLog(@"login callback%@",JSON);
+    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
+   
+         //validate the user
     if([[JSON objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
         {
             CommonTopView *topView=[CommonTopView sharedTopView];
             [topView setTheTotalEarning:@"19"];
+            
+            //get the userId
+            NSMutableArray *outPutData=[JSON objectForKey:@"output_data"] ;
+            NSDictionary *dic=[outPutData objectAtIndex:0];
+            NSNumber *userid=[dic objectForKey:@"user_id"];
+            
+            NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
+            
+            //store the UserId in NSUser Defaults
+            ContentManager *manager=[ContentManager sharedManager];
+            [manager storeData:userid :@"user_id"];      
+            
             [self dismissViewControllerAnimated:YES completion:nil] ;
             NSLog(@"Successful Login");
+            
         }
     else
     {

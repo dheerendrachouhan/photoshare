@@ -89,7 +89,18 @@
     
     
 }
-
+//get collection  info array from server
+-(void)getTheCollectionInfoArrayFromServer
+{
+    WebserviceController *webService=[[WebserviceController alloc] init];
+    webService.delegate=self;
+    //get the user id from nsuserDefaults
+    ContentManager *manager=[ContentManager sharedManager];
+    NSNumber *userId=[manager getData:@"user_id"];
+    
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_user_id=%d",[userId intValue],[userId intValue]];
+    
+}
 -(void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
@@ -97,6 +108,8 @@
   [collectionview reloadData];
     //set title for navigation controller
     self.title=@"Community folders";
+    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 105);
+    
     blueLabelImgFrame=diskSpaceBlueLabel.frame;
     [self setTheDiskSpace];
 }

@@ -53,6 +53,13 @@
 		E17222DE18928DE700F28748 /* arrows_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DB18928DE700F28748 /* arrows_blue.png */; };
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
+		E182626618976CDA00C1C799 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E182626418976CDA00C1C799 /* EditProfileViewController.m */; };
+		E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626518976CDA00C1C799 /* EditProfileViewController.xib */; };
+		E182626E18976D0400C1C799 /* TermConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E182626918976D0400C1C799 /* TermConditionViewController.m */; };
+		E182626F18976D0400C1C799 /* TermConditionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626A18976D0400C1C799 /* TermConditionViewController.xib */; };
+		E182627018976D0400C1C799 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E182626C18976D0400C1C799 /* UserSecurityViewController.m */; };
+		E182627118976D0400C1C799 /* UserSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626D18976D0400C1C799 /* UserSecurityViewController.xib */; };
+		E182627718976EDA00C1C799 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627618976EDA00C1C799 /* checkbox.png */; };
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
 		E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
@@ -177,6 +184,16 @@
 		E17222DB18928DE700F28748 /* arrows_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrows_blue.png; sourceTree = "<group>"; };
 		E17222DC18928DE700F28748 /* cancel_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_btn.png; sourceTree = "<group>"; };
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
+		E182626318976CDA00C1C799 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
+		E182626418976CDA00C1C799 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
+		E182626518976CDA00C1C799 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
+		E182626818976D0400C1C799 /* TermConditionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermConditionViewController.h; sourceTree = "<group>"; };
+		E182626918976D0400C1C799 /* TermConditionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermConditionViewController.m; sourceTree = "<group>"; };
+		E182626A18976D0400C1C799 /* TermConditionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermConditionViewController.xib; sourceTree = "<group>"; };
+		E182626B18976D0400C1C799 /* UserSecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSecurityViewController.h; sourceTree = "<group>"; };
+		E182626C18976D0400C1C799 /* UserSecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSecurityViewController.m; sourceTree = "<group>"; };
+		E182626D18976D0400C1C799 /* UserSecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController.xib; sourceTree = "<group>"; };
+		E182627618976EDA00C1C799 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		E18648D01896285800175E8D /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		E18648D11896285800175E8D /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		E18648D618969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
@@ -354,6 +371,7 @@
 				FC97640D1890050C008DF1F8 /* Layouts */,
 				FC97639E188FEB89008DF1F8 /* AppDelegate.h */,
 				FC97639F188FEB89008DF1F8 /* AppDelegate.m */,
+				E182627618976EDA00C1C799 /* checkbox.png */,
 				FC9763AA188FEB89008DF1F8 /* Images.xcassets */,
 				FC976396188FEB89008DF1F8 /* Supporting Files */,
 				E17222D6189285A100F28748 /* LoginViewController.h */,
@@ -364,6 +382,13 @@
 				E16F391A1891325600064806 /* CommonTopView.m */,
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
+				E182626318976CDA00C1C799 /* EditProfileViewController.h */,
+				E182626418976CDA00C1C799 /* EditProfileViewController.m */,
+				E182626818976D0400C1C799 /* TermConditionViewController.h */,
+				E182626918976D0400C1C799 /* TermConditionViewController.m */,
+				E182626B18976D0400C1C799 /* UserSecurityViewController.h */,
+				E182626C18976D0400C1C799 /* UserSecurityViewController.m */,
+				E182626D18976D0400C1C799 /* UserSecurityViewController.xib */,
 				FC9763F9189003E9008DF1F8 /* CommunityViewController.h */,
 				FC9763FA189003E9008DF1F8 /* CommunityViewController.m */,
 				E17222AB18923AF900F28748 /* CollectionViewCell.h */,
@@ -376,7 +401,6 @@
 				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
 				E31AA48818962DFA0065F8E2 /* ReferralStageFourVC.h */,
 				E31AA48918962DFA0065F8E2 /* ReferralStageFourVC.m */,
-				E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */,
 				E31AA48D189662C00065F8E2 /* EditMessageVC.h */,
 				E31AA48E189662C00065F8E2 /* EditMessageVC.m */,
 				E31AA48F189662C00065F8E2 /* EditMessageVC.xib */,
@@ -490,6 +514,10 @@
 		FC97640D1890050C008DF1F8 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
+				E182626518976CDA00C1C799 /* EditProfileViewController.xib */,
+				E182626A18976D0400C1C799 /* TermConditionViewController.xib */,
+				E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */,
+				E31AA48F189662C00065F8E2 /* EditMessageVC.xib */,
 				FC97641618900B00008DF1F8 /* HomeViewController.xib */,
 				FC97641118900734008DF1F8 /* PhotoViewController.xib */,
 				FC97640A18900505008DF1F8 /* AccountViewController.xib */,
@@ -636,14 +664,17 @@
 				E17222DF18928DE700F28748 /* cancel_btn.png in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
 				E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */,
+				E182627718976EDA00C1C799 /* checkbox.png in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
+				E182627118976D0400C1C799 /* UserSecurityViewController.xib in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
 				E31C75B018976DAA00A8CC7F /* EditProfileViewController.xib in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
+				E182626F18976D0400C1C799 /* TermConditionViewController.xib in Resources */,
 				E17222CB189281B000F28748 /* ResetPasswordController.xib in Resources */,
 				E31C75BC1897730800A8CC7F /* checkbox.png in Resources */,
 				E31C75C71897A82600A8CC7F /* FBTWViewController.xib in Resources */,
@@ -654,6 +685,7 @@
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
 				E31C75C21897A7DC00A8CC7F /* twitter.png in Resources */,
 				E17222BC1892817800F28748 /* EarningViewController.xib in Resources */,
+				E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */,
 				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
