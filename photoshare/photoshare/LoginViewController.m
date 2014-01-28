@@ -52,7 +52,7 @@
 - (IBAction)userSignInBtn:(id)sender {
     
     //Without Validation
-    [self dismissViewControllerAnimated:YES completion:nil] ;
+    //[self dismissViewControllerAnimated:YES completion:nil] ;
     
     NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];

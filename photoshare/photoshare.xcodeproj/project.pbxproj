@@ -84,7 +84,7 @@
 		E31C75C21897A7DC00A8CC7F /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E31C75C01897A7DC00A8CC7F /* twitter.png */; };
 		E31C75C61897A82600A8CC7F /* FBTWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75C41897A82500A8CC7F /* FBTWViewController.m */; };
 		E31C75C71897A82600A8CC7F /* FBTWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31C75C51897A82600A8CC7F /* FBTWViewController.xib */; };
-		E31C75CD1897ECE400A8CC7F /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75CC1897ECE400A8CC7F /* SVProgressHUD.m */; };
+		E31C75CD1897ECE400A8CC7F /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75CC1897ECE400A8CC7F /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };

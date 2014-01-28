@@ -12,7 +12,7 @@
 #import "FinanceCalculatorViewController.h"
 #import "ReferFriendViewController.h"
 #import "ContentManager.h"
-#import "JSONDictionaryExtensions.h"
+#import "SVProgressHUD.h"
 
 @interface EarningViewController ()
 
@@ -47,6 +47,7 @@
     wc.delegate = self;
     NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
     [wc call:postStr controller:@"user" method:@"getearningsdetails"] ;
+    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 }
 
 -(void) webserviceCallback:(NSString *)data
