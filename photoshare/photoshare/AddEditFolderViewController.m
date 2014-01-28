@@ -10,13 +10,14 @@
 #import "CommonTopView.h"
 #import "CommunityViewController.h"
 #import "ContentManager.h"
+
 @interface AddEditFolderViewController ()
 
 @end
 
 @implementation AddEditFolderViewController
 
-@synthesize isAddFolder,isEditFolder,folderIndex;
+@synthesize isAddFolder,isEditFolder,collectionId,setFolderName;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -69,8 +70,8 @@
         addButton.hidden=YES;
         saveButton.hidden=NO;
         deleteButton.hidden=NO;
-        ContentManager *contantManagerObj=[ContentManager sharedManager];
-        folderName.text=[[contantManagerObj getData:@"FolderArray"] objectAtIndex:self.folderIndex];
+        
+        folderName.text=self.setFolderName;
         
     }
     else if(isAddFolder)
@@ -81,7 +82,18 @@
         deleteButton.hidden=YES;
     }
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear: animated];
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
+    
+     webServices=[[WebserviceController alloc] init];
+    
+    //get the user id from nsuserDefaults
+    ContentManager *manager=[ContentManager sharedManager];
+    userID=[[manager getData:@"user_id"] intValue];
+}
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return [textField resignFirstResponder];
@@ -108,67 +120,72 @@
 }
 -(IBAction)addFolder:(id)sender
 {
-    UIAlertView *alert=[self alertView];
+    [self addCollectionInfoInServer:folderName.text sharing:1 writeUserIds:[NSString stringWithFormat:@"%d",userID] readUserIds:@""];
     
-    ContentManager *contentManagerObj=[ContentManager sharedManager];
-    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
-    //folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
-
-    
-    if([folderArray containsObject:@"folderName.text"])
-    {
-       alert.message=@"Folder Already Available";
-    }
-    else
-    {
-        [folderArray addObject:folderName.text];
-        NSLog(@"Folder Array %@",folderArray);
-        [contentManagerObj storeData:folderArray :@"FolderArray"];
-        NSLog(@"Folder Array %@",[contentManagerObj getData:@"FolderArray"]);
-        alert.message=@"Successfully Added";
-    }
-    folderName.text=@"";
-    shareWithUser.text=@"";
-    
-    [alert show];
+   
 }
+
 -(IBAction)saveFolder:(id)sender
 {
-    ContentManager *contentManagerObj=[ContentManager sharedManager];
-    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
-    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
-    [folderArray replaceObjectAtIndex:self.folderIndex withObject:folderName.text];
-    [contentManagerObj storeData:folderArray :@"FolderArray"];
-    
-    UIAlertView *alert=[self alertView];
-    alert.message=@"Folder Save Successfully";
-     [alert show];
+   
+    [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:0 writeUserIds:[NSString stringWithFormat:@"%d",userID] readUserIds:@""];
 }
 -(IBAction)deleteFolder:(id)sender
 {
-    ContentManager *contentManagerObj=[ContentManager sharedManager];
-    NSMutableArray *folderArray=[[NSMutableArray alloc] init];
-    folderArray=[[contentManagerObj getData:@"FolderArray"] mutableCopy];
-    [folderArray removeObjectAtIndex:self.folderIndex];
-    [contentManagerObj storeData:folderArray :@"FolderArray"];
-    
-    UIAlertView *alert=[self alertView];
-    alert.message=@"Folder Deleted";
-     [alert show];
+    [self deleteCollectionInfoInServer:userID collecId:self.collectionId];
 }
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+
+//store collection info in server
+-(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(int)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
 {
-    if(buttonIndex==0&&[alertView.message isEqualToString:@"Successfully Added"])
+   
+    webServices.delegate=self;
+    
+    //store data
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_name=%@&collection_sharing=%d&collection_write_user_ids=%@&collection_read_user_ids=%@",userID,collectionName,sharing,writeUserIds,readUserIds];
+    
+    [webServices call:data controller:@"collection" method:@"store"];
+    
+}
+-(void)editCollectionInfoInServer:(int)collecId collectionName:(NSString *)collectionName sharing:(int)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+{
+   
+    webServices.delegate=self;
+    
+    //edit data
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d&collection_name=%@&collection_sharing=%d&collection_write_user_ids=%@&collection_read_user_ids=%@",userID,collecId,collectionName,sharing,writeUserIds,readUserIds];
+    
+    [webServices call:data controller:@"collection" method:@"change"];
+    
+}
+-(void)deleteCollectionInfoInServer:(int)userid collecId:(int)collecId
+{
+    webServices.delegate=self;
+    
+    //delete data
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",userID,collecId];
+    
+    [webServices call:data controller:@"collection" method:@"delete"];
+    
+}
+//call back Method
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSLog(@"Collection return %@",data);
+   
+    
+    ContentManager *manager=[ContentManager sharedManager];
+    NSLog(@"exit  %@",[data objectForKey:@"exit_code"]);
+    int exitCode=[[data objectForKey:@"exit_code"] intValue];
+    if(exitCode ==1)
     {
+        [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
         [self.navigationController popViewControllerAnimated:YES];
     }
-    else if(buttonIndex==0&&[alertView.message isEqualToString:@"Folder Deleted"])
+    
+    else
     {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if(buttonIndex==0&&[alertView.message isEqualToString:@"Folder Save Successfully"])
-    {
-        [self.navigationController popViewControllerAnimated:YES];
+        [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
 }
 - (void)didReceiveMemoryWarning

@@ -11,7 +11,7 @@
 @protocol WebserviceDelegate <NSObject>
 
 @required
--(void) webserviceCallback: (NSString *)data;
+-(void) webserviceCallback: (NSDictionary *)data;
 
 @end
 

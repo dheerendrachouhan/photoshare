@@ -12,7 +12,6 @@
 {
     IBOutlet UIImageView *custumImageBackground;
     IBOutlet UITextView *textMessage;
-    IBOutlet UIButton *doneBtn;
 }
 
 @property (nonatomic, strong) NSString *edittedMessage;

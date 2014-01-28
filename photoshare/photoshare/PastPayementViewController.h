@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "WebserviceController.h"
 
-@interface PastPayementViewController : UIViewController
-
+@class ContentManager;
+@interface PastPayementViewController : UIViewController <WebserviceDelegate>
+{
+    ContentManager *objManager;
+}
 @end

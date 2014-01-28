@@ -15,6 +15,8 @@
 #import "EarningViewController.h"
 #import "WebserviceController.h"
 #import "LoginViewController.h"
+#import "ContentManager.h"
+
 @interface HomeViewController ()
 
 @end
@@ -26,6 +28,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        objManager = [ContentManager sharedManager];
     }
     
     return self;
@@ -55,7 +58,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 20, 320, 50);
+    self.navigationController.navigationBarHidden=YES;
     ContentManager *manager=[ContentManager sharedManager];
     NSArray *publicImgArray=[manager getData:@"publicImgArray"];
     if([publicImgArray count]==0)
@@ -100,16 +103,16 @@
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     photoGallery.isPublicFolder=YES;
     [self.navigationController pushViewController:photoGallery animated:YES];
-     photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
+     
     
 }
 -(IBAction)goToCommunity:(id)sender
 {
     
     CommunityViewController *comm=[[CommunityViewController alloc] init];
-    comm.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
-    [self.navigationController pushViewController:comm animated:YES];
     
+    [self.navigationController pushViewController:comm animated:YES];
+       
 }
 -(IBAction)gotoPhotos:(id)sender
 {

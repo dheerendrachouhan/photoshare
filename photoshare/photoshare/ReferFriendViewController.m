@@ -46,7 +46,7 @@
 {
     ReferralStageFourVC *rf4 = [[ReferralStageFourVC alloc] init];
     [self.navigationController pushViewController:rf4 animated:YES];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
+    rf4.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 - (void)didReceiveMemoryWarning

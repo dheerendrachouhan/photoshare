@@ -7,18 +7,29 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebserviceController.h"
 @class CollectionViewCell;
-@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate>
+@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate,WebserviceDelegate>
 {
     IBOutlet UICollectionView *collectionview;
     UIButton *addFolderBtn;
+    IBOutlet UIProgressView *progressView;
     IBOutlet UILabel *diskSpaceTitle;
-    IBOutlet UILabel *diskSpaceBlueLabel;
-        
     CollectionViewCell *obj_Cell;
-    NSMutableArray *folderNameArray;
+    
+    NSMutableArray *collectionNameArray;
+    NSMutableArray *collectionIdArray;
+    NSMutableArray *collectionDefaultArray;
+    NSMutableArray *collectionSharingArray;
+    NSMutableArray *collectionSharedArray;
+    
+    
     int noOfPagesInCollectionView;
-    CGRect blueLabelImgFrame;
+    WebserviceController *webServices;
+    
+    UIActivityIndicatorView *indicator;
+    BOOL isGetStorage;
+    BOOL isGetCollectionInfo;
 }
 
 @end

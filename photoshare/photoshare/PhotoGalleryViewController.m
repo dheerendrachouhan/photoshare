@@ -16,7 +16,7 @@
 @end
 
 @implementation PhotoGalleryViewController
-@synthesize isPublicFolder,selectedFolderIndex;
+@synthesize isPublicFolder,selectedFolderIndex,folderName;
 @synthesize library;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -60,6 +60,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
+    
     [self setDataForCollectionView];
     [collectionview reloadData];
     frameForShareBtn=sharePhotoBtn.frame;
@@ -74,7 +77,7 @@
     if(self.isPublicFolder==YES)
     {
         //set title
-        self.title=@"Public Folder";
+     self.navigationController.navigationBar.topItem.title=@"Public Folder";
         if([contentManagerObj getData:@"publicImgArray"]==nil)
         {
             [contentManagerObj storeData:imgArray :@"publicImgArray"];
@@ -85,7 +88,7 @@
     else
     {
         //set Folder Name in Right Side of navigation bar
-        NSString *folderName=[[contentManagerObj getData:@"FolderArray"] objectAtIndex:self.selectedFolderIndex];
+        NSString *folderName=self.folderName;
         UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithTitle:folderName  style:UIBarButtonItemStylePlain target:self action:nil];
         foldernameButton.tintColor=[UIColor blackColor];
         self.navigationItem.rightBarButtonItem = foldernameButton;
@@ -205,8 +208,18 @@
     }
     [imgArray addObject:image];
     [collectionview reloadData];
+    
 }
-//-(void)saveImage
+-(void)savePhotosOnServer
+{
+    WebserviceController *webService=[[WebserviceController alloc] init];
+    //get the user id from nsuserDefaults
+    ContentManager *manager=[ContentManager sharedManager];
+    NSNumber *userId=[manager getData:@"user_id"];
+    //store data
+    [webService call:@"" controller:@"photo" method:@"store"];
+    //user_id,file,photo_title,photo_description,photo_collections
+}
 -(IBAction)deletePhoto:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
@@ -317,10 +330,9 @@
         {
             if(cell.selected==NO)
             {
-                
                 UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
                 checkBoxImg.layer.masksToBounds=YES;
-                checkBoxImg.image=[UIImage imageNamed:@"checkbox.png"];
+                checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
                 checkBoxImg.tag=1001;
                 [cell.contentView addSubview:checkBoxImg];
                 

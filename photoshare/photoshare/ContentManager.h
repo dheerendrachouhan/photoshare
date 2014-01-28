@@ -11,11 +11,11 @@
 @interface ContentManager:NSObject{
 
 }
-@property (nonatomic, strong) NSMutableDictionary *loginDetailsDict;
+@property (nonatomic, strong) NSDictionary *loginDetailsDict;
 
 +(ContentManager *)sharedManager;
 
 -(void)storeData:(id)storedObj :(NSString *)storeKey;
 -(id)getData:(NSString *)getKey;
--(void)showAlert:(NSString *)alrttittle :(NSString *)msg :(NSString *)btnTittle :(NSString *)otherBtn;
+-(void)showAlert:(NSString *)alrttittle msg:(NSString *)msg cancelBtnTitle:(NSString *)btnTittle otherBtn:(NSString *)otherBtn;
 @end

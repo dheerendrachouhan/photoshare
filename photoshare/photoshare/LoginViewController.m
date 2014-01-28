@@ -16,7 +16,7 @@
 #import "ResetPasswordController.h"
 #import "CommonTopView.h"
 #import "WebserviceController.h"
-
+#import "ContentManager.h"
 @interface LoginViewController ()
 
 @end
@@ -39,13 +39,20 @@
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
     //add the border color in username and password textfield
+    //temp Hidden
+    //loginBackgroundImage.hidden=YES;
     
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;
     pwsFlt = NO;
     
+    UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
+    [nameTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [nameTextField setLeftView:spacerView];
+    UIView *spacerViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
+    [passwordTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [passwordTextField setLeftView:spacerViews];
     
-   
 }
 
 //user sign in function
@@ -53,6 +60,7 @@
     
     //Without Validation
     //[self dismissViewControllerAnimated:YES completion:nil] ;
+    
     NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];
     if(nameTextField.text.length==0||passwordTextField.text.length==0)
@@ -69,28 +77,44 @@
         NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
         [wc call:postStr controller:@"authentication" method:@"login"] ;
     }
-   
 }
 
--(void) webserviceCallback:(NSString *)data
+-(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
     
-    NSDictionary *JSON =
-    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]
-                                    options: NSJSONReadingMutableContainers
-                                      error: Nil];
-     NSLog(@"login callback%@",JSON);
-    if([[JSON objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
+    
+   
+         //validate the user
+    if([[data objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
         {
+            //get the userId
+            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+            NSDictionary *dic=[outPutData objectAtIndex:0];
+            //Setting values globally
+            ContentManager *objManager=[ContentManager sharedManager];
+            objManager.loginDetailsDict = dic;
+            
+            //Setting the TopView
             CommonTopView *topView=[CommonTopView sharedTopView];
-            [topView setTheTotalEarning:@"19"];
+            //[topView setTheTotalEarning:[NSString stringWithFormat:@"%@",[objManager.loginDetailsDict objectForKey:@"total_earnings"]]];
+            ///
+            
+            NSNumber *userid=[dic objectForKey:@"user_id"];
+            
+            NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
+            
+            //store the UserId in NSUser Defaults
+            ContentManager *manager=[ContentManager sharedManager];
+            [manager storeData:userid :@"user_id"];      
+            
             [self dismissViewControllerAnimated:YES completion:nil] ;
             NSLog(@"Successful Login");
+            
         }
     else
     {
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[JSON objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     }
 }
@@ -146,7 +170,7 @@
         if([nameTextField.text length] > 0)
         {
             usrFlt =YES;
-            [namecancelBtn setImage:[UIImage imageNamed:@"cancel_red.png"] forState:UIControlStateNormal];
+            [namecancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
         }
         else if([nameTextField.text length] == 0 )
         {
@@ -159,7 +183,7 @@
         if([passwordTextField.text length] > 0)
         {
             pwsFlt = YES;
-            [passwordcancelBtn setImage:[UIImage imageNamed:@"cancel_red.png"] forState:UIControlStateNormal];
+            [passwordcancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
         }
         else if([passwordTextField.text length] == 0)
         {

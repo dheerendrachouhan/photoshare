@@ -8,12 +8,18 @@
 
 #import "ReferralStageFourVC.h"
 #import "EditMessageVC.h"
+#import "ContentManager.h"
+#import "FBTWViewController.h"
 
 @interface ReferralStageFourVC ()
 
 @end
 
 @implementation ReferralStageFourVC
+{
+    NSString *userSelectedEmail;
+    NSString *userSelectedPhone;
+}
 @synthesize stringStr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -22,12 +28,15 @@
     if (self) {
         // Custom initialization
     }
+    objManager = [ContentManager sharedManager];
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     setterEdit = NO;
     [userMessage setEditable:NO];
     // Do any additional setup after loading the view from its nib.
@@ -44,7 +53,6 @@
     smsFilter = NO;
     
     //hide done button
-    [sendMessageBtn setHidden:YES];
     
     if([stringStr length]==0)
     {
@@ -55,6 +63,14 @@
         userMessage.text = stringStr;
     }
     
+    //Checking the screen size
+    if([[UIScreen mainScreen] bounds].size.height == 480)
+    {
+        scrollView.contentSize =CGSizeMake(320,  self.view.frame.size.height);
+        scrollView.autoresizingMask= UIViewAutoresizingFlexibleHeight;
+        
+    }
+
 }
 
 
@@ -62,6 +78,7 @@
     EditMessageVC *edMSG = [[EditMessageVC alloc] init];
     edMSG.edittedMessage = userMessage.text;
     [self.navigationController pushViewController:edMSG animated:YES];
+    edMSG.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     
 }
 
@@ -98,7 +115,6 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    //[self mailTo];
     [self showContactListPicker];
 }
 
@@ -107,19 +123,81 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
+    [self showContactListPicker];
+}
+
+//Social Message Sending
+- (IBAction)postTofacebook:(id)sender {
+    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        SLComposeViewController *facebook = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        
+        [facebook setInitialText:userMessage.text];
+        [facebook setCompletionHandler:^(SLComposeViewControllerResult result) {
+            FBTWViewController *fb = [[FBTWViewController alloc] init];
+            fb.successType = @"fb";
+            switch (result) {
+                case SLComposeViewControllerResultCancelled:
+                    [objManager showAlert:@"Cancelled" msg:@"Post Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+                    break;
+                case SLComposeViewControllerResultDone:
+                    [self.navigationController pushViewController:fb animated:YES];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
+        [self presentViewController:facebook animated:YES completion:Nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't post right now, make sure your device has an internet connection and you have at least one Facebook account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alertView show];
+    }
+
+}
+
+- (IBAction)postToTwitter:(id)sender {
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    {
+        SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [tweetSheet setInitialText:userMessage.text];
+        [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+            FBTWViewController *tw = [[FBTWViewController alloc] init];
+            tw.successType = @"tw";
+            switch (result) {
+                case SLComposeViewControllerResultCancelled:
+                    [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+                    break;
+                case SLComposeViewControllerResultDone:
+                    
+                    [self.navigationController pushViewController:tw animated:YES];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alertView show];
+    }
 }
 
 //Email from Contacts
 -(void) mailTo {
 
-    //send to link
-    NSString *schoolEmailID = @"";
     // Email Subject
     NSString *emailTitle = @"Join 123 Friday";
     // Email Content
     NSString *messageBody = userMessage.text; // Change the message body to HTML
     // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:@"Select mails"];
+    NSArray *toRecipents = [NSArray arrayWithObject:userSelectedEmail];
     
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     mc.mailComposeDelegate = self;
@@ -133,19 +211,22 @@
 }
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully refferd your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
+    
     switch (result)
     {
         case MFMailComposeResultCancelled:
-            NSLog(@"Mail cancelled");
+            [objManager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         case MFMailComposeResultSaved:
-            NSLog(@"Mail saved");
+            [objManager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         case MFMailComposeResultSent:
-            NSLog(@"Mail sent");
+            [alert show];
+            
             break;
         case MFMailComposeResultFailed:
-            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         default:
             break;
@@ -155,6 +236,38 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+//Message to user
+-(void)sendInAppSMS
+{
+	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+	if([MFMessageComposeViewController canSendText])
+	{
+		controller.body = userMessage.text;
+		controller.recipients = [NSArray arrayWithObject:userSelectedPhone];
+		controller.messageComposeDelegate = self;
+		[self presentModalViewController:controller animated:YES];
+	}
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully refferd your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
+	switch (result) {
+		case MessageComposeResultCancelled:
+			[objManager showAlert:@"Cancelled" msg:@"Message Composed Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+			break;
+		case MessageComposeResultFailed:
+			[objManager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
+            break;
+		case MessageComposeResultSent:
+            [alert show];
+			break;
+		default:
+			break;
+	}
+    
+	[self dismissModalViewControllerAnimated:YES];
+}
 
 //Contact List
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
@@ -166,7 +279,29 @@
 {
     [self displayPerson:person];
     [self dismissModalViewControllerAnimated:YES];
-    return NO;
+    
+    
+    if(mailFilter)
+    {
+        if([userSelectedEmail length]==0)
+        {
+            [objManager showAlert:@"NO Email" msg:@"No Email Found" cancelBtnTitle:@"Ok" otherBtn:nil];
+        }
+        else {
+            [self mailTo];
+        }
+    }
+    else if(smsFilter)
+    {
+        if([userSelectedPhone length]==0)
+        {
+            [objManager showAlert:@"No Phone" msg:@"Phone no not found" cancelBtnTitle:@"Ok" otherBtn:nil];
+        }
+        else {
+            [self sendInAppSMS];
+        }
+    }
+    return YES;
 }
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
@@ -174,21 +309,35 @@
     return NO;
 }
 
-//Setting the contact List
+//Setting the contact List for Email
 - (void)displayPerson:(ABRecordRef)person
 {
-    NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,kABPersonFirstNameProperty);
-    NSString *emailID = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonEmailProperty);
+    NSString *emailID = nil;
+    ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
+    if(ABMultiValueGetCount(emails) >0)
+    {
+        emailID = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(emails, 0);
+         userSelectedEmail = emailID;
+    } else {
+         userSelectedEmail = emailID;
+    }
+    CFRelease(emails);
+    NSLog(@"%@",userSelectedEmail);
+   
+    
     NSString* phone = nil;
     ABMultiValueRef phoneNumbers = ABRecordCopyValue(person,kABPersonPhoneProperty);
     
     if (ABMultiValueGetCount(phoneNumbers) > 0) {
         phone = (__bridge_transfer NSString*)
         ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+        userSelectedPhone = phone;
     } else {
-        phone = @"[None]";
+        userSelectedPhone = phone;
     }
     CFRelease(phoneNumbers);
+    NSLog(@"%@",userSelectedPhone);
+    
 }
 
 -(void)showContactListPicker
@@ -201,6 +350,16 @@
     [self presentModalViewController:picker animated:YES];
 }
 
+//alertView
+-(void)alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"%li",(long)buttonIndex);
+    NSLog(@"The %@ button was tapped.", [alert buttonTitleAtIndex:buttonIndex]);
+    if(buttonIndex == 1)
+    {
+        [self showContactListPicker];
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {
