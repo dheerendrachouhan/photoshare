@@ -46,6 +46,13 @@
     usrFlt = NO;
     pwsFlt = NO;
     
+    UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
+    [nameTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [nameTextField setLeftView:spacerView];
+    UIView *spacerViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
+    [passwordTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [passwordTextField setLeftView:spacerViews];
+    
 }
 
 //user sign in function
@@ -91,7 +98,7 @@
             
             //Setting the TopView
             CommonTopView *topView=[CommonTopView sharedTopView];
-            [topView setTheTotalEarning:[NSString stringWithFormat:@"%@",[objManager.loginDetailsDict objectForKey:@"total_earnings"]]];
+            //[topView setTheTotalEarning:[NSString stringWithFormat:@"%@",[objManager.loginDetailsDict objectForKey:@"total_earnings"]]];
             ///
             
             NSNumber *userid=[dic objectForKey:@"user_id"];
@@ -164,7 +171,7 @@
         if([nameTextField.text length] > 0)
         {
             usrFlt =YES;
-            [namecancelBtn setImage:[UIImage imageNamed:@"cancel_red.png"] forState:UIControlStateNormal];
+            [namecancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
         }
         else if([nameTextField.text length] == 0 )
         {
@@ -177,7 +184,7 @@
         if([passwordTextField.text length] > 0)
         {
             pwsFlt = YES;
-            [passwordcancelBtn setImage:[UIImage imageNamed:@"cancel_red.png"] forState:UIControlStateNormal];
+            [passwordcancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
         }
         else if([passwordTextField.text length] == 0)
         {
