@@ -12,6 +12,7 @@
 #import "HomeViewController.h"
 #import "AddEditFolderViewController.h"
 #import "PhotoGalleryViewController.h"
+#import "JSONDictionary.h"
 @interface CommunityViewController ()
 
 @end
@@ -34,11 +35,9 @@
 {
     [super viewDidLoad];
     //set title for navigation controller
-    self.title=@"Community folders";
+  //  self.title=@"Community folders";
    
-    //set data for Collection view
-    [self setDataForCollectionView];
-    
+ 
     //set navigationBar frame
     // Do any additional setup after loading the view from its nib.
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
@@ -52,80 +51,106 @@
     UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
     longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
-    
-    
-     [collectionview reloadData];
-       
 }
 
--(void)setDataForCollectionView
+-(void)viewWillAppear:(BOOL)animated
 {
-    ContentManager *contentManagerObj=[ContentManager sharedManager];
-    folderNameArray=[[NSMutableArray alloc] init];
-    if([contentManagerObj getData:@"FolderArray"]==Nil)
-    {
-        [contentManagerObj storeData:folderNameArray :@"FolderArray"];
-    }
-    folderNameArray =[contentManagerObj getData:@"FolderArray"];
+    [super viewWillAppear:animated];
     
-    /*for (int i=0; i<40; i++) {
-        [folderNameArray addObject:[@"BirthDay" stringByAppendingString:[NSString stringWithFormat:@"%i",i]]];
-    }*/
-    float no=[folderNameArray count]/12;
-    float nomodules=[folderNameArray count]%12;
-    if(nomodules!=0)
-    {
-        noOfPagesInCollectionView=no+1;
-    }
-    else
-    {
-        noOfPagesInCollectionView=no;
-    }
-    if([folderNameArray count]==0)
-    {
-        noOfPagesInCollectionView=1;
-    }
-    NSLog(@"%d",noOfPagesInCollectionView);
+    //set title for navigation controller
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
+    self.navigationController.navigationBar.topItem.title=@"Community folders";
     
-    
+    webServices=[[WebserviceController alloc] init];
+    //blueLabelImgFrame=CGRectMake(20, diskSpaceBlueLabel.frame.origin.y-64, 10,diskSpaceBlueLabel.frame.size.height );
+    [self setTheDiskSpace];
+    [self getTheCollectionInfoArrayFromServer];
+}
+//get Storage
+-(void)getStorage
+{
+    isGetStorage=YES;
+    webServices.delegate=self;
+    ContentManager *manager=[ContentManager sharedManager];
+    NSNumber *userId=[manager getData:@"user_id"];
+    NSString *data=[NSString stringWithFormat:@"user_id=%d",[userId intValue]];
+    [webServices call:data controller:@"storage" method:@"get"];
 }
 //get collection  info array from server
 -(void)getTheCollectionInfoArrayFromServer
 {
-    WebserviceController *webService=[[WebserviceController alloc] init];
-    webService.delegate=self;
+   
+    isGetCollectionInfo=YES;
+    webServices.delegate=self;
     //get the user id from nsuserDefaults
     ContentManager *manager=[ContentManager sharedManager];
     NSNumber *userId=[manager getData:@"user_id"];
     
     NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_user_id=%d",[userId intValue],[userId intValue]];
     
-}
--(void)viewWillAppear:(BOOL)animated
-{
-  [super viewWillAppear:animated];
-    [self setDataForCollectionView];
-  [collectionview reloadData];
-    //set title for navigation controller
-    self.title=@"Community folders";
-    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 105);
+    [webServices call:data controller:@"collection" method:@"getlist"];
+   
     
-    blueLabelImgFrame=diskSpaceBlueLabel.frame;
-    [self setTheDiskSpace];
 }
+-(void)webserviceCallback:(NSString *)data
+{
+    //NSLog(@"Call Back getList %@",data);
+   
+    NSDictionary *JSON =
+    [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
+    
+    NSMutableArray *outPutData=[JSON objectForKey:@"output_data"] ;
+    if(isGetCollectionInfo)
+    {
+        collectionNameArray=[[NSMutableArray alloc] init];
+        collectionIdArray=[[NSMutableArray alloc] init];
+        for (NSDictionary *dic in outPutData) {
+            if(![[dic objectForKey:@"collection_name"] isEqualToString:@"Private"]&& ![[dic objectForKey:@"collection_name"] isEqualToString:@"Public"])
+            {
+                [collectionNameArray addObject:[dic objectForKey:@"collection_name"]];
+                [collectionIdArray addObject:[dic objectForKey:@"collection_id"]];
+                [collectionDefaultArray addObject:[dic objectForKey:@"collection_default"]];
+                [collectionSharingArray addObject:[dic objectForKey:@"collection_sharing"]];
+                [collectionSharedArray addObject:[dic objectForKey:@"collection_shared"]];
+                
+            }
+            
+        }
+        isGetCollectionInfo=NO;
+        [self getStorage];
+    }
+    else if(isGetStorage)
+    {
+        NSLog(@"Get Storage %@",data);
+       // NSDictionary *dic=[outPutData objectAtIndex:0];
+        //NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
+        //NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
+        //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
+        
+        progressView.progress=0.2;
+        isGetStorage=NO;
+        [collectionview reloadData];
+    }
+    
+    // NSLog(@"Dic is %@",dic);
+   
+}
+
+
 -(void)setTheDiskSpace
 {
     //set up the diskspace progress
     NSInteger spacePerCentage=50;
     NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%li%@)",(long)spacePerCentage,@"%"];
-    diskSpaceTitle.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-    diskSpaceTitle.text=diskTitle;
-    float x=blueLabelImgFrame.origin.x;
-    float y=blueLabelImgFrame.origin.y;
-    float height=blueLabelImgFrame.size.height;
+    //diskSpaceTitle.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+    //diskSpaceTitle.text=diskTitle;
+    float x=20;
+    float y=self.view.frame.size.height-62;
+    float height=2;
     UILabel *diskSpaceLabel=[[UILabel alloc] initWithFrame:CGRectMake(x, y,2.8*spacePerCentage, height)];
     diskSpaceLabel.backgroundColor=[UIColor colorWithRed:0.004 green:0.478 blue:1 alpha:1];
-    [diskSpaceBlueLabel removeFromSuperview];
+    //[diskSpaceBlueLabel removeFromSuperview];
     [self.view addSubview:diskSpaceLabel];
 }
 
@@ -133,7 +158,7 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //return [folderNameArray count]+noOfPagesInCollectionView;
-    return [folderNameArray count]+noOfPagesInCollectionView;
+    return [collectionNameArray count]+1;
 }
 -(CollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -142,7 +167,7 @@
     
     obj_Cell.folder_imgV.hidden=NO;
     obj_Cell.folder_name.text = [NSString stringWithFormat:@"Folder %d",(int)[indexPath row]];
-    if(([indexPath row]+1)%12==0 || ([indexPath row]+1)==[folderNameArray count]+noOfPagesInCollectionView)
+    if(indexPath.row+1==([collectionNameArray count]+1))
     {
         obj_Cell.folder_imgV.image=[UIImage imageNamed:@"add_folder.png"];
         obj_Cell.icon_img.hidden=YES;
@@ -153,7 +178,7 @@
     {
         obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
         obj_Cell.icon_img.hidden=NO;
-        obj_Cell.folder_name.text=[folderNameArray objectAtIndex:([indexPath row]-indexPath.row/12)];
+        obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:([indexPath row]-indexPath.row/12)];
         
     }
     return obj_Cell;
@@ -166,7 +191,7 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
         
-        if(([indexPath row]+1)%12==0 || ([indexPath row]+1)==[folderNameArray count]+noOfPagesInCollectionView)
+        if(([indexPath row]+1)%12==0 || ([indexPath row]+1)==[collectionNameArray count]+noOfPagesInCollectionView)
         {
             [self addFolder];
             NSLog(@"Add Folder selected index is %ld",(long)[indexPath row]);
@@ -176,9 +201,9 @@
             PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
             photoGallery.isPublicFolder=NO;
             photoGallery.selectedFolderIndex=([indexPath row]-indexPath.row/12);
+            photoGallery.folderName=[collectionNameArray objectAtIndex:[indexPath row]];
+            
             [self.navigationController pushViewController:photoGallery animated:YES];
-            photoGallery.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 90);
-
         }
         
     }
@@ -191,7 +216,7 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
        
-        if(([indexPath row]+1)%12!=0 && ([indexPath row]+1)!=[folderNameArray count]+noOfPagesInCollectionView)
+        if(([indexPath row]+1)%12!=0 && ([indexPath row]+1)!=[collectionNameArray count]+noOfPagesInCollectionView)
         {
           [self editFolder:indexPath];
         }
@@ -212,14 +237,15 @@
     AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
     aec.isAddFolder=NO;
     aec.isEditFolder=YES;
-    aec.folderIndex=([indexPath row]-indexPath.row/12);
+    aec.collectionId=([indexPath row]-indexPath.row/12);
+    aec.setFolderName=[collectionNameArray objectAtIndex:[indexPath row]];
+    aec.collectionId=[[collectionIdArray objectAtIndex:[indexPath row]] integerValue];
     
     CommunityViewController *cm = [[CommunityViewController alloc] init];
     HomeViewController *hm = [[HomeViewController alloc] init] ;
     [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
   
     [self.navigationController pushViewController:aec animated:NO];
-    
 }
 
 -(void)check
@@ -228,45 +254,9 @@
     UICollectionViewCell *cell=(UICollectionViewCell *)[arr lastObject];
     NSIndexPath *indexPath = [collectionview indexPathForCell:cell];
     
-    NSLog(@"Visible cell %ld",[arr count]);
+    NSLog(@"Visible cell %ld",(unsigned long)[arr count]);
     
 }
-
-/*-(void)check{
- 
-     NSArray *arrV = [collectionview indexPathsForVisibleItems];
-    NSIndexPath *last_index = [arrV firstObject];
-    NSLog(@"roow-- %d %@",(int)[last_index row],arrV);
-    
-    UICollectionViewCell *cell_obj = [collectionview cellForItemAtIndexPath:last_index];
-    cell_obj.backgroundColor = [UIColor greenColor];
-    
-}*/
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    
-    //[self performSelector:@selector(check) withObject:self afterDelay:5.0f];
-    
-    //[arr removeAllObjects];
-   
-//    for (CollectionViewCell *cell in [collectionview visibleCells]) {
-//        NSIndexPath *indexPath = [collectionview indexPathForCell:cell];
-//        NSLog(@"%d",(int)indexPath.row);
-//        [arr addObject:indexPath];
-//    }
-//    
-//    NSIndexPath *last_index = [arr lastObject];
-//    UICollectionViewCell *cell_obj = [collectionview cellForItemAtIndexPath:last_index];
-//    cell_obj.hidden = YES;
-}
-
-//-(void)test:(NSArray *)indexArr {
-//    NSIndexPath *last_index = [indexArr lastObject];
-//    CollectionViewCell *cell_obj = [collectionview cellForItemAtIndexPath:last_index];
-//    cell_obj.hidden = YES;
-//}
-
-
 
 
 - (void)didReceiveMemoryWarning

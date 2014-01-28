@@ -16,7 +16,7 @@
 @end
 
 @implementation PhotoGalleryViewController
-@synthesize isPublicFolder,selectedFolderIndex;
+@synthesize isPublicFolder,selectedFolderIndex,folderName;
 @synthesize library;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,7 +34,7 @@
     selectedImagesIndex=[[NSMutableArray alloc] init];
     //initialize the assets Library
     library=[[ALAssetsLibrary alloc] init];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 105);
+    
     //set the design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
@@ -60,7 +60,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-     self.navigationController.navigationBar.frame=CGRectMake(0, 0, 320, 105);
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
+    
     [self setDataForCollectionView];
     [collectionview reloadData];
     frameForShareBtn=sharePhotoBtn.frame;
@@ -75,7 +77,7 @@
     if(self.isPublicFolder==YES)
     {
         //set title
-        self.title=@"Public Folder";
+     self.navigationController.navigationBar.topItem.title=@"Public Folder";
         if([contentManagerObj getData:@"publicImgArray"]==nil)
         {
             [contentManagerObj storeData:imgArray :@"publicImgArray"];
@@ -86,7 +88,7 @@
     else
     {
         //set Folder Name in Right Side of navigation bar
-        NSString *folderName=[[contentManagerObj getData:@"FolderArray"] objectAtIndex:self.selectedFolderIndex];
+        NSString *folderName=self.folderName;
         UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithTitle:folderName  style:UIBarButtonItemStylePlain target:self action:nil];
         foldernameButton.tintColor=[UIColor blackColor];
         self.navigationItem.rightBarButtonItem = foldernameButton;
@@ -328,10 +330,9 @@
         {
             if(cell.selected==NO)
             {
-                
                 UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
                 checkBoxImg.layer.masksToBounds=YES;
-                checkBoxImg.image=[UIImage imageNamed:@"checkbox.png"];
+                checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
                 checkBoxImg.tag=1001;
                 [cell.contentView addSubview:checkBoxImg];
                 

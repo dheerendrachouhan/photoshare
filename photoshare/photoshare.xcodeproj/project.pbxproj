@@ -59,7 +59,9 @@
 		E182626F18976D0400C1C799 /* TermConditionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626A18976D0400C1C799 /* TermConditionViewController.xib */; };
 		E182627018976D0400C1C799 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E182626C18976D0400C1C799 /* UserSecurityViewController.m */; };
 		E182627118976D0400C1C799 /* UserSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626D18976D0400C1C799 /* UserSecurityViewController.xib */; };
-		E182627718976EDA00C1C799 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627618976EDA00C1C799 /* checkbox.png */; };
+		E182627A1897CAA100C1C799 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262791897CAA100C1C799 /* iconr3.png */; };
+		E182627C1897CB3A00C1C799 /* folder_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627B1897CB3A00C1C799 /* folder_lock.png */; };
+		E18262801897CBE700C1C799 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627F1897CBE700C1C799 /* edit.png */; };
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
 		E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
@@ -181,7 +183,10 @@
 		E182626B18976D0400C1C799 /* UserSecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSecurityViewController.h; sourceTree = "<group>"; };
 		E182626C18976D0400C1C799 /* UserSecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSecurityViewController.m; sourceTree = "<group>"; };
 		E182626D18976D0400C1C799 /* UserSecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController.xib; sourceTree = "<group>"; };
-		E182627618976EDA00C1C799 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
+		E18262781897AEA400C1C799 /* JSONDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONDictionary.h; sourceTree = "<group>"; };
+		E18262791897CAA100C1C799 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
+		E182627B1897CB3A00C1C799 /* folder_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder_lock.png; sourceTree = "<group>"; };
+		E182627F1897CBE700C1C799 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		E18648D01896285800175E8D /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		E18648D11896285800175E8D /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		E18648D618969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
@@ -341,7 +346,6 @@
 				FC97640D1890050C008DF1F8 /* Layouts */,
 				FC97639E188FEB89008DF1F8 /* AppDelegate.h */,
 				FC97639F188FEB89008DF1F8 /* AppDelegate.m */,
-				E182627618976EDA00C1C799 /* checkbox.png */,
 				FC9763AA188FEB89008DF1F8 /* Images.xcassets */,
 				FC976396188FEB89008DF1F8 /* Supporting Files */,
 				E17222D6189285A100F28748 /* LoginViewController.h */,
@@ -401,6 +405,7 @@
 				FC9763D2188FFC2D008DF1F8 /* images */,
 				E17222CE189281F600F28748 /* ContentManager.h */,
 				E17222CF189281F600F28748 /* ContentManager.m */,
+				E18262781897AEA400C1C799 /* JSONDictionary.h */,
 				FC976397188FEB89008DF1F8 /* photoshare-Info.plist */,
 				FC976398188FEB89008DF1F8 /* InfoPlist.strings */,
 				FC97639B188FEB89008DF1F8 /* main.m */,
@@ -430,6 +435,8 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E18262791897CAA100C1C799 /* iconr3.png */,
+				E182627F1897CBE700C1C799 /* edit.png */,
 				FCC76CAA1896A93C00F4B41A /* arrow.png */,
 				FCC76CA81896A64000F4B41A /* bg.png */,
 				FCC76CA61896A39C00F4B41A /* line.png */,
@@ -444,6 +451,7 @@
 				E16F391F18914D4A00064806 /* back.png */,
 				E16F3917189131C600064806 /* wall.jpg */,
 				E16F3915189130A800064806 /* folder-icon.png */,
+				E182627B1897CB3A00C1C799 /* folder_lock.png */,
 				E16F38EB18912C9C00064806 /* 123-mobile-logo.png */,
 				E16F38EC18912C9C00064806 /* cog-item.png */,
 				E16F38ED18912C9C00064806 /* cog-itemX30.png */,
@@ -613,10 +621,11 @@
 				E16F390718912C9C00064806 /* folder-icon-bottomX30.png in Resources */,
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
 				E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */,
+				E18262801897CBE700C1C799 /* edit.png in Resources */,
 				E17222DF18928DE700F28748 /* cancel_btn.png in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
+				E182627C1897CB3A00C1C799 /* folder_lock.png in Resources */,
 				E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */,
-				E182627718976EDA00C1C799 /* checkbox.png in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
@@ -634,6 +643,7 @@
 				E17222BC1892817800F28748 /* EarningViewController.xib in Resources */,
 				E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */,
 				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
+				E182627A1897CAA100C1C799 /* iconr3.png in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
 			);

@@ -40,7 +40,7 @@
     [passwordTextField setDelegate:self];
     //add the border color in username and password textfield
     //temp Hidden
-    loginBackgroundImage.hidden=YES;
+    //loginBackgroundImage.hidden=YES;
     
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;
@@ -53,6 +53,7 @@
     
     //Without Validation
     //[self dismissViewControllerAnimated:YES completion:nil] ;
+    
     NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];
     if(nameTextField.text.length==0||passwordTextField.text.length==0)

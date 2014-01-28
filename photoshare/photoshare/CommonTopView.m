@@ -30,7 +30,7 @@ static CommonTopView *topView=nil;
     if (self) {
         self.frame=CGRectMake(0, 20, 320, 50 );
         self.backgroundColor=[UIColor whiteColor];
-        topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 6)];
+        topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 8)];
         
         topBlueLbl.backgroundColor=[UIColor colorWithRed:0.102 green:0.522 blue:0.773 alpha:1];
         
@@ -42,13 +42,13 @@ static CommonTopView *topView=nil;
         //totalEarningView.backgroundColor=[UIColor grayColor];
         totalEarningView.layer.cornerRadius=10;
         
-        totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(225, 7, 100, 21)];
+        totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(225, 10, 100, 21)];
         totalEarningHeading.textAlignment=NSTextAlignmentCenter;
         totalEarningHeading.text=@"total earnings";
         totalEarningHeading.font=[UIFont fontWithName:@"verdana" size:11];
         totalEarningHeading.textColor=[UIColor blackColor];
         
-        totalEarning=[[UILabel alloc] initWithFrame:CGRectMake(225, 23, 100, 20)];
+        totalEarning=[[UILabel alloc] initWithFrame:CGRectMake(225, 27, 100, 20)];
         totalEarning.font=[UIFont fontWithName:@"verdana" size:18];
         
         totalEarning.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
