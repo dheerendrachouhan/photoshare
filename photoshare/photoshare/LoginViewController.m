@@ -40,7 +40,7 @@
     [passwordTextField setDelegate:self];
     //add the border color in username and password textfield
     //temp Hidden
-    loginBackgroundImage.hidden=YES;
+    //loginBackgroundImage.hidden=YES;
     
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;
@@ -52,7 +52,8 @@
 - (IBAction)userSignInBtn:(id)sender {
     
     //Without Validation
-    //[self dismissViewControllerAnimated:YES completion:nil] ;
+    [self dismissViewControllerAnimated:YES completion:nil] ;
+    
     NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];
     if(nameTextField.text.length==0||passwordTextField.text.length==0)
@@ -69,7 +70,6 @@
         NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
         [wc call:postStr controller:@"authentication" method:@"login"] ;
     }
-   
 }
 
 -(void) webserviceCallback:(NSString *)data
@@ -82,12 +82,18 @@
          //validate the user
     if([[JSON objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
         {
-            CommonTopView *topView=[CommonTopView sharedTopView];
-            [topView setTheTotalEarning:@"19"];
-            
             //get the userId
             NSMutableArray *outPutData=[JSON objectForKey:@"output_data"] ;
             NSDictionary *dic=[outPutData objectAtIndex:0];
+            //Setting values globally
+            ContentManager *objManager=[ContentManager sharedManager];
+            objManager.loginDetailsDict = dic;
+            
+            //Setting the TopView
+            CommonTopView *topView=[CommonTopView sharedTopView];
+            [topView setTheTotalEarning:[NSString stringWithFormat:@"%@",[objManager.loginDetailsDict objectForKey:@"total_earnings"]]];
+            ///
+            
             NSNumber *userid=[dic objectForKey:@"user_id"];
             
             NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);

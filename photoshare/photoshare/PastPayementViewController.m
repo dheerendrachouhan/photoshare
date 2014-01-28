@@ -47,9 +47,24 @@
     }
     int maximumArrayValue = highestNumber.intValue;
     
+    CGRect frame;
+    int point = 0;
+    int bHeight = 0;
     //Initiating the frame of bar graph
-    CGRect frame = CGRectMake(0, 20, 320, 458);
-    JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(20, 20) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:30 barMaxWidth:150 gradient:nil];
+    if([[UIScreen mainScreen] bounds].size.height == 568)
+    {
+        frame = CGRectMake(0, 20, 320, 458);
+        point = 20;
+        bHeight = 30;
+    }
+    else if([[UIScreen mainScreen] bounds].size.height == 480)
+    {
+        frame = CGRectMake(0, 25, 320, 370);
+        point = 20;
+        bHeight = 20;
+    }
+    
+    JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:150 gradient:nil];
     
     [self.view addSubview:barChartView];
 }

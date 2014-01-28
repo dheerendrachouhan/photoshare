@@ -30,16 +30,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //Navigation Back Title
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Choose" style:UIBarButtonItemStyleDone target:self action:@selector(doneBtnPressed:)];
+    self.navigationItem.rightBarButtonItem = backButton;
+    
     [self.navigationItem setTitle:@"Edit Message"];
     [textMessage setDelegate:self];
     textMessage.text = edittedMessage;
     custumImageBackground.layer.cornerRadius = 5;
 }
 - (IBAction)doneBtnPressed:(id)sender {
-    ReferralStageFourVC *rf = [[ReferralStageFourVC alloc] init];
-    
+    ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
     rf.stringStr = [NSString stringWithFormat:@"%@", textMessage.text];
     [self.navigationController popToViewController:rf animated:YES];
 }

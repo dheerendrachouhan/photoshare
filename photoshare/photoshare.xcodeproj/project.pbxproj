@@ -53,11 +53,8 @@
 		E17222DE18928DE700F28748 /* arrows_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DB18928DE700F28748 /* arrows_blue.png */; };
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
-		E182626618976CDA00C1C799 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E182626418976CDA00C1C799 /* EditProfileViewController.m */; };
 		E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626518976CDA00C1C799 /* EditProfileViewController.xib */; };
-		E182626E18976D0400C1C799 /* TermConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E182626918976D0400C1C799 /* TermConditionViewController.m */; };
 		E182626F18976D0400C1C799 /* TermConditionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626A18976D0400C1C799 /* TermConditionViewController.xib */; };
-		E182627018976D0400C1C799 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E182626C18976D0400C1C799 /* UserSecurityViewController.m */; };
 		E182627118976D0400C1C799 /* UserSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626D18976D0400C1C799 /* UserSecurityViewController.xib */; };
 		E182627718976EDA00C1C799 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627618976EDA00C1C799 /* checkbox.png */; };
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
@@ -82,12 +79,12 @@
 		E31C75B218976DAA00A8CC7F /* TermConditionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31C75AA18976DAA00A8CC7F /* TermConditionViewController.xib */; };
 		E31C75B318976DAA00A8CC7F /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75AC18976DAA00A8CC7F /* UserSecurityViewController.m */; };
 		E31C75B418976DAA00A8CC7F /* UserSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31C75AD18976DAA00A8CC7F /* UserSecurityViewController.xib */; };
-		E31C75BC1897730800A8CC7F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = E31C75BB1897730800A8CC7F /* checkbox.png */; };
 		E31C75BE189799B500A8CC7F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31C75BD189799B500A8CC7F /* Social.framework */; };
 		E31C75C11897A7DC00A8CC7F /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E31C75BF1897A7DC00A8CC7F /* facebook.png */; };
 		E31C75C21897A7DC00A8CC7F /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E31C75C01897A7DC00A8CC7F /* twitter.png */; };
 		E31C75C61897A82600A8CC7F /* FBTWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75C41897A82500A8CC7F /* FBTWViewController.m */; };
 		E31C75C71897A82600A8CC7F /* FBTWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31C75C51897A82600A8CC7F /* FBTWViewController.xib */; };
+		E31C75CD1897ECE400A8CC7F /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C75CC1897ECE400A8CC7F /* SVProgressHUD.m */; };
 		FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC97638F188FEB89008DF1F8 /* Foundation.framework */; };
 		FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976391188FEB89008DF1F8 /* CoreGraphics.framework */; };
 		FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC976393188FEB89008DF1F8 /* UIKit.framework */; };
@@ -233,6 +230,9 @@
 		E31C75C31897A82500A8CC7F /* FBTWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBTWViewController.h; sourceTree = "<group>"; };
 		E31C75C41897A82500A8CC7F /* FBTWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBTWViewController.m; sourceTree = "<group>"; };
 		E31C75C51897A82600A8CC7F /* FBTWViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FBTWViewController.xib; sourceTree = "<group>"; };
+		E31C75C91897B28E00A8CC7F /* JSONDictionaryExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONDictionaryExtensions.h; sourceTree = "<group>"; };
+		E31C75CB1897ECE400A8CC7F /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		E31C75CC1897ECE400A8CC7F /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		FC97638C188FEB89008DF1F8 /* photoshare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoshare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC97638F188FEB89008DF1F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC976391188FEB89008DF1F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -318,6 +318,23 @@
 			name = AssetsLibrary;
 			sourceTree = "<group>";
 		};
+		E31C75C81897B27600A8CC7F /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				E31C75C91897B28E00A8CC7F /* JSONDictionaryExtensions.h */,
+			);
+			name = JSON;
+			sourceTree = "<group>";
+		};
+		E31C75CA1897ECCB00A8CC7F /* ProgressBar */ = {
+			isa = PBXGroup;
+			children = (
+				E31C75CB1897ECE400A8CC7F /* SVProgressHUD.h */,
+				E31C75CC1897ECE400A8CC7F /* SVProgressHUD.m */,
+			);
+			name = ProgressBar;
+			sourceTree = "<group>";
+		};
 		E388F2421892546E005BB5E5 /* Barchart */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,6 +381,8 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
+				E31C75CA1897ECCB00A8CC7F /* ProgressBar */,
+				E31C75C81897B27600A8CC7F /* JSON */,
 				E18648D5189699B100175E8D /* AssetsLibrary */,
 				E18648CF1896285800175E8D /* base64 */,
 				FCB0B76D18945BC2001722B3 /* webservice */,
@@ -676,7 +695,6 @@
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E182626F18976D0400C1C799 /* TermConditionViewController.xib in Resources */,
 				E17222CB189281B000F28748 /* ResetPasswordController.xib in Resources */,
-				E31C75BC1897730800A8CC7F /* checkbox.png in Resources */,
 				E31C75C71897A82600A8CC7F /* FBTWViewController.xib in Resources */,
 				E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */,
 				E31C75B218976DAA00A8CC7F /* TermConditionViewController.xib in Resources */,
@@ -724,6 +742,7 @@
 				E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */,
 				E17222D9189285A100F28748 /* LoginViewController.m in Sources */,
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
+				E31C75CD1897ECE400A8CC7F /* SVProgressHUD.m in Sources */,
 				E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */,
 				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,

@@ -78,6 +78,7 @@
     EditMessageVC *edMSG = [[EditMessageVC alloc] init];
     edMSG.edittedMessage = userMessage.text;
     [self.navigationController pushViewController:edMSG animated:YES];
+    edMSG.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     
 }
 
@@ -114,7 +115,6 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    //[self mailTo];
     [self showContactListPicker];
 }
 
@@ -123,6 +123,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
+    [self showContactListPicker];
 }
 
 //Social Message Sending
@@ -170,6 +171,7 @@
                     [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
                     break;
                 case SLComposeViewControllerResultDone:
+                    
                     [self.navigationController pushViewController:tw animated:YES];
                     break;
                     
@@ -299,7 +301,7 @@
             [self sendInAppSMS];
         }
     }
-    return NO;
+    return YES;
 }
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier

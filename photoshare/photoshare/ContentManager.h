@@ -11,7 +11,7 @@
 @interface ContentManager:NSObject{
 
 }
-@property (nonatomic, strong) NSMutableDictionary *loginDetailsDict;
+@property (nonatomic, strong) NSDictionary *loginDetailsDict;
 
 +(ContentManager *)sharedManager;
 
