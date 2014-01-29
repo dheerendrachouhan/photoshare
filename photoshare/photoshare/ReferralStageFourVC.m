@@ -28,6 +28,9 @@
     NSMutableDictionary *firendDictionary;
     NSMutableArray *FBEmailID;
     NSMutableArray *twiiterListArr;
+    int totalCount;
+    int countVar;
+    NSArray *sttt;
 }
 @synthesize stringStr;
 @synthesize friendPickerController = _friendPickerController;
@@ -84,7 +87,7 @@
         scrollView.autoresizingMask= UIViewAutoresizingFlexibleHeight;
         
     }
-
+    countVar =0;
 }
 
 
@@ -234,18 +237,6 @@
 
 }
 
--(void)getTwitterFriendsForAccount:(ACAccount*)account {
-    // In this case I am creating a dictionary for the account
-    // Add the account screen name
-    NSLog(@"user-- %@",account.username);
-    [self fetchTimelineForUser:account.username];
-}
-
-- (BOOL)userHasAccessToTwitter
-
-{
-    return [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter];
-}
 
 -(void) getFollowerNameFromID:(NSString *)ID{
     
@@ -288,10 +279,27 @@
                             
                             [twiiterListArr addObject:stt];
                             
+                           
+                            if(totalCount > countVar)
+                            {
+                                //[self getFollowerNameFromID:[sttt objectAtIndex:countVar]];
+                                countVar++;
+                            }
+                            
                             //                            //  resultFollowersNameList = [[NSArray alloc]init];
                             //                            resultFollowersNameList = [friendsdata valueForKey:@"name"];
                             //                            NSLog(@"resultNameList value is %@", resultFollowersNameList);
                             
+                        }
+                        
+                        if(totalCount == countVar)
+                        {
+                            TwitterTable *tw = [[TwitterTable alloc] init];
+                            tw.tweetUserName = [NSMutableArray arrayWithArray:twiiterListArr];
+                            [self.navigationController pushViewController:tw animated:NO];
+                            tw.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+                            totalCount = 0;
+                            countVar = 0;
                         }
                     });
                 }];
@@ -340,14 +348,17 @@
                             NSArray *TWData = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
                             
                             
-                            NSArray *sttt = [(NSDictionary *)TWData objectForKey:@"ids"];
+                            sttt = [(NSDictionary *)TWData objectForKey:@"ids"];
+                            totalCount =[sttt count];
                             
                             for(int i=0;i<[sttt count];i++)
                             {
                                 NSLog(@"data== %@ ID = %@",TWData, [sttt objectAtIndex:i]);
                                 [self getFollowerNameFromID:[sttt objectAtIndex:i]];
-                            }
-                           
+                            }/*
+                            TwitterTable *tw = [[TwitterTable alloc] init];
+                            tw.tweetUserName = [NSMutableArray arrayWithArray:twiiterListArr];
+                            [self.navigationController pushViewController:tw animated:YES];*/
                         }
                     });
                 }];
@@ -358,153 +369,11 @@
     }];
 }
 
-- (void)fetchTimelineForUser:(NSString *)username
 
-{
-    
-    NSMutableDictionary *accountDictionary = [NSMutableDictionary mutableCopy];
-
-    //  Step 0: Check that the user has local Twitter accounts
-    
-    if ([self userHasAccessToTwitter]) {
-        
-        
-        
-        //  Step 1:  Obtain access to the user's Twitter accounts
-        
-        ACAccountType *twitterAccountType =
-        
-        [self.accountStore accountTypeWithAccountTypeIdentifier:
-         
-         ACAccountTypeIdentifierTwitter];
-        
-        
-        
-        [self.accountStore
-         
-         requestAccessToAccountsWithType:twitterAccountType
-         
-         options:NULL
-         
-         completion:^(BOOL granted, NSError *error) {
-             
-             if (granted) {
-                 
-                 //  Step 2:  Create a request
-                 
-                 NSArray *twitterAccounts =
-                 
-                 [self.accountStore accountsWithAccountType:twitterAccountType];
-                 
-                 NSURL *url = [NSURL URLWithString:@"http://api.twitter.com/1/friends/ids.json"];
-                 
-                 NSDictionary *params = @{@"screen_name" : username,
-                                          
-                                          @"include_rts" : @"0",
-                                          
-                                          @"trim_user" : @"1",
-                                          
-                                          @"count" : @"1"};
-                 
-                 SLRequest *request =
-                 
-                 [SLRequest requestForServiceType:SLServiceTypeTwitter
-                  
-                                    requestMethod:SLRequestMethodGET
-                  
-                                              URL:url
-                  
-                                       parameters:params];
-                 
-                 
-                 
-                 //  Attach an account to the request
-                 
-                 [request setAccount:[twitterAccounts lastObject]];
-                 
-                 
-                 
-                 //  Step 3:  Execute the request
-                 
-                 [request performRequestWithHandler:
-                  
-                  ^(NSData *responseData,
-                    
-                    NSHTTPURLResponse *urlResponse,
-                    
-                    NSError *error) {
-                      
-                      
-                      
-                      if (responseData) {
-                          
-                          if (urlResponse.statusCode >= 200 &&
-                              
-                              urlResponse.statusCode < 300) {
-                              
-                              
-                              NSError *jsonError;
-                              
-                              NSDictionary *timelineData =
-                              
-                              [NSJSONSerialization
-                               
-                               JSONObjectWithData:responseData
-                               
-                               options:NSJSONReadingAllowFragments error:&jsonError];
-                              
-                              if (timelineData) {
-                                  
-                                  NSLog(@"Timeline Response: %@\n", timelineData);
-                                  
-                                  [accountDictionary setObject:[timelineData objectForKey:@"ids"] forKey:@"friends_ids"];
-                                  NSLog(@"%@", accountDictionary);
-                                  
-                              }
-                              
-                              else {
-                                  
-                                  // Our JSON deserialization went awry
-                                  
-                                  NSLog(@"JSON Error: %@", [jsonError localizedDescription]);
-                                  
-                              }
-                              
-                          }
-                          
-                          else {
-                              
-                              // The server did not respond ... were we rate-limited?
-                              
-                              NSLog(@"The response status code is %d",
-                                    
-                                    urlResponse.statusCode);
-                              
-                          }
-                          
-                      }
-                      
-                  }];
-                 
-             }
-             
-             else {
-                 
-                 // Access was not granted, or an error occurred
-                 
-                 NSLog(@"%@", [error localizedDescription]);
-                 
-             }
-             
-         }];
-        
-    }
-    
-}
 
 //Twitter SDK Implemetation
 - (IBAction)postToTwitter:(id)sender {
-    [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
+    //[SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
     [self getTwitterAccounts];
     
     
