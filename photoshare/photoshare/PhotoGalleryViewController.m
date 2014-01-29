@@ -11,6 +11,7 @@
 #import "Base64.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "WebserviceController.h"
+#import "EditPhotoViewController.h"
 @interface PhotoGalleryViewController ()
 
 @end
@@ -72,6 +73,9 @@
     
     //editBtn
     editBtn = [[UIButton alloc] init];    
+    //get the user id from nsuserDefaults
+    ContentManager *manager=[ContentManager sharedManager];
+    userID=[[manager getData:@"user_id"] intValue];
     
     self.navigationController.navigationBarHidden=NO;
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
@@ -207,12 +211,13 @@
         }];
 
     }
-    
-    
     NSData *imgData=UIImagePNGRepresentation(image);
     [Base64 initialize];
     NSString *base64string=[Base64 encode:imgData];
-    ContentManager *manager=[ContentManager sharedManager];
+    
+    [self savePhotosOnServer:userID base64ImageString:imgData photoTitle:@"Image" photoDescription:@"" photoCollection:@""];
+   
+    /*ContentManager *manager=[ContentManager sharedManager];
     NSMutableArray *base64images=[[NSMutableArray alloc] init];
     if(isPublicFolder)
     {
@@ -229,21 +234,51 @@
         [manager storeData:dic :@"dictionaryOfYourImgArray"];
     }
     [imgArray addObject:image];
-    [collectionview reloadData];
+    [collectionview reloadData];*/
     
 }
--(void)savePhotosOnServer :(int)usrId base64ImageString:(NSString *)base64ImageString photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+
+//get Photo From Server
+-(void)getPhotoFromServer: (int)usrId
 {
+    isGetPhotoFromServer=YES;
     
+    webServices.delegate=self;
+    NSString *data=[NSString stringWithFormat:@"user_id=%d",usrId];
+    [webServices call:data controller:@"photo" method:@"listorphans"];
+}
+//save Photo on Server Photo With Detaill
+-(void)savePhotosOnServer :(int)usrId base64ImageString:(NSData *)base64ImageString photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+{
+    isSaveDataOnServer=YES;
+    
+    webServices.delegate=self;
     NSString *data=[NSString stringWithFormat:@"user_id=%d&file=%@&photo_title=%@&photo_description=%@&photo_collections=%@",usrId,base64ImageString,photoTitle,photoDescription,photoCollection];
-    
     //store data
     [webServices call:data controller:@"photo" method:@"store"];
     
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
+    NSMutableArray *outputData=[data objectForKey:@"output_data"];
     
+    NSLog(@"outPutData is %@",outputData);
+    int exitcode=[[data objectForKey:@"exit_code"] integerValue];
+    if(exitcode==1)
+    {
+        if(isGetPhotoFromServer)
+        {
+            
+        }
+        else if(isSaveDataOnServer)
+        {
+            
+        }
+    }
+    else
+    {
+        
+    }
 }
 -(IBAction)deletePhoto:(id)sender
 {
@@ -402,6 +437,10 @@
     UIButton *btn=(UIButton *)sender;
     CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
     NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
+    
+    //go to editPhoto Controller
+    EditPhotoViewController *editPhoto=[[EditPhotoViewController alloc] init];
+    [self.navigationController pushViewController:editPhoto animated:YES];
     
     //if editBtnIs in view
     [editBtn removeFromSuperview];

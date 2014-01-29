@@ -19,11 +19,17 @@
     UIButton *editBtn;
     
     NSMutableArray *imgArray;
-    BOOL isDeleteMode;
-    BOOL isShareMode;
     NSMutableArray *selectedImagesIndex;
     NSString *refrenceUrlofImg;
     CGRect frameForShareBtn;
+    
+    int userID;
+    
+    BOOL isDeleteMode;
+    BOOL isShareMode;
+    
+    BOOL isGetPhotoFromServer;
+    BOOL isSaveDataOnServer;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;
