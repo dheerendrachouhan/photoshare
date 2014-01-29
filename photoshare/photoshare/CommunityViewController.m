@@ -59,6 +59,10 @@
     //editBtn When Longpress on folder
     editBtn=[[UIButton alloc] init];
     
+    //get the user ID from NSUSER Default
+    ContentManager *manager=[ContentManager sharedManager];
+    userID=[[manager getData:@"user_id"] integerValue];
+    
     //set title for navigation controller
     self.navigationController.navigationBarHidden=NO;
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
@@ -85,10 +89,9 @@
     isGetCollectionInfo=YES;
     webServices.delegate=self;
     //get the user id from nsuserDefaults
-    ContentManager *manager=[ContentManager sharedManager];
-    NSNumber *userId=[manager getData:@"user_id"];
     
-    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_user_id=%d",[userId intValue],[userId intValue]];
+    
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_user_id=%d",userID,userID];
     
     [webServices call:data controller:@"collection" method:@"getlist"];
    
@@ -126,16 +129,18 @@
         {
             NSLog(@"Get Storage %@",data);
             NSDictionary *dic=[outPutData objectAtIndex:0];
-            //NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
-           // NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
+            NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
+            NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
             //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
+            float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
+            float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
             
             //set the diskSpacePercentage
-            /*float progressPercent=(float)([usedStorage integerValue]/[availableStorage integerValue]);
+            float progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
             float spacePerCentage=(float)progressPercent*100;
             NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",spacePerCentage,@"%"];
             diskSpaceTitle.text=diskTitle;
-            progressView.progress=progressPercent;*/
+            progressView.progress=progressPercent;
             
             isGetStorage=NO;
             [collectionview reloadData];
@@ -178,30 +183,30 @@
     {
        
         int sharing=[[collectionSharingArray objectAtIndex:indexPath.row] intValue];
-       
-        if([collectionSharedArray objectAtIndex:indexPath.row])
+        BOOL flag=false;
+        if(![collectionSharedArray objectAtIndex:indexPath.row])
         {
-            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-            obj_Cell.icon_img.hidden=NO;
-            obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
-        }
-        else
-        {
+            flag=TRUE;
             obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder_lock.png"];
             obj_Cell.icon_img.hidden=NO;
             obj_Cell.icon_img.image=[UIImage imageNamed:@"private-icon.png"];
         }
-        if(sharing==1)
+              
+        if(!flag)
         {
-            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-            obj_Cell.icon_img.hidden=NO;
-            obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
+            if(sharing==1)
+            {
+                obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+                obj_Cell.icon_img.hidden=NO;
+                obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
+            }
+            else
+            {
+                obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+                obj_Cell.icon_img.hidden=YES;
+            }
         }
-        else
-        {
-            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-            obj_Cell.icon_img.hidden=YES;
-        }
+        
         obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:indexPath.row];
         
         
@@ -231,7 +236,8 @@
             photoGallery.isPublicFolder=NO;
             photoGallery.selectedFolderIndex=indexPath.row;
             photoGallery.folderName=[collectionNameArray objectAtIndex:[indexPath row]];
-            
+            photoGallery.collectionId=[[collectionIdArray objectAtIndex:[indexPath row]] integerValue];
+            photoGallery.userID=userID;
             [self.navigationController pushViewController:photoGallery animated:YES];
         }
         
@@ -248,8 +254,8 @@
         if(([indexPath row]+1)!=([collectionNameArray count]+1))
         {
             UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-            editBtn.frame=CGRectMake(cell.frame.origin.x+12, cell.frame.origin.y-20, 65, 50);
-            [editBtn setImage:[UIImage imageNamed:@"editPress.png"] forState:UIControlStateNormal];
+            editBtn.frame=CGRectMake(cell.frame.origin.x+12, cell.frame.origin.y-20, 60, 50);
+            [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
             [editBtn addTarget:self action:@selector(editFolder:) forControlEvents:UIControlEventTouchUpInside];
             
             [collectionview addSubview:editBtn];

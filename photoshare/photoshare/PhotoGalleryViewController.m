@@ -18,7 +18,7 @@
 
 @implementation PhotoGalleryViewController
 @synthesize isPublicFolder,selectedFolderIndex,folderName;
-@synthesize library;
+@synthesize library,collectionId,userID;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -79,10 +79,14 @@
     
     self.navigationController.navigationBarHidden=NO;
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-    
-    [self setDataForCollectionView];
-    [collectionview reloadData];
     frameForShareBtn=sharePhotoBtn.frame;
+    
+    isGetPhotoFromServer=NO;
+    isGetPhotoIdFromServer=NO;
+    isSaveDataOnServer=NO;
+    
+    [self getPhotoIdFromServer:self.userID];
+    
 }
 -(void)setDataForCollectionView
 {
@@ -106,11 +110,16 @@
     {
         //set Folder Name in Right Side of navigation bar
         NSString *folderNa=self.folderName;
-        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithTitle:folderNa  style:UIBarButtonItemStylePlain target:self action:nil];
-        foldernameButton.tintColor=[UIColor blackColor];
+        
+      
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 25)];
+        label.text=folderNa;
+        //label.textAlignment=NSTextAlignmentRight;
+        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithCustomView:label] ;
+        [foldernameButton setWidth:100];
         
         UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        iconbtn.frame=CGRectMake(0, 0, 20, 20);
+        iconbtn.frame=CGRectMake(0, 0, 18, 18);
         [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
         iconbtn.userInteractionEnabled=NO;
         UIBarButtonItem *editBtnIcon=[[UIBarButtonItem alloc]
@@ -185,9 +194,6 @@
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    
-   
-    
     [self dismissViewControllerAnimated:YES completion:nil];
     
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
@@ -215,7 +221,7 @@
     [Base64 initialize];
     NSString *base64string=[Base64 encode:imgData];
     
-    [self savePhotosOnServer:userID base64ImageString:imgData photoTitle:@"Image" photoDescription:@"" photoCollection:@""];
+    [self savePhotosOnServer:self.userID base64ImageString:imgData photoTitle:@"Image" photoDescription:@"" photoCollection:@""];
    
     /*ContentManager *manager=[ContentManager sharedManager];
     NSMutableArray *base64images=[[NSMutableArray alloc] init];
@@ -238,14 +244,26 @@
     
 }
 
+//get PhotoId From Server
+-(void)getPhotoIdFromServer: (int)usrId
+{
+    isGetPhotoIdFromServer=YES;
+    
+    webServices.delegate=self;
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",usrId,self.collectionId];
+    [webServices call:data controller:@"collection" method:@"get"];
+}
 //get Photo From Server
 -(void)getPhotoFromServer: (int)usrId
 {
+    if(photoIdsArray.count!=0)
+    {
     isGetPhotoFromServer=YES;
     
     webServices.delegate=self;
-    NSString *data=[NSString stringWithFormat:@"user_id=%d",usrId];
-    [webServices call:data controller:@"photo" method:@"listorphans"];
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&photo_id=%d&collection_id=%d&get_image=%d&image_resize=%d",usrId,[[photoIdsArray objectAtIndex:0] integerValue],self.collectionId,1,0];
+    [webServices call:data controller:@"photo" method:@"get"];
+    }
 }
 //save Photo on Server Photo With Detaill
 -(void)savePhotosOnServer :(int)usrId base64ImageString:(NSData *)base64ImageString photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
@@ -258,17 +276,34 @@
     [webServices call:data controller:@"photo" method:@"store"];
     
 }
+//deletePhotoFromServer
+-(void)deletePhotoFromServer :(int)usrId photoId:(int)photoId
+{
+    
+}
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSMutableArray *outputData=[data objectForKey:@"output_data"];
+    NSDictionary *outputData=[data objectForKey:@"output_data"];
     
     NSLog(@"outPutData is %@",outputData);
+    
     int exitcode=[[data objectForKey:@"exit_code"] integerValue];
     if(exitcode==1)
     {
-        if(isGetPhotoFromServer)
+        if(isGetPhotoIdFromServer)
         {
+            photoIdsArray=[[NSMutableArray alloc] init];
+            NSArray *collectionContent=[outputData objectForKey:@"collection_contents"];
             
+            for (NSNumber *pId in collectionContent) {
+                [photoIdsArray addObject:pId];
+            }
+            isGetPhotoIdFromServer=NO;
+            [self getPhotoFromServer:userID];
+        }
+        else if(isGetPhotoFromServer)
+        {
+            NSLog(@"");
         }
         else if(isSaveDataOnServer)
         {
@@ -423,7 +458,7 @@
     if (indexPath != nil){
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
         editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+20, 60, 50);
-        [editBtn setImage:[UIImage imageNamed:@"editPress.png"] forState:UIControlStateNormal];
+        [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
         [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
         [collectionview addSubview:editBtn];
     }

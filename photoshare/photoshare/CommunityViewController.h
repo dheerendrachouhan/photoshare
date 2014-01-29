@@ -28,7 +28,8 @@
     WebserviceController *webServices;
     
     UIButton *editBtn;
-    
+    int userID;
+
     UIActivityIndicatorView *indicator;
     BOOL isGetStorage;
     BOOL isGetCollectionInfo;

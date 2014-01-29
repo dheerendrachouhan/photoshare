@@ -57,8 +57,7 @@
   //  [parser parse:[_source.stringValue dataUsingEncoding:NSUTF8StringEncoding]];
      //NSDictionary *JSON =[parser parse:data] ;
     NSString *strr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding ];
-    
-    NSDictionary *JSON = [strr JSONValue];
+      NSDictionary *JSON = [strr JSONValue];
     
     [self.delegate webserviceCallback:JSON];
     
