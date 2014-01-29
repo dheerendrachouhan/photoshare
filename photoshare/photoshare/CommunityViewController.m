@@ -35,12 +35,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //set title for navigation controller
-  //  self.title=@"Community folders";
-   
+    
+    webServices=[[WebserviceController alloc] init];
  
-    //set navigationBar frame
-    // Do any additional setup after loading the view from its nib.
+       
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
     
@@ -58,14 +56,16 @@
 {
     [super viewWillAppear:animated];
     
+    //editBtn When Longpress on folder
+    editBtn=[[UIButton alloc] init];
+    
     //set title for navigation controller
     self.navigationController.navigationBarHidden=NO;
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     self.navigationController.navigationBar.topItem.title=@"Community folders";
     
-    webServices=[[WebserviceController alloc] init];
     //blueLabelImgFrame=CGRectMake(20, diskSpaceBlueLabel.frame.origin.y-64, 10,diskSpaceBlueLabel.frame.size.height );
-    [self setTheDiskSpace];
+   
     [self getTheCollectionInfoArrayFromServer];
 }
 //get Storage
@@ -75,7 +75,7 @@
     webServices.delegate=self;
     ContentManager *manager=[ContentManager sharedManager];
     NSNumber *userId=[manager getData:@"user_id"];
-    NSString *data=[NSString stringWithFormat:@"user_id=%d",[userId intValue]];
+    NSString *data=[NSString stringWithFormat:@"user_id=%d",[userId integerValue]];
     [webServices call:data controller:@"storage" method:@"get"];
 }
 //get collection  info array from server
@@ -98,54 +98,61 @@
 {
     //NSLog(@"Call Back getList %@",data);
    
-    
-    NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-    if(isGetCollectionInfo)
+    int exitCode=[[data objectForKey:@"exit_code"] intValue];
+    if(exitCode ==1)
     {
-        collectionNameArray=[[NSMutableArray alloc] init];
-        collectionIdArray=[[NSMutableArray alloc] init];
-        for (NSDictionary *dic in outPutData) {
-            if(![[dic objectForKey:@"collection_name"] isEqualToString:@"Private"]&& ![[dic objectForKey:@"collection_name"] isEqualToString:@"Public"])
-            {
-                [collectionNameArray addObject:[dic objectForKey:@"collection_name"]];
-                [collectionIdArray addObject:[dic objectForKey:@"collection_id"]];
-                [collectionDefaultArray addObject:[dic objectForKey:@"collection_default"]];
-                [collectionSharingArray addObject:[dic objectForKey:@"collection_sharing"]];
-                [collectionSharedArray addObject:[dic objectForKey:@"collection_shared"]];
+        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+        
+        if(isGetCollectionInfo)
+        {
+            collectionNameArray=[[NSMutableArray alloc] init];
+            collectionIdArray=[[NSMutableArray alloc] init];
+            for (NSDictionary *dic in outPutData) {
+                if(![[dic objectForKey:@"collection_name"] isEqualToString:@"Private"]&& ![[dic objectForKey:@"collection_name"] isEqualToString:@"Public"])
+                {
+                    [collectionNameArray addObject:[dic objectForKey:@"collection_name"]];
+                    [collectionIdArray addObject:[dic objectForKey:@"collection_id"]];
+                    [collectionDefaultArray addObject:[dic objectForKey:@"collection_default"]];
+                    [collectionSharingArray addObject:[dic objectForKey:@"collection_sharing"]];
+                    [collectionSharedArray addObject:[dic objectForKey:@"collection_shared"]];
+                    
+                }
                 
             }
-            
+            isGetCollectionInfo=NO;
+            [self getStorage];
         }
-        isGetCollectionInfo=NO;
-        [self getStorage];
-    }
-    else if(isGetStorage)
-    {
-        NSLog(@"Get Storage %@",data);
-       // NSDictionary *dic=[outPutData objectAtIndex:0];
-        //NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
-        //NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
-        //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
+        else if(isGetStorage)
+        {
+            NSLog(@"Get Storage %@",data);
+            NSDictionary *dic=[outPutData objectAtIndex:0];
+            //NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
+           // NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
+            //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
+            
+            //set the diskSpacePercentage
+            /*float progressPercent=(float)([usedStorage integerValue]/[availableStorage integerValue]);
+            float spacePerCentage=(float)progressPercent*100;
+            NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",spacePerCentage,@"%"];
+            diskSpaceTitle.text=diskTitle;
+            progressView.progress=progressPercent;*/
+            
+            isGetStorage=NO;
+            [collectionview reloadData];
+            [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
+        }
         
-        progressView.progress=0.2;
-        isGetStorage=NO;
-        [collectionview reloadData];
-        [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
+
     }
-    
-    // NSLog(@"Dic is %@",dic);
+    else
+    {
+        
+        [SVProgressHUD dismissWithError:[data objectForKey:@"user_message"]];
+    }// NSLog(@"Dic is %@",dic);
    
 }
 
 
--(void)setTheDiskSpace
-{
-    //set up the diskspace progress
-    NSInteger spacePerCentage=50;
-    NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%li%@)",(long)spacePerCentage,@"%"];
-    diskSpaceTitle.text=diskTitle;
-   
-}
 
 //collection view delegate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -204,6 +211,10 @@
 //tap gesture method
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
+    //if editBtnIs in view
+    [editBtn removeFromSuperview];
+
+    
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
@@ -234,28 +245,41 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
        
-        if(([indexPath row]+1)%12!=0 && ([indexPath row]+1)!=[collectionNameArray count]+noOfPagesInCollectionView)
+        if(([indexPath row]+1)!=([collectionNameArray count]+1))
         {
-          [self editFolder:indexPath];
+            UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
+            editBtn.frame=CGRectMake(cell.frame.origin.x+12, cell.frame.origin.y-20, 65, 50);
+            [editBtn setImage:[UIImage imageNamed:@"editPress.png"] forState:UIControlStateNormal];
+            [editBtn addTarget:self action:@selector(editFolder:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [collectionview addSubview:editBtn];
+            
+          //[self editFolder:indexPath];
         }
     }
 }
 
 -(void)addFolder
 {
- 
     AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
        aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
     [self.navigationController pushViewController:aec1 animated:NO];
    
 }
--(void)editFolder:(NSIndexPath *)indexPath
+-(void)editFolder:(id)sender
 {
+    UIButton *btn=(UIButton *)sender;
+    CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
+    NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
+    
+    //if editBtnIs in view
+    [editBtn removeFromSuperview];
+    
     AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
     aec.isAddFolder=NO;
     aec.isEditFolder=YES;
-    aec.collectionId=([indexPath row]-indexPath.row/12);
+    aec.collectionId=[indexPath row];
     aec.setFolderName=[collectionNameArray objectAtIndex:[indexPath row]];
     aec.collectionId=[[collectionIdArray objectAtIndex:[indexPath row]] integerValue];
     

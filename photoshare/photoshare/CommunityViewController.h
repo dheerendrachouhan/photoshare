@@ -27,6 +27,8 @@
     int noOfPagesInCollectionView;
     WebserviceController *webServices;
     
+    UIButton *editBtn;
+    
     UIActivityIndicatorView *indicator;
     BOOL isGetStorage;
     BOOL isGetCollectionInfo;

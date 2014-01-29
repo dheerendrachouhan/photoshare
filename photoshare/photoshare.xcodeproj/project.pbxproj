@@ -53,16 +53,18 @@
 		E17222DE18928DE700F28748 /* arrows_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DB18928DE700F28748 /* arrows_blue.png */; };
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
+		E174AC0C1898BE0D001B5278 /* FBTWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E174AC0A1898BE0D001B5278 /* FBTWViewController.m */; };
+		E174AC0D1898BE0D001B5278 /* FBTWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E174AC0B1898BE0D001B5278 /* FBTWViewController.xib */; };
+		E174AC101898BE2B001B5278 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E174AC0F1898BE2B001B5278 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E174AC121898C096001B5278 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC111898C096001B5278 /* iconr3.png */; };
+		E174AC141898C09B001B5278 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC131898C09B001B5278 /* edit.png */; };
 		E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626518976CDA00C1C799 /* EditProfileViewController.xib */; };
 		E182626F18976D0400C1C799 /* TermConditionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626A18976D0400C1C799 /* TermConditionViewController.xib */; };
-		E182627118976D0400C1C799 /* UserSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626D18976D0400C1C799 /* UserSecurityViewController.xib */; };
-		E182627A1897CAA100C1C799 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262791897CAA100C1C799 /* iconr3.png */; };
-		E182627C1897CB3A00C1C799 /* folder_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627B1897CB3A00C1C799 /* folder_lock.png */; };
-		E18262801897CBE700C1C799 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627F1897CBE700C1C799 /* edit.png */; };
 		E18262821897F6DC00C1C799 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262811897F6DC00C1C799 /* facebook.png */; };
 		E18262841897F71700C1C799 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262831897F71700C1C799 /* twitter.png */; };
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
 		E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
+		E1B073601898E48600589867 /* editPress.png in Resources */ = {isa = PBXBuildFile; fileRef = E1B0735F1898E48600589867 /* editPress.png */; };
 		E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D951893829C004ACF77 /* MyReferralViewController.m */; };
 		E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3188D961893829C004ACF77 /* MyReferralViewController.xib */; };
 		E3188D9C18938888004ACF77 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188D9A18938888004ACF77 /* CustomCell.m */; };
@@ -77,7 +79,6 @@
 		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
 		E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */; };
 		E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4C31896AA160065F8E2 /* AddressBook.framework */; };
-		FC85D52A1896E29B006AD7E0 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = FC85D5291896E29B006AD7E0 /* checkbox.png */; };
 		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
 		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
@@ -182,6 +183,13 @@
 		E17222DB18928DE700F28748 /* arrows_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrows_blue.png; sourceTree = "<group>"; };
 		E17222DC18928DE700F28748 /* cancel_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_btn.png; sourceTree = "<group>"; };
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
+		E174AC091898BE0D001B5278 /* FBTWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBTWViewController.h; sourceTree = "<group>"; };
+		E174AC0A1898BE0D001B5278 /* FBTWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBTWViewController.m; sourceTree = "<group>"; };
+		E174AC0B1898BE0D001B5278 /* FBTWViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FBTWViewController.xib; sourceTree = "<group>"; };
+		E174AC0E1898BE2B001B5278 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		E174AC0F1898BE2B001B5278 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		E174AC111898C096001B5278 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
+		E174AC131898C09B001B5278 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		E182626318976CDA00C1C799 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		E182626418976CDA00C1C799 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		E182626518976CDA00C1C799 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -192,15 +200,14 @@
 		E182626C18976D0400C1C799 /* UserSecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSecurityViewController.m; sourceTree = "<group>"; };
 		E182626D18976D0400C1C799 /* UserSecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController.xib; sourceTree = "<group>"; };
 		E18262781897AEA400C1C799 /* JSONDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONDictionary.h; sourceTree = "<group>"; };
-		E18262791897CAA100C1C799 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E182627B1897CB3A00C1C799 /* folder_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder_lock.png; sourceTree = "<group>"; };
-		E182627F1897CBE700C1C799 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		E18262811897F6DC00C1C799 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
 		E18262831897F71700C1C799 /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
 		E18648D01896285800175E8D /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		E18648D11896285800175E8D /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		E18648D618969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
+		E1B0735F1898E48600589867 /* editPress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = editPress.png; sourceTree = "<group>"; };
 		E3188D941893829C004ACF77 /* MyReferralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyReferralViewController.h; sourceTree = "<group>"; };
 		E3188D951893829C004ACF77 /* MyReferralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyReferralViewController.m; sourceTree = "<group>"; };
 		E3188D961893829C004ACF77 /* MyReferralViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyReferralViewController.xib; sourceTree = "<group>"; };
@@ -220,7 +227,6 @@
 		E31AA49218969D730065F8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		E31AA4C31896AA160065F8E2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		FC85D5291896E29B006AD7E0 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -276,7 +282,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E31C75BE189799B500A8CC7F /* Social.framework in Frameworks */,
 				E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */,
 				E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */,
 				E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */,
@@ -320,7 +325,6 @@
 		E31C75C81897B27600A8CC7F /* JSON */ = {
 			isa = PBXGroup;
 			children = (
-				E31C75C91897B28E00A8CC7F /* JSONDictionaryExtensions.h */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -328,8 +332,8 @@
 		E31C75CA1897ECCB00A8CC7F /* ProgressBar */ = {
 			isa = PBXGroup;
 			children = (
-				E31C75CB1897ECE400A8CC7F /* SVProgressHUD.h */,
-				E31C75CC1897ECE400A8CC7F /* SVProgressHUD.m */,
+				E174AC0E1898BE2B001B5278 /* SVProgressHUD.h */,
+				E174AC0F1898BE2B001B5278 /* SVProgressHUD.m */,
 			);
 			name = ProgressBar;
 			sourceTree = "<group>";
@@ -365,7 +369,6 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E31C75BD189799B500A8CC7F /* Social.framework */,
 				E31AA4C31896AA160065F8E2 /* AddressBook.framework */,
 				E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */,
 				E31AA49218969D730065F8E2 /* MessageUI.framework */,
@@ -406,6 +409,9 @@
 				E182626B18976D0400C1C799 /* UserSecurityViewController.h */,
 				E182626C18976D0400C1C799 /* UserSecurityViewController.m */,
 				E182626D18976D0400C1C799 /* UserSecurityViewController.xib */,
+				E174AC091898BE0D001B5278 /* FBTWViewController.h */,
+				E174AC0A1898BE0D001B5278 /* FBTWViewController.m */,
+				E174AC0B1898BE0D001B5278 /* FBTWViewController.xib */,
 				FC9763F9189003E9008DF1F8 /* CommunityViewController.h */,
 				FC9763FA189003E9008DF1F8 /* CommunityViewController.m */,
 				E17222AB18923AF900F28748 /* CollectionViewCell.h */,
@@ -421,8 +427,6 @@
 				E31AA48D189662C00065F8E2 /* EditMessageVC.h */,
 				E31AA48E189662C00065F8E2 /* EditMessageVC.m */,
 				E31AA48F189662C00065F8E2 /* EditMessageVC.xib */,
-				E31C75C31897A82500A8CC7F /* FBTWViewController.h */,
-				E31C75C41897A82500A8CC7F /* FBTWViewController.m */,
 				E17222B81892817800F28748 /* EarningViewController.h */,
 				E17222B91892817800F28748 /* EarningViewController.m */,
 				E3188D941893829C004ACF77 /* MyReferralViewController.h */,
@@ -490,9 +494,11 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E1B0735F1898E48600589867 /* editPress.png */,
 				FC85D53C1897F9E3006AD7E0 /* save.png */,
 				FC85D53A1897F6D6006AD7E0 /* profile.png */,
-				FC85D5291896E29B006AD7E0 /* checkbox.png */,
+				E174AC131898C09B001B5278 /* edit.png */,
+				E174AC111898C096001B5278 /* iconr3.png */,
 				FCC76CAA1896A93C00F4B41A /* arrow.png */,
 				FCC76CA81896A64000F4B41A /* bg.png */,
 				FCC76CA61896A39C00F4B41A /* line.png */,
@@ -554,12 +560,8 @@
 				E17222C41892819A00F28748 /* PastPayementViewController.xib */,
 				E3188D961893829C004ACF77 /* MyReferralViewController.xib */,
 				E3188D9B18938888004ACF77 /* CustomCell.xib */,
-				E31C75C51897A82600A8CC7F /* FBTWViewController.xib */,
 				E17222C9189281B000F28748 /* ResetPasswordController.xib */,
 				E17222D8189285A100F28748 /* LoginViewController.xib */,
-				E31C75A718976DAA00A8CC7F /* EditProfileViewController.xib */,
-				E31C75AA18976DAA00A8CC7F /* TermConditionViewController.xib */,
-				E31C75AD18976DAA00A8CC7F /* UserSecurityViewController.xib */,
 			);
 			name = Layouts;
 			sourceTree = "<group>";
@@ -654,16 +656,18 @@
 				E17222E018928DE700F28748 /* cancel_red.png in Resources */,
 				E16F392018914D4A00064806 /* back.png in Resources */,
 				E16F390518912C9C00064806 /* earnings-icon.png in Resources */,
-				E31C75B418976DAA00A8CC7F /* UserSecurityViewController.xib in Resources */,
 				E16F390E18912C9C00064806 /* private-icon.png in Resources */,
 				E16F390218912C9C00064806 /* cog-itemX30.png in Resources */,
 				E16F390D18912C9C00064806 /* previous.png in Resources */,
 				E16F391218912C9C00064806 /* share-to-folder.png in Resources */,
 				E16F390A18912C9C00064806 /* icon-takephotoX30.png in Resources */,
 				FCC76CA91896A64000F4B41A /* bg.png in Resources */,
+				E174AC121898C096001B5278 /* iconr3.png in Resources */,
 				E17222CD189281C000F28748 /* login2_new.png in Resources */,
 				E16F391418912C9C00064806 /* shared-icon.png in Resources */,
+				E174AC0D1898BE0D001B5278 /* FBTWViewController.xib in Resources */,
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
+				E174AC141898C09B001B5278 /* edit.png in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
 				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
 				E18262841897F71700C1C799 /* twitter.png in Resources */,
@@ -676,6 +680,7 @@
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E18262821897F6DC00C1C799 /* facebook.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
+				E1B073601898E48600589867 /* editPress.png in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
 				E16F3916189130A800064806 /* folder-icon.png in Resources */,
 				E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */,
@@ -686,10 +691,8 @@
 				E16F390718912C9C00064806 /* folder-icon-bottomX30.png in Resources */,
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
 				E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */,
-				E18262801897CBE700C1C799 /* edit.png in Resources */,
 				E17222DF18928DE700F28748 /* cancel_btn.png in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
-				FC85D52A1896E29B006AD7E0 /* checkbox.png in Resources */,
 				E169DAAE18939FF500BE0B5B /* PhotoGalleryViewController.xib in Resources */,
 				FC85D5391896F327006AD7E0 /* TermConditionViewController.xib in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
@@ -701,21 +704,17 @@
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
 				FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */,
-				E18648D41896596200175E8D /* checkbox.png in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E182626F18976D0400C1C799 /* TermConditionViewController.xib in Resources */,
 				E17222CB189281B000F28748 /* ResetPasswordController.xib in Resources */,
-				E31C75C71897A82600A8CC7F /* FBTWViewController.xib in Resources */,
 				E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */,
-				E31C75B218976DAA00A8CC7F /* TermConditionViewController.xib in Resources */,
 				FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */,
 				E17222DA189285A100F28748 /* LoginViewController.xib in Resources */,
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
 				E17222BC1892817800F28748 /* EarningViewController.xib in Resources */,
 				E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */,
 				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
-				E182627A1897CAA100C1C799 /* iconr3.png in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
 			);
@@ -740,7 +739,7 @@
 				E169DAAD18939FF500BE0B5B /* PhotoGalleryViewController.m in Sources */,
 				E17222D0189281F600F28748 /* ContentManager.m in Sources */,
 				E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */,
-				E31C75C61897A82600A8CC7F /* FBTWViewController.m in Sources */,
+				E174AC0C1898BE0D001B5278 /* FBTWViewController.m in Sources */,
 				FC9763FC189003E9008DF1F8 /* CommunityViewController.m in Sources */,
 				E3188D971893829C004ACF77 /* MyReferralViewController.m in Sources */,
 				FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */,
@@ -753,12 +752,11 @@
 				E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */,
 				E17222D9189285A100F28748 /* LoginViewController.m in Sources */,
+				E174AC101898BE2B001B5278 /* SVProgressHUD.m in Sources */,
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
-				E31C75CD1897ECE400A8CC7F /* SVProgressHUD.m in Sources */,
 				E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */,
 				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,
-				E31C75B118976DAA00A8CC7F /* TermConditionViewController.m in Sources */,
 				E31AA48B18962DFA0065F8E2 /* ReferralStageFourVC.m in Sources */,
 				FCB0B77518945C0F001722B3 /* WebserviceController.m in Sources */,
 				E17222CA189281B000F28748 /* ResetPasswordController.m in Sources */,

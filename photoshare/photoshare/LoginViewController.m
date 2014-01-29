@@ -40,7 +40,7 @@
     [passwordTextField setDelegate:self];
     //add the border color in username and password textfield
     //temp Hidden
-    //loginBackgroundImage.hidden=YES;
+    loginBackgroundImage.hidden=YES;
     
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;

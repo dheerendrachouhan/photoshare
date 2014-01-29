@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
+#import "WebserviceController.h"
+@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
 {
     IBOutlet UIButton *addPhotoBtn;
     IBOutlet UIButton *deletePhotoBtn;
     IBOutlet UIButton *sharePhotoBtn;
     IBOutlet UICollectionView *collectionview;
+    WebserviceController *webServices;
+    UIButton *editBtn;
+    
     NSMutableArray *imgArray;
     BOOL isDeleteMode;
     BOOL isShareMode;
