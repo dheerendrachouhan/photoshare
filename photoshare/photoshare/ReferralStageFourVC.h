@@ -12,6 +12,8 @@
 #import <Social/Social.h>
 #import "WebserviceController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import <Accounts/Accounts.h>
+#import <Twitter/Twitter.h>
 
 @class ContentManager;
 @interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate,MFMessageComposeViewControllerDelegate,FBFriendPickerDelegate>

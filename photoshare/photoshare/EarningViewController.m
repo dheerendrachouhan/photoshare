@@ -47,23 +47,31 @@
     wc.delegate = self;
     NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
     [wc call:postStr controller:@"user" method:@"getearningsdetails"] ;
-    //[SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
     
-        //get the userId
-    NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-    NSString *peopleRefStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_referrals"]];
-    NSString *projectedEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"projected_earnings"]];
-    NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
+    int exitCode=[[data objectForKey:@"exit_code"] intValue];
+    //get the userId
+    if([data count] == 0 || exitCode == 0)
+    {
+        [SVProgressHUD dismissWithError:@"Failed To load Data"];
+    }
+    else
+    {
+        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+        NSString *peopleRefStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_referrals"]];
+        NSString *projectedEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"projected_earnings"]];
+        NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
     
-    totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
-    peopleReferredLabel.text = peopleRefStr;
-    projectedEarninglabel.text = [@"£" stringByAppendingString:projectedEarnStr];
-   // [SVProgressHUD dismissWithSuccess:@"Success"];
+        totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
+        peopleReferredLabel.text = peopleRefStr;
+        projectedEarninglabel.text = [@"£" stringByAppendingString:projectedEarnStr];
+        [SVProgressHUD dismissWithSuccess:@"Success"];
+    }
 }
 
 - (IBAction)viewPastPaymentsBtn:(id)sender {
