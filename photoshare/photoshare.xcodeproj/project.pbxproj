@@ -64,7 +64,6 @@
 		E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E317675F1898BE4100923E35 /* FinanceCalculatorViewController.xib */; };
 		E31767621898BED100923E35 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E31767611898BED100923E35 /* edit.png */; };
 		E31767641898BF1E00923E35 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E31767631898BF1E00923E35 /* iconr3.png */; };
-		E31767661898C53500923E35 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31767651898C53500923E35 /* FacebookSDK.framework */; };
 		E317676A1899031200923E35 /* financeCalculator3VC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31767691899031200923E35 /* financeCalculator3VC.xib */; };
 		E317676E1899117600923E35 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E317676D1899117600923E35 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E31767741899130100923E35 /* EditPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31767721899130100923E35 /* EditPhotoViewController.m */; };
@@ -94,6 +93,8 @@
 		E3BAA8EE18993ABC00ED2CA2 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8E618993ABC00ED2CA2 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E3BAA8EF18993ABC00ED2CA2 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8E818993ABC00ED2CA2 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E3BAA8F018993ABC00ED2CA2 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8EA18993ABC00ED2CA2 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E3BAA8F418993F9600ED2CA2 /* TwitterTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */; };
+		E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */; };
 		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
 		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
@@ -215,7 +216,6 @@
 		E317675F1898BE4100923E35 /* FinanceCalculatorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinanceCalculatorViewController.xib; sourceTree = "<group>"; };
 		E31767611898BED100923E35 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		E31767631898BF1E00923E35 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
-		E31767651898C53500923E35 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		E31767691899031200923E35 /* financeCalculator3VC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = financeCalculator3VC.xib; sourceTree = "<group>"; };
 		E317676C1899117600923E35 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		E317676D1899117600923E35 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -260,6 +260,9 @@
 		E3BAA8E818993ABC00ED2CA2 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		E3BAA8E918993ABC00ED2CA2 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		E3BAA8EA18993ABC00ED2CA2 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		E3BAA8F118993F9600ED2CA2 /* TwitterTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterTable.h; sourceTree = "<group>"; };
+		E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterTable.m; sourceTree = "<group>"; };
+		E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable.xib; sourceTree = "<group>"; };
 		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -321,7 +324,6 @@
 				FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */,
 				FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */,
 				FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */,
-				E31767661898C53500923E35 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +421,6 @@
 				E3BAA8C31899212500ED2CA2 /* Accounts.framework */,
 				E3BAA8C11899212000ED2CA2 /* Twitter.framework */,
 				E3BAA8BF1899162800ED2CA2 /* Social.framework */,
-				E31767651898C53500923E35 /* FacebookSDK.framework */,
 				E31AA4C31896AA160065F8E2 /* AddressBook.framework */,
 				E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */,
 				E31AA49218969D730065F8E2 /* MessageUI.framework */,
@@ -473,6 +474,9 @@
 				E317675A1898BE0A00923E35 /* FBTWViewController.h */,
 				E317675B1898BE0A00923E35 /* FBTWViewController.m */,
 				E317675C1898BE0A00923E35 /* FBTWViewController.xib */,
+				E3BAA8F118993F9600ED2CA2 /* TwitterTable.h */,
+				E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */,
+				E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */,
 				E31AA48D189662C00065F8E2 /* EditMessageVC.h */,
 				E31AA48E189662C00065F8E2 /* EditMessageVC.m */,
 				E31AA48F189662C00065F8E2 /* EditMessageVC.xib */,
@@ -765,6 +769,7 @@
 				FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */,
 				E17222DA189285A100F28748 /* LoginViewController.xib in Resources */,
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
+				E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */,
 				E17222BC1892817800F28748 /* EarningViewController.xib in Resources */,
 				E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */,
 				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
@@ -816,6 +821,7 @@
 				FCB0B77518945C0F001722B3 /* WebserviceController.m in Sources */,
 				E17222CA189281B000F28748 /* ResetPasswordController.m in Sources */,
 				E17222BB1892817800F28748 /* EarningViewController.m in Sources */,
+				E3BAA8F418993F9600ED2CA2 /* TwitterTable.m in Sources */,
 				E3BAA8F018993ABC00ED2CA2 /* SBJsonWriter.m in Sources */,
 				E317675D1898BE0A00923E35 /* FBTWViewController.m in Sources */,
 				E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */,

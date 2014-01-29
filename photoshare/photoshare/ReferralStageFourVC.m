@@ -11,6 +11,7 @@
 #import "ContentManager.h"
 #import "FBTWViewController.h"
 #import "SVProgressHUD.h"
+#import "TwitterTable.h"
 
 @interface ReferralStageFourVC ()
 
@@ -503,12 +504,10 @@
 
 //Twitter SDK Implemetation
 - (IBAction)postToTwitter:(id)sender {
+    [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
     [self getTwitterAccounts];
     
-    if([twiiterListArr count] > 0)
-    {
-        
-    }
+    
 }
 
 //Email from Contacts

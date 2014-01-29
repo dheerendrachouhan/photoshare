@@ -107,9 +107,10 @@
     mtReffVC.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
--(void) viewWillAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = NO;
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
     
 }
 
