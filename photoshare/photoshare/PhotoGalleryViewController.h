@@ -25,14 +25,21 @@
     
     int userID;
     
+    NSMutableArray *photoIdsArray;
+    
     BOOL isDeleteMode;
     BOOL isShareMode;
     
+    BOOL isGetPhotoIdFromServer;
     BOOL isGetPhotoFromServer;
     BOOL isSaveDataOnServer;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;
+
+@property(nonatomic,assign)int collectionId;
+@property(nonatomic,assign)int userID;
+
 @property(nonatomic,retain)ALAssetsLibrary *library;
 @property(nonatomic,retain)NSString *folderName;
 -(IBAction)addPhoto:(id)sender;
