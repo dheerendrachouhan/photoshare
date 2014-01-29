@@ -37,7 +37,7 @@
     [super viewDidLoad];
     userID = [objManager getData:@"user_id"];
     NSLog(@"Userid : %@",userID);
-    
+    self.navigationController.navigationBarHidden = NO;
      [self.navigationItem setTitle:@"Finance"];
     //Navigation Back Title
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
@@ -50,7 +50,7 @@
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 }
 
--(void) webserviceCallback:(NSDictionary *)data
+-(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
     
@@ -105,13 +105,6 @@
     
     [self.navigationController pushViewController:mtReffVC animated:YES];
     mtReffVC.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-    
 }
 
 
