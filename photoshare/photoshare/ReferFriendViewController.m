@@ -28,6 +28,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //Segment Porstion Disable
+    [toolboxController setEnabled:NO forSegmentAtIndex:1];
+    [toolboxController setEnabled:NO forSegmentAtIndex:2];
     // Do any additional setup after loading the view from its nib.
     [self.navigationItem setTitle:@"Refer Friends"];
     //Navigation Back Title
@@ -40,6 +43,20 @@
     //webView By Refferral
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL  URLWithString:@"http://www.youtube.com/watch?v=XaoROWDPPZc&list=UUFfuK45zBZxhq0m1bxYP-Zw&feature=share&index=1"]]];
 
+}
+- (IBAction)toolbox_Controller:(id)sender {
+    if(toolboxController.selectedSegmentIndex == 0)
+    {
+        [toolboxController setEnabled:YES forSegmentAtIndex:0];
+    }
+    else if (toolboxController.selectedSegmentIndex == 1)
+    {
+    
+    }
+    else if(toolboxController.selectedSegmentIndex == 2)
+    {
+    
+    }
 }
 
 -(void)chooseView
