@@ -26,6 +26,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
+    {
+        if ([[UIScreen mainScreen] bounds].size.height == 568)
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"FinanceCalculatorViewController" owner:self options:nil];
+        }
+        else if([[UIScreen mainScreen] bounds].size.height == 480)
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"financeCalculator3VC" owner:self options:nil];
+        }
+    }
      [self.navigationItem setTitle:@"Calculator"];
 	// Do any additional setup after loading the view.
     border1.layer.borderColor = [UIColor colorWithRed:0.039 green:0.451 blue:1 alpha:1].CGColor;
