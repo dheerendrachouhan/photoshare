@@ -95,7 +95,7 @@
 		E3BAA8F018993ABC00ED2CA2 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8EA18993ABC00ED2CA2 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E3BAA8F418993F9600ED2CA2 /* TwitterTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */; };
 		E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */; };
-		E3BAA8FF1899499F00ED2CA2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8FE1899499F00ED2CA2 /* FacebookSDK.framework */; };
+		E3BAA90118995FE500ED2CA2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA90018995FE500ED2CA2 /* FacebookSDK.framework */; };
 		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
 		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
@@ -264,7 +264,7 @@
 		E3BAA8F118993F9600ED2CA2 /* TwitterTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterTable.h; sourceTree = "<group>"; };
 		E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterTable.m; sourceTree = "<group>"; };
 		E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable.xib; sourceTree = "<group>"; };
-		E3BAA8FE1899499F00ED2CA2 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		E3BAA90018995FE500ED2CA2 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -317,8 +317,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3BAA90118995FE500ED2CA2 /* FacebookSDK.framework in Frameworks */,
 				E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */,
-				E3BAA8FF1899499F00ED2CA2 /* FacebookSDK.framework in Frameworks */,
 				E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */,
 				E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */,
 				E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */,
@@ -421,7 +421,7 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E3BAA8FE1899499F00ED2CA2 /* FacebookSDK.framework */,
+				E3BAA90018995FE500ED2CA2 /* FacebookSDK.framework */,
 				E3BAA8C31899212500ED2CA2 /* Accounts.framework */,
 				E3BAA8C11899212000ED2CA2 /* Twitter.framework */,
 				E3BAA8BF1899162800ED2CA2 /* Social.framework */,
