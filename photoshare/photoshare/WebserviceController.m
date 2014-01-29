@@ -21,6 +21,7 @@
     
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ]];
+   // NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.10.200:8080/api/index.php/%@/%@",controller,method ]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];    
     
@@ -48,6 +49,7 @@
   // NSLog(@"Result : %@",output);
     NSDictionary *JSON =
     [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    
 
     [self.delegate webserviceCallback:JSON];
     

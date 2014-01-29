@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
-@interface AddEditFolderViewController : UIViewController<UITextFieldDelegate,UINavigationBarDelegate, UINavigationControllerDelegate,WebserviceDelegate>
+@interface AddEditFolderViewController : UIViewController<UITextFieldDelegate,UINavigationBarDelegate, UINavigationControllerDelegate,WebserviceDelegate,UIAlertViewDelegate>
 {
     IBOutlet UILabel *headingLabel;
     IBOutlet UIView *folderNameView;

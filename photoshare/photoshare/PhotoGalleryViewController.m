@@ -11,6 +11,7 @@
 #import "Base64.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "WebserviceController.h"
+#import "EditPhotoViewController.h"
 @interface PhotoGalleryViewController ()
 
 @end
@@ -30,7 +31,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    //initialize the WebService Object
+    webServices=[[WebserviceController alloc] init];
+    
     selectedImagesIndex=[[NSMutableArray alloc] init];
     //initialize the assets Library
     library=[[ALAssetsLibrary alloc] init];
@@ -54,12 +58,25 @@
     //collection view
     [collectionview registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CVCell"];
     
+    //tapGesture
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
+    
+    //add the LongPress gesture to the collection view
+    UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
+    longPressGesture.minimumPressDuration=0.6;
+    [collectionview addGestureRecognizer:longPressGesture];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    //editBtn
+    editBtn = [[UIButton alloc] init];    
+    //get the user id from nsuserDefaults
+    ContentManager *manager=[ContentManager sharedManager];
+    userID=[[manager getData:@"user_id"] intValue];
+    
     self.navigationController.navigationBarHidden=NO;
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     
@@ -88,10 +105,19 @@
     else
     {
         //set Folder Name in Right Side of navigation bar
-        NSString *folderName=self.folderName;
-        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithTitle:folderName  style:UIBarButtonItemStylePlain target:self action:nil];
+        NSString *folderNa=self.folderName;
+        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithTitle:folderNa  style:UIBarButtonItemStylePlain target:self action:nil];
         foldernameButton.tintColor=[UIColor blackColor];
-        self.navigationItem.rightBarButtonItem = foldernameButton;
+        
+        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        iconbtn.frame=CGRectMake(0, 0, 20, 20);
+        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+        iconbtn.userInteractionEnabled=NO;
+        UIBarButtonItem *editBtnIcon=[[UIBarButtonItem alloc]
+                                  initWithCustomView:iconbtn] ;
+        NSArray *itemArray=[[NSArray alloc] initWithObjects:foldernameButton,editBtnIcon,nil];
+        self.navigationItem.rightBarButtonItems=itemArray;
+        
         
         if([contentManagerObj getData:@"dictionaryOfYourImgArray"]==nil)
         {
@@ -185,12 +211,13 @@
         }];
 
     }
-    
-    
     NSData *imgData=UIImagePNGRepresentation(image);
     [Base64 initialize];
     NSString *base64string=[Base64 encode:imgData];
-    ContentManager *manager=[ContentManager sharedManager];
+    
+    [self savePhotosOnServer:userID base64ImageString:imgData photoTitle:@"Image" photoDescription:@"" photoCollection:@""];
+   
+    /*ContentManager *manager=[ContentManager sharedManager];
     NSMutableArray *base64images=[[NSMutableArray alloc] init];
     if(isPublicFolder)
     {
@@ -207,18 +234,51 @@
         [manager storeData:dic :@"dictionaryOfYourImgArray"];
     }
     [imgArray addObject:image];
-    [collectionview reloadData];
+    [collectionview reloadData];*/
     
 }
--(void)savePhotosOnServer
+
+//get Photo From Server
+-(void)getPhotoFromServer: (int)usrId
 {
-    WebserviceController *webService=[[WebserviceController alloc] init];
-    //get the user id from nsuserDefaults
-    ContentManager *manager=[ContentManager sharedManager];
-    NSNumber *userId=[manager getData:@"user_id"];
+    isGetPhotoFromServer=YES;
+    
+    webServices.delegate=self;
+    NSString *data=[NSString stringWithFormat:@"user_id=%d",usrId];
+    [webServices call:data controller:@"photo" method:@"listorphans"];
+}
+//save Photo on Server Photo With Detaill
+-(void)savePhotosOnServer :(int)usrId base64ImageString:(NSData *)base64ImageString photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+{
+    isSaveDataOnServer=YES;
+    
+    webServices.delegate=self;
+    NSString *data=[NSString stringWithFormat:@"user_id=%d&file=%@&photo_title=%@&photo_description=%@&photo_collections=%@",usrId,base64ImageString,photoTitle,photoDescription,photoCollection];
     //store data
-    [webService call:@"" controller:@"photo" method:@"store"];
-    //user_id,file,photo_title,photo_description,photo_collections
+    [webServices call:data controller:@"photo" method:@"store"];
+    
+}
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSMutableArray *outputData=[data objectForKey:@"output_data"];
+    
+    NSLog(@"outPutData is %@",outputData);
+    int exitcode=[[data objectForKey:@"exit_code"] integerValue];
+    if(exitcode==1)
+    {
+        if(isGetPhotoFromServer)
+        {
+            
+        }
+        else if(isSaveDataOnServer)
+        {
+            
+        }
+    }
+    else
+    {
+        
+    }
 }
 -(IBAction)deletePhoto:(id)sender
 {
@@ -320,6 +380,9 @@
 }
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
+    //if editBtnIs in view
+    [editBtn removeFromSuperview];
+    
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
@@ -347,11 +410,43 @@
         }
         else  //view Image
         {
-            
+            [self viewPhoto:indexPath];
         }
         cell.selected=!cell.selected;
     }
 }
+-(void)longPressHandle:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:collectionview];
+    
+    NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
+    if (indexPath != nil){
+        UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
+        editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+20, 60, 50);
+        [editBtn setImage:[UIImage imageNamed:@"editPress.png"] forState:UIControlStateNormal];
+        [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
+        [collectionview addSubview:editBtn];
+    }
+}
+-(void)viewPhoto :(NSIndexPath *)indexPath
+{
+    
+}
+-(void)editImage:(id)sender
+{
+    UIButton *btn=(UIButton *)sender;
+    CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
+    NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
+    
+    //go to editPhoto Controller
+    EditPhotoViewController *editPhoto=[[EditPhotoViewController alloc] init];
+    [self.navigationController pushViewController:editPhoto animated:YES];
+    
+    //if editBtnIs in view
+    [editBtn removeFromSuperview];
+}
+
+
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {

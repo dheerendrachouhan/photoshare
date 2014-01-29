@@ -179,8 +179,11 @@
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     if(exitCode ==1)
     {
-        [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
-        [self.navigationController popViewControllerAnimated:YES];
+        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        
+        [alertView show];
+        
+        
     }
     
     else
@@ -194,10 +197,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
-
-
-
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+   if(buttonIndex==0)
+   {
+       [self.navigationController popViewControllerAnimated:YES];
+   }
+    
+}
 
 @end
