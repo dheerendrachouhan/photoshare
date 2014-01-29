@@ -47,16 +47,15 @@
     wc.delegate = self;
     NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
     [wc call:postStr controller:@"user" method:@"getearningsdetails"] ;
-    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+    //[SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 }
 
--(void) webserviceCallback:(NSString *)data
+-(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
     
-    NSDictionary *earningDict = [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
         //get the userId
-    NSMutableArray *outPutData=[earningDict objectForKey:@"output_data"] ;
+    NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
     NSString *peopleRefStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_referrals"]];
     NSString *projectedEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"projected_earnings"]];
     NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
@@ -64,7 +63,7 @@
     totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
     peopleReferredLabel.text = peopleRefStr;
     projectedEarninglabel.text = [@"£" stringByAppendingString:projectedEarnStr];
-    [SVProgressHUD dismissWithSuccess:@"Success"];
+   // [SVProgressHUD dismissWithSuccess:@"Success"];
 }
 
 - (IBAction)viewPastPaymentsBtn:(id)sender {
