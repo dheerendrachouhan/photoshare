@@ -13,14 +13,19 @@
 
 @interface ReferralStageFourVC ()
 
+@property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
+
 @end
 
 @implementation ReferralStageFourVC
 {
     NSString *userSelectedEmail;
     NSString *userSelectedPhone;
+    NSMutableDictionary *firendDictionary;
+    NSMutableArray *FBEmailID;
 }
 @synthesize stringStr;
+@synthesize friendPickerController = _friendPickerController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,7 +41,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    firendDictionary = [[NSMutableDictionary alloc] init]; //fabfriendDictionary
+    FBEmailID = [[NSMutableArray alloc] init]; //storing email id of fb selected user
     setterEdit = NO;
     [userMessage setEditable:NO];
     // Do any additional setup after loading the view from its nib.
@@ -126,67 +132,76 @@
     [self showContactListPicker];
 }
 
-//Social Message Sending
+//FaceBook SDK Implemetation
 - (IBAction)postTofacebook:(id)sender {
-    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-        SLComposeViewController *facebook = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        
-        [facebook setInitialText:userMessage.text];
-        [facebook setCompletionHandler:^(SLComposeViewControllerResult result) {
-            FBTWViewController *fb = [[FBTWViewController alloc] init];
-            fb.successType = @"fb";
-            switch (result) {
-                case SLComposeViewControllerResultCancelled:
-                    [objManager showAlert:@"Cancelled" msg:@"Post Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
-                    break;
-                case SLComposeViewControllerResultDone:
-                    [self.navigationController pushViewController:fb animated:YES];
-                    break;
-                    
-                default:
-                    break;
+    // if the session is open, then load the data for our view controller
+    if (!FBSession.activeSession.isOpen)
+    {
+        // if the session is closed, then we open it here, and establish a handler for state changes
+        [FBSession openActiveSessionWithReadPermissions:Nil allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
+         {
+            if (error)
+            {
+                [objManager showAlert:@"Error" msg:error.localizedDescription cancelBtnTitle:@"Ok" otherBtn:nil];
+            } else if (session.isOpen)
+            {
+                [self postTofacebook:sender];
             }
         }];
-        [self presentViewController:facebook animated:YES completion:Nil];
+        return;
     }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't post right now, make sure your device has an internet connection and you have at least one Facebook account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [alertView show];
+    
+    if (self.friendPickerController == nil) {
+        // Create friend picker, and get data loaded into it.
+        self.friendPickerController = [[FBFriendPickerViewController alloc] init];
+        self.friendPickerController.title = @"Pick Friends";
+        self.friendPickerController.delegate = self;
     }
-
+    
+    [self.friendPickerController loadData];
+    [self.friendPickerController clearSelection];
+    
+    [self presentViewController:self.friendPickerController animated:YES completion:nil];
+    
 }
 
-- (IBAction)postToTwitter:(id)sender {
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
-    {
-        SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        [tweetSheet setInitialText:userMessage.text];
-        [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
-            FBTWViewController *tw = [[FBTWViewController alloc] init];
-            tw.successType = @"tw";
-            switch (result) {
-                case SLComposeViewControllerResultCancelled:
-                    [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
-                    break;
-                case SLComposeViewControllerResultDone:
-                    
-                    [self.navigationController pushViewController:tw animated:YES];
-                    break;
-                    
-                default:
-                    break;
-            }
-        }];
-        [self presentViewController:tweetSheet animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+- (void)facebookViewControllerDoneWasPressed:(id)sender {
+    // we pick up the users from the selection, and create a string that we use to update the text view
+    // at the bottom of the display; note that self.selection is a property inherited from our base class
+    for (id<FBGraphUser> user in self.friendPickerController.selection) {
+        NSString *text = user.id;
         
-        [alertView show];
+        //inserting user id in graph api to pull username
+        NSString *urlStrings = [NSString stringWithFormat:@"http://graph.facebook.com/%@?fields=username",text];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStrings] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
+        [request setHTTPMethod: @"GET"];
+        NSError *requestError;
+        NSURLResponse *urlResponse = nil;
+        NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+        NSDictionary *jsonObject=[NSJSONSerialization JSONObjectWithData:response1 options:NSJSONReadingMutableLeaves error:nil];
+        
+        if(![jsonObject objectForKey:@"username"])
+        {
+            NSLog(@"username found null!");
+        }
+        else
+        {
+            NSString *fbMsgLink = [NSString stringWithFormat:@"%@@facebook.com",[jsonObject objectForKey:@"username"]];
+            NSLog(@"fb user link : %@",fbMsgLink);
+            //adding the fb msg links to array
+            [FBEmailID addObject:fbMsgLink];
+            [self mailTo];
+        }
     }
+}
+- (void)facebookViewControllerCancelWasPressed:(id)sender {
+    //[self fillTextBoxAndDismiss:@"<Cancelled>"];
+    [objManager showAlert:@"Cancelled" msg:@"Friend selection process cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+}
+
+//Twitter SDK Implemetation
+- (IBAction)postToTwitter:(id)sender {
+   
 }
 
 //Email from Contacts
@@ -197,12 +212,20 @@
     // Email Content
     NSString *messageBody = userMessage.text; // Change the message body to HTML
     // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:userSelectedEmail];
-    
+    NSArray *toRecipents = [[NSArray alloc] init];
+    if(userSelectedEmail.length !=0)
+    {
+        toRecipents = [NSArray arrayWithObject:userSelectedEmail];
+    }
+    else if(FBEmailID.count!=0)
+    {
+        toRecipents = [NSArray arrayWithArray:FBEmailID];
+    }
+        
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     mc.mailComposeDelegate = self;
     [mc setSubject:emailTitle];
-    [mc setMessageBody:messageBody isHTML:YES];
+    [mc setMessageBody:messageBody isHTML:NO];
     [mc setToRecipients:toRecipents];
     
     // Present mail view controller on screen
@@ -357,7 +380,16 @@
     NSLog(@"The %@ button was tapped.", [alert buttonTitleAtIndex:buttonIndex]);
     if(buttonIndex == 1)
     {
-        [self showContactListPicker];
+        if((userSelectedEmail.length != 0) || (userSelectedPhone.length != 0))
+        {
+            [self showContactListPicker];
+        }
+        else if(FBEmailID.count != 0)
+        {
+            [self targetForAction:@selector(postTofacebook:) withSender:nil];
+            //setting the Email Nil
+            FBEmailID = [NSMutableArray arrayWithObjects:nil, nil];
+        }
     }
 }
 
