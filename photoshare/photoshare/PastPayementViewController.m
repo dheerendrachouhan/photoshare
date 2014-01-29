@@ -36,12 +36,6 @@
     [self.navigationItem setTitle:@"Past Payment"];
     userID = [objManager getData:@"user_id"];
     NSLog(@"Userid : %@",userID);
-    
-    WebserviceController *wb = [[WebserviceController alloc] init];
-    wb.delegate = self;
-    NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
-    [wb call:postStr controller:@"user" method:@"getpaymentdetails"] ;
-    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 
     
     // Do any additional setup after loading the view from its nib.
@@ -71,7 +65,7 @@
     }
     else if([[UIScreen mainScreen] bounds].size.height == 480)
     {
-        frame = CGRectMake(0, 25, 320, 370);
+        frame = CGRectMake(0, 25, 320, 360);
         point = 20;
         bHeight = 20;
     }
