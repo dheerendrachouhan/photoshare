@@ -38,7 +38,7 @@
 		E17222AF1892470600F28748 /* add_folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222AE1892470600F28748 /* add_folder.png */; };
 		E17222B31892518B00F28748 /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B11892518B00F28748 /* AddEditFolderViewController.m */; };
 		E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E17222B21892518B00F28748 /* AddEditFolderViewController.xib */; };
-		E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B6189280FE00F28748 /* JXBarChartView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B6189280FE00F28748 /* JXBarChartView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E17222BB1892817800F28748 /* EarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222B91892817800F28748 /* EarningViewController.m */; };
 		E17222BC1892817800F28748 /* EarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E17222BA1892817800F28748 /* EarningViewController.xib */; };
 		E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222C31892819A00F28748 /* PastPayementViewController.m */; };
@@ -88,6 +88,12 @@
 		E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8BF1899162800ED2CA2 /* Social.framework */; };
 		E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C11899212000ED2CA2 /* Twitter.framework */; };
 		E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C31899212500ED2CA2 /* Accounts.framework */; };
+		E3BAA8EB18993ABC00ED2CA2 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8E018993ABC00ED2CA2 /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E3BAA8EC18993ABC00ED2CA2 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8E218993ABC00ED2CA2 /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E3BAA8ED18993ABC00ED2CA2 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8E418993ABC00ED2CA2 /* SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E3BAA8EE18993ABC00ED2CA2 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8E618993ABC00ED2CA2 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E3BAA8EF18993ABC00ED2CA2 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8E818993ABC00ED2CA2 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E3BAA8F018993ABC00ED2CA2 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8EA18993ABC00ED2CA2 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
 		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
@@ -241,6 +247,19 @@
 		E3BAA8BF1899162800ED2CA2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E3BAA8C11899212000ED2CA2 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E3BAA8C31899212500ED2CA2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		E3BAA8DE18993ABC00ED2CA2 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		E3BAA8DF18993ABC00ED2CA2 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		E3BAA8E018993ABC00ED2CA2 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		E3BAA8E118993ABC00ED2CA2 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		E3BAA8E218993ABC00ED2CA2 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		E3BAA8E318993ABC00ED2CA2 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		E3BAA8E418993ABC00ED2CA2 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
+		E3BAA8E518993ABC00ED2CA2 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		E3BAA8E618993ABC00ED2CA2 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		E3BAA8E718993ABC00ED2CA2 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		E3BAA8E818993ABC00ED2CA2 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		E3BAA8E918993ABC00ED2CA2 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		E3BAA8EA18993ABC00ED2CA2 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -349,6 +368,19 @@
 		E31C75C81897B27600A8CC7F /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				E3BAA8DE18993ABC00ED2CA2 /* JSON.h */,
+				E3BAA8DF18993ABC00ED2CA2 /* NSObject+SBJSON.h */,
+				E3BAA8E018993ABC00ED2CA2 /* NSObject+SBJSON.m */,
+				E3BAA8E118993ABC00ED2CA2 /* NSString+SBJSON.h */,
+				E3BAA8E218993ABC00ED2CA2 /* NSString+SBJSON.m */,
+				E3BAA8E318993ABC00ED2CA2 /* SBJSON.h */,
+				E3BAA8E418993ABC00ED2CA2 /* SBJSON.m */,
+				E3BAA8E518993ABC00ED2CA2 /* SBJsonBase.h */,
+				E3BAA8E618993ABC00ED2CA2 /* SBJsonBase.m */,
+				E3BAA8E718993ABC00ED2CA2 /* SBJsonParser.h */,
+				E3BAA8E818993ABC00ED2CA2 /* SBJsonParser.m */,
+				E3BAA8E918993ABC00ED2CA2 /* SBJsonWriter.h */,
+				E3BAA8EA18993ABC00ED2CA2 /* SBJsonWriter.m */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -766,11 +798,14 @@
 				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
 				FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */,
 				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
+				E3BAA8EC18993ABC00ED2CA2 /* NSString+SBJSON.m in Sources */,
 				E31767741899130100923E35 /* EditPhotoViewController.m in Sources */,
+				E3BAA8ED18993ABC00ED2CA2 /* SBJSON.m in Sources */,
 				E3188D9C18938888004ACF77 /* CustomCell.m in Sources */,
 				E18648D21896285800175E8D /* Base64.m in Sources */,
 				E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */,
+				E3BAA8EE18993ABC00ED2CA2 /* SBJsonBase.m in Sources */,
 				E17222D9189285A100F28748 /* LoginViewController.m in Sources */,
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
 				E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */,
@@ -781,11 +816,14 @@
 				FCB0B77518945C0F001722B3 /* WebserviceController.m in Sources */,
 				E17222CA189281B000F28748 /* ResetPasswordController.m in Sources */,
 				E17222BB1892817800F28748 /* EarningViewController.m in Sources */,
+				E3BAA8F018993ABC00ED2CA2 /* SBJsonWriter.m in Sources */,
 				E317675D1898BE0A00923E35 /* FBTWViewController.m in Sources */,
 				E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */,
 				FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */,
 				E3188DA21893968A004ACF77 /* FinanceCalculatorViewController.m in Sources */,
 				E317676E1899117600923E35 /* SVProgressHUD.m in Sources */,
+				E3BAA8EF18993ABC00ED2CA2 /* SBJsonParser.m in Sources */,
+				E3BAA8EB18993ABC00ED2CA2 /* NSObject+SBJSON.m in Sources */,
 				FC97639C188FEB89008DF1F8 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

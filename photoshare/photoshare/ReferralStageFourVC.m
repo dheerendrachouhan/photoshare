@@ -10,6 +10,7 @@
 #import "EditMessageVC.h"
 #import "ContentManager.h"
 #import "FBTWViewController.h"
+#import "SVProgressHUD.h"
 
 @interface ReferralStageFourVC ()
 
@@ -175,7 +176,7 @@
     // we pick up the users from the selection, and create a string that we use to update the text view
     // at the bottom of the display; note that self.selection is a property inherited from our base class
     
-    //start loader
+    [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
     
     for (id<FBGraphUser> user in self.friendPickerController.selection) {
         NSString *text = user.id;
@@ -202,6 +203,7 @@
             
         }
     }
+    [SVProgressHUD dismissWithSuccess:@"Done"];
     [self dismissModalViewControllerAnimated:YES];
     [self performSelector:@selector(mailTo) withObject:self afterDelay:1.0f];
     
@@ -231,7 +233,6 @@
 
 }
 
-
 -(void)getTwitterFriendsForAccount:(ACAccount*)account {
     // In this case I am creating a dictionary for the account
     // Add the account screen name
@@ -242,13 +243,8 @@
 - (BOOL)userHasAccessToTwitter
 
 {
-    
-    return [SLComposeViewController
-            
-            isAvailableForServiceType:SLServiceTypeTwitter];
-    
+    return [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter];
 }
-
 
 -(void) getFollowerNameFromID:(NSString *)ID{
     
@@ -304,8 +300,6 @@
         }
     }];
 }
-
-
 
 -(void) getTwitterFriendsIDListForThisAccount:(NSString *)myAccount{
     
@@ -509,43 +503,11 @@
 
 //Twitter SDK Implemetation
 - (IBAction)postToTwitter:(id)sender {
-    
-    
-    
     [self getTwitterAccounts];
     
-    
-    
-    
-    
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    if([twiiterListArr count] > 0)
     {
-        SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        [tweetSheet setInitialText:[NSString  stringWithFormat:@"@JayendraRca %@",userMessage.text]];
-        [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
-            FBTWViewController *tw = [[FBTWViewController alloc] init];
-            tw.successType = @"tw";
-            switch (result) {
-                case SLComposeViewControllerResultCancelled:
-                    [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
-                    break;
-                case SLComposeViewControllerResultDone:
-                    
-                    [self.navigationController pushViewController:tw animated:YES];
-                    break;
-                    
-                default:
-                    break;
-            }
-        }];
         
-        [self presentViewController:tweetSheet animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [alertView show];
     }
 }
 
