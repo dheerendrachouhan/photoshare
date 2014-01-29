@@ -7,6 +7,7 @@
 //
 
 #import "TwitterTable.h"
+#import "SVProgressHUD.h"
 
 @interface TwitterTable ()
 
@@ -27,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [SVProgressHUD dismissWithSuccess:@"Loaded"];
     // Do any additional setup after loading the view from its nib.
     [self.navigationItem setTitle:@"Pick Twetter Friends"];
 }

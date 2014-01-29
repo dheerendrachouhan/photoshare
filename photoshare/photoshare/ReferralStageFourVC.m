@@ -356,8 +356,8 @@
             NSLog(@"No access granted");
         }
     }];
-    
 }
+
 - (void)fetchTimelineForUser:(NSString *)username
 
 {
