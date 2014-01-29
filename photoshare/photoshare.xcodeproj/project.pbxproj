@@ -95,6 +95,7 @@
 		E3BAA8F018993ABC00ED2CA2 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8EA18993ABC00ED2CA2 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E3BAA8F418993F9600ED2CA2 /* TwitterTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */; };
 		E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */; };
+		E3BAA8F9189945A200ED2CA2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8F8189945A200ED2CA2 /* FacebookSDK.framework */; };
 		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
 		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
@@ -263,6 +264,7 @@
 		E3BAA8F118993F9600ED2CA2 /* TwitterTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterTable.h; sourceTree = "<group>"; };
 		E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterTable.m; sourceTree = "<group>"; };
 		E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable.xib; sourceTree = "<group>"; };
+		E3BAA8F8189945A200ED2CA2 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3BAA8F9189945A200ED2CA2 /* FacebookSDK.framework in Frameworks */,
 				E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */,
 				E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */,
 				E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */,
@@ -418,6 +421,7 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E3BAA8F8189945A200ED2CA2 /* FacebookSDK.framework */,
 				E3BAA8C31899212500ED2CA2 /* Accounts.framework */,
 				E3BAA8C11899212000ED2CA2 /* Twitter.framework */,
 				E3BAA8BF1899162800ED2CA2 /* Social.framework */,
@@ -954,6 +958,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
+					/Users/ignis3/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
@@ -972,6 +977,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
+					/Users/ignis3/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
