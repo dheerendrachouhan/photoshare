@@ -140,6 +140,34 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [FBAppEvents activateApp];
     [FBAppCall handleDidBecomeActive];
+    [self checkPermissionSettings];
+}
+
+- (void)checkPermissionSettings
+{
+    NSLog(@"checkPermissionSettings: in NHOCAppDelegate");
+    //
+    // Now 'startForMeWithCompletionHandler' may return 'FBSessionStateClosed' (meaning that the user probably unauthorized the app in Settings).
+    //
+    // If that is the case:
+    //
+    //  - Hide the 'logged' View Controller
+    //  - Remove it (NHOCLoggedVC) from the Notification Center
+    //  - Show the 'login' View Controller
+    //  - And finally add it (NHOCLoginVC) to the Notification Center, closing the loop
+    //
+    // Check the console for further info.
+    //
+    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id<FBGraphUser> user, NSError *error) {
+        
+        if (!error) {
+            //
+            // Everything went fine... The app is in good shape.
+            // Notice that 'user.location' requires user_location permission
+            //
+            NSLog(@"user.location: %@: ", [user.location objectForKey:@"name"]);
+        }
+    }];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

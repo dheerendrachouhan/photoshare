@@ -9,6 +9,9 @@
                 <outlet property="customImage" destination="qSt-DI-wlq" id="AMo-6Y-OWe"/>
                 <outlet property="editMessageBtn" destination="rY6-Oo-ML1" id="Tks-Pw-DJe"/>
                 <outlet property="emailBt" destination="whc-tv-iNu" id="2pL-sR-kh2"/>
+                <outlet property="sendSMSBtn" destination="w5E-sE-hEh" id="UAQ-Wu-guC"/>
+                <outlet property="userMessage" destination="cuS-uQ-mP8" id="YUQ-2y-Lb6"/>
+                <outlet property="view" destination="1" id="mXv-LG-JLg"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -38,7 +41,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" alpha="0.55000001192092896" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qSt-DI-wlq">
-                    <rect key="frame" x="12" y="199" width="293" height="224"/>
+                    <rect key="frame" x="12" y="199" width="293" height="156"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.80614237879999995" green="0.80614237879999995" blue="0.80614237879999995" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
@@ -57,6 +60,10 @@
                     <state key="normal" image="share-facebook.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="fbFilter_Btn:" destination="-1" eventType="touchDown" id="cV8-we-Dud"/>
+                        <action selector="postTofacebook:" destination="-1" eventType="touchDown" id="Q5c-Rj-hrb"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPA-KC-sRX">
                     <rect key="frame" x="90" y="102" width="50" height="50"/>
@@ -65,6 +72,10 @@
                     <state key="normal" image="share-twitter.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="postToTwitter:" destination="-1" eventType="touchDown" id="4cV-8N-OLc"/>
+                        <action selector="twFilter_Btn:" destination="-1" eventType="touchDown" id="zrI-OT-4z7"/>
+                    </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Twitter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOU-xM-2Mi">
                     <rect key="frame" x="91" y="154" width="49" height="21"/>
@@ -97,6 +108,9 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="smsFilter_Btn:" destination="-1" eventType="touchDown" id="638-Mo-CwP"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="whc-tv-iNu">
                     <rect key="frame" x="170" y="102" width="55" height="50"/>
@@ -106,6 +120,9 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="emailFilter_Btn:" destination="-1" eventType="touchDown" id="z5n-ub-KFu"/>
+                    </connections>
                 </button>
                 <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="using your address book" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lC3-mJ-XBr">
                     <rect key="frame" x="163" y="164" width="74" height="39"/>
@@ -122,17 +139,17 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hey I've been using 123 Friday to share photo and earn  money want to join me?" translatesAutoresizingMaskIntoConstraints="NO" id="cuS-uQ-mP8">
-                    <rect key="frame" x="23" y="256" width="270" height="100"/>
+                    <rect key="frame" x="23" y="211" width="270" height="100"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="alphabet"/>
                 </textView>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BXc-YN-m4S">
-                    <rect key="frame" x="13" y="386" width="292" height="2"/>
+                    <rect key="frame" x="13" y="319" width="292" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </progressView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rY6-Oo-ML1">
-                    <rect key="frame" x="13" y="390" width="146" height="30"/>
+                    <rect key="frame" x="13" y="321" width="146" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                     <state key="normal" title="Edit Message">

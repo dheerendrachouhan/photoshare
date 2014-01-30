@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 
-@interface ReferFriendViewController : UIViewController
+@class ContentManager;
+@interface ReferFriendViewController : UIViewController <WebserviceDelegate>
 {
     IBOutlet UISegmentedControl *toolboxController;
     IBOutlet UIWebView *webViewReferral;
+    ContentManager *objManager;
 }
 
 @property (nonatomic, retain) IBOutlet UISegmentedControl *toolboxController;

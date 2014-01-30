@@ -31,6 +31,8 @@
     int totalCount;
     int countVar;
     NSArray *sttt;
+    NSString *tweetFail;
+    BOOL grant;
 }
 @synthesize stringStr,twitterTweet;
 @synthesize friendPickerController = _friendPickerController;
@@ -50,6 +52,7 @@
 {
     [super viewDidLoad];
     
+    tweetFail =@"";
     _accountStore = [[ACAccountStore alloc] init];
     twiiterListArr = [[NSMutableArray alloc] init];
     firendDictionary = [[NSMutableDictionary alloc] init]; //fabfriendDictionary
@@ -81,12 +84,18 @@
     }
     
     //Checking the screen size
-    if([[UIScreen mainScreen] bounds].size.height == 480)
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
-        scrollView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 480.0f);
-        //scrollView.autoresizingMask= UIViewAutoresizingFlexibleHeight;
-        
+        if ([[UIScreen mainScreen] bounds].size.height == 568)
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"ReferralStageFourVC" owner:self options:nil];
+        }
+        else if([[UIScreen mainScreen] bounds].size.height == 480)
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"ReferrelStageFourVC3" owner:self options:nil];
+        }
     }
+
     countVar =0;
 }
 
@@ -242,7 +251,7 @@
     }
     [SVProgressHUD dismissWithSuccess:@"Done"];
     [self dismissModalViewControllerAnimated:YES];
-    [self performSelector:@selector(mailTo) withObject:self afterDelay:1.0f];
+    //[self performSelector:@selector(mailTo) withObject:self afterDelay:1.0f];
     
 }
 - (void)facebookViewControllerCancelWasPressed:(id)sender {
@@ -266,10 +275,15 @@
                 [self getTwitterFriendsIDListForThisAccount:twitterAccount.username];
             }
         }
+        if(!granted){
+            [self disMissProgress];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twiiter not Found" message:@"Your Tweeter account in not configured. Please Configure your twitter account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
+            tweetFail = @"Failed";
+            [alert show];
+        }
     }];
 
 }
-
 
 -(void) getFollowerNameFromID:(NSString *)ID{
     
@@ -278,6 +292,7 @@
     ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error){
         if (granted) {
+            
             NSArray *accounts = [accountStore accountsWithAccountType:accountType];
             // Check if the users has setup at least one Twitter account
             if (accounts.count > 0)
@@ -321,6 +336,7 @@
                         
                         if(totalCount == countVar)
                         {
+                            [self disMissProgress];
                             TwitterTable *tw = [[TwitterTable alloc] init];
                             tw.tweetUserName = [NSMutableArray arrayWithArray:twiiterListArr];
                             [self.navigationController pushViewController:tw animated:NO];
@@ -397,10 +413,13 @@
 
 //Twitter SDK Implemetation
 - (IBAction)postToTwitter:(id)sender {
-    //[SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
     [self getTwitterAccounts];
-    
-    
+}
+
+-(void)disMissProgress
+{
+    [SVProgressHUD dismissWithSuccess:@"Done"];
 }
 
 //Email from Contacts
@@ -587,11 +606,6 @@
         if((userSelectedEmail.length != 0) || (userSelectedPhone.length != 0))
         {
             [self showContactListPicker];
-        }
-        else if(FBEmailID.count != 0)
-        {
-            [self targetForAction:@selector(postTofacebook:) withSender:nil];
-            //setting the Email Nil
         }
     }
 }

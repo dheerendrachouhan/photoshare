@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E1067C49189A11F600F08A5F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067C48189A11F600F08A5F /* FacebookSDK.framework */; };
 		E1067DBD189A50AB00F08A5F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DBC189A50AB00F08A5F /* Accelerate.framework */; };
 		E1067DBF189A50BA00F08A5F /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DBE189A50BA00F08A5F /* AdSupport.framework */; };
 		E1067DC1189A50C200F08A5F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DC0189A50C200F08A5F /* CoreData.framework */; };
@@ -101,6 +100,7 @@
 		E31B9E15189A4E6200722761 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E31B9E12189A4E6200722761 /* CustomCell.m */; };
 		E31B9E16189A4E6200722761 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31B9E14189A4E6200722761 /* MyReferralViewController.m */; };
 		E31B9E18189A558D00722761 /* ReferrelStageFourVC3.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31B9E17189A558D00722761 /* ReferrelStageFourVC3.xib */; };
+		E31B9E1C189A5D6B00722761 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31B9E1B189A5D6B00722761 /* FacebookSDK.framework */; };
 		E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8BF1899162800ED2CA2 /* Social.framework */; };
 		E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C11899212000ED2CA2 /* Twitter.framework */; };
 		E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C31899212500ED2CA2 /* Accounts.framework */; };
@@ -112,6 +112,8 @@
 		E3BAA8F018993ABC00ED2CA2 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8EA18993ABC00ED2CA2 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E3BAA8F418993F9600ED2CA2 /* TwitterTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */; };
 		E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */; };
+		E3DDA758189A6B1700144C43 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DDA757189A6B1700144C43 /* libAviarySDK.a */; };
+		E3DDA776189AA50100144C43 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3DDA774189AA50100144C43 /* AviarySDKResources.bundle */; };
 		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
 		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
@@ -157,7 +159,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E1067C48189A11F600F08A5F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		E1067DBC189A50AB00F08A5F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E1067DBE189A50BA00F08A5F /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		E1067DC0189A50C200F08A5F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -286,6 +287,7 @@
 		E31B9E13189A4E6200722761 /* MyReferralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyReferralViewController.h; sourceTree = "<group>"; };
 		E31B9E14189A4E6200722761 /* MyReferralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyReferralViewController.m; sourceTree = "<group>"; };
 		E31B9E17189A558D00722761 /* ReferrelStageFourVC3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferrelStageFourVC3.xib; sourceTree = "<group>"; };
+		E31B9E1B189A5D6B00722761 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		E3BAA8BF1899162800ED2CA2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E3BAA8C11899212000ED2CA2 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E3BAA8C31899212500ED2CA2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -305,6 +307,17 @@
 		E3BAA8F118993F9600ED2CA2 /* TwitterTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterTable.h; sourceTree = "<group>"; };
 		E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterTable.m; sourceTree = "<group>"; };
 		E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable.xib; sourceTree = "<group>"; };
+		E3DDA757189A6B1700144C43 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAviarySDK.a; path = photoshare/AviarySDK/libAviarySDK.a; sourceTree = "<group>"; };
+		E3DDA76A189AA50100144C43 /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
+		E3DDA76B189AA50100144C43 /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
+		E3DDA76C189AA50100144C43 /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
+		E3DDA76D189AA50100144C43 /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
+		E3DDA76E189AA50100144C43 /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
+		E3DDA76F189AA50100144C43 /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
+		E3DDA770189AA50100144C43 /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
+		E3DDA771189AA50100144C43 /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
+		E3DDA772189AA50100144C43 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
+		E3DDA774189AA50100144C43 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
 		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -355,10 +368,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3DDA758189A6B1700144C43 /* libAviarySDK.a in Frameworks */,
 				FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */,
 				E1067DCF189A514000F08A5F /* SystemConfiguration.framework in Frameworks */,
 				E1067DCD189A513700F08A5F /* StoreKit.framework in Frameworks */,
-				E1067DDD189A626100F08A5F /* libAviarySDK.a in Frameworks */,
 				E1067DCB189A512900F08A5F /* QuartzCore.framework in Frameworks */,
 				E1067DC9189A512400F08A5F /* OpenGLES.framework in Frameworks */,
 				E1067DC7189A510A00F08A5F /* libz.1.2.5.dylib in Frameworks */,
@@ -368,7 +381,6 @@
 				E1067DBF189A50BA00F08A5F /* AdSupport.framework in Frameworks */,
 				E1067DBD189A50AB00F08A5F /* Accelerate.framework in Frameworks */,
 				E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */,
-				E1067C49189A11F600F08A5F /* FacebookSDK.framework in Frameworks */,
 				E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */,
 				E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */,
 				E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */,
@@ -376,6 +388,7 @@
 				E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */,
 				FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */,
 				FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */,
+				E31B9E1C189A5D6B00722761 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,39 +405,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E1067DD0189A626100F08A5F /* AviarySDK */ = {
-			isa = PBXGroup;
-			children = (
-				E1067DD1189A626100F08A5F /* Headers */,
-				E1067DDA189A626100F08A5F /* libAviarySDK.a */,
-				E1067DDB189A626100F08A5F /* Resources */,
-			);
-			path = AviarySDK;
-			sourceTree = "<group>";
-		};
-		E1067DD1189A626100F08A5F /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				E1067DD2189A626100F08A5F /* AFOpenGLManager.h */,
-				E1067DD3189A626100F08A5F /* AFPhotoEditorContext.h */,
-				E1067DD4189A626100F08A5F /* AFPhotoEditorController+InAppPurchase.h */,
-				E1067DD5189A626100F08A5F /* AFPhotoEditorController.h */,
-				E1067DD6189A626100F08A5F /* AFPhotoEditorControllerOptions.h */,
-				E1067DD7189A626100F08A5F /* AFPhotoEditorCustomization.h */,
-				E1067DD8189A626100F08A5F /* AFPhotoEditorProduct.h */,
-				E1067DD9189A626100F08A5F /* AFPhotoEditorSession.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
-		E1067DDB189A626100F08A5F /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				E1067DDC189A626100F08A5F /* AviarySDKResources.bundle */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		E18648CF1896285800175E8D /* base64 */ = {
 			isa = PBXGroup;
 			children = (
@@ -481,6 +461,39 @@
 			name = Barchart;
 			sourceTree = "<group>";
 		};
+		E3DDA768189AA50100144C43 /* AviarySDK */ = {
+			isa = PBXGroup;
+			children = (
+				E3DDA769189AA50100144C43 /* Headers */,
+				E3DDA772189AA50100144C43 /* libAviarySDK.a */,
+				E3DDA773189AA50100144C43 /* Resources */,
+			);
+			path = AviarySDK;
+			sourceTree = "<group>";
+		};
+		E3DDA769189AA50100144C43 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				E3DDA76A189AA50100144C43 /* AFOpenGLManager.h */,
+				E3DDA76B189AA50100144C43 /* AFPhotoEditorContext.h */,
+				E3DDA76C189AA50100144C43 /* AFPhotoEditorController+InAppPurchase.h */,
+				E3DDA76D189AA50100144C43 /* AFPhotoEditorController.h */,
+				E3DDA76E189AA50100144C43 /* AFPhotoEditorControllerOptions.h */,
+				E3DDA76F189AA50100144C43 /* AFPhotoEditorCustomization.h */,
+				E3DDA770189AA50100144C43 /* AFPhotoEditorProduct.h */,
+				E3DDA771189AA50100144C43 /* AFPhotoEditorSession.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		E3DDA773189AA50100144C43 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E3DDA774189AA50100144C43 /* AviarySDKResources.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		FC976383188FEB89008DF1F8 = {
 			isa = PBXGroup;
 			children = (
@@ -503,6 +516,8 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E3DDA757189A6B1700144C43 /* libAviarySDK.a */,
+				E31B9E1B189A5D6B00722761 /* FacebookSDK.framework */,
 				E1067DCE189A514000F08A5F /* SystemConfiguration.framework */,
 				E1067DCC189A513700F08A5F /* StoreKit.framework */,
 				E1067DCA189A512900F08A5F /* QuartzCore.framework */,
@@ -513,7 +528,6 @@
 				E1067DC0189A50C200F08A5F /* CoreData.framework */,
 				E1067DBE189A50BA00F08A5F /* AdSupport.framework */,
 				E1067DBC189A50AB00F08A5F /* Accelerate.framework */,
-				E1067C48189A11F600F08A5F /* FacebookSDK.framework */,
 				E3BAA8C31899212500ED2CA2 /* Accounts.framework */,
 				E3BAA8C11899212000ED2CA2 /* Twitter.framework */,
 				E3BAA8BF1899162800ED2CA2 /* Social.framework */,
@@ -531,7 +545,7 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
-				E1067DD0189A626100F08A5F /* AviarySDK */,
+				E3DDA768189AA50100144C43 /* AviarySDK */,
 				E317676B1899115500923E35 /* ProgressBar */,
 				E31C75C81897B27600A8CC7F /* JSON */,
 				E18648D5189699B100175E8D /* AssetsLibrary */,
@@ -852,7 +866,7 @@
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
-				E1067DDE189A626100F08A5F /* AviarySDKResources.bundle in Resources */,
+				E3DDA776189AA50100144C43 /* AviarySDKResources.bundle in Resources */,
 				FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */,
 				FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
@@ -1049,6 +1063,7 @@
 		FC9763C2188FEB89008DF1F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1062,11 +1077,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
 				INFOPLIST_FILE = "photoshare/photoshare-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis2/Desktop/sukhdev/photoshare/photoshare/AviarySDK,
 					/Users/ignis2/Desktop/sukhdev/photoshare2/photoshare,
-					/Users/ignis2/Desktop/sukhdev/photoshare2/photoshare/photoshare/AviarySDK,
+					/Users/ignis3/Downloads,
+					/Users/ignis3/Desktop/project/photoshare/photoshare/AviarySDK,
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1082,6 +1099,7 @@
 		FC9763C3188FEB89008DF1F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1095,11 +1113,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
 				INFOPLIST_FILE = "photoshare/photoshare-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis2/Desktop/sukhdev/photoshare/photoshare/AviarySDK,
 					/Users/ignis2/Desktop/sukhdev/photoshare2/photoshare,
-					/Users/ignis2/Desktop/sukhdev/photoshare2/photoshare/photoshare/AviarySDK,
+					/Users/ignis3/Downloads,
+					/Users/ignis3/Desktop/project/photoshare/photoshare/AviarySDK,
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

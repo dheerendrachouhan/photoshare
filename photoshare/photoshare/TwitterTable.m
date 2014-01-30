@@ -34,7 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //[SVProgressHUD dismissWithSuccess:@"Loaded"];
+    [SVProgressHUD dismissWithSuccess:@"Loaded"];
     // Do any additional setup after loading the view from its nib.
     [self.navigationItem setTitle:@"Pick Twetter Friends"];
     selectedUserArr = [[NSMutableArray alloc] init];

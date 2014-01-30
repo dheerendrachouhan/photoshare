@@ -45,8 +45,9 @@
     
     WebserviceController *wc = [[WebserviceController alloc] init] ;
     wc.delegate = self;
-    NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
-    [wc call:postStr controller:@"user" method:@"getearningsdetails"] ;
+    //NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
+    NSDictionary *dictData = @{@"user_id":userID};
+    [wc call:dictData controller:@"user" method:@"getearningsdetails"] ;
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 }
 
