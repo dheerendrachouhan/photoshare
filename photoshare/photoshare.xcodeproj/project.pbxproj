@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E1067C49189A11F600F08A5F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067C48189A11F600F08A5F /* FacebookSDK.framework */; };
-		E1067D26189A1C2500F08A5F /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067D23189A1C2500F08A5F /* libAviarySDK.a */; };
-		E1067D27189A1C2500F08A5F /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E1067D25189A1C2500F08A5F /* AviarySDKResources.bundle */; };
 		E1067DBD189A50AB00F08A5F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DBC189A50AB00F08A5F /* Accelerate.framework */; };
 		E1067DBF189A50BA00F08A5F /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DBE189A50BA00F08A5F /* AdSupport.framework */; };
 		E1067DC1189A50C200F08A5F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DC0189A50C200F08A5F /* CoreData.framework */; };
@@ -20,6 +18,8 @@
 		E1067DCB189A512900F08A5F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCA189A512900F08A5F /* QuartzCore.framework */; };
 		E1067DCD189A513700F08A5F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCC189A513700F08A5F /* StoreKit.framework */; };
 		E1067DCF189A514000F08A5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCE189A514000F08A5F /* SystemConfiguration.framework */; };
+		E1067DDD189A626100F08A5F /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DDA189A626100F08A5F /* libAviarySDK.a */; };
+		E1067DDE189A626100F08A5F /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E1067DDC189A626100F08A5F /* AviarySDKResources.bundle */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -96,7 +96,6 @@
 		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
 		E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */; };
 		E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4C31896AA160065F8E2 /* AddressBook.framework */; };
-		E31B9E0E189A161800722761 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31B9E0D189A161800722761 /* FacebookSDK.framework */; };
 		E31B9E10189A1D7F00722761 /* iconr3_uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = E31B9E0F189A1D7F00722761 /* iconr3_uncheck.png */; };
 		E31B9E15189A4E6200722761 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E31B9E12189A4E6200722761 /* CustomCell.m */; };
 		E31B9E16189A4E6200722761 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31B9E14189A4E6200722761 /* MyReferralViewController.m */; };
@@ -158,16 +157,6 @@
 
 /* Begin PBXFileReference section */
 		E1067C48189A11F600F08A5F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
-		E1067D1B189A1C2500F08A5F /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
-		E1067D1C189A1C2500F08A5F /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
-		E1067D1D189A1C2500F08A5F /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
-		E1067D1E189A1C2500F08A5F /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
-		E1067D1F189A1C2500F08A5F /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
-		E1067D20189A1C2500F08A5F /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
-		E1067D21189A1C2500F08A5F /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
-		E1067D22189A1C2500F08A5F /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
-		E1067D23189A1C2500F08A5F /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
-		E1067D25189A1C2500F08A5F /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
 		E1067DBC189A50AB00F08A5F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E1067DBE189A50BA00F08A5F /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		E1067DC0189A50C200F08A5F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -178,6 +167,16 @@
 		E1067DCA189A512900F08A5F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1067DCC189A513700F08A5F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E1067DCE189A514000F08A5F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E1067DD2189A626100F08A5F /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
+		E1067DD3189A626100F08A5F /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
+		E1067DD4189A626100F08A5F /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
+		E1067DD5189A626100F08A5F /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
+		E1067DD6189A626100F08A5F /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
+		E1067DD7189A626100F08A5F /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
+		E1067DD8189A626100F08A5F /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
+		E1067DD9189A626100F08A5F /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
+		E1067DDA189A626100F08A5F /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
+		E1067DDC189A626100F08A5F /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -279,7 +278,6 @@
 		E31AA49218969D730065F8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		E31AA4C31896AA160065F8E2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		E31B9E0D189A161800722761 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = photoshare/FacebookSDK.framework; sourceTree = "<group>"; };
 		E31B9E0F189A1D7F00722761 /* iconr3_uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3_uncheck.png; sourceTree = "<group>"; };
 		E31B9E11189A4E6200722761 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		E31B9E12189A4E6200722761 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
@@ -358,6 +356,7 @@
 				FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */,
 				E1067DCF189A514000F08A5F /* SystemConfiguration.framework in Frameworks */,
 				E1067DCD189A513700F08A5F /* StoreKit.framework in Frameworks */,
+				E1067DDD189A626100F08A5F /* libAviarySDK.a in Frameworks */,
 				E1067DCB189A512900F08A5F /* QuartzCore.framework in Frameworks */,
 				E1067DC9189A512400F08A5F /* OpenGLES.framework in Frameworks */,
 				E1067DC7189A510A00F08A5F /* libz.1.2.5.dylib in Frameworks */,
@@ -366,7 +365,6 @@
 				E1067DC1189A50C200F08A5F /* CoreData.framework in Frameworks */,
 				E1067DBF189A50BA00F08A5F /* AdSupport.framework in Frameworks */,
 				E1067DBD189A50AB00F08A5F /* Accelerate.framework in Frameworks */,
-				E1067D26189A1C2500F08A5F /* libAviarySDK.a in Frameworks */,
 				E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */,
 				E1067C49189A11F600F08A5F /* FacebookSDK.framework in Frameworks */,
 				E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */,
@@ -392,36 +390,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E1067D19189A1C2500F08A5F /* AviarySDK */ = {
+		E1067DD0189A626100F08A5F /* AviarySDK */ = {
 			isa = PBXGroup;
 			children = (
-				E1067D1A189A1C2500F08A5F /* Headers */,
-				E1067D23189A1C2500F08A5F /* libAviarySDK.a */,
-				E1067D24189A1C2500F08A5F /* Resources */,
+				E1067DD1189A626100F08A5F /* Headers */,
+				E1067DDA189A626100F08A5F /* libAviarySDK.a */,
+				E1067DDB189A626100F08A5F /* Resources */,
 			);
-			name = AviarySDK;
-			path = ../../../photoshare/photoshare/AviarySDK;
+			path = AviarySDK;
 			sourceTree = "<group>";
 		};
-		E1067D1A189A1C2500F08A5F /* Headers */ = {
+		E1067DD1189A626100F08A5F /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				E1067D1B189A1C2500F08A5F /* AFOpenGLManager.h */,
-				E1067D1C189A1C2500F08A5F /* AFPhotoEditorContext.h */,
-				E1067D1D189A1C2500F08A5F /* AFPhotoEditorController+InAppPurchase.h */,
-				E1067D1E189A1C2500F08A5F /* AFPhotoEditorController.h */,
-				E1067D1F189A1C2500F08A5F /* AFPhotoEditorControllerOptions.h */,
-				E1067D20189A1C2500F08A5F /* AFPhotoEditorCustomization.h */,
-				E1067D21189A1C2500F08A5F /* AFPhotoEditorProduct.h */,
-				E1067D22189A1C2500F08A5F /* AFPhotoEditorSession.h */,
+				E1067DD2189A626100F08A5F /* AFOpenGLManager.h */,
+				E1067DD3189A626100F08A5F /* AFPhotoEditorContext.h */,
+				E1067DD4189A626100F08A5F /* AFPhotoEditorController+InAppPurchase.h */,
+				E1067DD5189A626100F08A5F /* AFPhotoEditorController.h */,
+				E1067DD6189A626100F08A5F /* AFPhotoEditorControllerOptions.h */,
+				E1067DD7189A626100F08A5F /* AFPhotoEditorCustomization.h */,
+				E1067DD8189A626100F08A5F /* AFPhotoEditorProduct.h */,
+				E1067DD9189A626100F08A5F /* AFPhotoEditorSession.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
 		};
-		E1067D24189A1C2500F08A5F /* Resources */ = {
+		E1067DDB189A626100F08A5F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E1067D25189A1C2500F08A5F /* AviarySDKResources.bundle */,
+				E1067DDC189A626100F08A5F /* AviarySDKResources.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -532,7 +529,7 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
-				E1067D19189A1C2500F08A5F /* AviarySDK */,
+				E1067DD0189A626100F08A5F /* AviarySDK */,
 				E317676B1899115500923E35 /* ProgressBar */,
 				E31C75C81897B27600A8CC7F /* JSON */,
 				E18648D5189699B100175E8D /* AssetsLibrary */,
@@ -804,7 +801,6 @@
 			files = (
 				E3188D9F18939171004ACF77 /* cellImage.png in Resources */,
 				E17222E018928DE700F28748 /* cancel_red.png in Resources */,
-				E1067D27189A1C2500F08A5F /* AviarySDKResources.bundle in Resources */,
 				E16F392018914D4A00064806 /* back.png in Resources */,
 				E31B9E10189A1D7F00722761 /* iconr3_uncheck.png in Resources */,
 				E16F390518912C9C00064806 /* earnings-icon.png in Resources */,
@@ -853,6 +849,7 @@
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
+				E1067DDE189A626100F08A5F /* AviarySDKResources.bundle in Resources */,
 				FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */,
 				FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
@@ -1065,6 +1062,7 @@
 					"$(inherited)",
 					/Users/ignis2/Desktop/sukhdev/photoshare/photoshare/AviarySDK,
 					/Users/ignis2/Desktop/sukhdev/photoshare2/photoshare,
+					/Users/ignis2/Desktop/sukhdev/photoshare2/photoshare/photoshare/AviarySDK,
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1097,6 +1095,7 @@
 					"$(inherited)",
 					/Users/ignis2/Desktop/sukhdev/photoshare/photoshare/AviarySDK,
 					/Users/ignis2/Desktop/sukhdev/photoshare2/photoshare,
+					/Users/ignis2/Desktop/sukhdev/photoshare2/photoshare/photoshare/AviarySDK,
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
