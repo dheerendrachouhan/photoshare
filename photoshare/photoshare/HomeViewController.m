@@ -16,7 +16,7 @@
 #import "WebserviceController.h"
 #import "LoginViewController.h"
 #import "ContentManager.h"
-
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 @interface HomeViewController ()
 
 @end
@@ -133,6 +133,8 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+    //set the asset url in String
+    assetUrlOfImage=[NSString stringWithFormat:@"%@",assetURL];
     
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     
@@ -201,7 +203,7 @@
     
     [context render:^(UIImage *result) {
         if (result) {
-            UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
+            //UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
         }
         
         [[blockSelf sessions] removeObject:session];
@@ -219,6 +221,29 @@
 {
     //[[self imagePreviewView] setImage:image];
     //[[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
+    [self.assetLibrary saveImage:image toAlbum:@"Public" withCompletionBlock:^(NSError *error) {
+        if (error!=nil) {
+            NSLog(@"Big error: %@", [error description]);
+        }
+    }];
+
+    
+    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"] mutableCopy];
+    NSMutableDictionary *collectionInfo=[[collection objectAtIndex:0] mutableCopy];
+    
+    NSMutableArray *collectionData=[[collectionInfo objectForKey:@"Collection_Data"] mutableCopy];
+    
+    NSMutableDictionary *data=[[NSMutableDictionary alloc] init];
+    [data setObject:assetUrlOfImage forKey:@"ImageAssetUrl"];
+    [collectionData addObject:data];
+    
+    [collectionInfo setObject:collectionData forKey:@"Collection_Data"];
+    [collection replaceObjectAtIndex:0 withObject:collectionInfo];
+    //[data setObject:[NSNumber numberWithInt:0] forKey:@"Photo_Id"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:collection forKey:@"Collection"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

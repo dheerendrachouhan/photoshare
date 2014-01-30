@@ -75,7 +75,7 @@
     editBtn = [[UIButton alloc] init];    
     //get the user id from nsuserDefaults
     ContentManager *manager=[ContentManager sharedManager];
-    userID=[[manager getData:@"user_id"] intValue];
+    userId=[manager getData:@"user_id"];
     
     self.navigationController.navigationBarHidden=NO;
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
@@ -85,7 +85,25 @@
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
     
-    [self getPhotoIdFromServer:self.userID];
+    [self getDataFromNSUSerDefault];
+    
+    //[self getPhotoIdFromServer:self.userID];
+    
+}
+-(void)getDataFromNSUSerDefault
+{
+    photoAssetUrlArray=[[NSMutableArray alloc] init];
+    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"] mutableCopy];
+    NSMutableDictionary *collectionInfo=[[collection objectAtIndex:0] mutableCopy];
+    NSMutableArray *collectionData=[[collectionInfo objectForKey:@"Collection_Data"] mutableCopy];
+    for (int i=1;i<collectionData.count;i++)
+    {
+        NSDictionary *dic=[collectionData objectAtIndex:i];
+        NSURL *url=[dic objectForKey:@"ImageAssetUrl"];
+        [photoAssetUrlArray addObject:url];
+    }
+       // [photoAssetUrlArray addObject:[dic objectForKey:@"ImageAssetUrl"]];
+   
     
 }
 -(void)setDataForCollectionView
@@ -251,6 +269,8 @@
     
     webServices.delegate=self;
     NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",usrId,self.collectionId];
+    NSDictionary *dicData=@{@"user_id":[NSNumber numberWithInt:usrId],@"collection_id":[NSNumber numberWithInt:self.collectionId]};
+    
     [webServices call:data controller:@"collection" method:@"get"];
 }
 //get Photo From Server
@@ -485,7 +505,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [imgArray count];
+    return 0;
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -495,7 +515,19 @@
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
     imgView.layer.masksToBounds=YES;
     imgView.tag=100;
-    [imgView setImage:[imgArray objectAtIndex:[indexPath row]]];
+    
+    NSURL *url=(NSURL *)[photoAssetUrlArray objectAtIndex:2];
+    
+    __block UIImage *returnValue = nil;
+    
+    [self.library assetForURL:url resultBlock:^(ALAsset *asset) {
+        returnValue = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage]];
+    } failureBlock:^(NSError *error) {
+        NSLog(@"error : %@", error);
+    }];
+    
+    
+    //[imgView setImage:returnValue];
     [cell.contentView addSubview:imgView];
     
     return cell;

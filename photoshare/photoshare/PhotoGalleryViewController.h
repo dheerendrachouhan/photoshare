@@ -23,7 +23,7 @@
     NSString *refrenceUrlofImg;
     CGRect frameForShareBtn;
     
-    int userID;
+    NSNumber *userId;
     
     NSMutableArray *photoIdsArray;
     
@@ -33,6 +33,8 @@
     BOOL isGetPhotoIdFromServer;
     BOOL isGetPhotoFromServer;
     BOOL isSaveDataOnServer;
+    
+    NSMutableArray *photoAssetUrlArray;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;

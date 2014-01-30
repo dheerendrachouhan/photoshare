@@ -33,6 +33,9 @@
     
     UIImagePickerController *imagePicker;
     ContentManager *objManager;
+    
+    NSString *assetUrlOfImage;
+    
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 

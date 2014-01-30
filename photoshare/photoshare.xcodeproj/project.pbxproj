@@ -17,6 +17,9 @@
 		E1067DCB189A512900F08A5F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCA189A512900F08A5F /* QuartzCore.framework */; };
 		E1067DCD189A513700F08A5F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCC189A513700F08A5F /* StoreKit.framework */; };
 		E1067DCF189A514000F08A5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCE189A514000F08A5F /* SystemConfiguration.framework */; };
+		E1067DDD189A626100F08A5F /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DDA189A626100F08A5F /* libAviarySDK.a */; };
+		E1067DDE189A626100F08A5F /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E1067DDC189A626100F08A5F /* AviarySDKResources.bundle */; };
+		E1067DE0189A97AD00F08A5F /* edit_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E1067DDF189A97AD00F08A5F /* edit_btn.png */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -166,6 +169,17 @@
 		E1067DCA189A512900F08A5F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1067DCC189A513700F08A5F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E1067DCE189A514000F08A5F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E1067DD2189A626100F08A5F /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
+		E1067DD3189A626100F08A5F /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
+		E1067DD4189A626100F08A5F /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
+		E1067DD5189A626100F08A5F /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
+		E1067DD6189A626100F08A5F /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
+		E1067DD7189A626100F08A5F /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
+		E1067DD8189A626100F08A5F /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
+		E1067DD9189A626100F08A5F /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
+		E1067DDA189A626100F08A5F /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
+		E1067DDC189A626100F08A5F /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
+		E1067DDF189A97AD00F08A5F /* edit_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_btn.png; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -548,8 +562,6 @@
 				E17222C7189281B000F28748 /* ResetPasswordController.h */,
 				E17222C8189281B000F28748 /* ResetPasswordController.m */,
 				E31767711899130100923E35 /* EditPhotoViewController.h */,
-				E1B07427189951CC00589867 /* CommunityViewController.h */,
-				E1B07428189951CC00589867 /* CommunityViewController.m */,
 				E31767721899130100923E35 /* EditPhotoViewController.m */,
 				E31767731899130100923E35 /* EditPhotoViewController.xib */,
 				E16F39191891325600064806 /* CommonTopView.h */,
@@ -558,6 +570,10 @@
 				E1B074251899518600589867 /* AddEditFolderViewController.m */,
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
+				E1B07427189951CC00589867 /* CommunityViewController.h */,
+				E1B07428189951CC00589867 /* CommunityViewController.m */,
+				E1B0742A1899529900589867 /* PhotoGalleryViewController.h */,
+				E1B0742B1899529900589867 /* PhotoGalleryViewController.m */,
 				E182626318976CDA00C1C799 /* EditProfileViewController.h */,
 				E182626418976CDA00C1C799 /* EditProfileViewController.m */,
 				E17222AB18923AF900F28748 /* CollectionViewCell.h */,
@@ -583,8 +599,6 @@
 				E31B9E12189A4E6200722761 /* CustomCell.m */,
 				E31B9E13189A4E6200722761 /* MyReferralViewController.h */,
 				E31B9E14189A4E6200722761 /* MyReferralViewController.m */,
-				E1B0742A1899529900589867 /* PhotoGalleryViewController.h */,
-				E1B0742B1899529900589867 /* PhotoGalleryViewController.m */,
 				E17222C21892819A00F28748 /* PastPayementViewController.h */,
 				E17222C31892819A00F28748 /* PastPayementViewController.m */,
 				FC97640818900505008DF1F8 /* AccountViewController.h */,
@@ -669,6 +683,7 @@
 				E16F38ED18912C9C00064806 /* cog-itemX30.png */,
 				E16F38EE18912C9C00064806 /* community-icon.png */,
 				E16F38EF18912C9C00064806 /* community-iconX30.png */,
+				E1067DDF189A97AD00F08A5F /* edit_btn.png */,
 				E16F38F018912C9C00064806 /* earnings-icon.png */,
 				E16F38F118912C9C00064806 /* earnings-iconX30.png */,
 				E16F38F218912C9C00064806 /* folder-icon-bottomX30.png */,
@@ -873,6 +888,7 @@
 				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
+				E1067DE0189A97AD00F08A5F /* edit_btn.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 #import "WebserviceController.h"
-
+#import <AssetsLibrary/AssetsLibrary.h>
 @interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, WebserviceDelegate>
 {
     IBOutlet UIImageView *loginBackgroundImage;
@@ -21,6 +21,9 @@
     BOOL usrFlt, pwsFlt;
     IBOutlet UIButton *namecancelBtn;
     IBOutlet UIButton *passwordcancelBtn;
+    
+    UIView *dataFetchView;
+    
 }
-
+@property(nonatomic,retain)ALAssetsLibrary *library;
 @end
