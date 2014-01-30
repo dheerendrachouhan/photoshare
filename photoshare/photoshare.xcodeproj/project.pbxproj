@@ -98,6 +98,7 @@
 		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
 		E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */; };
 		E31AA4C41896AA160065F8E2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4C31896AA160065F8E2 /* AddressBook.framework */; };
+		E31B9E0E189A161800722761 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31B9E0D189A161800722761 /* FacebookSDK.framework */; };
 		E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8BF1899162800ED2CA2 /* Social.framework */; };
 		E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C11899212000ED2CA2 /* Twitter.framework */; };
 		E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C31899212500ED2CA2 /* Accounts.framework */; };
@@ -280,6 +281,7 @@
 		E31AA49218969D730065F8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		E31AA4C31896AA160065F8E2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		E31B9E0D189A161800722761 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = photoshare/FacebookSDK.framework; sourceTree = "<group>"; };
 		E3BAA8BF1899162800ED2CA2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E3BAA8C11899212000ED2CA2 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E3BAA8C31899212500ED2CA2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
