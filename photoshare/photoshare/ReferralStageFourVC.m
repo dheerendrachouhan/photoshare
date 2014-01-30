@@ -188,7 +188,7 @@
     if (!FBSession.activeSession.isOpen)
     {
         // if the session is closed, then we open it here, and establish a handler for state changes
-        [FBSession openActiveSessionWithReadPermissions:Nil allowLoginUI:NO completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
+        [FBSession openActiveSessionWithReadPermissions:Nil allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
          {
             if (error)
             {
