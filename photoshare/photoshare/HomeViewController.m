@@ -174,6 +174,7 @@
     
     // Initialize the photo editor and set its delegate
     AFPhotoEditorController * photoEditor = [[AFPhotoEditorController alloc] initWithImage:editingResImage];
+    photoEditor.view.frame=CGRectMake(0, 100, 320, 300);
     [photoEditor setDelegate:self];
     
     // If a high res image is passed, create the high res context with the image and the photo editor.
@@ -245,11 +246,6 @@
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
 }
-
-#pragma mark - UIImagePicker Delegate
-
-
-
 
 #pragma mark - ALAssets Helper Methods
 

@@ -17,6 +17,8 @@
 		E1067DCB189A512900F08A5F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCA189A512900F08A5F /* QuartzCore.framework */; };
 		E1067DCD189A513700F08A5F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCC189A513700F08A5F /* StoreKit.framework */; };
 		E1067DCF189A514000F08A5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DCE189A514000F08A5F /* SystemConfiguration.framework */; };
+		E1067DDD189A626100F08A5F /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DDA189A626100F08A5F /* libAviarySDK.a */; };
+		E1067DDE189A626100F08A5F /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E1067DDC189A626100F08A5F /* AviarySDKResources.bundle */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -165,6 +167,16 @@
 		E1067DCA189A512900F08A5F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1067DCC189A513700F08A5F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E1067DCE189A514000F08A5F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E1067DD2189A626100F08A5F /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
+		E1067DD3189A626100F08A5F /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
+		E1067DD4189A626100F08A5F /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
+		E1067DD5189A626100F08A5F /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
+		E1067DD6189A626100F08A5F /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
+		E1067DD7189A626100F08A5F /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
+		E1067DD8189A626100F08A5F /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
+		E1067DD9189A626100F08A5F /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
+		E1067DDA189A626100F08A5F /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
+		E1067DDC189A626100F08A5F /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -347,6 +359,7 @@
 				FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */,
 				E1067DCF189A514000F08A5F /* SystemConfiguration.framework in Frameworks */,
 				E1067DCD189A513700F08A5F /* StoreKit.framework in Frameworks */,
+				E1067DDD189A626100F08A5F /* libAviarySDK.a in Frameworks */,
 				E1067DCB189A512900F08A5F /* QuartzCore.framework in Frameworks */,
 				E1067DC9189A512400F08A5F /* OpenGLES.framework in Frameworks */,
 				E1067DC7189A510A00F08A5F /* libz.1.2.5.dylib in Frameworks */,
@@ -806,6 +819,7 @@
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
+				E1067DDE189A626100F08A5F /* AviarySDKResources.bundle in Resources */,
 				FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */,
 				FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
