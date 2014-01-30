@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebserviceController.h"
 
-@interface UserSecurityViewController : UIViewController
+@interface UserSecurityViewController : UIViewController <WebserviceDelegate, UITextFieldDelegate>
+{
+   IBOutlet UITextField *oldpass ;
+   IBOutlet UITextField *newpass ;
+    WebserviceController *wc ;
+
+}
+
+
+-(IBAction)changepassword:(id)sender ;
+- (IBAction)userCancelButton:(id)sender ;
+
+
 
 @end
