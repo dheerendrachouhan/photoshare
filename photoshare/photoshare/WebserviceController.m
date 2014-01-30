@@ -8,6 +8,7 @@
 
 #import "WebserviceController.h"
 #import "AFHTTPRequestOperationManager.h"
+#import "AFURLSessionManager.h"
 
 @interface WebserviceController ()
 
@@ -17,22 +18,45 @@
 
 @synthesize delegate;
 
--(void) call:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method
+-(id)init
 {
-    
-   
     
     manager = [AFHTTPRequestOperationManager manager];
     
+    return self;
+}
+
+
+-(void) call:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method
+{
+    
+
+    
     NSDictionary *parameters = postData;
   
-    
+    if([controller isEqualToString:@"photo"])
+    {
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"image/png"];
+        [manager setResponseSerializer:[AFImageResponseSerializer new]];
+    }
 
     [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
+        
+       if( [responseObject isKindOfClass:[UIImage class]] )
+       {
+           NSLog(@"check ") ;
+          
+            [self.delegate webserviceCallbackImage:responseObject];
+       }
+        else
+        {
+        
         NSDictionary *JSON = (NSDictionary *) responseObject;
      
+        
         [self.delegate webserviceCallback:JSON];
+        }
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", [error localizedDescription]);
@@ -42,10 +66,12 @@
 }
 
 
--(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSURL *)filePath{
+
+
+-(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSData *)imageData{
     
     
-    manager = [AFHTTPRequestOperationManager manager];
+    //manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = postData;
     
   /*
@@ -58,9 +84,12 @@
     NSURL *filePath = [NSURL fileURLWithPath:path];
     */
     
-    
-    [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:filePath name:@"file" error:nil];
+    //NSError* error = nil ;
+   [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        //[formData appendPartWithFileURL:filePath name:@"file" error: nil];
+         [formData appendPartWithFileData:imageData name:@"file" fileName:@"photo.png" mimeType:@"image/png"];
+        
+        
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
         NSDictionary *JSON = (NSDictionary *) responseObject;
@@ -68,7 +97,9 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", [error localizedDescription]);
     }];
-
+    
+ 
+    
 }
 
 @end
