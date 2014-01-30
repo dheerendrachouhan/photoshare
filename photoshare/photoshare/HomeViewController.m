@@ -51,6 +51,19 @@
     
     [self setContent];
     
+    //for Aviary
+    // Allocate Asset Library
+    ALAssetsLibrary * assetLibrary = [[ALAssetsLibrary alloc] init];
+    [self setAssetLibrary:assetLibrary];
+    
+    // Allocate Sessions Array
+    NSMutableArray * sessions = [NSMutableArray new];
+    [self setSessions:sessions];
+    
+    // Start the Aviary Editor OpenGL Load
+    [AFOpenGLManager beginOpenGLLoad];
+
+    
 }
 
 
@@ -76,10 +89,7 @@
     profilePicImgView.image=[UIImage imageNamed:@"wall.jpg"];
 }
 
--(IBAction)goToTotalEarning:(id)sender
-{
-   
-}
+
 -(IBAction)takePhoto:(id)sender
 {
     if(imagePicker==nil)
@@ -103,7 +113,6 @@
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     photoGallery.isPublicFolder=YES;
     [self.navigationController pushViewController:photoGallery animated:YES];
-     
     
 }
 -(IBAction)goToCommunity:(id)sender
@@ -114,10 +123,6 @@
     [self.navigationController pushViewController:comm animated:YES];
        
 }
--(IBAction)gotoPhotos:(id)sender
-{
-    
-}
 
 
 //imagePicker DelegateMethod
@@ -127,25 +132,165 @@
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+    
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    
+    void(^completion)(void)  = ^(void){
+        
+        [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+            if (asset){
+                [self launchEditorWithAsset:asset];
+            }
+        } failureBlock:^(NSError *error) {
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        }];
+    };
+    
+    [self dismissViewControllerAnimated:YES completion:completion];}
+
+//For Aviary Edit Photo
+
+#pragma mark - Photo Editor Launch Methods
+
+- (void) launchEditorWithAsset:(ALAsset *)asset
+{
+    UIImage * editingResImage = [self editingResImageForAsset:asset];
+    UIImage * highResImage = [self highResImageForAsset:asset];
+    
+    [self launchPhotoEditorWithImage:editingResImage highResolutionImage:highResImage];
 }
+
+
+#pragma mark - Photo Editor Creation and Presentation
+- (void) launchPhotoEditorWithImage:(UIImage *)editingResImage highResolutionImage:(UIImage *)highResImage
+{
+    // Customize the editor's apperance. The customization options really only need to be set once in this case since they are never changing, so we used dispatch once here.
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self setPhotoEditorCustomizationOptions];
+    });
+    
+    // Initialize the photo editor and set its delegate
+    AFPhotoEditorController * photoEditor = [[AFPhotoEditorController alloc] initWithImage:editingResImage];
+    [photoEditor setDelegate:self];
+    
+    // If a high res image is passed, create the high res context with the image and the photo editor.
+    if (highResImage) {
+        [self setupHighResContextForPhotoEditor:photoEditor withImage:highResImage];
+    }
+    
+    // Present the photo editor.
+    [self presentViewController:photoEditor animated:YES completion:nil];
+}
+
+- (void) setupHighResContextForPhotoEditor:(AFPhotoEditorController *)photoEditor withImage:(UIImage *)highResImage
+{
+    // Capture a reference to the editor's session, which internally tracks user actions on a photo.
+    __block AFPhotoEditorSession *session = [photoEditor session];
+    
+    // Add the session to our sessions array. We need to retain the session until all contexts we create from it are finished rendering.
+    [[self sessions] addObject:session];
+    
+    // Create a context from the session with the high res image.
+    AFPhotoEditorContext *context = [session createContextWithImage:highResImage];
+    
+    __block HomeViewController * blockSelf = self;
+    
+    [context render:^(UIImage *result) {
+        if (result) {
+            UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
+        }
+        
+        [[blockSelf sessions] removeObject:session];
+        
+        blockSelf = nil;
+        session = nil;
+        
+    }];
+}
+
+#pragma Photo Editor Delegate Methods
+
+// This is called when the user taps "Done" in the photo editor.
+- (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
+{
+    //[[self imagePreviewView] setImage:image];
+    //[[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+// This is called when the user taps "Cancel" in the photo editor.
+- (void) photoEditorCanceled:(AFPhotoEditorController *)editor
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Photo Editor Customization
+
+- (void) setPhotoEditorCustomizationOptions
+{
+    // Set Tool Order
+    NSArray * toolOrder = @[kAFEffects];
+    [AFPhotoEditorCustomization setToolOrder:toolOrder];
+    
+    // Set Custom Crop Sizes
+    [AFPhotoEditorCustomization setCropToolOriginalEnabled:NO];
+    [AFPhotoEditorCustomization setCropToolCustomEnabled:YES];
+    NSDictionary * fourBySix = @{kAFCropPresetHeight : @(4.0f), kAFCropPresetWidth : @(6.0f)};
+    NSDictionary * fiveBySeven = @{kAFCropPresetHeight : @(5.0f), kAFCropPresetWidth : @(7.0f)};
+    NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
+    [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
+    
+}
+
+#pragma mark - UIImagePicker Delegate
+
+
+
+
+#pragma mark - ALAssets Helper Methods
+
+- (UIImage *)editingResImageForAsset:(ALAsset*)asset
+{
+    CGImageRef image = [[asset defaultRepresentation] fullScreenImage];
+    
+    return [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationUp];
+}
+
+- (UIImage *)highResImageForAsset:(ALAsset*)asset
+{
+    ALAssetRepresentation * representation = [asset defaultRepresentation];
+    
+    CGImageRef image = [representation fullResolutionImage];
+    UIImageOrientation orientation = [representation orientation];
+    CGFloat scale = [representation scale];
+    
+    return [UIImage imageWithCGImage:image scale:scale orientation:orientation];
+}
+
+
+#pragma mark - Private Helper Methods
+
+- (BOOL) hasValidAPIKey
+{
+    NSString * key = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Aviary-API-Key"];
+    if (![key isEqualToString:@"c1f4f0ae01276a21"]) {
+        [[[UIAlertView alloc] initWithTitle:@"Oops!" message:@"You forgot to add your API key!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        return NO;
+    }
+    return YES;
+}
+
+
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
--(void)earnigView
-{
-    NSLog(@" earning view call --") ;
-    EarningViewController *earningView=[[EarningViewController alloc] init];
-    //HomeViewController *home=[[HomeViewController alloc] init];
-    //[home.navigationController pushViewController:earningView animated:YES];
-    PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
-  //  [self.navigationController pushViewController:photoGallery animated:YES];
-
-    [self presentViewController:photoGallery animated:NO completion:nil];
-    //[self.tabBarController setSelectedIndex:1];
 }
 
 @end
