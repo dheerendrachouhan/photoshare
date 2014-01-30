@@ -32,5 +32,6 @@
 }
 
 @property (nonatomic, strong) NSString *stringStr;
+@property (nonatomic, strong) NSString *twitterTweet;
 
 @end

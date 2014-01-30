@@ -32,7 +32,7 @@
     int countVar;
     NSArray *sttt;
 }
-@synthesize stringStr;
+@synthesize stringStr,twitterTweet;
 @synthesize friendPickerController = _friendPickerController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -83,8 +83,8 @@
     //Checking the screen size
     if([[UIScreen mainScreen] bounds].size.height == 480)
     {
-        scrollView.contentSize =CGSizeMake(320,  self.view.frame.size.height);
-        scrollView.autoresizingMask= UIViewAutoresizingFlexibleHeight;
+        scrollView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 480.0f);
+        //scrollView.autoresizingMask= UIViewAutoresizingFlexibleHeight;
         
     }
     countVar =0;
@@ -109,6 +109,39 @@
     else
     {
         userMessage.text = self.stringStr;
+    }
+    
+    if(twitterTweet.length != 0)
+    {
+        [SVProgressHUD dismissWithSuccess:@"Done"];
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+        {
+            SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [tweetSheet setInitialText:[NSString  stringWithFormat:@"%@ %@",twitterTweet,userMessage.text]];
+            [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+                
+                FBTWViewController *tw = [[FBTWViewController alloc] init];
+                tw.successType = @"tw";
+                switch (result) {
+                    case SLComposeViewControllerResultCancelled:
+                        [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        [self.navigationController pushViewController:tw animated:YES];
+                        break;
+                    default:
+                        break;
+                }
+            }];
+            [self presentViewController:tweetSheet animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            
+        }
+        twitterTweet = @"";
     }
 }
 
@@ -275,21 +308,15 @@
                             NSDictionary *friendsdata = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
                             NSLog(@"friendsdata value is %@", friendsdata);
                             
-                            NSString *stt= [friendsdata objectForKey:@"screen_name"];
+                            NSString *stt= [@"@" stringByAppendingString:[friendsdata objectForKey:@"screen_name"]];
                             
                             [twiiterListArr addObject:stt];
                             
                            
                             if(totalCount > countVar)
                             {
-                                //[self getFollowerNameFromID:[sttt objectAtIndex:countVar]];
                                 countVar++;
                             }
-                            
-                            //                            //  resultFollowersNameList = [[NSArray alloc]init];
-                            //                            resultFollowersNameList = [friendsdata valueForKey:@"name"];
-                            //                            NSLog(@"resultNameList value is %@", resultFollowersNameList);
-                            
                         }
                         
                         if(totalCount == countVar)
@@ -355,10 +382,7 @@
                             {
                                 NSLog(@"data== %@ ID = %@",TWData, [sttt objectAtIndex:i]);
                                 [self getFollowerNameFromID:[sttt objectAtIndex:i]];
-                            }/*
-                            TwitterTable *tw = [[TwitterTable alloc] init];
-                            tw.tweetUserName = [NSMutableArray arrayWithArray:twiiterListArr];
-                            [self.navigationController pushViewController:tw animated:YES];*/
+                            }
                         }
                     });
                 }];

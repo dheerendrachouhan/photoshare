@@ -18,7 +18,6 @@
         // Initialization code
     }
     
-    
     return self;
 }
 

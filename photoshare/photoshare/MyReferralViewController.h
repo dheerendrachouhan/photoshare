@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebserviceController.h"
 
-@interface MyReferralViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@class ContentManager;
+@interface MyReferralViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,WebserviceDelegate>
 {
     IBOutlet UITableView *tableView;
+    ContentManager *objManager;
 }
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 

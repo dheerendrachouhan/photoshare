@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebserviceController.h"
 
 @interface ReferFriendViewController : UIViewController
 {
