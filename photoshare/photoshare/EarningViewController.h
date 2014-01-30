@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 
+
 @class ContentManager;
 @interface EarningViewController : UIViewController<WebserviceDelegate>
 {

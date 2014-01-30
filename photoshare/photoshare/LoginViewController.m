@@ -35,6 +35,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    nameTextField.text = @"cliffrichard";
+    passwordTextField.text = @"spaceman99";
     // Do any additional setup after loading the view from its nib.
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
