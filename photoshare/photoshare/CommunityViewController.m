@@ -70,9 +70,9 @@
     
     //blueLabelImgFrame=CGRectMake(20, diskSpaceBlueLabel.frame.origin.y-64, 10,diskSpaceBlueLabel.frame.size.height );
    
-   // [self getTheCollectionInfoArrayFromServer];
+    [self getTheCollectionInfoArrayFromServer];
     
-    [self getCollectionInfoFromUserDefault];
+    //[self getCollectionInfoFromUserDefault];
     [collectionview reloadData];
 }
 
@@ -103,7 +103,8 @@
     ContentManager *manager=[ContentManager sharedManager];
     NSNumber *userId=[manager getData:@"user_id"];
     NSString *data=[NSString stringWithFormat:@"user_id=%d",[userId integerValue]];
-    [webServices call:data controller:@"storage" method:@"get"];
+    NSDictionary *dicData=@{@"user_id":[NSString stringWithFormat:@"%d",userID]};
+    [webServices call:dicData controller:@"storage" method:@"get"];
 }
 //get collection  info array from server
 -(void)getTheCollectionInfoArrayFromServer
@@ -117,7 +118,7 @@
     //NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_user_id=%d",userID,userID];
     
     
-    NSDictionary *dicData=@{@"user_id":[NSNumber numberWithInt:userID],@"collection_id":[NSNumber numberWithInt:userID]};
+    NSDictionary *dicData=@{@"user_id":[NSString stringWithFormat:@"%d",userID],@"collection_user_id":[NSString stringWithFormat:@"%d",userID]};
     
     
     [webServices call:dicData controller:@"collection" method:@"getlist"];

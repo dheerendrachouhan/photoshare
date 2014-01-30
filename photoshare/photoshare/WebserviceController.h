@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AFHTTPRequestOperationManager.h"
 
 @protocol WebserviceDelegate <NSObject>
 
@@ -18,9 +19,10 @@
 @interface WebserviceController : NSObject <NSURLConnectionDelegate>
 {
     id<WebserviceDelegate> delegate;
+    AFHTTPRequestOperationManager *manager ;
 }
 
 @property (nonatomic,strong) id<WebserviceDelegate> delegate;
--(void) call:(NSString *)postData controller:(NSString *)controller method:(NSString *)method ;
-
+-(void) call:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method ;
+-(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSURL *)filePath;
 @end

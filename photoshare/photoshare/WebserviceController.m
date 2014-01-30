@@ -7,7 +7,7 @@
 //
 
 #import "WebserviceController.h"
-#import "JSON.h"
+#import "AFHTTPRequestOperationManager.h"
 
 @interface WebserviceController ()
 
@@ -17,53 +17,58 @@
 
 @synthesize delegate;
 
--(void) call:(NSString *)postData controller:(NSString *)controller method:(NSString *)method
+-(void) call:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method
 {
     
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ]];
-    //NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.10.200:8080/api/index.php/%@/%@",controller,method ]];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];    
-    
-    NSString *postString = postData ; //@"username=user&password=user";
-    NSData *requestData = [postString dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody: requestData];
-    
-    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
-    
-    
-    [connection start];
-
-}
-
--(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    NSLog(@"Error : %@",[error localizedDescription]);
-}
-
--(void) connection: (NSURLConnection *) connection didReceiveData:(NSData *)data
-{
-    //NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] ;
-    
-  // NSLog(@"Result : %@",output);
-   // NSDictionary *JSON =
-    //[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    
-    
-   // id parser = [[SBJson4Parser alloc] init] ;
-  //  [parser parse:[_source.stringValue dataUsingEncoding:NSUTF8StringEncoding]];
-     //NSDictionary *JSON =[parser parse:data] ;
-    
-    
-    
-    NSString *strr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding ];
-      NSDictionary *JSON = [strr JSONValue];
    
-    [self.delegate webserviceCallback:JSON];
     
+    manager = [AFHTTPRequestOperationManager manager];
+    
+    NSDictionary *parameters = postData;
+  
+    
+
+    [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        NSDictionary *JSON = (NSDictionary *) responseObject;
+     
+        [self.delegate webserviceCallback:JSON];
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+
+
 }
 
+
+-(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSURL *)filePath{
+    
+    
+    manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *parameters = postData;
+    
+  /*
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString* path = [documentsDirectory stringByAppendingPathComponent:
+                      @"123-mobile-logo.png" ];
+    
+    NSURL *filePath = [NSURL fileURLWithPath:path];
+    */
+    
+    
+    [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileURL:filePath name:@"file" error:nil];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@", responseObject);
+        NSDictionary *JSON = (NSDictionary *) responseObject;
+        [self.delegate webserviceCallback:JSON];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+
+}
 
 @end

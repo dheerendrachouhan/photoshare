@@ -17,13 +17,12 @@
 #import "CommonTopView.h"
 #import "WebserviceController.h"
 #import "ContentManager.h"
-#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 @interface LoginViewController ()
 
 @end
 
 @implementation LoginViewController
-@synthesize library;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,8 +35,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    nameTextField.text = @"cliffrichard";
-    passwordTextField.text = @"spaceman99";
     // Do any additional setup after loading the view from its nib.
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
@@ -48,9 +45,6 @@
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;
     pwsFlt = NO;
-    //initialize the assets Library
-    library=[[ALAssetsLibrary alloc] init];
-    
     
     UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     [nameTextField setLeftViewMode:UITextFieldViewModeAlways];
@@ -80,9 +74,15 @@
     {
         WebserviceController *wc = [[WebserviceController alloc] init] ;
         wc.delegate = self;
-        NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
-        [wc call:postStr controller:@"authentication" method:@"login"] ;
+        
+        NSDictionary *postdic = @{@"username":username, @"password":password} ;
+        
+     //   NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
+        
+        
+        [wc call:postdic controller:@"authentication" method:@"login"] ;
     }
+    
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
@@ -94,16 +94,6 @@
          //validate the user
     if([[data objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
         {
-            [self ifFirstTimeLogin];
-            
-            /*dataFetchView=[[UIView alloc] initWithFrame:self.view.frame];
-            dataFetchView.backgroundColor=[UIColor grayColor];
-            UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(self.view.center.x-100,self.view.center.y-20,100,20)];
-            label.text=@"Please wait data is fetchinf from server";
-            [dataFetchView addSubview:label];
-            [self.view addSubview:dataFetchView];*/
-            
-            
             //get the userId
             NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
             NSDictionary *dic=[outPutData objectAtIndex:0];
@@ -135,59 +125,7 @@
     }
 }
 
--(void)ifFirstTimeLogin
-{
-    //check is Application is First Launch
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
-    {
-        
-        
-        NSLog(@"// app already launched");
-    }
-    else
-    {
-        //create the public and Private Album in device
-        [self.library addAssetsGroupAlbumWithName:@"Public" resultBlock:nil failureBlock:nil];
-        [self.library addAssetsGroupAlbumWithName:@"Private" resultBlock:nil failureBlock:nil];
-        
-        NSMutableArray *collection=[[NSMutableArray alloc] init];
-        
-        NSMutableDictionary *collectionInfo1=[[NSMutableDictionary alloc] init];
-        NSMutableDictionary *collectionInfo2=[[NSMutableDictionary alloc] init];
-        
-        NSMutableArray *collectionData=[[NSMutableArray alloc] init];
-        
-        NSMutableDictionary *photoInfo=[[NSMutableDictionary alloc] init];
-        
-        
-        [collectionData addObject:photoInfo];
-        
-        [collectionInfo1 setObject:[NSNumber numberWithInt:1] forKey:@"Collection_Id"];
-        [collectionInfo1 setObject:@"Public" forKey:@"Collection_Name"];
-        [collectionInfo1 setObject:collectionData forKey:@"Collection_Data"];
-        [collection addObject:collectionInfo1];
-        
-    
-        [collectionInfo2 setObject:[NSNumber numberWithInt:2] forKey:@"Collection_Id"];
-        [collectionInfo2 setObject:@"Private" forKey:@"Collection_Name"];
-        [collectionInfo2 setObject:collectionData forKey:@"Collection_Data"];
-        
-        [collection addObject:collectionInfo2];
-        
-        
-        [[NSUserDefaults standardUserDefaults] setObject:collection forKey:@"Collection"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        
-        
-        NSLog(@"// First time launched");
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-               
-        
-        NSLog(@"Collection is %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"]);
-    }
-}
+
 
 //forgot password function
 - (IBAction)forgotPasswordBtn:(id)sender {
