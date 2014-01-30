@@ -70,7 +70,30 @@
     
     //blueLabelImgFrame=CGRectMake(20, diskSpaceBlueLabel.frame.origin.y-64, 10,diskSpaceBlueLabel.frame.size.height );
    
-    [self getTheCollectionInfoArrayFromServer];
+   // [self getTheCollectionInfoArrayFromServer];
+    
+    [self getCollectionInfoFromUserDefault];
+    [collectionview reloadData];
+}
+
+-(void)getCollectionInfoFromUserDefault
+{
+    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"] mutableCopy];
+   
+    collectionNameArray=[[NSMutableArray alloc] init];
+    collectionIdArray=[[NSMutableArray alloc] init];
+    collectionDefaultArray=[[NSMutableArray alloc] init];
+    collectionSharingArray=[[NSMutableArray alloc] init];
+    collectionSharedArray=[[NSMutableArray alloc] init];
+    
+    for (int i=2;i<collection.count; i++) {
+        
+        [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"Collection_Name"]];
+        [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"Collection_Id"]];
+        [collectionSharedArray addObject:[NSNumber numberWithInt:1]];
+        [collectionSharingArray addObject:[NSNumber numberWithInt:1]];
+    }
+    
 }
 //get Storage
 -(void)getStorage
@@ -91,9 +114,13 @@
     //get the user id from nsuserDefaults
     
     
-    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_user_id=%d",userID,userID];
+    //NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_user_id=%d",userID,userID];
     
-    [webServices call:data controller:@"collection" method:@"getlist"];
+    
+    NSDictionary *dicData=@{@"user_id":[NSNumber numberWithInt:userID],@"collection_id":[NSNumber numberWithInt:userID]};
+    
+    
+    [webServices call:dicData controller:@"collection" method:@"getlist"];
    
     
 }
@@ -110,6 +137,9 @@
         {
             collectionNameArray=[[NSMutableArray alloc] init];
             collectionIdArray=[[NSMutableArray alloc] init];
+            collectionDefaultArray=[[NSMutableArray alloc] init];
+            collectionSharingArray=[[NSMutableArray alloc] init];
+            collectionSharedArray=[[NSMutableArray alloc] init];
             for (NSDictionary *dic in outPutData) {
                 if(![[dic objectForKey:@"collection_name"] isEqualToString:@"Private"]&& ![[dic objectForKey:@"collection_name"] isEqualToString:@"Public"])
                 {
@@ -181,6 +211,7 @@
     }
     else
     {
+        
        
         int sharing=[[collectionSharingArray objectAtIndex:indexPath.row] intValue];
         BOOL flag=false;
@@ -267,6 +298,7 @@
 
 -(void)addFolder
 {
+    
     AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
        aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
