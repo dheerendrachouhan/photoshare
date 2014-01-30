@@ -81,12 +81,18 @@
     }
     
     //Checking the screen size
-    if([[UIScreen mainScreen] bounds].size.height == 480)
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
-        scrollView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 480.0f);
-        //scrollView.autoresizingMask= UIViewAutoresizingFlexibleHeight;
-        
+        if ([[UIScreen mainScreen] bounds].size.height == 568)
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"ReferralStageFourVC" owner:self options:nil];
+        }
+        else if([[UIScreen mainScreen] bounds].size.height == 480)
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"ReferrelStageFourVC3" owner:self options:nil];
+        }
     }
+
     countVar =0;
 }
 
