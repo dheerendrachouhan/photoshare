@@ -51,14 +51,14 @@
    // NSDictionary *JSON =
     //[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
-
     
    // id parser = [[SBJson4Parser alloc] init] ;
   //  [parser parse:[_source.stringValue dataUsingEncoding:NSUTF8StringEncoding]];
      //NSDictionary *JSON =[parser parse:data] ;
+    
     NSString *strr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding ];
       NSDictionary *JSON = [strr JSONValue];
-    
+   
     [self.delegate webserviceCallback:JSON];
     
 }

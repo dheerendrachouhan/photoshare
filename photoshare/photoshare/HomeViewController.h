@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
+//for Aviary
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <QuartzCore/QuartzCore.h>
+#import "AFPhotoEditorController.h"
+#import "AFPhotoEditorCustomization.h"
+#import "AFOpenGLManager.h"
+
 
 @protocol homeDelagate <NSObject>
 
@@ -15,7 +22,7 @@
 
 @end
 @class ContentManager;
-@interface HomeViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate>
+@interface HomeViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate,AFPhotoEditorControllerDelegate>
 {
     IBOutlet UIButton *totalEarningBtn;
     IBOutlet UIImageView *profilePicImgView;
@@ -28,10 +35,14 @@
     ContentManager *objManager;
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
--(IBAction)goToTotalEarning:(id)sender;
+
+//for Aviary
+@property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
+@property (nonatomic, strong) NSMutableArray * sessions;
+
 -(IBAction)takePhoto:(id)sender;
 -(IBAction)goToCommunity:(id)sender;
 -(IBAction)goToPublicFolder:(id)sender;
--(IBAction)gotoPhotos:(id)sender;
--(void)earnigView;
+
+
 @end
