@@ -119,7 +119,20 @@
     }
 }
 
-
+-(void)ifFirstTimeLogin
+{
+    //check is Application is First Launch
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+    {
+        NSLog(@"// app already launched");
+    }
+    else
+    {
+        NSLog(@"// First time launched");
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
 
 //forgot password function
 - (IBAction)forgotPasswordBtn:(id)sender {

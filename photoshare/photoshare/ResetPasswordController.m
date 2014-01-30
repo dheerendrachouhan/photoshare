@@ -47,7 +47,6 @@
 
 //perform function on reset button pressed
 - (IBAction)resetpwdFunct:(id)sender {
-    
     [self dismissViewControllerAnimated:YES completion:nil] ;
 }
 
