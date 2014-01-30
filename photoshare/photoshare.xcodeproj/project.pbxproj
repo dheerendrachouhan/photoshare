@@ -110,6 +110,7 @@
 		E3BAA8F418993F9600ED2CA2 /* TwitterTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */; };
 		E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */; };
 		E3DDA758189A6B1700144C43 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DDA757189A6B1700144C43 /* libAviarySDK.a */; };
+		E3DDA776189AA50100144C43 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3DDA774189AA50100144C43 /* AviarySDKResources.bundle */; };
 		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
 		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
@@ -293,6 +294,16 @@
 		E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterTable.m; sourceTree = "<group>"; };
 		E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable.xib; sourceTree = "<group>"; };
 		E3DDA757189A6B1700144C43 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAviarySDK.a; path = photoshare/AviarySDK/libAviarySDK.a; sourceTree = "<group>"; };
+		E3DDA76A189AA50100144C43 /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
+		E3DDA76B189AA50100144C43 /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
+		E3DDA76C189AA50100144C43 /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
+		E3DDA76D189AA50100144C43 /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
+		E3DDA76E189AA50100144C43 /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
+		E3DDA76F189AA50100144C43 /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
+		E3DDA770189AA50100144C43 /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
+		E3DDA771189AA50100144C43 /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
+		E3DDA772189AA50100144C43 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
+		E3DDA774189AA50100144C43 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
 		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -436,6 +447,39 @@
 			name = Barchart;
 			sourceTree = "<group>";
 		};
+		E3DDA768189AA50100144C43 /* AviarySDK */ = {
+			isa = PBXGroup;
+			children = (
+				E3DDA769189AA50100144C43 /* Headers */,
+				E3DDA772189AA50100144C43 /* libAviarySDK.a */,
+				E3DDA773189AA50100144C43 /* Resources */,
+			);
+			path = AviarySDK;
+			sourceTree = "<group>";
+		};
+		E3DDA769189AA50100144C43 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				E3DDA76A189AA50100144C43 /* AFOpenGLManager.h */,
+				E3DDA76B189AA50100144C43 /* AFPhotoEditorContext.h */,
+				E3DDA76C189AA50100144C43 /* AFPhotoEditorController+InAppPurchase.h */,
+				E3DDA76D189AA50100144C43 /* AFPhotoEditorController.h */,
+				E3DDA76E189AA50100144C43 /* AFPhotoEditorControllerOptions.h */,
+				E3DDA76F189AA50100144C43 /* AFPhotoEditorCustomization.h */,
+				E3DDA770189AA50100144C43 /* AFPhotoEditorProduct.h */,
+				E3DDA771189AA50100144C43 /* AFPhotoEditorSession.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		E3DDA773189AA50100144C43 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E3DDA774189AA50100144C43 /* AviarySDKResources.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		FC976383188FEB89008DF1F8 = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +531,7 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
+				E3DDA768189AA50100144C43 /* AviarySDK */,
 				E317676B1899115500923E35 /* ProgressBar */,
 				E31C75C81897B27600A8CC7F /* JSON */,
 				E18648D5189699B100175E8D /* AssetsLibrary */,
@@ -806,6 +851,7 @@
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
+				E3DDA776189AA50100144C43 /* AviarySDKResources.bundle in Resources */,
 				FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */,
 				FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
