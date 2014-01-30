@@ -89,6 +89,8 @@
     
     //[self getPhotoIdFromServer:self.userID];
     
+    [self getPhotoIdFromServer:@"2"];
+    
 }
 -(void)getDataFromNSUSerDefault
 {
@@ -236,10 +238,24 @@
 
     }
     NSData *imgData=UIImagePNGRepresentation(image);
-    [Base64 initialize];
-    NSString *base64string=[Base64 encode:imgData];
+
+   [self savePhotosOnServer:self.userID filepath:imgData photoTitle:@"Image" photoDescription:@"" photoCollection:@""];
+    /*
+    [imgData writeToFile:@"/private/var/mobile/Media/DCIM/100APPLE/customImageFilename.png" atomically:NO];
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString* path = [documentsDirectory stringByAppendingPathComponent:
+                      @"123-mobile-logo.png" ];
     
-    [self savePhotosOnServer:self.userID base64ImageString:imgData photoTitle:@"Image" photoDescription:@"" photoCollection:@""];
+    NSURL *filePath = [NSURL fileURLWithPath:path];
+*/
+   
+   //  [Base64 initialize];
+  //  NSString *base64string=[Base64 encode:imgData];
+    
+  
    
     /*ContentManager *manager=[ContentManager sharedManager];
     NSMutableArray *base64images=[[NSMutableArray alloc] init];
@@ -268,10 +284,10 @@
     isGetPhotoIdFromServer=YES;
     
     webServices.delegate=self;
-    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",usrId,self.collectionId];
-    NSDictionary *dicData=@{@"user_id":[NSNumber numberWithInt:usrId],@"collection_id":[NSNumber numberWithInt:self.collectionId]};
+   // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
+    NSDictionary *dicData=@{@"user_id":@"2",@"collection_id":@"25"};
     
-    [webServices call:data controller:@"collection" method:@"get"];
+    [webServices call:dicData controller:@"collection" method:@"get"];
 }
 //get Photo From Server
 -(void)getPhotoFromServer: (int)usrId
@@ -281,25 +297,41 @@
     isGetPhotoFromServer=YES;
     
     webServices.delegate=self;
-    NSString *data=[NSString stringWithFormat:@"user_id=%d&photo_id=%d&collection_id=%d&get_image=%d&image_resize=%d",usrId,[[photoIdsArray objectAtIndex:0] integerValue],self.collectionId,1,0];
-    [webServices call:data controller:@"photo" method:@"get"];
+        
+ //   NSString *data=[NSString stringWithFormat:@"user_id=%d&photo_id=%d&collection_id=%d&get_image=%d&image_resize=%d",usrId,[[photoIdsArray objectAtIndex:0] integerValue],self.collectionId,1,0];
+        
+        NSNumber *num = [NSNumber numberWithInt:1] ;
+        NSDictionary *dicData=@{@"user_id":@"2",@"photo_id":@"49",@"get_image":num,@"collection_id":@"25"};
+        
+        
+    [webServices call:dicData controller:@"photo" method:@"get"];
     }
 }
 //save Photo on Server Photo With Detaill
--(void)savePhotosOnServer :(int)usrId base64ImageString:(NSData *)base64ImageString photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+-(void)savePhotosOnServer :(int)usrId filepath:(NSData *)imgData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
 {
     isSaveDataOnServer=YES;
     
     webServices.delegate=self;
-    NSString *data=[NSString stringWithFormat:@"user_id=%d&file=%@&photo_title=%@&photo_description=%@&photo_collections=%@",usrId,base64ImageString,photoTitle,photoDescription,photoCollection];
-    //store data
-    [webServices call:data controller:@"photo" method:@"store"];
+  
     
+    NSDictionary *dic = @{@"user_id":@"2",@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
+    //store data
+   // [webServices call:data controller:@"photo" method:@"store"];
+    [webServices saveFileData:dic controller:@"photo" method:@"store" filePath:imgData] ;
 }
 //deletePhotoFromServer
 -(void)deletePhotoFromServer :(int)usrId photoId:(int)photoId
 {
     
+}
+
+
+-(void) webserviceCallbackImage:(UIImage *)image
+{
+    UIImageView *img = [[UIImageView alloc] initWithImage:image] ;
+    [self.view addSubview:img] ;
+
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
