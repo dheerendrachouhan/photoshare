@@ -18,6 +18,12 @@
 @implementation ReferFriendViewController
 {
     NSNumber *userID;
+    NSMutableArray *toolkitIDArr;
+    NSMutableArray *toolkitTitleArr;
+    NSMutableArray *toolkitVimeoIDArr;
+    NSMutableArray *toolkitEarningArr;
+    NSMutableArray *toolkitreferralsArr;
+    NSString *segmentControllerIndexStr;
 }
 @synthesize toolboxController,webViewReferral;
 
@@ -37,8 +43,19 @@
 {
     [super viewDidLoad];
     //Segment Porstion Disable
-    [toolboxController setEnabled:NO forSegmentAtIndex:1];
-    [toolboxController setEnabled:NO forSegmentAtIndex:2];
+    //[toolboxController setEnabled:NO forSegmentAtIndex:1];
+    //[toolboxController setEnabled:NO forSegmentAtIndex:2];
+    
+    //allocate & initializing Array
+    toolkitIDArr = [[NSMutableArray alloc] init];
+    toolkitTitleArr = [[NSMutableArray alloc] init];
+    toolkitVimeoIDArr = [[NSMutableArray alloc] init];
+    toolkitEarningArr = [[NSMutableArray alloc] init];
+    toolkitreferralsArr = [[NSMutableArray alloc] init];
+    
+    //
+    segmentControllerIndexStr = @"";
+    
     userID = [objManager getData:@"user_id"];
     // Do any additional setup after loading the view from its nib.
     [self.navigationItem setTitle:@"Refer Friends"];
@@ -53,10 +70,10 @@
     wb.delegate = self;
     //NSString *postStr = [NSString stringWithFormat:@"toolkit_id=1"] ;
     NSDictionary *dictData = @{@"user_id":userID};
-    [wb call:dictData controller:@"toolkit" method:@"get"] ;
-    
+    [wb call:dictData controller:@"toolkit" method:@"getall"] ;
+    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
     //webView By Refferral
-    [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL  URLWithString:@"http://www.youtube.com/watch?v=XaoROWDPPZc&list=UUFfuK45zBZxhq0m1bxYP-Zw&feature=share&index=1"]]];
+    //[self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL  URLWithString:@"http://www.youtube.com/watch?v=XaoROWDPPZc&list=UUFfuK45zBZxhq0m1bxYP-Zw&feature=share&index=1"]]];
 
 }
 
@@ -67,37 +84,90 @@
     
     if(exitCode == 0)
     {
-    
+        [SVProgressHUD dismissWithError:@"loading Failed"];
     }
     else if([data count] == 0)
     {
-    
+        [SVProgressHUD dismissWithError:@"loading Failed"];
     }
     else
     {
-        NSMutableArray *outPutData=[data objectForKey:@"output_data"];
+        if([segmentControllerIndexStr isEqualToString:@"0"])
+        {
+            
+        }
+        else if([segmentControllerIndexStr isEqualToString:@"1"])
+        {
+        
+        }
+        else if ([segmentControllerIndexStr isEqualToString:@"2"])
+        {
+        
+        }
+        else
+        {
+            [SVProgressHUD dismissWithSuccess:@"Success"];
+            NSMutableArray *outPutData=[data objectForKey:@"output_data"];
+        
+            toolkitIDArr = [outPutData valueForKey:@"toolkit_id"];
+            toolkitTitleArr = [outPutData valueForKey:@"toolkit_title"];
+            toolkitVimeoIDArr = [outPutData valueForKey:@"toolkit_vimeo_id"];
+            toolkitEarningArr = [outPutData valueForKey:@"toolkit_earnings"];
+            toolkitreferralsArr = [outPutData valueForKey:@"toolkit_referrals"];
+        }
+        [self loadData];
     }
 }
 - (IBAction)toolbox_Controller:(id)sender {
     if(toolboxController.selectedSegmentIndex == 0)
     {
-        [toolboxController setEnabled:YES forSegmentAtIndex:0];
+        segmentControllerIndexStr = @"0";
+       [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
     }
     else if (toolboxController.selectedSegmentIndex == 1)
     {
-    
+        segmentControllerIndexStr = @"1";
+        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:1]]]]];
     }
     else if(toolboxController.selectedSegmentIndex == 2)
     {
-    
+        segmentControllerIndexStr = @"2";
+        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:2]]]]];
     }
 }
 
+-(void)loadData
+{
+    webViewReferral.delegate =self;
+    webViewReferral.allowsInlineMediaPlayback = YES;
+    [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
+    
+}
+
+//WEbView Required Delegates
 -(void)chooseView
 {
     ReferralStageFourVC *rf4 = [[ReferralStageFourVC alloc] init];
     [self.navigationController pushViewController:rf4 animated:YES];
     rf4.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,3 +177,7 @@
 }
 
 @end
+
+/*
+    <iframe src="//player.vimeo.com/video/85367938?title=0&amp;portrait=0&amp;color=df5840" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/85367938">Natural Life</a> from <a href="http://vimeo.com/variable">Variable</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+ */
