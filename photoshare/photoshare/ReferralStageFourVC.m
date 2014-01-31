@@ -178,9 +178,11 @@
     
     [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
     
+    NSArray *testArray = [[NSArray alloc] init];
+    
     for (id<FBGraphUser> user in self.friendPickerController.selection) {
         NSString *text = user.id;
-        
+        testArray = [NSArray arrayWithObject:text];
         //inserting user id in graph api to pull username
         NSString *urlStrings = [NSString stringWithFormat:@"http://graph.facebook.com/%@?fields=username",text];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStrings] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
@@ -205,7 +207,20 @@
     }
     [SVProgressHUD dismissWithSuccess:@"Done"];
     
+    
     FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
+    params.friends = testArray;
+    params.caption = @"Join Today";
+    params.description = userMessage.text;
+    BOOL canShare = [FBDialogs canPresentShareDialogWithParams:params];
+    [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+        if(error) {
+            NSLog(@"Error: %@", error.description);
+        } else {
+            NSLog(@"Success!");
+        }
+    }];
+    
     
     [self.navigationController popViewControllerAnimated:YES];
     
