@@ -72,9 +72,19 @@
     NSDictionary *dictData = @{@"user_id":userID};
     [wb call:dictData controller:@"toolkit" method:@"getall"] ;
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-    //webView By Refferral
-    //[self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL  URLWithString:@"http://www.youtube.com/watch?v=XaoROWDPPZc&list=UUFfuK45zBZxhq0m1bxYP-Zw&feature=share&index=1"]]];
-
+    
+    //checking device height
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480)
+        {
+            //custumizing frame of webview for 3.5 inch
+            CGRect frame = webViewReferral.frame;
+            frame.origin.y = 142;
+            frame.size.height = 220;
+            webViewReferral.frame = frame;
+        }
+    }
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
@@ -92,56 +102,42 @@
     }
     else
     {
-        if([segmentControllerIndexStr isEqualToString:@"0"])
-        {
-            
-        }
-        else if([segmentControllerIndexStr isEqualToString:@"1"])
-        {
-        
-        }
-        else if ([segmentControllerIndexStr isEqualToString:@"2"])
-        {
-        
-        }
-        else
-        {
-            [SVProgressHUD dismissWithSuccess:@"Success"];
+        [SVProgressHUD dismissWithSuccess:@"Success"];
             NSMutableArray *outPutData=[data objectForKey:@"output_data"];
         
-            toolkitIDArr = [outPutData valueForKey:@"toolkit_id"];
-            toolkitTitleArr = [outPutData valueForKey:@"toolkit_title"];
-            toolkitVimeoIDArr = [outPutData valueForKey:@"toolkit_vimeo_id"];
-            toolkitEarningArr = [outPutData valueForKey:@"toolkit_earnings"];
-            toolkitreferralsArr = [outPutData valueForKey:@"toolkit_referrals"];
-        }
+        toolkitIDArr = [outPutData valueForKey:@"toolkit_id"];
+        toolkitTitleArr = [outPutData valueForKey:@"toolkit_title"];
+        toolkitVimeoIDArr = [outPutData valueForKey:@"toolkit_vimeo_id"];
+        toolkitEarningArr = [outPutData valueForKey:@"toolkit_earnings"];
+        toolkitreferralsArr = [outPutData valueForKey:@"toolkit_referrals"];
         [self loadData];
     }
 }
 - (IBAction)toolbox_Controller:(id)sender {
+    [SVProgressHUD showWithStatus:@"Fectching Video" maskType:SVProgressHUDMaskTypeBlack];
     if(toolboxController.selectedSegmentIndex == 0)
     {
         segmentControllerIndexStr = @"0";
        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
+        [SVProgressHUD dismissWithSuccess:@"Video Loaded"];
     }
     else if (toolboxController.selectedSegmentIndex == 1)
     {
         segmentControllerIndexStr = @"1";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:1]]]]];
+        [SVProgressHUD dismissWithSuccess:@"video Loaded"];
     }
     else if(toolboxController.selectedSegmentIndex == 2)
     {
         segmentControllerIndexStr = @"2";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:2]]]]];
+        [SVProgressHUD dismissWithSuccess:@"Video Loaded"];
     }
 }
 
 -(void)loadData
 {
-    webViewReferral.delegate =self;
-    webViewReferral.allowsInlineMediaPlayback = YES;
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
-    
 }
 
 //WEbView Required Delegates
@@ -152,24 +148,6 @@
     rf4.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    return YES;
-}
-
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-}
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-}
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -177,7 +155,3 @@
 }
 
 @end
-
-/*
-    <iframe src="//player.vimeo.com/video/85367938?title=0&amp;portrait=0&amp;color=df5840" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/85367938">Natural Life</a> from <a href="http://vimeo.com/variable">Variable</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
- */

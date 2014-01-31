@@ -108,52 +108,6 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([self.stringStr length]==0)
-    {
-        userMessage.text = @"Hey I've been using 123 Friday to share photo and earn  money want to join me?";
-    }
-    else
-    {
-        userMessage.text = self.stringStr;
-    }
-    
-    if(twitterTweet.length != 0)
-    {
-        [SVProgressHUD dismissWithSuccess:@"Done"];
-        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
-        {
-            SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-            [tweetSheet setInitialText:[NSString  stringWithFormat:@"%@ %@",twitterTweet,userMessage.text]];
-            [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
-                
-                FBTWViewController *tw = [[FBTWViewController alloc] init];
-                tw.successType = @"tw";
-                switch (result) {
-                    case SLComposeViewControllerResultCancelled:
-                        [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
-                        break;
-                    case SLComposeViewControllerResultDone:
-                        [self.navigationController pushViewController:tw animated:YES];
-                        break;
-                    default:
-                        break;
-                }
-            }];
-            [self presentViewController:tweetSheet animated:YES completion:nil];
-        }
-        else
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alertView show];
-            
-        }
-        twitterTweet = @"";
-    }
-}
-
 //Filter Reference.
 - (IBAction)fbFilter_Btn:(id)sender {
     fbFilter = YES;
@@ -214,8 +168,8 @@
     [self.friendPickerController loadData];
     [self.friendPickerController clearSelection];
     
-    [self presentViewController:self.friendPickerController animated:YES completion:nil];
-    
+    [self.navigationController pushViewController:self.friendPickerController animated:YES];
+    self.friendPickerController.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 85);
 }
 
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
@@ -250,14 +204,12 @@
         }
     }
     [SVProgressHUD dismissWithSuccess:@"Done"];
-    [self dismissModalViewControllerAnimated:YES];
-    //[self performSelector:@selector(mailTo) withObject:self afterDelay:1.0f];
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)facebookViewControllerCancelWasPressed:(id)sender {
     //[self fillTextBoxAndDismiss:@"<Cancelled>"];
     [objManager showAlert:@"Cancelled" msg:@"Friend selection process cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
-    [self dismissModalViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)getTwitterAccounts {
@@ -440,16 +392,16 @@
         toRecipents = [NSArray arrayWithArray:FBEmailID];
     }
         
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-    mc.mailComposeDelegate = self;
-    [mc setSubject:emailTitle];
-    [mc setMessageBody:messageBody isHTML:NO];
-    [mc setToRecipients:toRecipents];
+    MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
+    mfMail.mailComposeDelegate = self;
+    [mfMail setSubject:emailTitle];
+    [mfMail setMessageBody:messageBody isHTML:NO];
+    [mfMail setToRecipients:toRecipents];
     
      //stop loader
     
     // Present mail view controller on screen
-    [self presentViewController:mc animated:YES completion:NULL];
+    [self presentViewController:mfMail animated:YES completion:nil];
     
 }
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -476,10 +428,7 @@
     }
     
     // Close the Mail Interface
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
-    [FBEmailID removeAllObjects];
-    
+    [self dismissModals];
 }
 
 //Message to user
@@ -491,7 +440,7 @@
 		controller.body = userMessage.text;
 		controller.recipients = [NSArray arrayWithObject:userSelectedPhone];
 		controller.messageComposeDelegate = self;
-		[self presentModalViewController:controller animated:YES];
+		[self presentViewController:controller animated:YES completion:nil];
 	}
 }
 
@@ -512,19 +461,19 @@
 			break;
 	}
     
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissModals];
 }
 
 //Contact List
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissModals];
 }
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
     [self displayPerson:person];
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissModals];
     
     
     if(mailFilter)
@@ -588,12 +537,59 @@
 
 -(void)showContactListPicker
 {
+    
+//    ABAddressBookRef addressBook = ABAddressBookCreate();
+//    CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
+//    CFMutableArrayRef peopleMutable = CFArrayCreateMutableCopy(
+//                                                               kCFAllocatorDefault,
+//                                                               CFArrayGetCount(people),
+//                                                               people
+//                                                               );
+
+    /*
+    NSMutableDictionary *myAddressBook = [[NSMutableDictionary alloc] init];
+    ABAddressBookRef addressBook = ABAddressBookCreate();
+    CFArrayRef people  = ABAddressBookCopyArrayOfAllPeople(addressBook);
+    for(int i = 0;i<ABAddressBookGetPersonCount(addressBook);i++)
+    {
+        ABRecordRef ref = CFArrayGetValueAtIndex(people, i);
+        
+        // Get First name, Last name, Prefix, Suffix, Job title
+        NSString *firstName = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonFirstNameProperty);
+        NSString *lastName = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonLastNameProperty);
+        //NSString *email = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonEmailProperty);
+        NSString *suffix = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonSuffixProperty);
+        NSString *jobTitle = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonJobTitleProperty);
+        
+        
+        ABMultiValueRef emailMultiValue = ABRecordCopyValue(ref, kABPersonEmailProperty);
+        NSArray *emailAddresses = (__bridge NSArray *)ABMultiValueCopyArrayOfAllValues(emailMultiValue) ;
+        CFRelease(emailMultiValue);
+        
+        NSString *email = [emailAddresses objectAtIndex:0];
+         NSLog(@"myAddressBook--%@",emailAddresses);
+        
+        if (email.length != 0 && email !=nil) {
+            [myAddressBook setObject:email forKey:@"email"];
+        }
+        
+        ///[myAddressBook setObject:firstName forKey:@"firstName"];
+        //[myAddressBook setObject:lastName forKey:@"lastName"];
+        //;
+        //[myAddressBook setObject:suffix forKey:@"suffix"];
+        //[myAddressBook setObject:jobTitle forKey:@"jobTitle"];
+    }
+    
+    
+    NSLog(@"myAddressBook-- %@",myAddressBook.description);
+    */
     ABPeoplePickerNavigationController *picker =
     [[ABPeoplePickerNavigationController alloc] init];
-    
     picker.peoplePickerDelegate = self;
-
-    [self presentModalViewController:picker animated:YES];
+    
+    //[[self navigationController] p]
+    
+   [self presentViewController:picker animated:YES completion:nil];
 }
 
 //alertView
@@ -608,6 +604,62 @@
             [self showContactListPicker];
         }
     }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+
+    
+    if([self.stringStr length]==0)
+    {
+        userMessage.text = @"Hey I've been using 123 Friday to share photo and earn  money want to join me?";
+    }
+    else
+    {
+        userMessage.text = self.stringStr;
+    }
+    
+    if(twitterTweet.length != 0)
+    {
+        [SVProgressHUD dismissWithSuccess:@"Done"];
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+        {
+            SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [tweetSheet setInitialText:[NSString  stringWithFormat:@"%@ %@",twitterTweet,userMessage.text]];
+            [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+                
+                FBTWViewController *tw = [[FBTWViewController alloc] init];
+                tw.successType = @"tw";
+                switch (result) {
+                    case SLComposeViewControllerResultCancelled:
+                        [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        [self.navigationController pushViewController:tw animated:YES];
+                        break;
+                    default:
+                        break;
+                }
+            }];
+            [self presentViewController:tweetSheet animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            
+        }
+        twitterTweet = @"";
+    }
+}
+
+//dismiss models
+-(void)dismissModals
+{
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

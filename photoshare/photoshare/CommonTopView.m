@@ -78,8 +78,7 @@ static CommonTopView *topView=nil;
  }
 -(void)setTheTotalEarning:(NSString *)totalEarn
 {
-    totalEarning.text=totalEarn;
-    
+    totalEarning.text=totalEarn;    
 }
 
 @end

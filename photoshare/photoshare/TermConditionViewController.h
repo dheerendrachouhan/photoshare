@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface TermConditionViewController : UIViewController
+{
+    IBOutlet UIWebView *webview ;
+}
 
 @end
