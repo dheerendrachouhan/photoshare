@@ -7,7 +7,6 @@
 //
 
 #import "CommunityViewController.h"
-#import "ContentManager.h"
 #import "CollectionViewCell.h"
 #import "HomeViewController.h"
 #import "AddEditFolderViewController.h"
@@ -36,8 +35,7 @@
 {
     [super viewDidLoad];
     
-    webServices=[[WebserviceController alloc] init];
- 
+    manager=[ContentManager sharedManager];
        
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
@@ -60,8 +58,7 @@
     editBtn=[[UIButton alloc] init];
     
     //get the user ID from NSUSER Default
-    ContentManager *manager=[ContentManager sharedManager];
-    userID=[[manager getData:@"user_id"] integerValue];
+    userid=[manager getData:@"user_id"];
     
     //set title for navigation controller
     self.navigationController.navigationBarHidden=NO;
@@ -70,125 +67,40 @@
     
     //blueLabelImgFrame=CGRectMake(20, diskSpaceBlueLabel.frame.origin.y-64, 10,diskSpaceBlueLabel.frame.size.height );
    
-    [self getTheCollectionInfoArrayFromServer];
+    //set Disk Space Progress
+    float progressPercent=[[manager getData:@"disk_space"] floatValue];
+    NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",(progressPercent*100),@"%"];
+    diskSpaceTitle.text=diskTitle;
+    progressView.progress=progressPercent;
     
-    //[self getCollectionInfoFromUserDefault];
+    
+    [self getCollectionInfoFromUserDefault];
     [collectionview reloadData];
 }
 
 -(void)getCollectionInfoFromUserDefault
 {
-    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"] mutableCopy];
-   
-    collectionNameArray=[[NSMutableArray alloc] init];
-    collectionIdArray=[[NSMutableArray alloc] init];
+    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"collection_data_list"] mutableCopy];
+    
     collectionDefaultArray=[[NSMutableArray alloc] init];
-    collectionSharingArray=[[NSMutableArray alloc] init];
+    collectionIdArray=[[NSMutableArray alloc] init];
+    collectionNameArray=[[NSMutableArray alloc] init];
     collectionSharedArray=[[NSMutableArray alloc] init];
+    collectionSharingArray=[[NSMutableArray alloc] init];
+    collectionUserIdArray=[[NSMutableArray alloc] init];
     
-    for (int i=2;i<collection.count; i++) {
-        
-        [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"Collection_Name"]];
-        [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"Collection_Id"]];
-        [collectionSharedArray addObject:[NSNumber numberWithInt:1]];
-        [collectionSharingArray addObject:[NSNumber numberWithInt:1]];
-    }
-    
-}
-//get Storage
--(void)getStorage
-{
-    isGetStorage=YES;
-    webServices.delegate=self;
-    ContentManager *manager=[ContentManager sharedManager];
-    NSNumber *userId=[manager getData:@"user_id"];
-    NSString *data=[NSString stringWithFormat:@"user_id=%d",[userId integerValue]];
-    NSDictionary *dicData=@{@"user_id":[NSString stringWithFormat:@"%d",userID]};
-    [webServices call:dicData controller:@"storage" method:@"get"];
-}
-//get collection  info array from server
--(void)getTheCollectionInfoArrayFromServer
-{
-    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-    isGetCollectionInfo=YES;
-    webServices.delegate=self;
-    //get the user id from nsuserDefaults
-    
-    
-    //NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_user_id=%d",userID,userID];
-    
-    
-    NSDictionary *dicData=@{@"user_id":[NSString stringWithFormat:@"%d",userID],@"collection_user_id":[NSString stringWithFormat:@"%d",userID]};
-    
-    
-    [webServices call:dicData controller:@"collection" method:@"getlist"];
-   
-    
-}
--(void)webserviceCallback:(NSDictionary *)data
-{
-    //NSLog(@"Call Back getList %@",data);
-   
-    int exitCode=[[data objectForKey:@"exit_code"] intValue];
-    if(exitCode ==1)
+    for (int i=2;i<collection.count; i++)
     {
-        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-        
-        if(isGetCollectionInfo)
-        {
-            collectionNameArray=[[NSMutableArray alloc] init];
-            collectionIdArray=[[NSMutableArray alloc] init];
-            collectionDefaultArray=[[NSMutableArray alloc] init];
-            collectionSharingArray=[[NSMutableArray alloc] init];
-            collectionSharedArray=[[NSMutableArray alloc] init];
-            for (NSDictionary *dic in outPutData) {
-                if(![[dic objectForKey:@"collection_name"] isEqualToString:@"Private"]&& ![[dic objectForKey:@"collection_name"] isEqualToString:@"Public"])
-                {
-                    [collectionNameArray addObject:[dic objectForKey:@"collection_name"]];
-                    [collectionIdArray addObject:[dic objectForKey:@"collection_id"]];
-                    [collectionDefaultArray addObject:[dic objectForKey:@"collection_default"]];
-                    [collectionSharingArray addObject:[dic objectForKey:@"collection_sharing"]];
-                    [collectionSharedArray addObject:[dic objectForKey:@"collection_shared"]];
-                    
-                }
-                
-            }
-            isGetCollectionInfo=NO;
-            [self getStorage];
-        }
-        else if(isGetStorage)
-        {
-            NSLog(@"Get Storage %@",data);
-            NSDictionary *dic=[outPutData objectAtIndex:0];
-            NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
-            NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
-            //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
-            float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
-            float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
-            
-            //set the diskSpacePercentage
-            float progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
-            float spacePerCentage=(float)progressPercent*100;
-            NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",spacePerCentage,@"%"];
-            diskSpaceTitle.text=diskTitle;
-            progressView.progress=progressPercent;
-            
-            isGetStorage=NO;
-            [collectionview reloadData];
-            [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
-        }
-        
-
+        [collectionDefaultArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_default"]];
+        [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
+        [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
+        [collectionSharedArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_shared"]];
+        [collectionSharingArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_sharing"]];
+        [collectionUserIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_user_id"]];
     }
-    else
-    {
-        
-        [SVProgressHUD dismissWithError:[data objectForKey:@"user_message"]];
-    }// NSLog(@"Dic is %@",dic);
-   
+    //
+    
 }
-
-
 
 //collection view delegate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -212,8 +124,6 @@
     }
     else
     {
-        
-       
         int sharing=[[collectionSharingArray objectAtIndex:indexPath.row] intValue];
         BOOL flag=false;
         if(![collectionSharedArray objectAtIndex:indexPath.row])
@@ -269,7 +179,7 @@
             photoGallery.selectedFolderIndex=indexPath.row;
             photoGallery.folderName=[collectionNameArray objectAtIndex:[indexPath row]];
             photoGallery.collectionId=[[collectionIdArray objectAtIndex:[indexPath row]] integerValue];
-            photoGallery.userID=userID;
+            
             [self.navigationController pushViewController:photoGallery animated:YES];
         }
         
@@ -318,9 +228,8 @@
     AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
     aec.isAddFolder=NO;
     aec.isEditFolder=YES;
-    aec.collectionId=[indexPath row];
     aec.setFolderName=[collectionNameArray objectAtIndex:[indexPath row]];
-    aec.collectionId=[[collectionIdArray objectAtIndex:[indexPath row]] integerValue];
+    aec.collectionId=[collectionIdArray objectAtIndex:[indexPath row]] ;
     
     CommunityViewController *cm = [[CommunityViewController alloc] init];
     HomeViewController *hm = [[HomeViewController alloc] init] ;

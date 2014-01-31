@@ -9,7 +9,7 @@
 #import "AddEditFolderViewController.h"
 #import "CommonTopView.h"
 #import "CommunityViewController.h"
-#import "ContentManager.h"
+
 
 @interface AddEditFolderViewController ()
 
@@ -33,6 +33,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    //contant manager Object
+    manager = [ContentManager sharedManager];
+    webServices=[[WebserviceController alloc] init];
     
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
@@ -88,11 +91,11 @@
     self.navigationController.navigationBarHidden=NO;
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     
-     webServices=[[WebserviceController alloc] init];
     
     //get the user id from nsuserDefaults
-    ContentManager *manager=[ContentManager sharedManager];
-    userID=[[manager getData:@"user_id"] intValue];
+    userid=[manager getData:@"user_id"];
+    
+    
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -118,147 +121,164 @@
     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
     return alert;
 }
+
+//Btn Action
 -(IBAction)addFolder:(id)sender
 {
-    BOOL flag=FALSE;
-    NSMutableArray *collection =[[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"] mutableCopy];
-    for (int i=2; i<collection.count; i++) {
-        
-        NSString *collName=[[collection objectAtIndex:i] objectForKey:@"Collection_Name"];
-        if([collName isEqualToString:folderName.text])
-        {
-            flag=TRUE;
-            break;
+    [self addCollectionInfoInServer:folderName.text sharing:@1 writeUserIds:[NSString stringWithFormat:@"%@",userid] readUserIds:@""];
     
-        }
-    }
-    if(flag)
-    {ContentManager *manager=[ContentManager sharedManager];
-        [manager showAlert:@"Message" msg:@"Folder Already Available" cancelBtnTitle:@"Ok" otherBtn:Nil];
-    }
-    else
-    {
-        NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-        [dic setObject:folderName.text forKey:@"Collection_Name"];
-        [dic setObject:[NSNumber numberWithInt:collection.count+2] forKey:@"Collection_Id"];
-        [collection addObject:dic];
-        [[NSUserDefaults standardUserDefaults] setObject:collection forKey:@"Collection"];
-        
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Collection Created" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-        
-        [alertView show];
-    }
-
-    
-    //[self addCollectionInfoInServer:folderName.text sharing:1 writeUserIds:[NSString stringWithFormat:@"%d",userID] readUserIds:@""];
-    
-   
 }
 
 -(IBAction)saveFolder:(id)sender
 {
-   
-    
-    NSMutableArray *collection =[[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"] mutableCopy];
-    for (int i=2; i<collection.count; i++) {
-        
-        NSNumber *colId=[[collection objectAtIndex:i] objectForKey:@"Collection_Id"];
-        if([colId integerValue]==collectionId)
-        {
-            NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-            [dic setObject:folderName.text forKey:@"Collection_Name"];
-            [dic setObject:[NSNumber numberWithInt:collectionId] forKey:@"Collection_Id"];
-            [collection replaceObjectAtIndex:i withObject:dic];
-        }
-    }
-    [[NSUserDefaults standardUserDefaults] setObject:collection forKey:@"Collection"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:@0 writeUserIds:[NSString stringWithFormat:@"%@",userid] readUserIds:@""];
 
-   // [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:0 writeUserIds:[NSString stringWithFormat:@"%d",userID] readUserIds:@""];
 }
 -(IBAction)deleteFolder:(id)sender
 {
-    NSMutableArray *collection =[[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"] mutableCopy];
-    for (int i=2; i<collection.count; i++) {
-        
-        NSNumber *colId=[[collection objectAtIndex:i] objectForKey:@"Collection_Id"];
-        if([colId integerValue]==collectionId)
-        {
-            [collection removeObjectAtIndex:i];
-        }
-    }
-    [[NSUserDefaults standardUserDefaults] setObject:collection forKey:@"Collection"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self deleteCollectionInfoInServer];
     
-    
-    
-   // [self deleteCollectionInfoInServer:userID collecId:self.collectionId];
 }
 
-//store collection info in server
--(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(int)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+
+
+//reset all Bool Value
+-(void)resetAllBOOLValue
 {
-   
-    webServices.delegate=self;
+    isAdd=NO;
+    isSave=NO;
+    isDelete=NO;
+}
+
+
+
+//store collection info in server
+-(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+{
+    [self resetAllBOOLValue];
+    isAdd=YES;
     
-    //store data
-    //NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_name=%@&collection_sharing=%d&collection_write_user_ids=%@&collection_read_user_ids=%@",userID,collectionName,sharing,writeUserIds,readUserIds];
-     NSDictionary *dicData=@{@"user_id":[NSNumber numberWithInt:userID],@"collection_name":collectionName,@"collection_sharing":[NSNumber numberWithInt:sharing],@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
+    webServices.delegate=self;
+   
+     NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":sharing,@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
     [webServices call:dicData controller:@"collection" method:@"store"];
     
 }
--(void)editCollectionInfoInServer:(int)collecId collectionName:(NSString *)collectionName sharing:(int)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+-(void)editCollectionInfoInServer:(NSNumber *)collecId collectionName:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
 {
-   
+    [self resetAllBOOLValue];
+    isSave=YES;
+    
     webServices.delegate=self;
     
     //edit data
-   // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d&collection_name=%@&collection_sharing=%d&collection_write_user_ids=%@&collection_read_user_ids=%@",userID,collecId,collectionName,sharing,writeUserIds,readUserIds];
-    NSDictionary *dicData=@{@"user_id":[NSNumber numberWithInt:userID],@"collection_id":[NSNumber numberWithInt:collecId],@"collection_name":collectionName,@"collection_sharing":[NSNumber numberWithInt:sharing],@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":collecId,@"collection_name":collectionName,@"collection_sharing":sharing,@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
     [webServices call:dicData controller:@"collection" method:@"change"];
     
 }
--(void)deleteCollectionInfoInServer:(int)userid collecId:(int)collecId
+-(void)deleteCollectionInfoInServer
 {
+    [self resetAllBOOLValue];
+    isDelete=YES;
+    
     webServices.delegate=self;
-    
     //delete data
-    NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",userID,collecId];
-    
-    NSDictionary *dicData=@{@"user_id":[NSNumber numberWithInt:collecId],@"collection_id":[NSNumber numberWithInt:collecId]};
-    [webServices call:data controller:@"collection" method:@"delete"];
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
+    [webServices call:dicData controller:@"collection" method:@"delete"];
     
 }
+
 //call back Method
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Collection return %@",data);
    
     
-    ContentManager *manager=[ContentManager sharedManager];
     NSLog(@"exit  %@",[data objectForKey:@"exit_code"]);
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
+    
+    
     if(exitCode ==1)
     {
+        if(isAdd)
+        {
+        NSMutableArray *outPutData=[data objectForKey:@"output_data"];
+        newCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];
+        }
+      
+        
+        [self updateCollectionInfoInNSUserDefault];
+        
         UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-        
         [alertView show];
-        
-        
     }
     
     else
     {
         [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
-}
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
+
+//Update Collection info in NSUSerDefault
+-(void)updateCollectionInfoInNSUserDefault
+{
+    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"collection_data_list"] mutableCopy];
+    
+    if(isAdd)
+    {
+        NSMutableDictionary *newCollection=[[NSMutableDictionary alloc] init];
+        
+        [newCollection setValue:@0 forKey:@"collection_default"];
+        [newCollection setValue:newCollectionId forKey:@"collection_id"];
+        [newCollection setValue:folderName.text forKey:@"collection_name"];
+        [newCollection setValue:@0 forKey:@"collection_shared"];
+        [newCollection setValue:@0 forKey:@"collection_sharing"];
+        [newCollection setValue:userid forKey:@"collection_user_id"];
+        
+        [collection addObject:newCollection];
+        
+        [manager storeData:collection :@"collection_data_list"];
+       
+        
+    }
+    else if(isSave||isDelete)
+    {
+        int editColId=0;
+         for (int i=2;i<collection.count; i++)
+         {
+             
+             NSNumber *colId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
+             if(colId==self.collectionId)
+             {
+                 editColId=i;
+                 break;
+             }
+        
+         }
+        NSMutableDictionary *newCollection=[[NSMutableDictionary alloc] init];
+        
+        [newCollection setValue:@0 forKey:@"collection_default"];
+        [newCollection setValue:self.collectionId forKey:@"collection_id"];
+        [newCollection setValue:folderName.text forKey:@"collection_name"];
+        [newCollection setValue:@0 forKey:@"collection_shared"];
+        [newCollection setValue:@0 forKey:@"collection_sharing"];
+        [newCollection setValue:userid forKey:@"collection_user_id"];
+        if(isSave)
+        {
+            [collection replaceObjectAtIndex:editColId withObject:newCollection];
+        }
+        else if (isDelete)
+        {
+            [collection removeObjectAtIndex:editColId];
+        }
+        
+        [manager storeData:collection :@"collection_data_list"];
+    }
+    
+}
+//alert Delegate Method
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
    if(buttonIndex==0)
@@ -268,4 +288,10 @@
     
 }
 
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 @end

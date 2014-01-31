@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
-
-@interface LoginViewController : UIViewController <UITextFieldDelegate>
+#import "WebserviceController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "ContentManager.h"
+@interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, WebserviceDelegate>
 {
     IBOutlet UIImageView *loginBackgroundImage;
     IBOutlet UIImageView *loginLogoImage;
@@ -20,6 +22,16 @@
     BOOL usrFlt, pwsFlt;
     IBOutlet UIButton *namecancelBtn;
     IBOutlet UIButton *passwordcancelBtn;
+    
+    NSNumber *userid;
+    
+    UIView *dataFetchView;
+    WebserviceController *webservices;
+    ContentManager *manager;
+    
+    BOOL isGetTheCollectionListData;
+    BOOL isGetLoginDetail;
+    BOOL isGetStorage;
 }
-
+@property(nonatomic,retain)ALAssetsLibrary *library;
 @end

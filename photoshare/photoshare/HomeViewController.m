@@ -138,9 +138,8 @@
     
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     
-    WebserviceController *webServices=[[WebserviceController alloc] init];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                         NSUserDomainMask, YES);
+   /* WebserviceController *webServices=[[WebserviceController alloc] init];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,                                                         NSUserDomainMask, YES);
     
     
     NSString *name=[assetURL lastPathComponent];
@@ -153,9 +152,9 @@
     NSNumber *userID=[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
     
     NSDictionary *dicData=@{@"user_id":userID,@"photo_title":@"",@"photo_description":assetURL,@"photo_collections":@""};
-    [webServices saveFileData:dicData controller:@"photo" method:@"store" filePath:filePath];
+    [webServices saveFileData:dicData controller:@"photo" method:@"store" filePath:filePath];*/
     
-  /*
+  
     
     void(^completion)(void)  = ^(void){
         
@@ -169,7 +168,7 @@
     };
     
     [self dismissViewControllerAnimated:YES completion:completion];
-   */
+   
    }
 
 -(void)webserviceCallback:(NSDictionary *)data

@@ -52,7 +52,7 @@ static CommonTopView *topView=nil;
         totalEarning.font=[UIFont fontWithName:@"verdana" size:18];
         
         totalEarning.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-        NSString *totalEarn=[@"£" stringByAppendingString:@"190.90"];
+        NSString *totalEarn=[@"£" stringByAppendingString:@"0.0"];
         
         totalEarning.text=totalEarn;
         totalEarning.textAlignment=NSTextAlignmentCenter;
