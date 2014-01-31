@@ -53,7 +53,7 @@
     wb.delegate = self;
     //NSString *postStr = [NSString stringWithFormat:@"toolkit_id=1"] ;
     NSDictionary *dictData = @{@"user_id":userID};
-    [wb call:dictData controller:@"toolkit" method:@"get"] ;
+    [wb call:dictData controller:@"toolkit" method:@"getall"] ;
     
     //webView By Refferral
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL  URLWithString:@"http://www.youtube.com/watch?v=XaoROWDPPZc&list=UUFfuK45zBZxhq0m1bxYP-Zw&feature=share&index=1"]]];
