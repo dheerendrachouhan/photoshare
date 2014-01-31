@@ -175,159 +175,26 @@
     [self.navigationController pushViewController:self.friendPickerController animated:YES];
     self.friendPickerController.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 85);
      */
-    
-    NSArray *permissions =
-    [NSArray arrayWithObjects:@"email", @"user_photos", @"friends_photos", nil];
-    
-    [FBSession openActiveSessionWithReadPermissions:permissions
-                                       allowLoginUI:YES
-                                  completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-                                      /* handle success + failure in block */
-                                  }];
-    
-    BOOL displayedNativeDialog = [FBNativeDialogs
-                                  presentShareDialogModallyFrom:self
-                                  initialText:userMessage.text
-                                  image:[UIImage imageNamed:@"login-logo.png"]
-                                  url:[NSURL URLWithString:@""]
-                                  handler:^(FBNativeDialogResult result, NSError *error) {
-                                      NSString *alertText = @""; ///ADDED
-                                      if (error) {
-                                          alertText = [NSString stringWithFormat:@"error: domain = %@, code = %d", error.domain, error.code];
-                                      } else if (result == FBNativeDialogResultSucceeded) {
-                                          alertText = @"Posted successfully.";
-                                      }
-                                      
-                                      if (![alertText isEqualToString:@""]) {
-                                          // Show the result in an alert
-                                          [[[UIAlertView alloc] initWithTitle:@"Result"
-                                                                      message:alertText
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"OK!"
-                                                            otherButtonTitles:nil]
-                                           show];
-                                      }
-                                  }];
-    if (!displayedNativeDialog) {
-        /*
-         Fallback to web-based Feed dialog:
-         https://developers.facebook.com/docs/howtos/feed-dialog-using-ios-sdk/
-         */
-    }
-
-}
-
-- (void)facebookViewControllerDoneWasPressed:(id)sender {
-    // we pick up the users from the selection, and create a string that we use to update the text view
-    // at the bottom of the display; note that self.selection is a property inherited from our base class
-    
-    [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
-    
-    NSArray *testArray = [[NSArray alloc] init];
-    
-    for (id<FBGraphUser> user in self.friendPickerController.selection) {
-        NSString *text = user.id;
-        testArray = [NSArray arrayWithObject:text];
-        //inserting user id in graph api to pull username
-        NSString *urlStrings = [NSString stringWithFormat:@"http://graph.facebook.com/%@?fields=username",text];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStrings] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
-        [request setHTTPMethod: @"GET"];
-        NSError *requestError;
-        NSURLResponse *urlResponse = nil;
-        NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
-        NSDictionary *jsonObject=[NSJSONSerialization JSONObjectWithData:response1 options:NSJSONReadingMutableLeaves error:nil];
+    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         
-        if(![jsonObject objectForKey:@"id"])
-        {
-            NSLog(@"username found null!");
-        }
-        else
-        {
-            NSString *fbMsgLink = [NSString stringWithFormat:@"%@",[jsonObject objectForKey:@"id"]];
-            NSLog(@"fb user link : %@",fbMsgLink);
-            //adding the fb msg links to array
-            [FBEmailID addObject:fbMsgLink];
-            
-        }
+        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        
+        [controller setInitialText:userMessage.text];
+        
+        [controller addImage:[UIImage imageNamed:@"123-mobile-logo.png"]];
+        
+        ///
+        [self presentViewController:controller animated:YES completion:Nil];
+        
     }
-    [SVProgressHUD dismissWithSuccess:@"Done"];
+    else{
+    
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Facebook not Found" message:@"Your Facebook account in not configured. Please Configure your facebook account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
+        [alert show];
     
     
-    [self.navigationController popViewControllerAnimated:YES];
-    /*
-    FBShareDialogParams* params = [[FBShareDialogParams alloc] init];
-    params.name = @"Facebook SDK for iOS";
-    params.caption = @"Test";
-    params.friends = FBEmailID;
-    params.description = userMessage.text;
     
-    BOOL canPresentShareDialog = [FBDialogs canPresentShareDialogWithParams:params];
-    if (canPresentShareDialog) {
-        [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-            if (error) {
-                if ([FBErrorUtility shouldNotifyUserForError:error]) {
-                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Facebook-Error!" message:[FBErrorUtility userMessageForError:error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [alert show];
-                }
-            } else {
-                NSLog(@"SUCCESS");
-            }
-        }];
-    }*/
-    
-    NSArray *permissions =
-    [NSArray arrayWithObjects:@"email", @"user_photos", @"friends_photos", nil];
-    
-    [FBSession openActiveSessionWithReadPermissions:permissions
-                                       allowLoginUI:YES
-                                  completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-                                      /* handle success + failure in block */
-                                  }];
-    
-    BOOL displayedNativeDialog = [FBNativeDialogs
-                                  presentShareDialogModallyFrom:self
-                                  initialText:@""
-                                  image:[UIImage imageNamed:@"testimage.png"]
-                                  url:[NSURL URLWithString:@"http://www.example.com"]
-                                  handler:^(FBNativeDialogResult result, NSError *error) {
-                                      
-                                      NSString *alertText = @"";
-                                      if ([[error userInfo][FBErrorDialogReasonKey] isEqualToString:FBErrorDialogNotSupported]) {
-                                          alertText = @"iOS Share Sheet not supported.";
-                                      } else if (error) {
-                                          alertText = [NSString stringWithFormat:@"error: domain = %@, code = %d", error.domain, error.code];
-                                      } else if (result == FBNativeDialogResultSucceeded) {
-                                          alertText = @"Posted successfully.";
-                                      }
-                                      
-                                      if (![alertText isEqualToString:@""]) {
-                                          // Show the result in an alert
-                                          [[[UIAlertView alloc] initWithTitle:@"Result"
-                                                                      message:alertText
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"OK!"
-                                                            otherButtonTitles:nil]
-                                           show];
-                                      }
-                                  }];
-    if (!displayedNativeDialog) {
-        /* 
-         Fallback to web-based Feed dialog:
-         https://developers.facebook.com/docs/howtos/feed-dialog-using-ios-sdk/
-         */
     }
-    
-}
-
-- (void)webViewDidFinishLoading:(UIWebView *)webView
-{
-    
-}
-
-- (void)facebookViewControllerCancelWasPressed:(id)sender {
-    //[self fillTextBoxAndDismiss:@"<Cancelled>"];
-    [objManager showAlert:@"Cancelled" msg:@"Friend selection process cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)getTwitterAccounts {
