@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FC9763AF188FEB89008DF1F8"
-               BuildableName = "photoshareTests.xctest"
-               BlueprintName = "photoshareTests"
+               BuildableName = "123fridayTests.xctest"
+               BlueprintName = "123fridayTests"
                ReferencedContainer = "container:photoshare.xcodeproj">
             </BuildableReference>
          </TestableReference>
