@@ -79,8 +79,6 @@
 {
     [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
     NSLog(@"login callback%@",data);
-    
-    NSDictionary *earningDict = [NSJSONSerialization JSONObjectWithData: [data dataUsingEncoding:NSUTF8StringEncoding]                                    options: NSJSONReadingMutableContainers error: Nil];
 }
 
 - (void)didReceiveMemoryWarning

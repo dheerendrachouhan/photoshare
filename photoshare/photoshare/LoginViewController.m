@@ -15,8 +15,8 @@
 #import "PhotoViewController.h"
 #import "ResetPasswordController.h"
 #import "CommonTopView.h"
-#import "WebserviceController.h"
 #import "ContentManager.h"
+
 @interface LoginViewController ()
 
 @end
@@ -103,8 +103,7 @@
             
             //Setting the TopView
             CommonTopView *topView=[CommonTopView sharedTopView];
-            //[topView setTheTotalEarning:[NSString stringWithFormat:@"%@",[objManager.loginDetailsDict objectForKey:@"total_earnings"]]];
-            ///
+            [topView setTheTotalEarning:[NSString stringWithFormat:@"%@",[dic objectForKey:@"total_earnings"]]];
             
             NSNumber *userid=[dic objectForKey:@"user_id"];
             
