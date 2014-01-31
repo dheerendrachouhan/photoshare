@@ -36,7 +36,7 @@
                         <action selector="toolbox_Controller:" destination="-1" eventType="valueChanged" id="qsS-IW-39f"/>
                     </connections>
                 </segmentedControl>
-                <webView contentMode="scaleToFill" id="1sJ-lM-kkB">
+                <webView contentMode="scaleToFill" scalesPageToFit="YES" id="1sJ-lM-kkB">
                     <rect key="frame" x="12" y="146" width="296" height="233"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
