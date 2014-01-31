@@ -105,6 +105,7 @@
     
     
     topView.frame = CGRectMake(0, 20, 320, 50) ;
+    topView.tag = 11;
     [tbc.view addSubview:topView];
     
     
