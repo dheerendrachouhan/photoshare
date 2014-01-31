@@ -178,7 +178,7 @@
             photoGallery.isPublicFolder=NO;
             photoGallery.selectedFolderIndex=indexPath.row;
             photoGallery.folderName=[collectionNameArray objectAtIndex:[indexPath row]];
-            photoGallery.collectionId=[[collectionIdArray objectAtIndex:[indexPath row]] integerValue];
+            photoGallery.collectionId=[collectionIdArray objectAtIndex:[indexPath row]];
             
             [self.navigationController pushViewController:photoGallery animated:YES];
         }

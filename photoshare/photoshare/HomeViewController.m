@@ -41,6 +41,7 @@
     
     LoginViewController *loginv = [[LoginViewController alloc] init] ;
     [self.navigationController presentViewController:loginv animated:NO completion:nil];
+    webservices=[[WebserviceController alloc] init];
     
     
     //rounded the Community Count Label
@@ -83,6 +84,7 @@
         photoCountLbl.hidden=NO;
         photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)[publicImgArray count]];        
     }
+    userid=[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
 }
 -(void)setContent
 {
@@ -112,6 +114,7 @@
 {
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     photoGallery.isPublicFolder=YES;
+    photoGallery.collectionId=@3;
     [self.navigationController pushViewController:photoGallery animated:YES];
     
 }
@@ -171,10 +174,6 @@
    
    }
 
--(void)webserviceCallback:(NSDictionary *)data
-{
-    NSLog(@"Data %@",data);
-}
 
 //For Aviary Edit Photo
 
@@ -243,32 +242,9 @@
 // This is called when the user taps "Done" in the photo editor.
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
-    //[[self imagePreviewView] setImage:image];
-    //[[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
-    [self.assetLibrary saveImage:image toAlbum:@"Public" withCompletionBlock:^(NSError *error) {
-        if (error!=nil) {
-            NSLog(@"Big error: %@", [error description]);
-        }
-    }];
-
+    NSData *imgData=UIImagePNGRepresentation(image);
     
-    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"Collection"] mutableCopy];
-    NSMutableDictionary *collectionInfo=[[collection objectAtIndex:0] mutableCopy];
-    
-    NSMutableArray *collectionData=[[collectionInfo objectForKey:@"Collection_Data"] mutableCopy];
-    
-    NSMutableDictionary *data=[[NSMutableDictionary alloc] init];
-    [data setObject:assetUrlOfImage forKey:@"ImageAssetUrl"];
-    [collectionData addObject:data];
-    
-    [collectionInfo setObject:collectionData forKey:@"Collection_Data"];
-    [collection replaceObjectAtIndex:0 withObject:collectionInfo];
-    //[data setObject:[NSNumber numberWithInt:0] forKey:@"Photo_Id"];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:collection forKey:@"Collection"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    
+    [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:@"3"];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -330,7 +306,21 @@
 }
 
 
-
+//save Photo on Server Photo With Detaill
+-(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imgData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+{
+    
+    webservices.delegate=self;
+    
+    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
+    //store data
+    // [webServices call:data controller:@"photo" method:@"store"];
+    [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imgData] ;
+}
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSLog(@"Data %@",data);
+}
 
 - (void)didReceiveMemoryWarning
 {

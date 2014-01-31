@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "WebserviceController.h"
-@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
+
+//for Aviary
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <QuartzCore/QuartzCore.h>
+#import "AFPhotoEditorController.h"
+#import "AFPhotoEditorCustomization.h"
+#import "AFOpenGLManager.h"
+
+@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
 {
     IBOutlet UIButton *addPhotoBtn;
     IBOutlet UIButton *deletePhotoBtn;
@@ -23,9 +31,11 @@
     NSString *refrenceUrlofImg;
     CGRect frameForShareBtn;
     
-    NSNumber *userId;
-    
+    NSNumber *userid;
+    NSArray *sortedArray;
     NSMutableArray *photoIdsArray;
+    NSMutableArray *photoArray;
+    NSMutableArray *photoInfoArray;
     
     BOOL isDeleteMode;
     BOOL isShareMode;
@@ -34,16 +44,27 @@
     BOOL isGetPhotoFromServer;
     BOOL isSaveDataOnServer;
     
+    BOOL isEditImageFromServer;
+    
+    BOOL isAviaryMode;
+    int deleteImageCount;
+    NSString *assetUrlOfImage;
+    
     NSMutableArray *photoAssetUrlArray;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;
 
-@property(nonatomic,assign)int collectionId;
+@property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,assign)int userID;
 
 @property(nonatomic,retain)ALAssetsLibrary *library;
 @property(nonatomic,retain)NSString *folderName;
+
+//for Aviary
+@property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
+@property (nonatomic, strong) NSMutableArray * sessions;
+
 -(IBAction)addPhoto:(id)sender;
 -(IBAction)deletePhoto:(id)sender;
 -(IBAction)sharePhoto:(id)sender;

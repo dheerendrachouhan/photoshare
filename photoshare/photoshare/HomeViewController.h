@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
+
 //for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <QuartzCore/QuartzCore.h>
 #import "AFPhotoEditorController.h"
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
-#import "WebserviceController.h"
+
 
 @protocol homeDelagate <NSObject>
 
@@ -34,6 +35,8 @@
     UIImagePickerController *imagePicker;
     ContentManager *objManager;
     
+    NSNumber *userid;
+    WebserviceController *webservices;
     NSString *assetUrlOfImage;
     
 }
