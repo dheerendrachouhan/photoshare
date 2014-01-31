@@ -191,8 +191,7 @@
                                   image:[UIImage imageNamed:@"login-logo.png"]
                                   url:[NSURL URLWithString:@""]
                                   handler:^(FBNativeDialogResult result, NSError *error) {
-                                      
-                                      NSString *alertText = @"";
+                                      NSString *alertText = @""; ///ADDED
                                       if (error) {
                                           alertText = [NSString stringWithFormat:@"error: domain = %@, code = %d", error.domain, error.code];
                                       } else if (result == FBNativeDialogResultSucceeded) {
