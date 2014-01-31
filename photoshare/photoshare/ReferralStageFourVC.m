@@ -204,7 +204,12 @@
         }
     }
     [SVProgressHUD dismissWithSuccess:@"Done"];
+    
+    FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
+    
     [self.navigationController popViewControllerAnimated:YES];
+    
+    
 }
 - (void)facebookViewControllerCancelWasPressed:(id)sender {
     //[self fillTextBoxAndDismiss:@"<Cancelled>"];
@@ -215,6 +220,20 @@
 -(void)getTwitterAccounts {
     ACAccountStore *accountStore = [[ACAccountStore alloc] init];
     ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    //Check if user Exists
+    NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
+    
+    for (ACAccount *account in accountsArray ) {
+        NSLog(@"Account name: %@", account.username);
+    }
+    NSLog(@"Accounts array: %d", accountsArray.count);
+    if([accountsArray count] == 0)
+    {
+        [self disMissProgress];
+        UIAlertView *twAl = [[UIAlertView alloc] initWithTitle:@"No Twetter Account Found" message:@"Please sign-in your twetter account from your ios setting and run the app again. Grant permission to access this app." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [twAl show];
+    }
     
     [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
         if(granted) {
