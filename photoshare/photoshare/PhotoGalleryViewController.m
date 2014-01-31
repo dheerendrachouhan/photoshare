@@ -83,7 +83,10 @@
     
     //aviary End
     isAviaryMode=NO;
-    
+    photoArray=[[NSMutableArray alloc] init];
+     photoIdsArray=[[NSMutableArray alloc] init];
+   
+
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -109,8 +112,7 @@
     
     if(isAviaryMode==NO)
     {
-        photoArray=[[NSMutableArray alloc] init];
-        [self getPhotoIdFromServer];
+         [self getPhotoIdFromServer];
     }
     
     
@@ -213,7 +215,7 @@
     isSaveDataOnServer=NO;
     isEditImageFromServer=NO;
     isDeleteMode=NO;
-    isNotFirstTime=NO;
+   
 }
 
 //get PhotoId From Server
@@ -253,10 +255,12 @@
 {
     [self resetAllBoolValue];
     isSaveDataOnServer=YES;
+    isNotFirstTime=YES;
+    
     webServices=[[WebserviceController alloc] init];
     
     webServices.delegate=self;
-    
+    [SVProgressHUD showWithStatus:@"Photo is Loaded From Server" maskType:SVProgressHUDMaskTypeBlack];
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
     //store data
    // [webServices call:data controller:@"photo" method:@"store"];
@@ -315,15 +319,15 @@
     if(exitcode==1)
     {
        
-        photoInfoArray = [[NSMutableArray alloc] init];
+       // photoInfoArray = [[NSMutableArray alloc] init];
         if(isGetPhotoIdFromServer)
         {
             
-                photoIdsArray=[[NSMutableArray alloc] init];
+            
                 NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
                 if(collectionContent.count>0)
                 {
-                    [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
+                    
                     isGetPhotoIdFromServer=NO;
                     if(isNotFirstTime)
                     {
@@ -331,7 +335,8 @@
                     }
                     else
                     {
-                        isNotFirstTime=YES;
+                        
+                        [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
                         [self getPhotoFromServer];
                     }
                     
@@ -345,14 +350,16 @@
         }
         else if(isSaveDataOnServer)
         {
+            
             isAviaryMode=NO;
             if(isNotFirstTime)
             {
                 
+                [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
+                [SVProgressHUD dismiss];
             }
             else
             {
-                isNotFirstTime=YES;
                 [self getPhotoIdFromServer];
                 [collectionview reloadData];
             }
@@ -504,8 +511,9 @@
     UIButton *btn=(UIButton *)sender;
     CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
     NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
-    
-    [self getImageFromServerForEdit:indexPath.row];
+  UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
+    [self launchPhotoEditorWithImage:image highResolutionImage:image];
+    //[self getImageFromServerForEdit:indexPath.row];
     //if editBtnIs in view
     [editBtn removeFromSuperview];
 }
