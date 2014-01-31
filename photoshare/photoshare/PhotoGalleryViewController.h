@@ -45,7 +45,7 @@
     BOOL isSaveDataOnServer;
     
     BOOL isEditImageFromServer;
-    
+    BOOL isNotFirstTime;
     BOOL isAviaryMode;
     int deleteImageCount;
     NSString *assetUrlOfImage;

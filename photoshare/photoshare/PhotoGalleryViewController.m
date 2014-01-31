@@ -90,7 +90,6 @@
     [super viewWillAppear:animated];
     
     //initialize the photo Array
-    photoArray=[[NSMutableArray alloc] init];
     
     //editBtn
     editBtn = [[UIButton alloc] init];    
@@ -110,6 +109,7 @@
     
     if(isAviaryMode==NO)
     {
+        photoArray=[[NSMutableArray alloc] init];
         [self getPhotoIdFromServer];
     }
     
@@ -170,6 +170,7 @@
 
 -(IBAction)addPhoto:(id)sender
 {
+    isNotFirstTime=YES;
     UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ", nil];
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
@@ -212,6 +213,7 @@
     isSaveDataOnServer=NO;
     isEditImageFromServer=NO;
     isDeleteMode=NO;
+    isNotFirstTime=NO;
 }
 
 //get PhotoId From Server
@@ -234,14 +236,15 @@
         if(photoIdsArray.count>0)
         {
             [SVProgressHUD showWithStatus:@"Photo is Loaded From Server" maskType:SVProgressHUDMaskTypeBlack];
+            deleteImageCount=0;
             for (int i=0; i<photoIdsArray.count; i++) {
                 webServices.delegate=self;
                 NSNumber *num = [NSNumber numberWithInt:1] ;
                 NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:i],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
                 
                 [webServices call:dicData controller:@"photo" method:@"get"];
+               
             }
-
             
     }
 }
@@ -266,8 +269,9 @@
     [self resetAllBoolValue];
     isDeleteMode=YES;
      webServices.delegate=self;
-    NSDictionary *dicData=@{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:0]};
+    NSDictionary *dicData=@{@"user_id":userid,@"photo_id":photoId};
     [webServices call:dicData controller:@"photo" method:@"delete"];
+    
 }
 
 -(void)getImageFromServerForEdit :(int)selectedIndex
@@ -315,41 +319,46 @@
         if(isGetPhotoIdFromServer)
         {
             
-            photoIdsArray=[[NSMutableArray alloc] init];
-            NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
-            if(collectionContent.count>0)
-            {
-                [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
-                isGetPhotoIdFromServer=NO;
-                [self getPhotoFromServer];
-            }
-            else
-            {
-                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-                [alert show];
-            }
+                photoIdsArray=[[NSMutableArray alloc] init];
+                NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
+                if(collectionContent.count>0)
+                {
+                    [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
+                    isGetPhotoIdFromServer=NO;
+                    if(isNotFirstTime)
+                    {
+                        
+                    }
+                    else
+                    {
+                        isNotFirstTime=YES;
+                        [self getPhotoFromServer];
+                    }
+                    
+                }
+                else
+                {
+                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                    [alert show];
+                }
             
         }
         else if(isSaveDataOnServer)
         {
             isAviaryMode=NO;
-            [self getPhotoIdFromServer];
-            [collectionview reloadData];
-        }
-        else if (isDeleteMode)
-        {
-            deleteImageCount++;
-            if(sortedArray.count==deleteImageCount)
+            if(isNotFirstTime)
             {
-                [SVProgressHUD dismiss];
-                [self getPhotoIdFromServer];
-                deleteImageCount=0;
+                
             }
+            else
+            {
+                isNotFirstTime=YES;
+                [self getPhotoIdFromServer];
+                [collectionview reloadData];
+            }
+           
         }
-        else if(isEditImageFromServer)
-        {
-            
-        }
+       
     }
     else
     {
@@ -376,14 +385,15 @@
         sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
         if(sortedArray.count>0)
         {
-            [SVProgressHUD showWithStatus:@"Please Wait Photo is Deleted " maskType:SVProgressHUDMaskTypeBlack];
+            //[SVProgressHUD showWithStatus:@"Please Wait Photo is Deleted " maskType:SVProgressHUDMaskTypeBlack];
             deleteImageCount=0;
             for(int i=0;i<sortedArray.count;i++)
             {
                 [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
+                [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
             }
-            
-            
+            [collectionview reloadData];
         }
         else
         {
@@ -392,8 +402,6 @@
         }
          [self resetButton];
     }
-    
-        
     
         NSLog(@"Selected");
     
@@ -631,6 +639,11 @@
     NSData *imageData = UIImagePNGRepresentation(image);
     isAviaryMode=YES;
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    //add image in collection Array
+    [photoArray addObject:image];
+    [collectionview reloadData];
     [self savePhotosOnServer:userid filepath:imageData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",self.collectionId]];
     
 }
