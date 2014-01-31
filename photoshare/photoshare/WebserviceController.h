@@ -14,6 +14,8 @@
 @required
 -(void) webserviceCallback: (NSDictionary *)data;
 
+@optional
+-(void) webserviceCallbackImage:(UIImage *)image ;
 @end
 
 @interface WebserviceController : NSObject <NSURLConnectionDelegate>
@@ -24,5 +26,5 @@
 
 @property (nonatomic,strong) id<WebserviceDelegate> delegate;
 -(void) call:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method ;
--(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSURL *)filePath;
+-(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSData *)imageData;
 @end

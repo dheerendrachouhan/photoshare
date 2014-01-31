@@ -7,23 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface EditProfileViewController : UIViewController
+#import "WebserviceController.h"
+@interface EditProfileViewController : UIViewController <WebserviceDelegate, UITextFieldDelegate>
 {
 
     IBOutlet UITextField *name ;
-    IBOutlet UITextField *surname;
-    IBOutlet UIImageView *img ;
-    IBOutlet UIButton *changeimg ;
-    IBOutlet UIButton *save;
+    IBOutlet UITextField *email;
+     IBOutlet UITextField *pass;
+   
     
+    IBOutlet UIButton *save;
+    WebserviceController *wc ;
+    NSString *calltype ; 
 }
 
 
 
--(IBAction)changeProfileImg:(id)sender ;
--(IBAction)saveProfile:(id)sender ;
 
+-(IBAction)saveProfile:(id)sender ;
+- (IBAction)userCancelButton:(id)sender;
 
 
 @end

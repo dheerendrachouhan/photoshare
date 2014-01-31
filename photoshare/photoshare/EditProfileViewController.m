@@ -28,39 +28,79 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+  
+    wc = [[WebserviceController alloc] init];
+    wc.delegate = self;
     
-   
-    float btnBorderWidth=2;
-    float btnCornerRadius=8;
-    img.layer.cornerRadius=btnCornerRadius;
-    img.layer.borderWidth=btnBorderWidth;
-    img.layer.borderColor=[[UIColor darkGrayColor] CGColor];
-    
-    img.layer.backgroundColor = [[UIColor grayColor] CGColor];
-    
-   img =  [img initWithImage:[UIImage imageNamed:@"checkbox.png"]];
-    
+    [name setDelegate:self] ;
+    [email setDelegate:self] ;
     
     [self getDetails] ;
     
+    
+   
+
 }
 
 
 -(void) getDetails
 {
-    NSString *postStr = [NSString stringWithFormat:@""];
+    
+    calltype = @"getdetails";
+     NSString *poststring = [NSString stringWithFormat:@"user_id=%@&target_user_id=%@", @"2",@"2"];
+    
+    [wc call:poststring controller:@"user" method:@"get"];
+    
+   // NSString *postStr = [NSString stringWithFormat:@""];
 
 }
 
 
--(IBAction)changeProfileImg:(id)sender
-{
-    NSLog(@"change profile image clicked");
-}
 
 -(IBAction)saveProfile:(id)sender
 {
+    NSString *nameval = name.text ;
+    NSString *emailval = email.text;
+   
+    calltype = @"saveprofile";
+    NSString *poststring = [NSString stringWithFormat:@"user_id=%@&user_realname=%@&user_emailaddress=%@", @"2", nameval, emailval];
+  
+    
+    [wc call:poststring controller:@"user" method:@"change"];
+    
     NSLog(@"save profile clicked");
+}
+
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    
+    NSLog(@"data--%@ ",data) ;
+   if([calltype isEqualToString:@"getdetails"] )
+   {
+    name.text = [[[data valueForKey:@"output_data"] objectAtIndex:0] valueForKey:@"user_realname"] ;
+    email.text = [[[data valueForKey:@"output_data"] objectAtIndex:0] valueForKey:@"user_emailaddress"];
+       
+   }
+    if([calltype isEqualToString:@"saveprofile"])
+    {
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    
+    }
+}
+
+- (IBAction)userCancelButton:(id)sender {
+  
+    
+    UITextField *field = (UITextField *) [self.view viewWithTag:([sender tag] -10)];
+    field.text = @"";
+}
+
+//Textfields functions
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning

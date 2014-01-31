@@ -13,7 +13,7 @@
 #import "PhotoGalleryViewController.h"
 #import "CommonTopView.h"
 #import "EarningViewController.h"
-#import "WebserviceController.h"
+
 #import "LoginViewController.h"
 #import "ContentManager.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
@@ -138,6 +138,24 @@
     
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     
+    WebserviceController *webServices=[[WebserviceController alloc] init];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    
+    
+    NSString *name=[assetURL lastPathComponent];
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString* path = [documentsDirectory stringByAppendingPathComponent:
+                      name ];
+    
+    NSURL *filePath = [NSURL fileURLWithPath:path];
+    webServices.delegate=self;
+    NSNumber *userID=[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
+    
+    NSDictionary *dicData=@{@"user_id":userID,@"photo_title":@"",@"photo_description":assetURL,@"photo_collections":@""};
+    [webServices saveFileData:dicData controller:@"photo" method:@"store" filePath:filePath];
+    
+  /*
     
     void(^completion)(void)  = ^(void){
         
@@ -150,7 +168,14 @@
         }];
     };
     
-    [self dismissViewControllerAnimated:YES completion:completion];}
+    [self dismissViewControllerAnimated:YES completion:completion];
+   */
+   }
+
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSLog(@"Data %@",data);
+}
 
 //For Aviary Edit Photo
 
