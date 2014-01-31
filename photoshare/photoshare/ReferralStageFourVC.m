@@ -193,9 +193,7 @@
                                   handler:^(FBNativeDialogResult result, NSError *error) {
                                       
                                       NSString *alertText = @"";
-                                      if ([[error userInfo][FBErrorDialogReasonKey] isEqualToString:FBErrorDialogNotSupported]) {
-                                          alertText = @"iOS Share Sheet not supported.";
-                                      } else if (error) {
+                                      if (error) {
                                           alertText = [NSString stringWithFormat:@"error: domain = %@, code = %d", error.domain, error.code];
                                       } else if (result == FBNativeDialogResultSucceeded) {
                                           alertText = @"Posted successfully.";
