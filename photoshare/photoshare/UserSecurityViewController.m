@@ -34,7 +34,7 @@
    wc = [[WebserviceController alloc] init] ;
     wc.delegate = self;
     
-    
+    dmc = [[DataMapperController alloc] init] ;
 }
 
 
@@ -45,7 +45,8 @@
     
    // NSString *poststring = [NSString stringWithFormat:@"user_id=%@&user_password=%@&user_newpassword=%@", @"2", oldpassval, newpassval];
     
-    NSDictionary *postdic = @{@"user_id":@"2",@"user_password":oldpassval,@"user_newpassword":newpassval} ;
+    NSString *userid = [dmc getUserId] ;
+    NSDictionary *postdic = @{@"user_id":userid,@"user_password":oldpassval,@"user_newpassword":newpassval} ;
 
     
     [wc call:postdic controller:@"user" method:@"changepassword"];
