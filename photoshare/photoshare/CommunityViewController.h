@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WebserviceController.h"
+#import "ContentManager.h"
 @class CollectionViewCell;
-@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate,WebserviceDelegate>
+@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate>
 {
     IBOutlet UICollectionView *collectionview;
     UIButton *addFolderBtn;
@@ -17,18 +17,20 @@
     IBOutlet UILabel *diskSpaceTitle;
     CollectionViewCell *obj_Cell;
     
-    NSMutableArray *collectionNameArray;
-    NSMutableArray *collectionIdArray;
+    //collection Info Array
     NSMutableArray *collectionDefaultArray;
+    NSMutableArray *collectionIdArray;
+    NSMutableArray *collectionNameArray;
     NSMutableArray *collectionSharingArray;
     NSMutableArray *collectionSharedArray;
+    NSMutableArray *collectionUserIdArray;
     
     
-    int noOfPagesInCollectionView;
-    WebserviceController *webServices;
+        
+    ContentManager *manager;
     
     UIButton *editBtn;
-    int userID;
+    NSNumber *userid;
 
     UIActivityIndicatorView *indicator;
     BOOL isGetStorage;

@@ -15,13 +15,15 @@
 #import "PhotoViewController.h"
 #import "ResetPasswordController.h"
 #import "CommonTopView.h"
-#import "ContentManager.h"
-
+#import "WebserviceController.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "SVProgressHUD.h"
 @interface LoginViewController ()
 
 @end
 
 @implementation LoginViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,6 +54,11 @@
     UIView *spacerViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     [passwordTextField setLeftViewMode:UITextFieldViewModeAlways];
     [passwordTextField setLeftView:spacerViews];
+ 
+    //initialize webservices Object
+    webservices=[[WebserviceController alloc] init];
+    
+    manager=[ContentManager sharedManager];
     
 }
 
@@ -72,15 +79,10 @@
     
     else if([nameTextField.text length] > 0 || [passwordTextField.text length] > 0)
     {
-        WebserviceController *wc = [[WebserviceController alloc] init] ;
-        wc.delegate = self;
-        
+        isGetLoginDetail=YES;
+        webservices.delegate = self;
         NSDictionary *postdic = @{@"username":username, @"password":password} ;
-        
-     //   NSString *postStr = [NSString stringWithFormat:@"username=%@&password=%@", username, password] ;
-        
-        
-        [wc call:postdic controller:@"authentication" method:@"login"] ;
+        [webservices call:postdic controller:@"authentication" method:@"login"] ;
     }
     
 }
@@ -88,35 +90,68 @@
 -(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
-    
-    
    
          //validate the user
-    if([[data objectForKey:@"user_message"] isEqualToString:@"Login Successful"])
+    NSNumber *exitCode=[data objectForKey:@"exit_code"];
+    if(exitCode.integerValue==1)
+    {
+        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+        
+        if(isGetLoginDetail)
         {
             //get the userId
-            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
             NSDictionary *dic=[outPutData objectAtIndex:0];
             //Setting values globally
             ContentManager *objManager=[ContentManager sharedManager];
             objManager.loginDetailsDict = dic;
             
-            //Setting the TopView
-            CommonTopView *topView=[CommonTopView sharedTopView];
-            [topView setTheTotalEarning:[NSString stringWithFormat:@"%@",[dic objectForKey:@"total_earnings"]]];
             
-            NSNumber *userid=[dic objectForKey:@"user_id"];
+            userid=[dic objectForKey:@"user_id"];
             
             NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
             
             //store the UserId in NSUser Defaults
-            ContentManager *manager=[ContentManager sharedManager];
-            [manager storeData:userid :@"user_id"];      
+            [manager storeData:userid :@"user_id"];
+    
             
-            [self dismissViewControllerAnimated:YES completion:nil] ;
             NSLog(@"Successful Login");
             
+            
+            //is FirstTimeLogin
+            [self ifFirstTimeLogin];     
+           
+
         }
+        else if(isGetTheCollectionListData)
+        {
+            //set collection List in NSDefault
+            [manager storeData:outPutData :@"collection_data_list"];
+            [self getStorageFromServer];
+            
+        }
+        else if(isGetStorage)
+        {
+            
+            NSLog(@"Get Storage %@",data);
+            NSDictionary *dic=[outPutData objectAtIndex:0];
+            NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
+            NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
+            //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
+            float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
+            float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
+            
+            //set the diskSpacePercentage
+            float progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
+            //store in NSDefault
+            [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
+            
+            [self resetAllBoolValue];
+            //remove fetchView and status bar
+            [dataFetchView removeFromSuperview];
+            [SVProgressHUD dismiss];
+            [self dismissViewControllerAnimated:YES completion:nil] ;
+        }
+    }
     else
     {
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -124,6 +159,68 @@
     }
 }
 
+//Is First Time Login Check if Yes Than Fetch Data From Server
+
+-(void)ifFirstTimeLogin
+{
+    //check is Application is First Launch
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+    {
+        //[self dismissViewControllerAnimated:YES completion:nil] ;
+        NSLog(@"// app already launched");
+    }
+    else
+    {
+        
+        //create the public and Private Album in device
+        [self.library addAssetsGroupAlbumWithName:@"Public" resultBlock:nil failureBlock:nil];
+        [self.library addAssetsGroupAlbumWithName:@"Private" resultBlock:nil failureBlock:nil];
+        
+        
+        NSLog(@"// First time launched");
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }
+    
+    //set Fetching View
+    dataFetchView=[[UIView alloc] initWithFrame:self.view.frame];
+    dataFetchView.backgroundColor=[UIColor whiteColor];
+    [SVProgressHUD showWithStatus:@"Data is Loading From Server" maskType:SVProgressHUDMaskTypeBlack];
+    
+    //UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(self.view.center.x-100,self.view.center.y-20,200,20)];
+    //label.text=@"Please wait data is fetchinf from server";
+
+    //[dataFetchView addSubview:label];
+    [self.view addSubview:dataFetchView];
+    [self fetchCollectionInfoFromServer];
+}
+//Fetch data From Server
+-(void)fetchCollectionInfoFromServer
+{
+    [self resetAllBoolValue];
+    isGetTheCollectionListData=YES;
+    webservices.delegate=self;
+    
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
+    [webservices call:dicData controller:@"collection" method:@"getlist"];
+}
+-(void)getStorageFromServer
+{
+    [self resetAllBoolValue];
+    isGetStorage=YES;
+    webservices.delegate=self;
+    NSDictionary *dicData=@{@"user_id":userid};
+    [webservices call:dicData controller:@"storage" method:@"get"];
+}
+
+//Reset all BooL Value
+-(void)resetAllBoolValue
+{
+    isGetLoginDetail=NO;
+    isGetTheCollectionListData=NO;
+    isGetStorage=NO;
+}
 
 
 //forgot password function

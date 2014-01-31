@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
+#import "ContentManager.h"
+
 @interface AddEditFolderViewController : UIViewController<UITextFieldDelegate,UINavigationBarDelegate, UINavigationControllerDelegate,WebserviceDelegate,UIAlertViewDelegate>
 {
     IBOutlet UILabel *headingLabel;
@@ -19,13 +21,20 @@
     IBOutlet UITextField *folderName;
     IBOutlet UITextField *shareWithUser;
     
-    int userID;
+    NSNumber *userid;
+    ContentManager *manager;
     WebserviceController *webServices;
+    NSNumber *newCollectionId;
+    
+    BOOL isAdd;
+    BOOL isSave;
+    BOOL isDelete;
+    
 }
 
 @property(nonatomic,assign)BOOL isAddFolder;
 @property(nonatomic,assign)BOOL isEditFolder;
-@property(nonatomic,assign)NSInteger collectionId;
+@property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,retain)NSString *setFolderName;
 
 -(IBAction)clearTextField:(id)sender;
