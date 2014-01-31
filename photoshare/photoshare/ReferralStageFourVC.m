@@ -401,7 +401,7 @@
      //stop loader
     
     // Present mail view controller on screen
-    [self presentModalViewController:mfMail animated:YES];
+    [self presentViewController:mfMail animated:YES completion:nil];
     
 }
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -428,10 +428,7 @@
     }
     
     // Close the Mail Interface
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
-    [FBEmailID removeAllObjects];
-    
+    [self dismissModals];
 }
 
 //Message to user
@@ -443,7 +440,7 @@
 		controller.body = userMessage.text;
 		controller.recipients = [NSArray arrayWithObject:userSelectedPhone];
 		controller.messageComposeDelegate = self;
-		[self presentModalViewController:controller animated:YES];
+		[self presentViewController:controller animated:YES completion:nil];
 	}
 }
 
@@ -540,10 +537,59 @@
 
 -(void)showContactListPicker
 {
+    
+//    ABAddressBookRef addressBook = ABAddressBookCreate();
+//    CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
+//    CFMutableArrayRef peopleMutable = CFArrayCreateMutableCopy(
+//                                                               kCFAllocatorDefault,
+//                                                               CFArrayGetCount(people),
+//                                                               people
+//                                                               );
+
+    /*
+    NSMutableDictionary *myAddressBook = [[NSMutableDictionary alloc] init];
+    ABAddressBookRef addressBook = ABAddressBookCreate();
+    CFArrayRef people  = ABAddressBookCopyArrayOfAllPeople(addressBook);
+    for(int i = 0;i<ABAddressBookGetPersonCount(addressBook);i++)
+    {
+        ABRecordRef ref = CFArrayGetValueAtIndex(people, i);
+        
+        // Get First name, Last name, Prefix, Suffix, Job title
+        NSString *firstName = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonFirstNameProperty);
+        NSString *lastName = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonLastNameProperty);
+        //NSString *email = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonEmailProperty);
+        NSString *suffix = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonSuffixProperty);
+        NSString *jobTitle = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonJobTitleProperty);
+        
+        
+        ABMultiValueRef emailMultiValue = ABRecordCopyValue(ref, kABPersonEmailProperty);
+        NSArray *emailAddresses = (__bridge NSArray *)ABMultiValueCopyArrayOfAllValues(emailMultiValue) ;
+        CFRelease(emailMultiValue);
+        
+        NSString *email = [emailAddresses objectAtIndex:0];
+         NSLog(@"myAddressBook--%@",emailAddresses);
+        
+        if (email.length != 0 && email !=nil) {
+            [myAddressBook setObject:email forKey:@"email"];
+        }
+        
+        ///[myAddressBook setObject:firstName forKey:@"firstName"];
+        //[myAddressBook setObject:lastName forKey:@"lastName"];
+        //;
+        //[myAddressBook setObject:suffix forKey:@"suffix"];
+        //[myAddressBook setObject:jobTitle forKey:@"jobTitle"];
+    }
+    
+    
+    NSLog(@"myAddressBook-- %@",myAddressBook.description);
+    */
     ABPeoplePickerNavigationController *picker =
     [[ABPeoplePickerNavigationController alloc] init];
     picker.peoplePickerDelegate = self;
-    [self presentModalViewController:picker animated:YES];
+    
+    //[[self navigationController] p]
+    
+   [self presentViewController:picker animated:YES completion:nil];
 }
 
 //alertView
@@ -563,6 +609,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+
+    
     if([self.stringStr length]==0)
     {
         userMessage.text = @"Hey I've been using 123 Friday to share photo and earn  money want to join me?";
@@ -609,7 +659,7 @@
 //dismiss models
 -(void)dismissModals
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning
