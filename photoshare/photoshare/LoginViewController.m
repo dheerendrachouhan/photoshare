@@ -18,6 +18,7 @@
 #import "WebserviceController.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "SVProgressHUD.h"
+
 @interface LoginViewController ()
 
 @end
@@ -59,7 +60,7 @@
     webservices=[[WebserviceController alloc] init];
     
     manager=[ContentManager sharedManager];
-    
+    dmc = [[DataMapperController alloc] init] ;
 }
 
 //user sign in function
@@ -102,16 +103,19 @@
             //get the userId
             NSDictionary *dic=[outPutData objectAtIndex:0];
             //Setting values globally
-            ContentManager *objManager=[ContentManager sharedManager];
-            objManager.loginDetailsDict = dic;
+            //ContentManager *objManager=[ContentManager sharedManager];
+            //objManager.loginDetailsDict = dic;
+            userid =[dic objectForKey:@"user_id"];
+            [dmc setUserId:userid] ;
             
+            [dmc setUserDetails:dic] ;
             
-            userid=[dic objectForKey:@"user_id"];
+            //userid=[dic objectForKey:@"user_id"];
             
-            NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
+           // NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
             
             //store the UserId in NSUser Defaults
-            [manager storeData:userid :@"user_id"];
+            //[manager storeData:userid :@"user_id"];
     
             
             NSLog(@"Successful Login");
