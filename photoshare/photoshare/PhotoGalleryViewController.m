@@ -496,7 +496,7 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-        editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+15, 60, 50);
+        editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+5, 60, 50);
         [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
         [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
         [collectionview addSubview:editBtn];
