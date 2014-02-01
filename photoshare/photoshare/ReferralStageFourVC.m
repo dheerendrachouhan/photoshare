@@ -179,11 +179,28 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
+        UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        
+        UIAlertView *alS = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Posted on wall Successfully" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        
         [controller setInitialText:userMessage.text];
         
         [controller addImage:[UIImage imageNamed:@"123-mobile-logo.png"]];
         
-        ///
+        [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
+            
+            switch (result) {
+                case SLComposeViewControllerResultCancelled:
+                    [alC show];
+                    break;
+                case SLComposeViewControllerResultDone:
+                    [alS show];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
         [self presentViewController:controller animated:YES completion:Nil];
         
     }
@@ -191,9 +208,6 @@
     
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Facebook not Found" message:@"Your Facebook account in not configured. Please Configure your facebook account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
         [alert show];
-    
-    
-    
     }
 }
 

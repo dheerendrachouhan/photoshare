@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/ReferralStageFourVC.m"
-            timestampString = "412880361.729019"
+            timestampString = "412925400.489764"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "-facebookViewControllerDoneWasPressed:"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
+            landmarkName = "-getFollowerNameFromID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
