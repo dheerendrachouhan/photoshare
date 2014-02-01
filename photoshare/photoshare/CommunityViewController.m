@@ -48,6 +48,12 @@
     UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
     longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
+    
+   if([UIScreen mainScreen].bounds.size.height == 480)
+    {
+        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height-70);
+        
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated

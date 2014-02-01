@@ -79,13 +79,13 @@
   
    UIView *vi = [self.tabBarController.view viewWithTag:11];
     
-   UILabel *lbl = [vi viewWithTag:1] ;
+   UILabel *lbl = (UILabel *)[vi viewWithTag:1] ;
     
     NSDictionary *dic = [dmc getUserDetails] ;
-    NSNumber *total = [dic objectForKey:@"total_earning"] ;
-    lbl.text = [NSString  stringWithFormat:@"£%d", total];
-    
-    
+    NSNumber *total = [dic objectForKey:@"total_earnings"] ;
+    lbl.text = [NSString  stringWithFormat:@"£%@", total];
+    userid=[dic objectForKey:@"user_id"];
+    welcomeName.text=[dic objectForKey:@"user_realname"];
     self.navigationController.navigationBarHidden=YES;
     ContentManager *manager=[ContentManager sharedManager];
     NSArray *publicImgArray=[manager getData:@"publicImgArray"];
@@ -98,7 +98,7 @@
         photoCountLbl.hidden=NO;
         photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)[publicImgArray count]];        
     }
-    userid=[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
+   
 }
 -(void)setContent
 {

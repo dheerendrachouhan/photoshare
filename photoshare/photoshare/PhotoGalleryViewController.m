@@ -13,6 +13,7 @@
 #import "WebserviceController.h"
 #import "EditPhotoViewController.h"
 #import "SVProgressHUD.h"
+#import "UIImageView+WebCache.h"
 @interface PhotoGalleryViewController ()
 
 @end
@@ -32,7 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    indicator =[[UIActivityIndicatorView alloc] init];
     //initialize the WebService Object
     webServices=[[WebserviceController alloc] init];
     
@@ -85,7 +86,11 @@
     isAviaryMode=NO;
     photoArray=[[NSMutableArray alloc] init];
      photoIdsArray=[[NSMutableArray alloc] init];
-   
+    if([UIScreen mainScreen].bounds.size.height == 480)
+    {
+        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height-70);
+        
+    }
 
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -173,7 +178,7 @@
 -(IBAction)addPhoto:(id)sender
 {
     isNotFirstTime=YES;
-    UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ", nil];
+    UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ",@"From Camera Roll", nil];
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
 //action sheet delegate Method
@@ -200,10 +205,16 @@
     else if(buttonIndex==1)//From Gallery
     {
         NSLog(@"gallery");
+        imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    else if(buttonIndex==2)//From Camera Roll
+    {
+        NSLog(@"gallery");
         imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:imagePicker animated:YES completion:nil];
     }
-    else if(buttonIndex==2)//Cancel Button
+    else if(buttonIndex==3)//Cancel Button
     {
         NSLog(@"Cancel Button Click");
     }
@@ -223,7 +234,7 @@
 {
     [self resetAllBoolValue];
     isGetPhotoIdFromServer=YES;
-    
+    [SVProgressHUD showWithStatus:@"Photo is Loaded From Server" maskType:SVProgressHUDMaskTypeBlack];
     webServices.delegate=self;
    // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
     NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
@@ -237,7 +248,7 @@
         isGetPhotoFromServer=YES;
         if(photoIdsArray.count>0)
         {
-            [SVProgressHUD showWithStatus:@"Photo is Loaded From Server" maskType:SVProgressHUDMaskTypeBlack];
+            
             deleteImageCount=0;
             for (int i=0; i<photoIdsArray.count; i++) {
                 webServices.delegate=self;
@@ -301,9 +312,12 @@
     else
     {
         [photoArray addObject:image];
+        int count=photoArray.count;
+        NSLog(@"Photo Array Count is : %d",count);
+        UIImageView *imgView=(UIImageView *)[collectionview viewWithTag:100+count];
+        imgView.image=image;
         
-        [SVProgressHUD dismiss];
-        [collectionview reloadData];
+        //[collectionview reloadData];
     }
     
     
@@ -337,12 +351,15 @@
                     {
                         
                         [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
+                        [collectionview reloadData];
+                        [SVProgressHUD dismiss];
                         [self getPhotoFromServer];
                     }
                     
                 }
                 else
                 {
+                    [SVProgressHUD dismiss];
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
                 }
@@ -549,7 +566,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [photoArray count];
+    return [photoIdsArray count];
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -557,14 +574,22 @@
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+    
+    imgView.tag=101+indexPath.row;
     imgView.layer.masksToBounds=YES;
-    imgView.tag=100;
+    @try {
+        imgView.image=[photoArray objectAtIndex:indexPath.row];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception Name : %@",exception.name);
+        NSLog(@"Exception Description : %@",exception.description);
+    }
+    @finally {
+        cell.backgroundColor=[UIColor lightGrayColor];
+        
+    }
     
-   
-    
-    [imgView setImage:[photoArray objectAtIndex:indexPath.row]];
-    [cell.contentView addSubview:imgView];
-    
+      [cell.contentView addSubview:imgView];
     return cell;
 }
 

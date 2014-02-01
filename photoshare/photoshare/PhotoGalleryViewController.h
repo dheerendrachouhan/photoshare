@@ -50,6 +50,8 @@
     int deleteImageCount;
     NSString *assetUrlOfImage;
     
+    UIActivityIndicatorView *indicator;
+    
     NSMutableArray *photoAssetUrlArray;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
