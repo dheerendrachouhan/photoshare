@@ -566,6 +566,7 @@
                 switch (result) {
                     case SLComposeViewControllerResultCancelled:
                         [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+                        [self dismissModals];
                         break;
                     case SLComposeViewControllerResultDone:
                         [self.navigationController pushViewController:tw animated:YES];
@@ -574,7 +575,7 @@
                         break;
                 }
             }];
-            [[self navigationController] presentViewController:tweetSheet animated:YES completion:nil];
+            [self presentViewController:tweetSheet animated:YES completion:nil];
         }
         else
         {
