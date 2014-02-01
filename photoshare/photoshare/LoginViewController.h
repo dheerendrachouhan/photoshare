@@ -11,6 +11,7 @@
 #import "WebserviceController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ContentManager.h"
+#import "DataMapperController.h"
 @interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, WebserviceDelegate>
 {
     IBOutlet UIImageView *loginBackgroundImage;
@@ -32,6 +33,7 @@
     BOOL isGetTheCollectionListData;
     BOOL isGetLoginDetail;
     BOOL isGetStorage;
+    DataMapperController *dmc;
 }
 @property(nonatomic,retain)ALAssetsLibrary *library;
 @end

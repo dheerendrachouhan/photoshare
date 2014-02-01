@@ -35,6 +35,9 @@
     [name setDelegate:self] ;
     [email setDelegate:self] ;
     
+    
+    dmc  = [[DataMapperController alloc] init] ;
+    
     [self getDetails] ;
     
     
@@ -47,11 +50,10 @@
 {
     
     calltype = @"getdetails";
-     NSString *poststring = [NSString stringWithFormat:@"user_id=%@&target_user_id=%@", @"2",@"2"];
     
-    [wc call:poststring controller:@"user" method:@"get"];
-    
-   // NSString *postStr = [NSString stringWithFormat:@""];
+    NSString *userid =[dmc getUserId] ;
+    NSDictionary *dic = @{@"user_id":userid,@"target_user_id":userid};
+    [wc call:dic controller:@"user" method:@"get"];
 
 }
 
@@ -63,10 +65,11 @@
     NSString *emailval = email.text;
    
     calltype = @"saveprofile";
-    NSString *poststring = [NSString stringWithFormat:@"user_id=%@&user_realname=%@&user_emailaddress=%@", @"2", nameval, emailval];
-  
+   
+     NSString *userid =[dmc getUserId] ;
+     NSDictionary *dic = @{@"user_id":userid,@"user_realname":nameval,@"user_emailaddress":emailval};
     
-    [wc call:poststring controller:@"user" method:@"change"];
+    [wc call:dic controller:@"user" method:@"change"];
     
     NSLog(@"save profile clicked");
 }

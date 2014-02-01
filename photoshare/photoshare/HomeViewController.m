@@ -17,6 +17,8 @@
 #import "LoginViewController.h"
 #import "ContentManager.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
+
+
 @interface HomeViewController ()
 
 @end
@@ -44,6 +46,7 @@
     webservices=[[WebserviceController alloc] init];
     
     
+    
     //rounded the Community Count Label
     photoCountLbl.layer.cornerRadius=12;
     photoCountLbl.layer.borderWidth=2;
@@ -63,7 +66,7 @@
     
     // Start the Aviary Editor OpenGL Load
     [AFOpenGLManager beginOpenGLLoad];
-
+     dmc = [[DataMapperController alloc] init];
     
 }
 
@@ -72,6 +75,17 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+  
+   UIView *vi = [self.tabBarController.view viewWithTag:11];
+    
+   UILabel *lbl = [vi viewWithTag:1] ;
+    
+    NSDictionary *dic = [dmc getUserDetails] ;
+    NSNumber *total = [dic objectForKey:@"total_earning"] ;
+    lbl.text = [NSString  stringWithFormat:@"£%d", total];
+    
+    
     self.navigationController.navigationBarHidden=YES;
     ContentManager *manager=[ContentManager sharedManager];
     NSArray *publicImgArray=[manager getData:@"publicImgArray"];

@@ -15,7 +15,7 @@
 #import "AFPhotoEditorController.h"
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
-
+#import "DataMapperController.h"
 
 @protocol homeDelagate <NSObject>
 
@@ -38,6 +38,7 @@
     NSNumber *userid;
     WebserviceController *webservices;
     NSString *assetUrlOfImage;
+    DataMapperController *dmc ;
     
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;

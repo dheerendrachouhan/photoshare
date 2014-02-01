@@ -10,6 +10,7 @@
 #import "EarningViewController.h"
 #import "HomeViewController.h"
 #import "LoginViewController.h"
+#import "ContentManager.h"
 @implementation CommonTopView
 
 
@@ -51,9 +52,10 @@ static CommonTopView *topView=nil;
         totalEarning=[[UILabel alloc] initWithFrame:CGRectMake(225, 27, 100, 20)];
         totalEarning.font=[UIFont fontWithName:@"verdana" size:18];
         
+        totalEarning.tag = 1;
         totalEarning.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
         NSString *totalEarn=[@"£" stringByAppendingString:@"0.0"];
-        
+       
         totalEarning.text=totalEarn;
         totalEarning.textAlignment=NSTextAlignmentCenter;
         
@@ -64,8 +66,15 @@ static CommonTopView *topView=nil;
     [self addSubview:logoImg];
     [self addSubview: totalEarningView];
     [self addSubview:totalEarningHeading];
-    [self addSubview:totalEarning];
+   [ self addSubview:totalEarning];
+    ContentManager *objManager=[ContentManager sharedManager];
+    NSDictionary *dic =objManager.loginDetailsDict ;
+
     
+    
+    NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
+    
+
     return self;
 }
 -(void)goToEarningViewController
@@ -76,9 +85,16 @@ static CommonTopView *topView=nil;
     
     [tb setSelectedIndex:1] ;
  }
--(void)setTheTotalEarning:(NSString *)totalEarn
+-(void)setTheTotalEarning
 {
-    totalEarning.text=totalEarn;    
+ //   totalEarning.text=totalEarn;
+    
+    //UILabel *lb = (UILabel *) [self viewWithTag:1];
+    
+  //  [lb removeFromSuperview] ;
+    
+  
+    
 }
 
 @end

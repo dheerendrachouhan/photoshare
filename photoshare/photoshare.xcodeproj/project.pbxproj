@@ -97,7 +97,6 @@
 		E3188D9F18939171004ACF77 /* cellImage.png in Resources */ = {isa = PBXBuildFile; fileRef = E3188D9E18939171004ACF77 /* cellImage.png */; };
 		E3188DA21893968A004ACF77 /* FinanceCalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */; };
 		E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E3188DA91893BABF004ACF77 /* currencyselector_btn.png */; };
-		E31AA48B18962DFA0065F8E2 /* ReferralStageFourVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AA48918962DFA0065F8E2 /* ReferralStageFourVC.m */; };
 		E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */; };
 		E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AA48E189662C00065F8E2 /* EditMessageVC.m */; };
 		E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31AA48F189662C00065F8E2 /* EditMessageVC.xib */; };
@@ -130,6 +129,7 @@
 		FC35A892189BDFFD006DDDFC /* splash320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = FC35A891189BDFFD006DDDFC /* splash320x480.png */; };
 		FC35A894189BE02D006DDDFC /* splash640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = FC35A893189BE02D006DDDFC /* splash640x960.png */; };
 		FC35A896189BE4CC006DDDFC /* term.html in Resources */ = {isa = PBXBuildFile; fileRef = FC35A895189BE4CC006DDDFC /* term.html */; };
+		FC35A898189C149F006DDDFC /* ReferralStageFourVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FC35A897189C149F006DDDFC /* ReferralStageFourVC.m */; };
 		FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */; };
 		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
@@ -157,6 +157,7 @@
 		FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC97641118900734008DF1F8 /* PhotoViewController.xib */; };
 		FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC97641518900B00008DF1F8 /* HomeViewController.m */; };
 		FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC97641618900B00008DF1F8 /* HomeViewController.xib */; };
+		FCB3774C189C345B00FDE547 /* DataMapperController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB3774B189C345B00FDE547 /* DataMapperController.m */; };
 		FCC76CA51896A24500F4B41A /* backimg.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC76CA41896A24500F4B41A /* backimg.png */; };
 		FCC76CA71896A39C00F4B41A /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC76CA61896A39C00F4B41A /* line.png */; };
 		FCC76CA91896A64000F4B41A /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC76CA81896A64000F4B41A /* bg.png */; };
@@ -299,7 +300,6 @@
 		E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinanceCalculatorViewController.m; sourceTree = "<group>"; };
 		E3188DA91893BABF004ACF77 /* currencyselector_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = currencyselector_btn.png; sourceTree = "<group>"; };
 		E31AA48818962DFA0065F8E2 /* ReferralStageFourVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferralStageFourVC.h; sourceTree = "<group>"; };
-		E31AA48918962DFA0065F8E2 /* ReferralStageFourVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferralStageFourVC.m; sourceTree = "<group>"; };
 		E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferralStageFourVC.xib; sourceTree = "<group>"; };
 		E31AA48D189662C00065F8E2 /* EditMessageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMessageVC.h; sourceTree = "<group>"; };
 		E31AA48E189662C00065F8E2 /* EditMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMessageVC.m; sourceTree = "<group>"; };
@@ -351,6 +351,7 @@
 		FC35A891189BDFFD006DDDFC /* splash320x480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash320x480.png; sourceTree = "<group>"; };
 		FC35A893189BE02D006DDDFC /* splash640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash640x960.png; sourceTree = "<group>"; };
 		FC35A895189BE4CC006DDDFC /* term.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = term.html; sourceTree = "<group>"; };
+		FC35A897189C149F006DDDFC /* ReferralStageFourVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferralStageFourVC.m; sourceTree = "<group>"; };
 		FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -388,6 +389,8 @@
 		FC97641418900B00008DF1F8 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		FC97641518900B00008DF1F8 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		FC97641618900B00008DF1F8 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		FCB3774A189C345B00FDE547 /* DataMapperController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataMapperController.h; sourceTree = "<group>"; };
+		FCB3774B189C345B00FDE547 /* DataMapperController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataMapperController.m; sourceTree = "<group>"; };
 		FCC76CA41896A24500F4B41A /* backimg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backimg.png; sourceTree = "<group>"; };
 		FCC76CA61896A39C00F4B41A /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line.png; sourceTree = "<group>"; };
 		FCC76CA81896A64000F4B41A /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
@@ -620,6 +623,8 @@
 				E17222C7189281B000F28748 /* ResetPasswordController.h */,
 				E17222C8189281B000F28748 /* ResetPasswordController.m */,
 				E31767711899130100923E35 /* EditPhotoViewController.h */,
+				FCB3774A189C345B00FDE547 /* DataMapperController.h */,
+				FCB3774B189C345B00FDE547 /* DataMapperController.m */,
 				E31767721899130100923E35 /* EditPhotoViewController.m */,
 				E31767731899130100923E35 /* EditPhotoViewController.xib */,
 				E1067DE1189AA79700F08A5F /* LoginViewController.h */,
@@ -629,6 +634,7 @@
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
 				E1B07427189951CC00589867 /* CommunityViewController.h */,
+				FC35A897189C149F006DDDFC /* ReferralStageFourVC.m */,
 				E1B07428189951CC00589867 /* CommunityViewController.m */,
 				E1B074241899518600589867 /* AddEditFolderViewController.h */,
 				E1B074251899518600589867 /* AddEditFolderViewController.m */,
@@ -641,7 +647,6 @@
 				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
 				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
 				E31AA48818962DFA0065F8E2 /* ReferralStageFourVC.h */,
-				E31AA48918962DFA0065F8E2 /* ReferralStageFourVC.m */,
 				E317675A1898BE0A00923E35 /* FBTWViewController.h */,
 				E317675B1898BE0A00923E35 /* FBTWViewController.m */,
 				E317675C1898BE0A00923E35 /* FBTWViewController.xib */,
@@ -996,10 +1001,12 @@
 				E1067DFB189AA7D600F08A5F /* AFURLConnectionOperation.m in Sources */,
 				E3BAA8EC18993ABC00ED2CA2 /* NSString+SBJSON.m in Sources */,
 				E31767741899130100923E35 /* EditPhotoViewController.m in Sources */,
+				FC35A898189C149F006DDDFC /* ReferralStageFourVC.m in Sources */,
 				E3BAA8ED18993ABC00ED2CA2 /* SBJSON.m in Sources */,
 				E1B074261899518600589867 /* AddEditFolderViewController.m in Sources */,
 				E18648D21896285800175E8D /* Base64.m in Sources */,
 				E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
+				FCB3774C189C345B00FDE547 /* DataMapperController.m in Sources */,
 				E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */,
 				E1067DFD189AA7D600F08A5F /* AFURLResponseSerialization.m in Sources */,
 				E3BAA8EE18993ABC00ED2CA2 /* SBJsonBase.m in Sources */,
@@ -1009,7 +1016,6 @@
 				E1067DF7189AA7D600F08A5F /* AFHTTPRequestOperationManager.m in Sources */,
 				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,
-				E31AA48B18962DFA0065F8E2 /* ReferralStageFourVC.m in Sources */,
 				E31767791899134700923E35 /* TermConditionViewController.m in Sources */,
 				E17222CA189281B000F28748 /* ResetPasswordController.m in Sources */,
 				E1067DFA189AA7D600F08A5F /* AFSecurityPolicy.m in Sources */,
