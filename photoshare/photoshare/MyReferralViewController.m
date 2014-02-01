@@ -123,6 +123,7 @@
     cell.name.font = [UIFont systemFontOfSize:12.0f];
     cell.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
     cell.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
+    cell.imageView.image = [UIImage imageNamed:@"icon-person.png"];
 
     return cell;
 }
