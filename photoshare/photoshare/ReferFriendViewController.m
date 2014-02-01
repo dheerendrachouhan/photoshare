@@ -43,8 +43,8 @@
 {
     [super viewDidLoad];
     //Segment Porstion Disable
-    //[toolboxController setEnabled:NO forSegmentAtIndex:1];
-    //[toolboxController setEnabled:NO forSegmentAtIndex:2];
+    [toolboxController setEnabled:NO forSegmentAtIndex:1];
+    [toolboxController setEnabled:NO forSegmentAtIndex:2];
     
     //allocate & initializing Array
     toolkitIDArr = [[NSMutableArray alloc] init];
