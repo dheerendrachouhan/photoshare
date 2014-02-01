@@ -46,6 +46,7 @@
         // Custom initialization
     }
     dmc = [[DataMapperController alloc] init];
+    objManager = [ContentManager sharedManager];
     
     return self;
 }

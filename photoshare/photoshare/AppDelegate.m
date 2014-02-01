@@ -92,6 +92,7 @@
     
     
     navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+
     
     self.tbc = [[UITabBarController alloc] init] ;
     
