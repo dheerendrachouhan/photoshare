@@ -13,6 +13,7 @@
 #import "WebserviceController.h"
 #import "EditPhotoViewController.h"
 #import "SVProgressHUD.h"
+
 @interface PhotoGalleryViewController ()
 
 @end
@@ -32,7 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    indicator =[[UIActivityIndicatorView alloc] init];
     //initialize the WebService Object
     webServices=[[WebserviceController alloc] init];
     
@@ -85,7 +86,12 @@
     isAviaryMode=NO;
     photoArray=[[NSMutableArray alloc] init];
      photoIdsArray=[[NSMutableArray alloc] init];
-   
+    
+    if([UIScreen mainScreen].bounds.size.height == 480)
+    {
+        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height-70);
+        
+    }
 
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -93,7 +99,7 @@
     [super viewWillAppear:animated];
     
     //initialize the photo Array
-    
+    isPopFromPhotos=NO;
     //editBtn
     editBtn = [[UIButton alloc] init];    
     //get the user id from nsuserDefaults
@@ -117,6 +123,12 @@
     
     
     
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    isPopFromPhotos=YES;
 }
 -(void)getDataFromNSUSerDefault
 {
@@ -173,7 +185,7 @@
 -(IBAction)addPhoto:(id)sender
 {
     isNotFirstTime=YES;
-    UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ", nil];
+    UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ",@"From Camera Roll", nil];
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
 //action sheet delegate Method
@@ -200,10 +212,16 @@
     else if(buttonIndex==1)//From Gallery
     {
         NSLog(@"gallery");
+        imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    else if(buttonIndex==2)//From Camera Roll
+    {
+        NSLog(@"gallery");
         imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:imagePicker animated:YES completion:nil];
     }
-    else if(buttonIndex==2)//Cancel Button
+    else if(buttonIndex==3)//Cancel Button
     {
         NSLog(@"Cancel Button Click");
     }
@@ -223,7 +241,7 @@
 {
     [self resetAllBoolValue];
     isGetPhotoIdFromServer=YES;
-    
+    [SVProgressHUD showWithStatus:@"Photo is Loaded From Server" maskType:SVProgressHUDMaskTypeBlack];
     webServices.delegate=self;
    // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
     NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
@@ -237,14 +255,22 @@
         isGetPhotoFromServer=YES;
         if(photoIdsArray.count>0)
         {
-            [SVProgressHUD showWithStatus:@"Photo is Loaded From Server" maskType:SVProgressHUDMaskTypeBlack];
+            
             deleteImageCount=0;
             for (int i=0; i<photoIdsArray.count; i++) {
-                webServices.delegate=self;
-                NSNumber *num = [NSNumber numberWithInt:1] ;
-                NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:i],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
+                if(isPopFromPhotos)
+                {
+                    break;
+                }
+                else
+                {
+                    webServices.delegate=self;
+                    NSNumber *num = [NSNumber numberWithInt:1] ;
+                    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:i],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
+                    
+                    [webServices call:dicData controller:@"photo" method:@"get"];
+                }
                 
-                [webServices call:dicData controller:@"photo" method:@"get"];
                
             }
             
@@ -301,9 +327,14 @@
     else
     {
         [photoArray addObject:image];
+        int count=photoArray.count;
+        NSLog(@"Photo Array Count is : %d",count);
+        UIImageView *imgView=(UIImageView *)[collectionview viewWithTag:100+count];
+        UILabel *label=(UILabel *)[collectionview viewWithTag:1100+count];
+        [label removeFromSuperview];
+        imgView.image=image;
         
-        [SVProgressHUD dismiss];
-        [collectionview reloadData];
+        //[collectionview reloadData];
     }
     
     
@@ -337,12 +368,15 @@
                     {
                         
                         [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
+                        [collectionview reloadData];
+                        [SVProgressHUD dismiss];
                         [self getPhotoFromServer];
                     }
                     
                 }
                 else
                 {
+                    [SVProgressHUD dismiss];
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
                 }
@@ -357,7 +391,9 @@
                 
                 [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
                 [SVProgressHUD dismiss];
-            }
+                [collectionview reloadData];
+
+             }
             else
             {
                 [self getPhotoIdFromServer];
@@ -394,13 +430,23 @@
         {
             //[SVProgressHUD showWithStatus:@"Please Wait Photo is Deleted " maskType:SVProgressHUDMaskTypeBlack];
             deleteImageCount=0;
-            for(int i=0;i<sortedArray.count;i++)
-            {
-                [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
-                [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-                [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+            @try {
+                for(int i=0;i<sortedArray.count;i++)
+                {
+                    [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
+                    [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                    [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                }
+                [collectionview reloadData];
             }
-            [collectionview reloadData];
+            @catch (NSException *exception) {
+                NSLog(@"%@",exception.description);
+               
+            }
+            @finally {
+                
+            }
+            
         }
         else
         {
@@ -496,7 +542,7 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-        editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+15, 60, 50);
+        editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+5, 60, 50);
         [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
         [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
         [collectionview addSubview:editBtn];
@@ -511,9 +557,17 @@
     UIButton *btn=(UIButton *)sender;
     CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
     NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
-  UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
-    [self launchPhotoEditorWithImage:image highResolutionImage:image];
-    //[self getImageFromServerForEdit:indexPath.row];
+    @try {
+        UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
+        [self launchPhotoEditorWithImage:image highResolutionImage:image];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception.description);
+    }
+    @finally {
+        
+    }
+      //[self getImageFromServerForEdit:indexPath.row];
     //if editBtnIs in view
     [editBtn removeFromSuperview];
 }
@@ -549,7 +603,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [photoArray count];
+    return [photoIdsArray count];
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -557,14 +611,51 @@
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+    
+    imgView.tag=101+indexPath.row;
     imgView.layer.masksToBounds=YES;
-    imgView.tag=100;
+    
+    /*UIActivityIndicatorView *indeicator=[[UIActivityIndicatorView alloc] init];
+    [indeicator startAnimating];
+    indeicator.backgroundColor=[UIColor blackColor];
+    */
+    
+    //indicatorV.image=[UIImage imageNamed:@"ajaxloader.gif"];
     
    
+    @try {
+        
+        UIImage *image=[photoArray objectAtIndex:indexPath.row];
+        if(photoArray.count==photoIdsArray.count)
+        {
+            imgView.image=image;
+        }
+        else if (photoArray.count>indexPath.row)
+        {
+            imgView.image=image;
+        }
+        
+    }
+    @catch (NSException *exception) {
+     
+        
+        UILabel *loading=[[UILabel alloc] initWithFrame:CGRectMake(20, 20, 100, 20)];
+        UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+        loading.textColor=btnBorderColor;
+        loading.tag=1101+indexPath.row;
+        loading.font=[UIFont fontWithName:@"verdana" size:9];
+        loading.text=@"Loading....";
+        [cell.contentView addSubview:loading];
+        
+
+        NSLog(@"Exception Name : %@",exception.name);
+        NSLog(@"Exception Description : %@",exception.description);
+    }
+    @finally {
+        
+            }
     
-    [imgView setImage:[photoArray objectAtIndex:indexPath.row]];
     [cell.contentView addSubview:imgView];
-    
     return cell;
 }
 
@@ -651,8 +742,7 @@
     
     //add image in collection Array
     [photoArray addObject:image];
-    [collectionview reloadData];
-    [self savePhotosOnServer:userid filepath:imageData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",self.collectionId]];
+   [self savePhotosOnServer:userid filepath:imageData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",self.collectionId]];
     
 }
 

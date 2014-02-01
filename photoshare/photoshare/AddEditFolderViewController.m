@@ -17,7 +17,7 @@
 
 @implementation AddEditFolderViewController
 
-@synthesize isAddFolder,isEditFolder,collectionId,setFolderName;
+@synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionShareWith;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,6 +32,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    
     
     //contant manager Object
     manager = [ContentManager sharedManager];
@@ -66,6 +68,8 @@
     addButton.layer.borderWidth=btnBorderWidth;
     addButton.layer.borderColor=btnBorderColor.CGColor;
     
+    //drop down setting
+   
     
     if(self.isEditFolder)
     {
@@ -73,8 +77,20 @@
         addButton.hidden=YES;
         saveButton.hidden=NO;
         deleteButton.hidden=NO;
-        
+        NSLog(@"Share With %@",self.collectionShareWith);
         folderName.text=self.setFolderName;
+        if([self.collectionShareWith intValue]==0)
+        {
+            [privateShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
+            [publicShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
+            shareWith=@0;
+        }
+        else if ([self.collectionShareWith intValue]==1)
+        {
+            [privateShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
+            [publicShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
+            shareWith=@1;
+        }
         
     }
     else if(isAddFolder)
@@ -83,6 +99,9 @@
         addButton.hidden=NO;
         saveButton.hidden=YES;
         deleteButton.hidden=YES;
+        [privateShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
+        [publicShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
+        shareWith=@0;
     }
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -94,7 +113,6 @@
     
     //get the user id from nsuserDefaults
     userid=[manager getData:@"user_id"];
-    
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -125,13 +143,13 @@
 //Btn Action
 -(IBAction)addFolder:(id)sender
 {
-    [self addCollectionInfoInServer:folderName.text sharing:@1 writeUserIds:[NSString stringWithFormat:@"%@",userid] readUserIds:@""];
+    [self addCollectionInfoInServer:folderName.text sharing:shareWith writeUserIds:[NSString stringWithFormat:@"%@",userid] readUserIds:@""];
     
 }
 
 -(IBAction)saveFolder:(id)sender
 {
-    [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:@0 writeUserIds:[NSString stringWithFormat:@"%@",userid] readUserIds:@""];
+    [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:shareWith writeUserIds:[NSString stringWithFormat:@"%@",userid] readUserIds:@""];
 
 }
 -(IBAction)deleteFolder:(id)sender
@@ -140,7 +158,25 @@
     
 }
 
-
+-(IBAction)shareWithUser:(id)sender
+{
+    UIButton *btn=(UIButton *)sender;
+    if(btn.tag==0)
+    {
+        [privateShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
+        [publicShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
+        NSLog(@"");
+        shareWith=@1;
+    }
+    else if(btn.tag==1)
+    {
+        [privateShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
+        [publicShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
+        shareWith=@0;
+    }
+    
+   
+}
 
 //reset all Bool Value
 -(void)resetAllBOOLValue
@@ -224,7 +260,7 @@
 //Update Collection info in NSUSerDefault
 -(void)updateCollectionInfoInNSUserDefault
 {
-    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"collection_data_list"] mutableCopy];
+    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];;
     
     if(isAdd)
     {
@@ -234,47 +270,65 @@
         [newCollection setValue:newCollectionId forKey:@"collection_id"];
         [newCollection setValue:folderName.text forKey:@"collection_name"];
         [newCollection setValue:@0 forKey:@"collection_shared"];
-        [newCollection setValue:@0 forKey:@"collection_sharing"];
+        [newCollection setValue:shareWith forKey:@"collection_sharing"];
         [newCollection setValue:userid forKey:@"collection_user_id"];
         
-        [collection addObject:newCollection];
-        
+        ///[collection addObject:newCollection];
+        @try {
+             [collection insertObject:newCollection atIndex:2];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception name %@",exception.description);
+        }
+        @finally {
+            
+        }
+       
         [manager storeData:collection :@"collection_data_list"];
        
         
     }
     else if(isSave||isDelete)
     {
-        int editColId=0;
-         for (int i=2;i<collection.count; i++)
-         {
-             
-             NSNumber *colId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
-             if(colId==self.collectionId)
-             {
-                 editColId=i;
-                 break;
-             }
-        
-         }
-        NSMutableDictionary *newCollection=[[NSMutableDictionary alloc] init];
-        
-        [newCollection setValue:@0 forKey:@"collection_default"];
-        [newCollection setValue:self.collectionId forKey:@"collection_id"];
-        [newCollection setValue:folderName.text forKey:@"collection_name"];
-        [newCollection setValue:@0 forKey:@"collection_shared"];
-        [newCollection setValue:@0 forKey:@"collection_sharing"];
-        [newCollection setValue:userid forKey:@"collection_user_id"];
-        if(isSave)
-        {
-            [collection replaceObjectAtIndex:editColId withObject:newCollection];
+        @try {
+            int editColId=0;
+            for (int i=2;i<collection.count; i++)
+            {
+                
+                NSNumber *colId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
+                if(colId==self.collectionId)
+                {
+                    editColId=i;
+                    break;
+                }
+                
+            }
+            NSMutableDictionary *newCollection=[[NSMutableDictionary alloc] init];
+            
+            [newCollection setValue:@0 forKey:@"collection_default"];
+            [newCollection setValue:self.collectionId forKey:@"collection_id"];
+            [newCollection setValue:folderName.text forKey:@"collection_name"];
+            [newCollection setValue:@0 forKey:@"collection_shared"];
+            [newCollection setValue:shareWith forKey:@"collection_sharing"];
+            [newCollection setValue:userid forKey:@"collection_user_id"];
+            if(isSave)
+            {
+                [collection replaceObjectAtIndex:editColId withObject:newCollection];
+            }
+            else if (isDelete)
+            {
+                [collection removeObjectAtIndex:editColId];
+            }
+            
+            [manager storeData:collection :@"collection_data_list"];
         }
-        else if (isDelete)
-        {
-            [collection removeObjectAtIndex:editColId];
+        @catch (NSException *exception) {
+            NSLog(@"exception is %@",exception.description);
+        }
+        @finally {
+            
         }
         
-        [manager storeData:collection :@"collection_data_list"];
     }
     
 }

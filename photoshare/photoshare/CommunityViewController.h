@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
+#import "WebserviceController.h"
 @class CollectionViewCell;
-@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate>
+@interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate,WebserviceDelegate>
 {
     IBOutlet UICollectionView *collectionview;
     UIButton *addFolderBtn;
@@ -25,7 +26,7 @@
     NSMutableArray *collectionSharedArray;
     NSMutableArray *collectionUserIdArray;
     
-    
+    WebserviceController *webservices;
         
     ContentManager *manager;
     
