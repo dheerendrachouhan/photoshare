@@ -14,9 +14,10 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
+#import "DataMapperController.h"
 
 @class ContentManager;
-@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate,MFMessageComposeViewControllerDelegate,FBFriendPickerDelegate>
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate,MFMessageComposeViewControllerDelegate,FBFriendPickerDelegate,WebserviceDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;
@@ -28,6 +29,7 @@
     IBOutlet UIScrollView *scrollView;
     BOOL setterEdit;
     BOOL fbFilter,twFilter,mailFilter,smsFilter;
+    DataMapperController *dmc;
     ContentManager *objManager;
 }
 

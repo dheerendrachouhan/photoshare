@@ -83,7 +83,7 @@
         isGetLoginDetail=YES;
         webservices.delegate = self;
         NSDictionary *postdic = @{@"username":username, @"password":password} ;
-        [webservices call:postdic controller:@"authentication" method:@"login"] ;
+        [webservices call:postdic controller:@"authentication" method:@"login"];
     }
     
 }
