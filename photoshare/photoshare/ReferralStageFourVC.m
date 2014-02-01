@@ -161,6 +161,7 @@
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
                     [alC show];
+                    [self dismissModals];
                     break;
                 case SLComposeViewControllerResultDone:
                     [self.navigationController pushViewController:fb animated:YES];
@@ -578,7 +579,7 @@
                         break;
                 }
             }];
-            [self presentViewController:tweetSheet animated:YES completion:nil];
+            [[self navigationController] presentViewController:tweetSheet animated:YES completion:nil];
         }
         else
         {
@@ -594,6 +595,8 @@
 -(void)dismissModals
 {
     [self dismissViewControllerAnimated:NO completion:nil];
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 - (void)didReceiveMemoryWarning

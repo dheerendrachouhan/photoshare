@@ -14,5 +14,6 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nv;
 @property (strong, nonatomic)UITabBarController *tbc;
+@property (nonatomic, retain) UINavigationController *navControllerearning;
 
 @end

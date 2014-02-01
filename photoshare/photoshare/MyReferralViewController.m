@@ -8,7 +8,6 @@
 
 #import "MyReferralViewController.h"
 #import "CustomCell.h"
-#import "ContentManager.h"
 #import "SVProgressHUD.h"
 
 @interface MyReferralViewController ()
@@ -32,7 +31,7 @@
         // Custom initialization
     }
     
-    objManager = [ContentManager sharedManager];
+    dmc = [[DataMapperController alloc] init];
     
     return self;
 }
@@ -40,7 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    userID = [objManager getData:@"user_id"];
+    userID = [NSNumber numberWithInteger:[[dmc getUserId]integerValue]];
     NSLog(@"Userid : %@",userID);
     // Do any additional setup after loading the view from its nib.
     

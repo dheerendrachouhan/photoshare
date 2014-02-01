@@ -11,8 +11,8 @@
 #import "MyReferralViewController.h"
 #import "FinanceCalculatorViewController.h"
 #import "ReferFriendViewController.h"
-#import "ContentManager.h"
 #import "SVProgressHUD.h"
+#import "AppDelegate.h"
 
 @interface EarningViewController ()
 
@@ -28,14 +28,14 @@
     if (self) {
         // Custom initialization
     }
-    objManager = [ContentManager sharedManager];
+    dmc = [[DataMapperController alloc] init];
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    userID = [objManager getData:@"user_id"];
+    userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     NSLog(@"Userid : %@",userID);
     self.navigationController.navigationBarHidden = NO;
      [self.navigationItem setTitle:@"Finance"];
@@ -96,7 +96,9 @@
     self.navigationController.navigationBarHidden = NO;
     ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
     
-    [self.navigationController pushViewController:referFriend animated:YES];
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    [delegate.navControllerearning pushViewController:referFriend animated:YES];
     referFriend.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 

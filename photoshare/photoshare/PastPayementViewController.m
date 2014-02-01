@@ -10,7 +10,7 @@
 #import "JXBarChartView.h"
 #import "CommonTopView.h"
 #import "SVProgressHUD.h"
-#import "ContentManager.h"
+
 
 @interface PastPayementViewController ()
 
@@ -26,7 +26,7 @@
     if (self) {
         // Custom initialization
     }
-    objManager = [ContentManager sharedManager];
+    dmc = [[DataMapperController alloc] init];
     return self;
 }
 
@@ -34,7 +34,7 @@
 {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"Past Payment"];
-    userID = [objManager getData:@"user_id"];
+    userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     NSLog(@"Userid : %@",userID);
 
     
