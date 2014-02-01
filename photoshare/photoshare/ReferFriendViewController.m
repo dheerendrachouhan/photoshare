@@ -10,6 +10,7 @@
 #import "ReferralStageFourVC.h"
 #import "SVProgressHUD.h"
 #import "ContentManager.h"
+#import "AppDelegate.h"
 
 @interface ReferFriendViewController ()
 
@@ -43,8 +44,8 @@
 {
     [super viewDidLoad];
     //Segment Porstion Disable
-    //[toolboxController setEnabled:NO forSegmentAtIndex:1];
-    //[toolboxController setEnabled:NO forSegmentAtIndex:2];
+    [toolboxController setEnabled:NO forSegmentAtIndex:1];
+    [toolboxController setEnabled:NO forSegmentAtIndex:2];
     
     //allocate & initializing Array
     toolkitIDArr = [[NSMutableArray alloc] init];
@@ -144,8 +145,10 @@
 -(void)chooseView
 {
     ReferralStageFourVC *rf4 = [[ReferralStageFourVC alloc] init];
-    [self.navigationController pushViewController:rf4 animated:YES];
-    rf4.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [delegate.navControllerearning pushViewController:rf4 animated:YES];
+    delegate.navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 - (void)didReceiveMemoryWarning

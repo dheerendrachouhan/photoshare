@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppDelegate.h"
 #import "WebserviceController.h"
+#import "DataMapperController.h"
 
-@class ContentManager;
+
 @interface PastPayementViewController : UIViewController <WebserviceDelegate>
 {
-    ContentManager *objManager;
+    DataMapperController *dmc;
 }
 @end

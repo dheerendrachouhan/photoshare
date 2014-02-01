@@ -142,48 +142,35 @@
 
 //FaceBook SDK Implemetation
 - (IBAction)postTofacebook:(id)sender {
-    /*
-    // if the session is open, then load the data for our view controller
-    if (!FBSession.activeSession.isOpen)
-    {
-        NSArray *permissions =
-        [NSArray arrayWithObjects:@"email", nil];
-        // if the session is closed, then we open it here, and establish a handler for state changes
-        [FBSession openActiveSessionWithReadPermissions:permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
-         {
-            if (error)
-            {
-                [objManager showAlert:@"Error" msg:error.localizedDescription cancelBtnTitle:@"Ok" otherBtn:nil];
-            } else if (session.isOpen)
-            {
-                [self postTofacebook:sender];
-            }
-        }];
-        return;
-    }
-    
-    if (self.friendPickerController == nil) {
-        // Create friend picker, and get data loaded into it.
-        self.friendPickerController = [[FBFriendPickerViewController alloc] init];
-        self.friendPickerController.title = @"Pick Friends";
-        self.friendPickerController.delegate = self;
-    }
-    
-    [self.friendPickerController loadData];
-    [self.friendPickerController clearSelection];
-    
-    [self.navigationController pushViewController:self.friendPickerController animated:YES];
-    self.friendPickerController.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 85);
-     */
+
     if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        
+        UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        
+        FBTWViewController *fb = [[FBTWViewController alloc] init];
+        fb.successType = @"fb";
         
         [controller setInitialText:userMessage.text];
         
         [controller addImage:[UIImage imageNamed:@"123-mobile-logo.png"]];
         
-        ///
+        [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
+            
+            switch (result) {
+                case SLComposeViewControllerResultCancelled:
+                    [alC show];
+                    [self dismissModals];
+                    break;
+                case SLComposeViewControllerResultDone:
+                    [self.navigationController pushViewController:fb animated:YES];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
         [self presentViewController:controller animated:YES completion:Nil];
         
     }
@@ -191,9 +178,6 @@
     
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Facebook not Found" message:@"Your Facebook account in not configured. Please Configure your facebook account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
         [alert show];
-    
-    
-    
     }
 }
 
@@ -536,57 +520,9 @@
 
 -(void)showContactListPicker
 {
-    
-//    ABAddressBookRef addressBook = ABAddressBookCreate();
-//    CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook);
-//    CFMutableArrayRef peopleMutable = CFArrayCreateMutableCopy(
-//                                                               kCFAllocatorDefault,
-//                                                               CFArrayGetCount(people),
-//                                                               people
-//                                                               );
-
-    /*
-    NSMutableDictionary *myAddressBook = [[NSMutableDictionary alloc] init];
-    ABAddressBookRef addressBook = ABAddressBookCreate();
-    CFArrayRef people  = ABAddressBookCopyArrayOfAllPeople(addressBook);
-    for(int i = 0;i<ABAddressBookGetPersonCount(addressBook);i++)
-    {
-        ABRecordRef ref = CFArrayGetValueAtIndex(people, i);
-        
-        // Get First name, Last name, Prefix, Suffix, Job title
-        NSString *firstName = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonFirstNameProperty);
-        NSString *lastName = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonLastNameProperty);
-        //NSString *email = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonEmailProperty);
-        NSString *suffix = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonSuffixProperty);
-        NSString *jobTitle = (__bridge NSString *)ABRecordCopyValue(ref,kABPersonJobTitleProperty);
-        
-        
-        ABMultiValueRef emailMultiValue = ABRecordCopyValue(ref, kABPersonEmailProperty);
-        NSArray *emailAddresses = (__bridge NSArray *)ABMultiValueCopyArrayOfAllValues(emailMultiValue) ;
-        CFRelease(emailMultiValue);
-        
-        NSString *email = [emailAddresses objectAtIndex:0];
-         NSLog(@"myAddressBook--%@",emailAddresses);
-        
-        if (email.length != 0 && email !=nil) {
-            [myAddressBook setObject:email forKey:@"email"];
-        }
-        
-        ///[myAddressBook setObject:firstName forKey:@"firstName"];
-        //[myAddressBook setObject:lastName forKey:@"lastName"];
-        //;
-        //[myAddressBook setObject:suffix forKey:@"suffix"];
-        //[myAddressBook setObject:jobTitle forKey:@"jobTitle"];
-    }
-    
-    
-    NSLog(@"myAddressBook-- %@",myAddressBook.description);
-    */
     ABPeoplePickerNavigationController *picker =
     [[ABPeoplePickerNavigationController alloc] init];
     picker.peoplePickerDelegate = self;
-    
-    //[[self navigationController] p]
     
    [self presentViewController:picker animated:YES completion:nil];
 }
@@ -643,7 +579,7 @@
                         break;
                 }
             }];
-            [self presentViewController:tweetSheet animated:YES completion:nil];
+            [[self navigationController] presentViewController:tweetSheet animated:YES completion:nil];
         }
         else
         {
@@ -659,6 +595,8 @@
 -(void)dismissModals
 {
     [self dismissViewControllerAnimated:NO completion:nil];
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 - (void)didReceiveMemoryWarning

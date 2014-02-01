@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
+#import "DataMapperController.h"
 
 
-@class ContentManager;
 @interface EarningViewController : UIViewController<WebserviceDelegate>
 {
     IBOutlet UILabel *totalEarningLabel;
     IBOutlet UILabel *projectedEarninglabel;
     IBOutlet UILabel *peopleReferredLabel;
-    ContentManager *objManager;
+    DataMapperController *dmc;
 }
 
 @end

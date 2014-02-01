@@ -17,7 +17,7 @@
 #import "CommonTopView.h"
 
 @implementation AppDelegate
-@synthesize window,nv,tbc;
+@synthesize window,nv,navControllerearning,tbc;
 
 //Facebook Session
 - (BOOL)application:(UIApplication *)application
@@ -53,7 +53,7 @@
   //  [navControllerhome.view addSubview:topView];
   //  navControllerhome.navigationBar.frame=CGRectMake(0, 20, 320, 70);
  
-    UINavigationController* navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
+    navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
    // CommonTopView *topView1=[[CommonTopView alloc] init];
     
    // CGRect tmpFram = navControllerhome.navigationBar.frame;
@@ -91,6 +91,8 @@
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-itemX30.png"] tag:5];
     
     
+    navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    
     self.tbc = [[UITabBarController alloc] init] ;
     
    //navigation controllers
@@ -102,7 +104,6 @@
     [navControlleraccount setTabBarItem:tabBarItem5];
     
     tbc.viewControllers = [[NSArray alloc] initWithObjects:navControllerhome, navControllerearning,navControllerphoto, navControllercommunity, navControlleraccount, nil];
-    
     
     topView.frame = CGRectMake(0, 20, 320, 50) ;
     topView.tag = 11;
@@ -140,34 +141,6 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [FBAppEvents activateApp];
     [FBAppCall handleDidBecomeActive];
-    [self checkPermissionSettings];
-}
-
-- (void)checkPermissionSettings
-{
-    NSLog(@"checkPermissionSettings: in NHOCAppDelegate");
-    //
-    // Now 'startForMeWithCompletionHandler' may return 'FBSessionStateClosed' (meaning that the user probably unauthorized the app in Settings).
-    //
-    // If that is the case:
-    //
-    //  - Hide the 'logged' View Controller
-    //  - Remove it (NHOCLoggedVC) from the Notification Center
-    //  - Show the 'login' View Controller
-    //  - And finally add it (NHOCLoginVC) to the Notification Center, closing the loop
-    //
-    // Check the console for further info.
-    //
-    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id<FBGraphUser> user, NSError *error) {
-        
-        if (!error) {
-            //
-            // Everything went fine... The app is in good shape.
-            // Notice that 'user.location' requires user_location permission
-            //
-            NSLog(@"user.location: %@: ", [user.location objectForKey:@"name"]);
-        }
-    }];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

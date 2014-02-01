@@ -106,7 +106,7 @@
             //ContentManager *objManager=[ContentManager sharedManager];
             //objManager.loginDetailsDict = dic;
             userid =[dic objectForKey:@"user_id"];
-            [dmc setUserId:userid] ;
+            [dmc setUserId:[NSString stringWithFormat:@"%@",userid]] ;
             
             [dmc setUserDetails:dic] ;
             
