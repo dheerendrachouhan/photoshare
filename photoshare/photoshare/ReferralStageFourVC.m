@@ -34,6 +34,7 @@
     NSArray *sttt;
     NSString *tweetFail;
     BOOL grant;
+    NSNumber *userID;
 }
 @synthesize stringStr,twitterTweet;
 @synthesize friendPickerController = _friendPickerController;
@@ -44,6 +45,7 @@
     if (self) {
         // Custom initialization
     }
+    dmc = [[DataMapperController alloc] init];
     objManager = [ContentManager sharedManager];
     
     return self;
@@ -52,7 +54,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     tweetFail =@"";
     _accountStore = [[ACAccountStore alloc] init];
     twiiterListArr = [[NSMutableArray alloc] init];
@@ -365,15 +367,7 @@
     // Email Content
     NSString *messageBody = userMessage.text; // Change the message body to HTML
     // To address
-    NSArray *toRecipents = [[NSArray alloc] init];
-    if(userSelectedEmail.length !=0)
-    {
-        toRecipents = [NSArray arrayWithObject:userSelectedEmail];
-    }
-    else if(FBEmailID.count!=0)
-    {
-        toRecipents = [NSArray arrayWithArray:FBEmailID];
-    }
+    NSArray *toRecipents = [NSArray arrayWithObject:userSelectedEmail];
         
     MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
     mfMail.mailComposeDelegate = self;
@@ -391,6 +385,7 @@
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully refferd your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
     
+    
     switch (result)
     {
         case MFMailComposeResultCancelled:
@@ -401,7 +396,7 @@
             break;
         case MFMailComposeResultSent:
             [alert show];
-            
+            [self mailToServer];
             break;
         case MFMailComposeResultFailed:
             [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
@@ -571,6 +566,7 @@
                 switch (result) {
                     case SLComposeViewControllerResultCancelled:
                         [objManager showAlert:@"Cancelled" msg:@"Tweet Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+                        [self dismissModals];
                         break;
                     case SLComposeViewControllerResultDone:
                         [self.navigationController pushViewController:tw animated:YES];
@@ -579,7 +575,7 @@
                         break;
                 }
             }];
-            [[self navigationController] presentViewController:tweetSheet animated:YES completion:nil];
+            [self presentViewController:tweetSheet animated:YES completion:nil];
         }
         else
         {
@@ -597,6 +593,21 @@
     [self dismissViewControllerAnimated:NO completion:nil];
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+}
+
+//API calling
+-(void)mailToServer
+{
+    WebserviceController *wbh = [[WebserviceController alloc] init];
+    wbh.delegate = self;
+    NSDictionary *dictData = @{@"user_id":userID, @"emailaddress":userSelectedEmail};
+    [wbh call:dictData controller:@"referral" method:@"store"] ;
+    
+}
+
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSLog(@"WebService Data -- %@",data);
 }
 
 - (void)didReceiveMemoryWarning
