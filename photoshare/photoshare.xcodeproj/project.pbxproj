@@ -315,7 +315,6 @@
 		E31B9E14189A4E6200722761 /* MyReferralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyReferralViewController.m; sourceTree = "<group>"; };
 		E31B9E17189A558D00722761 /* ReferrelStageFourVC3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferrelStageFourVC3.xib; sourceTree = "<group>"; };
 		E31CADB6189CC2890081241D /* icon-person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-person.png"; sourceTree = "<group>"; };
-		E31DFC65189B8D3200DEE766 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		E3BAA8BF1899162800ED2CA2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E3BAA8C11899212000ED2CA2 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E3BAA8C31899212500ED2CA2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -580,7 +579,6 @@
 			isa = PBXGroup;
 			children = (
 				FC35A870189BC9FC006DDDFC /* FacebookSDK.framework */,
-				E31DFC65189B8D3200DEE766 /* JavaScriptCore.framework */,
 				E3DDA757189A6B1700144C43 /* libAviarySDK.a */,
 				E1067DCE189A514000F08A5F /* SystemConfiguration.framework */,
 				E1067DCC189A513700F08A5F /* StoreKit.framework */,
