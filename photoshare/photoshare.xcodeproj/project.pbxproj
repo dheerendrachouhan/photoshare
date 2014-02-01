@@ -54,6 +54,9 @@
 		E16F3918189131C600064806 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E16F3917189131C600064806 /* wall.jpg */; };
 		E16F391B1891325600064806 /* CommonTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E16F391A1891325600064806 /* CommonTopView.m */; };
 		E16F392018914D4A00064806 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F391F18914D4A00064806 /* back.png */; };
+		E1717A7C189CF624008899EC /* ajaxloader.gif in Resources */ = {isa = PBXBuildFile; fileRef = E1717A7B189CF624008899EC /* ajaxloader.gif */; };
+		E1717A87189D2A8E008899EC /* radio_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E1717A85189D2A8E008899EC /* radio_selected.png */; };
+		E1717A88189D2A8E008899EC /* radio.png in Resources */ = {isa = PBXBuildFile; fileRef = E1717A86189D2A8E008899EC /* radio.png */; };
 		E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E17222AC18923AF900F28748 /* CollectionViewCell.m */; };
 		E17222AF1892470600F28748 /* add_folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222AE1892470600F28748 /* add_folder.png */; };
 		E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E17222B21892518B00F28748 /* AddEditFolderViewController.xib */; };
@@ -237,6 +240,9 @@
 		E16F39191891325600064806 /* CommonTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTopView.h; sourceTree = "<group>"; };
 		E16F391A1891325600064806 /* CommonTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTopView.m; sourceTree = "<group>"; };
 		E16F391F18914D4A00064806 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		E1717A7B189CF624008899EC /* ajaxloader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ajaxloader.gif; sourceTree = "<group>"; };
+		E1717A85189D2A8E008899EC /* radio_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_selected.png; sourceTree = "<group>"; };
+		E1717A86189D2A8E008899EC /* radio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio.png; sourceTree = "<group>"; };
 		E17222AB18923AF900F28748 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		E17222AC18923AF900F28748 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		E17222AE1892470600F28748 /* add_folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_folder.png; sourceTree = "<group>"; };
@@ -723,6 +729,9 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E1717A85189D2A8E008899EC /* radio_selected.png */,
+				E1717A86189D2A8E008899EC /* radio.png */,
+				E1717A7B189CF624008899EC /* ajaxloader.gif */,
 				E31CADB6189CC2890081241D /* icon-person.png */,
 				E31B9E0F189A1D7F00722761 /* iconr3_uncheck.png */,
 				E31767631898BF1E00923E35 /* iconr3.png */,
@@ -926,6 +935,7 @@
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E18262821897F6DC00C1C799 /* facebook.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
+				E1717A7C189CF624008899EC /* ajaxloader.gif in Resources */,
 				E1B07430189952DB00589867 /* PhotoGalleryViewController.xib in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
 				E16F3916189130A800064806 /* folder-icon.png in Resources */,
@@ -950,11 +960,13 @@
 				FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */,
 				FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
+				E1717A87189D2A8E008899EC /* radio_selected.png in Resources */,
 				FC85D53D1897F9E3006AD7E0 /* save.png in Resources */,
 				FC35A890189BDF96006DDDFC /* splash640x1136.png in Resources */,
 				E31CADB7189CC2890081241D /* icon-person.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
+				E1717A88189D2A8E008899EC /* radio.png in Resources */,
 				FC35A88C189BDE5F006DDDFC /* icon@2x-58.png in Resources */,
 				FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,

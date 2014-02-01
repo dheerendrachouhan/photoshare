@@ -13,7 +13,7 @@
 #import "PhotoGalleryViewController.h"
 #import "CommonTopView.h"
 #import "EarningViewController.h"
-
+#import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "ContentManager.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
@@ -136,6 +136,7 @@
 {
     
     CommunityViewController *comm=[[CommunityViewController alloc] init];
+    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [self.navigationController pushViewController:comm animated:YES];
        

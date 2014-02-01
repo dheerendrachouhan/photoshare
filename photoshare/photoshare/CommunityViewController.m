@@ -82,6 +82,45 @@
     
     [self getCollectionInfoFromUserDefault];
     [collectionview reloadData];
+    
+    [self getStorageFromServer];
+}
+-(void)getStorageFromServer
+{
+   
+    isGetStorage=YES;
+    webservices.delegate=self;
+    NSDictionary *dicData=@{@"user_id":userid};
+    [webservices call:dicData controller:@"storage" method:@"get"];
+}
+-(void) webserviceCallback:(NSDictionary *)data
+{
+    NSLog(@"login callback%@",data);
+    
+    //validate the user
+    NSNumber *exitCode=[data objectForKey:@"exit_code"];
+    if(exitCode.integerValue==1)
+    {
+        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+        if(isGetStorage)
+        {
+            
+            NSLog(@"Get Storage %@",data);
+            NSDictionary *dic=[outPutData objectAtIndex:0];
+            NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
+            NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
+            //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
+            float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
+            float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
+            
+            //set the diskSpacePercentage
+            float progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
+            NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",(progressPercent*100),@"%"];
+            diskSpaceTitle.text=diskTitle;
+            progressView.progress=progressPercent;
+            //store in NSDefault
+            [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];        }
+    }
 }
 
 -(void)getCollectionInfoFromUserDefault
@@ -120,8 +159,8 @@
     obj_Cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     obj_Cell.folder_imgV.hidden=NO;
-    obj_Cell.folder_name.text = [NSString stringWithFormat:@"Folder %d",(int)[indexPath row]];
-    if(indexPath.row+1==([collectionNameArray count]+1))
+    int index=indexPath.row-1;
+    if(indexPath.row==0)
     {
         obj_Cell.folder_imgV.image=[UIImage imageNamed:@"add_folder.png"];
         obj_Cell.icon_img.hidden=YES;
@@ -130,9 +169,9 @@
     }
     else
     {
-        int sharing=[[collectionSharingArray objectAtIndex:indexPath.row] intValue];
+        int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
         BOOL flag=false;
-        if(![collectionSharedArray objectAtIndex:indexPath.row])
+        if(![collectionSharedArray objectAtIndex:index])
         {
             flag=TRUE;
             obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder_lock.png"];
@@ -155,7 +194,7 @@
             }
         }
         
-        obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:indexPath.row];
+        obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:index];
         
         
     }
@@ -173,18 +212,19 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
         
-        if(([indexPath row]+1)==([collectionNameArray count]+1))
+        if(indexPath.row==0)
         {
             [self addFolder];
             NSLog(@"Add Folder selected index is %ld",(long)[indexPath row]);
         }
         else
         {
+            int index=indexPath.row-1;
             PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
             photoGallery.isPublicFolder=NO;
-            photoGallery.selectedFolderIndex=indexPath.row;
-            photoGallery.folderName=[collectionNameArray objectAtIndex:[indexPath row]];
-            photoGallery.collectionId=[collectionIdArray objectAtIndex:[indexPath row]];
+            photoGallery.selectedFolderIndex=index;
+            photoGallery.folderName=[collectionNameArray objectAtIndex:index];
+            photoGallery.collectionId=[collectionIdArray objectAtIndex:index];
             
             [self.navigationController pushViewController:photoGallery animated:YES];
         }
@@ -199,10 +239,11 @@
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
        
-        if(([indexPath row]+1)!=([collectionNameArray count]+1))
+        if(indexPath.row!=0)
         {
+            
             UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-            editBtn.frame=CGRectMake(cell.frame.origin.x+12, cell.frame.origin.y-20, 60, 50);
+            editBtn.frame=CGRectMake(cell.frame.origin.x+12, cell.frame.origin.y-10, 60, 50);
             [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
             [editBtn addTarget:self action:@selector(editFolder:) forControlEvents:UIControlEventTouchUpInside];
             
@@ -227,16 +268,16 @@
     UIButton *btn=(UIButton *)sender;
     CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
     NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
-    
+    int index=indexPath.row-1;
     //if editBtnIs in view
     [editBtn removeFromSuperview];
     
     AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
     aec.isAddFolder=NO;
     aec.isEditFolder=YES;
-    aec.setFolderName=[collectionNameArray objectAtIndex:[indexPath row]];
-    aec.collectionId=[collectionIdArray objectAtIndex:[indexPath row]] ;
-    
+    aec.setFolderName=[collectionNameArray objectAtIndex:index];
+    aec.collectionId=[collectionIdArray objectAtIndex:index] ;
+    aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
     CommunityViewController *cm = [[CommunityViewController alloc] init];
     HomeViewController *hm = [[HomeViewController alloc] init] ;
     [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];

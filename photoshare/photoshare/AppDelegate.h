@@ -15,5 +15,6 @@
 @property (strong, nonatomic) UINavigationController *nv;
 @property (strong, nonatomic)UITabBarController *tbc;
 @property (nonatomic, retain) UINavigationController *navControllerearning;
+@property (nonatomic, retain) UINavigationController *navControllercommunity;
 
 @end

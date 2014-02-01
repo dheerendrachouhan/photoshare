@@ -18,7 +18,7 @@
 
 @implementation AppDelegate
 @synthesize window,nv,navControllerearning,tbc;
-
+@synthesize navControllercommunity;
 //Facebook Session
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
@@ -67,7 +67,7 @@
  //   navControllerearning.navigationBar.frame=CGRectMake(0, 10, 320, 200);
     UINavigationController* navControllerphoto = [[UINavigationController alloc] initWithRootViewController:ph];
     
-    UINavigationController* navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
+    navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
    // CommonTopView *topView2=[[CommonTopView alloc] init];
     navControllercommunity.navigationBar.translucent=NO;
   //  [navControllercommunity.view addSubview:topView2];
@@ -92,7 +92,8 @@
     
     
     navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-    
+    navControllercommunity.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+
     self.tbc = [[UITabBarController alloc] init] ;
     
    //navigation controllers

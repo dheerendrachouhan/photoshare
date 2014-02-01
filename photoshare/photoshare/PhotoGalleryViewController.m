@@ -13,7 +13,7 @@
 #import "WebserviceController.h"
 #import "EditPhotoViewController.h"
 #import "SVProgressHUD.h"
-#import "UIImageView+WebCache.h"
+
 @interface PhotoGalleryViewController ()
 
 @end
@@ -86,6 +86,7 @@
     isAviaryMode=NO;
     photoArray=[[NSMutableArray alloc] init];
      photoIdsArray=[[NSMutableArray alloc] init];
+    
     if([UIScreen mainScreen].bounds.size.height == 480)
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height-70);
@@ -98,7 +99,7 @@
     [super viewWillAppear:animated];
     
     //initialize the photo Array
-    
+    isPopFromPhotos=NO;
     //editBtn
     editBtn = [[UIButton alloc] init];    
     //get the user id from nsuserDefaults
@@ -122,6 +123,12 @@
     
     
     
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    isPopFromPhotos=YES;
 }
 -(void)getDataFromNSUSerDefault
 {
@@ -251,11 +258,19 @@
             
             deleteImageCount=0;
             for (int i=0; i<photoIdsArray.count; i++) {
-                webServices.delegate=self;
-                NSNumber *num = [NSNumber numberWithInt:1] ;
-                NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:i],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
+                if(isPopFromPhotos)
+                {
+                    break;
+                }
+                else
+                {
+                    webServices.delegate=self;
+                    NSNumber *num = [NSNumber numberWithInt:1] ;
+                    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:i],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
+                    
+                    [webServices call:dicData controller:@"photo" method:@"get"];
+                }
                 
-                [webServices call:dicData controller:@"photo" method:@"get"];
                
             }
             
@@ -315,6 +330,8 @@
         int count=photoArray.count;
         NSLog(@"Photo Array Count is : %d",count);
         UIImageView *imgView=(UIImageView *)[collectionview viewWithTag:100+count];
+        UILabel *label=(UILabel *)[collectionview viewWithTag:1100+count];
+        [label removeFromSuperview];
         imgView.image=image;
         
         //[collectionview reloadData];
@@ -374,7 +391,9 @@
                 
                 [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
                 [SVProgressHUD dismiss];
-            }
+                [collectionview reloadData];
+
+             }
             else
             {
                 [self getPhotoIdFromServer];
@@ -411,13 +430,23 @@
         {
             //[SVProgressHUD showWithStatus:@"Please Wait Photo is Deleted " maskType:SVProgressHUDMaskTypeBlack];
             deleteImageCount=0;
-            for(int i=0;i<sortedArray.count;i++)
-            {
-                [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
-                [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-                [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+            @try {
+                for(int i=0;i<sortedArray.count;i++)
+                {
+                    [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
+                    [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                    [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                }
+                [collectionview reloadData];
             }
-            [collectionview reloadData];
+            @catch (NSException *exception) {
+                NSLog(@"%@",exception.description);
+               
+            }
+            @finally {
+                
+            }
+            
         }
         else
         {
@@ -528,9 +557,17 @@
     UIButton *btn=(UIButton *)sender;
     CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
     NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
-  UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
-    [self launchPhotoEditorWithImage:image highResolutionImage:image];
-    //[self getImageFromServerForEdit:indexPath.row];
+    @try {
+        UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
+        [self launchPhotoEditorWithImage:image highResolutionImage:image];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception.description);
+    }
+    @finally {
+        
+    }
+      //[self getImageFromServerForEdit:indexPath.row];
     //if editBtnIs in view
     [editBtn removeFromSuperview];
 }
@@ -577,19 +614,48 @@
     
     imgView.tag=101+indexPath.row;
     imgView.layer.masksToBounds=YES;
+    
+    /*UIActivityIndicatorView *indeicator=[[UIActivityIndicatorView alloc] init];
+    [indeicator startAnimating];
+    indeicator.backgroundColor=[UIColor blackColor];
+    */
+    
+    //indicatorV.image=[UIImage imageNamed:@"ajaxloader.gif"];
+    
+   
     @try {
-        imgView.image=[photoArray objectAtIndex:indexPath.row];
+        
+        UIImage *image=[photoArray objectAtIndex:indexPath.row];
+        if(photoArray.count==photoIdsArray.count)
+        {
+            imgView.image=image;
+        }
+        else if (photoArray.count>indexPath.row)
+        {
+            imgView.image=image;
+        }
+        
     }
     @catch (NSException *exception) {
+     
+        
+        UILabel *loading=[[UILabel alloc] initWithFrame:CGRectMake(20, 20, 100, 20)];
+        UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+        loading.textColor=btnBorderColor;
+        loading.tag=1101+indexPath.row;
+        loading.font=[UIFont fontWithName:@"verdana" size:9];
+        loading.text=@"Loading....";
+        [cell.contentView addSubview:loading];
+        
+
         NSLog(@"Exception Name : %@",exception.name);
         NSLog(@"Exception Description : %@",exception.description);
     }
     @finally {
-        cell.backgroundColor=[UIColor lightGrayColor];
         
-    }
+            }
     
-      [cell.contentView addSubview:imgView];
+    [cell.contentView addSubview:imgView];
     return cell;
 }
 
@@ -676,8 +742,7 @@
     
     //add image in collection Array
     [photoArray addObject:image];
-    [collectionview reloadData];
-    [self savePhotosOnServer:userid filepath:imageData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",self.collectionId]];
+   [self savePhotosOnServer:userid filepath:imageData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",self.collectionId]];
     
 }
 

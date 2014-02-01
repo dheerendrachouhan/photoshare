@@ -48,6 +48,9 @@
     BOOL isNotFirstTime;
     BOOL isAviaryMode;
     int deleteImageCount;
+    
+    BOOL isPopFromPhotos;
+    
     NSString *assetUrlOfImage;
     
     UIActivityIndicatorView *indicator;
