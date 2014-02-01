@@ -40,6 +40,12 @@
     NSString *assetUrlOfImage;
     DataMapperController *dmc ;
     
+    UIImage *pickImage;
+    BOOL isCameraMode;
+    BOOL isCameraEditMode;
+    
+    
+    
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 

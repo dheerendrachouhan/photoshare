@@ -166,13 +166,13 @@
         [privateShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
         [publicShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
         NSLog(@"");
-        shareWith=@1;
+        shareWith=@0;
     }
     else if(btn.tag==1)
     {
         [privateShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
         [publicShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
-        shareWith=@0;
+        shareWith=@1;
     }
     
    

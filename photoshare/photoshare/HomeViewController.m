@@ -76,7 +76,16 @@
 {
     [super viewWillAppear:animated];
     
-  
+    if (isCameraEditMode) {
+        isCameraEditMode = false ; 
+        [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                         target:self
+                                       selector:@selector(openeditorcontrol)
+                                       userInfo:nil
+                                        repeats:NO];
+        
+        
+    }
    UIView *vi = [self.tabBarController.view viewWithTag:11];
     
    UILabel *lbl = (UILabel *)[vi viewWithTag:1] ;
@@ -100,6 +109,12 @@
     }
    
 }
+
+-(void)openeditorcontrol
+{
+[self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
+
+}
 -(void)setContent
 {
     profilePicImgView.image=[UIImage imageNamed:@"wall.jpg"];
@@ -116,10 +131,12 @@
     
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
+        isCameraMode=YES;
         imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
     }
     else
     {
+        isCameraMode=NO;
         imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     }
     [self presentViewController:imagePicker animated:YES completion:nil];
@@ -150,6 +167,7 @@
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+   
     NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
     //set the asset url in String
     assetUrlOfImage=[NSString stringWithFormat:@"%@",assetURL];
@@ -171,21 +189,41 @@
     
     NSDictionary *dicData=@{@"user_id":userID,@"photo_title":@"",@"photo_description":assetURL,@"photo_collections":@""};
     [webServices saveFileData:dicData controller:@"photo" method:@"store" filePath:filePath];*/
-    
-  
-    
-    void(^completion)(void)  = ^(void){
+    @try {
+        if(isCameraMode)
+        {
+            isCameraEditMode=YES;
+            pickImage=image;
+            [self dismissViewControllerAnimated:YES completion:Nil];
+            //[self launchPhotoEditorWithImage:image highResolutionImage:image];
+            
+        }
+        else
+        {
+            void(^completion)(void)  = ^(void){
+                
+                [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+                    if (asset){
+                        [self launchEditorWithAsset:asset];
+                    }
+                } failureBlock:^(NSError *error) {
+                    [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                }];
+            };
+            
+            [self dismissViewControllerAnimated:YES completion:completion];
+        }
         
-        [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-            if (asset){
-                [self launchEditorWithAsset:asset];
-            }
-        } failureBlock:^(NSError *error) {
-            [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-        }];
-    };
+
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+         [self dismissViewControllerAnimated:YES completion:Nil];
+    }
     
-    [self dismissViewControllerAnimated:YES completion:completion];
+   
    
    }
 

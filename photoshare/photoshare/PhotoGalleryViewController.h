@@ -50,6 +50,11 @@
     int deleteImageCount;
     
     BOOL isPopFromPhotos;
+    BOOL isPickerMode;
+    
+    UIImage *pickImage;
+    BOOL isCameraMode;
+    BOOL isCameraEditMode;
     
     NSString *assetUrlOfImage;
     

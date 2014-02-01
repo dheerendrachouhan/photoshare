@@ -98,6 +98,17 @@
 {
     [super viewWillAppear:animated];
     
+    
+    if (isCameraEditMode) {
+        isCameraEditMode = false ;
+        [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                         target:self
+                                       selector:@selector(openeditorcontrol)
+                                       userInfo:nil
+                                        repeats:NO];
+        
+        
+    }
     //initialize the photo Array
     isPopFromPhotos=NO;
     //editBtn
@@ -116,12 +127,17 @@
     //set
     [self setDataForCollectionView];
     
-    if(isAviaryMode==NO)
+    if(isAviaryMode==NO&&isPickerMode==NO)
     {
          [self getPhotoIdFromServer];
     }
     
     
+    
+}
+-(void)openeditorcontrol
+{
+    [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
     
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -202,6 +218,7 @@
         {
             imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
             [self presentViewController:imagePicker animated:YES completion:nil];
+            isCameraMode=YES;
         }
         else
         {
@@ -225,6 +242,7 @@
     {
         NSLog(@"Cancel Button Click");
     }
+    isPickerMode=YES;
 }
 -(void)resetAllBoolValue
 {
@@ -334,6 +352,12 @@
         [label removeFromSuperview];
         imgView.image=image;
         
+        if(photoArray.count==photoIdsArray.count)
+        {
+            [collectionview reloadData];
+            [SVProgressHUD dismiss];
+
+        }
         //[collectionview reloadData];
     }
     
@@ -368,8 +392,8 @@
                     {
                         
                         [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
-                        [collectionview reloadData];
-                        [SVProgressHUD dismiss];
+                        //[collectionview reloadData];
+                        //[SVProgressHUD dismiss];
                         [self getPhotoFromServer];
                     }
                     
@@ -583,22 +607,33 @@
     NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
     //set the asset url in String
     assetUrlOfImage=[NSString stringWithFormat:@"%@",assetURL];
-    
+    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     isAviaryMode=YES;
     
-    //UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-    void(^completion)(void)  = ^(void){
+    if(isCameraMode)
+    {
+        isCameraEditMode=YES;
+        pickImage=image;
+        [self dismissViewControllerAnimated:YES completion:Nil];
+        //[self launchPhotoEditorWithImage:image highResolutionImage:image];
         
-        [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-            if (asset){
-                [self launchEditorWithAsset:asset];
-            }
-        } failureBlock:^(NSError *error) {
-            [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's  photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-        }];
-    };
-    
-    [self dismissViewControllerAnimated:YES completion:completion];
+    }
+    else
+    {
+        void(^completion)(void)  = ^(void){
+            
+            [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+                if (asset){
+                    [self launchEditorWithAsset:asset];
+                }
+            } failureBlock:^(NSError *error) {
+                [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            }];
+        };
+        
+        [self dismissViewControllerAnimated:YES completion:completion];
+    }
+
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -621,7 +656,9 @@
     */
     
     //indicatorV.image=[UIImage imageNamed:@"ajaxloader.gif"];
-    
+    for (UIView *view in [cell.contentView subviews]) {
+        [view removeFromSuperview];
+    }
    
     @try {
         
