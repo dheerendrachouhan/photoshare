@@ -11,13 +11,12 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import <Social/Social.h>
 #import "WebserviceController.h"
-#import <FacebookSDK/FacebookSDK.h>
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
 #import "DataMapperController.h"
 
 @class ContentManager;
-@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate,MFMessageComposeViewControllerDelegate,FBFriendPickerDelegate,WebserviceDelegate>
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate,MFMessageComposeViewControllerDelegate,WebserviceDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;

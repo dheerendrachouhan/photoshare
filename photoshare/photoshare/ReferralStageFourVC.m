@@ -16,8 +16,6 @@
 
 @interface ReferralStageFourVC ()
 
-@property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
-
 @property (nonatomic) ACAccountStore *accountStore;
 
 @end
@@ -37,7 +35,6 @@
     NSNumber *userID;
 }
 @synthesize stringStr,twitterTweet;
-@synthesize friendPickerController = _friendPickerController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -197,7 +194,7 @@
     if([accountsArray count] == 0)
     {
         [self disMissProgress];
-        UIAlertView *twAl = [[UIAlertView alloc] initWithTitle:@"No Twetter Account Found" message:@"Please sign-in your twetter account from your ios setting and run the app again. Grant permission to access this app." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *twAl = [[UIAlertView alloc] initWithTitle:@"No Twitter Account Found" message:@"Please sign-in your twitter account from your ios setting and run the app again. Grant permission to access this app." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [twAl show];
     }
     
@@ -371,6 +368,7 @@
         
     MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
     mfMail.mailComposeDelegate = self;
+    
     [mfMail setSubject:emailTitle];
     [mfMail setMessageBody:messageBody isHTML:NO];
     [mfMail setToRecipients:toRecipents];
@@ -591,7 +589,7 @@
 -(void)dismissModals
 {
     [self dismissViewControllerAnimated:NO completion:nil];
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    //AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 

@@ -28,6 +28,8 @@
         // Custom initialization
     }
     
+    manager=[ContentManager sharedManager];
+    
     return self;
 }
 
@@ -35,8 +37,9 @@
 {
     [super viewDidLoad];
     
-    manager=[ContentManager sharedManager];
-       
+    
+    self.navigationItem.title = @"Community folders";
+    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
     
@@ -67,9 +70,9 @@
     userid=[manager getData:@"user_id"];
     
     //set title for navigation controller
-    self.navigationController.navigationBarHidden=NO;
+    //self.navigationController.navigationBarHidden=NO;
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-    self.navigationController.navigationBar.topItem.title=@"Community folders";
+    [self.navigationItem setTitle:@"Community folders"];
     
     //blueLabelImgFrame=CGRectMake(20, diskSpaceBlueLabel.frame.origin.y-64, 10,diskSpaceBlueLabel.frame.size.height );
    

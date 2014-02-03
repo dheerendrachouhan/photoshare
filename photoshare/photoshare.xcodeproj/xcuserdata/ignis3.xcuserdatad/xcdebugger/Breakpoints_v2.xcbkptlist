@@ -25,28 +25,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "photoshare/PhotoGalleryViewController.m"
-            timestampString = "412958557.205664"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "571"
-            endingLineNumber = "571"
-            landmarkName = "-longPressHandle:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "photoshare/HomeViewController.m"
-            timestampString = "412956473.563923"
+            timestampString = "413115896.964919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,57 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/HomeViewController.m"
-            timestampString = "412958003.297779"
+            timestampString = "413115896.964919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[HomeViewController imagePickerController:didFinishPickingMediaWithInfo:]"
-                  moduleName = "photoshare"
-                  urlString = "file:///Users/ignis3/Desktop/pb/photoshare/photoshare/HomeViewController.m"
-                  timestampString = "412958557.299756"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "193"
-                  endingLineNumber = "193"
-                  offsetFromSymbolStart = "324">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[HomeViewController imagePickerController:didFinishPickingMediaWithInfo:]"
-                  moduleName = "photoshare"
-                  urlString = "file:///Users/ignis3/Desktop/pb/photoshare/photoshare/HomeViewController.m"
-                  timestampString = "412958557.300255"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "193"
-                  endingLineNumber = "193"
-                  offsetFromSymbolStart = "948">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[HomeViewController imagePickerController:didFinishPickingMediaWithInfo:]"
-                  moduleName = "photoshare"
-                  urlString = "file:///Users/ignis3/Desktop/pb/photoshare/photoshare/HomeViewController.m"
-                  timestampString = "412958557.300714"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "193"
-                  endingLineNumber = "193"
-                  offsetFromSymbolStart = "992">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -118,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/HomeViewController.m"
-            timestampString = "412956473.563923"
+            timestampString = "413102158.939791"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -134,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/HomeViewController.m"
-            timestampString = "412956473.563923"
+            timestampString = "413115896.964919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
             landmarkType = "5">
          </BreakpointContent>
@@ -150,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/HomeViewController.m"
-            timestampString = "412956465.909162"
+            timestampString = "413102158.939791"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "-openeditorcontrol"
             landmarkType = "5">
          </BreakpointContent>
@@ -166,11 +106,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/PhotoGalleryViewController.m"
-            timestampString = "412958557.205664"
+            timestampString = "413114420.317165"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "609"
-            endingLineNumber = "609"
+            startingLineNumber = "618"
+            endingLineNumber = "618"
+            landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/PhotoGalleryViewController.m"
+            timestampString = "413114550.589236"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "635"
+            endingLineNumber = "635"
             landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
             landmarkType = "5">
          </BreakpointContent>

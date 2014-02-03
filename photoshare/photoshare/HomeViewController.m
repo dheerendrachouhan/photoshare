@@ -39,10 +39,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    LoginViewController *loginv = [[LoginViewController alloc] init] ;
-    [self.navigationController presentViewController:loginv animated:NO completion:nil];
+    //LoginViewController *loginv = [[LoginViewController alloc] init] ;
+    //[self.navigationController presentViewController:loginv animated:NO completion:nil];
     webservices=[[WebserviceController alloc] init];
     objManager=[ContentManager sharedManager];
     //initialize the collectionId and name array
@@ -69,7 +67,6 @@
     // Start the Aviary Editor OpenGL Load
     [AFOpenGLManager beginOpenGLLoad];
      dmc = [[DataMapperController alloc] init];
-    
 }
 
 
@@ -173,9 +170,10 @@
 {
     
     CommunityViewController *comm=[[CommunityViewController alloc] init];
-    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    //AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [self.navigationController pushViewController:comm animated:YES];
+    self.navigationController.navigationBarHidden = NO;
        
 }
 

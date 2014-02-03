@@ -18,6 +18,7 @@
 #import "WebserviceController.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "SVProgressHUD.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController ()
 
@@ -55,7 +56,11 @@
     UIView *spacerViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     [passwordTextField setLeftViewMode:UITextFieldViewModeAlways];
     [passwordTextField setLeftView:spacerViews];
- 
+    
+    loginBackgroundImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHideKeyboard)];
+    [loginBackgroundImage addGestureRecognizer:singleFingerTap];
     //initialize webservices Object
     webservices=[[WebserviceController alloc] init];
     
@@ -153,7 +158,8 @@
             //remove fetchView and status bar
             [dataFetchView removeFromSuperview];
             [SVProgressHUD dismiss];
-            [self dismissViewControllerAnimated:YES completion:nil] ;
+            //[self dismissViewControllerAnimated:YES completion:nil];
+            [self loadData];
         }
     }
     else
@@ -341,6 +347,76 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [self deregisterFromKeyboardNotifications];
     [super viewWillDisappear:animated];
+}
+
+-(void)tapHideKeyboard
+{
+    [nameTextField resignFirstResponder];
+    [passwordTextField resignFirstResponder];
+    [scrollView setContentOffset:CGPointZero animated:YES];
+}
+
+-(void)loadData
+{
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    EarningViewController *ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
+    
+    CommunityViewController *com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:nil] ;
+    
+    AccountViewController *acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
+    
+    PhotoViewController *ph = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil] ;
+    
+    HomeViewController *hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil] ;
+    
+    CommonTopView *topView=[[CommonTopView alloc] init];
+    
+    
+    delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
+    delegate.navControllerhome.navigationBar.translucent=NO;
+    
+    
+    delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
+    delegate.navControllerearning.navigationBar.translucent=NO;
+    
+    delegate.navControllerphoto = [[UINavigationController alloc] initWithRootViewController:ph];
+    
+    delegate.navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
+    delegate.navControllercommunity.navigationBar.translucent=NO;
+    
+    delegate.navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
+    
+    delegate.navControlleraccount.navigationBar.translucent=NO;
+    
+    
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage  imageNamed:@"community-iconX30.png"] tag:1];
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earnings-iconX30.png"] tag:2];
+    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"icon-takephotoX30.png"] tag:3];
+    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"folder-icon-bottomX30.png"] tag:4];
+    UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-itemX30.png"] tag:5];
+    
+    
+    delegate.navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    delegate.navControllercommunity.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    
+    
+    delegate.tbc = [[UITabBarController alloc] init] ;
+    
+    //navigation controllers
+    
+    [delegate.navControllerhome setTabBarItem:tabBarItem];
+    [delegate.navControllerearning setTabBarItem:tabBarItem2];
+    [delegate.navControllerphoto setTabBarItem:tabBarItem3];
+    [delegate.navControllercommunity setTabBarItem:tabBarItem4];
+    [delegate.navControlleraccount setTabBarItem:tabBarItem5];
+    
+    delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome, delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
+    
+    topView.frame = CGRectMake(0, 20, 320, 50) ;
+    topView.tag = 11;
+    [delegate.tbc.view addSubview:topView];
+    [self.view addSubview:delegate.tbc.view];
 }
 
 - (void)didReceiveMemoryWarning

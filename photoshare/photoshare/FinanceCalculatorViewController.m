@@ -50,7 +50,11 @@
     firstGem.text = @"00";
     secondGem.text = @"00";
     thirdGem.text = @"00";
-    
+    segmentControl.selectedSegmentIndex = 1;
+    if(segmentControl.selectedSegmentIndex == 1)
+    {
+        currencySetter.text = @"£";
+    }
     [self calculateUserGem];
 }
 
@@ -77,7 +81,7 @@
     int second = [secondGem.text intValue];
     int third = [thirdGem.text intValue];
     
-    int totalGemCalculated = (first*10) + (second*5) +(third*2);
+    int totalGemCalculated = (first*1) + (second*1) +(third*1);
     amountCalculated.text = [NSString stringWithFormat:@"%d",totalGemCalculated];
 }
 //FisrGem Up Button

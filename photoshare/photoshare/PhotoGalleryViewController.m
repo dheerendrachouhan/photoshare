@@ -634,7 +634,8 @@
 //imagePicker delegate Method
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissModals];
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -649,7 +650,7 @@
     {
         isCameraEditMode=YES;
         pickImage=image;
-        [self dismissViewControllerAnimated:YES completion:Nil];
+        [self dismissViewControllerAnimated:NO completion:Nil];
         //[self launchPhotoEditorWithImage:image highResolutionImage:image];
         
     }
@@ -666,7 +667,7 @@
             }];
         };
         
-        [self dismissViewControllerAnimated:YES completion:completion];
+        [self dismissViewControllerAnimated:NO completion:completion];
     }
 
 }
@@ -815,8 +816,8 @@
    // }];
     NSData *imageData = UIImagePNGRepresentation(image);
     isAviaryMode=YES;
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissModals];
     
     //add image in collection Array
     [photoArray addObject:image];
@@ -827,7 +828,8 @@
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissModals];
 }
 
 #pragma mark - Photo Editor Customization
@@ -881,8 +883,11 @@
     return YES;
 }
 
-
-
+-(void)dismissModals
+{
+    [self dismissViewControllerAnimated:NO completion:nil];
+    self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+}
 
 
 - (void)didReceiveMemoryWarning

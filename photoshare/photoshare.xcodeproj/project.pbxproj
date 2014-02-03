@@ -126,7 +126,6 @@
 		E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */; };
 		FC35A85D189AFCBA006DDDFC /* earnings-iconX30.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38F118912C9C00064806 /* earnings-iconX30.png */; };
 		FC35A85E189AFCCD006DDDFC /* folder_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = E182627B1897CB3A00C1C799 /* folder_lock.png */; };
-		FC35A871189BC9FC006DDDFC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC35A870189BC9FC006DDDFC /* FacebookSDK.framework */; };
 		FC35A880189BCA5B006DDDFC /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FC35A87E189BCA5B006DDDFC /* AviarySDKResources.bundle */; };
 		FC35A88A189BDE1B006DDDFC /* Icon@2x-80.png in Resources */ = {isa = PBXBuildFile; fileRef = FC35A889189BDE1B006DDDFC /* Icon@2x-80.png */; };
 		FC35A88C189BDE5F006DDDFC /* icon@2x-58.png in Resources */ = {isa = PBXBuildFile; fileRef = FC35A88B189BDE5F006DDDFC /* icon@2x-58.png */; };
@@ -344,7 +343,6 @@
 		E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterTable.m; sourceTree = "<group>"; };
 		E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable.xib; sourceTree = "<group>"; };
 		E3DDA757189A6B1700144C43 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAviarySDK.a; path = photoshare/AviarySDK/libAviarySDK.a; sourceTree = "<group>"; };
-		FC35A870189BC9FC006DDDFC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		FC35A874189BCA5B006DDDFC /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
 		FC35A875189BCA5B006DDDFC /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
 		FC35A876189BCA5B006DDDFC /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
@@ -431,7 +429,6 @@
 				E31AA4951896A02A0065F8E2 /* AddressBookUI.framework in Frameworks */,
 				E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */,
 				FC976392188FEB89008DF1F8 /* CoreGraphics.framework in Frameworks */,
-				FC35A871189BC9FC006DDDFC /* FacebookSDK.framework in Frameworks */,
 				FC976390188FEB89008DF1F8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -587,7 +584,6 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FC35A870189BC9FC006DDDFC /* FacebookSDK.framework */,
 				E3DDA757189A6B1700144C43 /* libAviarySDK.a */,
 				E1067DCE189A514000F08A5F /* SystemConfiguration.framework */,
 				E1067DCC189A513700F08A5F /* StoreKit.framework */,
