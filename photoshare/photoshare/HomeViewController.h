@@ -23,7 +23,7 @@
 
 @end
 @class ContentManager;
-@interface HomeViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate>
+@interface HomeViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate>
 {
     IBOutlet UIButton *totalEarningBtn;
     IBOutlet UIImageView *profilePicImgView;
@@ -44,8 +44,13 @@
     BOOL isCameraMode;
     BOOL isCameraEditMode;
     
+    NSMutableArray *collectionNameArray;
+    NSMutableArray *collectionIdArray;
     
-    
+    NSNumber *selectedCollectionId;
+    NSData *imgData;
+    UIPickerView *categoryPickerView;
+    UIToolbar *pickerToolbar;
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 

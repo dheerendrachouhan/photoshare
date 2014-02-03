@@ -18,7 +18,7 @@
 #import "ContentManager.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
-
+#import "AppDelegate.h"
 @interface HomeViewController ()
 
 @end
@@ -44,8 +44,10 @@
     LoginViewController *loginv = [[LoginViewController alloc] init] ;
     [self.navigationController presentViewController:loginv animated:NO completion:nil];
     webservices=[[WebserviceController alloc] init];
-    
-    
+    objManager=[ContentManager sharedManager];
+    //initialize the collectionId and name array
+    collectionIdArray=[[NSMutableArray alloc] init];
+    collectionNameArray=[[NSMutableArray alloc] init];
     
     //rounded the Community Count Label
     photoCountLbl.layer.cornerRadius=12;
@@ -96,8 +98,8 @@
     userid=[dic objectForKey:@"user_id"];
     welcomeName.text=[dic objectForKey:@"user_realname"];
     self.navigationController.navigationBarHidden=YES;
-    ContentManager *manager=[ContentManager sharedManager];
-    NSArray *publicImgArray=[manager getData:@"publicImgArray"];
+    
+    NSArray *publicImgArray=[objManager getData:@"publicImgArray"];
     if([publicImgArray count]==0)
     {
         photoCountLbl.hidden=YES;
@@ -107,7 +109,9 @@
         photoCountLbl.hidden=NO;
         photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)[publicImgArray count]];        
     }
-   
+    //set the collectionid and name in array from nsdefault
+    [self getCollectionInfoFromUserDefault];
+    
 }
 
 -(void)openeditorcontrol
@@ -118,6 +122,22 @@
 -(void)setContent
 {
     profilePicImgView.image=[UIImage imageNamed:@"wall.jpg"];
+}
+-(void)getCollectionInfoFromUserDefault
+{
+    NSMutableArray *collection=[[objManager getData:@"collection_data_list"] mutableCopy];
+    
+    [collectionIdArray removeAllObjects];
+    [collectionNameArray removeAllObjects];
+    
+    for (int i=1;i<collection.count; i++)
+    {
+        
+            [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
+            [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
+        
+    }
+    
 }
 
 
@@ -174,29 +194,12 @@
     
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     
-   /* WebserviceController *webServices=[[WebserviceController alloc] init];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,                                                         NSUserDomainMask, YES);
-    
-    
-    NSString *name=[assetURL lastPathComponent];
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString* path = [documentsDirectory stringByAppendingPathComponent:
-                      name ];
-    
-    NSURL *filePath = [NSURL fileURLWithPath:path];
-    webServices.delegate=self;
-    NSNumber *userID=[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
-    
-    NSDictionary *dicData=@{@"user_id":userID,@"photo_title":@"",@"photo_description":assetURL,@"photo_collections":@""};
-    [webServices saveFileData:dicData controller:@"photo" method:@"store" filePath:filePath];*/
-    @try {
+      @try {
         if(isCameraMode)
         {
             isCameraEditMode=YES;
             pickImage=image;
             [self dismissViewControllerAnimated:YES completion:Nil];
-            //[self launchPhotoEditorWithImage:image highResolutionImage:image];
-            
         }
         else
         {
@@ -213,7 +216,6 @@
             
             [self dismissViewControllerAnimated:YES completion:completion];
         }
-        
 
     }
     @catch (NSException *exception) {
@@ -295,10 +297,9 @@
 // This is called when the user taps "Done" in the photo editor.
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
-    NSData *imgData=UIImagePNGRepresentation(image);
-    
-    [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:@"3"];
+    imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
+     [self showSelectFolderOption];
 }
 
 // This is called when the user taps "Cancel" in the photo editor.
@@ -360,7 +361,7 @@
 
 
 //save Photo on Server Photo With Detaill
--(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imgData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+-(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
 {
     
     webservices.delegate=self;
@@ -368,13 +369,100 @@
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
     //store data
     // [webServices call:data controller:@"photo" method:@"store"];
-    [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imgData] ;
+    [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Data %@",data);
 }
 
+
+//Picker view for select folder option
+-(void)showSelectFolderOption
+{
+    @try {
+        
+        categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, 320,120)];
+        categoryPickerView.backgroundColor=[UIColor whiteColor];
+        [categoryPickerView setDataSource: self];
+        [categoryPickerView setDelegate: self];
+        categoryPickerView.showsSelectionIndicator = YES;
+        
+        pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-220, 320, 40)];
+        pickerToolbar.barStyle = UIBarStyleBlackOpaque;
+        [pickerToolbar sizeToFit];
+        
+        NSMutableArray *barItems = [[NSMutableArray alloc] init];
+        UILabel *titleLabe=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 20)];
+        titleLabe.text=@"Select Folder";
+        titleLabe.textAlignment =NSTextAlignmentCenter;
+        titleLabe.textColor=[UIColor whiteColor];
+        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+        UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(categoryCancelButtonPressed)];
+        [barItems addObject:cancelBtn];
+        
+        
+        UIBarButtonItem *toolBarTitle=[[UIBarButtonItem alloc]  initWithCustomView:titleLabe];
+        [barItems addObject:flexSpace];
+        [barItems addObject:toolBarTitle];
+        [barItems addObject:flexSpace];
+        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(categoryDoneButtonPressed)];
+        [barItems addObject:doneBtn];
+        
+        [pickerToolbar setItems:barItems animated:YES];
+        
+        [self.view addSubview:pickerToolbar];
+        [self.view addSubview:categoryPickerView];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception is %@",exception.description);
+    }
+    @finally {
+        
+    }
+   
+}
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
+    // Handle the selection
+    
+    NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
+    selectedCollectionId=[collectionIdArray objectAtIndex:row];
+}
+// tell the picker how many rows are available for a given component
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [collectionIdArray count];
+}
+
+// tell the picker how many components it will have
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+// tell the picker the title for a given component
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
+    return [collectionNameArray objectAtIndex: row];
+    
+}
+
+// tell the picker the width of each row for a given component
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    int sectionWidth = 320;
+    
+    return sectionWidth;
+}
+
+-(void)categoryDoneButtonPressed{
+   
+    [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
+    [categoryPickerView removeFromSuperview];
+    [pickerToolbar removeFromSuperview];
+}
+
+-(void)categoryCancelButtonPressed{
+   [categoryPickerView removeFromSuperview];
+    [pickerToolbar removeFromSuperview];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

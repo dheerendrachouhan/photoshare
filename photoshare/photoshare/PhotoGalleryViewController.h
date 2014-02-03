@@ -58,7 +58,7 @@
     
     NSString *assetUrlOfImage;
     
-    UIActivityIndicatorView *indicator;
+    UIView *progressBarGestureView;  
     
     NSMutableArray *photoAssetUrlArray;
 }

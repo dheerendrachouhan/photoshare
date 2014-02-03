@@ -48,4 +48,5 @@ typedef NSUInteger SVProgressHUDMaskType;
 + (void)showInView:(UIView*)view status:(NSString*)string networkIndicator:(BOOL)show posY:(CGFloat)posY DEPRECATED_ATTRIBUTE;
 + (void)showInView:(UIView*)view status:(NSString*)string networkIndicator:(BOOL)show posY:(CGFloat)posY maskType:(SVProgressHUDMaskType)maskType DEPRECATED_ATTRIBUTE;
 
+-(UIView *)hudView;
 @end

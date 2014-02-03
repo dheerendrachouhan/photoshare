@@ -168,7 +168,8 @@ static SVProgressHUD *sharedView = nil;
 		self.alpha = 0;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
-	
+    UITapGestureRecognizer *tapGestuerForProgressBar=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
+    [self addGestureRecognizer:tapGestuerForProgressBar];
     return self;
 }
 
@@ -469,6 +470,8 @@ static SVProgressHUD *sharedView = nil;
 		hudView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
         hudView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin |
                                     UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
+       
+
         
         [self addSubview:hudView];
     }

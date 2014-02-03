@@ -196,6 +196,7 @@
     //label.text=@"Please wait data is fetchinf from server";
 
     //[dataFetchView addSubview:label];
+    
     [self.view addSubview:dataFetchView];
     [self fetchCollectionInfoFromServer];
 }
@@ -272,6 +273,7 @@
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
+  
     if (textField.tag ==1) {
         if([nameTextField.text length] > 0)
         {

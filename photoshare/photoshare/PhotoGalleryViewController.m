@@ -15,7 +15,9 @@
 #import "SVProgressHUD.h"
 
 @interface PhotoGalleryViewController ()
-
+{
+    SVProgressHUD *pro;
+}
 @end
 
 @implementation PhotoGalleryViewController
@@ -33,13 +35,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    indicator =[[UIActivityIndicatorView alloc] init];
+   
     //initialize the WebService Object
     webServices=[[WebserviceController alloc] init];
     
     selectedImagesIndex=[[NSMutableArray alloc] init];
     //initialize the assets Library
     library=[[ALAssetsLibrary alloc] init];
+    
+    
     
     //set the design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
@@ -101,12 +105,8 @@
     
     if (isCameraEditMode) {
         isCameraEditMode = false ;
-        [NSTimer scheduledTimerWithTimeInterval:1.0f
-                                         target:self
-                                       selector:@selector(openeditorcontrol)
-                                       userInfo:nil
-                                        repeats:NO];
-        
+        [NSTimer scheduledTimerWithTimeInterval:1.0f                                       target:self selector:@selector(openeditorcontrol)
+            userInfo:nil repeats:NO];
         
     }
     //initialize the photo Array
@@ -145,6 +145,18 @@
     [super viewWillDisappear:animated];
     
     isPopFromPhotos=YES;
+}
+-(void)removeProgressBar
+{
+    //[progressBarGestureView removeFromSuperview];
+    [SVProgressHUD dismiss];
+}
+-(void)addProgressBar :(NSString *)message
+{
+    [SVProgressHUD showWithStatus:message maskType:SVProgressHUDMaskTypeBlack];
+   
+    
+    
 }
 -(void)getDataFromNSUSerDefault
 {
@@ -259,7 +271,8 @@
 {
     [self resetAllBoolValue];
     isGetPhotoIdFromServer=YES;
-    [SVProgressHUD showWithStatus:@"Photo is Loaded From Server" maskType:SVProgressHUDMaskTypeBlack];
+    [self addProgressBar:@"Photo's are Loading From Server"];
+    
     webServices.delegate=self;
    // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
     NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
@@ -267,32 +280,34 @@
     [webServices call:dicData controller:@"collection" method:@"get"];
 }
 //get Photo From Server
--(void)getPhotoFromServer
+-(void)getPhotoFromServer :(int)photoIdIndex
 {
+    [self removeProgressBar];
+    
     [self resetAllBoolValue];
         isGetPhotoFromServer=YES;
+    @try {
         if(photoIdsArray.count>0)
         {
             
             deleteImageCount=0;
-            for (int i=0; i<photoIdsArray.count; i++) {
-                if(isPopFromPhotos)
-                {
-                    break;
-                }
-                else
-                {
-                    webServices.delegate=self;
-                    NSNumber *num = [NSNumber numberWithInt:1] ;
-                    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:i],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
-                    
-                    [webServices call:dicData controller:@"photo" method:@"get"];
-                }
-                
-               
-            }
+            //callling First Time Webservice for Get image from server
+            webServices.delegate=self;
+            NSNumber *num = [NSNumber numberWithInt:1] ;
+            NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
             
+            [webServices call:dicData controller:@"photo" method:@"get"];
+            
+        }
     }
+    @catch (NSException *exception) {
+        NSLog(@"Exception is found :%@",exception.description);
+    }
+    @finally {
+        
+    }
+
+    
 }
 //save Photo on Server Photo With Detaill
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imgData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
@@ -304,7 +319,9 @@
     webServices=[[WebserviceController alloc] init];
     
     webServices.delegate=self;
-    [SVProgressHUD showWithStatus:@"Photo is Loaded From Server" maskType:SVProgressHUDMaskTypeBlack];
+    
+    [self addProgressBar:@"Photo is Uploading on Server"];
+    
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
     //store data
    // [webServices call:data controller:@"photo" method:@"store"];
@@ -329,16 +346,21 @@
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webServices.delegate=self;
     NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"collection_id":self.collectionId};
-    [SVProgressHUD showWithStatus:@"Image is Loaded" maskType:SVProgressHUDMaskTypeBlack];
+    
+    [self addProgressBar:@"Photo is save on Server"];
+    
+    
     [webServices call:dicData controller:@"photo" method:@"get"];
 }
 -(void) webserviceCallbackImage:(UIImage *)image
 {
+   
+    [self removeProgressBar];
     //UIImageView *img = [[UIImageView alloc] initWithImage:image] ;
     //[self.view addSubview:img] ;
     if(isEditImageFromServer)
     {
-        [SVProgressHUD dismiss];
+        
         [self launchPhotoEditorWithImage:image highResolutionImage:image];
         
     }
@@ -348,15 +370,18 @@
         int count=photoArray.count;
         NSLog(@"Photo Array Count is : %d",count);
         UIImageView *imgView=(UIImageView *)[collectionview viewWithTag:100+count];
-        UILabel *label=(UILabel *)[collectionview viewWithTag:1100+count];
-        [label removeFromSuperview];
+        UIActivityIndicatorView *indicator=(UIActivityIndicatorView *)[collectionview viewWithTag:1100+count];
+        [indicator removeFromSuperview];
         imgView.image=image;
         
-        if(photoArray.count==photoIdsArray.count)
+        if(photoArray.count<photoIdsArray.count)
         {
-            [collectionview reloadData];
-            [SVProgressHUD dismiss];
-
+            if(!isPopFromPhotos)
+            {
+                [self getPhotoFromServer:photoArray.count];
+            }
+            
+           
         }
         //[collectionview reloadData];
     }
@@ -366,8 +391,9 @@
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
+     [self removeProgressBar];
     NSDictionary *outputData=[data objectForKey:@"output_data"];
-    
+   
     NSLog(@"outPutData is %@",outputData);
     
     int exitcode=[[data objectForKey:@"exit_code"] integerValue];
@@ -382,7 +408,6 @@
                 NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
                 if(collectionContent.count>0)
                 {
-                    
                     isGetPhotoIdFromServer=NO;
                     if(isNotFirstTime)
                     {
@@ -392,15 +417,15 @@
                     {
                         
                         [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
-                        //[collectionview reloadData];
-                        //[SVProgressHUD dismiss];
-                        [self getPhotoFromServer];
+                        [collectionview reloadData];
+                       
+                        [self getPhotoFromServer:0];
                     }
                     
                 }
                 else
                 {
-                    [SVProgressHUD dismiss];
+                    
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
                 }
@@ -414,7 +439,7 @@
             {
                 
                 [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
-                [SVProgressHUD dismiss];
+               
                 [collectionview reloadData];
 
              }
@@ -435,55 +460,64 @@
 -(IBAction)deletePhoto:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
-    if(btn.selected==NO)
+    if(photoArray.count>0)
     {
-        NSLog(@"Not selected");
-        addPhotoBtn.hidden=YES;
-        sharePhotoBtn.hidden=YES;
-        isDeleteMode=YES;
-    }
-    else
-    {
-        //sort the index array in descending order
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        
-        sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
-        if(sortedArray.count>0)
+        if(btn.selected==NO)
         {
-            //[SVProgressHUD showWithStatus:@"Please Wait Photo is Deleted " maskType:SVProgressHUDMaskTypeBlack];
-            deleteImageCount=0;
-            @try {
-                for(int i=0;i<sortedArray.count;i++)
-                {
-                    [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
-                    [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-                    [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-                }
-                [collectionview reloadData];
-            }
-            @catch (NSException *exception) {
-                NSLog(@"%@",exception.description);
-               
-            }
-            @finally {
-                
-            }
-            
+            NSLog(@"Not selected");
+            addPhotoBtn.hidden=YES;
+            sharePhotoBtn.hidden=YES;
+            isDeleteMode=YES;
         }
         else
         {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-            [alert show];
+            [collectionview reloadData];
+            //sort the index array in descending order
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            
+            sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
+            if(sortedArray.count>0)
+            {
+                
+                deleteImageCount=0;
+                @try {
+                    for(int i=0;i<sortedArray.count;i++)
+                    {
+                        [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
+                        [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                        [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                    }
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@",exception.description);
+                    
+                }
+                @finally {
+                    
+                }
+                
+            }
+            else
+            {
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                [alert show];
+            }
+            [self resetButton];
         }
-         [self resetButton];
+        
+        NSLog(@"Selected");
+        
+        
+        
+        btn.selected=!btn.selected;
+    }
+    else
+    {
+        
     }
     
-        NSLog(@"Selected");
-    
-   
-    btn.selected=!btn.selected;
 }
 
 -(IBAction)sharePhoto:(id)sender
@@ -500,6 +534,7 @@
     }
     else
     {
+        [collectionview reloadData];
         NSLog(@"Selected");
         [self resetButton];
 
@@ -533,7 +568,7 @@
     if (indexPath != nil){
         
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-        if(isDeleteMode || isShareMode)
+        if(isDeleteMode)
         {
             if(cell.selected==NO)
             {
@@ -662,29 +697,35 @@
    
     @try {
         
-        UIImage *image=[photoArray objectAtIndex:indexPath.row];
-        if(photoArray.count==photoIdsArray.count)
+        
+        if(photoArray.count>indexPath.row)
         {
+            UIImage *image=[photoArray objectAtIndex:indexPath.row];
             imgView.image=image;
         }
-        else if (photoArray.count>indexPath.row)
+        else
         {
-            imgView.image=image;
+            
+            UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [activityIndicator startAnimating];
+            activityIndicator.tag=1101+indexPath.row;
+            activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |                                        UIViewAutoresizingFlexibleRightMargin |                                        UIViewAutoresizingFlexibleTopMargin |                                        UIViewAutoresizingFlexibleBottomMargin);
+            activityIndicator.center = CGPointMake(CGRectGetWidth(cell.bounds)/2, CGRectGetHeight(cell.bounds)/2);
+            [cell.contentView addSubview:activityIndicator];
+            
+           /* UILabel *loading=[[UILabel alloc] initWithFrame:CGRectMake(20, 20, 100, 20)];
+            UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+            loading.textColor=btnBorderColor;
+            loading.tag=1101+indexPath.row;
+            loading.font=[UIFont fontWithName:@"verdana" size:9];
+            loading.text=@"Loading....";
+            [cell.contentView addSubview:loading];
+            */
+
         }
         
     }
     @catch (NSException *exception) {
-     
-        
-        UILabel *loading=[[UILabel alloc] initWithFrame:CGRectMake(20, 20, 100, 20)];
-        UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-        loading.textColor=btnBorderColor;
-        loading.tag=1101+indexPath.row;
-        loading.font=[UIFont fontWithName:@"verdana" size:9];
-        loading.text=@"Loading....";
-        [cell.contentView addSubview:loading];
-        
-
         NSLog(@"Exception Name : %@",exception.name);
         NSLog(@"Exception Description : %@",exception.description);
     }
