@@ -34,7 +34,7 @@
     BOOL grant;
     NSNumber *userID;
 }
-@synthesize stringStr,twitterTweet;
+@synthesize stringStr,twitterTweet,toolkitLink;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -151,7 +151,7 @@
         FBTWViewController *fb = [[FBTWViewController alloc] init];
         fb.successType = @"fb";
         
-        [controller setInitialText:userMessage.text];
+        [controller setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",toolkitLink]];
         
         [controller addImage:[UIImage imageNamed:@"123-mobile-logo.png"]];
         
@@ -362,7 +362,7 @@
     // Email Subject
     NSString *emailTitle = @"Join 123 Friday";
     // Email Content
-    NSString *messageBody = userMessage.text; // Change the message body to HTML
+    NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=\"%@\">Join Now</a>",userMessage.text,toolkitLink]; // Change the message body to HTML
     // To address
     NSArray *toRecipents = [NSArray arrayWithObject:userSelectedEmail];
         
@@ -370,7 +370,7 @@
     mfMail.mailComposeDelegate = self;
     
     [mfMail setSubject:emailTitle];
-    [mfMail setMessageBody:messageBody isHTML:NO];
+    [mfMail setMessageBody:messageBody isHTML:YES];
     [mfMail setToRecipients:toRecipents];
     
      //stop loader
@@ -413,7 +413,7 @@
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
-		controller.body = userMessage.text;
+		controller.body = [NSString stringWithFormat:@"%@ %@",userMessage.text,toolkitLink];
 		controller.recipients = [NSArray arrayWithObject:userSelectedPhone];
 		controller.messageComposeDelegate = self;
 		[self presentViewController:controller animated:YES completion:nil];
@@ -556,7 +556,7 @@
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
         {
             SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-            [tweetSheet setInitialText:[NSString  stringWithFormat:@"%@ %@",twitterTweet,userMessage.text]];
+            [tweetSheet setInitialText:[NSString  stringWithFormat:@"%@ Join 123 Friday %@",twitterTweet,toolkitLink]];
             [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
                 
                 FBTWViewController *tw = [[FBTWViewController alloc] init];

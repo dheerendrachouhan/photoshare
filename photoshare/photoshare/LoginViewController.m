@@ -113,6 +113,7 @@
             //objManager.loginDetailsDict = dic;
             userid =[dic objectForKey:@"user_id"];
             [dmc setUserId:[NSString stringWithFormat:@"%@",userid]] ;
+            [dmc setUserName:[NSString stringWithFormat:@"%@",[dic objectForKey:@"user_username"]]];
             
             [dmc setUserDetails:dic] ;
             

@@ -15,7 +15,9 @@
 }
 
 -(void) setUserId:(NSString *)userid ;
--(void) setUserDetails:(NSDictionary *) dic ;
+-(void) setUserDetails:(NSDictionary *) dic;
+-(void) setUserName:(NSString *)username;
 -(NSString * ) getUserId ;
 -(NSDictionary *) getUserDetails ;
+-(NSString *)getUserName;
 @end

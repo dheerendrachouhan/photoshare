@@ -19,5 +19,6 @@
 
 @property (nonatomic, retain) IBOutlet UISegmentedControl *toolboxController;
 @property (nonatomic, retain) IBOutlet UIWebView *webViewReferral;
+@property (nonatomic, retain) NSString *toolKitReferralStr;
 
 @end

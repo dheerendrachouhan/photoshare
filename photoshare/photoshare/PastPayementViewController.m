@@ -73,6 +73,10 @@
     JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:150 gradient:nil];
     
     [self.view addSubview:barChartView];
+    
+    WebserviceController *wsc = [[WebserviceController alloc] init];
+    
+    NSDictionary *dictData= @{@"user_id":userID,@"target_user_id":@"3",@"target_username":@""};
 }
 
 -(void) webserviceCallback:(NSString *)data
