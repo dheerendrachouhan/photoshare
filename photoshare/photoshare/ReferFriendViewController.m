@@ -26,7 +26,7 @@
     NSMutableArray *toolkitreferralsArr;
     NSString *segmentControllerIndexStr;
 }
-@synthesize toolboxController,webViewReferral;
+@synthesize toolboxController,webViewReferral,toolKitReferralStr;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -86,6 +86,7 @@
             webViewReferral.frame = frame;
         }
     }
+    toolKitReferralStr = @"";
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
@@ -119,28 +120,34 @@
     {
         segmentControllerIndexStr = @"0";
        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
+         toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
     }
     else if (toolboxController.selectedSegmentIndex == 1)
     {
         segmentControllerIndexStr = @"1";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:1]]]]];
+         toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:1],[objManager getData:@"user_username"]];
     }
     else if(toolboxController.selectedSegmentIndex == 2)
     {
         segmentControllerIndexStr = @"2";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:2]]]]];
+         toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:2],[objManager getData:@"user_username"]];
     }
 }
 
 -(void)loadData
 {
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
+    toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
 }
 
 //WEbView Required Delegates
 -(void)chooseView
 {
     ReferralStageFourVC *rf4 = [[ReferralStageFourVC alloc] init];
+    
+    rf4.toolkitLink = toolKitReferralStr;
     [self.navigationController pushViewController:rf4 animated:YES];
     rf4.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     /*

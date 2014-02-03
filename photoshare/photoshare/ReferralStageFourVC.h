@@ -34,5 +34,6 @@
 
 @property (nonatomic, strong) NSString *stringStr;
 @property (nonatomic, strong) NSString *twitterTweet;
+@property (nonatomic, strong) NSString *toolkitLink;
 
 @end

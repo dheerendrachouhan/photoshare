@@ -82,6 +82,16 @@
     int third = [thirdGem.text intValue];
     
     int totalGemCalculated = (first*1) + (second*1) +(third*1);
+    
+    if(totalGemCalculated >= 1000000)
+    {
+        {
+            if ([[UIScreen mainScreen] bounds].size.height == 568)
+            {
+                amountCalculated.font = [UIFont systemFontOfSize:26.0f];
+            }
+        }
+    }
     amountCalculated.text = [NSString stringWithFormat:@"%d",totalGemCalculated];
 }
 //FisrGem Up Button
@@ -91,9 +101,9 @@
     if(first >=0)
     {
         first++;
-        if(first >= 100)
+        if(first >= 1000)
         {
-            first = 99;
+            firstGem.font = [UIFont systemFontOfSize:33.0f];
         }
         firstGem.text = [NSString stringWithFormat:@"%d",first];
         [self calculateUserGem];
@@ -108,6 +118,10 @@
     }
     else {
         first--;
+        if(first < 1000)
+        {
+            firstGem.font = [UIFont systemFontOfSize:47.0f];
+        }
         firstGem.text = [NSString stringWithFormat:@"%d",first];
         [self calculateUserGem];
     }
@@ -124,9 +138,9 @@
     if(second >=0)
     {
         second++;
-        if(second >= 100)
+        if(second >= 1000)
         {
-            second = 99;
+            secondGem.font = [UIFont systemFontOfSize:33.0f];
         }
         secondGem.text = [NSString stringWithFormat:@"%d",second];
         [self calculateUserGem];
@@ -140,6 +154,10 @@
     }
     else {
         second--;
+        if(second < 1000)
+        {
+            secondGem.font = [UIFont systemFontOfSize:47.0f];
+        }
         secondGem.text = [NSString stringWithFormat:@"%d",second];
         [self calculateUserGem];
     }
@@ -156,9 +174,9 @@
     if(third >=0)
     {
         third++;
-        if(third >= 100)
+        if(third >= 1000)
         {
-            third = 99;
+            thirdGem.font = [UIFont systemFontOfSize:33.0f];
         }
         thirdGem.text = [NSString stringWithFormat:@"%d",third];
         [self calculateUserGem];
@@ -172,6 +190,10 @@
     }
     else {
         third--;
+        if(third < 1000)
+        {
+            thirdGem.font = [UIFont systemFontOfSize:47.0f];
+        }
         thirdGem.text = [NSString stringWithFormat:@"%d",third];
         [self calculateUserGem];
     }

@@ -47,6 +47,10 @@
     
 }
 
+-(void) setUserName:(NSString *)username
+{
+    [objManager storeData:username :@"user_username"];
+}
 
 -(void) setUserDetails:(NSDictionary *) dic
 {
@@ -65,6 +69,12 @@
 
     NSDictionary *user_details = [objManager getData:@"user_details"];
     return user_details;
+}
+
+-(NSString *)getUserName
+{
+    NSString *username = [objManager getData:@"user_username"];
+    return username;
 }
 
 
