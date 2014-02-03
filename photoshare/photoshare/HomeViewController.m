@@ -17,7 +17,8 @@
 #import "LoginViewController.h"
 #import "ContentManager.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
-
+#import "AccountViewController.h"
+#import "PhotoViewController.h"
 
 @interface HomeViewController ()
 
@@ -39,10 +40,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    LoginViewController *loginv = [[LoginViewController alloc] init] ;
-    [self.navigationController presentViewController:loginv animated:NO completion:nil];
+    //LoginViewController *loginv = [[LoginViewController alloc] init] ;
+    //[self.navigationController presentViewController:loginv animated:NO completion:nil];
     webservices=[[WebserviceController alloc] init];
     
     
@@ -67,7 +66,6 @@
     // Start the Aviary Editor OpenGL Load
     [AFOpenGLManager beginOpenGLLoad];
      dmc = [[DataMapperController alloc] init];
-    
 }
 
 
@@ -153,9 +151,10 @@
 {
     
     CommunityViewController *comm=[[CommunityViewController alloc] init];
-    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    //AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [self.navigationController pushViewController:comm animated:YES];
+    self.navigationController.navigationBarHidden = NO;
        
 }
 
@@ -374,6 +373,7 @@
 {
     NSLog(@"Data %@",data);
 }
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -96,10 +96,13 @@
     self.navigationController.navigationBarHidden = NO;
     ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
     
+    [self.navigationController pushViewController:referFriend animated:YES];
+    referFriend.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    /*
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [delegate.navControllerearning pushViewController:referFriend animated:YES];
-    referFriend.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    referFriend.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);*/
 }
 
 - (IBAction)yourReferrelBtn:(id)sender {

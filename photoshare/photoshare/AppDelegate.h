@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FacebookSDK/FacebookSDK.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) UINavigationController *nv;
 @property (strong, nonatomic)UITabBarController *tbc;
-@property (nonatomic, retain) UINavigationController *navControllerearning;
-@property (nonatomic, retain) UINavigationController *navControllercommunity;
+@property (strong, nonatomic) UINavigationController *navControllerhome;
+@property (strong, nonatomic) UINavigationController *navControllerearning;
+@property (strong, nonatomic) UINavigationController *navControllerphoto;
+@property (strong, nonatomic) UINavigationController *navControllercommunity;
+@property (strong, nonatomic) UINavigationController *navControlleraccount;
+@property (strong, nonatomic) UINavigationController *photoGalNav;
 
 @end
