@@ -75,6 +75,7 @@
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
 		E174AC121898C096001B5278 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC111898C096001B5278 /* iconr3.png */; };
 		E174AC141898C09B001B5278 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC131898C09B001B5278 /* edit.png */; };
+		E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */; };
 		E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626518976CDA00C1C799 /* EditProfileViewController.xib */; };
 		E18262821897F6DC00C1C799 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262811897F6DC00C1C799 /* facebook.png */; };
 		E18262841897F71700C1C799 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262831897F71700C1C799 /* twitter.png */; };
@@ -267,6 +268,8 @@
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
 		E174AC111898C096001B5278 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E174AC131898C09B001B5278 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		E17C8F93189FA5000079E0FE /* LaunchCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCameraViewController.h; sourceTree = "<group>"; };
+		E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCameraViewController.m; sourceTree = "<group>"; };
 		E182626318976CDA00C1C799 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		E182626418976CDA00C1C799 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
 		E182626518976CDA00C1C799 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -637,6 +640,8 @@
 				E1067E02189AA80400F08A5F /* LoginViewController.m */,
 				E16F39191891325600064806 /* CommonTopView.h */,
 				E16F391A1891325600064806 /* CommonTopView.m */,
+				E17C8F93189FA5000079E0FE /* LaunchCameraViewController.h */,
+				E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */,
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
 				E1B07427189951CC00589867 /* CommunityViewController.h */,
@@ -1046,6 +1051,7 @@
 				E317676E1899117600923E35 /* SVProgressHUD.m in Sources */,
 				E3BAA8EF18993ABC00ED2CA2 /* SBJsonParser.m in Sources */,
 				E3BAA8EB18993ABC00ED2CA2 /* NSObject+SBJSON.m in Sources */,
+				E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */,
 				FC97639C188FEB89008DF1F8 /* main.m in Sources */,
 				E1067E03189AA80400F08A5F /* LoginViewController.m in Sources */,
 				E1067DFE189AA7D600F08A5F /* AFURLSessionManager.m in Sources */,
