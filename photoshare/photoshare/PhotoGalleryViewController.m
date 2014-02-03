@@ -7,7 +7,7 @@
 //
 
 #import "PhotoGalleryViewController.h"
-#import "ContentManager.h"
+
 #import "Base64.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "WebserviceController.h"
@@ -44,7 +44,7 @@
     library=[[ALAssetsLibrary alloc] init];
     
     
-    
+    manager=[ContentManager sharedManager];
     //set the design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
@@ -572,13 +572,21 @@
         {
             if(cell.selected==NO)
             {
-                UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
-                checkBoxImg.layer.masksToBounds=YES;
-                checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
-                checkBoxImg.tag=1001;
-                [cell.contentView addSubview:checkBoxImg];
+                if(photoArray.count>indexPath.row)
+                {
+                    UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
+                    checkBoxImg.layer.masksToBounds=YES;
+                    checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                    checkBoxImg.tag=1001;
+                    [cell.contentView addSubview:checkBoxImg];
+                    
+                    [selectedImagesIndex addObject:[NSNumber numberWithInteger:[indexPath row]]];
+                }
+                else
+                {
+                    [manager showAlert:@"Warning" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                }
                 
-                [selectedImagesIndex addObject:[NSNumber numberWithInteger:[indexPath row]]];
             }
             else
             {

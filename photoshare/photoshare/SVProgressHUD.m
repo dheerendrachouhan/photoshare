@@ -168,8 +168,8 @@ static SVProgressHUD *sharedView = nil;
 		self.alpha = 0;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
-    UITapGestureRecognizer *tapGestuerForProgressBar=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
-    [self addGestureRecognizer:tapGestuerForProgressBar];
+    /*UITapGestureRecognizer *tapGestuerForProgressBar=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
+    [self addGestureRecognizer:tapGestuerForProgressBar];*/
     return self;
 }
 
