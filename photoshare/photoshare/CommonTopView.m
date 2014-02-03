@@ -11,6 +11,7 @@
 #import "HomeViewController.h"
 #import "LoginViewController.h"
 #import "ContentManager.h"
+#import "AppDelegate.h"
 @implementation CommonTopView
 
 
@@ -80,10 +81,10 @@ static CommonTopView *topView=nil;
 -(void)goToEarningViewController
 {
     NSLog(@"Earning");
- 
-    UITabBarController *tb = (UITabBarController *) self.window.rootViewController ;
+    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    //UITabBarController *tb = (UITabBarController *) self.window.rootViewController ;
     
-    [tb setSelectedIndex:1] ;
+    [delgate.tbc setSelectedIndex:1] ;
  }
 -(void)setTheTotalEarning
 {
