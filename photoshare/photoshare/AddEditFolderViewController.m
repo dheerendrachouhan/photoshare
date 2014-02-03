@@ -33,12 +33,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    
+    searchList=[[UIButton alloc] init];
     
     //contant manager Object
     manager = [ContentManager sharedManager];
     webServices=[[WebserviceController alloc] init];
     
+    
+    //initialize the search user list array
+    searchUserList=[[NSMutableArray alloc] init];
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
     float tfBackViewBorderWidth=2;
@@ -48,10 +51,12 @@
     folderNameView.layer.cornerRadius=tfBackViewCornerRadius;
     folderNameView.layer.borderColor=tfBackViewBorderColor.CGColor;
     
-    shareWithUserView.layer.borderWidth=tfBackViewBorderWidth;
-    shareWithUserView.layer.cornerRadius=tfBackViewCornerRadius;
-    shareWithUserView.layer.borderColor=tfBackViewBorderColor.CGColor;
-    
+    shareForReadingWithView.layer.borderWidth=tfBackViewBorderWidth;
+    shareForReadingWithView.layer.cornerRadius=tfBackViewCornerRadius;
+    shareForReadingWithView.layer.borderColor=tfBackViewBorderColor.CGColor;
+    shareForWritingWithView.layer.borderWidth=tfBackViewBorderWidth;
+    shareForWritingWithView.layer.cornerRadius=tfBackViewCornerRadius;
+    shareForWritingWithView.layer.borderColor=tfBackViewBorderColor.CGColor;
     
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
@@ -110,6 +115,17 @@
     if (textField.tag==1102&&textField.text.length>=2) {
         NSLog(@"Text is %@",textField.text);
         isSearchUserList=YES;
+        isShareForWritingWith=YES;
+        
+        webServices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid,@"target_username":textField.text,@"target_user_emailaddress":@""};
+        [webServices call:dicData controller:@"user" method:@"search"];
+    }
+    else if (textField.tag==1103&&textField.text.length>=2) {
+        NSLog(@"Text is %@",textField.text);
+        isSearchUserList=YES;
+        isShareForReadingWith=YES;
+        
         webServices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid,@"target_username":textField.text,@"target_user_emailaddress":@""};
         [webServices call:dicData controller:@"user" method:@"search"];
@@ -143,10 +159,16 @@
     }
     else if(btn.tag==102)
     {
-        shareWithUser.text=@"";
-        [shareWithUser becomeFirstResponder];
+        shareForWritingWith.text=@"";
+        [shareForWritingWith becomeFirstResponder];
+    }
+    else if(btn.tag==103)
+    {
+        shareForReadingWith.text=@"";
+        [shareForReadingWith becomeFirstResponder];
     }
 }
+
 -(UIAlertView *)alertView
 {
     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
@@ -156,8 +178,7 @@
 //Btn Action
 -(IBAction)addFolder:(id)sender
 {
-    [self addCollectionInfoInServer:folderName.text sharing:shareWith writeUserIds:[NSString stringWithFormat:@"%@",userid] readUserIds:@""];
-    
+    [self addCollectionInfoInServer:folderName.text sharing:shareWith writeUserIds:selectedWriteUserId readUserIds:selectetReadUserId];
 }
 
 -(IBAction)saveFolder:(id)sender
@@ -187,7 +208,6 @@
         [publicShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
         shareWith=@1;
     }
-    
    
 }
 
@@ -208,8 +228,15 @@
     isAdd=YES;
     
     webServices.delegate=self;
-   
-     NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":sharing,@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
+   if(writeUserIds==Nil)
+   {
+       writeUserIds=@"";
+   }
+    if(readUserIds==Nil)
+    {
+        readUserIds=@"";
+    }
+     NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
     [webServices call:dicData controller:@"collection" method:@"store"];
     
 }
@@ -251,10 +278,43 @@
     {
         if (isSearchUserList)
         {
+            
             NSArray *outPutData=[data objectForKey:@"output_data"];
             for (int i=0; i<outPutData.count; i++) {
                 [[outPutData objectAtIndex:i] objectForKey:@"user_username"];
                 NSLog(@"search user List %@", [[outPutData objectAtIndex:i] objectForKey:@"user_username"]);
+                if (isShareForWritingWith) {
+                    selectedWriteUser=[[outPutData objectAtIndex:i] objectForKey:@"user_username"];
+                    selectedWriteUserId=[[outPutData objectAtIndex:i] objectForKey:@"user_id"];
+                    [searchList removeFromSuperview];
+                    searchList.frame=CGRectMake(shareForWritingWithView.frame.origin.x, shareForWritingWithView.frame.origin.y+35*(i+1), shareForWritingWithView.frame.size.width, 25);
+                    [searchList addTarget:self action:@selector(selctUserList:) forControlEvents:UIControlEventTouchUpInside];
+                    [searchList setTitle:[NSString stringWithFormat:@"%@ (%@)",[[outPutData objectAtIndex:i] objectForKey:@"user_username"],[[outPutData objectAtIndex:i] objectForKey:@"user_realname"]] forState:UIControlStateNormal];
+                    [searchList setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                    searchList.layer.borderColor=[UIColor grayColor].CGColor;
+                    searchList.layer.borderWidth=1;
+    
+                    [self.view addSubview:searchList];
+                   
+                    
+                }
+                else if(isShareForReadingWith)
+                {
+                    
+                    selectetReadUser=[[outPutData objectAtIndex:i] objectForKey:@"user_username"];
+                    selectetReadUserId=[[outPutData objectAtIndex:i] objectForKey:@"user_id"];
+                    searchList.frame=CGRectMake(shareForReadingWithView.frame.origin.x, shareForReadingWithView.frame.origin.y+35*(i+1), shareForReadingWithView.frame.size.width, 25);
+                    [searchList addTarget:self action:@selector(selctUserList:) forControlEvents:UIControlEventTouchUpInside];
+                    [searchList setTitle:[NSString stringWithFormat:@"%@ (%@)",[[outPutData objectAtIndex:i] objectForKey:@"user_username"],[[outPutData objectAtIndex:i] objectForKey:@"user_realname"]] forState:UIControlStateNormal];
+                    [searchList setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                    searchList.layer.borderColor=[UIColor grayColor].CGColor;
+                    searchList.layer.borderWidth=1;
+                    [self.view addSubview:searchList];
+                    
+                   
+                }
+                
+                
             }
             
         }
@@ -284,7 +344,23 @@
     }
     
 }
+-(void)selctUserList: (id)sender
+{
+   
+    //UIButton *btn=(UIButton *)sender;
+    if(isShareForReadingWith)
+    {
 
+        shareForReadingWith.text=selectetReadUser;
+        isShareForReadingWith=NO;
+    }
+    else if (isShareForWritingWith)
+    {
+        shareForWritingWith.text=selectedWriteUser;
+         isShareForWritingWith=NO;
+    }
+     [searchList removeFromSuperview];
+}
 
 //Update Collection info in NSUSerDefault
 -(void)updateCollectionInfoInNSUserDefault

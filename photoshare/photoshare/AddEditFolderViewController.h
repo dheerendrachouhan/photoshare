@@ -14,12 +14,14 @@
 {
     IBOutlet UILabel *headingLabel;
     IBOutlet UIView *folderNameView;
-    IBOutlet UIView *shareWithUserView;
+    IBOutlet UIView *shareForWritingWithView;
+    IBOutlet UIView *shareForReadingWithView;
     IBOutlet UIButton *addButton;
     IBOutlet UIButton *saveButton;
     IBOutlet UIButton *deleteButton;
     IBOutlet UITextField *folderName;
-    IBOutlet UITextField *shareWithUser;
+    IBOutlet UITextField *shareForWritingWith ;
+    IBOutlet UITextField *shareForReadingWith ;
     
     NSNumber *userid;
     ContentManager *manager;
@@ -30,7 +32,15 @@
     BOOL isSave;
     BOOL isDelete;
     BOOL isSearchUserList;
+    BOOL isShareForWritingWith;
+    BOOL isShareForReadingWith;
     
+    NSString *selectedWriteUser;
+    NSString *selectetReadUser;
+    
+    NSString *selectedWriteUserId;
+    NSString *selectetReadUserId;
+    UIButton *searchList;
     NSNumber *shareWith;
    
     NSMutableArray *searchUserList;

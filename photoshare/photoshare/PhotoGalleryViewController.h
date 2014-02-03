@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "WebserviceController.h"
-
+#import "ContentManager.h"
 //for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <QuartzCore/QuartzCore.h>
@@ -58,7 +58,9 @@
     
     NSString *assetUrlOfImage;
     
-    UIView *progressBarGestureView;  
+    UIView *progressBarGestureView;
+    
+    ContentManager *manager;
     
     NSMutableArray *photoAssetUrlArray;
 }

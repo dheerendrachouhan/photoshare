@@ -14,8 +14,10 @@
                 <outlet property="privateShareBtn" destination="O2Q-k7-hVe" id="jN7-I4-ic3"/>
                 <outlet property="publicShareBtn" destination="tgH-1E-XRb" id="8An-xM-hzp"/>
                 <outlet property="saveButton" destination="yPL-7a-abD" id="8Yp-Fc-fIu"/>
-                <outlet property="shareWithUser" destination="hhe-zn-eXR" id="aY0-Qt-sxL"/>
-                <outlet property="shareWithUserView" destination="397-iR-sHp" id="d84-aV-y9D"/>
+                <outlet property="shareForReadingWith" destination="1Z6-V0-wmJ" id="9QP-WX-wQz"/>
+                <outlet property="shareForReadingWithView" destination="ayl-Gu-udK" id="wrS-Nl-iw1"/>
+                <outlet property="shareForWritingWith" destination="hhe-zn-eXR" id="kiD-rs-JVr"/>
+                <outlet property="shareForWritingWithView" destination="397-iR-sHp" id="Cff-3k-CSA"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -25,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3mB-nL-6ob">
-                    <rect key="frame" x="190" y="243" width="75" height="40"/>
+                    <rect key="frame" x="176" y="254" width="75" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Delete">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -35,7 +37,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="E39-gg-Al4">
-                    <rect key="frame" x="135" y="258" width="80" height="40"/>
+                    <rect key="frame" x="121" y="269" width="80" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Add">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -45,7 +47,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yPL-7a-abD">
-                    <rect key="frame" x="83" y="243" width="75" height="40"/>
+                    <rect key="frame" x="69" y="254" width="75" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Save">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,11 +57,11 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" id="oR1-Gf-54D">
-                    <rect key="frame" x="85" y="102" width="180" height="35"/>
+                    <rect key="frame" x="55" y="94" width="210" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Folder Name" minimumFontSize="17" id="lpg-oH-gEW">
-                            <rect key="frame" x="7" y="0.0" width="135" height="35"/>
+                            <rect key="frame" x="5" y="0.0" width="166" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits"/>
@@ -68,7 +70,7 @@
                             </connections>
                         </textField>
                         <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RTy-4o-Wkn">
-                            <rect key="frame" x="150" y="8" width="15" height="15"/>
+                            <rect key="frame" x="180" y="8" width="15" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" backgroundImage="cancel_btn.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -81,7 +83,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" id="QP6-i1-r61">
-                    <rect key="frame" x="85" y="324" width="180" height="63"/>
+                    <rect key="frame" x="71" y="316" width="180" height="63"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share with user" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gEc-Ob-miR">
@@ -130,17 +132,17 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add and Edit Folder" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ObL-ue-CEO">
-                    <rect key="frame" x="83" y="69" width="154" height="25"/>
+                    <rect key="frame" x="83" y="49" width="154" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" id="397-iR-sHp">
-                    <rect key="frame" x="85" y="162" width="180" height="35"/>
+                    <rect key="frame" x="55" y="151" width="210" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" tag="1102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share With User" minimumFontSize="17" id="hhe-zn-eXR">
-                            <rect key="frame" x="7" y="0.0" width="135" height="35"/>
+                        <textField opaque="NO" clipsSubviews="YES" tag="1102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share For Writing With" minimumFontSize="17" id="hhe-zn-eXR">
+                            <rect key="frame" x="5" y="0.0" width="166" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits"/>
@@ -149,13 +151,39 @@
                             </connections>
                         </textField>
                         <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8Po-HL-71g">
-                            <rect key="frame" x="150" y="8" width="15" height="15"/>
+                            <rect key="frame" x="180" y="8" width="15" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" backgroundImage="cancel_btn.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="OIN-W9-Ai0"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="ayl-Gu-udK">
+                    <rect key="frame" x="55" y="212" width="210" height="35"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" tag="1103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share For Reading With " minimumFontSize="17" id="1Z6-V0-wmJ">
+                            <rect key="frame" x="5" y="0.0" width="166" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="5Kr-p0-Da6"/>
+                            </connections>
+                        </textField>
+                        <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ygS-dn-YL9">
+                            <rect key="frame" x="180" y="8" width="15" height="15"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="cancel_btn.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="nkG-Jx-UxO"/>
                             </connections>
                         </button>
                     </subviews>
