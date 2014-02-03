@@ -115,24 +115,20 @@
     }
 }
 - (IBAction)toolbox_Controller:(id)sender {
-    [SVProgressHUD showWithStatus:@"Fectching Video" maskType:SVProgressHUDMaskTypeBlack];
     if(toolboxController.selectedSegmentIndex == 0)
     {
         segmentControllerIndexStr = @"0";
        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
-        [SVProgressHUD dismissWithSuccess:@"Video Loaded"];
     }
     else if (toolboxController.selectedSegmentIndex == 1)
     {
         segmentControllerIndexStr = @"1";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:1]]]]];
-        [SVProgressHUD dismissWithSuccess:@"video Loaded"];
     }
     else if(toolboxController.selectedSegmentIndex == 2)
     {
         segmentControllerIndexStr = @"2";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:2]]]]];
-        [SVProgressHUD dismissWithSuccess:@"Video Loaded"];
     }
 }
 

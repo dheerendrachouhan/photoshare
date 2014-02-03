@@ -72,6 +72,7 @@
 - (IBAction)userSignInBtn:(id)sender {
     
     //Without Validation
+    [self tapHideKeyboard];
     //[self dismissViewControllerAnimated:YES completion:nil] ;
     
     NSString *username = [nameTextField text];
@@ -121,7 +122,7 @@
             
             //store the UserId in NSUser Defaults
             //[manager storeData:userid :@"user_id"];
-    
+            
             
             NSLog(@"Successful Login");
             
