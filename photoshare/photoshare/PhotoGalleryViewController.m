@@ -515,6 +515,16 @@
     }
     else
     {
+        if(photoIdsArray.count>0)
+        {
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alert show];
+        }
+        else
+        {
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alert show];
+        }
         
     }
     
@@ -522,25 +532,36 @@
 
 -(IBAction)sharePhoto:(id)sender
 {
-    
-    UIButton *btn=(UIButton *)sender;
-    if(btn.selected==NO)
+    /*if(!isPublicFolder)
     {
-        NSLog(@"Not selected");
-        addPhotoBtn.hidden=YES;
-        deletePhotoBtn.hidden=YES;
-        sharePhotoBtn.frame=deletePhotoBtn.frame;
-        isShareMode=YES;
+        UIButton *btn=(UIButton *)sender;
+        if(btn.selected==NO)
+        {
+            NSLog(@"Not selected");
+            addPhotoBtn.hidden=YES;
+            deletePhotoBtn.hidden=YES;
+            sharePhotoBtn.frame=deletePhotoBtn.frame;
+            isShareMode=YES;
+        }
+        else
+        {
+            [collectionview reloadData];
+            NSLog(@"Selected");
+            [self resetButton];
+            
+        }
+        
+        btn.selected=!btn.selected;
     }
     else
     {
-        [collectionview reloadData];
-        NSLog(@"Selected");
-        [self resetButton];
-
-    }
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Currently Share is not Working" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        [alert show];
+    }*/
     
-    btn.selected=!btn.selected;
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Currently Share is not Working" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+    [alert show];
+    
 
 }
 //reset the button hidden no and previous frame
@@ -550,7 +571,7 @@
     deletePhotoBtn.hidden=NO;
     sharePhotoBtn.hidden=NO;
     
-    sharePhotoBtn.frame=frameForShareBtn;
+    //sharePhotoBtn.frame=frameForShareBtn;
     isShareMode=NO;
     isDeleteMode=NO;
     

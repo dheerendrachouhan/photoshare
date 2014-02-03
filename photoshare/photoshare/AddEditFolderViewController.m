@@ -183,7 +183,7 @@
 
 -(IBAction)saveFolder:(id)sender
 {
-    [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:shareWith writeUserIds:[NSString stringWithFormat:@"%@",userid] readUserIds:@""];
+    [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:shareWith writeUserIds:selectedWriteUserId readUserIds:selectetReadUserId];
 
 }
 -(IBAction)deleteFolder:(id)sender
@@ -237,19 +237,44 @@
         readUserIds=@"";
     }
      NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
-    [webServices call:dicData controller:@"collection" method:@"store"];
+    @try {
+        [webServices call:dicData controller:@"collection" method:@"store"];
+
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
     
 }
 -(void)editCollectionInfoInServer:(NSNumber *)collecId collectionName:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
 {
     [self resetAllBOOLValue];
     isSave=YES;
-    
+    if(writeUserIds==Nil)
+    {
+        writeUserIds=@"";
+    }
+    if(readUserIds==Nil)
+    {
+        readUserIds=@"";
+    }
     webServices.delegate=self;
     
     //edit data
-    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":collecId,@"collection_name":collectionName,@"collection_sharing":sharing,@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
-    [webServices call:dicData controller:@"collection" method:@"change"];
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":collecId,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
+    @try {
+        [webServices call:dicData controller:@"collection" method:@"change"];
+
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
     
 }
 -(void)deleteCollectionInfoInServer
@@ -316,7 +341,7 @@
                 
                 
             }
-            
+            isSearchUserList=NO;
         }
         else
         {
