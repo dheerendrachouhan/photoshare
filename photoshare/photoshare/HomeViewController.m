@@ -181,7 +181,8 @@
 //imagePicker DelegateMethod
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissModals];
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -197,7 +198,8 @@
         {
             isCameraEditMode=YES;
             pickImage=image;
-            [self dismissViewControllerAnimated:YES completion:Nil];
+            [self dismissViewControllerAnimated:NO completion:Nil];
+            
         }
         else
         {
@@ -212,7 +214,7 @@
                 }];
             };
             
-            [self dismissViewControllerAnimated:YES completion:completion];
+            [self dismissViewControllerAnimated:NO completion:completion];
         }
 
     }
@@ -220,7 +222,7 @@
         
     }
     @finally {
-         [self dismissViewControllerAnimated:YES completion:Nil];
+         [self dismissViewControllerAnimated:NO completion:Nil];
     }
     
    
@@ -296,14 +298,15 @@
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
     imgData=UIImagePNGRepresentation(image);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
      [self showSelectFolderOption];
 }
 
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissModals];
 }
 
 #pragma mark - Photo Editor Customization
@@ -461,6 +464,12 @@
    [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
 }
+
+-(void)dismissModals
+{
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
