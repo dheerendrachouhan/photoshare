@@ -29,9 +29,11 @@
     BOOL isAdd;
     BOOL isSave;
     BOOL isDelete;
+    BOOL isSearchUserList;
     
     NSNumber *shareWith;
    
+    NSMutableArray *searchUserList;
     IBOutlet UIButton *privateShareBtn;
     IBOutlet UIButton *publicShareBtn;
 }

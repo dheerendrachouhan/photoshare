@@ -14,6 +14,8 @@
                 <outlet property="privateShareBtn" destination="O2Q-k7-hVe" id="jN7-I4-ic3"/>
                 <outlet property="publicShareBtn" destination="tgH-1E-XRb" id="8An-xM-hzp"/>
                 <outlet property="saveButton" destination="yPL-7a-abD" id="8Yp-Fc-fIu"/>
+                <outlet property="shareWithUser" destination="hhe-zn-eXR" id="aY0-Qt-sxL"/>
+                <outlet property="shareWithUserView" destination="397-iR-sHp" id="d84-aV-y9D"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -78,8 +80,8 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="QP6-i1-r61">
-                    <rect key="frame" x="85" y="150" width="180" height="63"/>
+                <view hidden="YES" contentMode="scaleToFill" id="QP6-i1-r61">
+                    <rect key="frame" x="85" y="324" width="180" height="63"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share with user" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gEc-Ob-miR">
@@ -133,6 +135,32 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" id="397-iR-sHp">
+                    <rect key="frame" x="85" y="162" width="180" height="35"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" tag="1102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share With User" minimumFontSize="17" id="hhe-zn-eXR">
+                            <rect key="frame" x="7" y="0.0" width="135" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="2d2-Kc-jkd"/>
+                            </connections>
+                        </textField>
+                        <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8Po-HL-71g">
+                            <rect key="frame" x="150" y="8" width="15" height="15"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="cancel_btn.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="OIN-W9-Ai0"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

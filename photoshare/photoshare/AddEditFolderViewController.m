@@ -104,6 +104,19 @@
         shareWith=@0;
     }
 }
+//search user for share With option
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.tag==1102&&textField.text.length>=2) {
+        NSLog(@"Text is %@",textField.text);
+        isSearchUserList=YES;
+        webServices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid,@"target_username":textField.text,@"target_user_emailaddress":@""};
+        [webServices call:dicData controller:@"user" method:@"search"];
+    }
+    return YES;
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
@@ -228,7 +241,7 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Collection return %@",data);
-   
+    
     
     NSLog(@"exit  %@",[data objectForKey:@"exit_code"]);
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
@@ -236,22 +249,38 @@
     
     if(exitCode ==1)
     {
-        if(isAdd)
+        if (isSearchUserList)
         {
-        NSMutableArray *outPutData=[data objectForKey:@"output_data"];
-        newCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];
+            NSArray *outPutData=[data objectForKey:@"output_data"];
+            for (int i=0; i<outPutData.count; i++) {
+                [[outPutData objectAtIndex:i] objectForKey:@"user_username"];
+                NSLog(@"search user List %@", [[outPutData objectAtIndex:i] objectForKey:@"user_username"]);
+            }
+            
         }
-      
-        
-        [self updateCollectionInfoInNSUserDefault];
-        
-        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-        [alertView show];
+        else
+        {
+            if(isAdd)
+            {
+                NSMutableArray *outPutData=[data objectForKey:@"output_data"];
+                newCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];
+            }
+            
+            
+            [self updateCollectionInfoInNSUserDefault];
+            
+            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alertView show];
+        }
     }
     
     else
     {
-        [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
+        if(!isSearchUserList)
+        {
+             [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+       
     }
     
 }
