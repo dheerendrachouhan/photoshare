@@ -26,7 +26,7 @@
     WebserviceController *webServices;
     UIButton *editBtn;
     
-    NSMutableArray *imgArray;
+   
     NSMutableArray *selectedImagesIndex;
     NSString *refrenceUrlofImg;
     CGRect frameForShareBtn;
@@ -50,6 +50,7 @@
     int deleteImageCount;
     
     BOOL isPopFromPhotos;
+    BOOL isGoToViewPhoto;
     BOOL isPickerMode;
     
     UIImage *pickImage;

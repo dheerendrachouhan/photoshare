@@ -40,14 +40,22 @@
     BOOL isCameraMode;
     BOOL isCameraEditMode;
     
+
     
     IBOutlet UIImageView *imageView;
     
+    IBOutlet UILabel *folderLocationShowLabel;
     
 }
 - (IBAction)segmentSwitch:(id)sender;
 //for Aviary
+
+@property(nonatomic,retain)NSNumber *photoId;
+@property(nonatomic,assign)NSNumber *collectionId;
+@property(nonatomic,retain)UIImage *smallImage;
+@property(nonatomic,retain)NSString *folderNameLocation;
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;
+@property(nonatomic,assign)BOOL isViewPhoto;
 @end
 

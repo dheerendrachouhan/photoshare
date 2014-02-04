@@ -13,7 +13,7 @@
 @end
 
 @implementation PhotoViewController
-
+@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -22,7 +22,63 @@
     }
     return self;
 }
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    collectionIdArray=[[NSMutableArray alloc] init];
+    collectionNameArray=[[NSMutableArray alloc] init];
+    webservices=[[WebserviceController alloc] init];
+    
+    manager=[ContentManager sharedManager];
+    dmc=[[DataMapperController alloc] init];
+    NSDictionary *dic = [dmc getUserDetails] ;
+    userid=[dic objectForKey:@"user_id"];
+    //imagePicker
+    
+    imageView.layer.masksToBounds=YES;
+    if([UIScreen mainScreen].bounds.size.height == 480)
+    {
+        imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height-70);
+       
+    }
+    if(self.isViewPhoto)
+    {
+        folderLocationShowLabel.text=self.folderNameLocation;
+        imageView.image=self.smallImage;
+        [self getImageFromServerForEdit:0];
+        UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [activityIndicator startAnimating];
+        activityIndicator.tag=1100;
+        activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |                                        UIViewAutoresizingFlexibleRightMargin |                                        UIViewAutoresizingFlexibleTopMargin |                                        UIViewAutoresizingFlexibleBottomMargin);
+        activityIndicator.center = CGPointMake(CGRectGetWidth(imageView.bounds)/2, CGRectGetHeight(imageView.bounds)/2);
+        [imageView addSubview:activityIndicator];
+    }
+    else
+    {
+        UIImagePickerController *picker=[[UIImagePickerController alloc] init];
+        picker.delegate=self;
+        isCameraMode=YES;
+        picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:picker animated:YES completion:nil];
 
+    }
+}
+-(void)getImageFromServerForEdit :(int)selectedIndex
+{
+    NSNumber *num = [NSNumber numberWithInt:1] ;
+    webservices.delegate=self;
+    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId};
+    
+    [webservices call:dicData controller:@"photo" method:@"get"];
+}
+-(void) webserviceCallbackImage:(UIImage *)image
+{
+    UIActivityIndicatorView *indeicator=(UIActivityIndicatorView *)[imageView viewWithTag:1100];
+    [indeicator removeFromSuperview];
+    imageView.image=image;
+    
+}
 -(void)getCollectionInfoFromUserDefault
 {
     NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
@@ -56,26 +112,7 @@
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
     
 }
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    collectionIdArray=[[NSMutableArray alloc] init];
-    collectionNameArray=[[NSMutableArray alloc] init];
-    webservices=[[WebserviceController alloc] init];
-    
-    manager=[ContentManager sharedManager];
-    dmc=[[DataMapperController alloc] init];
-    NSDictionary *dic = [dmc getUserDetails] ;
-    userid=[dic objectForKey:@"user_id"];
-    //imagePicker
-    UIImagePickerController *picker=[[UIImagePickerController alloc] init];
-    picker.delegate=self;
-    isCameraMode=YES;
-    picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-    [self presentViewController:picker animated:YES completion:nil];
-   
-}
+
 - (IBAction)segmentSwitch:(id)sender {
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
