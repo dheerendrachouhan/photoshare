@@ -11,6 +11,8 @@
 #import "HomeViewController.h"
 #import "LoginViewController.h"
 #import "ContentManager.h"
+#import "AppDelegate.h"
+
 @implementation CommonTopView
 
 
@@ -61,12 +63,13 @@ static CommonTopView *topView=nil;
         
         UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToEarningViewController)];
         [totalEarningView addGestureRecognizer:tapGesture];
+        
     }
     [self addSubview:topBlueLbl];
     [self addSubview:logoImg];
     [self addSubview: totalEarningView];
     [self addSubview:totalEarningHeading];
-   [ self addSubview:totalEarning];
+    [self addSubview:totalEarning];
     ContentManager *objManager=[ContentManager sharedManager];
     NSDictionary *dic =objManager.loginDetailsDict ;
 
@@ -81,9 +84,9 @@ static CommonTopView *topView=nil;
 {
     NSLog(@"Earning");
  
-    UITabBarController *tb = (UITabBarController *) self.window.rootViewController ;
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    [tb setSelectedIndex:1] ;
+    [delegate.tbc setSelectedIndex:1] ;
  }
 -(void)setTheTotalEarning
 {
