@@ -11,6 +11,7 @@
 #import "SVProgressHUD.h"
 #import "ContentManager.h"
 #import "AppDelegate.h"
+#import "NavigationBar.h"
 
 @interface ReferFriendViewController ()
 
@@ -59,13 +60,9 @@
     
     userID = [objManager getData:@"user_id"];
     // Do any additional setup after loading the view from its nib.
-    [self.navigationItem setTitle:@"Refer Friends"];
     //Navigation Back Title
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
     self.navigationItem.backBarButtonItem = backButton;
-    //Navigation Item to choose
-    UIBarButtonItem *chooseButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(chooseView)];
-    self.navigationItem.rightBarButtonItem = chooseButton;
     
     WebserviceController *wb = [[WebserviceController alloc] init];
     wb.delegate = self;
@@ -81,7 +78,7 @@
         {
             //custumizing frame of webview for 3.5 inch
             CGRect frame = webViewReferral.frame;
-            frame.origin.y = 142;
+            frame.origin.y = 200;
             frame.size.height = 220;
             webViewReferral.frame = frame;
         }
@@ -121,21 +118,20 @@
         segmentControllerIndexStr = @"0";
        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
          toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
-        [self navItem];
+        
     }
     else if (toolboxController.selectedSegmentIndex == 1)
     {
         segmentControllerIndexStr = @"1";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:1]]]]];
          toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:1],[objManager getData:@"user_username"]];
-        [self navItem];
+        
     }
     else if(toolboxController.selectedSegmentIndex == 2)
     {
         segmentControllerIndexStr = @"2";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:2]]]]];
          toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:2],[objManager getData:@"user_username"]];
-        [self navItem];
     }
 }
 
@@ -144,7 +140,7 @@
     webViewReferral.delegate = self;
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
-    [self navItem];
+    
 }
 
 //WEbView Required Delegates
@@ -154,23 +150,48 @@
     
     rf4.toolkitLink = toolKitReferralStr;
     [self.navigationController pushViewController:rf4 animated:YES];
-    rf4.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-    /*
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [delegate.navControllerearning pushViewController:rf4 animated:YES];
-    delegate.navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);*/
+}
+
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 40)];
+    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    navTitle.text = @"Refer Friends";
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
+    
+    //Button for Next
+    UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [buttonLeft addTarget:self action:@selector(chooseView) forControlEvents:UIControlEventTouchDown];
+    [buttonLeft setTitle:@"Next >" forState:UIControlStateNormal];
+    buttonLeft.frame = CGRectMake(260, 50, 60, 30.0);
+    buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    [navnBar addSubview:buttonLeft];
+    
+    UIBarButtonItem *chooseButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(chooseView)];
+    self.navigationItem.rightBarButtonItem = chooseButton;
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-}
-
--(void)navItem
-{
-    self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    [self addCustomNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning

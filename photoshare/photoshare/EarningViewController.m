@@ -13,6 +13,7 @@
 #import "ReferFriendViewController.h"
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
+#import "NavigationBar.h"
 
 @interface EarningViewController ()
 
@@ -80,7 +81,6 @@
     PastPayementViewController *pastPay = [[PastPayementViewController alloc] init];
     
     [self.navigationController pushViewController:pastPay animated:YES];
-    pastPay.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
    
 }
 
@@ -89,7 +89,6 @@
     FinanceCalculatorViewController *financeCalci = [[FinanceCalculatorViewController alloc] init];
     
     [self.navigationController pushViewController:financeCalci animated:YES];
-    financeCalci.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 - (IBAction)inviteMoreFriendsBtn:(id)sender {
@@ -97,12 +96,7 @@
     ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
     
     [self.navigationController pushViewController:referFriend animated:YES];
-    referFriend.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-    /*
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    [delegate.navControllerearning pushViewController:referFriend animated:YES];
-    referFriend.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);*/
 }
 
 - (IBAction)yourReferrelBtn:(id)sender {
@@ -110,9 +104,30 @@
     MyReferralViewController *mtReffVC = [[MyReferralViewController alloc] init];
     
     [self.navigationController pushViewController:mtReffVC animated:YES];
-    mtReffVC.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
+#pragma Mark
+#pragma Add Custom Navigation Bar
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 90)];
+    
+    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(130, 50, 80, 40)];
+    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    navTitle.text = @"Finance";
+    [navnBar addSubview:navTitle];
+    
+    [[self view] addSubview:navnBar];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self addCustomNavigationBar];
+}
 
 - (void)didReceiveMemoryWarning
 {

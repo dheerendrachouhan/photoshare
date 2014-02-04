@@ -10,7 +10,7 @@
 #import "JXBarChartView.h"
 #import "CommonTopView.h"
 #import "SVProgressHUD.h"
-
+#import "NavigationBar.h"
 
 @interface PastPayementViewController ()
 
@@ -33,7 +33,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationItem setTitle:@"Past Payment"];
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     NSLog(@"Userid : %@",userID);
 
@@ -59,13 +58,13 @@
     //Initiating the frame of bar graph
     if([[UIScreen mainScreen] bounds].size.height == 568)
     {
-        frame = CGRectMake(0, 30, 320, 458);
+        frame = CGRectMake(0, 90, 320, 458);
         point = 20;
         bHeight = 30;
     }
     else if([[UIScreen mainScreen] bounds].size.height == 480)
     {
-        frame = CGRectMake(0, 25, 320, 360);
+        frame = CGRectMake(0, 90, 320, 360);
         point = 20;
         bHeight = 20;
     }
@@ -83,6 +82,37 @@
 {
     [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
     NSLog(@"login callback%@",data);
+}
+
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 55, 70.0, 30.0);
+    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 40)];
+    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    navTitle.text = @"Past Payment";
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self addCustomNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning
