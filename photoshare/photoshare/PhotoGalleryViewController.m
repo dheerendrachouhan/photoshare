@@ -131,13 +131,7 @@
         
     }
     
-    if (isCameraEditMode) {
-        isCameraEditMode = false ;
-        [NSTimer scheduledTimerWithTimeInterval:1.0f                                       target:self selector:@selector(openeditorcontrol)
-                                       userInfo:nil repeats:NO];
-        
-    }
-        frameForShareBtn=sharePhotoBtn.frame;
+    frameForShareBtn=sharePhotoBtn.frame;
     
     
 }
@@ -146,7 +140,7 @@
 {
     [self resetAllBoolValue];
     isGetPhotoIdFromServer=YES;
-    [self addProgressBar:@"Photo's are Loading From Server"];
+    [self addProgressBar:@"Standby"];
     
     webServices.delegate=self;
     // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
@@ -163,7 +157,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if(!isGoToViewPhoto)
+    if(!isGoToViewPhoto&&!isCameraMode&&!isCameraEditMode)
     {
         isPopFromPhotos=YES;
     }
@@ -177,8 +171,6 @@
 -(void)addProgressBar :(NSString *)message
 {
     [SVProgressHUD showWithStatus:message maskType:SVProgressHUDMaskTypeBlack];
-   
-    
     
 }
 -(void)getDataFromNSUSerDefault
@@ -297,7 +289,7 @@
     
     webServices.delegate=self;
     
-    [self addProgressBar:@"Photo is Uploading on Server"];
+    [self addProgressBar:@"Standby"];
     
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
     //store data
@@ -639,7 +631,7 @@
         }
         else
         {
-            viewPhoto.folderNameLocation=[NSString stringWithFormat:@"Your Community, %@",self.folderName];
+            viewPhoto.folderNameLocation=[NSString stringWithFormat:@"Your folders, %@",self.folderName];
         }
         
         [self.navigationController pushViewController:viewPhoto animated:YES];

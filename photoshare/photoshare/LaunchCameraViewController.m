@@ -43,6 +43,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    
     [self getCollectionInfoFromUserDefault];
     [self addCustomNavigationBar];
     if (isCameraEditMode) {
@@ -72,6 +73,11 @@
             isCameraMode=YES;
         }
     }
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    isCameraMode=NO;
+    
 }
 -(void)openeditorcontrol
 {
@@ -114,7 +120,8 @@
 {
     
    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-    
+    imgView.layer.masksToBounds=YES;
+    imgView.image=image;
     @try {
         isCameraMode=NO;
         isCameraEditMode=YES;
@@ -283,7 +290,10 @@
     NSLog(@"Data %@",data);
 }
 
-
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"select tabbar");
+}
 
 //Picker view for select folder option
 -(void)showSelectFolderOption
@@ -365,14 +375,14 @@
     [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
-    
+    [manager showAlert:@"Message" msg:@"Photo saved" cancelBtnTitle:@"Ok" otherBtn:nil];
     [self goToHomePage];
 }
 
 -(void)categoryCancelButtonPressed{
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
-    
+    [manager showAlert:@"Message" msg:@"Photo save cancel" cancelBtnTitle:@"Ok" otherBtn:nil];
      [self goToHomePage];
 }
 #pragma Mark
@@ -382,14 +392,6 @@
     self.navigationController.navigationBarHidden = TRUE;
     
     NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self
-               action:@selector(navBackButtonClick)
-     forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    // button.backgroundColor = [UIColor redColor];
-    [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
 }

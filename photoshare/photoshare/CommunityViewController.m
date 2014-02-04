@@ -21,8 +21,6 @@
 
 @implementation CommunityViewController
 
-
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -56,7 +54,7 @@
     
     if([UIScreen mainScreen].bounds.size.height == 568)
     {
-         collectionview.frame=CGRectMake(20, 100, 280, 353);
+         collectionview.frame=CGRectMake(20, 100, 280, 365);
     }
     else if([UIScreen mainScreen].bounds.size.height == 480)
     {
@@ -318,6 +316,13 @@
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
     button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
    // button.backgroundColor = [UIColor redColor];
+    
+    UILabel *titleLabel = [[UILabel alloc] init ];
+    titleLabel.text=@"Your folders";
+    titleLabel.textAlignment=NSTextAlignmentCenter;
+    titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+    titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    [navnBar addSubview:titleLabel];
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
