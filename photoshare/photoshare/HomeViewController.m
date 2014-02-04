@@ -456,11 +456,15 @@
 -(void)categoryDoneButtonPressed{
    
     [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saved" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
 }
 
 -(void)categoryCancelButtonPressed{
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo save cancel" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
    [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
 }
