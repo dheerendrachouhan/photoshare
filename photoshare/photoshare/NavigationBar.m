@@ -1,36 +1,23 @@
 //
-//  CommonTopView.m
+//  NavigationBar.m
 //  photoshare
 //
-//  Created by ignis2 on 23/01/14.
+//  Created by ignis3 on 04/02/14.
 //  Copyright (c) 2014 ignis. All rights reserved.
 //
 
-#import "CommonTopView.h"
-#import "EarningViewController.h"
-#import "HomeViewController.h"
-#import "LoginViewController.h"
+#import "NavigationBar.h"
 #import "ContentManager.h"
 #import "AppDelegate.h"
 
-@implementation CommonTopView
-
-
-static CommonTopView *topView=nil;
-
-+(CommonTopView *)sharedTopView
-{
-    if(topView==nil)
-    {
-        topView=[[CommonTopView alloc] init];
-    }
-    return topView;
-}
+@implementation NavigationBar
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        // Initialization code
+        
         self.frame=CGRectMake(0, 20, 320, 50 );
         self.backgroundColor=[UIColor whiteColor];
         topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 8)];
@@ -57,7 +44,7 @@ static CommonTopView *topView=nil;
         totalEarning.tag = 1;
         totalEarning.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
         NSString *totalEarn=[@"£" stringByAppendingString:@"0.0"];
-       
+        
         totalEarning.text=totalEarn;
         totalEarning.textAlignment=NSTextAlignmentCenter;
         
@@ -72,32 +59,25 @@ static CommonTopView *topView=nil;
     [self addSubview:totalEarning];
     ContentManager *objManager=[ContentManager sharedManager];
     NSDictionary *dic =objManager.loginDetailsDict ;
-
-    
     
     NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
     
-
     return self;
 }
+
 -(void)goToEarningViewController
 {
     NSLog(@"Earning");
- 
+    
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [delegate.tbc setSelectedIndex:1];
- }
+}
 -(void)setTheTotalEarning
 {
- //   totalEarning.text=totalEarn;
-    
+    //   totalEarning.text=totalEarn;
     //UILabel *lb = (UILabel *) [self viewWithTag:1];
-    
-  //  [lb removeFromSuperview] ;
-    
-  
-    
+    //  [lb removeFromSuperview] ;
 }
 
 @end

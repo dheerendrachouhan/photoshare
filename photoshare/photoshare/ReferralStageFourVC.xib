@@ -50,7 +50,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.80614237879999995" green="0.80614237879999995" blue="0.80614237879999995" alpha="1" colorSpace="calibratedRGB"/>
                         </imageView>
-                        <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="Now choose how would you like like to find friends....." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pEW-u8-F6P">
+                        <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="Now choose how you would like to find your friends....." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pEW-u8-F6P">
                             <rect key="frame" x="11" y="36" width="298" height="63"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -139,7 +139,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hey I've been using 123 Friday to share photo and earn  money want to join me?" translatesAutoresizingMaskIntoConstraints="NO" id="I6K-Cc-WgR">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hey, I've been using 123 Friday to share photos and earn  money, want to join me?" translatesAutoresizingMaskIntoConstraints="NO" id="I6K-Cc-WgR">
                             <rect key="frame" x="24" y="255" width="270" height="100"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
