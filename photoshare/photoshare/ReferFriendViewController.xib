@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" editable="NO" text="Choose a toolbox to help refer your friends" id="1RP-d8-cxx">
-                    <rect key="frame" x="12" y="33" width="296" height="60"/>
+                    <rect key="frame" x="12" y="75" width="296" height="66"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="textColor" red="0.070859437159999997" green="0.6299059494" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -25,7 +25,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="4tf-6A-iwb">
-                    <rect key="frame" x="12" y="101" width="296" height="29"/>
+                    <rect key="frame" x="12" y="155" width="296" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <segments>
                         <segment title="Toolbox 1"/>
@@ -37,7 +37,7 @@
                     </connections>
                 </segmentedControl>
                 <webView contentMode="scaleToFill" scalesPageToFit="YES" id="1sJ-lM-kkB">
-                    <rect key="frame" x="0.0" y="146" width="320" height="233"/>
+                    <rect key="frame" x="0.0" y="200" width="320" height="233"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </webView>
             </subviews>

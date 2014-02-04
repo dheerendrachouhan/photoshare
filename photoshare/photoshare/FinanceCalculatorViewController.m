@@ -7,6 +7,7 @@
 //
 
 #import "FinanceCalculatorViewController.h"
+#import "NavigationBar.h"
 
 @interface FinanceCalculatorViewController ()
 
@@ -202,6 +203,37 @@
         thirdGem.text = @"00";
     }
 
+}
+
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(120, 50, 120, 40)];
+    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    navTitle.text = @"Calculator";
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self addCustomNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning
