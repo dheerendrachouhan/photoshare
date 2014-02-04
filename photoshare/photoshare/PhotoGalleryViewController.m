@@ -13,6 +13,7 @@
 #import "WebserviceController.h"
 #import "EditPhotoViewController.h"
 #import "SVProgressHUD.h"
+#import "NavigationBar.h"
 
 #import "PhotoViewController.h"
 
@@ -100,8 +101,11 @@
     
     if([UIScreen mainScreen].bounds.size.height == 480)
     {
-        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height-70);
-        
+        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height);
+    }
+    else if([UIScreen mainScreen].bounds.size.height == 568)
+    {
+        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height + 85);
     }
     isPopFromPhotos=NO;
     isGetPhotoFromServer=NO;
@@ -195,7 +199,7 @@
     if(self.isPublicFolder==YES)
     {
         //set title
-     self.navigationController.navigationBar.topItem.title=@"Public Folder";
+     //self.navigationController.navigationBar.topItem.title=@"Public Folder";
     }
     else
     {
@@ -950,7 +954,7 @@
 -(void)dismissModals
 {
     [self dismissViewControllerAnimated:NO completion:nil];
-    self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    //self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 
@@ -958,6 +962,30 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma Mark
+#pragma Add Custom Navigation Bar
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 @end

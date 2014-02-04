@@ -12,7 +12,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ContentManager.h"
 #import "DataMapperController.h"
-@interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, WebserviceDelegate>
+@interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, WebserviceDelegate,UITabBarControllerDelegate>
 {
     IBOutlet UIImageView *loginBackgroundImage;
     IBOutlet UIImageView *loginLogoImage;

@@ -7,6 +7,7 @@
 //
 
 #import "ContentManager.h"
+#import "NavigationBar.h"
 
 @implementation ContentManager
 @synthesize loginDetailsDict;
@@ -48,5 +49,7 @@ static ContentManager *objContantManager = nil;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alrttittle message:msg delegate:nil cancelButtonTitle:btnTittle otherButtonTitles:otherBtn, nil];
     [alert show];
 }
+
+
 
 @end

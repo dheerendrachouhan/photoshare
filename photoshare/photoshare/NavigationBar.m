@@ -18,7 +18,7 @@
     if (self) {
         // Initialization code
         
-        self.frame=CGRectMake(0, 20, 320, 50 );
+        //self.frame=CGRectMake(0, 20, 320, 80);
         self.backgroundColor=[UIColor whiteColor];
         topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 8)];
         
@@ -26,7 +26,6 @@
         
         logoImg=[[UIImageView alloc] initWithFrame:CGRectMake(7, 14, 50, 30)];
         logoImg.image=[UIImage imageNamed:@"123-mobile-logo.png"];
-        
         
         totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(220,20, 100, 50)];
         //totalEarningView.backgroundColor=[UIColor grayColor];
@@ -51,6 +50,9 @@
         UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToEarningViewController)];
         [totalEarningView addGestureRecognizer:tapGesture];
         
+        UITapGestureRecognizer *tapGestureHome = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToHomeViewController)];
+        [logoImg addGestureRecognizer:tapGestureHome];
+        
     }
     [self addSubview:topBlueLbl];
     [self addSubview:logoImg];
@@ -72,6 +74,14 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [delegate.tbc setSelectedIndex:1];
+}
+
+-(void)goToHomeViewController
+{
+    NSLog(@"Home VC");
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    [delegate.tbc setSelectedIndex:0];
 }
 -(void)setTheTotalEarning
 {

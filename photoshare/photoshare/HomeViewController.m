@@ -17,7 +17,7 @@
 #import "LoginViewController.h"
 #import "ContentManager.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
-
+#import "NavigationBar.h"
 #import "AppDelegate.h"
 @interface HomeViewController ()
 
@@ -74,7 +74,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self addCustomNavigationBar];
     if (isCameraEditMode) {
         isCameraEditMode = false ; 
         [NSTimer scheduledTimerWithTimeInterval:1.0f
@@ -473,6 +473,16 @@
 {
     [self dismissViewControllerAnimated:NO completion:nil];
 }
+
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 60)];
+    
+    [[self view] addSubview:navnBar];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
