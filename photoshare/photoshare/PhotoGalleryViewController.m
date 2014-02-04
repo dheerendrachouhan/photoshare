@@ -103,10 +103,6 @@
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height);
     }
-    else if([UIScreen mainScreen].bounds.size.height == 568)
-    {
-        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height + 85);
-    }
     isPopFromPhotos=NO;
     isGetPhotoFromServer=NO;
     isGetPhotoIdFromServer=NO;
