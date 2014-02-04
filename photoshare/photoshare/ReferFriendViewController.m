@@ -178,9 +178,6 @@
     buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     [navnBar addSubview:buttonLeft];
     
-    UIBarButtonItem *chooseButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(chooseView)];
-    self.navigationItem.rightBarButtonItem = chooseButton;
-    
     [[self view] addSubview:navnBar];
 }
 

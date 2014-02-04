@@ -9,6 +9,7 @@
 #import "TwitterTable.h"
 #import "SVProgressHUD.h"
 #import "ReferralStageFourVC.h"
+#import "NavigationBar.h"
 
 @interface TwitterTable ()
 
@@ -36,12 +37,8 @@
     [super viewDidLoad];
     [SVProgressHUD dismissWithSuccess:@"Loaded"];
     // Do any additional setup after loading the view from its nib.
-    [self.navigationItem setTitle:@"Pick Twetter Friends"];
     selectedUserArr = [[NSMutableArray alloc] init];
     finalSelectArr = [[NSMutableArray alloc] init];
-    
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneBtnPressed:)];
-    self.navigationItem.rightBarButtonItem = backButton;
 }
 
 - (IBAction)doneBtnPressed:(id)sender {
@@ -141,6 +138,46 @@
         selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
         StringTweet = [NSMutableString stringWithString:tweetString];
     }
+}
+
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(87, 50, 150, 40)];
+    navTitle.font = [UIFont systemFontOfSize:17.0f];
+    navTitle.text = @"Pick Twitter Firends";
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
+    
+    
+    //Button for Next
+    UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [buttonLeft addTarget:self action:@selector(doneBtnPressed:) forControlEvents:UIControlEventTouchDown];
+    [buttonLeft setTitle:@"Done >" forState:UIControlStateNormal];
+    buttonLeft.frame = CGRectMake(240, 50, 90, 30.0);
+    buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    [navnBar addSubview:buttonLeft];
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self addCustomNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning

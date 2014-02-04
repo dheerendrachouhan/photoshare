@@ -82,7 +82,7 @@
     int second = [secondGem.text intValue];
     int third = [thirdGem.text intValue];
     
-    int totalGemCalculated = (first*1) + (second*1) +(third*1);
+    int totalGemCalculated = (first*1) + (first*second) +(first*second*third);
     
     if(totalGemCalculated >= 1000000)
     {

@@ -13,6 +13,7 @@
 #import "SVProgressHUD.h"
 #import "TwitterTable.h"
 #import "AppDelegate.h"
+#import "NavigationBar.h"
 
 @interface ReferralStageFourVC ()
 
@@ -95,7 +96,6 @@
             [[NSBundle mainBundle] loadNibNamed:@"ReferrelStageFourVC3" owner:self options:nil];
         }
     }
-
     countVar =0;
 }
 
@@ -104,7 +104,6 @@
     EditMessageVC *edMSG = [[EditMessageVC alloc] init];
     edMSG.edittedMessage = userMessage.text;
     [self.navigationController pushViewController:edMSG animated:YES];
-    edMSG.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     
 }
 
@@ -537,9 +536,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [[self navigationController] setNavigationBarHidden:NO animated:YES];
-
+    [self addCustomNavigationBar];
     
     if([self.stringStr length]==0)
     {
@@ -589,8 +586,6 @@
 -(void)dismissModals
 {
     [self dismissViewControllerAnimated:NO completion:nil];
-    //AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 //API calling
@@ -601,6 +596,31 @@
     NSDictionary *dictData = @{@"user_id":userID, @"emailaddress":userSelectedEmail};
     [wbh call:dictData controller:@"referral" method:@"store"] ;
     
+}
+
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 40)];
+    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    navTitle.text = @"Refer Friends";
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
+
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
