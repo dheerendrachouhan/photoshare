@@ -12,7 +12,7 @@
 {
     UILabel *topBlueLbl;
     UIImageView *logoImg;
-    
+    UIView *homeController;
     UIView *totalEarningView;
     UILabel *totalEarningHeading;
     UILabel *totalEarning;

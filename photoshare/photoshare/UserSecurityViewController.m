@@ -8,6 +8,7 @@
 
 #import "UserSecurityViewController.h"
 #import "WebserviceController.h"
+#import "NavigationBar.h"
 @interface UserSecurityViewController ()
 
 @end
@@ -77,6 +78,33 @@
 {
     [textField resignFirstResponder];
     return YES;
+}
+
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 70)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 40, 70.0, 40.0);
+    button.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self addCustomNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning
