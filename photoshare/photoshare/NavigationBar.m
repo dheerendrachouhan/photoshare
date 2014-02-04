@@ -27,6 +27,9 @@
         logoImg=[[UIImageView alloc] initWithFrame:CGRectMake(7, 14, 50, 30)];
         logoImg.image=[UIImage imageNamed:@"123-mobile-logo.png"];
         
+        homeController = [[UIView alloc] initWithFrame:CGRectMake(7, 13, 55, 35)];
+        homeController.layer.cornerRadius = 3;
+        
         totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(220,20, 100, 50)];
         //totalEarningView.backgroundColor=[UIColor grayColor];
         totalEarningView.layer.cornerRadius=10;
@@ -51,14 +54,16 @@
         [totalEarningView addGestureRecognizer:tapGesture];
         
         UITapGestureRecognizer *tapGestureHome = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToHomeViewController)];
-        [logoImg addGestureRecognizer:tapGestureHome];
+        [homeController addGestureRecognizer:tapGestureHome];
         
     }
     [self addSubview:topBlueLbl];
     [self addSubview:logoImg];
-    [self addSubview: totalEarningView];
+    [self addSubview:totalEarningView];
     [self addSubview:totalEarningHeading];
     [self addSubview:totalEarning];
+    [self addSubview:homeController];
+    
     ContentManager *objManager=[ContentManager sharedManager];
     NSDictionary *dic =objManager.loginDetailsDict ;
     

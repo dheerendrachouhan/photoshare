@@ -86,9 +86,11 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self addCustomNavigationBar];
+    [super viewWillAppear:animated];
+    
     
     [self getCollectionInfoFromUserDefault];
+    [self addCustomNavigationBar];
     if (isCameraEditMode) {
         isCameraEditMode = false ;
         [NSTimer scheduledTimerWithTimeInterval:1.0f
@@ -304,14 +306,6 @@
 }
 
 
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma Mark
 #pragma Add Custom Navigation Bar
 -(void)addCustomNavigationBar
@@ -325,15 +319,20 @@
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    // button.backgroundColor = [UIColor redColor];
+    // navnBar.backgroundColor = [UIColor redColor];
     [navnBar addSubview:button];
-    
     [[self view] addSubview:navnBar];
+
 }
 
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end

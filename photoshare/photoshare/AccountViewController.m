@@ -12,6 +12,7 @@
 #import "TermConditionViewController.h"
 #import "ReferFriendViewController.h"
 #import "LoginViewController.h"
+#import "NavigationBar.h"
 
 @interface AccountViewController ()
 
@@ -81,11 +82,22 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
+#pragma Mark
+#pragma Add Custom Navigation Bar
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 48)];
+    
+    [[self view] addSubview:navnBar];
+}
+
 
 -(void) viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = YES;
-
+    [super viewWillAppear:animated];
+    [self addCustomNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning
