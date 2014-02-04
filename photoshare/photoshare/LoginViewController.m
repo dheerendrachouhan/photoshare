@@ -91,7 +91,7 @@
         NSDictionary *postdic = @{@"username":username, @"password":password} ;
         [webservices call:postdic controller:@"authentication" method:@"login"];
     }
-    
+    [self loadData];
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
