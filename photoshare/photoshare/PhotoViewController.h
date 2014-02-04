@@ -19,7 +19,7 @@
 #import "DataMapperController.h"
 
 @interface PhotoViewController : UIViewController
-<UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate>
+<UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 {
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
@@ -40,8 +40,8 @@
     BOOL isCameraMode;
     BOOL isCameraEditMode;
     
-
-    
+    UIImage *originalImage;
+    BOOL isoriginalImageGet;
     IBOutlet UIImageView *imageView;
     
     IBOutlet UILabel *folderLocationShowLabel;

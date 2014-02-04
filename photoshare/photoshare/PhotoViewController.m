@@ -78,7 +78,8 @@
     UIActivityIndicatorView *indeicator=(UIActivityIndicatorView *)[imageView viewWithTag:1100];
     [indeicator removeFromSuperview];
     imageView.image=image;
-    
+    originalImage=image;
+    isoriginalImageGet=YES;
 }
 -(void)getCollectionInfoFromUserDefault
 {
@@ -120,14 +121,48 @@
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     
-    if (selectedSegment == 0) {
-       
-    }
-    else{
+    if (selectedSegment == 0) {//view image
         
-    }
-}
+        if(isoriginalImageGet)
+        {
+            UIImageView *imgV=[[UIImageView alloc ] initWithFrame:self.view.frame];
+            imgV.tag=10000;
+            imgV.userInteractionEnabled=YES;
+            imgV.layer.masksToBounds=YES;
+            imgV.image=originalImage;
+            
+            UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removveimageView)];
+            doubleTap.numberOfTapsRequired=2;
+            [imgV addGestureRecognizer:doubleTap];
+            [self.view addSubview:imgV];
+        }
+        else
+        {
+            [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
+        }
+       
 
+    }
+    else if (selectedSegment == 1) {//Edit image
+        if(isoriginalImageGet)
+        {
+            [self launchPhotoEditorWithImage:originalImage highResolutionImage:originalImage];
+        }
+        else
+        {
+            [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
+        }
+    }
+    else if (selectedSegment == 2) {
+        [manager showAlert:@"Message" msg:@"Currently not working" cancelBtnTitle:@"Ok" otherBtn:nil];
+    }
+     segmentedControl.selectedSegmentIndex = -1;
+}
+-(void)removveimageView
+{
+    UIImageView *imgVi=(UIImageView *)[self.view viewWithTag:10000];
+    [imgVi removeFromSuperview];
+}
 
 //imagePicker DelegateMethod
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -253,7 +288,8 @@
     
     imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self showSelectFolderOption];
+    [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",self.collectionId]];
+    [manager showAlert:@"Message" msg:@"Photo Edit success" cancelBtnTitle:@"Ok" otherBtn:nil];
 }
 
 // This is called when the user taps "Cancel" in the photo editor.
@@ -332,98 +368,7 @@
 
 
 
-//Picker view for select folder option
--(void)showSelectFolderOption
-{
-    @try {
-        
-        categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, 320,120)];
-        categoryPickerView.backgroundColor=[UIColor whiteColor];
-        [categoryPickerView setDataSource: self];
-        [categoryPickerView setDelegate: self];
-        categoryPickerView.showsSelectionIndicator = YES;
-        
-        pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-220, 320, 40)];
-        pickerToolbar.barStyle = UIBarStyleBlackOpaque;
-        [pickerToolbar sizeToFit];
-        
-        NSMutableArray *barItems = [[NSMutableArray alloc] init];
-        UILabel *titleLabe=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 20)];
-        titleLabe.text=@"Select Folder";
-        titleLabe.textAlignment =NSTextAlignmentCenter;
-        titleLabe.textColor=[UIColor whiteColor];
-        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-        UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(categoryCancelButtonPressed)];
-        [barItems addObject:cancelBtn];
-        
-        
-        UIBarButtonItem *toolBarTitle=[[UIBarButtonItem alloc]  initWithCustomView:titleLabe];
-        [barItems addObject:flexSpace];
-        [barItems addObject:toolBarTitle];
-        [barItems addObject:flexSpace];
-        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(categoryDoneButtonPressed)];
-        [barItems addObject:doneBtn];
-        
-        [pickerToolbar setItems:barItems animated:YES];
-        
-        [self.view addSubview:pickerToolbar];
-        [self.view addSubview:categoryPickerView];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Exception is %@",exception.description);
-    }
-    @finally {
-        
-    }
-    
-}
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
-    // Handle the selection
-    
-    NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
-    selectedCollectionId=[collectionIdArray objectAtIndex:row];
-}
-// tell the picker how many rows are available for a given component
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [collectionIdArray count];
-}
 
-// tell the picker how many components it will have
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-// tell the picker the title for a given component
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    return [collectionNameArray objectAtIndex: row];
-    
-}
-
-// tell the picker the width of each row for a given component
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    int sectionWidth = 320;
-    
-    return sectionWidth;
-}
-
--(void)categoryDoneButtonPressed{
-    
-    [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saved" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
-    [categoryPickerView removeFromSuperview];
-    [pickerToolbar removeFromSuperview];
-    
-    imageView.image=pickImage;
-}
-
--(void)categoryCancelButtonPressed{
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo save cancel" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
-    [categoryPickerView removeFromSuperview];
-    [pickerToolbar removeFromSuperview];
-}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

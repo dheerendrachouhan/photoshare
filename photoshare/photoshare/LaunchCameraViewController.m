@@ -91,6 +91,7 @@
 //imagePicker DelegateMethod
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    isCameraMode=NO;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -105,8 +106,9 @@
     @try {
         if(isCameraMode)
         {
+            isCameraMode=NO;
             isCameraEditMode=YES;
-            pickImage=image;
+            
             [self dismissViewControllerAnimated:YES completion:Nil];
         }
         else
@@ -124,7 +126,7 @@
             
             [self dismissViewControllerAnimated:YES completion:completion];
         }
-        
+        pickImage=image;
     }
     @catch (NSException *exception) {
         
