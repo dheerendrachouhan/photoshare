@@ -15,6 +15,8 @@
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
 
+#import "PhotoViewController.h"
+
 @interface PhotoGalleryViewController ()
 {
     SVProgressHUD *pro;
@@ -92,6 +94,11 @@
     photoArray=[[NSMutableArray alloc] init];
      photoIdsArray=[[NSMutableArray alloc] init];
     
+    //editBtn
+    editBtn = [[UIButton alloc] init];
+    //get the user id from nsuserDefaults
+    userid=[manager getData:@"user_id"];
+    
     if([UIScreen mainScreen].bounds.size.height == 480)
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height);
@@ -99,49 +106,55 @@
     else if([UIScreen mainScreen].bounds.size.height == 568)
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height + 85);
-    }
+    }    isPopFromPhotos=NO;
+    isGetPhotoFromServer=NO;
+    isGetPhotoIdFromServer=NO;
+    isSaveDataOnServer=NO;
+    
+    
+    [self setDataForCollectionView];
+    [self getPhotoIdFromServer];
 
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    
     [self addCustomNavigationBar];
-    
-    
+
+    isPopFromPhotos=NO;
+    isGoToViewPhoto=NO;
     if (isCameraEditMode) {
         isCameraEditMode = false ;
         [NSTimer scheduledTimerWithTimeInterval:1.0f                                       target:self selector:@selector(openeditorcontrol)
             userInfo:nil repeats:NO];
         
     }
-    //initialize the photo Array
-    isPopFromPhotos=NO;
-    //editBtn
-    editBtn = [[UIButton alloc] init];    
-    //get the user id from nsuserDefaults
-    ContentManager *manager=[ContentManager sharedManager];
-    userid=[manager getData:@"user_id"];
-   // self.navigationController.navigationBarHidden=TRUE;
-    //self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-    frameForShareBtn=sharePhotoBtn.frame;
     
-    isGetPhotoFromServer=NO;
-    isGetPhotoIdFromServer=NO;
-    isSaveDataOnServer=NO;
-    
-    //set
-    [self setDataForCollectionView];
-    
-    if(isAviaryMode==NO&&isPickerMode==NO)
-    {
-         [self getPhotoIdFromServer];
+    if (isCameraEditMode) {
+        isCameraEditMode = false ;
+        [NSTimer scheduledTimerWithTimeInterval:1.0f                                       target:self selector:@selector(openeditorcontrol)
+                                       userInfo:nil repeats:NO];
+        
     }
-    
+        frameForShareBtn=sharePhotoBtn.frame;
     
     
 }
+//get PhotoId From Server
+-(void)getPhotoIdFromServer
+{
+    [self resetAllBoolValue];
+    isGetPhotoIdFromServer=YES;
+    [self addProgressBar:@"Photo's are Loading From Server"];
+    
+    webServices.delegate=self;
+    // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
+    
+    [webServices call:dicData controller:@"collection" method:@"get"];
+}
+
 -(void)openeditorcontrol
 {
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
@@ -150,8 +163,11 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    if(!isGoToViewPhoto)
+    {
+        isPopFromPhotos=YES;
+    }
     
-    isPopFromPhotos=YES;
 }
 -(void)removeProgressBar
 {
@@ -182,40 +198,7 @@
        // [photoAssetUrlArray addObject:[dic objectForKey:@"ImageAssetUrl"]];
     
 }
--(void)setDataForCollectionView
-{
-    imgArray = [[NSMutableArray alloc] init];
-    
-    if(self.isPublicFolder==YES)
-    {
-        //set title
-     //self.navigationController.navigationBar.topItem.title=@"Public Folder";
-    }
-    else
-    {
-        //set Folder Name in Right Side of navigation bar
-        NSString *folderNa=self.folderName;
-        
-      
-        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 25)];
-        label.text=folderNa;
-        //label.textAlignment=NSTextAlignmentRight;
-        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithCustomView:label] ;
-        [foldernameButton setWidth:100];
-        
-        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        iconbtn.frame=CGRectMake(0, 0, 18, 18);
-        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-        iconbtn.userInteractionEnabled=NO;
-        UIBarButtonItem *editBtnIcon=[[UIBarButtonItem alloc]
-                                  initWithCustomView:iconbtn] ;
-        NSArray *itemArray=[[NSArray alloc] initWithObjects:foldernameButton,editBtnIcon,nil];
-        self.navigationItem.rightBarButtonItems=itemArray;
-        
-    }
-    
-        
-}
+
 
 -(IBAction)addPhoto:(id)sender
 {
@@ -273,19 +256,6 @@
    
 }
 
-//get PhotoId From Server
--(void)getPhotoIdFromServer
-{
-    [self resetAllBoolValue];
-    isGetPhotoIdFromServer=YES;
-    [self addProgressBar:@"Photo's are Loading From Server"];
-    
-    webServices.delegate=self;
-   // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
-    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
-    
-    [webServices call:dicData controller:@"collection" method:@"get"];
-}
 //get Photo From Server
 -(void)getPhotoFromServer :(int)photoIdIndex
 {
@@ -301,7 +271,7 @@
             //callling First Time Webservice for Get image from server
             webServices.delegate=self;
             NSNumber *num = [NSNumber numberWithInt:1] ;
-            NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
+            NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"80"};
             
             [webServices call:dicData controller:@"photo" method:@"get"];
             
@@ -495,6 +465,8 @@
                         [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
                         [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
                     }
+                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[NSString stringWithFormat:@"%d Photo deleted",sortedArray.count] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                    [alert show];
                     
                 }
                 @catch (NSException *exception) {
@@ -508,27 +480,25 @@
             }
             else
             {
-                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                 [alert show];
             }
+            [self resetButton];
         }
         
-        NSLog(@"Selected");
-        
-        
-        
         btn.selected=!btn.selected;
+        NSLog(@"Selected");
     }
     else
     {
         if(photoIdsArray.count>0)
         {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alert show];
         }
         else
         {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alert show];
         }
         
@@ -624,7 +594,15 @@
         }
         else  //view Image
         {
+            if(photoArray.count>indexPath.row)
+            {
             [self viewPhoto:indexPath];
+            }
+            else
+            {
+                [manager showAlert:@"Warning" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:Nil];
+            }
+
         }
         cell.selected=!cell.selected;
     }
@@ -635,15 +613,44 @@
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
-        UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-        editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+5, 60, 50);
-        [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
-        [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
-        [collectionview addSubview:editBtn];
+        if(photoArray.count>0&&!isDeleteMode&&!isShareMode)
+        {
+            UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
+            editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+5, 60, 50);
+            [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
+            [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
+            [collectionview addSubview:editBtn];
+        }
+       
     }
 }
 -(void)viewPhoto :(NSIndexPath *)indexPath
 {
+    @try {
+        PhotoViewController *viewPhoto=[[PhotoViewController alloc] init];
+        viewPhoto.photoId=[photoIdsArray objectAtIndex:indexPath.row];
+        viewPhoto.smallImage=[photoArray objectAtIndex:indexPath.row];
+        viewPhoto.isViewPhoto=YES;
+        viewPhoto.collectionId=self.collectionId;
+        isGoToViewPhoto=YES;
+        if(self.isPublicFolder)
+        {
+            viewPhoto.folderNameLocation=@"Public";
+        }
+        else
+        {
+            viewPhoto.folderNameLocation=[NSString stringWithFormat:@"Your Community, %@",self.folderName];
+        }
+        
+        [self.navigationController pushViewController:viewPhoto animated:YES];
+
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception in View Photo :%@",exception.description);
+    }
+    @finally {
+        
+    }
     
 }
 -(void)editImage:(id)sender
@@ -687,7 +694,6 @@
         pickImage=image;
         [self dismissViewControllerAnimated:NO completion:Nil];
         //[self launchPhotoEditorWithImage:image highResolutionImage:image];
-        
     }
     else
     {
@@ -947,12 +953,66 @@
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
     button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     [navnBar addSubview:button];
-    
+    if(self.isPublicFolder==YES)
+    {
+        UILabel *titleLabel = [[UILabel alloc] init ];
+        titleLabel.text=@"Public Folder";
+        titleLabel.textAlignment=NSTextAlignmentCenter;
+        titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+        titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        [navnBar addSubview:titleLabel];
+
+    }
+    else
+    {
+        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        iconbtn.frame=CGRectMake(200.0, 55.0, 18.0, 18.0);
+        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+        iconbtn.userInteractionEnabled=NO;
+        UILabel *foldernamelabel=[[UILabel alloc] initWithFrame:CGRectMake(220.0, 55.0, 100.0, 18.0)];
+        foldernamelabel.text=self.folderName;
+        
+        [navnBar addSubview:iconbtn];
+        [navnBar addSubview:foldernamelabel];
+        
+    }
     [[self view] addSubview:navnBar];
 }
 
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
 }
-
+-(void)setDataForCollectionView
+{
+    
+    if(self.isPublicFolder==YES)
+    {
+        //set title
+        //self.navigationController.navigationBar.topItem.title=@"Public Folder";
+    }
+    else
+    {
+        //set Folder Name in Right Side of navigation bar
+        NSString *folderNa=self.folderName;
+        
+        
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 25)];
+        label.text=folderNa;
+        //label.textAlignment=NSTextAlignmentRight;
+        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithCustomView:label] ;
+        [foldernameButton setWidth:100];
+        
+        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        iconbtn.frame=CGRectMake(0, 0, 18, 18);
+        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+        iconbtn.userInteractionEnabled=NO;
+        UIBarButtonItem *editBtnIcon=[[UIBarButtonItem alloc]
+                                      initWithCustomView:iconbtn] ;
+        NSArray *itemArray=[[NSArray alloc] initWithObjects:foldernameButton,editBtnIcon,nil];
+        self.navigationItem.rightBarButtonItems=itemArray;
+        
+    }
+    
+    
+}
 @end

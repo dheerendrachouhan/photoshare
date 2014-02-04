@@ -17,6 +17,7 @@
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
+#import "NavigationBar.h"
 @interface LaunchCameraViewController : UIViewController<UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate>
 {
     NSMutableArray *collectionNameArray;
@@ -37,8 +38,7 @@
     UIImage *pickImage;
     BOOL isCameraMode;
     BOOL isCameraEditMode;
-    
-    
+    IBOutlet UIImageView *imgView;
 }
 
 //for Aviary

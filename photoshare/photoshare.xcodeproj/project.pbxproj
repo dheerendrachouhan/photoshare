@@ -74,6 +74,7 @@
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
 		E172672418A0BFE20059F6AD /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B074251899518600589867 /* AddEditFolderViewController.m */; };
+		E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */; };
 		E174AC121898C096001B5278 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC111898C096001B5278 /* iconr3.png */; };
 		E174AC141898C09B001B5278 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC131898C09B001B5278 /* edit.png */; };
 		E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */; };
@@ -266,6 +267,7 @@
 		E17222DB18928DE700F28748 /* arrows_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrows_blue.png; sourceTree = "<group>"; };
 		E17222DC18928DE700F28748 /* cancel_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_btn.png; sourceTree = "<group>"; };
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
+		E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchCameraViewController.xib; sourceTree = "<group>"; };
 		E174AC111898C096001B5278 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E174AC131898C09B001B5278 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		E17C8F93189FA5000079E0FE /* LaunchCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCameraViewController.h; sourceTree = "<group>"; };
@@ -645,6 +647,8 @@
 				E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */,
 				FC97640F18900734008DF1F8 /* PhotoViewController.h */,
 				FC97641018900734008DF1F8 /* PhotoViewController.m */,
+				E1B0742A1899529900589867 /* PhotoGalleryViewController.h */,
+				E1B0742B1899529900589867 /* PhotoGalleryViewController.m */,
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
 				E1B07427189951CC00589867 /* CommunityViewController.h */,
@@ -652,8 +656,6 @@
 				FC35A897189C149F006DDDFC /* ReferralStageFourVC.m */,
 				E1B074241899518600589867 /* AddEditFolderViewController.h */,
 				E1B074251899518600589867 /* AddEditFolderViewController.m */,
-				E1B0742A1899529900589867 /* PhotoGalleryViewController.h */,
-				E1B0742B1899529900589867 /* PhotoGalleryViewController.m */,
 				E182626318976CDA00C1C799 /* EditProfileViewController.h */,
 				E182626418976CDA00C1C799 /* EditProfileViewController.m */,
 				E17222AB18923AF900F28748 /* CollectionViewCell.h */,
@@ -815,6 +817,7 @@
 				E3188D9B18938888004ACF77 /* CustomCell.xib */,
 				E17222C9189281B000F28748 /* ResetPasswordController.xib */,
 				E17222D8189285A100F28748 /* LoginViewController.xib */,
+				E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */,
 			);
 			name = Layouts;
 			sourceTree = "<group>";
@@ -912,6 +915,7 @@
 				E31B9E10189A1D7F00722761 /* iconr3_uncheck.png in Resources */,
 				E16F390518912C9C00064806 /* earnings-icon.png in Resources */,
 				E16F390E18912C9C00064806 /* private-icon.png in Resources */,
+				E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */,
 				E16F390218912C9C00064806 /* cog-itemX30.png in Resources */,
 				E16F390D18912C9C00064806 /* previous.png in Resources */,
 				E31767751899130100923E35 /* EditPhotoViewController.xib in Resources */,
