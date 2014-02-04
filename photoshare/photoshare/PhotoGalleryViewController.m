@@ -639,7 +639,7 @@
         }
         else
         {
-            viewPhoto.folderNameLocation=[NSString stringWithFormat:@"Your Community, %@",self.folderName];
+            viewPhoto.folderNameLocation=[NSString stringWithFormat:@"Your folders, %@",self.folderName];
         }
         
         [self.navigationController pushViewController:viewPhoto animated:YES];

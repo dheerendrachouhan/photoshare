@@ -18,7 +18,7 @@
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
 #import "NavigationBar.h"
-@interface LaunchCameraViewController : UIViewController<UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate>
+@interface LaunchCameraViewController : UIViewController<UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UITabBarDelegate>
 {
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
