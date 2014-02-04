@@ -22,6 +22,7 @@
     IBOutlet UITextField *folderName;
     IBOutlet UITextField *shareForWritingWith ;
     IBOutlet UITextField *shareForReadingWith ;
+    IBOutlet UIScrollView *scrollView;
     
     NSNumber *userid;
     ContentManager *manager;
