@@ -64,7 +64,7 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
     self.navigationItem.backBarButtonItem = backButton;
     //Navigation Item to choose
-    UIBarButtonItem *chooseButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(chooseView)];
+    UIBarButtonItem *chooseButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(chooseView)];
     self.navigationItem.rightBarButtonItem = chooseButton;
     
     WebserviceController *wb = [[WebserviceController alloc] init];
@@ -121,25 +121,30 @@
         segmentControllerIndexStr = @"0";
        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
          toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
+        [self navItem];
     }
     else if (toolboxController.selectedSegmentIndex == 1)
     {
         segmentControllerIndexStr = @"1";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:1]]]]];
          toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:1],[objManager getData:@"user_username"]];
+        [self navItem];
     }
     else if(toolboxController.selectedSegmentIndex == 2)
     {
         segmentControllerIndexStr = @"2";
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:2]]]]];
          toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:2],[objManager getData:@"user_username"]];
+        [self navItem];
     }
 }
 
 -(void)loadData
 {
+    webViewReferral.delegate = self;
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
+    [self navItem];
 }
 
 //WEbView Required Delegates
@@ -160,6 +165,11 @@
 {
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+}
+
+-(void)navItem
+{
     self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
