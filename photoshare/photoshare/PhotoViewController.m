@@ -7,6 +7,7 @@
 //
 
 #import "PhotoViewController.h"
+#import "NavigationBar.h"
 
 @interface PhotoViewController ()
 
@@ -41,6 +42,8 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self addCustomNavigationBar];
+    
     [self getCollectionInfoFromUserDefault];
     if (isCameraEditMode) {
         isCameraEditMode = false ;
@@ -389,5 +392,29 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma Mark
+#pragma Add Custom Navigation Bar
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+    // button.backgroundColor = [UIColor redColor];
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
 
 @end

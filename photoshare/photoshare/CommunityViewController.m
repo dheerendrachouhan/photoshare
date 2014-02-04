@@ -13,6 +13,8 @@
 #import "PhotoGalleryViewController.h"
 #import "JSONDictionary.h"
 #import "SVProgressHUD.h"
+#import "NavigationBar.h"
+
 @interface CommunityViewController ()
 
 @end
@@ -52,10 +54,13 @@
     longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
     
-   if([UIScreen mainScreen].bounds.size.height == 480)
+    if([UIScreen mainScreen].bounds.size.height == 568)
     {
-        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height-70);
-        
+         collectionview.frame=CGRectMake(20, 100, 280, 353);
+    }
+    else if([UIScreen mainScreen].bounds.size.height == 480)
+    {
+        collectionview.frame=CGRectMake(20, 190, 280, collectionview.frame.size.height-70);
     }
 }
 
@@ -70,9 +75,12 @@
     userid=[manager getData:@"user_id"];
     
     //set title for navigation controller
-    //self.navigationController.navigationBarHidden=NO;
-    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-    [self.navigationItem setTitle:@"Community folders"];
+    
+    
+    [self addCustomNavigationBar];
+    
+   // self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
+   // [self.navigationItem setTitle:@"Community folders"];
     
     //blueLabelImgFrame=CGRectMake(20, diskSpaceBlueLabel.frame.origin.y-64, 10,diskSpaceBlueLabel.frame.size.height );
    
@@ -294,5 +302,31 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma Mark
+#pragma Add Custom Navigation Bar
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+   // button.backgroundColor = [UIColor redColor];
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+
 
 @end

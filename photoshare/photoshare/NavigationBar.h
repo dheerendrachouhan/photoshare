@@ -19,4 +19,5 @@
 }
 -(void)goToEarningViewController;
 -(void)setTheTotalEarning;
+-(void)goToHomeViewController;
 @end

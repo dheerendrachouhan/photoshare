@@ -83,7 +83,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finance Calculator" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GjZ-WM-iyX">
-                    <rect key="frame" x="45" y="288" width="144" height="21"/>
+                    <rect key="frame" x="45" y="288" width="150" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <color key="textColor" red="0.40371890939999999" green="0.40371890939999999" blue="0.40371890939999999" alpha="1" colorSpace="calibratedRGB"/>

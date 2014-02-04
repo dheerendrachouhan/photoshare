@@ -376,20 +376,20 @@
     
     
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
-    delegate.navControllerhome.navigationBar.translucent=NO;
+   // delegate.navControllerhome.navigationBar.translucent=NO;
     
     
     delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
-    delegate.navControllerearning.navigationBar.translucent=NO;
+   // delegate.navControllerearning.navigationBar.translucent=NO;
     
     delegate.navControllerphoto = [[UINavigationController alloc] initWithRootViewController:ph];
     
     delegate.navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
-    delegate.navControllercommunity.navigationBar.translucent=NO;
+   // delegate.navControllercommunity.navigationBar.translucent=NO;
     
     delegate.navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
     
-    delegate.navControlleraccount.navigationBar.translucent=NO;
+    //delegate.navControlleraccount.navigationBar.translucent=NO;
     
     
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage  imageNamed:@"community-iconX30.png"] tag:1];
@@ -399,8 +399,8 @@
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-itemX30.png"] tag:5];
     
     
-    delegate.navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-    delegate.navControllercommunity.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+   // delegate.navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+   // delegate.navControllercommunity.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     
     
     delegate.tbc = [[UITabBarController alloc] init] ;
@@ -417,9 +417,11 @@
     
     topView.frame = CGRectMake(0, 20, 320, 50) ;
     topView.tag = 11;
-    [delegate.tbc.view addSubview:topView];
+  //  [delegate.tbc.view addSubview:topView];
     [self.view addSubview:delegate.tbc.view];
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
