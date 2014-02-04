@@ -19,7 +19,7 @@
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
-
+#import "LaunchCameraViewController.h"
 @interface LoginViewController ()
 
 @end
@@ -368,7 +368,7 @@
     
     AccountViewController *acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
     
-    PhotoViewController *ph = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil] ;
+     LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];
     
     HomeViewController *hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil] ;
     
@@ -382,7 +382,7 @@
     delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
    // delegate.navControllerearning.navigationBar.translucent=NO;
     
-    delegate.navControllerphoto = [[UINavigationController alloc] initWithRootViewController:ph];
+    delegate.navControllerphoto = [[UINavigationController alloc] initWithRootViewController:lcam];
     
     delegate.navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
    // delegate.navControllercommunity.navigationBar.translucent=NO;

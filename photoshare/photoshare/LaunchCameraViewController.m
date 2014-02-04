@@ -21,8 +21,50 @@
         // Custom initialization
         
     }
+    
     return self;
 }
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    
+    webservices=[[WebserviceController alloc] init];
+    
+    manager=[ContentManager sharedManager];
+    dmc=[[DataMapperController alloc] init];
+    NSDictionary *dic = [dmc getUserDetails] ;
+    userid=[dic objectForKey:@"user_id"];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self addCustomNavigationBar];
+    if (isCameraEditMode) {
+        isCameraEditMode = false ;
+        [NSTimer scheduledTimerWithTimeInterval:1.0f
+        target:self selector:@selector(openeditorcontrol)
+      userInfo:nil  repeats:NO];
+        
+    }
+    else
+    {
+        if(!isCameraMode)
+        {
+            //imagePicker
+            UIImagePickerController *picker=[[UIImagePickerController alloc] init];
+            picker.delegate=self;
+            picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:nil];
+            isCameraMode=YES;
+        }
+    }
+}
+-(void)openeditorcontrol
+{
+    [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
+    
+}
+
 -(void)getCollectionInfoFromUserDefault
 {
     NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
@@ -39,43 +81,6 @@
     }
     
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    if (isCameraEditMode) {
-        isCameraEditMode = false ;
-        [NSTimer scheduledTimerWithTimeInterval:1.0f
-                                         target:self
-                                       selector:@selector(openeditorcontrol)
-                                       userInfo:nil
-                                        repeats:NO];
-        
-        
-    }
-}
--(void)openeditorcontrol
-{
-    [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
-    
-}
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
-    webservices=[[WebserviceController alloc] init];
-    
-    manager=[ContentManager sharedManager];
-    dmc=[[DataMapperController alloc] init];
-    NSDictionary *dic = [dmc getUserDetails] ;
-    userid=[dic objectForKey:@"user_id"];
-    
-    //imagePicker
-    UIImagePickerController *picker=[[UIImagePickerController alloc] init];
-    picker.delegate=self;
-    picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-    [self presentViewController:picker animated:YES completion:nil];
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -367,5 +372,28 @@
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
 }
+#pragma Mark
+#pragma Add Custom Navigation Bar
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+    // button.backgroundColor = [UIColor redColor];
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
 
 @end

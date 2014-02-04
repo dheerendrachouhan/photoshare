@@ -38,9 +38,9 @@
     //imagePicker
     
     imageView.layer.masksToBounds=YES;
-    if([UIScreen mainScreen].bounds.size.height == 480)
+    if([UIScreen mainScreen].bounds.size.height == 568)
     {
-        imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height-70);
+        imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
        
     }
     if(self.isViewPhoto)

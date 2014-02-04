@@ -103,16 +103,16 @@
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height);
     }
-    isPopFromPhotos=NO;
+    else if([UIScreen mainScreen].bounds.size.height == 568)
+    {
+        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height + 85);
+    }    isPopFromPhotos=NO;
     isGetPhotoFromServer=NO;
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
     
     
-    self.navigationController.navigationBarHidden=NO;
-    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-
-    [self setDataForCollectionView]; 
+    [self setDataForCollectionView];
     [self getPhotoIdFromServer];
 
 }
@@ -120,6 +120,8 @@
 {
     [super viewWillAppear:animated];
     
+    [self addCustomNavigationBar];
+
     isPopFromPhotos=NO;
     isGoToViewPhoto=NO;
     if (isCameraEditMode) {
@@ -129,7 +131,14 @@
         
     }
     
-    frameForShareBtn=sharePhotoBtn.frame;
+    if (isCameraEditMode) {
+        isCameraEditMode = false ;
+        [NSTimer scheduledTimerWithTimeInterval:1.0f                                       target:self selector:@selector(openeditorcontrol)
+                                       userInfo:nil repeats:NO];
+        
+    }
+        frameForShareBtn=sharePhotoBtn.frame;
+    
     
 }
 //get PhotoId From Server
@@ -189,39 +198,7 @@
        // [photoAssetUrlArray addObject:[dic objectForKey:@"ImageAssetUrl"]];
     
 }
--(void)setDataForCollectionView
-{
-       
-    if(self.isPublicFolder==YES)
-    {
-        //set title
-     //self.navigationController.navigationBar.topItem.title=@"Public Folder";
-    }
-    else
-    {
-        //set Folder Name in Right Side of navigation bar
-        NSString *folderNa=self.folderName;
-        
-      
-        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 25)];
-        label.text=folderNa;
-        //label.textAlignment=NSTextAlignmentRight;
-        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithCustomView:label] ;
-        [foldernameButton setWidth:100];
-        
-        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        iconbtn.frame=CGRectMake(0, 0, 18, 18);
-        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-        iconbtn.userInteractionEnabled=NO;
-        UIBarButtonItem *editBtnIcon=[[UIBarButtonItem alloc]
-                                  initWithCustomView:iconbtn] ;
-        NSArray *itemArray=[[NSArray alloc] initWithObjects:foldernameButton,editBtnIcon,nil];
-        self.navigationItem.rightBarButtonItems=itemArray;
-        
-    }
-    
-        
-}
+
 
 -(IBAction)addPhoto:(id)sender
 {
@@ -976,12 +953,66 @@
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
     button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     [navnBar addSubview:button];
-    
+    if(self.isPublicFolder==YES)
+    {
+        UILabel *titleLabel = [[UILabel alloc] init ];
+        titleLabel.text=@"Public Folder";
+        titleLabel.textAlignment=NSTextAlignmentCenter;
+        titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+        titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        [navnBar addSubview:titleLabel];
+
+    }
+    else
+    {
+        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        iconbtn.frame=CGRectMake(200.0, 55.0, 18.0, 18.0);
+        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+        iconbtn.userInteractionEnabled=NO;
+        UILabel *foldernamelabel=[[UILabel alloc] initWithFrame:CGRectMake(220.0, 55.0, 100.0, 18.0)];
+        foldernamelabel.text=self.folderName;
+        
+        [navnBar addSubview:iconbtn];
+        [navnBar addSubview:foldernamelabel];
+        
+    }
     [[self view] addSubview:navnBar];
 }
 
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
 }
-
+-(void)setDataForCollectionView
+{
+    
+    if(self.isPublicFolder==YES)
+    {
+        //set title
+        //self.navigationController.navigationBar.topItem.title=@"Public Folder";
+    }
+    else
+    {
+        //set Folder Name in Right Side of navigation bar
+        NSString *folderNa=self.folderName;
+        
+        
+        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 25)];
+        label.text=folderNa;
+        //label.textAlignment=NSTextAlignmentRight;
+        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithCustomView:label] ;
+        [foldernameButton setWidth:100];
+        
+        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        iconbtn.frame=CGRectMake(0, 0, 18, 18);
+        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+        iconbtn.userInteractionEnabled=NO;
+        UIBarButtonItem *editBtnIcon=[[UIBarButtonItem alloc]
+                                      initWithCustomView:iconbtn] ;
+        NSArray *itemArray=[[NSArray alloc] initWithObjects:foldernameButton,editBtnIcon,nil];
+        self.navigationItem.rightBarButtonItems=itemArray;
+        
+    }
+    
+    
+}
 @end
