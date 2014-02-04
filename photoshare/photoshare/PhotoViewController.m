@@ -38,16 +38,12 @@
     //imagePicker
     
     imageView.layer.masksToBounds=YES;
-//    if([UIScreen mainScreen].bounds.size.height == 568)
-//    {
-//        imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
-//       
-//    }
+   
     if(self.isViewPhoto)
     {
         folderLocationShowLabel.text=self.folderNameLocation;
         imageView.image=self.smallImage;
-        [self getImageFromServerForEdit:0];
+        [self getImageFromServer];
         UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [activityIndicator startAnimating];
         activityIndicator.tag=1100;
@@ -55,17 +51,8 @@
         activityIndicator.center = CGPointMake(CGRectGetWidth(imageView.bounds)/2, CGRectGetHeight(imageView.bounds)/2);
         [imageView addSubview:activityIndicator];
     }
-    else
-    {
-        UIImagePickerController *picker=[[UIImagePickerController alloc] init];
-        picker.delegate=self;
-        isCameraMode=YES;
-        picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:picker animated:YES completion:nil];
-
-    }
 }
--(void)getImageFromServerForEdit :(int)selectedIndex
+-(void)getImageFromServer
 {
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webservices.delegate=self;
@@ -164,56 +151,6 @@
 {
     UIImageView *imgVi=(UIImageView *)[self.view viewWithTag:10000];
     [imgVi removeFromSuperview];
-}
-
-//imagePicker DelegateMethod
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    
-    NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
-    //set the asset url in String
-    //assetUrlOfImage=[NSString stringWithFormat:@"%@",assetURL];
-    
-    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-    pickImage=image;
-    imageView.image=pickImage;
-    @try {
-        if(isCameraMode)
-        {
-            isCameraEditMode=YES;
-            
-            [self dismissViewControllerAnimated:YES completion:Nil];
-        }
-        else
-        {
-            void(^completion)(void)  = ^(void){
-                
-                [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-                    if (asset){
-                        [self launchEditorWithAsset:asset];
-                    }
-                } failureBlock:^(NSError *error) {
-                    [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                }];
-            };
-            
-            [self dismissViewControllerAnimated:YES completion:completion];
-        }
-        
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        [self dismissViewControllerAnimated:YES completion:Nil];
-    }
-    
-    
-    
 }
 
 

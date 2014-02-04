@@ -7,7 +7,8 @@
 //
 
 #import "LaunchCameraViewController.h"
-
+#import "AppDelegate.h"
+#import "HomeViewController.h"
 @interface LaunchCameraViewController ()
 
 @end
@@ -29,7 +30,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    
+    collectionIdArray=[[NSMutableArray alloc] init];
+    collectionNameArray=[[NSMutableArray alloc] init];
     webservices=[[WebserviceController alloc] init];
+
     
     manager=[ContentManager sharedManager];
     dmc=[[DataMapperController alloc] init];
@@ -38,6 +43,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self getCollectionInfoFromUserDefault];
     [self addCustomNavigationBar];
     if (isCameraEditMode) {
         isCameraEditMode = false ;
@@ -53,7 +59,15 @@
             //imagePicker
             UIImagePickerController *picker=[[UIImagePickerController alloc] init];
             picker.delegate=self;
-            picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+            {
+               
+                picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+            }
+            else
+            {
+                picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            }
             [self presentViewController:picker animated:YES completion:nil];
             isCameraMode=YES;
         }
@@ -91,41 +105,21 @@
 //imagePicker DelegateMethod
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+   [self goToHomePage];
     isCameraMode=NO;
     [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     
-    NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
-    //set the asset url in String
-    //assetUrlOfImage=[NSString stringWithFormat:@"%@",assetURL];
-    
-    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
+   UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     
     @try {
-        if(isCameraMode)
-        {
-            isCameraMode=NO;
-            isCameraEditMode=YES;
-            
-            [self dismissViewControllerAnimated:YES completion:Nil];
-        }
-        else
-        {
-            void(^completion)(void)  = ^(void){
-                
-                [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-                    if (asset){
-                        [self launchEditorWithAsset:asset];
-                    }
-                } failureBlock:^(NSError *error) {
-                    [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                }];
-            };
-            
-            [self dismissViewControllerAnimated:YES completion:completion];
-        }
+        isCameraMode=NO;
+        isCameraEditMode=YES;
+            [self dismissViewControllerAnimated:YES completion:nil];
+       
         pickImage=image;
     }
     @catch (NSException *exception) {
@@ -207,6 +201,7 @@
 // This is called when the user taps "Done" in the photo editor.
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
+    imgView.image=image;
     imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
     [self showSelectFolderOption];
@@ -216,6 +211,7 @@
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self goToHomePage];
 }
 
 #pragma mark - Photo Editor Customization
@@ -262,7 +258,7 @@
 - (BOOL) hasValidAPIKey
 {
     NSString * key = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Aviary-API-Key"];
-    if (![key isEqualToString:@"c1f4f0ae01276a21"]) {
+    if (![key isEqualToString:@"c5c917dcef9d4377"]) {
         [[[UIAlertView alloc] initWithTitle:@"Oops!" message:@"You forgot to add your API key!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return NO;
     }
@@ -280,6 +276,7 @@
     //store data
     // [webServices call:data controller:@"photo" method:@"store"];
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
+    
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
@@ -368,11 +365,15 @@
     [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
+    
+    [self goToHomePage];
 }
 
 -(void)categoryCancelButtonPressed{
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
+    
+     [self goToHomePage];
 }
 #pragma Mark
 #pragma Add Custom Navigation Bar
@@ -380,7 +381,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
@@ -397,5 +398,11 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
-
+-(void)goToHomePage
+{
+    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    //UITabBarController *tb = (UITabBarController *) self.window.rootViewController ;
+    HomeViewController *homeViewController=[[HomeViewController alloc] init];
+    [delgate.tbc setSelectedIndex:0];
+}
 @end
