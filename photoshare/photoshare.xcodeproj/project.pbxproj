@@ -73,6 +73,7 @@
 		E17222DE18928DE700F28748 /* arrows_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DB18928DE700F28748 /* arrows_blue.png */; };
 		E17222DF18928DE700F28748 /* cancel_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DC18928DE700F28748 /* cancel_btn.png */; };
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
+		E172672418A0BFE20059F6AD /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B074251899518600589867 /* AddEditFolderViewController.m */; };
 		E174AC121898C096001B5278 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC111898C096001B5278 /* iconr3.png */; };
 		E174AC141898C09B001B5278 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC131898C09B001B5278 /* edit.png */; };
 		E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */; };
@@ -1022,6 +1023,7 @@
 				E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				FCB3774C189C345B00FDE547 /* DataMapperController.m in Sources */,
 				E17222C51892819A00F28748 /* PastPayementViewController.m in Sources */,
+				E172672418A0BFE20059F6AD /* AddEditFolderViewController.m in Sources */,
 				E1067DFD189AA7D600F08A5F /* AFURLResponseSerialization.m in Sources */,
 				E3BAA8EE18993ABC00ED2CA2 /* SBJsonBase.m in Sources */,
 				E1B0742C1899529900589867 /* PhotoGalleryViewController.m in Sources */,
