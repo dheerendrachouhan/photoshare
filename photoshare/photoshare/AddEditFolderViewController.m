@@ -115,6 +115,7 @@
     if (textField.tag==1102&&textField.text.length>=2) {
         NSLog(@"Text is %@",textField.text);
         isSearchUserList=YES;
+        isShareForReadingWith=NO;
         isShareForWritingWith=YES;
         
         webServices.delegate=self;
@@ -124,6 +125,7 @@
     else if (textField.tag==1103&&textField.text.length>=2) {
         NSLog(@"Text is %@",textField.text);
         isSearchUserList=YES;
+        isShareForWritingWith=NO;
         isShareForReadingWith=YES;
         
         webServices.delegate=self;

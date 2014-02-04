@@ -262,7 +262,7 @@
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
     isEditImageFromServer=NO;
-    isDeleteMode=NO;
+    
    
 }
 
@@ -403,8 +403,6 @@
        // photoInfoArray = [[NSMutableArray alloc] init];
         if(isGetPhotoIdFromServer)
         {
-            
-            
                 NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
                 if(collectionContent.count>0)
                 {
@@ -459,6 +457,7 @@
 }
 -(IBAction)deletePhoto:(id)sender
 {
+   
     UIButton *btn=(UIButton *)sender;
     if(photoArray.count>0)
     {
@@ -489,6 +488,7 @@
                         [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
                         [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
                     }
+                    
                 }
                 @catch (NSException *exception) {
                     NSLog(@"%@",exception.description);
@@ -504,7 +504,6 @@
                 UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                 [alert show];
             }
-            [self resetButton];
         }
         
         NSLog(@"Selected");
@@ -572,8 +571,8 @@
     sharePhotoBtn.hidden=NO;
     
     //sharePhotoBtn.frame=frameForShareBtn;
-    isShareMode=NO;
     isDeleteMode=NO;
+    isShareMode=NO;
     
     [selectedImagesIndex removeAllObjects];
 }

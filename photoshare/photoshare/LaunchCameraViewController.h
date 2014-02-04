@@ -17,7 +17,7 @@
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
-@interface LaunchCameraViewController : UIViewController<UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate>
+@interface LaunchCameraViewController : UIViewController<UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate>
 {
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;

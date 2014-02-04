@@ -39,7 +39,24 @@
     }
     
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    if (isCameraEditMode) {
+        isCameraEditMode = false ;
+        [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                         target:self
+                                       selector:@selector(openeditorcontrol)
+                                       userInfo:nil
+                                        repeats:NO];
+        
+        
+    }
+}
+-(void)openeditorcontrol
+{
+    [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -51,6 +68,12 @@
     dmc=[[DataMapperController alloc] init];
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
+    
+    //imagePicker
+    UIImagePickerController *picker=[[UIImagePickerController alloc] init];
+    picker.delegate=self;
+    picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

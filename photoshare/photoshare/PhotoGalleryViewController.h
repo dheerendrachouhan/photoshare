@@ -43,8 +43,8 @@
     BOOL isGetPhotoIdFromServer;
     BOOL isGetPhotoFromServer;
     BOOL isSaveDataOnServer;
-    
     BOOL isEditImageFromServer;
+    
     BOOL isNotFirstTime;
     BOOL isAviaryMode;
     int deleteImageCount;
