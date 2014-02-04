@@ -351,7 +351,6 @@
                 newCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];
             }
             
-            
             [self updateCollectionInfoInNSUserDefault];
             
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
