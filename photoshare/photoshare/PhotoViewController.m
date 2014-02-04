@@ -38,11 +38,11 @@
     //imagePicker
     
     imageView.layer.masksToBounds=YES;
-    if([UIScreen mainScreen].bounds.size.height == 568)
-    {
-        imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
-       
-    }
+//    if([UIScreen mainScreen].bounds.size.height == 568)
+//    {
+//        imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
+//       
+//    }
     if(self.isViewPhoto)
     {
         folderLocationShowLabel.text=self.folderNameLocation;
@@ -99,9 +99,11 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self addCustomNavigationBar];
+    [super viewWillAppear:animated];
+    
     
     [self getCollectionInfoFromUserDefault];
+    [self addCustomNavigationBar];
     if (isCameraEditMode) {
         isCameraEditMode = false ;
         [NSTimer scheduledTimerWithTimeInterval:1.0f
@@ -367,36 +369,33 @@
 }
 
 
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma Mark
 #pragma Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    // button.backgroundColor = [UIColor redColor];
+    // navnBar.backgroundColor = [UIColor redColor];
     [navnBar addSubview:button];
-    
     [[self view] addSubview:navnBar];
+
 }
 
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end

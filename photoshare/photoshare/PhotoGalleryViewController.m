@@ -976,6 +976,7 @@
         [navnBar addSubview:foldernamelabel];
         
     }
+    [[self view] bringSubviewToFront:navnBar];
     [[self view] addSubview:navnBar];
 }
 
