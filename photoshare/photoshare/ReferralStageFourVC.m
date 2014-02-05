@@ -52,6 +52,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    grant = NO;
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     tweetFail =@"";
     _accountStore = [[ACAccountStore alloc] init];
@@ -183,6 +184,7 @@
     ACAccountStore *accountStore = [[ACAccountStore alloc] init];
     ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     
+    
     //Check if user Exists
     NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
     
@@ -190,14 +192,9 @@
         NSLog(@"Account name: %@", account.username);
     }
     NSLog(@"Accounts array: %d", accountsArray.count);
-    if([accountsArray count] == 0)
-    {
-        [self disMissProgress];
-        UIAlertView *twAl = [[UIAlertView alloc] initWithTitle:@"No Twitter Account Found" message:@"Please sign-in your twitter account from your ios setting and run the app again. Grant permission to access this app." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [twAl show];
-    }
     
     [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+        grant = granted;
         if(granted) {
             NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
             
@@ -206,15 +203,17 @@
                 NSLog(@"%@",twitterAccount.username);
                 NSLog(@"%@",twitterAccount.identifier);
                 [self getTwitterFriendsIDListForThisAccount:twitterAccount.username];
+                [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
             }
         }
-        if(!granted){
-            [self disMissProgress];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twiiter not Found" message:@"Your Tweeter account in not configured. Please Configure your twitter account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
-            tweetFail = @"Failed";
-            [alert show];
-        }
     }];
+    
+    if([accountsArray count] == 0 || !grant)
+    {
+        [self disMissProgress];
+        UIAlertView *twAl = [[UIAlertView alloc] initWithTitle:@"Twitter Account Not Found/ Twitter Account not Granted" message:@"Please sign-in your twitter account from your ios setting and run the app again. Grant permission to access this app. If twitter table loaded ignore this message." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [twAl show];
+    }
 
 }
 
@@ -380,7 +379,7 @@
 }
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully refferd your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have You have successfully referred your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
     
     
     switch (result)
@@ -421,7 +420,7 @@
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully refferd your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
 	switch (result) {
 		case MessageComposeResultCancelled:
 			[objManager showAlert:@"Cancelled" msg:@"Message Composed Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
@@ -626,6 +625,7 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"WebService Data -- %@",data);
+
 }
 
 - (void)didReceiveMemoryWarning

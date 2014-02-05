@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataMapperController.h"
 
 @interface AccountViewController : UIViewController
 {
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UIImageView *settingBackgroundImage;
+    DataMapperController *dmc;
 }
 
 -(IBAction)editProfile:(id)sender;

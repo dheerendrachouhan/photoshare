@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataMapperController.h"
 
 @interface NavigationBar : UINavigationBar
 {
@@ -16,6 +17,7 @@
     UIView *totalEarningView;
     UILabel *totalEarningHeading;
     UILabel *totalEarning;
+    DataMapperController *dmc;
 }
 -(void)goToEarningViewController;
 -(void)setTheTotalEarning;

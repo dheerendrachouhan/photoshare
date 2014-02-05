@@ -9,6 +9,7 @@
 #import "NavigationBar.h"
 #import "ContentManager.h"
 #import "AppDelegate.h"
+#import "ReferFriendViewController.h"
 
 @implementation NavigationBar
 
@@ -17,7 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
+        dmc = [[DataMapperController alloc] init];
         //self.frame=CGRectMake(0, 20, 320, 80);
         self.backgroundColor=[UIColor whiteColor];
         topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 8)];
@@ -45,7 +46,7 @@
         
         totalEarning.tag = 1;
         totalEarning.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-        NSString *totalEarn=[@"£" stringByAppendingString:@"0.0"];
+        NSString *totalEarn=[@"£" stringByAppendingString:@"0"];
         
         totalEarning.text=totalEarn;
         totalEarning.textAlignment=NSTextAlignmentCenter;
@@ -83,10 +84,16 @@
 
 -(void)goToHomeViewController
 {
+   
     NSLog(@"Home VC");
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
+
     [delegate.tbc setSelectedIndex:0];
+    /*
+    ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
+    [delegate.tbc setSelectedIndex:0 openHomeController];*/
+    /*
+    [dmc sethomeIndex];*/
 }
 -(void)setTheTotalEarning
 {

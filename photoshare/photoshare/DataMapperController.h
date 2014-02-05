@@ -17,7 +17,16 @@
 -(void) setUserId:(NSString *)userid ;
 -(void) setUserDetails:(NSDictionary *) dic;
 -(void) setUserName:(NSString *)username;
+-(void) setRememberMe:(NSString *)value;
+-(void) setRememberFields:(NSDictionary *)dict;
+-(void) sethomeIndex;
+-(BOOL) gethomeIndex;
+-(void) resetHomeIndex;
+
 -(NSString * ) getUserId ;
 -(NSDictionary *) getUserDetails ;
 -(NSString *)getUserName;
+-(NSString *)getRemeberMe;
+-(NSDictionary *)getRememberFields;
+
 @end

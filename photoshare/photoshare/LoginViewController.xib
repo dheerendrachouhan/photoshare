@@ -12,6 +12,7 @@
                 <outlet property="namecancelBtn" destination="lbl-fi-Wut" id="nmd-lp-2lv"/>
                 <outlet property="passwordTextField" destination="hqh-Sz-RYK" id="oCc-jS-7UT"/>
                 <outlet property="passwordcancelBtn" destination="amf-Ke-j2V" id="oJ4-r9-RDZ"/>
+                <outlet property="rememberMeBtn" destination="PBF-fU-pzA" id="LiD-Tk-qdP"/>
                 <outlet property="scrollView" destination="tLA-Kt-vxZ" id="7Gq-rd-Fpq"/>
                 <outlet property="signinBtn" destination="exO-a2-fwf" id="xgT-uv-5WT"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -94,6 +95,25 @@
                                 <action selector="passwordCancelBtn:" destination="-1" eventType="touchDown" id="zRX-P3-VEi"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PBF-fU-pzA">
+                            <rect key="frame" x="39" y="410" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" image="iconr3_uncheck.png">
+                                <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="rememberBtnTapped:" destination="-1" eventType="touchUpInside" id="agm-Hk-Dwy"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember Me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3bu-ul-KAW">
+                            <rect key="frame" x="65" y="413" width="80" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                 </scrollView>
             </subviews>
@@ -104,6 +124,7 @@
     </objects>
     <resources>
         <image name="cancel_btn.png" width="50" height="50"/>
+        <image name="iconr3_uncheck.png" width="48" height="48"/>
         <image name="login-logo.png" width="200" height="199"/>
         <image name="splash320x480.png" width="320" height="480"/>
     </resources>
