@@ -6,138 +6,138 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddEditFolderViewController">
             <connections>
-                <outlet property="addButton" destination="E39-gg-Al4" id="IRv-zS-Rp6"/>
-                <outlet property="deleteButton" destination="3mB-nL-6ob" id="wAL-Yn-kHF"/>
-                <outlet property="folderName" destination="lpg-oH-gEW" id="8Ik-kr-A0v"/>
-                <outlet property="folderNameView" destination="oR1-Gf-54D" id="4VA-jQ-HuQ"/>
-                <outlet property="headingLabel" destination="ObL-ue-CEO" id="G3j-RI-I8L"/>
-                <outlet property="saveButton" destination="yPL-7a-abD" id="8Yp-Fc-fIu"/>
-                <outlet property="scrollView" destination="bGV-kJ-EL6" id="wTa-iP-qM1"/>
-                <outlet property="shareForReadingWith" destination="1Z6-V0-wmJ" id="9QP-WX-wQz"/>
-                <outlet property="shareForReadingWithView" destination="ayl-Gu-udK" id="wrS-Nl-iw1"/>
-                <outlet property="shareForWritingWith" destination="hhe-zn-eXR" id="kiD-rs-JVr"/>
-                <outlet property="shareForWritingWithView" destination="397-iR-sHp" id="Cff-3k-CSA"/>
+                <outlet property="addButton" destination="A2T-49-isG" id="lYp-3n-mN4"/>
+                <outlet property="deleteButton" destination="gaK-jH-mwO" id="KFR-lK-GvZ"/>
+                <outlet property="folderName" destination="CeT-09-z0D" id="hGs-Us-cHR"/>
+                <outlet property="folderNameView" destination="qg9-d2-zHT" id="slx-5v-VCo"/>
+                <outlet property="headingLabel" destination="O3e-5x-YMz" id="BWu-Lq-dSC"/>
+                <outlet property="saveButton" destination="pXp-aO-0b0" id="oDY-gd-hrT"/>
+                <outlet property="scrollView" destination="9Fu-hu-Y5m" id="LyJ-Od-bUZ"/>
+                <outlet property="shareForReadingWith" destination="pDB-qn-ZR9" id="XAz-0K-bib"/>
+                <outlet property="shareForReadingWithView" destination="r4G-p1-zuP" id="h9a-Nm-c5K"/>
+                <outlet property="shareForWritingWith" destination="GYp-ZX-mgb" id="Wk1-zQ-zNM"/>
+                <outlet property="shareForWritingWithView" destination="RJa-IJ-r4A" id="Jfs-rF-1UL"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="1">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="bGV-kJ-EL6">
-                    <rect key="frame" x="0.0" y="92" width="320" height="278"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="9Fu-hu-Y5m">
+                    <rect key="frame" x="0.0" y="92" width="320" height="326"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3mB-nL-6ob">
-                            <rect key="frame" x="176" y="230" width="75" height="40"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gaK-jH-mwO">
+                            <rect key="frame" x="168" y="255" width="75" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Delete">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="deleteFolder:" destination="-1" eventType="touchUpInside" id="cts-nI-x0g"/>
+                                <action selector="deleteFolder:" destination="-1" eventType="touchUpInside" id="3Kh-bs-6bT"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="E39-gg-Al4">
-                            <rect key="frame" x="121" y="245" width="80" height="40"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="A2T-49-isG">
+                            <rect key="frame" x="113" y="266" width="80" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Add">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="addFolder:" destination="-1" eventType="touchUpInside" id="O69-Qa-fZ4"/>
+                                <action selector="addFolder:" destination="-1" eventType="touchUpInside" id="h2J-bH-Wvw"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yPL-7a-abD">
-                            <rect key="frame" x="69" y="230" width="75" height="40"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pXp-aO-0b0">
+                            <rect key="frame" x="61" y="255" width="75" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Save">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="saveFolder:" destination="-1" eventType="touchUpInside" id="L1e-Lc-elB"/>
+                                <action selector="saveFolder:" destination="-1" eventType="touchUpInside" id="hpc-cr-yxl"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" id="oR1-Gf-54D">
-                            <rect key="frame" x="55" y="45" width="210" height="35.00000125169754"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        <view contentMode="scaleToFill" id="qg9-d2-zHT">
+                            <rect key="frame" x="47" y="49" width="210" height="34.999998298900657"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Folder Name" minimumFontSize="17" id="lpg-oH-gEW">
+                                <textField opaque="NO" clipsSubviews="YES" tag="1101" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Folder Name" minimumFontSize="17" id="CeT-09-z0D">
                                     <rect key="frame" x="5" y="0.0" width="166" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
-                                        <outlet property="delegate" destination="-1" id="HTO-tp-RPm"/>
+                                        <outlet property="delegate" destination="-1" id="g9A-f4-WEH"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RTy-4o-Wkn">
+                                <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Yj9-TS-XfG">
                                     <rect key="frame" x="180" y="8" width="15" height="15"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" backgroundImage="cancel_btn.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="6q0-eE-Ewe"/>
+                                        <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="6wF-tH-wRV"/>
                                     </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add and Edit Folder" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ObL-ue-CEO">
-                            <rect key="frame" x="83" y="0.0" width="154" height="25"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add and Edit Folder" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O3e-5x-YMz">
+                            <rect key="frame" x="75" y="5" width="154" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" id="397-iR-sHp">
-                            <rect key="frame" x="55" y="95" width="210" height="35.00000125169754"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        <view contentMode="scaleToFill" id="RJa-IJ-r4A">
+                            <rect key="frame" x="47" y="113" width="210" height="34.999999407031723"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" tag="1102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share For Writing With" minimumFontSize="17" id="hhe-zn-eXR">
+                                <textField opaque="NO" clipsSubviews="YES" tag="1102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share For Writing With" minimumFontSize="17" id="GYp-ZX-mgb">
                                     <rect key="frame" x="5" y="0.0" width="166" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
-                                        <outlet property="delegate" destination="-1" id="2d2-Kc-jkd"/>
+                                        <outlet property="delegate" destination="-1" id="eom-s1-aHA"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8Po-HL-71g">
+                                <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rsr-C5-zsw">
                                     <rect key="frame" x="180" y="8" width="15" height="15"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" backgroundImage="cancel_btn.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="OIN-W9-Ai0"/>
+                                        <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="jMW-LF-t5x"/>
                                     </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="ayl-Gu-udK">
-                            <rect key="frame" x="55" y="156" width="210" height="35.00000125169754"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        <view contentMode="scaleToFill" id="r4G-p1-zuP">
+                            <rect key="frame" x="47" y="183" width="210" height="34.999997893830283"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" tag="1103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share For Reading With " minimumFontSize="17" id="1Z6-V0-wmJ">
+                                <textField opaque="NO" clipsSubviews="YES" tag="1103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Share For Reading With " minimumFontSize="17" id="pDB-qn-ZR9">
                                     <rect key="frame" x="5" y="0.0" width="166" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
-                                        <outlet property="delegate" destination="-1" id="5Kr-p0-Da6"/>
+                                        <outlet property="delegate" destination="-1" id="NUO-eh-Rr1"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ygS-dn-YL9">
+                                <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ihi-om-6hz">
                                     <rect key="frame" x="180" y="8" width="15" height="15"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" backgroundImage="cancel_btn.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="nkG-Jx-UxO"/>
+                                        <action selector="clearTextField:" destination="-1" eventType="touchUpInside" id="pqQ-A6-sbL"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -148,7 +148,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
     <resources>

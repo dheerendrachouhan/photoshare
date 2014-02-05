@@ -9,6 +9,7 @@
 #import "LaunchCameraViewController.h"
 #import "AppDelegate.h"
 #import "HomeViewController.h"
+#import "SVProgressHUD.h"
 @interface LaunchCameraViewController ()
 
 @end
@@ -92,7 +93,7 @@
     [collectionIdArray removeAllObjects];
     [collectionNameArray removeAllObjects];
     
-    for (int i=1;i<collection.count; i++)
+    for (int i=0;i<collection.count; i++)
     {
         
         [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
@@ -276,7 +277,7 @@
 //save Photo on Server Photo With Detaill
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
 {
-    
+    [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
     webservices.delegate=self;
     
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
@@ -287,7 +288,23 @@
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
+    [self removePickerView];
+    [SVProgressHUD dismiss];
+    
     NSLog(@"Data %@",data);
+    NSNumber *exitCode=[data objectForKey:@"exit_code"];
+    if(exitCode.integerValue==1)
+    {
+        NSLog(@"Photo saving Suucees ");
+    }
+    else
+    {
+        NSLog(@"Photo saving Fail ");
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saving Fail" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        
+    }
+
 }
 
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
@@ -373,17 +390,18 @@
 -(void)categoryDoneButtonPressed{
     
     [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
+    
+}
+-(void)removePickerView
+{
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
-    [manager showAlert:@"Message" msg:@"Photo saved" cancelBtnTitle:@"Ok" otherBtn:nil];
     [self goToHomePage];
 }
-
 -(void)categoryCancelButtonPressed{
-    [categoryPickerView removeFromSuperview];
-    [pickerToolbar removeFromSuperview];
-    [manager showAlert:@"Message" msg:@"Photo save cancel" cancelBtnTitle:@"Ok" otherBtn:nil];
-     [self goToHomePage];
+    
+    [self removePickerView];
+    
 }
 #pragma Mark
 #pragma Add Custom Navigation Bar

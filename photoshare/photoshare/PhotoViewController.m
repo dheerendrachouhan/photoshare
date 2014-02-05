@@ -56,7 +56,7 @@
 {
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webservices.delegate=self;
-    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId};
+    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"500"};
     
     [webservices call:dicData controller:@"photo" method:@"get"];
 }

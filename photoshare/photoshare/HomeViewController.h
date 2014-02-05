@@ -44,6 +44,8 @@
     BOOL isCameraMode;
     BOOL isCameraEditMode;
     
+    NSNumber *publicCollectionId;
+    
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
     
@@ -51,6 +53,12 @@
     NSData *imgData;
     UIPickerView *categoryPickerView;
     UIToolbar *pickerToolbar;
+    
+    //fore new folder create when pick image
+    UIView *backView1;
+    UIView *backView2;
+    UITextField *folderName;
+    UIButton *addNewFolder;
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 

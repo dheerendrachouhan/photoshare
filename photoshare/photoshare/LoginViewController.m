@@ -148,11 +148,14 @@
             NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
             NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
             //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
-            float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
-            float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
+            float availableSpaceInMB=0.0f;
+            float usedSpaceInMB=0.0f;
+            availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
+            usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
             
             //set the diskSpacePercentage
-            float progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
+            float progressPercent=0.0f;
+            progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
             //store in NSDefault
             [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
             
