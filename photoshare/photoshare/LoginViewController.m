@@ -42,6 +42,7 @@
     // Do any additional setup after loading the view from its nib.
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
+    rememberFltr = NO;
     //add the border color in username and password textfield
     //temp Hidden
    // loginBackgroundImage.hidden=YES;
@@ -66,6 +67,24 @@
     
     manager=[ContentManager sharedManager];
     dmc = [[DataMapperController alloc] init] ;
+    
+    NSString *rememberStr = [dmc getRemeberMe];
+    if([rememberStr isEqualToString:@"YES"])
+    {
+        rememberFltr = NO;
+        [self performSelector:@selector(rememberBtnTapped:)];
+        NSDictionary *dict = [dmc getRememberFields];
+        nameTextField.text = [dict valueForKey:@"username"];
+        passwordTextField.text = [dict valueForKey:@"password"];
+    }
+    else
+    {
+        rememberFltr = YES;
+        [self performSelector:@selector(rememberBtnTapped:)];
+        NSDictionary *dict = [dmc getRememberFields];
+        nameTextField.text = [dict valueForKey:@"username"];
+        passwordTextField.text = [dict valueForKey:@"password"];
+    }
 }
 
 //user sign in function
@@ -91,7 +110,6 @@
         NSDictionary *postdic = @{@"username":username, @"password":password} ;
         [webservices call:postdic controller:@"authentication" method:@"login"];
     }
-   
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
@@ -103,6 +121,18 @@
     if(exitCode.integerValue==1)
     {
         NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+        if(rememberFltr)
+        {
+            [dmc setRememberMe:@"YES"];
+            NSDictionary *loginFields = @{@"username":nameTextField.text,@"password":passwordTextField.text};
+            [dmc setRememberFields:loginFields];
+        }
+        else
+        {
+            [dmc setRememberMe:@"NO"];
+            NSDictionary *loginFields = @{@"username":@"",@"password":@""};
+            [dmc setRememberFields:loginFields];
+        }
         
         if(isGetLoginDetail)
         {
@@ -147,6 +177,7 @@
             NSDictionary *dic=[outPutData objectAtIndex:0];
             NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
             NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
+            
             //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
             float availableSpaceInMB=0.0f;
             float usedSpaceInMB=0.0f;
@@ -313,6 +344,22 @@
     return YES;
 }
 
+//RememberMe Function
+- (IBAction)rememberBtnTapped:(id)sender {
+    if(!rememberFltr)
+    {
+        [rememberMeBtn setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateNormal];
+        rememberFltr = YES;
+    }
+    else
+    {
+        [rememberMeBtn setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
+        rememberFltr = NO;
+    }
+}
+
+
+
 //keyboard hide and show on textfields
 - (void)registerForKeyboardNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
@@ -377,6 +424,7 @@
     
     CommonTopView *topView=[[CommonTopView alloc] init];
     
+    ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
     
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
    // delegate.navControllerhome.navigationBar.translucent=NO;
@@ -392,14 +440,17 @@
     
     delegate.navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
     
+    UINavigationController *ref = [[UINavigationController alloc] initWithRootViewController:referFriend];
     //delegate.navControlleraccount.navigationBar.translucent=NO;
     
     
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage  imageNamed:@"community-iconX30.png"] tag:1];
+    
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earnings-iconX30.png"] tag:2];
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"icon-takephotoX30.png"] tag:3];
     UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"folder-icon-bottomX30.png"] tag:4];
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-itemX30.png"] tag:5];
+    /*UITabBarItem *tabBarItem6 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"community-iconX30.png"] tag:6];*/
     
     
    // delegate.navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
@@ -411,12 +462,13 @@
     //navigation controllers
     
     [delegate.navControllerhome setTabBarItem:tabBarItem];
+    /*[ref setTabBarItem:tabBarItem6];*/
     [delegate.navControllerearning setTabBarItem:tabBarItem2];
     [delegate.navControllerphoto setTabBarItem:tabBarItem3];
     [delegate.navControllercommunity setTabBarItem:tabBarItem4];
     [delegate.navControlleraccount setTabBarItem:tabBarItem5];
     
-    delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome, delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
+    delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
     
     topView.frame = CGRectMake(0, 20, 320, 50) ;
     topView.tag = 11;

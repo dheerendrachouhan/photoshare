@@ -58,6 +58,16 @@
 
 }
 
+-(void) setRememberMe:(NSString *)value
+{
+    [objManager storeData:value :@"user_remember"];
+}
+
+-(void) setRememberFields:(NSDictionary *)dict
+{
+    [objManager storeData:dict :@"user_loginFields"];
+}
+
 -(NSString *) getUserId
 {
     NSString  *userid = [objManager getData:@"user_id"];
@@ -77,6 +87,34 @@
     return username;
 }
 
+-(NSString *)getRemeberMe
+{
+    NSString *remeber = [objManager getData:@"user_remember"];
+    return remeber;
+}
+
+-(NSDictionary *)getRememberFields
+{
+    NSDictionary *dictionary = [objManager getData:@"user_loginFields"];
+    return dictionary;
+}
+
+
+-(void) sethomeIndex
+{
+    NSString *str= @"TRUE";
+    [objManager storeData:str :@"setHomeIndex"];
+}
+-(BOOL) gethomeIndex
+{
+    NSString *str = [objManager getData:@"setHomeIndex"];
+    return (BOOL)str;
+}
+-(void) resetHomeIndex
+{
+    NSString *str= @"FALSE";
+    [objManager storeData:str :@"setHomeIndex"];
+}
 
 - (void)didReceiveMemoryWarning
 {

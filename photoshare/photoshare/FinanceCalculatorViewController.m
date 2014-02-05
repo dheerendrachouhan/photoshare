@@ -14,7 +14,13 @@
 @end
 
 @implementation FinanceCalculatorViewController
-
+{
+    NSMutableArray *rowFirstArr;
+    NSMutableArray *rowSecondArr;
+    NSMutableArray *rowThirdArr;
+}
+@synthesize myPickerView;
+@synthesize cutomView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,6 +33,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    cutomView.layer.borderWidth = 2;
+    cutomView.layer.borderColor = [UIColor blackColor].CGColor;
+    rowFirstArr = [[NSMutableArray alloc] init];
+    rowSecondArr = [[NSMutableArray alloc] init];
+    rowThirdArr = [[NSMutableArray alloc] init];
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
         if ([[UIScreen mainScreen] bounds].size.height == 568)
@@ -57,6 +69,16 @@
         currencySetter.text = @"£";
     }
     [self calculateUserGem];
+    
+    for(int i=0;i<=100;i++)
+    {
+        [rowFirstArr addObject:[NSString stringWithFormat:@"%d",i]];
+        [rowSecondArr addObject:[NSString stringWithFormat:@"%d",i]];
+        [rowThirdArr addObject:[NSString stringWithFormat:@"%d",i]];
+    }
+    myPickerView.delegate = self;
+    myPickerView.dataSource = self;
+    [self.cutomView setHidden:YES];
 }
 
 //Segment Controll
@@ -84,127 +106,104 @@
     
     int totalGemCalculated = (first*1) + (first*second) +(first*second*third);
     
-    if(totalGemCalculated >= 1000000)
-    {
-        {
-            if ([[UIScreen mainScreen] bounds].size.height == 568)
-            {
-                amountCalculated.font = [UIFont systemFontOfSize:26.0f];
-            }
-        }
-    }
     amountCalculated.text = [NSString stringWithFormat:@"%d",totalGemCalculated];
 }
-//FisrGem Up Button
-- (IBAction)fGemUp_Btn:(id)sender {
-    int first = [firstGem.text intValue];
+
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 3;
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    if (component == 0)
+    {
+        return rowFirstArr.count;
+    }
+    else if(component == 1)
+    {
+        return rowSecondArr.count;
+    }
+    else
+    {
+        return rowThirdArr.count;
+    }
+}
+
+#pragma mark - UIPickerView Delegate
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+    return 30.0;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    if (component==0)
+    {
+        return [rowFirstArr objectAtIndex:row];
+    }
+    else if (component == 1)
+    {
+        return [rowSecondArr objectAtIndex:row];
+    }
+    else
+    {
+        return [rowThirdArr objectAtIndex:row];
+    }
+}
+
+//If the user chooses from the pickerview, it calls this function;
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    //Let's print in the console what the user had chosen;
+    if(component == 0)
+    {
+        NSLog(@"Row 1 Chosen item: %@", [rowFirstArr objectAtIndex:row]);
+        firstGem.text  = [rowFirstArr objectAtIndex:row];
+        [self calculateUserGem];
+    }
+    else if (component == 1)
+    {
+        NSLog(@"Row 2 Chosen item: %@", [rowSecondArr objectAtIndex:row]);
+        secondGem.text = [rowSecondArr objectAtIndex:row];
+        [self calculateUserGem];
+    }
+    else if (component == 2)
+    {
+        NSLog(@"Row 3 Chosen item: %@", [rowThirdArr objectAtIndex:row]);
+        thirdGem.text = [rowThirdArr objectAtIndex:row];
+        [self calculateUserGem];
+    }
+}
+-(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 44)]; // your frame, so picker gets "colored"
+    label.backgroundColor = [UIColor lightGrayColor];
+    label.textColor = [UIColor blackColor];
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = [NSString stringWithFormat:@"%d",row];
     
-    if(first >=0)
-    {
-        first++;
-        if(first >= 1000)
-        {
-            firstGem.font = [UIFont systemFontOfSize:33.0f];
-        }
-        firstGem.text = [NSString stringWithFormat:@"%d",first];
-        [self calculateUserGem];
-    }
-}
-//firstGem Down Button
-- (IBAction)fGemDown_Btn:(id)sender {
-    int first = [firstGem.text intValue];
-    if(first <= 0)
-    {
-        firstGem.text = [NSString stringWithFormat:@"%d",first];
-    }
-    else {
-        first--;
-        if(first < 1000)
-        {
-            firstGem.font = [UIFont systemFontOfSize:47.0f];
-        }
-        firstGem.text = [NSString stringWithFormat:@"%d",first];
-        [self calculateUserGem];
-    }
-    if(first==0)
-    {
-        firstGem.text = @"00";
-    }
+    return label;
 }
 
-//SecondGem Up And Down Button
-- (IBAction)sGemUp_btn:(id)sender {
-    int second = [secondGem.text intValue];
-    
-    if(second >=0)
-    {
-        second++;
-        if(second >= 1000)
-        {
-            secondGem.font = [UIFont systemFontOfSize:33.0f];
-        }
-        secondGem.text = [NSString stringWithFormat:@"%d",second];
-        [self calculateUserGem];
-    }
-}
-- (IBAction)sGemDown_btn:(id)sender {
-    int second = [secondGem.text intValue];
-    if(second <= 0)
-    {
-        secondGem.text = [NSString stringWithFormat:@"%d",second];
-    }
-    else {
-        second--;
-        if(second < 1000)
-        {
-            secondGem.font = [UIFont systemFontOfSize:47.0f];
-        }
-        secondGem.text = [NSString stringWithFormat:@"%d",second];
-        [self calculateUserGem];
-    }
-    if(second==0)
-    {
-        secondGem.text = @"00";
-    }
+- (IBAction)hideViewCustom:(id)sender {
+    [self.cutomView setHidden:NO];
 }
 
-//thirdGem Up And Down Button
-- (IBAction)tGemUp_btn:(id)sender {
-    int third = [thirdGem.text intValue];
-    
-    if(third >=0)
-    {
-        third++;
-        if(third >= 1000)
-        {
-            thirdGem.font = [UIFont systemFontOfSize:33.0f];
-        }
-        thirdGem.text = [NSString stringWithFormat:@"%d",third];
-        [self calculateUserGem];
-    }
+- (IBAction)hidetwoView:(id)sender {
+    [self.cutomView setHidden:NO];
 }
-- (IBAction)tGemDown_btn:(id)sender {
-    int third = [thirdGem.text intValue];
-    if(third <= 0)
-    {
-        thirdGem.text = [NSString stringWithFormat:@"%d",third];
-    }
-    else {
-        third--;
-        if(third < 1000)
-        {
-            thirdGem.font = [UIFont systemFontOfSize:47.0f];
-        }
-        thirdGem.text = [NSString stringWithFormat:@"%d",third];
-        [self calculateUserGem];
-    }
-    if(third==0)
-    {
-        thirdGem.text = @"00";
-    }
-
+- (IBAction)hidethreeView:(id)sender {
+    [self.cutomView setHidden:NO];
+}
+- (IBAction)hideFinalView:(id)sender {
+    [self.cutomView setHidden:YES];
 }
 
+//Custom Navigation
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;

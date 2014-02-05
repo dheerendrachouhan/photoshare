@@ -13,6 +13,7 @@
 #import "ReferFriendViewController.h"
 #import "LoginViewController.h"
 #import "NavigationBar.h"
+#import "HomeViewController.h"
 
 @interface AccountViewController ()
 
@@ -26,6 +27,9 @@
     if (self) {
         // Custom initialization
     }
+    
+    dmc = [[DataMapperController alloc] init];
+    
     return self;
 }
 
@@ -98,6 +102,13 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+   /*
+    if([dmc gethomeIndex])
+    {
+        HomeViewController *hm =[[HomeViewController alloc] init];
+        [self presentViewController:hm animated:NO completion:nil];
+        [dmc resetHomeIndex];
+    }*/
 }
 
 - (void)didReceiveMemoryWarning

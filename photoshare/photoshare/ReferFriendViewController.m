@@ -12,7 +12,7 @@
 #import "ContentManager.h"
 #import "AppDelegate.h"
 #import "NavigationBar.h"
-
+#import "HomeViewController.h"
 @interface ReferFriendViewController ()
 
 @end
@@ -158,17 +158,20 @@
     
     NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
     button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
     button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    //[navnBar addSubview:button];
+    
     UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 40)];
     navTitle.font = [UIFont systemFontOfSize:18.0f];
     navTitle.text = @"Refer Friends";
     [navnBar addSubview:navTitle];
-    [navnBar addSubview:button];
+    
     
     //Button for Next
     UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -190,6 +193,13 @@
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
 }
+
+-(void)openHomeController
+{
+    HomeViewController *hm =[[HomeViewController alloc] init];
+    [self.navigationController pushViewController:hm animated:NO];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

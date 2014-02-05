@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FinanceCalculatorViewController : UIViewController
+@interface FinanceCalculatorViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 {
     IBOutlet UISegmentedControl *segmentControl;
     IBOutlet UILabel *amountCalculated;
@@ -25,7 +25,9 @@
     IBOutlet UIButton *secondGemDown_btn;
     IBOutlet UIButton *thirdGemUP_btn;
     IBOutlet UIButton *thirdGemDown_btn;
+    IBOutlet UIView *cutomView;
 }
-
+@property (nonatomic, strong) IBOutlet UIPickerView *myPickerView;
+@property (nonatomic, retain) IBOutlet UIView *cutomView;
 -(IBAction)segmentedControlIndexChanged;
 @end

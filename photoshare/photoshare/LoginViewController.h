@@ -23,6 +23,8 @@
     BOOL usrFlt, pwsFlt;
     IBOutlet UIButton *namecancelBtn;
     IBOutlet UIButton *passwordcancelBtn;
+    IBOutlet UIButton *rememberMeBtn;
+    BOOL rememberFltr;
     
     NSNumber *userid;
     
