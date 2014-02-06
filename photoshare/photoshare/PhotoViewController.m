@@ -8,13 +8,13 @@
 
 #import "PhotoViewController.h"
 #import "NavigationBar.h"
-
+#import "EditPhotoDetailViewController.h"
 @interface PhotoViewController ()
 
 @end
 
 @implementation PhotoViewController
-@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId;
+@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,photoDetail;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,7 +36,14 @@
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
     //imagePicker
-    
+    /*
+     
+     "collection_photo_description" = dfsdf;
+     "collection_photo_filesize" = 1343866;
+     "collection_photo_id" = 412;
+     "collection_photo_title" = dsfasfd;
+     
+     */
     
     imageView.layer.masksToBounds=YES;
     if(self.isViewPhoto)
@@ -141,19 +148,38 @@
 
     }
     else if (selectedSegment == 1) {//Edit image
+        
         if(isoriginalImageGet)
         {
-            [self launchPhotoEditorWithImage:originalImage highResolutionImage:originalImage];
+            UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
+            [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
         }
         else
         {
             [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
         }
+        
     }
     else if (selectedSegment == 2) {
         [manager showAlert:@"Message" msg:@"Currently not working" cancelBtnTitle:@"Ok" otherBtn:nil];
     }
      segmentedControl.selectedSegmentIndex = -1;
+}
+//action sheet delegate Method
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex==0)//Edit Photo
+    {
+        [self launchPhotoEditorWithImage:originalImage highResolutionImage:originalImage];
+    }
+    else if(buttonIndex==1)//Edit Detail
+    {
+        EditPhotoDetailViewController *editPhotoDetail=[[EditPhotoDetailViewController alloc] init];
+        editPhotoDetail.photoId=self.photoId;
+        editPhotoDetail.collectionId=self.collectionId;
+        editPhotoDetail.photoDetail=self.photoDetail;
+        [self.navigationController pushViewController:editPhotoDetail animated:YES];
+    }
 }
 -(void)removveimageView
 {
@@ -298,12 +324,12 @@
 
 
 //save Photo on Server Photo With Detaill
--(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+-(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData photoTitle:(NSString *)photoTitl photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
 {
     
     webservices.delegate=self;
     
-    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
+    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitl,@"photo_description":photoDescription, @"photo_collections":photoCollection};
     //store data
     // [webServices call:data controller:@"photo" method:@"store"];
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
@@ -328,6 +354,11 @@
     [button setTitle:@"< Back" forState:UIControlStateNormal];
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
     // navnBar.backgroundColor = [UIColor redColor];
+    
+    UILabel *photoTitleLBL=[[UILabel alloc] initWithFrame:CGRectMake(120, 50, 70, 30)];
+    photoTitleLBL.text=[photoDetail objectForKey:@"collection_photo_title"];
+    photoTitleLBL.textAlignment=NSTextAlignmentCenter;
+    [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
 

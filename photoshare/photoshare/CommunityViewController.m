@@ -64,6 +64,14 @@
     //initialize the array
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing=[[NSMutableArray alloc] init];
+    
+    collectionDefaultArray=[[NSMutableArray alloc] init];
+    collectionIdArray=[[NSMutableArray alloc] init];
+    collectionNameArray=[[NSMutableArray alloc] init];
+    collectionSharedArray=[[NSMutableArray alloc] init];
+    collectionSharingArray=[[NSMutableArray alloc] init];
+    collectionUserIdArray=[[NSMutableArray alloc] init];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -73,6 +81,16 @@
     //editBtn When Longpress on folder
     editBtn=[[UIButton alloc] init];
     
+    //remove all  object from array
+    [sharingIdArray removeAllObjects];
+    [collectionArrayWithSharing removeAllObjects];
+    
+    [collectionDefaultArray removeAllObjects];
+    [collectionIdArray removeAllObjects];
+    [collectionNameArray removeAllObjects];
+    [collectionSharedArray removeAllObjects];
+    [collectionSharingArray removeAllObjects];
+    [collectionUserIdArray removeAllObjects];
     
     //set title for navigation controller
     [self addCustomNavigationBar];
@@ -87,12 +105,7 @@
     //get the user ID from NSUSER Default
     userid=[manager getData:@"user_id"];
     [self getStorageFromServer];
-    //fetch collection info from serv er
-    //[self fetchCollectionInfoFromServer];
-    //[self getCollectionInfoFromUserDefault];
     
-    //[self fetchCollectionInfoFromServer];
-    //[self getStorageFromServer];
 }
 -(void)getSharingusersId
 {
@@ -112,6 +125,8 @@
 -(void)getStorageFromServer
 {
     @try {
+        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+
         isGetStorage=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};
@@ -129,8 +144,6 @@
 -(void)fetchOwnCollectionInfoFromServer
 {
     @try {
-        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
-        
         isGetTheOwnCollectionListData=YES;
             webservices.delegate=self;
             NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
@@ -148,13 +161,16 @@
 -(void)fetchSharingCollectionInfoFromServer
 {
     @try {
-        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
-        
-        isGetTheOwnCollectionListData=YES;
-        webservices.delegate=self;
-        NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
-        [webservices call:dicData controller:@"collection" method:@"getlist"];
-        
+        if(sharingIdArray.count>0)
+        {
+            countSharing=0;
+            for (int i=0; i<sharingIdArray.count; i++) {
+                isGetTheSharingCollectionListData=YES;
+                webservices.delegate=self;
+                NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":[sharingIdArray objectAtIndex:i]};
+                [webservices call:dicData controller:@"collection" method:@"getlist"];
+            }
+        }
     }
     @catch (NSException *exception) {
         
@@ -224,42 +240,64 @@
     {
         if(exitCode.integerValue==1)
         {
-            [SVProgressHUD dismiss];
             [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
         }
         isGetTheOwnCollectionListData=NO;
-        [self fetchSharingCollectionInfoFromServer];
+        if(sharingIdArray.count>0)
+        {
+            [self fetchSharingCollectionInfoFromServer];
+        }
+        else
+        {
+            [SVProgressHUD dismiss];
+            [self getCollectionInfoFromUserDefault];
+        }
+        
     }
     else if (isGetTheSharingCollectionListData)
     {
-        
+        if(exitCode.integerValue==1)
+        {
+            [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
+        }
+        countSharing++;
+        if(countSharing==sharingIdArray.count)
+        {
+            [SVProgressHUD dismiss];
+            [self getCollectionInfoFromUserDefault];
+
+        }
     }
 }
 
 -(void)getCollectionInfoFromUserDefault
 {
-    NSMutableArray *collection=[[[NSUserDefaults standardUserDefaults] objectForKey:@"collection_data_list"] mutableCopy];
+    NSMutableArray *collection=collectionArrayWithSharing;
     
-    collectionDefaultArray=[[NSMutableArray alloc] init];
-    collectionIdArray=[[NSMutableArray alloc] init];
-    collectionNameArray=[[NSMutableArray alloc] init];
-    collectionSharedArray=[[NSMutableArray alloc] init];
-    collectionSharingArray=[[NSMutableArray alloc] init];
-    collectionUserIdArray=[[NSMutableArray alloc] init];
     
     for (int i=0;i<collection.count; i++)
     {
-        if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
-        {
+        @try {
+            if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+            {
+                
+            }
+            else
+            {
+                [collectionDefaultArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_default"]];
+                [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
+                [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
+                [collectionSharedArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_shared"]];
+                [collectionSharingArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_sharing"]];
+                [collectionUserIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_user_id"]];
+            }
+
         }
-        else
-        {
-            [collectionDefaultArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_default"]];
-            [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
-            [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
-            [collectionSharedArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_shared"]];
-            [collectionSharingArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_sharing"]];
-            [collectionUserIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_user_id"]];
+        @catch (NSException *exception) {
+            NSLog(@"Execption is %@",exception.description);
+        }
+        @finally {
+            
         }
         
     }
@@ -280,29 +318,47 @@
     obj_Cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     obj_Cell.folder_imgV.hidden=NO;
-    int index=indexPath.row-1;
-    if(indexPath.row==0)
-    {
-        obj_Cell.folder_imgV.image=[UIImage imageNamed:@"add_folder.png"];
-        obj_Cell.icon_img.hidden=YES;
-        obj_Cell.folder_name.text=@"Add Folder";
-       
-    }
-    else
-    {
-        /*int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
-        BOOL flag=false;
-        if(![collectionSharedArray objectAtIndex:index])
+    @try {
+        int index=indexPath.row-1;
+        if(indexPath.row==0)
         {
-            flag=TRUE;
-            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder_lock.png"];
-            obj_Cell.icon_img.hidden=NO;
-            obj_Cell.icon_img.image=[UIImage imageNamed:@"private-icon.png"];
+            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"add_folder.png"];
+            obj_Cell.icon_img.hidden=YES;
+            obj_Cell.folder_name.text=@"Add Folder";
+            
         }
-              
-        if(!flag)
+        else
         {
-            if(sharing==1)
+            int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
+             BOOL flag=FALSE;
+            int shared=[[collectionSharedArray objectAtIndex:index] intValue];
+            
+                 
+                 if(sharing==1)
+                 {
+                     obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+                     obj_Cell.icon_img.hidden=NO;
+                     obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
+                      flag=TRUE;                        }
+                 else
+                 {
+                     
+                     obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+                     obj_Cell.icon_img.hidden=YES;
+                 }
+                 
+                 
+          
+            
+             if(!flag && shared==1)
+             {
+                 obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+                 obj_Cell.icon_img.hidden=NO;
+                 obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon3.png"];
+
+             }
+            /*int shared=[[collectionSharedArray objectAtIndex:index] integerValue];
+            if(shared==1)
             {
                 obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                 obj_Cell.icon_img.hidden=NO;
@@ -312,25 +368,20 @@
             {
                 obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                 obj_Cell.icon_img.hidden=YES;
-            }
-        }*/
-        int shared=[[collectionSharedArray objectAtIndex:index] integerValue];
-        if(shared==1)
-        {
-            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-            obj_Cell.icon_img.hidden=NO;
-            obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
-        }
-        else
-        {
-            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-            obj_Cell.icon_img.hidden=YES;
+            }*/
+            
+            obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:index];
+            
         }
 
-        obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:index];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception is %@",exception.description);
+    }
+    @finally {
         
     }
-    return obj_Cell;
+        return obj_Cell;
 }
 //tap gesture method
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
@@ -351,18 +402,28 @@
         }
         else
         {
-            int index=indexPath.row-1;
-            PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
-            photoGallery.isPublicFolder=NO;
-            photoGallery.selectedFolderIndex=index;
-            photoGallery.folderName=[collectionNameArray objectAtIndex:index];
-            photoGallery.collectionId=[collectionIdArray objectAtIndex:index];
+            @try {
+                int index=indexPath.row-1;
+                PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+                photoGallery.isPublicFolder=NO;
+                photoGallery.selectedFolderIndex=index;
+                photoGallery.folderName=[collectionNameArray objectAtIndex:index];
+                photoGallery.collectionId=[collectionIdArray objectAtIndex:index];
+                
+                [self.navigationController pushViewController:photoGallery animated:YES];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Exception is %@",exception.description);
+            }
+            @finally {
+                
+            }
             
-            [self.navigationController pushViewController:photoGallery animated:YES];
         }
         
     }
 }
+
 //longPress Gesture
 -(void)longPressHandle:(UILongPressGestureRecognizer *)gestureRecognizer
 {
@@ -403,18 +464,26 @@
     int index=indexPath.row-1;
     //if editBtnIs in view
     [editBtn removeFromSuperview];
+    @try {
+        AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
+        aec.isAddFolder=NO;
+        aec.isEditFolder=YES;
+        aec.setFolderName=[collectionNameArray objectAtIndex:index];
+        aec.collectionId=[collectionIdArray objectAtIndex:index] ;
+        aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
+        CommunityViewController *cm = [[CommunityViewController alloc] init];
+        HomeViewController *hm = [[HomeViewController alloc] init] ;
+        [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
+        
+        [self.navigationController pushViewController:aec animated:NO];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Execption is %@",exception.description);
+    }
+    @finally {
+        
+    }
     
-    AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
-    aec.isAddFolder=NO;
-    aec.isEditFolder=YES;
-    aec.setFolderName=[collectionNameArray objectAtIndex:index];
-    aec.collectionId=[collectionIdArray objectAtIndex:index] ;
-    aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
-    CommunityViewController *cm = [[CommunityViewController alloc] init];
-    HomeViewController *hm = [[HomeViewController alloc] init] ;
-    [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
-  
-    [self.navigationController pushViewController:aec animated:NO];
 }
 
 

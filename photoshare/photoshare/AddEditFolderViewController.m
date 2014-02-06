@@ -167,14 +167,16 @@
 {
     [searchView removeFromSuperview];
     
-    isSearchUserList=YES;
+    
     
     if (textField.tag==1102&&textField.text.length>=2) {
+        isSearchUserList=YES;
         NSLog(@"Text is %@",textField.text);
         selectedWriteUserId=@"";
         isShareForWritingWith=YES;
     }
     else if (textField.tag==1103&&textField.text.length>=2) {
+        isSearchUserList=YES;
         NSLog(@"Text is %@",textField.text);
         selectetReadUserId=@"";
         isShareForReadingWith=YES;
@@ -475,8 +477,7 @@
             {
                 UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                 [alertView show];
-
-            }
+                            }
             else
             {
                 [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];

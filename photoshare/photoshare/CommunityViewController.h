@@ -40,7 +40,7 @@
     BOOL isGetCollectionInfo;
     BOOL isGetTheOwnCollectionListData;
     BOOL isGetTheSharingCollectionListData;
-    
+    int countSharing;
     //for sharing detail get
     BOOL isGetSharingUserId;
     NSMutableArray *sharingIdArray;

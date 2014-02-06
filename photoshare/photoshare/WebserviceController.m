@@ -34,7 +34,7 @@
     
     NSDictionary *parameters = postData;
   
-    if([controller isEqualToString:@"photo"])
+    if([controller isEqualToString:@"photo"] && [method isEqualToString:@"get"])
     {
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"image/png"];
         [manager setResponseSerializer:[AFImageResponseSerializer new]];

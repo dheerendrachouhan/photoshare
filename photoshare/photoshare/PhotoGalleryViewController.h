@@ -26,6 +26,8 @@
     WebserviceController *webServices;
     UIButton *editBtn;
     
+    BOOL isAddPhotoMode;
+    BOOL isEditPhotoMode;
    
     NSMutableArray *selectedImagesIndex;
     NSString *refrenceUrlofImg;
@@ -37,6 +39,7 @@
     NSMutableArray *photoArray;
     NSMutableArray *photoInfoArray;
     
+    int selectedEditImageIndex;
     BOOL isDeleteMode;
     BOOL isShareMode;
     
@@ -56,6 +59,7 @@
     UIImage *pickImage;
     BOOL isCameraMode;
     BOOL isCameraEditMode;
+    BOOL isPhotoPickMode;
     
     NSString *assetUrlOfImage;
     
