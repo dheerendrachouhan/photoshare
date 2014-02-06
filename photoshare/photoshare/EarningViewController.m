@@ -22,6 +22,7 @@
 @implementation EarningViewController
 {
     NSNumber *userID;
+    NSString *service;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,7 +49,7 @@
     wc.delegate = self;
     //NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
     NSDictionary *dictData = @{@"user_id":userID};
-    [wc call:dictData controller:@"user" method:@"getearningsdetails"] ;
+    [wc call:dictData controller:@"user" method:@"getearningsdetails"];
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 }
 
