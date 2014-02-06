@@ -95,9 +95,9 @@
     /*
     [dmc sethomeIndex];*/
 }
--(void)setTheTotalEarning
+-(void)setTheTotalEarning:(NSString *)earners
 {
-    //   totalEarning.text=totalEarn;
+    totalEarning.text= [@"£" stringByAppendingString:earners];
     //UILabel *lb = (UILabel *) [self viewWithTag:1];
     //  [lb removeFromSuperview] ;
 }

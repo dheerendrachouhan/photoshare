@@ -20,6 +20,6 @@
     DataMapperController *dmc;
 }
 -(void)goToEarningViewController;
--(void)setTheTotalEarning;
+-(void)setTheTotalEarning:(NSString *)earners;
 -(void)goToHomeViewController;
 @end

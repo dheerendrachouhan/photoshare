@@ -10,7 +10,6 @@
                 <outlet property="border1" destination="5et-B2-2q1" id="bAq-Kk-Csl"/>
                 <outlet property="border2" destination="tg3-it-ywY" id="SjK-w5-s1t"/>
                 <outlet property="border3" destination="Hn3-rI-0d7" id="HyO-yI-k2z"/>
-                <outlet property="currencySetter" destination="Hjw-y2-YHx" id="sKc-Op-m7j"/>
                 <outlet property="cutomView" destination="XsV-xe-kH7" id="Kq4-YK-f6p"/>
                 <outlet property="firstGem" destination="w6E-df-wAj" id="MV9-x4-t2C"/>
                 <outlet property="firstGemDown_btn" destination="kWv-f1-fjU" id="VLi-FC-wgP"/>
@@ -55,13 +54,6 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="33"/>
                     <color key="textColor" red="0.12599232768572666" green="0.38773500518607684" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hjw-y2-YHx">
-                    <rect key="frame" x="134" y="157" width="32" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                    <color key="textColor" red="0.12599232769999999" green="0.38773500519999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1st Level" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ov2-QR-AW3">
@@ -260,7 +252,7 @@
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3rd Level" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ifp-yC-o5E">
                             <rect key="frame" x="239" y="30" width="69" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -272,14 +264,14 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="These are the number of people you refered have reffered." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5zo-gA-QMV">
-                            <rect key="frame" x="111" y="46" width="93" height="49"/>
+                            <rect key="frame" x="114" y="47" width="93" height="49"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="These are the number of people your referes have reffered." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7T1-m9-OPO">
-                            <rect key="frame" x="227" y="46" width="93" height="49"/>
+                            <rect key="frame" x="227" y="47" width="93" height="49"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="9"/>

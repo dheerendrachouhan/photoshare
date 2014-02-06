@@ -25,7 +25,11 @@
 @end
 
 @implementation HomeViewController
-
+{
+    NSString *servicesStr;
+    NSNumber *userID;
+    NavigationBar *navnBar;
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -68,6 +72,8 @@
     // Start the Aviary Editor OpenGL Load
     [AFOpenGLManager beginOpenGLLoad];
      dmc = [[DataMapperController alloc] init];
+    
+    userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
 }
 
 
@@ -108,6 +114,7 @@
     }
     //set the collectionid and name in array from nsdefault
     [self getCollectionInfoFromUserDefault];
+    [self loadData];
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -394,6 +401,19 @@
     
     NSLog(@"Data %@",data);
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
+    if([servicesStr isEqualToString:@"two"])
+    {
+        if(exitCode.integerValue==1)
+        {
+            NSMutableArray *outPutDatas =[data objectForKey:@"output_data"];
+            NSString *strEarning = [NSString stringWithFormat:@"%@",[outPutDatas valueForKey:@"total_expected_income"]];
+            [navnBar setTheTotalEarning:strEarning];
+            servicesStr = @"";
+        }
+    }
+    else
+    {
+    
     if(isColletionCreateMode)
     {
         if(exitCode.integerValue==1)
@@ -419,6 +439,9 @@
             
         }
         isPhotoSavingMode=NO;
+    }
+        
+       
     }
     
 }
@@ -642,11 +665,20 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 60)];
+    navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 60)];
     
     [[self view] addSubview:navnBar];
 }
 
+-(void)loadData
+{
+    WebserviceController *wc = [[WebserviceController alloc] init] ;
+    wc.delegate = self;
+    //NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
+    NSDictionary *dictData = @{@"user_id":userID};
+    [wc call:dictData controller:@"referral" method:@"calculateincome"];
+    servicesStr = @"two";
+}
 
 - (void)didReceiveMemoryWarning
 {
