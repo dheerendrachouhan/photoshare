@@ -18,7 +18,7 @@
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
 #import "NavigationBar.h"
-@interface LaunchCameraViewController : UIViewController<UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UITabBarDelegate>
+@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UITabBarDelegate>
 {
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
@@ -38,7 +38,16 @@
     UIImage *pickImage;
     BOOL isCameraMode;
     BOOL isCameraEditMode;
+    
+    BOOL isPhotoSavingMode;
+    BOOL isColletionCreateMode;
+    
     IBOutlet UIImageView *imgView;
+    //fore new folder create when pick image
+    UIView *backView1;
+    UIView *backView2;
+    UITextField *folderName;
+    UIButton *addNewFolder;
 }
 
 //for Aviary

@@ -110,7 +110,10 @@
     [self getCollectionInfoFromUserDefault];
     
 }
-
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    return  [textField resignFirstResponder];
+}
 -(void)openeditorcontrol
 {
 [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
@@ -375,6 +378,8 @@
 {
     
     [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
+    isPhotoSavingMode=YES;
+    
     webservices.delegate=self;
     
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
@@ -389,17 +394,33 @@
     
     NSLog(@"Data %@",data);
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    if(exitCode.integerValue==1)
+    if(isColletionCreateMode)
     {
-        NSLog(@"Photo saving Suucees ");
+        if(exitCode.integerValue==1)
+        {
+            NSMutableArray *outPutData=[data objectForKey:@"output_data"];
+            selectedCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];//New created collection id
+            isColletionCreateMode=NO;
+            [self categoryDoneButtonPressed];//For save the photo
+        }
+        
     }
-    else
+    else if (isPhotoSavingMode)
     {
-        NSLog(@"Photo saving Fail ");
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saving Fail" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-         [alert show];
-
+        if(exitCode.integerValue==1)
+        {
+            NSLog(@"Photo saving Suucees ");
+        }
+        else
+        {
+            NSLog(@"Photo saving Fail ");
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saving Fail" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
+        }
+        isPhotoSavingMode=NO;
     }
+    
 }
 
 
@@ -427,8 +448,6 @@
         UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(categoryCancelButtonPressed)];
         [barItems addObject:cancelBtn];
         
-        
-        
         UIBarButtonItem *toolBarTitle=[[UIBarButtonItem alloc]  initWithCustomView:titleLabe];
         [barItems addObject:flexSpace];
         [barItems addObject:toolBarTitle];
@@ -436,7 +455,7 @@
         UIBarButtonItem *addFolder=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFolderView)];
         
         [barItems addObject:flexSpace];
-       // [barItems addObject:addFolder];
+        [barItems addObject:addFolder];
         UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(categoryDoneButtonPressed)];
         [barItems addObject:doneBtn];
         
@@ -468,32 +487,76 @@
 {
     backView2=[[UIView alloc] initWithFrame:self.view.frame];
     backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+   
     UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-80, 200, 160)];
     addFolderView.layer.borderWidth=1;
     addFolderView.layer.borderColor=[UIColor blackColor].CGColor;
     addFolderView.layer.cornerRadius=8;
     addFolderView.backgroundColor=[UIColor whiteColor];
     
-    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(40, 10, 130, 25)];
+    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 150, 30)];
     headLbl.text=@"Add New Folder";
-    folderName=[[UITextField alloc] initWithFrame:CGRectMake(20, 60, 160, 30)];
+    headLbl.layer.cornerRadius=5;
+    headLbl.textAlignment=NSTextAlignmentCenter;
+    headLbl.textColor=[UIColor whiteColor];
+    headLbl.backgroundColor=[UIColor darkGrayColor];
+    folderName=[[UITextField alloc] initWithFrame:CGRectMake(15, 60, 170, 30)];
     folderName.layer.borderWidth=1;
     folderName.backgroundColor=[UIColor whiteColor];
+    [folderName setDelegate:self];
     
-    UIButton *button=[[UIButton alloc] initWithFrame:CGRectMake(50, 100, 100, 30)];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setTitle:@"Add Folder" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(createNewFolder) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(15, 100, 65, 30)];
+    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+    cancelButton.backgroundColor=btnBorderColor;
+    cancelButton.layer.cornerRadius=5;
+    
+    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(removeBackView2) forControlEvents:UIControlEventTouchUpInside];
+
+    UIButton *addButton=[[UIButton alloc] initWithFrame:CGRectMake(90, 100, 95, 30)];
+    
+    addButton.backgroundColor=btnBorderColor;
+    addButton.layer.cornerRadius=5;
+    
+    [addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [addButton setTitle:@"Add Folder" forState:UIControlStateNormal];
+    [addButton addTarget:self action:@selector(createNewFolder) forControlEvents:UIControlEventTouchUpInside];
     [addFolderView addSubview:headLbl];
     [addFolderView addSubview:folderName];
-    [addFolderView addSubview:button];
+    [addFolderView addSubview:cancelButton];
+    [addFolderView addSubview:addButton];
     
     [backView2 addSubview:addFolderView];
     [self.view addSubview:backView2];
 }
--(void)createNewFolder
+-(void)removeBackView2
 {
     [backView2 removeFromSuperview];
+}
+-(void)createNewFolder
+{
+    [self addCollectionInfoInServer:folderName.text  writeUserIds:@"" readUserIds:@""];
+}
+//store collection info in server
+-(void)addCollectionInfoInServer:(NSString *)collectionName writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+{
+    isColletionCreateMode=YES;
+    
+    webservices.delegate=self;
+    
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
+    @try {
+        [webservices call:dicData controller:@"collection" method:@"store"];
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     // Handle the selection
