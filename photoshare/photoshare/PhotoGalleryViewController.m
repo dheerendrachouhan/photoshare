@@ -211,9 +211,17 @@
     else if(buttonIndex==2)//From Camera Roll
     {
         NSLog(@"gallery");
+        @try {
+            imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:imagePicker animated:YES completion:nil];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
         
-        imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:imagePicker animated:YES completion:nil];
     }
     else if(buttonIndex==3)//Cancel Button
     {

@@ -72,7 +72,7 @@
     if([rememberStr isEqualToString:@"YES"])
     {
         rememberFltr = NO;
-        [self performSelector:@selector(rememberBtnTapped:)];
+        [self rememberBtnTapped];
         NSDictionary *dict = [dmc getRememberFields];
         nameTextField.text = [dict valueForKey:@"username"];
         passwordTextField.text = [dict valueForKey:@"password"];
@@ -80,7 +80,7 @@
     else
     {
         rememberFltr = YES;
-        [self performSelector:@selector(rememberBtnTapped:)];
+        [self rememberBtnTapped];
         NSDictionary *dict = [dmc getRememberFields];
         nameTextField.text = [dict valueForKey:@"username"];
         passwordTextField.text = [dict valueForKey:@"password"];
@@ -345,7 +345,7 @@
 }
 
 //RememberMe Function
-- (IBAction)rememberBtnTapped:(id)sender {
+- (IBAction)rememberBtnTapped{
     if(!rememberFltr)
     {
         [rememberMeBtn setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateNormal];

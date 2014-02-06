@@ -12,7 +12,6 @@
                 <outlet property="namecancelBtn" destination="lbl-fi-Wut" id="nmd-lp-2lv"/>
                 <outlet property="passwordTextField" destination="hqh-Sz-RYK" id="oCc-jS-7UT"/>
                 <outlet property="passwordcancelBtn" destination="amf-Ke-j2V" id="oJ4-r9-RDZ"/>
-                <outlet property="rememberMeBtn" destination="PBF-fU-pzA" id="LiD-Tk-qdP"/>
                 <outlet property="scrollView" destination="tLA-Kt-vxZ" id="7Gq-rd-Fpq"/>
                 <outlet property="signinBtn" destination="exO-a2-fwf" id="xgT-uv-5WT"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -104,6 +103,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
+                                <action selector="rememberBtnTapped" destination="-1" eventType="touchUpInside" id="b2d-S7-o5m"/>
                                 <action selector="rememberBtnTapped:" destination="-1" eventType="touchUpInside" id="agm-Hk-Dwy"/>
                             </connections>
                         </button>
