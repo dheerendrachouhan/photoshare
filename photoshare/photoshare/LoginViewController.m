@@ -485,7 +485,7 @@
     //delegate.navControlleraccount.navigationBar.translucent=NO;
     
     
-    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage imageNamed:@"refer-30x30.png"] tag:1];
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage imageNamed:@"home.png"] tag:1];
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earn-30x30.png"] tag:2];
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"photo-30x30.png"] tag:3];
     UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"folder-30x30.png"] tag:4];
@@ -504,25 +504,10 @@
     [delegate.tbc setDelegate:self];
     delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
     
-    topView.frame = CGRectMake(0, 20, 320, 50) ;
-    topView.tag = 11;
+    
   //  [delegate.tbc.view addSubview:topView];
     [self.view addSubview:delegate.tbc.view];
-    delegate.tbc.selectedIndex = -1;
 }
-/*
--(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-    NSLog(@"Selected tab Index %lu",(unsigned long)tabBarController.selectedIndex);
-    if(tabBarController.selectedIndex == 0)
-    {
-        delegate.tbc.selectedViewController = delegate.navControllerearning;
-        
-        ReferFriendViewController *ref = [[ReferFriendViewController alloc] init];
-        [delegate.navControllerearning pushViewController:ref animated:YES];
-    }
-}
-*/
 
 - (void)didReceiveMemoryWarning
 {

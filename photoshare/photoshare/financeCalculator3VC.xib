@@ -10,7 +10,6 @@
                 <outlet property="border1" destination="JBX-3u-h5O" id="TfI-wB-Ru9"/>
                 <outlet property="border2" destination="aQE-AG-I1u" id="PZF-gm-lrv"/>
                 <outlet property="border3" destination="6IL-gI-erS" id="sYc-GO-S6F"/>
-                <outlet property="currencySetter" destination="OIj-IT-HmZ" id="CWr-yW-kcF"/>
                 <outlet property="firstGem" destination="b2Q-W7-nGj" id="q3J-Ob-beg"/>
                 <outlet property="firstGemDown_btn" destination="Ef7-vi-OZy" id="IxN-uY-rn9"/>
                 <outlet property="firstGemUP_btn" destination="AO0-Oi-E36" id="NWU-hs-04Q"/>
@@ -51,13 +50,6 @@
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61m-Dl-Dej">
                     <rect key="frame" x="153" y="136" width="153" height="43"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                    <color key="textColor" red="0.12599232769999999" green="0.38773500519999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OIj-IT-HmZ">
-                    <rect key="frame" x="116" y="135" width="32" height="45"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
                     <color key="textColor" red="0.12599232769999999" green="0.38773500519999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>

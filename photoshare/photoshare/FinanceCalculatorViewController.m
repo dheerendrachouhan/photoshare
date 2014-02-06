@@ -18,6 +18,7 @@
     NSMutableArray *rowFirstArr;
     NSMutableArray *rowSecondArr;
     NSMutableArray *rowThirdArr;
+    NSString *setCurrenyStr;
 }
 @synthesize myPickerView;
 @synthesize cutomView;
@@ -66,7 +67,8 @@
     segmentControl.selectedSegmentIndex = 1;
     if(segmentControl.selectedSegmentIndex == 1)
     {
-        currencySetter.text = @"£";
+        setCurrenyStr = @"£";
+        [self calculateUserGem];
     }
     [self calculateUserGem];
     
@@ -80,21 +82,26 @@
     myPickerView.dataSource = self;
     myPickerView.layer.borderColor = [UIColor blackColor].CGColor;
    
+    //http://www.google.com/ig/calculator?hl=en&q=100EUR=?USD
+    //1GBP=?EUR , 1GBP=?USD
 }
 
 //Segment Controll
 -(IBAction)segmentedControlIndexChanged {
     if(segmentControl.selectedSegmentIndex==0)
     {
-        currencySetter.text = @"$";
+        setCurrenyStr = @"$";
+        [self calculateUserGem];
     }
     if(segmentControl.selectedSegmentIndex==1)
     {
-        currencySetter.text = @"£";
+        setCurrenyStr = @"£";
+        [self calculateUserGem];
     }
     if(segmentControl.selectedSegmentIndex==2)
     {
-        currencySetter.text = @"€";
+        setCurrenyStr = @"€";
+        [self calculateUserGem];
     }
 }
 
@@ -107,7 +114,7 @@
     
     int totalGemCalculated = (first*1) + (first*second) +(first*second*third);
     
-    amountCalculated.text = [NSString stringWithFormat:@"%d",totalGemCalculated];
+    amountCalculated.text =[setCurrenyStr stringByAppendingString:[NSString stringWithFormat:@"%d",totalGemCalculated]];
 }
 
 

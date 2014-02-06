@@ -78,7 +78,7 @@
     
     if([stringStr length]==0)
     {
-        userMessage.text = @"Hey I've been using 123 Friday to share photo and earn  money want to join me?";
+        userMessage.text = @"Hey, I've been using 123 Friday to share photos and earn  money want to join me?";
     }
     else
     {
@@ -379,7 +379,7 @@
 }
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have You have successfully referred your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
     
     
     switch (result)
@@ -420,7 +420,7 @@
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
 	switch (result) {
 		case MessageComposeResultCancelled:
 			[objManager showAlert:@"Cancelled" msg:@"Message Composed Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
@@ -539,7 +539,7 @@
     
     if([self.stringStr length]==0)
     {
-        userMessage.text = @"Hey I've been using 123 Friday to share photo and earn  money want to join me?";
+        userMessage.text = @"Hey, I've been using 123 Friday to share photos and earn  money want to join me?";
     }
     else
     {

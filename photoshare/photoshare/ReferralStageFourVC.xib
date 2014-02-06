@@ -139,7 +139,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hey, I've been using 123 Friday to share photos and earn  money, want to join me?" translatesAutoresizingMaskIntoConstraints="NO" id="I6K-Cc-WgR">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hey, I've been using 123 Friday to share photos and earn money, want to join me?" translatesAutoresizingMaskIntoConstraints="NO" id="I6K-Cc-WgR">
                             <rect key="frame" x="24" y="297" width="270" height="100"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
