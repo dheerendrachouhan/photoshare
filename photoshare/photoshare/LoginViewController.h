@@ -12,7 +12,10 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ContentManager.h"
 #import "DataMapperController.h"
-@interface LoginViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate, WebserviceDelegate,UITabBarControllerDelegate>
+#import <MessageUI/MessageUI.h>
+
+@class ContentManager;
+@interface LoginViewController : UIViewController <UITextFieldDelegate, WebserviceDelegate,UITabBarControllerDelegate,MFMailComposeViewControllerDelegate>
 {
     IBOutlet UIImageView *loginBackgroundImage;
     IBOutlet UIImageView *loginLogoImage;
@@ -36,6 +39,7 @@
     BOOL isGetLoginDetail;
     BOOL isGetStorage;
     DataMapperController *dmc;
+    ContentManager *objManager;
 }
 @property(nonatomic,retain)ALAssetsLibrary *library;
 - (IBAction)rememberBtnTapped;

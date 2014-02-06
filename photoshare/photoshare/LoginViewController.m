@@ -20,6 +20,7 @@
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
 #import "LaunchCameraViewController.h"
+#import "ContentManager.h"
 @interface LoginViewController ()
 
 @end
@@ -35,6 +36,9 @@
     if (self) {
         // Custom initialization
     }
+    
+    objManager = [ContentManager sharedManager];
+    
     return self;
 }
 
@@ -274,8 +278,45 @@
 
 //forgot password function
 - (IBAction)forgotPasswordBtn:(id)sender {
-    ResetPasswordController *resetpwd = [[ResetPasswordController alloc] init];
-    [self presentViewController:resetpwd animated:YES completion:nil];
+    // Email Subject
+    NSString *emailTitle = @"Join 123 Friday";
+    // Email Content
+    NSString *messageBody = @"Enter your username/email address:"; // Change the message body to HTML
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"support@123friday.com"];
+    
+    MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
+    mfMail.mailComposeDelegate = self;
+    
+    [mfMail setSubject:emailTitle];
+    [mfMail setMessageBody:messageBody isHTML:YES];
+    [mfMail setToRecipients:toRecipents];
+    // Present mail view controller on screen
+    [self presentViewController:mfMail animated:YES completion:nil];
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            [objManager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+            break;
+        case MFMailComposeResultSaved:
+            [objManager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
+            break;
+        case MFMailComposeResultSent:
+            [objManager showAlert:@"Success" msg:@"Mail sent successfully." cancelBtnTitle:@"Ok" otherBtn:nil];
+            break;
+        case MFMailComposeResultFailed:
+            [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 
@@ -441,13 +482,10 @@
    // delegate.navControllercommunity.navigationBar.translucent=NO;
     
     delegate.navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
-    
-    UINavigationController *ref = [[UINavigationController alloc] initWithRootViewController:referFriend];
     //delegate.navControlleraccount.navigationBar.translucent=NO;
     
     
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage imageNamed:@"refer-30x30.png"] tag:1];
-    
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earn-30x30.png"] tag:2];
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"photo-30x30.png"] tag:3];
     UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"folder-30x30.png"] tag:4];
@@ -470,19 +508,21 @@
     topView.tag = 11;
   //  [delegate.tbc.view addSubview:topView];
     [self.view addSubview:delegate.tbc.view];
+    delegate.tbc.selectedIndex = -1;
 }
-
+/*
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     NSLog(@"Selected tab Index %lu",(unsigned long)tabBarController.selectedIndex);
     if(tabBarController.selectedIndex == 0)
     {
-        [delegate.tbc setSelectedIndex:1];
+        delegate.tbc.selectedViewController = delegate.navControllerearning;
+        
         ReferFriendViewController *ref = [[ReferFriendViewController alloc] init];
         [delegate.navControllerearning pushViewController:ref animated:YES];
     }
 }
-
+*/
 
 - (void)didReceiveMemoryWarning
 {
