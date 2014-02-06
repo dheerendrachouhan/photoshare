@@ -78,7 +78,8 @@
     }
     myPickerView.delegate = self;
     myPickerView.dataSource = self;
-    [self.cutomView setHidden:YES];
+    myPickerView.layer.borderColor = [UIColor blackColor].CGColor;
+   
 }
 
 //Segment Controll

@@ -75,6 +75,7 @@
 - (void)setLabelDefaults:(UILabel *)label
 {
     label.textColor = self.textColor;
+    label.font = [UIFont systemFontOfSize:13.5];
     [label setTextAlignment:NSTextAlignmentLeft];
     label.adjustsFontSizeToFitWidth = YES;
     label.backgroundColor = [UIColor clearColor];
@@ -141,9 +142,9 @@
 - (void)setLabelValues:(UILabel *)label
 {
     label.textColor = [UIColor colorWithRed:0.125 green:0.514 blue:0.769 alpha:1];
-    if(screenFrame.size.height == 370)
+    if(screenFrame.size.height < 458)
     {
-        label.font = [UIFont systemFontOfSize:18.0];
+        label.font = [UIFont systemFontOfSize:19.0];
     }
     else
     {

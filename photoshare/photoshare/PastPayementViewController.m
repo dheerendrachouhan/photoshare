@@ -64,16 +64,26 @@
     {
         NSMutableArray *outPutData=[[data objectForKey:@"output_data"] valueForKey:@"payment_record"];
         
-        /*
-        for(int i=0;i<[outPutData count];i++)
+        for(NSDictionary *dict in outPutData)
         {
-            [textIndicators addObject:[outPutData valueForKey:@""]  ];
-            [values addObject:[outPutData valueForKey:@"amount"]];
+            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+            [f setNumberStyle:NSNumberFormatterDecimalStyle];
+            NSNumber * myNumber = [f numberFromString:[dict valueForKey:@"amount"]];
+            
+            [values addObject:myNumber];
+            NSString *dateString = [dict valueForKey:@"when"];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            
+            NSDate *dates = [dateFormatter dateFromString:dateString];
+            
+            [dateFormatter setDateFormat:@"dd MMM"];
+            
+            NSString *nowDaye = [dateFormatter stringFromDate:dates];
+            [textIndicators addObject:nowDaye];
         }
         // Do any additional setup after loading the view from its nib.*/
-        NSMutableArray *textIndicators = [[NSMutableArray alloc] initWithObjects:@"Date 1", @"Date 2", @"Date 3", @"Date 4", @"Date 5",@"Date 6",@"Date 7",@"Date 8", nil];
-        NSMutableArray *values = [[NSMutableArray alloc] initWithObjects:@20, @5, @10, @150, @7, @4, @1, @12,  nil];
-        //find highest no from array
+                //find highest no from array
         NSNumber *highestNumber;
         NSInteger numberIndex;
         for (NSNumber *theNumber in values)
@@ -113,15 +123,15 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 70)];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 55, 70.0, 30.0);
+    button.frame = CGRectMake(0.0, 45, 70.0, 30.0);
     button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 40)];
+    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 40, 120, 40)];
     navTitle.font = [UIFont systemFontOfSize:18.0f];
     navTitle.text = @"Past Payment";
     [navnBar addSubview:navTitle];
