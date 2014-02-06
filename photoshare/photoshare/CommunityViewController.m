@@ -61,6 +61,7 @@
     {
         collectionview.frame=CGRectMake(20, 190, 280, collectionview.frame.size.height-70);
     }
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -70,18 +71,10 @@
     //editBtn When Longpress on folder
     editBtn=[[UIButton alloc] init];
     
-    //get the user ID from NSUSER Default
-    userid=[manager getData:@"user_id"];
     
     //set title for navigation controller
-    
-    
     [self addCustomNavigationBar];
-    
-   // self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-   // [self.navigationItem setTitle:@"Community folders"];
-    
-    //blueLabelImgFrame=CGRectMake(20, diskSpaceBlueLabel.frame.origin.y-64, 10,diskSpaceBlueLabel.frame.size.height );
+  
    
     //set Disk Space Progress
     float progressPercent=[[manager getData:@"disk_space"] floatValue];
@@ -89,11 +82,14 @@
     diskSpaceTitle.text=diskTitle;
     progressView.progress=progressPercent;
     
+    //get the user ID from NSUSER Default
+    userid=[manager getData:@"user_id"];
+    //fetch collection info from serv er
+    [self fetchCollectionInfoFromServer];
+    //[self getCollectionInfoFromUserDefault];
     
-    [self getCollectionInfoFromUserDefault];
-    [collectionview reloadData];
-    
-    [self getStorageFromServer];
+    //[self fetchCollectionInfoFromServer];
+    //[self getStorageFromServer];
 }
 -(void)getStorageFromServer
 {
@@ -111,17 +107,35 @@
     }
     
 }
+//Fetch data From Server
+-(void)fetchCollectionInfoFromServer
+{
+    @try {
+        isGetTheCollectionListData=YES;
+        webservices.delegate=self;
+        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+        NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
+        [webservices call:dicData controller:@"collection" method:@"getlist"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    
+}
 -(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
     
     //validate the user
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    if(exitCode.integerValue==1)
+    if(isGetStorage)
     {
-        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-        if(isGetStorage)
+        if(exitCode.integerValue==1)
         {
+            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
             
             NSLog(@"Get Storage %@",data);
             NSDictionary *dic=[outPutData objectAtIndex:0];
@@ -137,7 +151,21 @@
             diskSpaceTitle.text=diskTitle;
             progressView.progress=progressPercent;
             //store in NSDefault
-            [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];        }
+            [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
+            isGetStorage=NO;
+        }
+  
+    }
+    else if(isGetTheCollectionListData)
+    {
+        [SVProgressHUD dismiss];
+        //set collection List in NSDefault
+        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+        [manager storeData:outPutData :@"collection_data_list"];
+        isGetTheCollectionListData=NO;
+        [self getCollectionInfoFromUserDefault];
+        [self getStorageFromServer];
+        
     }
 }
 
@@ -161,6 +189,7 @@
         [collectionSharingArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_sharing"]];
         [collectionUserIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_user_id"]];
     }
+    [collectionview reloadData];
     //
     
 }
