@@ -389,17 +389,27 @@
     
     NSLog(@"Data %@",data);
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    if(exitCode.integerValue==1)
+    if(isColletionCreateMode)
     {
-        NSLog(@"Photo saving Suucees ");
+        
+        isColletionCreateMode=NO;
     }
-    else
+    else if (isPhotoSavingMode)
     {
-        NSLog(@"Photo saving Fail ");
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saving Fail" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-         [alert show];
-
+        if(exitCode.integerValue==1)
+        {
+            NSLog(@"Photo saving Suucees ");
+        }
+        else
+        {
+            NSLog(@"Photo saving Fail ");
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saving Fail" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
+        }
+        isPhotoSavingMode=NO;
     }
+    
 }
 
 
@@ -426,8 +436,6 @@
         UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
         UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(categoryCancelButtonPressed)];
         [barItems addObject:cancelBtn];
-        
-        
         
         UIBarButtonItem *toolBarTitle=[[UIBarButtonItem alloc]  initWithCustomView:titleLabe];
         [barItems addObject:flexSpace];

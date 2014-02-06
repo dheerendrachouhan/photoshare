@@ -44,6 +44,9 @@
     BOOL isCameraMode;
     BOOL isCameraEditMode;
     
+    BOOL isPhotoSavingMode;
+    BOOL isColletionCreateMode;
+    
     NSNumber *publicCollectionId;
     
     NSMutableArray *collectionNameArray;
