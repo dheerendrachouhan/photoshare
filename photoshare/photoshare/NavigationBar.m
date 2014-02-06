@@ -9,7 +9,7 @@
 #import "NavigationBar.h"
 #import "ContentManager.h"
 #import "AppDelegate.h"
-#import "ReferFriendViewController.h"
+#import "HomeViewController.h"
 
 @implementation NavigationBar
 

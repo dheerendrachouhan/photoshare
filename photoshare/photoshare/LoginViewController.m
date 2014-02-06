@@ -25,7 +25,9 @@
 @end
 
 @implementation LoginViewController
-
+{
+    AppDelegate *delegate;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -410,7 +412,7 @@
 
 -(void)loadData
 {
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     EarningViewController *ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
     
@@ -444,30 +446,24 @@
     //delegate.navControlleraccount.navigationBar.translucent=NO;
     
     
-    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage  imageNamed:@"community-iconX30.png"] tag:1];
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage imageNamed:@"refer-30x30.png"] tag:1];
     
-    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earnings-iconX30.png"] tag:2];
-    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"icon-takephotoX30.png"] tag:3];
-    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"folder-icon-bottomX30.png"] tag:4];
-    UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-itemX30.png"] tag:5];
-    /*UITabBarItem *tabBarItem6 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"community-iconX30.png"] tag:6];*/
-    
-    
-   // delegate.navControllerearning.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-   // delegate.navControllercommunity.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-    
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earn-30x30.png"] tag:2];
+    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"photo-30x30.png"] tag:3];
+    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"folder-30x30.png"] tag:4];
+    UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-30x30.png"] tag:5];
     
     delegate.tbc = [[UITabBarController alloc] init] ;
     
     //navigation controllers
     
     [delegate.navControllerhome setTabBarItem:tabBarItem];
-    /*[ref setTabBarItem:tabBarItem6];*/
     [delegate.navControllerearning setTabBarItem:tabBarItem2];
     [delegate.navControllerphoto setTabBarItem:tabBarItem3];
     [delegate.navControllercommunity setTabBarItem:tabBarItem4];
     [delegate.navControlleraccount setTabBarItem:tabBarItem5];
     
+    [delegate.tbc setDelegate:self];
     delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
     
     topView.frame = CGRectMake(0, 20, 320, 50) ;
@@ -476,6 +472,16 @@
     [self.view addSubview:delegate.tbc.view];
 }
 
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"Selected tab Index %lu",(unsigned long)tabBarController.selectedIndex);
+    if(tabBarController.selectedIndex == 0)
+    {
+        [delegate.tbc setSelectedIndex:1];
+        ReferFriendViewController *ref = [[ReferFriendViewController alloc] init];
+        [delegate.navControllerearning pushViewController:ref animated:YES];
+    }
+}
 
 
 - (void)didReceiveMemoryWarning
