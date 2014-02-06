@@ -36,9 +36,13 @@
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
     //imagePicker
-    
+    UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewImage)];
+    doubleTap.numberOfTapsRequired=2;
+    [imageView addGestureRecognizer:doubleTap];
     imageView.layer.masksToBounds=YES;
-   
+    
+    
+    
     if(self.isViewPhoto)
     {
         folderLocationShowLabel.text=self.folderNameLocation;
@@ -105,7 +109,19 @@
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
     
 }
-
+-(void)viewImage
+{
+    UIImageView *imgV=[[UIImageView alloc ] initWithFrame:self.view.frame];
+    imgV.tag=10000;
+    imgV.userInteractionEnabled=YES;
+    imgV.layer.masksToBounds=YES;
+    imgV.image=originalImage;
+    
+    UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removveimageView)];
+    doubleTap.numberOfTapsRequired=2;
+    [imgV addGestureRecognizer:doubleTap];
+    [self.view addSubview:imgV];
+}
 - (IBAction)segmentSwitch:(id)sender {
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
@@ -114,16 +130,7 @@
         
         if(isoriginalImageGet)
         {
-            UIImageView *imgV=[[UIImageView alloc ] initWithFrame:self.view.frame];
-            imgV.tag=10000;
-            imgV.userInteractionEnabled=YES;
-            imgV.layer.masksToBounds=YES;
-            imgV.image=originalImage;
-            
-            UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removveimageView)];
-            doubleTap.numberOfTapsRequired=2;
-            [imgV addGestureRecognizer:doubleTap];
-            [self.view addSubview:imgV];
+            [self viewImage];
         }
         else
         {

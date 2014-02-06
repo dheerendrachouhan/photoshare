@@ -534,7 +534,7 @@
 //Update Collection info in NSUSerDefault
 -(void)updateCollectionInfoInNSUserDefault
 {
-    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];;
+    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
     
     if(isAdd)
     {

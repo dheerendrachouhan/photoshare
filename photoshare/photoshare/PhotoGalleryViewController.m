@@ -306,7 +306,7 @@
     isEditImageFromServer=YES;
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webServices.delegate=self;
-    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"image_resize":@"500",@"collection_id":self.collectionId};
+    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"image_resize":@"400",@"collection_id":self.collectionId};
     
     [self addProgressBar:@"Photo is Loading"];
     
@@ -414,7 +414,7 @@
 }
 -(IBAction)deletePhoto:(id)sender
 {
-   
+   [editBtn removeFromSuperview];
     UIButton *btn=(UIButton *)sender;
     if(photoArray.count>0)
     {
@@ -488,6 +488,7 @@
 
 -(IBAction)sharePhoto:(id)sender
 {
+    [editBtn removeFromSuperview];
     /*if(!isPublicFolder)
     {
         UIButton *btn=(UIButton *)sender;
