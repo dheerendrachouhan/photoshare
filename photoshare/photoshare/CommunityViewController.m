@@ -61,7 +61,9 @@
     {
         collectionview.frame=CGRectMake(20, 190, 280, collectionview.frame.size.height-70);
     }
-    
+    //initialize the array
+    sharingIdArray=[[NSMutableArray alloc] init];
+    collectionArrayWithSharing=[[NSMutableArray alloc] init];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -84,12 +86,28 @@
     
     //get the user ID from NSUSER Default
     userid=[manager getData:@"user_id"];
+    [self getStorageFromServer];
     //fetch collection info from serv er
-    [self fetchCollectionInfoFromServer];
+    //[self fetchCollectionInfoFromServer];
     //[self getCollectionInfoFromUserDefault];
     
     //[self fetchCollectionInfoFromServer];
     //[self getStorageFromServer];
+}
+-(void)getSharingusersId
+{
+    @try {
+        isGetSharingUserId=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid};
+        [webservices call:dicData controller:@"collection" method:@"sharing"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 -(void)getStorageFromServer
 {
@@ -108,14 +126,16 @@
     
 }
 //Fetch data From Server
--(void)fetchCollectionInfoFromServer
+-(void)fetchOwnCollectionInfoFromServer
 {
     @try {
-        isGetTheCollectionListData=YES;
-        webservices.delegate=self;
         [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
-        NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
-        [webservices call:dicData controller:@"collection" method:@"getlist"];
+        
+        isGetTheOwnCollectionListData=YES;
+            webservices.delegate=self;
+            NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
+            [webservices call:dicData controller:@"collection" method:@"getlist"];
+        
     }
     @catch (NSException *exception) {
         
@@ -125,13 +145,55 @@
     }
     
 }
+-(void)fetchSharingCollectionInfoFromServer
+{
+    @try {
+        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+        
+        isGetTheOwnCollectionListData=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
+        [webservices call:dicData controller:@"collection" method:@"getlist"];
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+}
 -(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
     
     //validate the user
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    if(isGetStorage)
+    if(isGetSharingUserId)
+    {
+        if(exitCode.integerValue==1)
+        {
+            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+            for (int i=0; i<outPutData.count; i++)
+            {
+                @try {
+                    [sharingIdArray addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
+                }
+                @catch (NSException *exception) {
+                    
+                }
+                @finally {
+                    
+                }
+                
+            }
+            
+        }
+        isGetSharingUserId=NO;
+        [self fetchOwnCollectionInfoFromServer];
+        
+    }
+    else if(isGetStorage)
     {
         if(exitCode.integerValue==1)
         {
@@ -153,18 +215,23 @@
             //store in NSDefault
             [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
             isGetStorage=NO;
+            
+            [self getSharingusersId];
         }
   
     }
-    else if(isGetTheCollectionListData)
+    else if(isGetTheOwnCollectionListData)
     {
-        [SVProgressHUD dismiss];
-        //set collection List in NSDefault
-        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-        [manager storeData:outPutData :@"collection_data_list"];
-        isGetTheCollectionListData=NO;
-        [self getCollectionInfoFromUserDefault];
-        [self getStorageFromServer];
+        if(exitCode.integerValue==1)
+        {
+            [SVProgressHUD dismiss];
+            [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
+        }
+        isGetTheOwnCollectionListData=NO;
+        [self fetchSharingCollectionInfoFromServer];
+    }
+    else if (isGetTheSharingCollectionListData)
+    {
         
     }
 }
@@ -180,14 +247,21 @@
     collectionSharingArray=[[NSMutableArray alloc] init];
     collectionUserIdArray=[[NSMutableArray alloc] init];
     
-    for (int i=2;i<collection.count; i++)
+    for (int i=0;i<collection.count; i++)
     {
-        [collectionDefaultArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_default"]];
-        [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
-        [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
-        [collectionSharedArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_shared"]];
-        [collectionSharingArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_sharing"]];
-        [collectionUserIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_user_id"]];
+        if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+        {
+        }
+        else
+        {
+            [collectionDefaultArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_default"]];
+            [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
+            [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
+            [collectionSharedArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_shared"]];
+            [collectionSharingArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_sharing"]];
+            [collectionUserIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_user_id"]];
+        }
+        
     }
     [collectionview reloadData];
     //

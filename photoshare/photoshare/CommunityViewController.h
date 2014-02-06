@@ -18,6 +18,8 @@
     IBOutlet UILabel *diskSpaceTitle;
     CollectionViewCell *obj_Cell;
     
+    
+    NSMutableArray *collectionArrayWithSharing;
     //collection Info Array
     NSMutableArray *collectionDefaultArray;
     NSMutableArray *collectionIdArray;
@@ -36,7 +38,13 @@
     UIActivityIndicatorView *indicator;
     BOOL isGetStorage;
     BOOL isGetCollectionInfo;
-    BOOL isGetTheCollectionListData;
+    BOOL isGetTheOwnCollectionListData;
+    BOOL isGetTheSharingCollectionListData;
+    
+    //for sharing detail get
+    BOOL isGetSharingUserId;
+    NSMutableArray *sharingIdArray;
+    
 }
 
 @end

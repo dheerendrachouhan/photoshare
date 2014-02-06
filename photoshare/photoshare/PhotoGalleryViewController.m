@@ -111,9 +111,8 @@
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
     
-    
-    [self setDataForCollectionView];
     [self getPhotoIdFromServer];
+    
 
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -132,7 +131,6 @@
     }
     
     frameForShareBtn=sharePhotoBtn.frame;
-    
     
 }
 //get PhotoId From Server
@@ -964,38 +962,5 @@
 
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
-}
--(void)setDataForCollectionView
-{
-    
-    if(self.isPublicFolder==YES)
-    {
-        //set title
-        //self.navigationController.navigationBar.topItem.title=@"Public Folder";
-    }
-    else
-    {
-        //set Folder Name in Right Side of navigation bar
-        NSString *folderNa=self.folderName;
-        
-        
-        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 25)];
-        label.text=folderNa;
-        //label.textAlignment=NSTextAlignmentRight;
-        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithCustomView:label] ;
-        [foldernameButton setWidth:100];
-        
-        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        iconbtn.frame=CGRectMake(0, 0, 18, 18);
-        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-        iconbtn.userInteractionEnabled=NO;
-        UIBarButtonItem *editBtnIcon=[[UIBarButtonItem alloc]
-                                      initWithCustomView:iconbtn] ;
-        NSArray *itemArray=[[NSArray alloc] initWithObjects:foldernameButton,editBtnIcon,nil];
-        self.navigationItem.rightBarButtonItems=itemArray;
-        
-    }
-    
-    
 }
 @end

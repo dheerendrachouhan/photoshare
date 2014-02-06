@@ -393,8 +393,11 @@
         
     }
     
-}-(void)addNewFolderView
+}
+-(void)addNewFolderView
 {
+    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+    UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
     backView2=[[UIView alloc] initWithFrame:self.view.frame];
     backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     
@@ -408,28 +411,36 @@
     headLbl.text=@"Add New Folder";
     headLbl.layer.cornerRadius=5;
     headLbl.textAlignment=NSTextAlignmentCenter;
-    headLbl.textColor=[UIColor whiteColor];
-    headLbl.backgroundColor=[UIColor darkGrayColor];
+    headLbl.textColor=btnTextColor;
+    //headLbl.backgroundColor=[UIColor darkGrayColor];
     folderName=[[UITextField alloc] initWithFrame:CGRectMake(15, 60, 170, 30)];
     folderName.layer.borderWidth=1;
     folderName.backgroundColor=[UIColor whiteColor];
     [folderName setDelegate:self];
     
     UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(15, 100, 65, 30)];
-    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-    cancelButton.backgroundColor=btnBorderColor;
-    cancelButton.layer.cornerRadius=5;
     
-    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //cancelButton.backgroundColor=btnBorderColor;
+    cancelButton.layer.cornerRadius=5;
+    cancelButton.layer.borderColor=btnBorderColor.CGColor;
+    cancelButton.layer.borderWidth=1;
+    
+    cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+    [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
     [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(removeBackView2) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *addButton=[[UIButton alloc] initWithFrame:CGRectMake(90, 100, 95, 30)];
     
-    addButton.backgroundColor=btnBorderColor;
+    //addButton.backgroundColor=btnBorderColor;
     addButton.layer.cornerRadius=5;
+    addButton.layer.borderColor=btnBorderColor.CGColor;
+    addButton.layer.borderWidth=1;
     
-    [addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    addButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+    [addButton setTitleColor:btnTextColor forState:UIControlStateNormal];
+    
+    
     [addButton setTitle:@"Add Folder" forState:UIControlStateNormal];
     [addButton addTarget:self action:@selector(createNewFolder) forControlEvents:UIControlEventTouchUpInside];
     [addFolderView addSubview:headLbl];
@@ -446,7 +457,16 @@
 }
 -(void)createNewFolder
 {
-    [self addCollectionInfoInServer:folderName.text  writeUserIds:@"" readUserIds:@""];
+    if(folderName.text.length>0)
+    {
+        [self addCollectionInfoInServer:folderName.text  writeUserIds:@"" readUserIds:@""];
+    }
+    else
+    {
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Enter Folder Name" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        
+    }
 }
 //store collection info in server
 -(void)addCollectionInfoInServer:(NSString *)collectionName writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
@@ -500,8 +520,15 @@
 }
 
 -(void)categoryDoneButtonPressed{
+    NSLog(@"selected index is %@",selectedCollectionId);
+    if(selectedCollectionId==nil)
+    {
+        selectedCollectionId=[collectionIdArray objectAtIndex:0];
+    }
     
     [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
+    
+    
 }
 -(void)removePickerView
 {

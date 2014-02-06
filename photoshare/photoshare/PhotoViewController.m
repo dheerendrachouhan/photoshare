@@ -36,13 +36,9 @@
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
     //imagePicker
-    UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewImage)];
-    doubleTap.numberOfTapsRequired=2;
-    [imageView addGestureRecognizer:doubleTap];
+    
+    
     imageView.layer.masksToBounds=YES;
-    
-    
-    
     if(self.isViewPhoto)
     {
         folderLocationShowLabel.text=self.folderNameLocation;
@@ -55,6 +51,11 @@
         activityIndicator.center = CGPointMake(CGRectGetWidth(imageView.bounds)/2, CGRectGetHeight(imageView.bounds)/2);
         [imageView addSubview:activityIndicator];
     }
+    UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewImage)];
+    doubleTap.numberOfTapsRequired=2;
+    [imageView addGestureRecognizer:doubleTap];
+    
+
 }
 -(void)getImageFromServer
 {
