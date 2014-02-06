@@ -36,6 +36,7 @@
     UIActivityIndicatorView *indicator;
     BOOL isGetStorage;
     BOOL isGetCollectionInfo;
+    BOOL isGetTheCollectionListData;
 }
 
 @end
