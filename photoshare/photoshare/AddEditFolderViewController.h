@@ -36,6 +36,8 @@
     BOOL isShareForWritingWith;
     BOOL isShareForReadingWith;
     
+    BOOL isGetPhotoIdFromServer;
+    
     NSString *selectedWriteUser;
     NSString *selectetReadUser;
     
@@ -44,6 +46,12 @@
     UIButton *searchList;
     NSNumber *shareWith;
    
+    UIView *searchView;
+    
+    UITextField *activeField;
+    
+    NSMutableArray *photoIdArray;
+    BOOL isDeletePhotoMode;
     NSMutableArray *searchUserList;
     IBOutlet UIButton *privateShareBtn;
     IBOutlet UIButton *publicShareBtn;

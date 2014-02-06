@@ -19,6 +19,7 @@
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "NavigationBar.h"
 #import "AppDelegate.h"
+#import "SVProgressHUD.h"
 @interface HomeViewController ()
 
 @end
@@ -81,8 +82,7 @@
                                          target:self
                                        selector:@selector(openeditorcontrol)
                                        userInfo:nil
-                                        repeats:NO];
-        
+                                        repeats:NO];        
         
     }
    UIView *vi = [self.tabBarController.view viewWithTag:11];
@@ -118,7 +118,7 @@
 }
 -(void)setContent
 {
-    profilePicImgView.image=[UIImage imageNamed:@"wall.jpg"];
+    profilePicImgView.image=[UIImage imageNamed:@"homepage.jpg"];
 }
 -(void)getCollectionInfoFromUserDefault
 {
@@ -126,14 +126,24 @@
     
     [collectionIdArray removeAllObjects];
     [collectionNameArray removeAllObjects];
-    
-    for (int i=1;i<collection.count; i++)
-    {
-        
-            [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
-            [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
+    @try {
+        for (int i=0;i<collection.count; i++)
+        {
+                [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
+                [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
+                if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+                {
+                    publicCollectionId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
+                }
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exec is %@",exception.description);
+    }
+    @finally {
         
     }
+    
     
 }
 
@@ -162,9 +172,8 @@
 {
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     photoGallery.isPublicFolder=YES;
-    photoGallery.collectionId=@3;
+    photoGallery.collectionId=publicCollectionId;
     [self.navigationController pushViewController:photoGallery animated:YES];
-    
 }
 -(IBAction)goToCommunity:(id)sender
 {
@@ -365,6 +374,7 @@
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
 {
     
+    [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
     webservices.delegate=self;
     
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
@@ -374,7 +384,22 @@
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
+    [self removePickerView];
+    [SVProgressHUD dismiss];
+    
     NSLog(@"Data %@",data);
+    NSNumber *exitCode=[data objectForKey:@"exit_code"];
+    if(exitCode.integerValue==1)
+    {
+        NSLog(@"Photo saving Suucees ");
+    }
+    else
+    {
+        NSLog(@"Photo saving Fail ");
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saving Fail" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+         [alert show];
+
+    }
 }
 
 
@@ -382,7 +407,7 @@
 -(void)showSelectFolderOption
 {
     @try {
-        
+         backView1=[[UIView alloc] initWithFrame:self.view.frame];
         categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, 320,120)];
         categoryPickerView.backgroundColor=[UIColor whiteColor];
         [categoryPickerView setDataSource: self];
@@ -403,17 +428,33 @@
         [barItems addObject:cancelBtn];
         
         
+        
         UIBarButtonItem *toolBarTitle=[[UIBarButtonItem alloc]  initWithCustomView:titleLabe];
         [barItems addObject:flexSpace];
         [barItems addObject:toolBarTitle];
+        //add folder button
+        UIBarButtonItem *addFolder=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFolderView)];
+        
         [barItems addObject:flexSpace];
+       // [barItems addObject:addFolder];
         UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(categoryDoneButtonPressed)];
         [barItems addObject:doneBtn];
         
         [pickerToolbar setItems:barItems animated:YES];
+       /* //add new folder buton on picker ivew
+        addNewFolder=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [addNewFolder setTitle:@"Add New Folder" forState:UIControlStateNormal];
+        addNewFolder.frame=CGRectMake(10, categoryPickerView.frame.origin.y, 150, 30);
+        addNewFolder.layer.borderWidth=1;
+        addNewFolder.layer.borderColor=[UIColor blueColor].CGColor;
+        [addNewFolder addTarget:self action:@selector(addNewFolderView) forControlEvents:UIControlEventTouchUpInside];
         
+        */
+       
+        [self.view addSubview:backView1];
         [self.view addSubview:pickerToolbar];
         [self.view addSubview:categoryPickerView];
+        //[self.view addSubview:addNewFolder];
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
@@ -423,11 +464,44 @@
     }
    
 }
+-(void)addNewFolderView
+{
+    backView2=[[UIView alloc] initWithFrame:self.view.frame];
+    backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-80, 200, 160)];
+    addFolderView.layer.borderWidth=1;
+    addFolderView.layer.borderColor=[UIColor blackColor].CGColor;
+    addFolderView.layer.cornerRadius=8;
+    addFolderView.backgroundColor=[UIColor whiteColor];
+    
+    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(40, 10, 130, 25)];
+    headLbl.text=@"Add New Folder";
+    folderName=[[UITextField alloc] initWithFrame:CGRectMake(20, 60, 160, 30)];
+    folderName.layer.borderWidth=1;
+    folderName.backgroundColor=[UIColor whiteColor];
+    
+    UIButton *button=[[UIButton alloc] initWithFrame:CGRectMake(50, 100, 100, 30)];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitle:@"Add Folder" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(createNewFolder) forControlEvents:UIControlEventTouchUpInside];
+    [addFolderView addSubview:headLbl];
+    [addFolderView addSubview:folderName];
+    [addFolderView addSubview:button];
+    
+    [backView2 addSubview:addFolderView];
+    [self.view addSubview:backView2];
+}
+-(void)createNewFolder
+{
+    [backView2 removeFromSuperview];
+}
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     // Handle the selection
     
+        selectedCollectionId=[collectionIdArray objectAtIndex:row];
+    
     NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
-    selectedCollectionId=[collectionIdArray objectAtIndex:row];
+    
 }
 // tell the picker how many rows are available for a given component
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
@@ -456,17 +530,18 @@
 -(void)categoryDoneButtonPressed{
    
     [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saved" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
+}
+-(void)removePickerView
+{
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
+    [backView1 removeFromSuperview];
+    [backView2 removeFromSuperview];
+    [addNewFolder removeFromSuperview];
 }
-
 -(void)categoryCancelButtonPressed{
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo save cancel" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
-   [categoryPickerView removeFromSuperview];
-    [pickerToolbar removeFromSuperview];
+    
+    [self removePickerView];
 }
 
 -(void)dismissModals

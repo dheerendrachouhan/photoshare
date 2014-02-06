@@ -173,24 +173,6 @@
     [SVProgressHUD showWithStatus:message maskType:SVProgressHUDMaskTypeBlack];
     
 }
--(void)getDataFromNSUSerDefault
-{
-    photoAssetUrlArray=[[NSMutableArray alloc] init];
-    NSMutableArray *photo_data=[[[NSUserDefaults standardUserDefaults] objectForKey:@"photo_data"] mutableCopy];
-    
-    for (int i=0;i<photo_data.count;i++)
-    {
-        NSDictionary *dic=[photo_data objectAtIndex:i];
-        if([[dic objectForKey:@"collection_id"] isEqualToString:@"3"])
-        {
-        NSURL *url=[dic objectForKey:@"image_asset_url"];
-        [photoAssetUrlArray addObject:url];
-        }
-    }
-       // [photoAssetUrlArray addObject:[dic objectForKey:@"ImageAssetUrl"]];
-    
-}
-
 
 -(IBAction)addPhoto:(id)sender
 {
@@ -229,8 +211,17 @@
     else if(buttonIndex==2)//From Camera Roll
     {
         NSLog(@"gallery");
-        imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:imagePicker animated:YES completion:nil];
+        @try {
+            imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:imagePicker animated:YES completion:nil];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+        
     }
     else if(buttonIndex==3)//Cancel Button
     {
@@ -314,9 +305,9 @@
     isEditImageFromServer=YES;
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webServices.delegate=self;
-    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"collection_id":self.collectionId};
+    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"image_resize":@"500",@"collection_id":self.collectionId};
     
-    [self addProgressBar:@"Photo is save on Server"];
+    [self addProgressBar:@"Photo is Loading"];
     
     
     [webServices call:dicData controller:@"photo" method:@"get"];
@@ -331,7 +322,7 @@
     {
         
         [self launchPhotoEditorWithImage:image highResolutionImage:image];
-        
+        isEditImageFromServer=NO;
     }
     else
     {
@@ -349,13 +340,9 @@
             {
                 [self getPhotoFromServer:photoArray.count];
             }
-            
-           
         }
         //[collectionview reloadData];
     }
-    
-    
 
 }
 -(void)webserviceCallback:(NSDictionary *)data
@@ -651,8 +638,9 @@
     CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
     NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
     @try {
-        UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
-        [self launchPhotoEditorWithImage:image highResolutionImage:image];
+        //UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
+        //[self launchPhotoEditorWithImage:image highResolutionImage:image];
+        [self getImageFromServerForEdit:indexPath.row];
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception.description);

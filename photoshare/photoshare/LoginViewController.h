@@ -38,4 +38,5 @@
     DataMapperController *dmc;
 }
 @property(nonatomic,retain)ALAssetsLibrary *library;
+- (IBAction)rememberBtnTapped;
 @end

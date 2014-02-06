@@ -75,6 +75,7 @@
 		E17222E018928DE700F28748 /* cancel_red.png in Resources */ = {isa = PBXBuildFile; fileRef = E17222DD18928DE700F28748 /* cancel_red.png */; };
 		E172672418A0BFE20059F6AD /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B074251899518600589867 /* AddEditFolderViewController.m */; };
 		E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */; };
+		E172F53218A271EE006799B9 /* homepage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E172F53118A271EE006799B9 /* homepage.jpg */; };
 		E174AC121898C096001B5278 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC111898C096001B5278 /* iconr3.png */; };
 		E174AC141898C09B001B5278 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC131898C09B001B5278 /* edit.png */; };
 		E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */; };
@@ -268,6 +269,7 @@
 		E17222DC18928DE700F28748 /* cancel_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_btn.png; sourceTree = "<group>"; };
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
 		E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchCameraViewController.xib; sourceTree = "<group>"; };
+		E172F53118A271EE006799B9 /* homepage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = homepage.jpg; sourceTree = "<group>"; };
 		E174AC111898C096001B5278 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E174AC131898C09B001B5278 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		E17C8F93189FA5000079E0FE /* LaunchCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCameraViewController.h; sourceTree = "<group>"; };
@@ -735,6 +737,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E172F53118A271EE006799B9 /* homepage.jpg */,
 				E1717A85189D2A8E008899EC /* radio_selected.png */,
 				E1717A86189D2A8E008899EC /* radio.png */,
 				E1717A7B189CF624008899EC /* ajaxloader.gif */,
@@ -958,6 +961,7 @@
 				E16F390718912C9C00064806 /* folder-icon-bottomX30.png in Resources */,
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
 				E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */,
+				E172F53218A271EE006799B9 /* homepage.jpg in Resources */,
 				E17222DF18928DE700F28748 /* cancel_btn.png in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
 				FC35A892189BDFFD006DDDFC /* splash320x480.png in Resources */,
@@ -1180,8 +1184,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
@@ -1204,13 +1210,14 @@
 					/Users/BrijendraTiwari/Desktop/project/photoshare_4/photoshare/photoshare/AviarySDK,
 					/Users/ignis3/Desktop/pb/photoshare/photoshare/AviarySDK,
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1219,8 +1226,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
@@ -1243,13 +1252,14 @@
 					/Users/BrijendraTiwari/Desktop/project/photoshare_4/photoshare/photoshare/AviarySDK,
 					/Users/ignis3/Desktop/pb/photoshare/photoshare/AviarySDK,
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

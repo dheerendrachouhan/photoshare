@@ -42,7 +42,8 @@
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
-    
+    //webservice
+    webservices=[[WebserviceController alloc] init];
     //add the Tap gesture for collection view
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc ]initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
@@ -96,11 +97,19 @@
 }
 -(void)getStorageFromServer
 {
-   
-    isGetStorage=YES;
-    webservices.delegate=self;
-    NSDictionary *dicData=@{@"user_id":userid};
-    [webservices call:dicData controller:@"storage" method:@"get"];
+    @try {
+        isGetStorage=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid};
+        [webservices call:dicData controller:@"storage" method:@"get"];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception is %@",exception.description);
+    }
+    @finally {
+        
+    }
+    
 }
 -(void) webserviceCallback:(NSDictionary *)data
 {
@@ -178,7 +187,7 @@
     }
     else
     {
-        int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
+        /*int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
         BOOL flag=false;
         if(![collectionSharedArray objectAtIndex:index])
         {
@@ -201,10 +210,21 @@
                 obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                 obj_Cell.icon_img.hidden=YES;
             }
+        }*/
+        int shared=[[collectionSharedArray objectAtIndex:index] integerValue];
+        if(shared==1)
+        {
+            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+            obj_Cell.icon_img.hidden=NO;
+            obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
         }
-        
+        else
+        {
+            obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+            obj_Cell.icon_img.hidden=YES;
+        }
+
         obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:index];
-        
         
     }
     return obj_Cell;

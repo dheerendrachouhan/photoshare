@@ -165,7 +165,7 @@
     [button setTitle:@"< Back" forState:UIControlStateNormal];
     button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
     button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    //[navnBar addSubview:button];
+    [navnBar addSubview:button];
     
     UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 40)];
     navTitle.font = [UIFont systemFontOfSize:18.0f];

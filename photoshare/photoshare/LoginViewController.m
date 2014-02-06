@@ -72,7 +72,7 @@
     if([rememberStr isEqualToString:@"YES"])
     {
         rememberFltr = NO;
-        [self performSelector:@selector(rememberBtnTapped:)];
+        [self rememberBtnTapped];
         NSDictionary *dict = [dmc getRememberFields];
         nameTextField.text = [dict valueForKey:@"username"];
         passwordTextField.text = [dict valueForKey:@"password"];
@@ -80,7 +80,7 @@
     else
     {
         rememberFltr = YES;
-        [self performSelector:@selector(rememberBtnTapped:)];
+        [self rememberBtnTapped];
         NSDictionary *dict = [dmc getRememberFields];
         nameTextField.text = [dict valueForKey:@"username"];
         passwordTextField.text = [dict valueForKey:@"password"];
@@ -179,19 +179,14 @@
             NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
             
             //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
-            if(availableStorage == (id)[NSNull null])
-            {
-                availableStorage = @0;
-            }
-            if(usedStorage == (id)[NSNull null])
-            {
-                usedStorage = @0;
-            }
-            float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
-            float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
+            float availableSpaceInMB=0.0f;
+            float usedSpaceInMB=0.0f;
+            availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
+            usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
             
             //set the diskSpacePercentage
-            float progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
+            float progressPercent=0.0f;
+            progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
             //store in NSDefault
             [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
             
@@ -350,7 +345,7 @@
 }
 
 //RememberMe Function
-- (IBAction)rememberBtnTapped:(id)sender {
+- (IBAction)rememberBtnTapped{
     if(!rememberFltr)
     {
         [rememberMeBtn setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateNormal];
