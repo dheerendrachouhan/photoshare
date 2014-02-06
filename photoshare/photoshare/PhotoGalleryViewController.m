@@ -205,14 +205,15 @@
     else if(buttonIndex==1)//From Gallery
     {
         NSLog(@"gallery");
-        imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:imagePicker animated:YES completion:nil];
     }
     else if(buttonIndex==2)//From Camera Roll
     {
         NSLog(@"gallery");
         @try {
-            imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
             [self presentViewController:imagePicker animated:YES completion:nil];
         }
         @catch (NSException *exception) {
@@ -945,14 +946,14 @@
     }
     else
     {
-        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        /*UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
         iconbtn.frame=CGRectMake(200.0, 55.0, 18.0, 18.0);
         [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-        iconbtn.userInteractionEnabled=NO;
+        iconbtn.userInteractionEnabled=NO;*/
         UILabel *foldernamelabel=[[UILabel alloc] initWithFrame:CGRectMake(220.0, 55.0, 100.0, 18.0)];
         foldernamelabel.text=self.folderName;
         
-        [navnBar addSubview:iconbtn];
+        //[navnBar addSubview:iconbtn];
         [navnBar addSubview:foldernamelabel];
         
     }

@@ -23,7 +23,7 @@
 
 @end
 @class ContentManager;
-@interface HomeViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate>
+@interface HomeViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate>
 {
     IBOutlet UIButton *totalEarningBtn;
     IBOutlet UIImageView *profilePicImgView;
@@ -62,6 +62,7 @@
     UIView *backView2;
     UITextField *folderName;
     UIButton *addNewFolder;
+   
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 
