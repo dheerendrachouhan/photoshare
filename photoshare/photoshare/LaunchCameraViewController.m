@@ -60,6 +60,8 @@
     {
         if(!isCameraMode)
         {
+            photoLocationStr=@"";
+            [self callGetLocation];
             //imagePicker
             UIImagePickerController *picker=[[UIImagePickerController alloc] init];
             picker.delegate=self;
@@ -629,7 +631,7 @@
     isPhotoSavingMode=YES;
     
     webservices.delegate=self;
-    photoLocationStr=@"";
+    
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":selectedCollectionId};
     //store data
     // [webServices call:data controller:@"photo" method:@"store"];
@@ -710,7 +712,9 @@
 {
     AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     //UITabBarController *tb = (UITabBarController *) self.window.rootViewController ;
-    HomeViewController *homeViewController=[[HomeViewController alloc] init];
+    //HomeViewController *homeViewController=[[HomeViewController alloc] init];
+    
+    [manager storeData:@"YES" :@"istabcamera"];
     [delgate.tbc setSelectedIndex:0];
 }
 

@@ -16,7 +16,7 @@
 #import "NavigationBar.h"
 #import "EditPhotoDetailViewController.h"
 #import "PhotoViewController.h"
-#import "PhotoShareController.h";
+#import "PhotoShareController.h"
 
 @interface PhotoGalleryViewController ()
 {
@@ -111,11 +111,14 @@
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height + 85);
     }
+    
     isPopFromPhotos=NO;
     isGetPhotoFromServer=NO;
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
     [self getPhotoIdFromServer];
+    
+
     
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -133,7 +136,13 @@
             userInfo:nil repeats:NO];
         
     }
-    
+    if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
+    {
+        
+        
+        [manager storeData:@"NO" :@"istabcamera"];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
     frameForShareBtn=sharePhotoBtn.frame;
     
 }
@@ -504,7 +513,9 @@
 {
     
     [editBtn removeFromSuperview];
-    if(!isPublicFolder)
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Sharing is Available for Single Photo" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+    [alert show];
+  /*  if(!isPublicFolder)
     {
         UIButton *btn=(UIButton *)sender;
         if(btn.selected==NO)
@@ -551,7 +562,7 @@
         }
         
         btn.selected=!btn.selected;
-    }
+    }*/
 }
 //reset the button hidden no and previous frame
 -(void)resetButton

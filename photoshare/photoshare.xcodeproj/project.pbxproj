@@ -108,7 +108,6 @@
 		E3188DA21893968A004ACF77 /* FinanceCalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */; };
 		E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E3188DA91893BABF004ACF77 /* currencyselector_btn.png */; };
 		E31A556818A4A08E00B0015B /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = E31A556718A4A08E00B0015B /* home.png */; };
-		E31A556D18A4E57800B0015B /* PhotoShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31A556B18A4E57800B0015B /* PhotoShareController.xib */; };
 		E31A557B18A502E800B0015B /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E31A556F18A502E800B0015B /* cog-item.png */; };
 		E31A557C18A502E800B0015B /* cog-item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E31A557018A502E800B0015B /* cog-item@2x.png */; };
 		E31A557D18A502E800B0015B /* community-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E31A557118A502E800B0015B /* community-icon.png */; };
@@ -350,7 +349,6 @@
 		E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinanceCalculatorViewController.m; sourceTree = "<group>"; };
 		E3188DA91893BABF004ACF77 /* currencyselector_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = currencyselector_btn.png; sourceTree = "<group>"; };
 		E31A556718A4A08E00B0015B /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
-		E31A556B18A4E57800B0015B /* PhotoShareController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoShareController.xib; sourceTree = "<group>"; };
 		E31A556F18A502E800B0015B /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
 		E31A557018A502E800B0015B /* cog-item@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item@2x.png"; sourceTree = "<group>"; };
 		E31A557118A502E800B0015B /* community-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "community-icon.png"; sourceTree = "<group>"; };
@@ -1017,6 +1015,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E170E90D18A526EA002D3D17 /* PhotoShareController.xib in Resources */,
 				FC35A85E189AFCCD006DDDFC /* folder_lock.png in Resources */,
 				FC35A85D189AFCBA006DDDFC /* earnings-iconX30.png in Resources */,
 				E3188D9F18939171004ACF77 /* cellImage.png in Resources */,
@@ -1089,7 +1088,6 @@
 				FC35A894189BE02D006DDDFC /* splash640x960.png in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E31A557F18A502E800B0015B /* earnings-icon.png in Resources */,
-				E31A556D18A4E57800B0015B /* PhotoShareController.xib in Resources */,
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
 				E322BAF018A36B7600CAC9E5 /* folder-30x30.png in Resources */,
 				E31A558618A502E800B0015B /* photo-icon@2x.png in Resources */,
@@ -1111,7 +1109,6 @@
 				FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E31B9E18189A558D00722761 /* ReferrelStageFourVC3.xib in Resources */,
-				E170E90D18A526EA002D3D17 /* PhotoShareController.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E17222CB189281B000F28748 /* ResetPasswordController.xib in Resources */,
 				E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */,

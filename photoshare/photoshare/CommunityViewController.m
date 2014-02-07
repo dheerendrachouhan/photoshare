@@ -241,6 +241,8 @@
         if(exitCode.integerValue==1)
         {
             [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
+            //nsuser default
+            [manager storeData:[data objectForKey:@"output_data"] :@"collection_data_list"];
         }
         isGetTheOwnCollectionListData=NO;
         if(sharingIdArray.count>0)
