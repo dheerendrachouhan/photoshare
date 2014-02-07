@@ -17,14 +17,20 @@
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
 
+#import <CoreLocation/CoreLocation.h>
 @protocol homeDelagate <NSObject>
 
 -(void)earningView;
 
 @end
 @class ContentManager;
-@interface HomeViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate>
+@interface HomeViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIActionSheetDelegate,CLLocationManagerDelegate,UITextViewDelegate>
 {
+    //get the userf location
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    
     IBOutlet UIButton *totalEarningBtn;
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UILabel *welcomeName;
@@ -61,8 +67,18 @@
     UIView *backView1;
     UIView *backView2;
     UITextField *folderName;
-    UIButton *addNewFolder;
-   
+    
+    
+    //for add photo Detail
+    UIView *backViewPhotDetail;
+    UITextField *photoTitleTF;
+    UITextView *photoDescriptionTF;
+    UITextField *phototagTF;
+    
+    NSString *photoTitleStr;
+    NSString *photoDescriptionStr;
+    NSString *photoTagStr;
+    NSString *photoLocationStr; //userLoaction is save
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 

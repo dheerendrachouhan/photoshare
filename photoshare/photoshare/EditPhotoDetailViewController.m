@@ -8,6 +8,8 @@
 
 #import "EditPhotoDetailViewController.h"
 #import "NavigationBar.h"
+#import "PhotoViewController.h"
+
 @interface EditPhotoDetailViewController ()
 
 @end
@@ -25,7 +27,10 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    photoLocationString=@"";
     [self addCustomNavigationBar];
+    [self callGetLocation];
+    
 }
 - (void)viewDidLoad
 {
@@ -40,6 +45,18 @@
     //set text fielddelegate
     [photoTitletxt setDelegate:self];
     [photoDescriptionTxt setDelegate:self];
+    [photoTag setDelegate:self];
+    
+    photoDescriptionTxt.layer.borderWidth=1;
+    photoDescriptionTxt.layer.borderColor=[UIColor blackColor].CGColor;
+    
+    
+    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+    saveButton.layer.cornerRadius=4;
+    saveButton.layer.borderColor=btnBorderColor.CGColor;
+    saveButton.layer.borderWidth=1;
+    
+    
     
     @try {
         photoTitletxt.text=[photoDetail objectForKey:@"collection_photo_title"];
@@ -58,6 +75,15 @@
 {
     return [textField resignFirstResponder];
 }
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
 -(void)savePhotoDetailOnServer
 {
     isPhotoDetailSaveOnServer=YES;
@@ -70,27 +96,45 @@
      "collection_photo_filesize" = 1360015;
      "collection_photo_id" = 439;
      "collection_photo_title" = "my photo";
-     "collection_photo_user_id" = 11;
-     */
-    NSDictionary *colContent=[[NSDictionary alloc] initWithObjectsAndKeys:@"collection_photo_added_date",@"2014-02-06 22:59:43",@"collection_photo_description",photoDescriptionTxt.text,@"collection_photo_filesize",@1360015,@
-    "collection_photo_id",@439,@"collection_photo_title",photoTitletxt.text,@   "collection_photo_user_id",@11, nil];
+     "collection_photo_user_id" = 11;     */
+   
     
-     NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":@"",@"photo_tags":@"",@"photo_collections":self.collectionId};
+    NSString *photodes=photoDescriptionTxt.text;
+   
+    NSString *photoTitle=photoTitletxt.text;
+    if(photodes.length==0)
+    {
+       photodes=@"";
+    }
+    if(photoTitle.length==0)
+    {
+        photoTitle=@"";
+    }
     
-    //NSDictionary *dicData=@{@"user_id":@"11",@"photo_id":@"412"};
-    //NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-    //[dic setObject:@"" forKey:@"user"];
-   // [dic setObject:@"" forKey:@"photo"];
+    NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
     
-    //webservices.delegate=self;
+    [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
+    [dic setObject:photodes forKey:@"collection_photo_description"];
+    [dic setObject:photoTitle forKey:@"collection_photo_title"];
+    [dic setObject:self.photoId forKey:@"collection_photo_id"];
+    [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
+    [dic setObject:userid forKey:@"collection_photo_user_id"];
+    
+    PhotoViewController *photoViewC=[[PhotoViewController alloc] init];
+    photoViewC.photoDetail=dic;
+    
+    
+    
+     NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":photoLocationString,@"photo_tags":photoTag.text,@"photo_collections":self.collectionId};
+    
     [webservices call:dicData controller:@"photo" method:@"change"];
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(IBAction)savePhotoDetail:(id)sender
 {
     [self savePhotoDetailOnServer];
-    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 #pragma Mark
 #pragma Add Custom Navigation Bar
@@ -119,6 +163,57 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//get the user location
+-(void)callGetLocation
+{
+    locationManager = [[CLLocationManager alloc] init];
+    geocoder = [[CLGeocoder alloc] init];
+    [self getLocation];
+}
+-(void)getLocation
+{
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [locationManager startUpdatingLocation];
+}
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    // Reverse Geocoding
+    NSLog(@"Resolving the Address");
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
+        if (error == nil && [placemarks count] > 0) {
+            placemark = [placemarks lastObject];
+            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
+             placemark.postalCode, placemark.locality,
+             placemark.administrativeArea,
+             placemark.country];*/
+            NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
+            
+            photoLocationString=location;
+            
+            
+            NSLog(@"Current location is %@",location);
+        } else {
+            NSLog(@"%@", error.debugDescription);
+        }
+    } ];
+    
+    
+    [locationManager stopUpdatingLocation];
 }
 
 @end

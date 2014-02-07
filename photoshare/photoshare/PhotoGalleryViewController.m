@@ -112,17 +112,16 @@
     isGetPhotoFromServer=NO;
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
-    
     [self getPhotoIdFromServer];
     
-
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     [self addCustomNavigationBar];
-
+    [self callGetLocation];
+    
     isPopFromPhotos=NO;
     isGoToViewPhoto=NO;
     if (isCameraEditMode) {
@@ -135,7 +134,19 @@
     frameForShareBtn=sharePhotoBtn.frame;
     
 }
-
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    return [textField resignFirstResponder];
+}
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
 -(void)openeditorcontrol
 {
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
@@ -170,8 +181,11 @@
 //action sheet delegate Method
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
     if(isAddPhotoMode)
     {
+        [self callGetLocation];
+        
         UIImagePickerController *imagePicker=[[UIImagePickerController alloc] init];
         imagePicker.delegate=self;
         
@@ -224,6 +238,7 @@
     }
     if(isEditPhotoMode)
     {
+        [self callGetLocation];
         if(buttonIndex==0)//Edit Photo
         {
             [self getImageFromServerForEdit:selectedEditImageIndex];
@@ -240,15 +255,7 @@
     }
     
 }
--(void)resetAllBoolValue
-{
-    isGetPhotoFromServer=NO;
-    isGetPhotoIdFromServer=NO;
-    isSaveDataOnServer=NO;
-    isEditImageFromServer=NO;
-    
-   
-}
+
 //get PhotoId From Server
 -(void)getPhotoIdFromServer
 {
@@ -290,28 +297,24 @@
 
     
 }
+
 //save Photo on Server Photo With Detaill
--(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imgData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+-(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)image
 {
-   
     isSaveDataOnServer=YES;
     
+    [self addProgressBar:@"Photo is saving"];
     webServices=[[WebserviceController alloc] init];
-    
     webServices.delegate=self;
     
-    [self addProgressBar:@"Standby"];
-    
-    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
+    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":self.collectionId};
     //store data
-   // [webServices call:data controller:@"photo" method:@"store"];
-    [webServices saveFileData:dic controller:@"photo" method:@"store" filePath:imgData] ;
-    
+    // [webServices call:data controller:@"photo" method:@"store"];
+    [webServices saveFileData:dic controller:@"photo" method:@"store" filePath:image] ;
 }
 //deletePhotoFromServer
 -(void)deletePhotoFromServer :(NSNumber *)usrId photoId:(NSNumber *)photoId
 {
-    [self resetAllBoolValue];
     isDeleteMode=YES;
      webServices.delegate=self;
     NSDictionary *dicData=@{@"user_id":userid,@"photo_id":photoId};
@@ -321,7 +324,6 @@
 
 -(void)getImageFromServerForEdit :(int)selectedIndex
 {
-    [self resetAllBoolValue];
     isEditImageFromServer=YES;
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webServices.delegate=self;
@@ -683,11 +685,12 @@
     //set the asset url in String
     assetUrlOfImage=[NSString stringWithFormat:@"%@",assetURL];
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-    isAviaryMode=YES;
+    
     
     if(isCameraMode)
     {
         isCameraEditMode=YES;
+        isCameraMode=NO;
         pickImage=image;
         [self dismissViewControllerAnimated:NO completion:Nil];
         //[self launchPhotoEditorWithImage:image highResolutionImage:image];
@@ -707,6 +710,8 @@
         
         [self dismissViewControllerAnimated:NO completion:completion];
     }
+    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+
 
 }
 
@@ -794,6 +799,7 @@
 #pragma mark - Photo Editor Creation and Presentation
 - (void) launchPhotoEditorWithImage:(UIImage *)editingResImage highResolutionImage:(UIImage *)highResImage
 {
+    [SVProgressHUD dismiss];
     // Customize the editor's apperance. The customization options really only need to be set once in this case since they are never changing, so we used dispatch once here.
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -852,14 +858,17 @@
            // NSLog(@"Big error: %@", [error description]);
        // }
    // }];
-    NSData *imageData = UIImagePNGRepresentation(image);
-    isAviaryMode=YES;
+    imageData = UIImagePNGRepresentation(image);
+    
+   
     [self dismissViewControllerAnimated:NO completion:nil];
     [self dismissModals];
     
     //add image in collection Array
     [photoArray addObject:image];
-   [self savePhotosOnServer:userid filepath:imageData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",self.collectionId]];
+    
+    [self addPhotoDescriptionView];
+   //[self savePhotosOnServer:userid filepath:imageData];
     
 }
 
@@ -934,6 +943,139 @@
     // Dispose of any resources that can be recreated.
 }
 
+//fro add photo details
+-(void)addPhotoDescriptionView
+{
+    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+    UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
+    backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
+    backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    
+    UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-210, 200, 300)];
+    addPhotoDescriptionView.layer.borderWidth=1;
+    addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
+    addPhotoDescriptionView.layer.cornerRadius=8;
+    addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
+    
+    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 160, 30)];
+    headLbl.text=@"Add Photo Details";
+    headLbl.layer.cornerRadius=5;
+    headLbl.textAlignment=NSTextAlignmentCenter;
+    headLbl.textColor=btnTextColor;
+    //headLbl.backgroundColor=[UIColor darkGrayColor];
+    
+    
+    //add label for photo title and photo description
+    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(30, 40, 100, 20)];
+    title.text=@"Title";
+    title.textColor=btnTextColor;
+    title.font=[UIFont fontWithName:@"Verdana" size:13];
+    
+    photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 60, 140, 30)];
+    photoTitleTF.layer.borderWidth=1;
+    photoTitleTF.backgroundColor=[UIColor whiteColor];
+    [photoTitleTF setDelegate:self];
+    
+    UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(30, 95, 100, 20)];
+    description.text=@"Description";
+    description.textColor=btnTextColor;
+    description.font=[UIFont fontWithName:@"Verdana" size:13];
+    
+    photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(30, 115, 140, 70)];
+    photoDescriptionTF.layer.borderWidth=1;
+    photoDescriptionTF.backgroundColor=[UIColor whiteColor];
+    [photoDescriptionTF setDelegate:self];
+    
+    
+    UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(30, 190, 100, 20)];
+    tag.text=@"Tag";
+    tag.textColor=btnTextColor;
+    tag.font=[UIFont fontWithName:@"Verdana" size:13];
+    
+    phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 210, 140, 30)];
+    phototagTF.layer.borderWidth=1;
+    phototagTF.backgroundColor=[UIColor whiteColor];
+    [phototagTF setDelegate:self];
+    
+    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(30, 250, 65, 30)];
+    
+    //cancelButton.backgroundColor=btnBorderColor;
+    cancelButton.layer.cornerRadius=5;
+    cancelButton.layer.borderColor=btnBorderColor.CGColor;
+    cancelButton.layer.borderWidth=1;
+    
+    cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+    [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
+    
+    //addButton.backgroundColor=btnBorderColor;
+    save.layer.cornerRadius=5;
+    save.layer.borderColor=btnBorderColor.CGColor;
+    save.layer.borderWidth=1;
+    
+    save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+    [save setTitleColor:btnTextColor forState:UIControlStateNormal];
+    
+    
+    [save setTitle:@"Save" forState:UIControlStateNormal];
+    [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
+    [addPhotoDescriptionView addSubview:headLbl];
+    [addPhotoDescriptionView addSubview:title];
+    [addPhotoDescriptionView addSubview:description];
+    [addPhotoDescriptionView addSubview:tag];
+    [addPhotoDescriptionView addSubview:photoTitleTF];
+    [addPhotoDescriptionView addSubview:photoDescriptionTF];
+    [addPhotoDescriptionView addSubview:phototagTF];
+    [addPhotoDescriptionView addSubview:cancelButton];
+    [addPhotoDescriptionView addSubview:save];
+    
+    [backViewPhotDetail addSubview:addPhotoDescriptionView];
+    [self.view addSubview:backViewPhotDetail];
+    
+    
+}
+-(void)removebackViewPhotDetail
+{
+    photoTitleStr=@"";
+    photoDescriptionStr=@"";
+    photoTagStr=@"";
+    [backViewPhotDetail removeFromSuperview];
+    [self savePhotosOnServer:userid filepath:imageData];
+}
+
+-(void)savePhotoDetail
+{
+    if(photoTitleTF.text.length>0)
+    {
+        photoTitleStr=photoTitleTF.text;
+    }
+    else
+    {
+        photoTitleStr=@"";
+    }
+    if(photoDescriptionTF.text.length>0)
+    {
+        photoDescriptionStr=photoDescriptionTF.text;
+    }
+    else
+    {
+        photoDescriptionStr=@"";
+    }
+    if(phototagTF.text.length>0)
+    {
+        photoTagStr=phototagTF.text;
+    }
+    else
+    {
+        photoTagStr=@"";
+    }
+    [backViewPhotDetail removeFromSuperview];
+    [self savePhotosOnServer:userid filepath:imageData];
+}
+
 
 #pragma Mark
 #pragma Add Custom Navigation Bar
@@ -980,4 +1122,60 @@
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
 }
+
+
+
+
+//get the user location
+-(void)callGetLocation
+{
+    locationManager = [[CLLocationManager alloc] init];
+    geocoder = [[CLGeocoder alloc] init];
+    [self getLocation];
+}
+-(void)getLocation
+{
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [locationManager startUpdatingLocation];
+}
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    // Reverse Geocoding
+    NSLog(@"Resolving the Address");
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
+        if (error == nil && [placemarks count] > 0) {
+            placemark = [placemarks lastObject];
+            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
+             placemark.postalCode, placemark.locality,
+             placemark.administrativeArea,
+             placemark.country];*/
+            NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
+            
+            photoLocationStr=location;
+            
+            
+            NSLog(@"Current location is %@",location);
+        } else {
+            NSLog(@"%@", error.debugDescription);
+        }
+    } ];
+    
+    
+    [locationManager stopUpdatingLocation];
+}
+
+
 @end

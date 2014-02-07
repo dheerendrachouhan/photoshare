@@ -100,7 +100,7 @@
 {
     [super viewWillAppear:animated];
     
-    
+    NSLog(@"Photo detail is %@",self.photoDetail);
     [self getCollectionInfoFromUserDefault];
     [self addCustomNavigationBar];
     if (isCameraEditMode) {
@@ -381,8 +381,8 @@
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
     // navnBar.backgroundColor = [UIColor redColor];
     
-    UILabel *photoTitleLBL=[[UILabel alloc] initWithFrame:CGRectMake(120, 50, 70, 30)];
-    photoTitleLBL.text=[photoDetail objectForKey:@"collection_photo_title"];
+    UILabel *photoTitleLBL=[[UILabel alloc] initWithFrame:CGRectMake(60, 50, 200, 30)];
+    photoTitleLBL.text=[self.photoDetail objectForKey:@"collection_photo_title"];
     photoTitleLBL.textAlignment=NSTextAlignmentCenter;
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];

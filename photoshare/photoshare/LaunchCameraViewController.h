@@ -16,10 +16,19 @@
 #import "AFPhotoEditorController.h"
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
+
+
 #import "DataMapperController.h"
 #import "NavigationBar.h"
-@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UITabBarDelegate>
+#import <CoreLocation/CoreLocation.h>
+@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UITabBarDelegate,CLLocationManagerDelegate,UITextViewDelegate>
 {
+    //get the userf location
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    
+    
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
     
@@ -48,6 +57,17 @@
     UIView *backView2;
     UITextField *folderName;
     UIButton *addNewFolder;
+    
+    //for add photo Detail
+    UIView *backViewPhotDetail;
+    UITextField *photoTitleTF;
+    UITextView *photoDescriptionTF;
+    UITextField *phototagTF;
+    
+    NSString *photoTitleStr;
+    NSString *photoDescriptionStr;
+    NSString *photoTagStr;
+    NSString *photoLocationStr; //userLoaction is save
 }
 
 //for Aviary

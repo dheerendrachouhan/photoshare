@@ -44,12 +44,14 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    selectedCollectionId=Nil;
+    [self callGetLocation];
     
     [self getCollectionInfoFromUserDefault];
     [self addCustomNavigationBar];
     if (isCameraEditMode) {
         isCameraEditMode = false ;
-        [NSTimer scheduledTimerWithTimeInterval:1.0f
+        [NSTimer scheduledTimerWithTimeInterval:2.0f
         target:self selector:@selector(openeditorcontrol)
       userInfo:nil  repeats:NO];
         
@@ -83,6 +85,15 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return  [textField resignFirstResponder];
+}
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
 }
 -(void)openeditorcontrol
 {
@@ -133,6 +144,8 @@
             [self dismissViewControllerAnimated:YES completion:nil];
        
         pickImage=image;
+        [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+
     }
     @catch (NSException *exception) {
         
@@ -162,6 +175,7 @@
 #pragma mark - Photo Editor Creation and Presentation
 - (void) launchPhotoEditorWithImage:(UIImage *)editingResImage highResolutionImage:(UIImage *)highResImage
 {
+    [SVProgressHUD dismiss];
     // Customize the editor's apperance. The customization options really only need to be set once in this case since they are never changing, so we used dispatch once here.
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -278,20 +292,6 @@
 }
 
 
-//save Photo on Server Photo With Detaill
--(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
-{
-    
-    [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
-    isPhotoSavingMode=YES;
-    
-    webservices.delegate=self;
-    
-    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitle,@"photo_description":photoDescription, @"photo_collections":photoCollection};
-    //store data
-    // [webServices call:data controller:@"photo" method:@"store"];
-    [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
-}
 -(void)webserviceCallback:(NSDictionary *)data
 {
     [self removePickerView];
@@ -384,7 +384,9 @@
         [self.view addSubview:backView1];
         [self.view addSubview:pickerToolbar];
         [self.view addSubview:categoryPickerView];
-        //[self.view addSubview:addNewFolder];
+        
+         [self addPhotoDescriptionView];
+        
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
@@ -392,6 +394,99 @@
     @finally {
         
     }
+    
+}
+-(void)addPhotoDescriptionView
+{
+    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+    UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
+    backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
+    backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    
+    UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-210, 200, 300)];
+    addPhotoDescriptionView.layer.borderWidth=1;
+    addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
+    addPhotoDescriptionView.layer.cornerRadius=8;
+    addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
+    
+    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 160, 30)];
+    headLbl.text=@"Add Photo Details";
+    headLbl.layer.cornerRadius=5;
+    headLbl.textAlignment=NSTextAlignmentCenter;
+    headLbl.textColor=btnTextColor;
+    //headLbl.backgroundColor=[UIColor darkGrayColor];
+    
+    
+    //add label for photo title and photo description
+    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(30, 40, 100, 20)];
+    title.text=@"Title";
+    title.textColor=btnTextColor;
+    title.font=[UIFont fontWithName:@"Verdana" size:13];
+    
+    photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 60, 140, 30)];
+    photoTitleTF.layer.borderWidth=1;
+    photoTitleTF.backgroundColor=[UIColor whiteColor];
+    [photoTitleTF setDelegate:self];
+    
+    UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(30, 95, 100, 20)];
+    description.text=@"Description";
+    description.textColor=btnTextColor;
+    description.font=[UIFont fontWithName:@"Verdana" size:13];
+    
+    photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(30, 115, 140, 70)];
+    photoDescriptionTF.layer.borderWidth=1;
+    photoDescriptionTF.backgroundColor=[UIColor whiteColor];
+    [photoDescriptionTF setDelegate:self];
+    
+    
+    UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(30, 190, 100, 20)];
+    tag.text=@"Tag";
+    tag.textColor=btnTextColor;
+    tag.font=[UIFont fontWithName:@"Verdana" size:13];
+    
+    phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 210, 140, 30)];
+    phototagTF.layer.borderWidth=1;
+    phototagTF.backgroundColor=[UIColor whiteColor];
+    [phototagTF setDelegate:self];
+    
+    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(30, 250, 65, 30)];
+    
+    //cancelButton.backgroundColor=btnBorderColor;
+    cancelButton.layer.cornerRadius=5;
+    cancelButton.layer.borderColor=btnBorderColor.CGColor;
+    cancelButton.layer.borderWidth=1;
+    
+    cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+    [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
+    
+    //addButton.backgroundColor=btnBorderColor;
+    save.layer.cornerRadius=5;
+    save.layer.borderColor=btnBorderColor.CGColor;
+    save.layer.borderWidth=1;
+    
+    save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+    [save setTitleColor:btnTextColor forState:UIControlStateNormal];
+    
+    
+    [save setTitle:@"Save" forState:UIControlStateNormal];
+    [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
+    [addPhotoDescriptionView addSubview:headLbl];
+    [addPhotoDescriptionView addSubview:title];
+    [addPhotoDescriptionView addSubview:description];
+    [addPhotoDescriptionView addSubview:tag];
+    [addPhotoDescriptionView addSubview:photoTitleTF];
+    [addPhotoDescriptionView addSubview:photoDescriptionTF];
+    [addPhotoDescriptionView addSubview:phototagTF];
+    [addPhotoDescriptionView addSubview:cancelButton];
+    [addPhotoDescriptionView addSubview:save];
+    
+    [backViewPhotDetail addSubview:addPhotoDescriptionView];
+    [self.view addSubview:backViewPhotDetail];
+    
     
 }
 -(void)addNewFolderView
@@ -451,10 +546,47 @@
     [backView2 addSubview:addFolderView];
     [self.view addSubview:backView2];
 }
+-(void)removebackViewPhotDetail
+{
+    photoTitleStr=@"";
+    photoDescriptionStr=@"";
+    photoTagStr=@"";
+    [backViewPhotDetail removeFromSuperview];
+}
 -(void)removeBackView2
 {
     [backView2 removeFromSuperview];
 }
+-(void)savePhotoDetail
+{
+    if(photoTitleTF.text.length>0)
+    {
+        photoTitleStr=photoTitleTF.text;
+    }
+    else
+    {
+        photoTitleStr=@"";
+    }
+    if(photoDescriptionTF.text.length>0)
+    {
+        photoDescriptionStr=photoDescriptionTF.text;
+    }
+    else
+    {
+        photoDescriptionStr=@"";
+    }
+    if(phototagTF.text.length>0)
+    {
+        photoTagStr=phototagTF.text;
+    }
+    else
+    {
+        photoTagStr=@"";
+    }
+    [backViewPhotDetail removeFromSuperview];
+}
+
+
 -(void)createNewFolder
 {
     if(folderName.text.length>0)
@@ -489,6 +621,20 @@
     
 }
 
+//save Photo on Server Photo With Detaill
+-(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData
+{
+    
+    [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
+    isPhotoSavingMode=YES;
+    
+    webservices.delegate=self;
+    photoLocationStr=@"";
+    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":selectedCollectionId};
+    //store data
+    // [webServices call:data controller:@"photo" method:@"store"];
+    [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
+}
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     // Handle the selection
     
@@ -526,7 +672,7 @@
         selectedCollectionId=[collectionIdArray objectAtIndex:0];
     }
     
-    [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",selectedCollectionId]];
+    [self savePhotosOnServer:userid filepath:imgData];
     
     
 }
@@ -566,4 +712,59 @@
     HomeViewController *homeViewController=[[HomeViewController alloc] init];
     [delgate.tbc setSelectedIndex:0];
 }
+
+
+
+//get the user location
+-(void)callGetLocation
+{
+    locationManager = [[CLLocationManager alloc] init];
+    geocoder = [[CLGeocoder alloc] init];
+    [self getLocation];
+}
+-(void)getLocation
+{
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [locationManager startUpdatingLocation];
+}
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    // Reverse Geocoding
+    NSLog(@"Resolving the Address");
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
+        if (error == nil && [placemarks count] > 0) {
+            placemark = [placemarks lastObject];
+            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
+             placemark.postalCode, placemark.locality,
+             placemark.administrativeArea,
+             placemark.country];*/
+            NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
+            
+            photoLocationStr=location;
+            
+            
+            NSLog(@"Current location is %@",location);
+        } else {
+            NSLog(@"%@", error.debugDescription);
+        }
+    } ];
+    
+    
+    [locationManager stopUpdatingLocation];
+}
+
+
 @end

@@ -58,6 +58,8 @@
 		E16F3918189131C600064806 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E16F3917189131C600064806 /* wall.jpg */; };
 		E16F391B1891325600064806 /* CommonTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E16F391A1891325600064806 /* CommonTopView.m */; };
 		E16F392018914D4A00064806 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F391F18914D4A00064806 /* back.png */; };
+		E170E90218A4EE0E002D3D17 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E170E90118A4EE0E002D3D17 /* CoreLocation.framework */; };
+		E170E90818A4F10E002D3D17 /* GetUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = E170E90718A4F10E002D3D17 /* GetUserLocation.m */; };
 		E1717A7C189CF624008899EC /* ajaxloader.gif in Resources */ = {isa = PBXBuildFile; fileRef = E1717A7B189CF624008899EC /* ajaxloader.gif */; };
 		E1717A87189D2A8E008899EC /* radio_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E1717A85189D2A8E008899EC /* radio_selected.png */; };
 		E1717A88189D2A8E008899EC /* radio.png in Resources */ = {isa = PBXBuildFile; fileRef = E1717A86189D2A8E008899EC /* radio.png */; };
@@ -259,6 +261,9 @@
 		E16F39191891325600064806 /* CommonTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTopView.h; sourceTree = "<group>"; };
 		E16F391A1891325600064806 /* CommonTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTopView.m; sourceTree = "<group>"; };
 		E16F391F18914D4A00064806 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		E170E90118A4EE0E002D3D17 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E170E90618A4F10E002D3D17 /* GetUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetUserLocation.h; sourceTree = "<group>"; };
+		E170E90718A4F10E002D3D17 /* GetUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetUserLocation.m; sourceTree = "<group>"; };
 		E1717A7B189CF624008899EC /* ajaxloader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ajaxloader.gif; sourceTree = "<group>"; };
 		E1717A85189D2A8E008899EC /* radio_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_selected.png; sourceTree = "<group>"; };
 		E1717A86189D2A8E008899EC /* radio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio.png; sourceTree = "<group>"; };
@@ -442,6 +447,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E170E90218A4EE0E002D3D17 /* CoreLocation.framework in Frameworks */,
 				E31CADB5189CC0FB0081241D /* libAviarySDK.a in Frameworks */,
 				FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */,
 				E1067DCF189A514000F08A5F /* SystemConfiguration.framework in Frameworks */,
@@ -627,6 +633,7 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E170E90118A4EE0E002D3D17 /* CoreLocation.framework */,
 				E3DDA757189A6B1700144C43 /* libAviarySDK.a */,
 				E1067DCE189A514000F08A5F /* SystemConfiguration.framework */,
 				E1067DCC189A513700F08A5F /* StoreKit.framework */,
@@ -735,6 +742,8 @@
 				E31767761899134700923E35 /* TermConditionViewController.h */,
 				E31767771899134700923E35 /* TermConditionViewController.m */,
 				E31767781899134700923E35 /* TermConditionViewController.xib */,
+				E170E90618A4F10E002D3D17 /* GetUserLocation.h */,
+				E170E90718A4F10E002D3D17 /* GetUserLocation.m */,
 			);
 			path = photoshare;
 			sourceTree = "<group>";
@@ -1076,6 +1085,7 @@
 				E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */,
 				E1067DF6189AA7D600F08A5F /* AFHTTPRequestOperation.m in Sources */,
 				FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */,
+				E170E90818A4F10E002D3D17 /* GetUserLocation.m in Sources */,
 				E1067E01189AA7F400F08A5F /* WebserviceController.m in Sources */,
 				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
 				E31B9E15189A4E6200722761 /* CustomCell.m in Sources */,
@@ -1258,7 +1268,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
 				INFOPLIST_FILE = "photoshare/photoshare-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis2/Desktop/sukhdev/photoshare/photoshare/AviarySDK,
@@ -1300,7 +1310,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
 				INFOPLIST_FILE = "photoshare/photoshare-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis2/Desktop/sukhdev/photoshare/photoshare/AviarySDK,

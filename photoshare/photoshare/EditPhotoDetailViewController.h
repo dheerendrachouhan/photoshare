@@ -9,12 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 #import "ContentManager.h"
-@interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate>
+#import <CoreLocation/CoreLocation.h>
+
+@interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate>
 {
+    //get the userf location
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    
     IBOutlet UITextField *photoTitletxt;
    
-    IBOutlet UITextField *photoDescriptionTxt;
-   
+    IBOutlet UITextView *photoDescriptionTxt;
+    IBOutlet UITextField *photoTag;
     
     IBOutlet UILabel *headingLabel;
     IBOutlet UIButton *saveButton;
@@ -23,6 +30,8 @@
     ContentManager *manager;
     WebserviceController *webservices;
     BOOL isPhotoDetailSaveOnServer;
+    
+    NSString *photoLocationString;
 }
 -(IBAction)savePhotoDetail:(id)sender;
 

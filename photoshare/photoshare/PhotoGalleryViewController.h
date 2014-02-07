@@ -17,8 +17,15 @@
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
 
-@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
+#import <CoreLocation/CoreLocation.h>
+@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate,CLLocationManagerDelegate,UITextViewDelegate>
 {
+    //get the userf location
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    
+    
     IBOutlet UIButton *addPhotoBtn;
     IBOutlet UIButton *deletePhotoBtn;
     IBOutlet UIButton *sharePhotoBtn;
@@ -60,6 +67,7 @@
     BOOL isCameraMode;
     BOOL isCameraEditMode;
     BOOL isPhotoPickMode;
+        
     
     NSString *assetUrlOfImage;
     
@@ -68,6 +76,20 @@
     ContentManager *manager;
     
     NSMutableArray *photoAssetUrlArray;
+    
+    
+    NSData *imageData;
+    
+    //for add photo Detail
+    UIView *backViewPhotDetail;
+    UITextField *photoTitleTF;
+    UITextView *photoDescriptionTF;
+    UITextField *phototagTF;
+    
+    NSString *photoTitleStr;
+    NSString *photoDescriptionStr;
+    NSString *photoTagStr;
+    NSString *photoLocationStr; //userLoaction is save
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;
