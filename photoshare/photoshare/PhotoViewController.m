@@ -9,6 +9,8 @@
 #import "PhotoViewController.h"
 #import "NavigationBar.h"
 #import "EditPhotoDetailViewController.h"
+#import "PhotoShareController.h"
+
 @interface PhotoViewController ()
 
 @end
@@ -161,7 +163,6 @@
         
     }
     else if (selectedSegment == 2) {
-        //[manager showAlert:@"Message" msg:@"Currently not working" cancelBtnTitle:@"Ok" otherBtn:nil];
         
         if(isoriginalImageGet)
         {
@@ -208,7 +209,11 @@
 
 -(void)shareImage:(UIImage *)imageToShare
 {
-    UIImage *shareImg = imageToShare;
+    //UIImage *shareImg = imageToShare;
+    PhotoShareController *photoShare = [[PhotoShareController alloc] init];
+    photoShare.sharedImage = imageToShare;
+    
+    [self.navigationController pushViewController:photoShare animated:YES];
     /*
      PhotoShareView
      */

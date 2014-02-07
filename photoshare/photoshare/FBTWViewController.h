@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class ContentManager;
 @interface FBTWViewController : UIViewController
 {
     IBOutlet UIImageView *scocialType;
+    ContentManager *objManager;
 }
 @property (nonatomic, strong) NSString *successType;
 

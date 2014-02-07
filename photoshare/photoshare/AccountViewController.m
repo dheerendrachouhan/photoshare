@@ -14,6 +14,7 @@
 #import "LoginViewController.h"
 #import "NavigationBar.h"
 #import "HomeViewController.h"
+#import "ContentManager.h"
 
 @interface AccountViewController ()
 
@@ -29,7 +30,7 @@
     }
     
     dmc = [[DataMapperController alloc] init];
-    
+    objManager = [ContentManager sharedManager];
     return self;
 }
 
@@ -95,6 +96,7 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 48)];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 

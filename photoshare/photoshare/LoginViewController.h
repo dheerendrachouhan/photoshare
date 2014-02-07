@@ -12,10 +12,9 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ContentManager.h"
 #import "DataMapperController.h"
-#import <MessageUI/MessageUI.h>
 
 @class ContentManager;
-@interface LoginViewController : UIViewController <UITextFieldDelegate, WebserviceDelegate,UITabBarControllerDelegate,MFMailComposeViewControllerDelegate>
+@interface LoginViewController : UIViewController <UITextFieldDelegate, WebserviceDelegate,UITabBarControllerDelegate>
 {
     IBOutlet UIImageView *loginBackgroundImage;
     IBOutlet UIImageView *loginLogoImage;
@@ -38,6 +37,7 @@
     BOOL isGetTheCollectionListData;
     BOOL isGetLoginDetail;
     BOOL isGetStorage;
+    BOOL isGetIcomeDetail;
     DataMapperController *dmc;
     ContentManager *objManager;
 }

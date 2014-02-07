@@ -10,10 +10,12 @@
 #import "WebserviceController.h"
 #import "DataMapperController.h"
 
+@class ContentManager;
 @interface MyReferralViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,WebserviceDelegate>
 {
     IBOutlet UITableView *tableView;
     DataMapperController *dmc;
+    ContentManager *ObjManager;
 }
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 

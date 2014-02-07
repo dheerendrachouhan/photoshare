@@ -10,9 +10,10 @@
 #import "WebserviceController.h"
 #import "DataMapperController.h"
 
-
+@class ContentManager;
 @interface PastPayementViewController : UIViewController <WebserviceDelegate>
 {
     DataMapperController *dmc;
+    ContentManager *objManager;
 }
 @end

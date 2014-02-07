@@ -14,6 +14,7 @@
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
 #import "NavigationBar.h"
+#import "ContentManager.h"
 
 @interface EarningViewController ()
 
@@ -31,6 +32,7 @@
         // Custom initialization
     }
     dmc = [[DataMapperController alloc] init];
+    objManager = [ContentManager sharedManager];
     return self;
 }
 
@@ -119,8 +121,8 @@
     navTitle.font = [UIFont systemFontOfSize:18.0f];
     navTitle.text = @"Finance";
     [navnBar addSubview:navTitle];
-    
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 

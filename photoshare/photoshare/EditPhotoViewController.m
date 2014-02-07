@@ -8,6 +8,8 @@
 
 #import "EditPhotoViewController.h"
 #import "NavigationBar.h"
+#import "ContentManager.h"
+
 @interface EditPhotoViewController ()
 
 @end
@@ -20,6 +22,9 @@
     if (self) {
         // Custom initialization
     }
+    
+    objManager = [ContentManager sharedManager];
+    
     return self;
 }
 
@@ -52,7 +57,7 @@
     // navnBar.backgroundColor = [UIColor redColor];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
-    
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "DataMapperController.h"
 
+@class ContentManager;
 @interface AccountViewController : UIViewController
 {
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UIImageView *settingBackgroundImage;
     DataMapperController *dmc;
+    ContentManager *objManager;
 }
 
 -(IBAction)editProfile:(id)sender;

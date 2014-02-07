@@ -78,7 +78,7 @@
     
     if([stringStr length]==0)
     {
-        userMessage.text = @"Hey, I've been using 123 Friday to share photos and earn  money want to join me?";
+        userMessage.text = @"Hey, I've been using 123 Friday to share photos and earn money want to join me?";
     }
     else
     {
@@ -208,7 +208,7 @@
         }
     }];
     
-    if([accountsArray count] == 0 || !grant)
+    if([accountsArray count] == 0)
     {
         [self disMissProgress];
         UIAlertView *twAl = [[UIAlertView alloc] initWithTitle:@"Twitter Account Not Found/ Twitter Account not Granted" message:@"Please sign-in your twitter account from your ios setting and run the app again. Grant permission to access this app. If twitter table loaded ignore this message." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -330,6 +330,10 @@
                             {
                                 NSLog(@"data== %@ ID = %@",TWData, [sttt objectAtIndex:i]);
                                 [self getFollowerNameFromID:[sttt objectAtIndex:i]];
+                            }
+                            if(totalCount == 0)
+                            {
+                                [SVProgressHUD dismissWithError:@"No Twitter ID's Found"];
                             }
                         }
                     });
@@ -539,7 +543,7 @@
     
     if([self.stringStr length]==0)
     {
-        userMessage.text = @"Hey, I've been using 123 Friday to share photos and earn  money want to join me?";
+        userMessage.text = @"Hey, I've been using 123 Friday to share photos and earn money want to join me?";
     }
     else
     {
@@ -616,6 +620,7 @@
     [navnBar addSubview:button];
 
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

@@ -8,6 +8,7 @@
 
 #import "FinanceCalculatorViewController.h"
 #import "NavigationBar.h"
+#import "ContentManager.h"
 
 @interface FinanceCalculatorViewController ()
 
@@ -28,6 +29,7 @@
     if (self) {
         // Custom initialization
     }
+    objManager = [ContentManager sharedManager];
     return self;
 }
 
@@ -231,6 +233,7 @@
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

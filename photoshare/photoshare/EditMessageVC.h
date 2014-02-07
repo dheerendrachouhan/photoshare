@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class ContentManager;
 @interface EditMessageVC : UIViewController<UITextViewDelegate>
 {
     IBOutlet UIImageView *custumImageBackground;
     IBOutlet UITextView *textMessage;
+    ContentManager *objManager;
 }
 
 @property (nonatomic, strong) NSString *edittedMessage;

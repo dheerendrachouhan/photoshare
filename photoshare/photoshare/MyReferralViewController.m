@@ -10,6 +10,7 @@
 #import "CustomCell.h"
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
+#import "ContentManager.h"
 
 @interface MyReferralViewController ()
 {
@@ -33,7 +34,7 @@
     }
     
     dmc = [[DataMapperController alloc] init];
-    
+    ObjManager = [ContentManager sharedManager];
     return self;
 }
 
@@ -151,6 +152,7 @@
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:ObjManager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

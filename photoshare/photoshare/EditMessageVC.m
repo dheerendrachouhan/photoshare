@@ -9,6 +9,7 @@
 #import "EditMessageVC.h"
 #import "ReferralStageFourVC.h"
 #import "NavigationBar.h"
+#import "ContentManager.h"
 
 @interface EditMessageVC ()
 
@@ -23,6 +24,8 @@
     if (self) {
         // Custom initialization
     }
+    
+    objManager = [ContentManager sharedManager];
     return self;
 }
 
@@ -80,6 +83,7 @@
     [navnBar addSubview:buttonLeft];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

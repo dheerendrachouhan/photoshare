@@ -113,9 +113,7 @@
         photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)[publicImgArray count]];        
     }
     //set the collectionid and name in array from nsdefault
-    [self getCollectionInfoFromUserDefault];
-    [self loadData];
-    
+    [self getCollectionInfoFromUserDefault];    
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -273,6 +271,9 @@
     
     // Initialize the photo editor and set its delegate
     AFPhotoEditorController * photoEditor = [[AFPhotoEditorController alloc] initWithImage:editingResImage];
+    [[AFPhotoEditorController inAppPurchaseManager] startObservingTransactions]; 
+    [AFPhotoEditorCustomization enableInAppPurchases:YES];
+    
     photoEditor.view.frame=CGRectMake(0, 100, 320, 300);
     [photoEditor setDelegate:self];
     
@@ -379,6 +380,21 @@
     return YES;
 }
 
+- (NSString *)inAppPurchaseManager:(id<AFInAppPurchaseManager>)manager productIdentifierForProduct:(AFPhotoEditorProduct *)product
+{
+    NSString *internalID = [product internalProductIdentifier];
+    if ([internalID isEqualToString:kAFProductEffectsGrunge]) {
+        return @"<Your Grunge Identifier>";
+    }
+    if ([internalID isEqualToString:kAFProductEffectsNostalgia]) {
+        return @"<Your Nostalgia Identifier>";
+    }
+    if ([internalID isEqualToString:kAFProductEffectsViewfinder]) {
+        return @"<Your Viewfinder Identifier>";
+    }
+    return nil;
+}
+
 
 //save Photo on Server Photo With Detaill
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
@@ -399,19 +415,6 @@
     
     NSLog(@"Data %@",data);
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    if([servicesStr isEqualToString:@"two"])
-    {
-        if(exitCode.integerValue==1)
-        {
-            NSMutableArray *outPutDatas =[data objectForKey:@"output_data"];
-            NSString *strEarning = [NSString stringWithFormat:@"%@",[outPutDatas valueForKey:@"total_expected_income"]];
-            [navnBar setTheTotalEarning:strEarning];
-            servicesStr = @"";
-        }
-    }
-    else
-    {
-    
     if(isColletionCreateMode)
     {
         if(exitCode.integerValue==1)
@@ -440,9 +443,6 @@
         [self removePickerView];
         [SVProgressHUD dismiss];
 
-    }
-        
-       
     }
     
 }
@@ -669,16 +669,6 @@
     navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 60)];
     
     [[self view] addSubview:navnBar];
-}
-
--(void)loadData
-{
-    WebserviceController *wc = [[WebserviceController alloc] init] ;
-    wc.delegate = self;
-    //NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
-    NSDictionary *dictData = @{@"user_id":userID};
-    [wc call:dictData controller:@"referral" method:@"calculateincome"];
-    servicesStr = @"two";
 }
 
 - (void)didReceiveMemoryWarning

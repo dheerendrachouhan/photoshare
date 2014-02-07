@@ -16,10 +16,13 @@
 #import "NavigationBar.h"
 #import "EditPhotoDetailViewController.h"
 #import "PhotoViewController.h"
+#import "PhotoShareController.h";
 
 @interface PhotoGalleryViewController ()
 {
     SVProgressHUD *pro;
+    CGRect frame; //frame for button
+    NSNumber *selectedPhotoId;
 }
 @end
 
@@ -275,6 +278,7 @@
             //callling First Time Webservice for Get image from server
             webServices.delegate=self;
             NSNumber *num = [NSNumber numberWithInt:1] ;
+            selectedPhotoId = [photoIdsArray objectAtIndex:photoIdIndex];
             NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"80"};
             
             [webServices call:dicData controller:@"photo" method:@"get"];
@@ -496,6 +500,7 @@
 
 -(IBAction)sharePhoto:(id)sender
 {
+    
     [editBtn removeFromSuperview];
     if(!isPublicFolder)
     {
@@ -505,29 +510,46 @@
             NSLog(@"Not selected");
             addPhotoBtn.hidden=YES;
             deletePhotoBtn.hidden=YES;
+            frame = sharePhotoBtn.frame;
             sharePhotoBtn.frame=deletePhotoBtn.frame;
             isShareMode=YES;
         }
         else
         {
             [collectionview reloadData];
+            //sort the index array in descending order
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            
+            shareSortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
             NSLog(@"Selected");
+            
+            if(shareSortedArray.count > 0)
+            {
+                
+                NSArray *userDetail = [[NSArray alloc] initWithObjects:userid,collectionId,@1, nil];
+                PhotoShareController *photoShare = [[PhotoShareController alloc] init];
+                
+                photoShare.otherDetailArray = userDetail;
+                photoShare.sharedImagesArray = shareSortedArray;
+                
+                [self.navigationController pushViewController:photoShare animated:YES];
+            }
+            else
+            {
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                [alert show];
+            }
+
             [self resetButton];
+            sharePhotoBtn.frame =frame;
+            
             
         }
         
         btn.selected=!btn.selected;
     }
-    else
-    {
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Currently Share is not Working" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-        [alert show];
-    }
-    
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Currently Share is not Working" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-    [alert show];
-    
-
 }
 //reset the button hidden no and previous frame
 -(void)resetButton
@@ -555,6 +577,33 @@
         
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
         if(isDeleteMode)
+        {
+            if(cell.selected==NO)
+            {
+                if(photoArray.count>indexPath.row)
+                {
+                    UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
+                    checkBoxImg.layer.masksToBounds=YES;
+                    checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                    checkBoxImg.tag=1001;
+                    [cell.contentView addSubview:checkBoxImg];
+                    
+                    [selectedImagesIndex addObject:[NSNumber numberWithInteger:[indexPath row]]];
+                }
+                else
+                {
+                    [manager showAlert:@"Warning" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                }
+                
+            }
+            else
+            {
+                UIImageView *checkBox=(UIImageView *)[cell viewWithTag:1001];
+                [checkBox removeFromSuperview];
+                [selectedImagesIndex removeObject:[NSNumber numberWithInteger:[indexPath row]]];
+            }
+        }
+        else if(isShareMode)
         {
             if(cell.selected==NO)
             {

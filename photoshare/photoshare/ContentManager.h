@@ -12,6 +12,7 @@
 
 }
 @property (nonatomic, strong) NSDictionary *loginDetailsDict;
+@property (nonatomic, strong) NSString *weeklyearningStr;
 
 +(ContentManager *)sharedManager;
 

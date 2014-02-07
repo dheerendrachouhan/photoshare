@@ -35,6 +35,7 @@
     
     NSNumber *userid;
     NSArray *sortedArray;
+    NSArray *shareSortedArray;
     NSMutableArray *photoIdsArray;
     NSMutableArray *photoArray;
     NSMutableArray *photoInfoArray;
