@@ -497,7 +497,7 @@
 -(IBAction)sharePhoto:(id)sender
 {
     [editBtn removeFromSuperview];
-    /*if(!isPublicFolder)
+    if(!isPublicFolder)
     {
         UIButton *btn=(UIButton *)sender;
         if(btn.selected==NO)
@@ -522,7 +522,7 @@
     {
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Currently Share is not Working" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
         [alert show];
-    }*/
+    }
     
     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Currently Share is not Working" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
     [alert show];
