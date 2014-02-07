@@ -184,11 +184,20 @@
     }
     else if(buttonIndex==1)//Edit Detail
     {
-        EditPhotoDetailViewController *editPhotoDetail=[[EditPhotoDetailViewController alloc] init];
-        editPhotoDetail.photoId=self.photoId;
-        editPhotoDetail.collectionId=self.collectionId;
-        editPhotoDetail.photoDetail=self.photoDetail;
-        [self.navigationController pushViewController:editPhotoDetail animated:YES];
+        @try {
+            EditPhotoDetailViewController *editPhotoDetail=[[EditPhotoDetailViewController alloc] init];
+            editPhotoDetail.photoId=self.photoId;
+            editPhotoDetail.collectionId=self.collectionId;
+            editPhotoDetail.photoDetail=self.photoDetail;
+            [self.navigationController pushViewController:editPhotoDetail animated:YES];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+       
     }
 }
 -(void)removveimageView

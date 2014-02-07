@@ -32,6 +32,7 @@
 		E165CF3B18A3B8950030099C /* EditPhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */; };
 		E165CF3C18A3B8950030099C /* EditPhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */; };
 		E165CF3E18A3EC4C0030099C /* shared-icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3D18A3EC4C0030099C /* shared-icon3.png */; };
+		E165CF4018A3F11F0030099C /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3F18A3F11F0030099C /* home.png */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -231,6 +232,7 @@
 		E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditPhotoDetailViewController.m; sourceTree = "<group>"; };
 		E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPhotoDetailViewController.xib; sourceTree = "<group>"; };
 		E165CF3D18A3EC4C0030099C /* shared-icon3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shared-icon3.png"; sourceTree = "<group>"; };
+		E165CF3F18A3F11F0030099C /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -826,6 +828,7 @@
 				E1067DDF189A97AD00F08A5F /* edit_btn.png */,
 				E16F38F018912C9C00064806 /* earnings-icon.png */,
 				E16F38F118912C9C00064806 /* earnings-iconX30.png */,
+				E165CF3F18A3F11F0030099C /* home.png */,
 				E16F38F218912C9C00064806 /* folder-icon-bottomX30.png */,
 				E16F38F318912C9C00064806 /* home-photo-quicklink.png */,
 				E16F38F418912C9C00064806 /* icon-takephoto.png */,
