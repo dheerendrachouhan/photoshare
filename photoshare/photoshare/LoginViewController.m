@@ -316,12 +316,11 @@
 }
 
 - (IBAction)userCancelButton:(id)sender {
-    if(usrFlt)
-    {
+    
         nameTextField.text = @"";
         usrFlt = NO;
         [namecancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
-    }
+
     
 }
 

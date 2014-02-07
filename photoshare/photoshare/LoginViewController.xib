@@ -82,7 +82,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="userCancelButton:" destination="-1" eventType="touchDown" id="acw-ll-6x6"/>
+                                <action selector="userCancelButton:" destination="-1" eventType="touchUpInside" id="Dy4-kf-Ii8"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="amf-Ke-j2V">
@@ -92,7 +92,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="passwordCancelBtn:" destination="-1" eventType="touchDown" id="zRX-P3-VEi"/>
+                                <action selector="passwordCancelBtn:" destination="-1" eventType="touchUpInside" id="VcX-fn-N54"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PBF-fU-pzA">
