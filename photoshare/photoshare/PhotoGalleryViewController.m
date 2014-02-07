@@ -624,6 +624,7 @@
         viewPhoto.isViewPhoto=YES;
         viewPhoto.collectionId=self.collectionId;
         viewPhoto.photoDetail=[photoInfoArray objectAtIndex:indexPath.row] ;
+        [manager storeData:[photoInfoArray objectAtIndex:indexPath.row] :@"photo_detail"];
         isGoToViewPhoto=YES;
         if(self.isPublicFolder)
         {

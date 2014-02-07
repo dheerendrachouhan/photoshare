@@ -16,6 +16,7 @@
 
 @implementation EditPhotoDetailViewController
 @synthesize photoDetail,photoId,collectionId;
+@synthesize delegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -59,8 +60,8 @@
     
     
     @try {
-        photoTitletxt.text=[photoDetail objectForKey:@"collection_photo_title"];
-        photoDescriptionTxt.text=[photoDetail objectForKey:@"collection_photo_description"];
+        photoTitletxt.text=[[manager getData:@"photo_detail"] objectForKey:@"collection_photo_title"];
+        photoDescriptionTxt.text=[[manager getData:@"photo_detail"] objectForKey:@"collection_photo_description"];
     }
     @catch (NSException *exception) {
         
@@ -110,26 +111,35 @@
     {
         photoTitle=@"";
     }
-    
-    NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-    
-    [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
-    [dic setObject:photodes forKey:@"collection_photo_description"];
-    [dic setObject:photoTitle forKey:@"collection_photo_title"];
-    [dic setObject:self.photoId forKey:@"collection_photo_id"];
-    [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
-    [dic setObject:userid forKey:@"collection_photo_user_id"];
-    
-    PhotoViewController *photoViewC=[[PhotoViewController alloc] init];
-    photoViewC.photoDetail=dic;
-    
-    
-    
-     NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":photoLocationString,@"photo_tags":photoTag.text,@"photo_collections":self.collectionId};
-    
-    [webservices call:dicData controller:@"photo" method:@"change"];
-    [self.navigationController popViewControllerAnimated:YES];
-}
+    @try {
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
+        
+        [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
+        [dic setObject:photodes forKey:@"collection_photo_description"];
+        [dic setObject:photoTitle forKey:@"collection_photo_title"];
+        [dic setObject:self.photoId forKey:@"collection_photo_id"];
+        [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
+        [dic setObject:userid forKey:@"collection_photo_user_id"];
+       
+        
+        [self.delegate PhotoDetail:dic];
+        
+        [manager storeData:dic :@"photo_detail"];
+        
+        NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":photoLocationString,@"photo_tags":photoTag.text,@"photo_collections":self.collectionId};
+        
+        [webservices call:dicData controller:@"photo" method:@"change"];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+   }
 
 -(IBAction)savePhotoDetail:(id)sender
 {

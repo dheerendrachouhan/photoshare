@@ -17,9 +17,9 @@
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
-
+#import "EditPhotoDetailViewController.h"
 @interface PhotoViewController : UIViewController
-<WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate>
+<WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,EditPhotoDetailDelagate>
 {
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;

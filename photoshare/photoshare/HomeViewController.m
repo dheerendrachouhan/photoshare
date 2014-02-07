@@ -264,9 +264,9 @@
          [self dismissViewControllerAnimated:NO completion:Nil];
     }
     
-   
-   
-   }
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Open Editor" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+    [alert show];
+}
 
 
 //For Aviary Edit Photo
@@ -338,6 +338,9 @@
 // This is called when the user taps "Done" in the photo editor.
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo Editing Finish" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+    [alert show];
+    [SVProgressHUD dismiss];
     imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:NO completion:nil];
      [self showSelectFolderOption];

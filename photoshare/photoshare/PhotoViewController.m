@@ -8,7 +8,7 @@
 
 #import "PhotoViewController.h"
 #import "NavigationBar.h"
-#import "EditPhotoDetailViewController.h"
+
 @interface PhotoViewController ()
 
 @end
@@ -44,6 +44,9 @@
      "collection_photo_title" = dsfasfd;
      
      */
+    EditPhotoDetailViewController *edit=[[EditPhotoDetailViewController alloc] init];
+    edit.delegate=self;
+    
     
     imageView.layer.masksToBounds=YES;
     if(self.isViewPhoto)
@@ -95,6 +98,10 @@
         
     }
     
+}
+-(void)PhotoDetail:(NSDictionary *)photoInfo
+{
+    self.photoDetail=photoInfo;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -382,7 +389,7 @@
     // navnBar.backgroundColor = [UIColor redColor];
     
     UILabel *photoTitleLBL=[[UILabel alloc] initWithFrame:CGRectMake(60, 50, 200, 30)];
-    photoTitleLBL.text=[self.photoDetail objectForKey:@"collection_photo_title"];
+    photoTitleLBL.text=[[manager getData:@"photo_detail"] objectForKey:@"collection_photo_title"];
     photoTitleLBL.textAlignment=NSTextAlignmentCenter;
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];
