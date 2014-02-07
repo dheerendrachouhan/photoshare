@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class ContentManager;
 @interface TermConditionViewController : UIViewController
 {
     IBOutlet UIWebView *webview ;
+    ContentManager *objManager;
 }
 
 @end

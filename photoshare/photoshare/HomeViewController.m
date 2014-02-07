@@ -116,9 +116,7 @@
     selectedCollectionId=Nil;
     
     //set the collectionid and name in array from nsdefault
-    [self getCollectionInfoFromUserDefault];
-    [self loadData];
-    
+    [self getCollectionInfoFromUserDefault];    
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -295,6 +293,9 @@
     
     // Initialize the photo editor and set its delegate
     AFPhotoEditorController * photoEditor = [[AFPhotoEditorController alloc] initWithImage:editingResImage];
+    [[AFPhotoEditorController inAppPurchaseManager] startObservingTransactions]; 
+    [AFPhotoEditorCustomization enableInAppPurchases:YES];
+    
     photoEditor.view.frame=CGRectMake(0, 100, 320, 300);
     [photoEditor setDelegate:self];
     
@@ -402,6 +403,21 @@
         return NO;
     }
     return YES;
+}
+
+- (NSString *)inAppPurchaseManager:(id<AFInAppPurchaseManager>)manager productIdentifierForProduct:(AFPhotoEditorProduct *)product
+{
+    NSString *internalID = [product internalProductIdentifier];
+    if ([internalID isEqualToString:kAFProductEffectsGrunge]) {
+        return @"<Your Grunge Identifier>";
+    }
+    if ([internalID isEqualToString:kAFProductEffectsNostalgia]) {
+        return @"<Your Nostalgia Identifier>";
+    }
+    if ([internalID isEqualToString:kAFProductEffectsViewfinder]) {
+        return @"<Your Viewfinder Identifier>";
+    }
+    return nil;
 }
 
 

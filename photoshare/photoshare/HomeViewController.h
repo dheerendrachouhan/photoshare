@@ -16,6 +16,7 @@
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
+#import "AFPhotoEditorController+InAppPurchase.h"
 
 #import <CoreLocation/CoreLocation.h>
 @protocol homeDelagate <NSObject>

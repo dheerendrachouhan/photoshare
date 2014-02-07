@@ -699,6 +699,7 @@
     NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

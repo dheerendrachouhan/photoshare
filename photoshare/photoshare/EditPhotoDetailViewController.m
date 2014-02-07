@@ -23,6 +23,9 @@
     if (self) {
         // Custom initialization
     }
+    
+    manager=[ContentManager sharedManager];
+    
     return self;
 }
 
@@ -39,7 +42,7 @@
     // Do any additional setup after loading the view from its nib.
     //initialize the WebService Object
     webservices=[[WebserviceController alloc] init];
-    manager=[ContentManager sharedManager];
+    
     
     userid =[manager getData:@"user_id"];
     
@@ -162,7 +165,7 @@
     // navnBar.backgroundColor = [UIColor redColor];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
-    
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

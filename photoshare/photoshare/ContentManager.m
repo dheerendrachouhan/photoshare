@@ -11,6 +11,7 @@
 
 @implementation ContentManager
 @synthesize loginDetailsDict;
+@synthesize weeklyearningStr;
 
 static ContentManager *objContantManager = nil;
 

@@ -182,6 +182,7 @@
     [navnBar addSubview:buttonLeft];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

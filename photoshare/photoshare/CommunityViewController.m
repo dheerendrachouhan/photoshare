@@ -518,6 +518,7 @@
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

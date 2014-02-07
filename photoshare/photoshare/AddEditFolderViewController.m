@@ -24,6 +24,8 @@
     if (self) {
         // Custom initialization
     }
+    
+    manager = [ContentManager sharedManager];
    
     return self;
 }
@@ -37,7 +39,7 @@
     photoIdArray=[[NSMutableArray alloc] init];
     
     //contant manager Object
-    manager = [ContentManager sharedManager];
+    
     webServices=[[WebserviceController alloc] init];
     
     //initialize the search view and button
@@ -576,7 +578,7 @@
     // navnBar.backgroundColor = [UIColor redColor];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
-    
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

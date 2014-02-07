@@ -8,6 +8,7 @@
 
 #import "TermConditionViewController.h"
 #import "NavigationBar.h"
+#import "ContentManager.h"
 
 @interface TermConditionViewController ()
 
@@ -21,6 +22,9 @@
     if (self) {
         // Custom initialization
     }
+    
+    objManager = [ContentManager sharedManager];
+    
     return self;
 }
 
@@ -56,6 +60,7 @@
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

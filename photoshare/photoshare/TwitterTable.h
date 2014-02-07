@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class ContentManager;
 @interface TwitterTable : UIViewController <UITableViewDataSource,UITableViewDelegate>
-
+{
+    ContentManager *objManager;
+}
 @property (nonatomic, strong) IBOutlet UITableView *table;
 @property (nonatomic, strong) NSArray *tweetUserName;
 @end

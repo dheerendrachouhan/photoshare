@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class ContentManager;
 @interface EditPhotoViewController : UIViewController<UINavigationControllerDelegate>
-
+{
+    ContentManager *objManager;
+}
 @end

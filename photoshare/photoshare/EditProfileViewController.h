@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 #import "DataMapperController.h"
+
+@class ContentManager;
 @interface EditProfileViewController : UIViewController <WebserviceDelegate, UITextFieldDelegate>
 {
 
@@ -16,7 +18,7 @@
     IBOutlet UITextField *email;
      IBOutlet UITextField *pass;
    
-    
+    ContentManager *objManager;
     IBOutlet UIButton *save;
     WebserviceController *wc ;
     NSString *calltype ;

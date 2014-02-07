@@ -11,6 +11,7 @@
 #import "CommonTopView.h"
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
+#import "ContentManager.h"
 
 @interface PastPayementViewController ()
 
@@ -29,6 +30,7 @@
         // Custom initialization
     }
     dmc = [[DataMapperController alloc] init];
+    objManager = [ContentManager sharedManager];
     return self;
 }
 
@@ -138,6 +140,7 @@
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 -(void)navBackButtonClick{

@@ -196,7 +196,17 @@
             //store in NSDefault
             [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
             
+            [self getIncomeFromServer];
+        }
+        else if(isGetIcomeDetail)
+        {
             [self resetAllBoolValue];
+            
+            NSLog(@"Get Storage %@",data);
+            NSNumber *dict = [outPutData valueForKey:@"total_expected_income"];
+            
+            objManager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
+            NSLog(@"%@",objManager.weeklyearningStr);
             //remove fetchView and status bar
             [dataFetchView removeFromSuperview];
             [SVProgressHUD dismiss];
@@ -266,6 +276,14 @@
     NSDictionary *dicData=@{@"user_id":userid};
     [webservices call:dicData controller:@"storage" method:@"get"];
 }
+-(void)getIncomeFromServer
+{
+    [self resetAllBoolValue];
+    isGetIcomeDetail=YES;
+    webservices.delegate=self;
+    NSDictionary *dicData=@{@"user_id":userid};
+    [webservices call:dicData controller:@"referral" method:@"calculateincome"];
+}
 
 //Reset all BooL Value
 -(void)resetAllBoolValue
@@ -278,47 +296,8 @@
 
 //forgot password function
 - (IBAction)forgotPasswordBtn:(id)sender {
-    // Email Subject
-    NSString *emailTitle = @"Join 123 Friday";
-    // Email Content
-    NSString *messageBody = @"Enter your username/email address:"; // Change the message body to HTML
-    // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:@"support@123friday.com"];
-    
-    MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
-    mfMail.mailComposeDelegate = self;
-    
-    [mfMail setSubject:emailTitle];
-    [mfMail setMessageBody:messageBody isHTML:YES];
-    [mfMail setToRecipients:toRecipents];
-    // Present mail view controller on screen
-    [self presentViewController:mfMail animated:YES completion:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.123friday.com/my123/account/forgotpassword"]];
 }
-
-- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    switch (result)
-    {
-        case MFMailComposeResultCancelled:
-            [objManager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
-            break;
-        case MFMailComposeResultSaved:
-            [objManager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
-            break;
-        case MFMailComposeResultSent:
-            [objManager showAlert:@"Success" msg:@"Mail sent successfully." cancelBtnTitle:@"Ok" otherBtn:nil];
-            break;
-        case MFMailComposeResultFailed:
-            [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
-            break;
-        default:
-            break;
-    }
-    
-    // Close the Mail Interface
-    [self dismissViewControllerAnimated:NO completion:nil];
-}
-
 
 //Textfields functions
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -485,11 +464,11 @@
     //delegate.navControlleraccount.navigationBar.translucent=NO;
     
     
-    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"" image:[UIImage imageNamed:@"home.png"] tag:1];
-    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"earn-30x30.png"] tag:2];
-    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"photo-30x30.png"] tag:3];
-    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"folder-30x30.png"] tag:4];
-    UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"cog-30x30.png"] tag:5];
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"Home" image:[UIImage imageNamed:@"homelogo.png"] tag:1];
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Finance" image:[UIImage imageNamed:@"earnings-icon.png"] tag:2];
+    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Camera" image:[UIImage imageNamed:@"photo-icon.png"] tag:3];
+    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"Folder" image:[UIImage imageNamed:@"folder-icon-bottom.png"] tag:4];
+    UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"cog-item.png"] tag:5];
     
     delegate.tbc = [[UITabBarController alloc] init] ;
     

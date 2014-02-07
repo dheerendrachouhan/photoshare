@@ -240,21 +240,21 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="These are the number of people you have directly refered." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xgG-bJ-AhE">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="This is how many people you know." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xgG-bJ-AhE">
                             <rect key="frame" x="10" y="27" width="93" height="49"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="These are the number of people you refered have reffered." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8T-GU-JTT">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="This is how many people your friends know." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8T-GU-JTT">
                             <rect key="frame" x="114" y="27" width="93" height="49"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="These are the number of people your referes have reffered." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7aj-SU-pcr">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" editable="NO" text="This is how many people your friends, friends know." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7aj-SU-pcr">
                             <rect key="frame" x="211" y="27" width="93" height="49"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
