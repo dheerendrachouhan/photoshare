@@ -19,7 +19,7 @@
 #import "DataMapperController.h"
 
 @interface PhotoViewController : UIViewController
-<WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
+<WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate>
 {
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
@@ -52,6 +52,7 @@
 
 @property(nonatomic,retain)NSNumber *photoId;
 @property(nonatomic,assign)NSNumber *collectionId;
+@property(nonatomic,retain)NSDictionary *photoDetail;
 @property(nonatomic,retain)UIImage *smallImage;
 @property(nonatomic,retain)NSString *folderNameLocation;
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;

@@ -14,7 +14,7 @@
 #import "EditPhotoViewController.h"
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
-
+#import "EditPhotoDetailViewController.h"
 #import "PhotoViewController.h"
 
 @interface PhotoGalleryViewController ()
@@ -41,13 +41,14 @@
    
     //initialize the WebService Object
     webServices=[[WebserviceController alloc] init];
+     manager=[ContentManager sharedManager];
     
     selectedImagesIndex=[[NSMutableArray alloc] init];
     //initialize the assets Library
     library=[[ALAssetsLibrary alloc] init];
     
     
-    manager=[ContentManager sharedManager];
+   
     //set the design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
@@ -90,10 +91,10 @@
     [AFOpenGLManager beginOpenGLLoad];
     
     //aviary End
-    isAviaryMode=NO;
+    
     photoArray=[[NSMutableArray alloc] init];
      photoIdsArray=[[NSMutableArray alloc] init];
-    
+     photoInfoArray = [[NSMutableArray alloc] init];
     //editBtn
     editBtn = [[UIButton alloc] init];
     //get the user id from nsuserDefaults
@@ -106,14 +107,14 @@
     else if([UIScreen mainScreen].bounds.size.height == 568)
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height + 85);
-    }    isPopFromPhotos=NO;
+    }
+    isPopFromPhotos=NO;
     isGetPhotoFromServer=NO;
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
     
-    
-    [self setDataForCollectionView];
     [self getPhotoIdFromServer];
+    
 
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -133,20 +134,6 @@
     
     frameForShareBtn=sharePhotoBtn.frame;
     
-    
-}
-//get PhotoId From Server
--(void)getPhotoIdFromServer
-{
-    [self resetAllBoolValue];
-    isGetPhotoIdFromServer=YES;
-    [self addProgressBar:@"Standby"];
-    
-    webServices.delegate=self;
-    // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
-    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
-    
-    [webServices call:dicData controller:@"collection" method:@"get"];
 }
 
 -(void)openeditorcontrol
@@ -176,59 +163,82 @@
 
 -(IBAction)addPhoto:(id)sender
 {
-    isNotFirstTime=YES;
+    isAddPhotoMode=YES;
     UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ",@"From Camera Roll", nil];
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
 //action sheet delegate Method
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    UIImagePickerController *imagePicker=[[UIImagePickerController alloc] init];
-    imagePicker.delegate=self;
+    if(isAddPhotoMode)
+    {
+        UIImagePickerController *imagePicker=[[UIImagePickerController alloc] init];
+        imagePicker.delegate=self;
+        
+        if(buttonIndex==0)  //From Camera
+        {
+            NSLog(@"camera");
+            
+            if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+            {
+                imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
+                [self presentViewController:imagePicker animated:YES completion:nil];
+                isCameraMode=YES;
+                
+                isPhotoPickMode=YES;
+            }
+            else
+            {
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera is Not Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil , nil];
+                [alert show];
+            }
+        }
+        else if(buttonIndex==1)//From Gallery
+        {
+            NSLog(@"gallery");
+            imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:imagePicker animated:YES completion:nil];
+        }
+        else if(buttonIndex==2)//From Camera Roll
+        {
+            NSLog(@"gallery");
+            @try {
+                
+                imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                [self presentViewController:imagePicker animated:YES completion:nil];
+            }
+            @catch (NSException *exception) {
+                
+            }
+            @finally {
+                
+            }
+            
+        }
+        else if(buttonIndex==3)//Cancel Button
+        {
+            NSLog(@"Cancel Button Click");
+        }
+        isPickerMode=YES;
+        isAddPhotoMode=NO;
+    }
+    if(isEditPhotoMode)
+    {
+        if(buttonIndex==0)//Edit Photo
+        {
+            [self getImageFromServerForEdit:selectedEditImageIndex];
+        }
+        else if(buttonIndex==1)//Edit Detail
+        {
+            EditPhotoDetailViewController *editPhotoDetail=[[EditPhotoDetailViewController alloc] init];
+            editPhotoDetail.photoId=[photoIdsArray objectAtIndex:selectedEditImageIndex];
+            editPhotoDetail.collectionId=self.collectionId;
+            editPhotoDetail.photoDetail=[photoInfoArray objectAtIndex:selectedEditImageIndex];
+            [self.navigationController pushViewController:editPhotoDetail animated:YES];
+        }
+        isEditPhotoMode=NO;
+    }
     
-    if(buttonIndex==0)  //From Camera
-    {
-        NSLog(@"camera");
-        
-        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-        {
-            imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
-            [self presentViewController:imagePicker animated:YES completion:nil];
-            isCameraMode=YES;
-        }
-        else
-        {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera is Not Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil , nil];
-            [alert show];
-        }
-    }
-    else if(buttonIndex==1)//From Gallery
-    {
-        NSLog(@"gallery");
-        imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:imagePicker animated:YES completion:nil];
-    }
-    else if(buttonIndex==2)//From Camera Roll
-    {
-        NSLog(@"gallery");
-        @try {
-            
-            imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-            [self presentViewController:imagePicker animated:YES completion:nil];
-        }
-        @catch (NSException *exception) {
-            
-        }
-        @finally {
-            
-        }
-        
-    }
-    else if(buttonIndex==3)//Cancel Button
-    {
-        NSLog(@"Cancel Button Click");
-    }
-    isPickerMode=YES;
 }
 -(void)resetAllBoolValue
 {
@@ -239,14 +249,24 @@
     
    
 }
+//get PhotoId From Server
+-(void)getPhotoIdFromServer
+{
+    isGetPhotoIdFromServer=YES;
+    [self addProgressBar:@"Standby"];
+    
+    webServices.delegate=self;
+    
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
+    
+    [webServices call:dicData controller:@"collection" method:@"get"];
+}
 
 //get Photo From Server
 -(void)getPhotoFromServer :(int)photoIdIndex
 {
-    [self removeProgressBar];
-    
-    [self resetAllBoolValue];
-        isGetPhotoFromServer=YES;
+   
+    isGetPhotoFromServer=YES;
     @try {
         if(photoIdsArray.count>0)
         {
@@ -273,9 +293,8 @@
 //save Photo on Server Photo With Detaill
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imgData photoTitle:(NSString *)photoTitle photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
 {
-    [self resetAllBoolValue];
+   
     isSaveDataOnServer=YES;
-    isNotFirstTime=YES;
     
     webServices=[[WebserviceController alloc] init];
     
@@ -325,7 +344,7 @@
         [self launchPhotoEditorWithImage:image highResolutionImage:image];
         isEditImageFromServer=NO;
     }
-    else
+    else if(isGetPhotoFromServer)
     {
         [photoArray addObject:image];
         int count=photoArray.count;
@@ -342,6 +361,10 @@
                 [self getPhotoFromServer:photoArray.count];
             }
         }
+        else
+        {
+            isGetPhotoFromServer=NO;
+        }
         //[collectionview reloadData];
     }
 
@@ -354,28 +377,33 @@
     NSLog(@"outPutData is %@",outputData);
     
     int exitcode=[[data objectForKey:@"exit_code"] integerValue];
-    if(exitcode==1)
-    {
-       
+    
        // photoInfoArray = [[NSMutableArray alloc] init];
-        if(isGetPhotoIdFromServer)
+        if(isSaveDataOnServer)
         {
+            if(exitcode==1)
+            {
+                [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
+            
+                [collectionview reloadData];
+            }
+          isSaveDataOnServer=NO;
+        
+        }
+        else if(isGetPhotoIdFromServer)
+        {
+            if(exitcode==1)
+            {
                 NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
                 if(collectionContent.count>0)
                 {
-                    isGetPhotoIdFromServer=NO;
-                    if(isNotFirstTime)
-                    {
-                        
-                    }
-                    else
-                    {
-                        
                         [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
+                    
+                        [photoInfoArray addObjectsFromArray:[collectionContent allValues]];
+                    
                         [collectionview reloadData];
-                       
+                        
                         [self getPhotoFromServer:0];
-                    }
                     
                 }
                 else
@@ -384,34 +412,14 @@
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
                 }
-            
-        }
-        else if(isSaveDataOnServer)
-        {
-            
-            isAviaryMode=NO;
-            if(isNotFirstTime)
-            {
-                
-                [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
-               
-                [collectionview reloadData];
 
-             }
-            else
-            {
-                [self getPhotoIdFromServer];
-                [collectionview reloadData];
             }
-           
+            isGetPhotoIdFromServer=NO;
+            
         }
-       
-    }
-    else
-    {
-        
-    }
+    
 }
+
 -(IBAction)deletePhoto:(id)sender
 {
    [editBtn removeFromSuperview];
@@ -613,6 +621,7 @@
         viewPhoto.smallImage=[photoArray objectAtIndex:indexPath.row];
         viewPhoto.isViewPhoto=YES;
         viewPhoto.collectionId=self.collectionId;
+        viewPhoto.photoDetail=[photoInfoArray objectAtIndex:indexPath.row] ;
         isGoToViewPhoto=YES;
         if(self.isPublicFolder)
         {
@@ -642,7 +651,13 @@
     @try {
         //UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
         //[self launchPhotoEditorWithImage:image highResolutionImage:image];
-        [self getImageFromServerForEdit:indexPath.row];
+        isEditPhotoMode=YES;
+        UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
+        [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        
+        selectedEditImageIndex=indexPath.row;
+        
+        //[self getImageFromServerForEdit:indexPath.row];
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception.description);
@@ -964,38 +979,5 @@
 
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
-}
--(void)setDataForCollectionView
-{
-    
-    if(self.isPublicFolder==YES)
-    {
-        //set title
-        //self.navigationController.navigationBar.topItem.title=@"Public Folder";
-    }
-    else
-    {
-        //set Folder Name in Right Side of navigation bar
-        NSString *folderNa=self.folderName;
-        
-        
-        UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 25)];
-        label.text=folderNa;
-        //label.textAlignment=NSTextAlignmentRight;
-        UIBarButtonItem *foldernameButton = [[UIBarButtonItem alloc] initWithCustomView:label] ;
-        [foldernameButton setWidth:100];
-        
-        UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        iconbtn.frame=CGRectMake(0, 0, 18, 18);
-        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-        iconbtn.userInteractionEnabled=NO;
-        UIBarButtonItem *editBtnIcon=[[UIBarButtonItem alloc]
-                                      initWithCustomView:iconbtn] ;
-        NSArray *itemArray=[[NSArray alloc] initWithObjects:foldernameButton,editBtnIcon,nil];
-        self.navigationItem.rightBarButtonItems=itemArray;
-        
-    }
-    
-    
 }
 @end

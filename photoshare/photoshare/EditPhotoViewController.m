@@ -7,7 +7,7 @@
 //
 
 #import "EditPhotoViewController.h"
-
+#import "NavigationBar.h"
 @interface EditPhotoViewController ()
 
 @end
@@ -33,8 +33,32 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
+    [self addCustomNavigationBar];
+}
+
+#pragma Mark
+#pragma Add Custom Navigation Bar
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"< Back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+    // navnBar.backgroundColor = [UIColor redColor];
+    [navnBar addSubview:button];
+    [[self view] addSubview:navnBar];
     
 }
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

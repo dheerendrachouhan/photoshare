@@ -29,6 +29,9 @@
 		E1067DFE189AA7D600F08A5F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067DF5189AA7D600F08A5F /* AFURLSessionManager.m */; };
 		E1067E01189AA7F400F08A5F /* WebserviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E00189AA7F400F08A5F /* WebserviceController.m */; };
 		E1067E03189AA80400F08A5F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E02189AA80400F08A5F /* LoginViewController.m */; };
+		E165CF3B18A3B8950030099C /* EditPhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */; };
+		E165CF3C18A3B8950030099C /* EditPhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */; };
+		E165CF3E18A3EC4C0030099C /* shared-icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3D18A3EC4C0030099C /* shared-icon3.png */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -224,6 +227,10 @@
 		E1067DFF189AA7F400F08A5F /* WebserviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceController.h; sourceTree = "<group>"; };
 		E1067E00189AA7F400F08A5F /* WebserviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceController.m; sourceTree = "<group>"; };
 		E1067E02189AA80400F08A5F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		E165CF3818A3B8950030099C /* EditPhotoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditPhotoDetailViewController.h; sourceTree = "<group>"; };
+		E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditPhotoDetailViewController.m; sourceTree = "<group>"; };
+		E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPhotoDetailViewController.xib; sourceTree = "<group>"; };
+		E165CF3D18A3EC4C0030099C /* shared-icon3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shared-icon3.png"; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -680,6 +687,9 @@
 				FC97641018900734008DF1F8 /* PhotoViewController.m */,
 				E1B0742A1899529900589867 /* PhotoGalleryViewController.h */,
 				E1B0742B1899529900589867 /* PhotoGalleryViewController.m */,
+				E165CF3818A3B8950030099C /* EditPhotoDetailViewController.h */,
+				E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */,
+				E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */,
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
 				E1B07427189951CC00589867 /* CommunityViewController.h */,
@@ -767,7 +777,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				E322BB0418A3BD6500CAC9E5 /* home.png */,
+				E165CF3D18A3EC4C0030099C /* shared-icon3.png */,
 				E322BAE918A36B7600CAC9E5 /* cog-30x30.png */,
 				E322BAEA18A36B7600CAC9E5 /* earn-30x30.png */,
 				E322BAEB18A36B7600CAC9E5 /* folder-30x30.png */,
@@ -949,6 +959,7 @@
 				FC35A85E189AFCCD006DDDFC /* folder_lock.png in Resources */,
 				FC35A85D189AFCBA006DDDFC /* earnings-iconX30.png in Resources */,
 				E3188D9F18939171004ACF77 /* cellImage.png in Resources */,
+				E165CF3E18A3EC4C0030099C /* shared-icon3.png in Resources */,
 				E17222E018928DE700F28748 /* cancel_red.png in Resources */,
 				E16F392018914D4A00064806 /* back.png in Resources */,
 				E31B9E10189A1D7F00722761 /* iconr3_uncheck.png in Resources */,
@@ -979,6 +990,7 @@
 				E16F390818912C9C00064806 /* home-photo-quicklink.png in Resources */,
 				E322BB0518A3BD6500CAC9E5 /* home.png in Resources */,
 				E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */,
+				E165CF3C18A3B8950030099C /* EditPhotoDetailViewController.xib in Resources */,
 				E16F390318912C9C00064806 /* community-icon.png in Resources */,
 				E16F3918189131C600064806 /* wall.jpg in Resources */,
 				E317677A1899134700923E35 /* TermConditionViewController.xib in Resources */,
@@ -1101,6 +1113,7 @@
 				E1067DF9189AA7D600F08A5F /* AFNetworkReachabilityManager.m in Sources */,
 				FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */,
 				E3188DA21893968A004ACF77 /* FinanceCalculatorViewController.m in Sources */,
+				E165CF3B18A3B8950030099C /* EditPhotoDetailViewController.m in Sources */,
 				E1B07429189951CC00589867 /* CommunityViewController.m in Sources */,
 				E317676E1899117600923E35 /* SVProgressHUD.m in Sources */,
 				E3BAA8EF18993ABC00ED2CA2 /* SBJsonParser.m in Sources */,
