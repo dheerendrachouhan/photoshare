@@ -39,13 +39,19 @@
     
     //set text fielddelegate
     [photoTitletxt setDelegate:self];
-    [photoTagTxt setDelegate:self];
-    [photoLocationTxt setDelegate:self];
     [photoDescriptionTxt setDelegate:self];
     
-    
-    photoTitletxt.text=[photoDetail objectForKey:@"collection_photo_title"];
-    photoDescriptionTxt.text=[photoDetail objectForKey:@"collection_photo_description"];
+    @try {
+        photoTitletxt.text=[photoDetail objectForKey:@"collection_photo_title"];
+        photoDescriptionTxt.text=[photoDetail objectForKey:@"collection_photo_description"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+   
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -55,7 +61,11 @@
 -(void)savePhotoDetailOnServer
 {
     isPhotoDetailSaveOnServer=YES;
-     NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":@"",@"photo_tags":photoTagTxt.text,@"photo_collections":self.collectionId};
+    
+    //savePhotoDetailONTempArray
+    
+    
+     NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":@"",@"photo_tags":@"",@"photo_collections":self.collectionId};
     
     //NSDictionary *dicData=@{@"user_id":@"11",@"photo_id":@"412"};
     //NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];

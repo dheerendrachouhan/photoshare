@@ -12,9 +12,9 @@
 @interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate>
 {
     IBOutlet UITextField *photoTitletxt;
-    IBOutlet UITextField *photoTagTxt;
+   
     IBOutlet UITextField *photoDescriptionTxt;
-    IBOutlet UITextField *photoLocationTxt;
+   
     
     IBOutlet UILabel *headingLabel;
     IBOutlet UIButton *saveButton;

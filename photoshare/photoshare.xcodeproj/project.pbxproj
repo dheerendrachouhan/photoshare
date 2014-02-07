@@ -32,6 +32,7 @@
 		E165CF3B18A3B8950030099C /* EditPhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */; };
 		E165CF3C18A3B8950030099C /* EditPhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */; };
 		E165CF3E18A3EC4C0030099C /* shared-icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3D18A3EC4C0030099C /* shared-icon3.png */; };
+		E165CF4018A3F11F0030099C /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3F18A3F11F0030099C /* home.png */; };
 		E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16F38E518910DB000064806 /* CommunityCollectionCell.xib */; };
 		E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EB18912C9C00064806 /* 123-mobile-logo.png */; };
 		E16F390118912C9C00064806 /* cog-item.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38EC18912C9C00064806 /* cog-item.png */; };
@@ -127,7 +128,6 @@
 		E322BB0118A3AD7700CAC9E5 /* logo_40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAFD18A3AD7700CAC9E5 /* logo_40x40.png */; };
 		E322BB0218A3AD7700CAC9E5 /* logo_57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAFE18A3AD7700CAC9E5 /* logo_57x57.png */; };
 		E322BB0318A3AD7700CAC9E5 /* logo_60x60.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAFF18A3AD7700CAC9E5 /* logo_60x60.png */; };
-		E322BB0518A3BD6500CAC9E5 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BB0418A3BD6500CAC9E5 /* home.png */; };
 		E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8BF1899162800ED2CA2 /* Social.framework */; };
 		E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C11899212000ED2CA2 /* Twitter.framework */; };
 		E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C31899212500ED2CA2 /* Accounts.framework */; };
@@ -231,6 +231,7 @@
 		E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditPhotoDetailViewController.m; sourceTree = "<group>"; };
 		E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPhotoDetailViewController.xib; sourceTree = "<group>"; };
 		E165CF3D18A3EC4C0030099C /* shared-icon3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shared-icon3.png"; sourceTree = "<group>"; };
+		E165CF3F18A3F11F0030099C /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		E16F38E518910DB000064806 /* CommunityCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell.xib; sourceTree = "<group>"; };
 		E16F38EB18912C9C00064806 /* 123-mobile-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-mobile-logo.png"; sourceTree = "<group>"; };
 		E16F38EC18912C9C00064806 /* cog-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-item.png"; sourceTree = "<group>"; };
@@ -355,7 +356,6 @@
 		E322BAFD18A3AD7700CAC9E5 /* logo_40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_40x40.png; sourceTree = "<group>"; };
 		E322BAFE18A3AD7700CAC9E5 /* logo_57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57x57.png; sourceTree = "<group>"; };
 		E322BAFF18A3AD7700CAC9E5 /* logo_60x60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_60x60.png; sourceTree = "<group>"; };
-		E322BB0418A3BD6500CAC9E5 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		E3BAA8BF1899162800ED2CA2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E3BAA8C11899212000ED2CA2 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E3BAA8C31899212500ED2CA2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -825,6 +825,7 @@
 				E1067DDF189A97AD00F08A5F /* edit_btn.png */,
 				E16F38F018912C9C00064806 /* earnings-icon.png */,
 				E16F38F118912C9C00064806 /* earnings-iconX30.png */,
+				E165CF3F18A3F11F0030099C /* home.png */,
 				E16F38F218912C9C00064806 /* folder-icon-bottomX30.png */,
 				E16F38F318912C9C00064806 /* home-photo-quicklink.png */,
 				E16F38F418912C9C00064806 /* icon-takephoto.png */,
@@ -988,7 +989,6 @@
 				E16F391318912C9C00064806 /* share-twitter.png in Resources */,
 				E322BAF418A39FEA00CAC9E5 /* term.html in Resources */,
 				E16F390818912C9C00064806 /* home-photo-quicklink.png in Resources */,
-				E322BB0518A3BD6500CAC9E5 /* home.png in Resources */,
 				E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */,
 				E165CF3C18A3B8950030099C /* EditPhotoDetailViewController.xib in Resources */,
 				E16F390318912C9C00064806 /* community-icon.png in Resources */,
@@ -1031,6 +1031,7 @@
 				E1717A87189D2A8E008899EC /* radio_selected.png in Resources */,
 				FC85D53D1897F9E3006AD7E0 /* save.png in Resources */,
 				FC35A890189BDF96006DDDFC /* splash640x1136.png in Resources */,
+				E165CF4018A3F11F0030099C /* home.png in Resources */,
 				E31CADB7189CC2890081241D /* icon-person.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
