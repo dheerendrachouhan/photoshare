@@ -575,7 +575,7 @@
 {
     addPhotoBtn.hidden=NO;
     deletePhotoBtn.hidden=NO;
-    sharePhotoBtn.hidden=NO;
+    sharePhotoBtn.hidden=YES;
     
     //sharePhotoBtn.frame=frameForShareBtn;
     isDeleteMode=NO;

@@ -233,9 +233,6 @@
     else
     {
         
-        //create the public and Private Album in device
-        [self.library addAssetsGroupAlbumWithName:@"Public" resultBlock:nil failureBlock:nil];
-        [self.library addAssetsGroupAlbumWithName:@"Private" resultBlock:nil failureBlock:nil];
         
         
         NSLog(@"// First time launched");
