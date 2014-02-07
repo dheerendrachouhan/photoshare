@@ -150,7 +150,17 @@
         }
     }
     else if (selectedSegment == 2) {
-        [manager showAlert:@"Message" msg:@"Currently not working" cancelBtnTitle:@"Ok" otherBtn:nil];
+        //[manager showAlert:@"Message" msg:@"Currently not working" cancelBtnTitle:@"Ok" otherBtn:nil];
+        
+        if(isoriginalImageGet)
+        {
+            [self shareImage:originalImage];
+        }
+        else
+        {
+            [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
+        }
+        
     }
      segmentedControl.selectedSegmentIndex = -1;
 }
@@ -160,6 +170,13 @@
     [imgVi removeFromSuperview];
 }
 
+-(void)shareImage:(UIImage *)imageToShare
+{
+    UIImage *shareImg = imageToShare;
+    /*
+     PhotoShareView
+     */
+}
 
 //For Aviary Edit Photo
 
