@@ -8,7 +8,7 @@
 
 #import "PhotoViewController.h"
 #import "NavigationBar.h"
-
+#import "PhotoShareController.h"
 @interface PhotoViewController ()
 
 @end
