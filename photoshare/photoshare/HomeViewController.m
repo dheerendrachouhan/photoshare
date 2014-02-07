@@ -396,8 +396,6 @@
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    [self removePickerView];
-    [SVProgressHUD dismiss];
     
     NSLog(@"Data %@",data);
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
@@ -439,6 +437,9 @@
             
         }
         isPhotoSavingMode=NO;
+        [self removePickerView];
+        [SVProgressHUD dismiss];
+
     }
         
        
