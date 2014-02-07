@@ -31,6 +31,8 @@
     NSNumber *userID;
     WebserviceController *webSwevice;
     NSMutableArray *ImageCollection;
+    int f;
+    NSString *messageStr;
 }
 @synthesize sharedImage, sharedImagesArray, otherDetailArray;
 
@@ -55,16 +57,28 @@
     smsFilter = NO;
 	grant = NO;
     
+    messageStr= [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/1/%@",[objManager getData:@"user_username"]];
+    
     ImageCollection = [[NSMutableArray alloc] init];
-    /*
+    
+    if(sharedImage== nil || sharedImage == NULL)
+    {
     if (sharedImagesArray.count > 0) {
         webSwevice = [[WebserviceController alloc] init];
         webSwevice.delegate = self;
         NSDictionary *dicData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"photo_id":[sharedImagesArray objectAtIndex:0],@"get_image":[otherDetailArray objectAtIndex:2],@"collection_id":[otherDetailArray objectAtIndex:1],@"image_resize":@"500"};
         
         [webSwevice call:dicData controller:@"photo" method:@"get"];
-        [SVProgressHUD showWithStatus:@"Attaching your selected photos" maskType:SVProgressHUDMaskTypeBlack];
-    }*/
+        [SVProgressHUD showWithStatus:@"Attaching Images" maskType:SVProgressHUDMaskTypeBlack];
+        f=0;
+    }
+        else if(sharedImagesArray.count == 0)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No photo to share" message:@"No photos are there to shared." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        
+            [alert show];
+        }
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -76,6 +90,20 @@
 -(void) webserviceCallbackImage:(UIImage *)image
 {
     [ImageCollection addObject:image];
+    imageView.image = image;
+    if (sharedImagesArray.count > 0) {
+        for(int u=1;u<sharedImagesArray.count;u++)
+        {
+        NSDictionary *dicData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"photo_id":[sharedImagesArray objectAtIndex:u],@"get_image":[otherDetailArray objectAtIndex:2],@"collection_id":[otherDetailArray objectAtIndex:1],@"image_resize":@"500"};
+            f=u;
+        [webSwevice call:dicData controller:@"photo" method:@"get"];
+        }
+        if(f==sharedImagesArray.count)
+        {
+            [SVProgressHUD dismissWithSuccess:@"Photos Attached"];
+            f=0;
+        }
+    }
 }
 
 //Filter Reference.
@@ -121,7 +149,7 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
-        [controller setInitialText:@"123 Friday Shared Photos"];
+        [controller setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",messageStr]];
         
         [controller addImage:sharedImage];
         
@@ -163,7 +191,7 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         
-        [controller setInitialText:@"123 Friday Shared Photos"];
+        [controller setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",messageStr]];
         
         [controller addImage:sharedImage];
         
@@ -203,7 +231,7 @@
     // Email Subject
     NSString *emailTitle = @"Join 123 Friday";
     // Email Content
-    NSString *messageBody = @""; // Change the message body to HTML
+    NSString *messageBody = [NSString stringWithFormat:@"<a href=\"%@\">Join Now</a>",messageStr]; // Change the message body to HTML
     // To address
     NSArray *toRecipents = [NSArray arrayWithObject:userSelectedEmail];
     //image attachment
@@ -213,7 +241,7 @@
     mfMail.mailComposeDelegate = self;
     [mfMail addAttachmentData:data mimeType:@"image/png" fileName:@""];
     [mfMail setSubject:emailTitle];
-    [mfMail setMessageBody:messageBody isHTML:NO];
+    [mfMail setMessageBody:messageBody isHTML:YES];
     [mfMail setToRecipients:toRecipents];
     
     //stop loader
@@ -255,8 +283,10 @@
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
-		controller.body = @"";
+		controller.body = [@"Join 123 Friday, " stringByAppendingString:messageStr];
 		controller.recipients = [NSArray arrayWithObject:userSelectedPhone];
+        NSData *data = UIImagePNGRepresentation(sharedImage);
+        [controller addAttachmentData:data typeIdentifier:(NSString *)kUTTypePNG filename:@"image.png"];
 		controller.messageComposeDelegate = self;
 		[self presentViewController:controller animated:YES completion:nil];
 	}

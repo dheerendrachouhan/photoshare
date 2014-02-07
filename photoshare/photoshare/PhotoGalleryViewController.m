@@ -540,12 +540,18 @@
             
             if(shareSortedArray.count > 0)
             {
-                
+                NSMutableArray *photoIdList = [[NSMutableArray alloc] init];
+                [photoIdList removeAllObjects];
+                for(int i=0;i<shareSortedArray.count;i++)
+                {
+                    [photoIdList addObject:[photoIdsArray objectAtIndex:[[shareSortedArray objectAtIndex:i] integerValue]]];
+                }
                 NSArray *userDetail = [[NSArray alloc] initWithObjects:userid,collectionId,@1, nil];
+                
                 PhotoShareController *photoShare = [[PhotoShareController alloc] init];
                 
                 photoShare.otherDetailArray = userDetail;
-                photoShare.sharedImagesArray = shareSortedArray;
+                photoShare.sharedImagesArray = photoIdList;
                 
                 [self.navigationController pushViewController:photoShare animated:YES];
             }
