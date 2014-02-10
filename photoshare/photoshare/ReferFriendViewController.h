@@ -10,15 +10,14 @@
 #import "WebserviceController.h"
 
 @class ContentManager;
-@interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate>
+@interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
-    IBOutlet UISegmentedControl *toolboxController;
     IBOutlet UIWebView *webViewReferral;
     ContentManager *objManager;
 }
 -(void)openHomeController;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *toolboxController;
 @property (nonatomic, retain) IBOutlet UIWebView *webViewReferral;
 @property (nonatomic, retain) NSString *toolKitReferralStr;
+@property (nonatomic, retain) UICollectionView *collectionView;
 
 @end

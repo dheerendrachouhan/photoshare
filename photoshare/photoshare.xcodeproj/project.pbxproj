@@ -149,6 +149,8 @@
 		E322BB0118A3AD7700CAC9E5 /* logo_40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAFD18A3AD7700CAC9E5 /* logo_40x40.png */; };
 		E322BB0218A3AD7700CAC9E5 /* logo_57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAFE18A3AD7700CAC9E5 /* logo_57x57.png */; };
 		E322BB0318A3AD7700CAC9E5 /* logo_60x60.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAFF18A3AD7700CAC9E5 /* logo_60x60.png */; };
+		E3A5B90118A8F22F00CED95F /* CustomCells.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A5B8FF18A8F22F00CED95F /* CustomCells.m */; };
+		E3A5B90218A8F22F00CED95F /* CustomCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3A5B90018A8F22F00CED95F /* CustomCells.xib */; };
 		E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8BF1899162800ED2CA2 /* Social.framework */; };
 		E3BAA8C21899212000ED2CA2 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C11899212000ED2CA2 /* Twitter.framework */; };
 		E3BAA8C41899212500ED2CA2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8C31899212500ED2CA2 /* Accounts.framework */; };
@@ -401,6 +403,9 @@
 		E322BAFD18A3AD7700CAC9E5 /* logo_40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_40x40.png; sourceTree = "<group>"; };
 		E322BAFE18A3AD7700CAC9E5 /* logo_57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57x57.png; sourceTree = "<group>"; };
 		E322BAFF18A3AD7700CAC9E5 /* logo_60x60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_60x60.png; sourceTree = "<group>"; };
+		E3A5B8FE18A8F22F00CED95F /* CustomCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCells.h; sourceTree = "<group>"; };
+		E3A5B8FF18A8F22F00CED95F /* CustomCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCells.m; sourceTree = "<group>"; };
+		E3A5B90018A8F22F00CED95F /* CustomCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCells.xib; sourceTree = "<group>"; };
 		E3BAA8BF1899162800ED2CA2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E3BAA8C11899212000ED2CA2 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E3BAA8C31899212500ED2CA2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -640,6 +645,16 @@
 			name = Barchart;
 			sourceTree = "<group>";
 		};
+		E3A5B8FD18A8F22F00CED95F /* scrollViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				E3A5B8FE18A8F22F00CED95F /* CustomCells.h */,
+				E3A5B8FF18A8F22F00CED95F /* CustomCells.m */,
+				E3A5B90018A8F22F00CED95F /* CustomCells.xib */,
+			);
+			path = scrollViewCell;
+			sourceTree = "<group>";
+		};
 		FC35A872189BCA5B006DDDFC /* AviarySDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -731,6 +746,7 @@
 				E31C75C81897B27600A8CC7F /* JSON */,
 				E18648D5189699B100175E8D /* AssetsLibrary */,
 				E18648CF1896285800175E8D /* base64 */,
+				E3A5B8FD18A8F22F00CED95F /* scrollViewCell */,
 				FCB0B76D18945BC2001722B3 /* webservice */,
 				E388F2421892546E005BB5E5 /* Barchart */,
 				FC97640D1890050C008DF1F8 /* Layouts */,
@@ -1064,6 +1080,7 @@
 				E31A558318A502E800B0015B /* homelogo.png in Resources */,
 				E317675E1898BE0A00923E35 /* FBTWViewController.xib in Resources */,
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
+				E3A5B90218A8F22F00CED95F /* CustomCells.xib in Resources */,
 				E322BAF218A36B7600CAC9E5 /* refer-30x30.png in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
 				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
@@ -1205,6 +1222,7 @@
 				E1067DFA189AA7D600F08A5F /* AFSecurityPolicy.m in Sources */,
 				E17222BB1892817800F28748 /* EarningViewController.m in Sources */,
 				E3BAA8F418993F9600ED2CA2 /* TwitterTable.m in Sources */,
+				E3A5B90118A8F22F00CED95F /* CustomCells.m in Sources */,
 				E3BAA8F018993ABC00ED2CA2 /* SBJsonWriter.m in Sources */,
 				E317675D1898BE0A00923E35 /* FBTWViewController.m in Sources */,
 				E17222AD18923AF900F28748 /* CollectionViewCell.m in Sources */,

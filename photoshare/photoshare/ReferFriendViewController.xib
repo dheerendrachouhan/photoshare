@@ -6,7 +6,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReferFriendViewController">
             <connections>
-                <outlet property="toolboxController" destination="4tf-6A-iwb" id="eGm-5w-wGf"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="webViewReferral" destination="1sJ-lM-kkB" id="dcr-i4-WSa"/>
             </connections>
@@ -24,18 +23,6 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="4tf-6A-iwb">
-                    <rect key="frame" x="12" y="155" width="296" height="29"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <segments>
-                        <segment title="Toolbox 1"/>
-                        <segment title="Toolbox 2"/>
-                        <segment title="Toolbox 3"/>
-                    </segments>
-                    <connections>
-                        <action selector="toolbox_Controller:" destination="-1" eventType="valueChanged" id="qsS-IW-39f"/>
-                    </connections>
-                </segmentedControl>
                 <webView contentMode="scaleToFill" scalesPageToFit="YES" id="1sJ-lM-kkB">
                     <rect key="frame" x="0.0" y="233" width="320" height="233"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

@@ -11,7 +11,6 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
-#import <Twitter/Twitter.h>
 #import "WebserviceController.h"
 
 @class ContentManager;

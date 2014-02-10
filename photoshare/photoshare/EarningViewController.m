@@ -24,6 +24,7 @@
 {
     NSNumber *userID;
     NSString *service;
+    BOOL checkAgain;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,6 +54,7 @@
     NSDictionary *dictData = @{@"user_id":userID};
     [wc call:dictData controller:@"user" method:@"getearningsdetails"];
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+    checkAgain = YES;
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
@@ -130,7 +132,18 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    if(!checkAgain)
+    {
+        WebserviceController *wc = [[WebserviceController alloc] init] ;
+        wc.delegate = self;
+        //NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
+        NSDictionary *dictData = @{@"user_id":userID};
+        [wc call:dictData controller:@"user" method:@"getearningsdetails"];
+        [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+    }
+    checkAgain = NO;
 }
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -135,6 +135,8 @@
         textLabelValue.text = realDigit;
         [self setLabelValues:textLabelValue];
         [self addSubview:textLabelValue];
+        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        NSLog(@"deleayed");
          
     }
 }

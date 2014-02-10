@@ -451,10 +451,6 @@
     
     HomeViewController *hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil] ;
     
-    CommonTopView *topView=[[CommonTopView alloc] init];
-    
-    ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
-    
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
    // delegate.navControllerhome.navigationBar.translucent=NO;
     
