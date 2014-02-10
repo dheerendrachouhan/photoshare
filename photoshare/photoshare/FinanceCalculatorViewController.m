@@ -74,7 +74,7 @@
     }
     [self calculateUserGem];
     
-    for(int i=0;i<=100;i++)
+    for(int i=0;i<1000;i++)
     {
         [rowFirstArr addObject:[NSString stringWithFormat:@"%d",i]];
         [rowSecondArr addObject:[NSString stringWithFormat:@"%d",i]];
@@ -115,6 +115,25 @@
     int third = [thirdGem.text intValue];
     
     int totalGemCalculated = (first*1) + (first*second) +(first*second*third);
+    
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
+    {
+        if ([[UIScreen mainScreen] bounds].size.height == 568)
+        {
+            if(totalGemCalculated >=999000)
+            {
+                amountCalculated.font = [UIFont systemFontOfSize:30.0f];
+            }
+            else if(totalGemCalculated <999000)
+            {
+                amountCalculated.font = [UIFont systemFontOfSize:30.0f];
+            }
+        }
+        else if([[UIScreen mainScreen] bounds].size.height == 480)
+        {
+            
+        }
+    }
     
     amountCalculated.text =[setCurrenyStr stringByAppendingString:[NSString stringWithFormat:@"%d",totalGemCalculated]];
 }

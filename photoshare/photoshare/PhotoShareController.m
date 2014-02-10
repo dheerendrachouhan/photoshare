@@ -10,7 +10,6 @@
 #import "NavigationBar.h"
 #import "ContentManager.h"
 #import "SVProgressHUD.h"
-#import "TwitterTable.h"
 
 @interface PhotoShareController ()
 
@@ -31,8 +30,10 @@
     NSNumber *userID;
     WebserviceController *webSwevice;
     NSMutableArray *ImageCollection;
-    int f;
     NSString *messageStr;
+    int imageCount;
+    int imageLoaded;
+    BOOL webServiceStart;
 }
 @synthesize sharedImage, sharedImagesArray, otherDetailArray;
 
@@ -63,15 +64,21 @@
     
     if(sharedImage== nil || sharedImage == NULL)
     {
-    if (sharedImagesArray.count > 0) {
-        webSwevice = [[WebserviceController alloc] init];
-        webSwevice.delegate = self;
-        NSDictionary *dicData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"photo_id":[sharedImagesArray objectAtIndex:0],@"get_image":[otherDetailArray objectAtIndex:2],@"collection_id":[otherDetailArray objectAtIndex:1],@"image_resize":@"500"};
+        if (sharedImagesArray.count > 0)
+        {
+            webSwevice = [[WebserviceController alloc] init];
+            webSwevice.delegate = self;
+            imageCount = sharedImagesArray.count;
+            imageLoaded = 0;
+            for(int u=0;u<sharedImagesArray.count;u++)
+            {
+                NSDictionary *dicData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"photo_id":[sharedImagesArray objectAtIndex:u],@"get_image":[otherDetailArray objectAtIndex:2],@"collection_id":[otherDetailArray objectAtIndex:1],@"image_resize":@"500"};
         
-        [webSwevice call:dicData controller:@"photo" method:@"get"];
-        [SVProgressHUD showWithStatus:@"Attaching Images" maskType:SVProgressHUDMaskTypeBlack];
-        f=0;
-    }
+                [webSwevice call:dicData controller:@"photo" method:@"get"];
+            }
+            webServiceStart = YES;
+            
+        }
         else if(sharedImagesArray.count == 0)
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No photo to share" message:@"No photos are there to shared." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
@@ -79,7 +86,12 @@
             [alert show];
         }
     }
+    if(webServiceStart)
+    {
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Attaching 1 of %d photos",imageCount] maskType:SVProgressHUDMaskTypeBlack];
+    }
 }
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -87,22 +99,26 @@
     [self addCustomNavigationBar];
 }
 
--(void) webserviceCallbackImage:(UIImage *)image
+
+//This function is not used here
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSLog(@"%@",data);
+}
+//////
+
+//Protocol for getting images....
+-(void)webserviceCallbackImage:(UIImage *)image
 {
     [ImageCollection addObject:image];
+    [SVProgressHUD dismissWithSuccess:@"Attached"];
     imageView.image = image;
-    if (sharedImagesArray.count > 0) {
-        for(int u=1;u<sharedImagesArray.count;u++)
-        {
-        NSDictionary *dicData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"photo_id":[sharedImagesArray objectAtIndex:u],@"get_image":[otherDetailArray objectAtIndex:2],@"collection_id":[otherDetailArray objectAtIndex:1],@"image_resize":@"500"};
-            f=u;
-        [webSwevice call:dicData controller:@"photo" method:@"get"];
-        }
-        if(f==sharedImagesArray.count)
-        {
-            [SVProgressHUD dismissWithSuccess:@"Photos Attached"];
-            f=0;
-        }
+    imageLoaded++;
+    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Attaching %d of %d photos",imageLoaded+1,imageCount] maskType:SVProgressHUDMaskTypeBlack];
+    if(imageCount == imageLoaded)
+    {
+        [SVProgressHUD dismissWithSuccess:@"Photos Attached"];
+        webServiceStart = NO;
     }
 }
 
@@ -151,8 +167,17 @@
         
         [controller setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",messageStr]];
         
-        [controller addImage:sharedImage];
-        
+        if(sharedImage != NULL || sharedImage != nil)
+        {
+            [controller addImage:sharedImage];
+        }
+        if(sharedImagesArray.count > 0)
+        {
+            for(int i=0;i<sharedImagesArray.count;i++)
+            {
+                [controller addImage:[ImageCollection objectAtIndex:i]];
+            }
+        }
         [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
             
             switch (result) {
@@ -189,13 +214,22 @@
         
         [SVProgressHUD dismissWithSuccess:@"Done"];
         
-        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        SLComposeViewController *tweetsheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         
-        [controller setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",messageStr]];
+        [tweetsheet setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",messageStr]];
         
-        [controller addImage:sharedImage];
-        
-        [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
+        if(sharedImage != NULL || sharedImage != nil)
+        {
+            [tweetsheet addImage:sharedImage];
+        }
+        if(sharedImagesArray.count > 0)
+        {
+            for(int j=0;j<sharedImagesArray.count;j++)
+            {
+                [tweetsheet addImage:[ImageCollection objectAtIndex:j]];
+            }
+        }
+        [tweetsheet setCompletionHandler:^(SLComposeViewControllerResult result) {
             
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
@@ -210,7 +244,7 @@
                     break;
             }
         }];
-        [self presentViewController:controller animated:YES completion:Nil];
+        [self presentViewController:tweetsheet animated:YES completion:Nil];
         
     }
     else{
@@ -218,11 +252,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twitter not Found" message:@"Your Twitter account in not configured. Please Configure your twitter account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
         [alert show];
     }
-}
-
--(void)disMissProgress
-{
-    [SVProgressHUD dismissWithSuccess:@"Done"];
 }
 
 //Email from Contacts
@@ -234,12 +263,22 @@
     NSString *messageBody = [NSString stringWithFormat:@"<a href=\"%@\">Join Now</a>",messageStr]; // Change the message body to HTML
     // To address
     NSArray *toRecipents = [NSArray arrayWithObject:userSelectedEmail];
-    //image attachment
-    NSData *data = UIImagePNGRepresentation(sharedImage);
     
     MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
     mfMail.mailComposeDelegate = self;
-    [mfMail addAttachmentData:data mimeType:@"image/png" fileName:@""];
+    if(sharedImagesArray.count>0)
+    {
+        for(int k=0;k<sharedImagesArray.count;k++)
+        {
+            NSData *data = UIImagePNGRepresentation([ImageCollection objectAtIndex:k]);
+            [mfMail addAttachmentData:data mimeType:@"image/png" fileName:[NSString stringWithFormat:@"Photo%d",k]];
+        }
+    }
+    else
+    {
+        NSData *data = UIImagePNGRepresentation(sharedImage);
+        [mfMail addAttachmentData:data mimeType:@"image/png" fileName:@""];
+    }
     [mfMail setSubject:emailTitle];
     [mfMail setMessageBody:messageBody isHTML:YES];
     [mfMail setToRecipients:toRecipents];
@@ -285,9 +324,21 @@
 	{
 		controller.body = [@"Join 123 Friday, " stringByAppendingString:messageStr];
 		controller.recipients = [NSArray arrayWithObject:userSelectedPhone];
-        NSData *data = UIImagePNGRepresentation(sharedImage);
-        [controller addAttachmentData:data typeIdentifier:(NSString *)kUTTypePNG filename:@"image.png"];
-		controller.messageComposeDelegate = self;
+        
+        if (sharedImagesArray.count > 0) {
+            for(int l=0;l<sharedImagesArray.count;l++)
+            {
+                NSData *data = UIImagePNGRepresentation([ImageCollection objectAtIndex:l]);
+                [controller addAttachmentData:data typeIdentifier:(NSString *)kUTTypePNG filename:[NSString stringWithFormat:@"image%d.png",l]];
+            }
+        }
+        else
+        {
+            NSData *data = UIImagePNGRepresentation(sharedImage);
+            [controller addAttachmentData:data typeIdentifier:(NSString *)kUTTypePNG filename:@"image.png"];
+		}
+        
+        controller.messageComposeDelegate = self;
 		[self presentViewController:controller animated:YES completion:nil];
 	}
 }
@@ -434,6 +485,18 @@
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 
+}
+
+-(void)sendToServer
+{
+    webSwevice = [[WebserviceController alloc] init];
+    webSwevice.delegate = self;
+    for(int u=0;u<sharedImagesArray.count;u++)
+    {
+        NSDictionary *dictData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"email_addresses":@"",@"message_title":@"Join 123 Friday",@"collection_id":[otherDetailArray objectAtIndex:1],@"photo_id":[sharedImagesArray objectAtIndex:u]};
+    
+        [webSwevice call:dictData controller:@"broadcast" method:@"endphotoemail"];
+    }
 }
 
 -(void)navBackButtonClick{

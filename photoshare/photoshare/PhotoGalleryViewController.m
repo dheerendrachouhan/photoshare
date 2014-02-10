@@ -513,9 +513,9 @@
 {
     
     [editBtn removeFromSuperview];
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Sharing is Available for Single Photo" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-    [alert show];
-  /*  if(!isPublicFolder)
+    //UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Sharing is Available for Single Photo" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+    //[alert show];
+    if(!isPublicFolder)
     {
         UIButton *btn=(UIButton *)sender;
         if(btn.selected==NO)
@@ -568,14 +568,14 @@
         }
         
         btn.selected=!btn.selected;
-    }*/
+    }
 }
 //reset the button hidden no and previous frame
 -(void)resetButton
 {
     addPhotoBtn.hidden=NO;
     deletePhotoBtn.hidden=NO;
-    sharePhotoBtn.hidden=YES;
+    sharePhotoBtn.hidden=NO;
     
     //sharePhotoBtn.frame=frameForShareBtn;
     isDeleteMode=NO;

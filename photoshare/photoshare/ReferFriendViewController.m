@@ -13,6 +13,8 @@
 #import "AppDelegate.h"
 #import "NavigationBar.h"
 #import "HomeViewController.h"
+#import "CustomCells.h"
+
 @interface ReferFriendViewController ()
 
 @end
@@ -26,8 +28,10 @@
     NSMutableArray *toolkitEarningArr;
     NSMutableArray *toolkitreferralsArr;
     NSString *segmentControllerIndexStr;
+    NSMutableArray *toolKitNameArray;
 }
-@synthesize toolboxController,webViewReferral,toolKitReferralStr;
+@synthesize webViewReferral,toolKitReferralStr;
+@synthesize collectionView = _collectionView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,9 +48,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //Segment Porstion Disable
-    //[toolboxController setEnabled:NO forSegmentAtIndex:1];
-    //[toolboxController setEnabled:NO forSegmentAtIndex:2];
     
     //allocate & initializing Array
     toolkitIDArr = [[NSMutableArray alloc] init];
@@ -54,7 +55,7 @@
     toolkitVimeoIDArr = [[NSMutableArray alloc] init];
     toolkitEarningArr = [[NSMutableArray alloc] init];
     toolkitreferralsArr = [[NSMutableArray alloc] init];
-    
+    toolKitNameArray = [[NSMutableArray alloc] init];
     //
     segmentControllerIndexStr = @"";
     
@@ -66,7 +67,6 @@
     
     WebserviceController *wb = [[WebserviceController alloc] init];
     wb.delegate = self;
-    //NSString *postStr = [NSString stringWithFormat:@"toolkit_id=1"] ;
     NSDictionary *dictData = @{@"user_id":userID};
     [wb call:dictData controller:@"toolkit" method:@"getall"] ;
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
@@ -85,6 +85,8 @@
     }
     toolKitReferralStr = @"";
 }
+
+
 
 -(void) webserviceCallback:(NSDictionary *)data
 {
@@ -112,34 +114,79 @@
         [self loadData];
     }
 }
-- (IBAction)toolbox_Controller:(id)sender {
-    if(toolboxController.selectedSegmentIndex == 0)
-    {
-        segmentControllerIndexStr = @"0";
-       [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
-         toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
-        
-    }
-    else if (toolboxController.selectedSegmentIndex == 1)
-    {
-        segmentControllerIndexStr = @"1";
-        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:1]]]]];
-         toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:1],[objManager getData:@"user_username"]];
-        
-    }
-    else if(toolboxController.selectedSegmentIndex == 2)
-    {
-        segmentControllerIndexStr = @"2";
-        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:2]]]]];
-         toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:2],[objManager getData:@"user_username"]];
-    }
-}
 
 -(void)loadData
 {
     webViewReferral.delegate = self;
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
+    
+    //
+    for(int i=1;i<=toolkitIDArr.count;i++)
+    {
+        NSString *toolName = [NSString stringWithFormat:@"Toolbox %d",i];
+        [toolKitNameArray addObject:toolName];
+    }
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    
+    layout.itemSize = CGSizeMake(100.0f, 40.0f);
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 145.0f, 320.0f, 50.0f) collectionViewLayout:layout];
+    _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+    _collectionView.layer.borderWidth = 0.5;
+    _collectionView.layer.cornerRadius = 5;
+    [self.view addSubview:_collectionView];
+    
+    [_collectionView registerClass:[CustomCells class] forCellWithReuseIdentifier:@"CustomCells"];
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return [toolKitNameArray count];
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier = @"CustomCells";
+    
+    CustomCells *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    
+    cell.mylabel.text = [toolKitNameArray objectAtIndex:indexPath.row];
+    
+    return cell;
+    
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%d",indexPath.row);
+    NSLog(@"%@",[toolKitNameArray objectAtIndex:indexPath.row]);
+    
+    [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:indexPath.row]]]]];
+    toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:indexPath.row],[objManager getData:@"user_username"]];
+    
+}
+
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGPoint point = scrollView.center;
+    NSLog(@"%@",NSStringFromCGPoint(point));
+    
+    NSIndexPath *inde = [self.collectionView indexPathForItemAtPoint:point];
+    int index = inde.row;
+    
+    NSLog(@"%i",index);
     
 }
 

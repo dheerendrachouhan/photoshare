@@ -50,7 +50,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8pl-fB-75D">
-                    <rect key="frame" x="157" y="157" width="153" height="49"/>
+                    <rect key="frame" x="127" y="157" width="183" height="49"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="33"/>
                     <color key="textColor" red="0.12599232768572666" green="0.38773500518607684" blue="1" alpha="1" colorSpace="calibratedRGB"/>
