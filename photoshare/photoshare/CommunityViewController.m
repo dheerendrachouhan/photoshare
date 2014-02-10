@@ -37,7 +37,8 @@
 {
     [super viewDidLoad];
     
-    
+    [manager storeData:@"" :@"writeUserId"];
+    [manager storeData:@"" :@"readUserId"];
     self.navigationItem.title = @"Community folders";
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
@@ -213,26 +214,43 @@
     {
         if(exitCode.integerValue==1)
         {
-            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-            
-            NSLog(@"Get Storage %@",data);
-            NSDictionary *dic=[outPutData objectAtIndex:0];
-            NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
-            NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
-            //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
-            float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
-            float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
-            
-            //set the diskSpacePercentage
-            float progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
-            NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",(progressPercent*100),@"%"];
-            diskSpaceTitle.text=diskTitle;
-            progressView.progress=progressPercent;
-            //store in NSDefault
-            [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
-            isGetStorage=NO;
-            
-            [self getSharingusersId];
+            @try {
+                NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+                
+                NSLog(@"Get Storage %@",data);
+                NSDictionary *dic=[outPutData objectAtIndex:0];
+                NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
+                NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
+                if(availableStorage==(id)NULL)
+                {
+                    availableStorage=@0;
+                }
+                if(usedStorage==(id)NULL)
+                {
+                    usedStorage=@0;
+                }
+                //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
+                float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
+                float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
+                
+                //set the diskSpacePercentage
+                float progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
+                NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",(progressPercent*100),@"%"];
+                diskSpaceTitle.text=diskTitle;
+                progressView.progress=progressPercent;
+                //store in NSDefault
+                [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
+                isGetStorage=NO;
+                
+                [self getSharingusersId];
+            }
+            @catch (NSException *exception) {
+                
+            }
+            @finally {
+                
+            }
+           
         }
   
     }

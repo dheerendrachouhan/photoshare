@@ -15,8 +15,8 @@
 @end
 
 @implementation EditPhotoDetailViewController
-@synthesize photoDetail,photoId,collectionId;
-@synthesize delegate;
+@synthesize photoId,collectionId,selectedIndex;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -63,8 +63,9 @@
     
     
     @try {
-        photoTitletxt.text=[[manager getData:@"photo_detail"] objectForKey:@"collection_photo_title"];
-        photoDescriptionTxt.text=[[manager getData:@"photo_detail"] objectForKey:@"collection_photo_description"];
+         NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
+        photoTitletxt.text=[[photoDetail  objectAtIndex:self.selectedIndex] objectForKey:@"collection_photo_title"];
+        photoDescriptionTxt.text=[[photoDetail  objectAtIndex:self.selectedIndex] objectForKey:@"collection_photo_description"];
     }
     @catch (NSException *exception) {
         
@@ -115,19 +116,24 @@
         photoTitle=@"";
     }
     @try {
-        NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
         
+        NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
+        
+        NSDictionary *photoDetail=[photoinfoarray objectAtIndex:self.selectedIndex];
+        
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
         [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
         [dic setObject:photodes forKey:@"collection_photo_description"];
         [dic setObject:photoTitle forKey:@"collection_photo_title"];
         [dic setObject:self.photoId forKey:@"collection_photo_id"];
         [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
         [dic setObject:userid forKey:@"collection_photo_user_id"];
-       
+        //update photo info array in nsuser default
+        [photoinfoarray replaceObjectAtIndex:self.selectedIndex withObject:dic];
         
-        [self.delegate PhotoDetail:dic];
-        
-        [manager storeData:dic :@"photo_detail"];
+        NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
+        [manager storeData:data :@"photoInfoArray"];
+     
         
         NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":photoLocationString,@"photo_tags":photoTag.text,@"photo_collections":self.collectionId};
         
