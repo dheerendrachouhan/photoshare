@@ -301,6 +301,7 @@
             break;
         case MFMailComposeResultSaved:
             [objManager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [self sendToServer];
             break;
         case MFMailComposeResultSent:
             [alert show];
