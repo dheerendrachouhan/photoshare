@@ -61,6 +61,10 @@
 		E170E90818A4F10E002D3D17 /* GetUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = E170E90718A4F10E002D3D17 /* GetUserLocation.m */; };
 		E170E90D18A526EA002D3D17 /* PhotoShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E170E90B18A526EA002D3D17 /* PhotoShareController.xib */; };
 		E170E90F18A5275A002D3D17 /* PhotoShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = E170E90E18A5275A002D3D17 /* PhotoShareController.m */; };
+		E170E91418A55280002D3D17 /* logo_58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = E170E91118A55280002D3D17 /* logo_58x58.png */; };
+		E170E91518A55280002D3D17 /* logo_80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = E170E91218A55280002D3D17 /* logo_80x80.png */; };
+		E170E91618A55280002D3D17 /* Icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = E170E91318A55280002D3D17 /* Icon-120.png */; };
+		E170E91818A5539E002D3D17 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E170E91718A5539E002D3D17 /* Default-568h@2x.png */; };
 		E1717A7C189CF624008899EC /* ajaxloader.gif in Resources */ = {isa = PBXBuildFile; fileRef = E1717A7B189CF624008899EC /* ajaxloader.gif */; };
 		E1717A87189D2A8E008899EC /* radio_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = E1717A85189D2A8E008899EC /* radio_selected.png */; };
 		E1717A88189D2A8E008899EC /* radio.png in Resources */ = {isa = PBXBuildFile; fileRef = E1717A86189D2A8E008899EC /* radio.png */; };
@@ -280,6 +284,10 @@
 		E170E90918A526EA002D3D17 /* PhotoShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoShareController.h; sourceTree = "<group>"; };
 		E170E90B18A526EA002D3D17 /* PhotoShareController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoShareController.xib; sourceTree = "<group>"; };
 		E170E90E18A5275A002D3D17 /* PhotoShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoShareController.m; sourceTree = "<group>"; };
+		E170E91118A55280002D3D17 /* logo_58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_58x58.png; sourceTree = "<group>"; };
+		E170E91218A55280002D3D17 /* logo_80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_80x80.png; sourceTree = "<group>"; };
+		E170E91318A55280002D3D17 /* Icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-120.png"; sourceTree = "<group>"; };
+		E170E91718A5539E002D3D17 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E1717A7B189CF624008899EC /* ajaxloader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ajaxloader.gif; sourceTree = "<group>"; };
 		E1717A85189D2A8E008899EC /* radio_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_selected.png; sourceTree = "<group>"; };
 		E1717A86189D2A8E008899EC /* radio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio.png; sourceTree = "<group>"; };
@@ -607,6 +615,9 @@
 		E322BAF518A3A1F700CAC9E5 /* appicon */ = {
 			isa = PBXGroup;
 			children = (
+				E170E91118A55280002D3D17 /* logo_58x58.png */,
+				E170E91218A55280002D3D17 /* logo_80x80.png */,
+				E170E91318A55280002D3D17 /* Icon-120.png */,
 				E322BAFC18A3AD7700CAC9E5 /* logo_29x29.png */,
 				E322BAFD18A3AD7700CAC9E5 /* logo_40x40.png */,
 				E322BAFE18A3AD7700CAC9E5 /* logo_57x57.png */,
@@ -660,6 +671,7 @@
 		FC976383188FEB89008DF1F8 = {
 			isa = PBXGroup;
 			children = (
+				E170E91718A5539E002D3D17 /* Default-568h@2x.png */,
 				FC976395188FEB89008DF1F8 /* photoshare */,
 				FC9763B7188FEB89008DF1F8 /* photoshareTests */,
 				FC97638E188FEB89008DF1F8 /* Frameworks */,
@@ -1071,6 +1083,7 @@
 				E31767621898BED100923E35 /* edit.png in Resources */,
 				E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */,
 				FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */,
+				E170E91618A55280002D3D17 /* Icon-120.png in Resources */,
 				FCC76CAB1896A93C00F4B41A /* arrow.png in Resources */,
 				E317676A1899031200923E35 /* financeCalculator3VC.xib in Resources */,
 				FC35A880189BCA5B006DDDFC /* AviarySDKResources.bundle in Resources */,
@@ -1091,6 +1104,7 @@
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
 				E322BAF018A36B7600CAC9E5 /* folder-30x30.png in Resources */,
 				E31A558618A502E800B0015B /* photo-icon@2x.png in Resources */,
+				E170E91418A55280002D3D17 /* logo_58x58.png in Resources */,
 				FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */,
 				FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
@@ -1103,6 +1117,7 @@
 				E16F390C18912C9C00064806 /* next.png in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
 				E1717A88189D2A8E008899EC /* radio.png in Resources */,
+				E170E91518A55280002D3D17 /* logo_80x80.png in Resources */,
 				E31A557C18A502E800B0015B /* cog-item@2x.png in Resources */,
 				E322BAEF18A36B7600CAC9E5 /* earn-30x30.png in Resources */,
 				FC35A88C189BDE5F006DDDFC /* icon@2x-58.png in Resources */,
@@ -1119,6 +1134,7 @@
 				E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */,
 				E17222BC1892817800F28748 /* EarningViewController.xib in Resources */,
 				E31A557D18A502E800B0015B /* community-icon.png in Resources */,
+				E170E91818A5539E002D3D17 /* Default-568h@2x.png in Resources */,
 				E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */,
 				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
@@ -1315,9 +1331,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Code Droid Ltd (A64L9F9GJU)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
@@ -1330,7 +1344,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
 				INFOPLIST_FILE = "photoshare/photoshare-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis2/Desktop/sukhdev/photoshare/photoshare/AviarySDK,
@@ -1347,6 +1361,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6D8E182F-A488-4C9B-8B54-0CC463E2BC28";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1357,9 +1372,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Code Droid Ltd (A64L9F9GJU)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
@@ -1372,7 +1385,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "photoshare/photoshare-Prefix.pch";
 				INFOPLIST_FILE = "photoshare/photoshare-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis2/Desktop/sukhdev/photoshare/photoshare/AviarySDK,
@@ -1389,6 +1402,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6D8E182F-A488-4C9B-8B54-0CC463E2BC28";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

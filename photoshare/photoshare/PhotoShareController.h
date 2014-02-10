@@ -15,7 +15,7 @@
 #import "WebserviceController.h"
 
 @class ContentManager;
-@interface PhotoShareController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate>
+@interface PhotoShareController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate,WebserviceDelegate>
 {
     ContentManager *objManager;
     IBOutlet UIImageView *imageView;
