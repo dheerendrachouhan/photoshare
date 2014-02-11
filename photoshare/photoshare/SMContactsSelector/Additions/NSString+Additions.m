@@ -53,7 +53,7 @@
 																				   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
 																				   kCFStringEncodingUTF8 );
 	
-    return [encodedString autorelease];
+    return encodedString;
 }
 
 - (NSString *)reverseGeocode

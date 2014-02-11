@@ -124,7 +124,7 @@
         (requestData != DATA_CONTACT_EMAIL) &&
         (requestData != DATA_CONTACT_ID))
     {
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
         
         @throw ([NSException exceptionWithName:@"Undefined data request"
                                         reason:@"Define requestData variable (EMAIL or TELEPHONE)" 
