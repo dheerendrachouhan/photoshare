@@ -169,7 +169,7 @@
         {
             //set collection List in NSDefault
             [manager storeData:outPutData :@"collection_data_list"];
-            //[self getStorageFromServer];
+            [self getStorageFromServer];
             
         }
         else if(isGetStorage)
@@ -264,17 +264,17 @@
     //[dataFetchView addSubview:label];
     
     [self.view addSubview:dataFetchView];
-    [self getStorageFromServer];
+    [self fetchCollectionInfoFromServer];
 }
 //Fetch data From Server
 -(void)fetchCollectionInfoFromServer
 {
-    /*[self resetAllBoolValue];
+    [self resetAllBoolValue];
     isGetTheCollectionListData=YES;
     webservices.delegate=self;
     
     NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
-    [webservices call:dicData controller:@"collection" method:@"getlist"];*/
+    [webservices call:dicData controller:@"collection" method:@"getlist"];
 }
 -(void)getStorageFromServer
 {
