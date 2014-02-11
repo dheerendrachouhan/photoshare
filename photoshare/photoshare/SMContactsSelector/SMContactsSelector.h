@@ -12,7 +12,6 @@
 #import "NSString+Additions.h"
 #import "Address+Additions.h"
 #import "UIAlertView+UITableView.h"
-#import <malloc/malloc.h>
 
 typedef enum 
 {
@@ -83,6 +82,6 @@ typedef enum
 @property (nonatomic) BOOL showModal;
 @property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
 @property (nonatomic) BOOL showCheckButton;
-@property (nonatomic, retain) IBOutlet UINavigationBar *upperBar;
+@property (nonatomic, retain) IBOutlet UINavigationBar *upperBar; //comment needed
 
 @end

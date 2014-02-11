@@ -4,7 +4,7 @@
 //
 //  Created by Sergio on 03/03/11.
 //  Copyright 2011 Sergio. All rights reserved.
-//
+// Changes done....
 
 #import "SMContactsSelector.h"
 #import "CustomIOS7AlertView.h"
@@ -31,7 +31,7 @@
 		if ([firstCharacter isEqualToString:letter])
 		{
 			isLetter = YES;
-			break;
+			break; //break suported
 		}
 	}
 	
@@ -124,7 +124,7 @@
         (requestData != DATA_CONTACT_EMAIL) &&
         (requestData != DATA_CONTACT_ID))
     {
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController dismissViewControllerAnimated:NO completion:nil];
         
         @throw ([NSException exceptionWithName:@"Undefined data request"
                                         reason:@"Define requestData variable (EMAIL or TELEPHONE)" 
@@ -192,7 +192,7 @@
     [self loadContacts];
 #endif
     
-    selectedRow = [NSMutableArray new];
+    selectedRow = [[NSMutableArray alloc] init];
 	table.editing = NO;
     table.backgroundColor = [UIColor clearColor];
 
@@ -206,7 +206,7 @@
 - (void)loadContacts
 {
     NSString *objsAux = @"";
-    ABAddressBookRef addressBook = ABAddressBookCreate( );
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
     CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
     
     CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
@@ -256,7 +256,7 @@
             nameString = [NSString stringWithFormat:@"%@ %@", nameString, lastName];
         }
         
-        NSMutableDictionary *info = [NSMutableDictionary new];
+        NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
         [info setValue:[NSString stringWithFormat:@"%@", [[nameString stringByReplacingOccurrencesOfString:@" " withString:@""] substringToIndex:1]] forKey:@"letter"];
         [info setValue:[NSString stringWithFormat:@"%@", nameString] forKey:@"name"];
         [info setValue:@"-1" forKey:@"rowSelected"];
@@ -381,11 +381,11 @@
     self.searchDisplayController.searchResultsTableView.scrollEnabled = YES;
     self.searchDisplayController.searchBar.showsCancelButton = NO;
     
-    NSMutableDictionary	*info = [NSMutableDictionary new];
+    NSMutableDictionary	*info = [[NSMutableDictionary alloc] init];
     
     for (int i = 0; i < [arrayLetters count]; i++)
     {
-        NSMutableArray *array = [NSMutableArray new];
+        NSMutableArray *array = [[NSMutableArray alloc] init];
         
         for (NSDictionary *dict in data)
         {
@@ -404,7 +404,7 @@
     
     for (int i = 0; i < [arrayLetters count]; i++)
     {
-        NSMutableArray *array = [NSMutableArray new];
+        NSMutableArray *array = [[NSMutableArray alloc] init];
         
         for (NSDictionary *dict in data)
         {
@@ -431,7 +431,7 @@
 
 - (void)acceptAction
 {
-	NSMutableArray *objects = [NSMutableArray new];
+	NSMutableArray *objects = [[NSMutableArray alloc] init];
     
 	for (int i = 0; i < [arrayLetters count]; i++)
 	{
@@ -486,7 +486,7 @@
 
 - (void)dismiss
 {
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -955,7 +955,7 @@
 - (void)displayChanges:(BOOL)yesOrNO
 {
 	int elements = [filteredListContent count];
-	NSMutableArray *selected = [NSMutableArray new];
+	NSMutableArray *selected = [[NSMutableArray alloc] init];
 	for (int i = 0; i < elements; i++)
 	{
 		NSMutableDictionary *item = (NSMutableDictionary *)[filteredListContent objectAtIndex:i];
@@ -1004,7 +1004,7 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)_searchBar
 {
-	selectedRow = [NSMutableArray new];
+	//selectedRow = [[NSMutableArray alloc] init];
 	[self.searchDisplayController.searchBar setShowsCancelButton:NO];
 }
 
@@ -1094,6 +1094,20 @@
 - (void)customIOS7dialogButtonTouchUpInside:(CustomIOS7AlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [alertView close];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    arrayLetters = Nil;
+    selectedItem = nil;
+    filteredListContent = nil;
+    savedSearchTerm = nil;
+    savedScopeButtonIndex = 0;
+    
+    alertTitle = nil;
+    recordIDs = nil;
 }
 
 - (void)dealloc

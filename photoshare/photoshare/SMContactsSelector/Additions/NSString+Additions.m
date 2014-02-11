@@ -53,7 +53,7 @@
 																				   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
 																				   kCFStringEncodingUTF8 );
 	
-    return [encodedString autorelease];
+    return encodedString;
 }
 
 - (NSString *)reverseGeocode
@@ -66,7 +66,7 @@
 															error:nil] autorelease];
 	
 	NSString *value = @"";
-	
+	//release issue solved
 	if ((infoData == nil) || 
 		([infoData isEqualToString:@"[]"])) 
 	{

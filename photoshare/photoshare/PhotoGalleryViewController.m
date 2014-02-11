@@ -273,7 +273,7 @@
             editPhotoDetail.photoId=[photoIdsArray objectAtIndex:selectedEditImageIndex];
             editPhotoDetail.collectionId=self.collectionId;
            
-            [self.navigationController pushViewController:editPhotoDetail animated:YES];
+            [self.navigationController pushViewController:editPhotoDetail animated:NO];
         }
         isEditPhotoMode=NO;
     }
@@ -1102,7 +1102,6 @@
 -(void)dismissModals
 {
     [self dismissViewControllerAnimated:NO completion:nil];
-    //self.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 

@@ -13,7 +13,7 @@
 
 + (ABRecordRef)infoWithRecordID:(NSInteger)recordID
 {
-    ABAddressBookRef addressBook = ABAddressBookCreate( );
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
 	CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
 	CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
 	
@@ -37,7 +37,7 @@
 {
     NSMutableArray *items = [NSMutableArray array];
     
-    ABAddressBookRef addressBook = ABAddressBookCreate( );
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
 	CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
 	CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
 	
@@ -49,7 +49,7 @@
         
         [items addObject:[NSNumber numberWithInt:recordID]];
     }
-    
+    //fixes are made to controll leaking
     CFRelease(allPeople);
     CFRelease(addressBook);
     return (NSArray *)items;

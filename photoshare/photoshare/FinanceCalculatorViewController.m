@@ -122,11 +122,11 @@
         {
             if(totalGemCalculated >=999000)
             {
-                amountCalculated.font = [UIFont systemFontOfSize:30.0f];
+                amountCalculated.font = [UIFont systemFontOfSize:29.0f];
             }
             else if(totalGemCalculated <999000)
             {
-                amountCalculated.font = [UIFont systemFontOfSize:30.0f];
+                amountCalculated.font = [UIFont systemFontOfSize:33.0f];
             }
         }
         else if([[UIScreen mainScreen] bounds].size.height == 480)
@@ -135,7 +135,30 @@
         }
     }
     
-    amountCalculated.text =[setCurrenyStr stringByAppendingString:[NSString stringWithFormat:@"%d",totalGemCalculated]];
+    NSString *converted = [NSString stringWithFormat:@"%d",totalGemCalculated];
+    NSLog(@"count String %d",converted.length);
+    NSString *countedStr = @"";
+    int a = totalGemCalculated;
+    int b = 0;
+    int count = 0;
+    for(int u=0;u<converted.length;u++)
+    {
+        b = a %10;
+        a = a/10;
+        
+        if(count == 3)
+        {
+            countedStr = [NSString stringWithFormat:@"%d,%@",b,countedStr];
+            count=0;
+        }
+        else
+        {
+            countedStr = [NSString stringWithFormat:@"%d%@",b,countedStr];
+        }
+        count++;
+    }
+    
+    amountCalculated.text =[setCurrenyStr stringByAppendingString:countedStr];
 }
 
 
