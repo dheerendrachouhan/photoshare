@@ -148,6 +148,7 @@
         [photoIdsArray addObject:[manager getData:@"photoId"]];
         NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
         photoInfoArray=photoinfoarray;
+        [collectionview reloadData];
         [manager storeData:@"NO" :@"isEditPhoto"];
     }
     
