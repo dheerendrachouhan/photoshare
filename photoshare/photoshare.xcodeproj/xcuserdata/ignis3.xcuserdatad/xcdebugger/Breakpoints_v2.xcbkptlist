@@ -25,12 +25,12 @@
                   symbolName = "-[SMContactsSelector displayChanges:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/Desktop/project/photoshare/photoshare/SMContactsSelector/SMContactsSelector.m"
-                  timestampString = "413817024.840307"
+                  timestampString = "413820410.461286"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "991"
                   endingLineNumber = "991"
-                  offsetFromSymbolStart = "1190">
+                  offsetFromSymbolStart = "1214">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -39,14 +39,30 @@
                   symbolName = "-[SMContactsSelector displayChanges:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/Desktop/project/photoshare/photoshare/SMContactsSelector/SMContactsSelector.m"
-                  timestampString = "413817024.840827"
+                  timestampString = "413820410.461728"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "991"
                   endingLineNumber = "991"
-                  offsetFromSymbolStart = "1711">
+                  offsetFromSymbolStart = "1735">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/PhotoGalleryViewController.m"
+            timestampString = "413817675.622319"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "567"
+            endingLineNumber = "567"
+            landmarkName = "-sharePhoto:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
