@@ -34,6 +34,8 @@
     NSString *tweetFail;
     BOOL grant;
     NSNumber *userID;
+    NSMutableArray *contactSelectedArray;
+    NSMutableArray *contactNoSelectedArray;
 }
 @synthesize stringStr,twitterTweet,toolkitLink;
 
@@ -59,6 +61,8 @@
     twiiterListArr = [[NSMutableArray alloc] init];
     firendDictionary = [[NSMutableDictionary alloc] init]; //fabfriendDictionary
     FBEmailID = [[NSMutableArray alloc] init]; //storing email id of fb selected user
+    contactSelectedArray = [[NSMutableArray alloc] init];
+    contactNoSelectedArray = [[NSMutableArray alloc] init];
     setterEdit = NO;
     [userMessage setEditable:NO];
     // Do any additional setup after loading the view from its nib.
@@ -128,7 +132,7 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    [self showContactListPicker];
+    [self showContactsEmails];
 }
 
 - (IBAction)smsFilter_Btn:(id)sender {
@@ -136,7 +140,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self showContactListPicker];
+    [self showContactsTelephoneNo];
 }
 
 //FaceBook SDK Implemetation
@@ -361,12 +365,14 @@
 //Email from Contacts
 -(void)mailTo {
     
+    [self composedMailMessage];
+    
     // Email Subject
     NSString *emailTitle = @"Join 123 Friday";
     // Email Content
     NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=\"%@\">Join Now</a>",userMessage.text,toolkitLink]; // Change the message body to HTML
     // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:userSelectedEmail];
+    NSArray *toRecipents = [NSArray arrayWithArray:contactSelectedArray];
         
     MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
     mfMail.mailComposeDelegate = self;
@@ -390,16 +396,20 @@
     {
         case MFMailComposeResultCancelled:
             [objManager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactSelectedArray removeAllObjects];
             break;
         case MFMailComposeResultSaved:
             [objManager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactSelectedArray removeAllObjects];
             break;
         case MFMailComposeResultSent:
             [alert show];
             [self mailToServer];
+            [contactSelectedArray removeAllObjects];
             break;
         case MFMailComposeResultFailed:
             [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactSelectedArray removeAllObjects];
             break;
         default:
             break;
@@ -412,11 +422,13 @@
 //Message to user
 -(void)sendInAppSMS
 {
+    [self composedMailMessage];
+    
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
 		controller.body = [NSString stringWithFormat:@"%@ %@",userMessage.text,toolkitLink];
-		controller.recipients = [NSArray arrayWithObject:userSelectedPhone];
+		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
 		controller.messageComposeDelegate = self;
 		[self presentViewController:controller animated:YES completion:nil];
 	}
@@ -428,12 +440,16 @@
 	switch (result) {
 		case MessageComposeResultCancelled:
 			[objManager showAlert:@"Cancelled" msg:@"Message Composed Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactNoSelectedArray removeAllObjects];
 			break;
 		case MessageComposeResultFailed:
 			[objManager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactNoSelectedArray removeAllObjects];
+            userSelectedPhone = @"";
             break;
 		case MessageComposeResultSent:
             [alert show];
+            [contactNoSelectedArray removeAllObjects];
 			break;
 		default:
 			break;
@@ -442,85 +458,96 @@
 	[self dismissModals];
 }
 
-//Contact List
-- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
+-(void)composedMailMessage
 {
-    [self dismissModals];
+    [SVProgressHUD dismissWithSuccess:@"Composed"];
 }
 
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
+////////////////////////////////////////////////////////////
+-(void)showContactsEmails
 {
-    [self displayPerson:person];
-    [self dismissModals];
+    SMContactsSelector *emailController = [[SMContactsSelector alloc] initWithNibName:@"SMContactsSelector" bundle:nil];
+    emailController.delegate = self;
+    emailController.requestData = DATA_CONTACT_EMAIL; // DATA_CONTACT_ID DATA_CONTACT_EMAIL , DATA_CONTACT_TELEPHONE
+    emailController.showModal = YES; //Mandatory: YES or NO
+    emailController.showCheckButton = YES; //Mandatory: YES or NO
+    [self presentViewController:emailController animated:NO completion:nil];
+}
+
+-(void)showContactsTelephoneNo
+{
+    SMContactsSelector *smsController = [[SMContactsSelector alloc] initWithNibName:@"SMContactsSelector" bundle:nil];
+    smsController.delegate = self;
+    smsController.requestData = DATA_CONTACT_TELEPHONE;
+    smsController.showModal = YES;
+    smsController.showCheckButton = YES;
     
-    
-    if(mailFilter)
+    [self presentViewController:smsController animated:NO completion:nil];
+}
+
+
+#pragma -
+#pragma SMContactsSelectorDelegate Methods
+
+- (void)numberOfRowsSelected:(NSInteger)numberRows withData:(NSArray *)data andDataType:(DATA_CONTACT)type
+{
+    if (type == DATA_CONTACT_TELEPHONE)
     {
-        if([userSelectedEmail length]==0)
+        for (int i = 0; i < [data count]; i++)
         {
-            [objManager showAlert:@"NO Email" msg:@"No Email Found" cancelBtnTitle:@"Ok" otherBtn:nil];
+            NSString *str = [data objectAtIndex:i];
+            
+            str = [str reformatTelephone];
+            
+            NSLog(@"Telephone: %@", str);
+            NSLog(@"Emails: %@", str);
+            if(userSelectedPhone.length == 0)
+            {
+                userSelectedPhone = str;
+            }
+            else
+            {
+                userSelectedPhone = [NSString stringWithFormat:@"%@ , %@",userSelectedPhone,str];
+            }
+            [contactNoSelectedArray addObject:str];
         }
-        else {
-            [self mailTo];
-        }
+        [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
+        [self sendInAppSMS];
     }
-    else if(smsFilter)
+    else if (type == DATA_CONTACT_EMAIL)
     {
-        if([userSelectedPhone length]==0)
+        for (int i = 0; i < [data count]; i++)
         {
-            [objManager showAlert:@"No Phone" msg:@"Phone no not found" cancelBtnTitle:@"Ok" otherBtn:nil];
+            NSString *str = [data objectAtIndex:i];
+            
+            NSLog(@"Emails: %@", str);
+            if(userSelectedEmail.length == 0)
+            {
+                userSelectedEmail = str;
+            }
+            else
+            {
+                userSelectedEmail = [NSString stringWithFormat:@"%@ , %@",userSelectedEmail,str];
+            }
+            [contactSelectedArray addObject:str];
+            
         }
-        else {
-            [self sendInAppSMS];
-        }
+        [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
+        [self mailTo];
     }
-    return YES;
-}
-
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
-{
-    return NO;
-}
-
-//Setting the contact List for Email
-- (void)displayPerson:(ABRecordRef)person
-{
-    NSString *emailID = nil;
-    ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
-    if(ABMultiValueGetCount(emails) >0)
+	else
     {
-        emailID = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(emails, 0);
-         userSelectedEmail = emailID;
-    } else {
-         userSelectedEmail = emailID;
+        for (int i = 0; i < [data count]; i++)
+        {
+            NSString *str = [data objectAtIndex:i];
+            
+            NSLog(@"IDs: %@", str);
+        }
     }
-    CFRelease(emails);
-    NSLog(@"%@",userSelectedEmail);
-   
-    
-    NSString* phone = nil;
-    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person,kABPersonPhoneProperty);
-    
-    if (ABMultiValueGetCount(phoneNumbers) > 0) {
-        phone = (__bridge_transfer NSString*)
-        ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-        userSelectedPhone = phone;
-    } else {
-        userSelectedPhone = phone;
-    }
-    CFRelease(phoneNumbers);
-    NSLog(@"%@",userSelectedPhone);
-    
 }
+//userSelectedEmail //userSelectedPhone
+////////////////////////////////////////////////////////////
 
--(void)showContactListPicker
-{
-    ABPeoplePickerNavigationController *picker =
-    [[ABPeoplePickerNavigationController alloc] init];
-    picker.peoplePickerDelegate = self;
-    
-   [self presentViewController:picker animated:YES completion:nil];
-}
 
 //alertView
 -(void)alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -529,9 +556,13 @@
     NSLog(@"The %@ button was tapped.", [alert buttonTitleAtIndex:buttonIndex]);
     if(buttonIndex == 1)
     {
-        if((userSelectedEmail.length != 0) || (userSelectedPhone.length != 0))
+        if(mailFilter)
         {
-            [self showContactListPicker];
+            [self showContactsEmails];
+        }
+        else if(smsFilter)
+        {
+            [self showContactsTelephoneNo];
         }
     }
 }
@@ -596,9 +627,10 @@
 {
     WebserviceController *wbh = [[WebserviceController alloc] init];
     wbh.delegate = self;
-    NSDictionary *dictData = @{@"user_id":userID, @"emailaddress":userSelectedEmail};
-    [wbh call:dictData controller:@"referral" method:@"store"] ;
-    
+    NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":userSelectedEmail,@"message_title":userMessage.text,@"toolkit_id":toolkitLink};
+    [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
+    userSelectedEmail = @"";
+    userSelectedPhone = @"";
 }
 
 -(void)addCustomNavigationBar
@@ -630,7 +662,6 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"WebService Data -- %@",data);
-
 }
 
 - (void)didReceiveMemoryWarning

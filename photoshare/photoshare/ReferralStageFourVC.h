@@ -14,9 +14,10 @@
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
 #import "DataMapperController.h"
+#import "SMContactsSelector.h"
 
 @class ContentManager;
-@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,ABPeoplePickerNavigationControllerDelegate,MFMessageComposeViewControllerDelegate,WebserviceDelegate>
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate,WebserviceDelegate,SMContactsSelectorDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;
