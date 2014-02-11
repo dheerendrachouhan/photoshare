@@ -491,6 +491,8 @@
         aec.setFolderName=[collectionNameArray objectAtIndex:index];
         aec.collectionId=[collectionIdArray objectAtIndex:index] ;
         aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
+        aec.targetUserId=[collectionUserIdArray objectAtIndex:index];
+        
         CommunityViewController *cm = [[CommunityViewController alloc] init];
         HomeViewController *hm = [[HomeViewController alloc] init] ;
         [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];

@@ -88,6 +88,15 @@
     
     //set textfeild delgate
     [searchUserTF setDelegate:self];
+    //tap getsure on view for dismiss the keyboard
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
+              initWithTarget:self action:@selector(handleSingleTap:)];
+    tapper.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapper];
+}
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+{
+    [self.view endEditing:YES];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -281,9 +290,25 @@
 }
 -(IBAction)addUserInSharing:(id)sender
 {
-    [sharingUserIdArray addObject:selectedUserId];
-    [sharingUserNameArray addObject:selecteduserName];
-    [sharingUserListCollView reloadData];
+    if(searchUserTF.text>0)
+    {
+        if([searchUserTF.text isEqualToString:selecteduserName])
+        {
+            [sharingUserIdArray addObject:selectedUserId];
+            [sharingUserNameArray addObject:selecteduserName];
+            [sharingUserListCollView reloadData];
+        }
+        else
+        {
+            [manager showAlert:@"Message" msg:@"Enter correct User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+    }
+    else
+    {
+        [manager showAlert:@"Message" msg:@"Enter User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
+    }
+    
+    
 }
 -(IBAction)saveSharingUser:(id)sender
 {
@@ -296,7 +321,7 @@
     {
         [manager storeData:useridstr :@"readUserId"];
     }
-    
+    searchUserTF.text=@"";
     [self.navigationController popViewControllerAnimated:NO];
 }
 

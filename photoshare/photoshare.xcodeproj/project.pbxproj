@@ -849,7 +849,6 @@
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
 				E1B07427189951CC00589867 /* CommunityViewController.h */,
 				E1B07428189951CC00589867 /* CommunityViewController.m */,
-				FC35A897189C149F006DDDFC /* ReferralStageFourVC.m */,
 				E1B074241899518600589867 /* AddEditFolderViewController.h */,
 				E1B074251899518600589867 /* AddEditFolderViewController.m */,
 				E17222B21892518B00F28748 /* AddEditFolderViewController.xib */,
@@ -866,6 +865,7 @@
 				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
 				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
 				E31AA48818962DFA0065F8E2 /* ReferralStageFourVC.h */,
+				FC35A897189C149F006DDDFC /* ReferralStageFourVC.m */,
 				FC35A897189C149F006DDDFC /* ReferralStageFourVC.m */,
 				E317675A1898BE0A00923E35 /* FBTWViewController.h */,
 				E317675B1898BE0A00923E35 /* FBTWViewController.m */,
@@ -1448,7 +1448,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Code Droid Ltd (A64L9F9GJU)";
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
@@ -1479,7 +1479,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6D8E182F-A488-4C9B-8B54-0CC463E2BC28";
+				PROVISIONING_PROFILE = "FB7E5D76-6D67-4559-94CA-7807F5C0521B";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1490,7 +1490,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Code Droid Ltd (A64L9F9GJU)";
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
@@ -1521,7 +1521,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6D8E182F-A488-4C9B-8B54-0CC463E2BC28";
+				PROVISIONING_PROFILE = "FB7E5D76-6D67-4559-94CA-7807F5C0521B";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
