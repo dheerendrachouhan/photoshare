@@ -18,9 +18,16 @@
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
 
+#import <CoreLocation/CoreLocation.h>
 @interface PhotoViewController : UIViewController
-<WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate>
+<WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate>
 {
+    
+    //get the userf location
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
     
@@ -36,6 +43,8 @@
     
     WebserviceController *webservices;
     
+    BOOL isSavePhotoOnServer;
+    
     UIImage *pickImage;
     BOOL isCameraMode;
     BOOL isCameraEditMode;
@@ -45,7 +54,16 @@
     IBOutlet UIImageView *imageView;
     
     IBOutlet UILabel *folderLocationShowLabel;
+    //for add photo Detail
+    UIView *backViewPhotDetail;
+    UITextField *photoTitleTF;
+    UITextView *photoDescriptionTF;
+    UITextField *phototagTF;
     
+    NSString *photoTitleStr;
+    NSString *photoDescriptionStr;
+    NSString *photoTagStr;
+    NSString *photoLocationStr; //userLoaction is save
 }
 - (IBAction)segmentSwitch:(id)sender;
 //for Aviary

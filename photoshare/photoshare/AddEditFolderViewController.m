@@ -131,7 +131,8 @@
 {
     return [textField resignFirstResponder];
 }
-//get PhotoId From Server
+
+//get the collection detail from server
 -(void)getCollectionDetail
 {
     @try {
