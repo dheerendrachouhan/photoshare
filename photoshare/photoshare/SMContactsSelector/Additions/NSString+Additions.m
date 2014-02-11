@@ -66,7 +66,7 @@
 															error:nil] autorelease];
 	
 	NSString *value = @"";
-	
+	//release issue solved
 	if ((infoData == nil) || 
 		([infoData isEqualToString:@"[]"])) 
 	{

@@ -4,7 +4,7 @@
 //
 //  Created by Sergio on 03/03/11.
 //  Copyright 2011 Sergio. All rights reserved.
-//
+// Changes done....
 
 #import "SMContactsSelector.h"
 #import "CustomIOS7AlertView.h"
@@ -31,7 +31,7 @@
 		if ([firstCharacter isEqualToString:letter])
 		{
 			isLetter = YES;
-			break;
+			break; //break suported
 		}
 	}
 	

@@ -49,7 +49,7 @@
         
         [items addObject:[NSNumber numberWithInt:recordID]];
     }
-    
+    //fixes are made to controll leaking
     CFRelease(allPeople);
     CFRelease(addressBook);
     return (NSArray *)items;

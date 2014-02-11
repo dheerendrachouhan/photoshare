@@ -155,7 +155,7 @@
         FBTWViewController *fb = [[FBTWViewController alloc] init];
         fb.successType = @"fb";
         
-        [controller setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",toolkitLink]];
+        [controller setInitialText:[NSString stringWithFormat:@"Take a look 123 Friday %@",toolkitLink]];
         
         [controller addImage:[UIImage imageNamed:@"123-mobile-logo.png"]];
         

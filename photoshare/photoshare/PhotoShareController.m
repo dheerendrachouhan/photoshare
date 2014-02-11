@@ -165,7 +165,7 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
-        [controller setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",messageStr]];
+        [controller setInitialText:[NSString stringWithFormat:@"Take a look 123 Friday %@",messageStr]];
         
         if(sharedImage != NULL || sharedImage != nil)
         {
