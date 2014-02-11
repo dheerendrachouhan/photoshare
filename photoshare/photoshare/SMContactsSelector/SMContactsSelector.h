@@ -12,7 +12,6 @@
 #import "NSString+Additions.h"
 #import "Address+Additions.h"
 #import "UIAlertView+UITableView.h"
-#import <malloc/malloc.h>
 
 typedef enum 
 {

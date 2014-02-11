@@ -503,7 +503,7 @@
             }
             else
             {
-                userSelectedPhone = [NSString stringWithFormat:@"%@ , %@",userSelectedPhone,str];
+                userSelectedPhone = [NSString stringWithFormat:@"%@, %@",userSelectedPhone,str];
             }
             [contactNoSelectedArray addObject:str];
         }
@@ -523,7 +523,7 @@
             }
             else
             {
-                userSelectedEmail = [NSString stringWithFormat:@"%@ , %@",userSelectedEmail,str];
+                userSelectedEmail = [NSString stringWithFormat:@"%@, %@",userSelectedEmail,str];
             }
             [contactSelectedArray addObject:str];
             

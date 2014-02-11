@@ -301,10 +301,10 @@
             break;
         case MFMailComposeResultSaved:
             [objManager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
-            [self sendToServer];
             break;
         case MFMailComposeResultSent:
             [alert show];
+            [self sendToServer];
             break;
         case MFMailComposeResultFailed:
             [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
@@ -494,9 +494,9 @@
     webSwevice.delegate = self;
     for(int u=0;u<sharedImagesArray.count;u++)
     {
-        NSDictionary *dictData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"email_addresses":@"",@"message_title":@"Join 123 Friday",@"collection_id":[otherDetailArray objectAtIndex:1],@"photo_id":[sharedImagesArray objectAtIndex:u]};
+        NSDictionary *dictData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"email_addresses":userSelectedEmail,@"message_title":@"Join 123 Friday",@"collection_id":[otherDetailArray objectAtIndex:1],@"photo_id":[sharedImagesArray objectAtIndex:u]};
     
-        [webSwevice call:dictData controller:@"broadcast" method:@"endphotoemail"];
+        [webSwevice call:dictData controller:@"broadcast" method:@"sendphotomail"];
     }
 }
 

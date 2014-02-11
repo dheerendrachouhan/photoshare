@@ -206,7 +206,7 @@
 - (void)loadContacts
 {
     NSString *objsAux = @"";
-    ABAddressBookRef addressBook = ABAddressBookCreate( );
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
     CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
     
     CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
@@ -1103,7 +1103,6 @@
     arrayLetters = Nil;
     selectedItem = nil;
     filteredListContent = nil;
-    
     savedSearchTerm = nil;
     savedScopeButtonIndex = 0;
     
