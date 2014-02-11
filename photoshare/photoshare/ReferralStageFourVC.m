@@ -140,7 +140,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self showContactsTelephoneNo];
+    [self showContactsEmails];
 }
 
 //FaceBook SDK Implemetation
@@ -463,26 +463,22 @@
     [SVProgressHUD dismissWithSuccess:@"Composed"];
 }
 
-////////////////////////////////////////////////////////////
 -(void)showContactsEmails
 {
     SMContactsSelector *emailController = [[SMContactsSelector alloc] initWithNibName:@"SMContactsSelector" bundle:nil];
     emailController.delegate = self;
-    emailController.requestData = DATA_CONTACT_EMAIL; // DATA_CONTACT_ID DATA_CONTACT_EMAIL , DATA_CONTACT_TELEPHONE
+    if(mailFilter)
+    {
+        emailController.requestData = DATA_CONTACT_EMAIL;
+    }
+    else if(smsFilter)
+    {
+        emailController.requestData = DATA_CONTACT_TELEPHONE;
+    }
+    
     emailController.showModal = YES; //Mandatory: YES or NO
     emailController.showCheckButton = YES; //Mandatory: YES or NO
     [self presentViewController:emailController animated:NO completion:nil];
-}
-
--(void)showContactsTelephoneNo
-{
-    SMContactsSelector *smsController = [[SMContactsSelector alloc] initWithNibName:@"SMContactsSelector" bundle:nil];
-    smsController.delegate = self;
-    smsController.requestData = DATA_CONTACT_TELEPHONE;
-    smsController.showModal = YES;
-    smsController.showCheckButton = YES;
-    
-    [self presentViewController:smsController animated:NO completion:nil];
 }
 
 
@@ -545,9 +541,6 @@
         }
     }
 }
-//userSelectedEmail //userSelectedPhone
-////////////////////////////////////////////////////////////
-
 
 //alertView
 -(void)alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -562,7 +555,7 @@
         }
         else if(smsFilter)
         {
-            [self showContactsTelephoneNo];
+            [self showContactsEmails]; //going to email filter
         }
     }
 }
