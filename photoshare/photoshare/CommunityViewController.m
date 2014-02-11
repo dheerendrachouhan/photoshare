@@ -354,7 +354,7 @@
             int shared=[[collectionSharedArray objectAtIndex:index] intValue];
             
                  
-                 if(sharing==1)
+                 /*if(sharing==1)
                  {
                      obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                      obj_Cell.icon_img.hidden=NO;
@@ -366,9 +366,6 @@
                      obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                      obj_Cell.icon_img.hidden=YES;
                  }
-                 
-                 
-          
             
              if(!flag && shared==1)
              {
@@ -376,20 +373,35 @@
                  obj_Cell.icon_img.hidden=NO;
                  obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon3.png"];
 
-             }
-            /*int shared=[[collectionSharedArray objectAtIndex:index] integerValue];
-            if(shared==1)
+             }*/
+            
+            
+            int colOwnerId=[[collectionUserIdArray objectAtIndex:index] integerValue];
+            
+            if(userid.integerValue==colOwnerId)
+            {
+                if(shared==1)
+                {
+                    obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+                    obj_Cell.icon_img.hidden=NO;
+                    obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon3.png"];
+                    
+                }
+                else
+                {
+                    
+                    obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
+                    obj_Cell.icon_img.hidden=YES;
+                }
+                
+            }
+            else
             {
                 obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                 obj_Cell.icon_img.hidden=NO;
                 obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
             }
-            else
-            {
-                obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-                obj_Cell.icon_img.hidden=YES;
-            }*/
-            
+
             obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:index];
             
         }

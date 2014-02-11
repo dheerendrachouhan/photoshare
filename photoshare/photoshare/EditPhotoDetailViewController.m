@@ -51,8 +51,8 @@
     [photoDescriptionTxt setDelegate:self];
     [photoTag setDelegate:self];
     
-    photoDescriptionTxt.layer.borderWidth=1;
-    photoDescriptionTxt.layer.borderColor=[UIColor blackColor].CGColor;
+    photoDescriptionTxt.layer.borderWidth=0.3;
+    photoDescriptionTxt.layer.borderColor=[UIColor lightGrayColor].CGColor;
     
     
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
@@ -74,7 +74,15 @@
         
     }
    
-    
+    //tap getsure on view for dismiss the keyboard
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
+                                      initWithTarget:self action:@selector(handleSingleTap:)];
+    tapper.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapper];
+}
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+{
+    [self.view endEditing:YES];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {

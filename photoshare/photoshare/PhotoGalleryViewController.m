@@ -194,57 +194,63 @@
     
     if(isAddPhotoMode)
     {
-        [self callGetLocation];
-        
-        UIImagePickerController *imagePicker=[[UIImagePickerController alloc] init];
-        imagePicker.delegate=self;
-        
-        if(buttonIndex==0)  //From Camera
+        if(photoArray.count==photoIdsArray.count)
         {
-            NSLog(@"camera");
+            [self callGetLocation];
             
-            if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+            UIImagePickerController *imagePicker=[[UIImagePickerController alloc] init];
+            imagePicker.delegate=self;
+            isCameraMode=YES;
+            if(buttonIndex==0)  //From Camera
             {
-                imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
-                [self presentViewController:imagePicker animated:YES completion:nil];
-                isCameraMode=YES;
+                NSLog(@"camera");
                 
-                isPhotoPickMode=YES;
+                if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+                {
+                    imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
+                    [self presentViewController:imagePicker animated:YES completion:nil];
+                }
+                else
+                {
+                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera is Not Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil , nil];
+                    [alert show];
+                }
             }
-            else
+            else if(buttonIndex==1)//From Gallery
             {
-                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera is Not Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil , nil];
-                [alert show];
-            }
-        }
-        else if(buttonIndex==1)//From Gallery
-        {
-            NSLog(@"gallery");
-            imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-            [self presentViewController:imagePicker animated:YES completion:nil];
-        }
-        else if(buttonIndex==2)//From Camera Roll
-        {
-            NSLog(@"gallery");
-            @try {
-                
-                imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                NSLog(@"gallery");
+                imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
                 [self presentViewController:imagePicker animated:YES completion:nil];
             }
-            @catch (NSException *exception) {
+            else if(buttonIndex==2)//From Camera Roll
+            {
+                NSLog(@"gallery");
+                @try {
+                    
+                    imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                    [self presentViewController:imagePicker animated:YES completion:nil];
+                }
+                @catch (NSException *exception) {
+                    
+                }
+                @finally {
+                    
+                }
                 
             }
-            @finally {
-                
+            else if(buttonIndex==3)//Cancel Button
+            {
+                NSLog(@"Cancel Button Click");
             }
-            
+            isPickerMode=YES;
+            isAddPhotoMode=NO;
+
         }
-        else if(buttonIndex==3)//Cancel Button
+        else
         {
-            NSLog(@"Cancel Button Click");
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alert show];
         }
-        isPickerMode=YES;
-        isAddPhotoMode=NO;
     }
     if(isEditPhotoMode)
     {
@@ -284,6 +290,7 @@
 {
    
     isGetPhotoFromServer=YES;
+    NSDictionary *dicData;
     @try {
         if(photoIdsArray.count>0)
         {
@@ -293,7 +300,7 @@
             webServices.delegate=self;
             NSNumber *num = [NSNumber numberWithInt:1] ;
             selectedPhotoId = [photoIdsArray objectAtIndex:photoIdIndex];
-            NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"80"};
+            dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"40"};
             
             [webServices call:dicData controller:@"photo" method:@"get"];
             
