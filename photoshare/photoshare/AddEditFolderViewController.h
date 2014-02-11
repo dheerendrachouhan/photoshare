@@ -12,14 +12,13 @@
 
 @interface AddEditFolderViewController : UIViewController<UITextFieldDelegate,UINavigationBarDelegate, UINavigationControllerDelegate,WebserviceDelegate,UIAlertViewDelegate>
 {
-    IBOutlet UILabel *headingLabel;
     IBOutlet UIView *folderNameView;
     IBOutlet UIButton *addButton;
     IBOutlet UIButton *saveButton;
     IBOutlet UIButton *deleteButton;
     IBOutlet UITextField *folderName;
     IBOutlet UIScrollView *scrollView;
-    
+    IBOutlet UILabel *collectionOwnerNameLbl;
     NSNumber *userid;
     ContentManager *manager;
     WebserviceController *webServices;
@@ -31,7 +30,9 @@
     
     BOOL isGetPhotoIdFromServer;
     BOOL isGetCollectionDetails;
-       
+    BOOL isGetCollectionOwnername;
+    
+    NSString *collectionOwnerName;
     UITextField *activeField;
     
     NSMutableArray *photoIdArray;
@@ -48,6 +49,7 @@
 @property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,retain)NSString *setFolderName;
 @property(nonatomic,assign)NSNumber *collectionShareWith;
+@property(nonatomic,assign)NSNumber *targetUserId;
 
 -(IBAction)clearTextField:(id)sender;
 -(IBAction)addFolder:(id)sender;

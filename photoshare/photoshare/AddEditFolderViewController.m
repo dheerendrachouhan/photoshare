@@ -18,7 +18,7 @@
 
 @implementation AddEditFolderViewController
 
-@synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionShareWith;
+@synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionShareWith,targetUserId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -75,29 +75,36 @@
     
     if(self.isEditFolder)
     {
-        headingLabel.text=@"Edit Folder";
         addButton.hidden=YES;
         saveButton.hidden=NO;
         deleteButton.hidden=NO;
         NSLog(@"Share With %@",self.collectionShareWith);
         folderName.text=self.setFolderName;
-        
+        collectionOwnerNameLbl.text=@"";
         [self getCollectionDetail];
      
     }
-    else if(isAddFolder)
+    else if(self.isAddFolder)
     {
-        headingLabel.text=@"New Folder";
         addButton.hidden=NO;
         saveButton.hidden=YES;
         deleteButton.hidden=YES;
-        
+        NSDictionary *dic = [manager getData:@"user_details"];
+        collectionOwnerNameLbl.text=[dic objectForKey:@"user_realname"];
     }
     
     
-    
-    
+    //tap getsure on view for dismiss the keyboard
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
+                                      initWithTarget:self action:@selector(handleSingleTap:)];
+    tapper.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapper];
 }
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+{
+    [self.view endEditing:YES];
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
@@ -278,7 +285,14 @@
     [webServices call:dicData controller:@"collection" method:@"delete"];
     
 }
-
+-(void)getTheCollectionOwnerName
+{
+    NSDictionary *dicData=@{@"user_id":userid,@"target_user_id":self.targetUserId,@"target_username":@""};
+    webServices.delegate=self;
+    isGetCollectionOwnername=YES;
+    [webServices call:dicData controller:@"user" method:@"get"];
+    
+}
 //call back Method
 -(void)webserviceCallback:(NSDictionary *)data
 {
@@ -294,6 +308,8 @@
                 @try {
                     NSDictionary *outputData=[data objectForKey:@"output_data"];
                     NSDictionary *collectionContent=[[outputData objectForKey:@"collection_contents"] mutableCopy];
+                    NSArray *collectionUserDetails=[[outputData objectForKey:@"collection_user_details"] mutableCopy];
+
                     collectionDetail=[outputData mutableCopy];
                     
                     @try {
@@ -304,6 +320,7 @@
                         //store in nsuserDefault
                         [manager storeData:writeUserIdStr :@"writeUserId"];
                         [manager storeData:readUserIdStr :@"readUserId"];
+                        
                     }
                     @catch (NSException *exception) {
                         
@@ -320,10 +337,21 @@
                     
                 }
                 isGetCollectionDetails=NO;
-                [SVProgressHUD dismiss];
+                [self getTheCollectionOwnerName];
             }
 
         }
+    else if (isGetCollectionOwnername)
+    {
+        if(exitCode==1)
+        {
+            NSArray *outputData=[data objectForKey:@"output_data"];
+            collectionOwnerName=[[outputData objectAtIndex:0] objectForKey:@"user_realname"];
+            collectionOwnerNameLbl.text=collectionOwnerName;
+            [SVProgressHUD dismiss];
+        }
+        isGetCollectionOwnername=NO;
+    }
         else if(isAdd||isSave||isDelete)
         {
             if(exitCode ==1)
@@ -413,6 +441,18 @@
     [button setTitle:@"< Back" forState:UIControlStateNormal];
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
     // navnBar.backgroundColor = [UIColor redColor];
+    UILabel *titleLbl=[[UILabel alloc] initWithFrame:CGRectMake(100, 50, 120, 30)];
+    titleLbl.textAlignment=NSTextAlignmentCenter;
+    titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
+    if(self.isEditFolder)
+    {
+        titleLbl.text=@"Edit Folder";
+    }
+    else if (self.isAddFolder)
+    {
+        titleLbl.text=@"New Folder";
+    }
+    [navnBar addSubview:titleLbl];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
