@@ -149,6 +149,10 @@
 		E31C578518AA08A6003ED684 /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C577618AA08A6003ED684 /* CustomIOS7AlertView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		E31C578618AA08A6003ED684 /* UIAlertView+UITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C577818AA08A6003ED684 /* UIAlertView+UITableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E31C579818AA0DA2003ED684 /* SMContactsSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = E31C579618AA0DA2003ED684 /* SMContactsSelector.strings */; };
+		E31C57AC18AA37F4003ED684 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E31C57A718AA37F4003ED684 /* libAviarySDK.a */; };
+		E31C57AD18AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */ = {isa = PBXBuildFile; fileRef = E31C57A818AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */; };
+		E31C57AE18AA37F4003ED684 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E31C57AA18AA37F4003ED684 /* AviarySDKResources.bundle */; };
+		E31C57AF18AA37F4003ED684 /* White Labelling Doc.md in Resources */ = {isa = PBXBuildFile; fileRef = E31C57AB18AA37F4003ED684 /* White Labelling Doc.md */; };
 		E31CADB5189CC0FB0081241D /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DDA757189A6B1700144C43 /* libAviarySDK.a */; };
 		E31CADB7189CC2890081241D /* icon-person.png in Resources */ = {isa = PBXBuildFile; fileRef = E31CADB6189CC2890081241D /* icon-person.png */; };
 		E322BAEE18A36B7600CAC9E5 /* cog-30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAE918A36B7600CAC9E5 /* cog-30x30.png */; };
@@ -419,6 +423,18 @@
 		E31C577718AA08A6003ED684 /* UIAlertView+UITableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+UITableView.h"; sourceTree = "<group>"; };
 		E31C577818AA08A6003ED684 /* UIAlertView+UITableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+UITableView.m"; sourceTree = "<group>"; };
 		E31C579718AA0DA2003ED684 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SMContactsSelector.strings; sourceTree = "<group>"; };
+		E31C579F18AA37F4003ED684 /* AFOpenGLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenGLManager.h; sourceTree = "<group>"; };
+		E31C57A018AA37F4003ED684 /* AFPhotoEditorContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorContext.h; sourceTree = "<group>"; };
+		E31C57A118AA37F4003ED684 /* AFPhotoEditorController+InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFPhotoEditorController+InAppPurchase.h"; sourceTree = "<group>"; };
+		E31C57A218AA37F4003ED684 /* AFPhotoEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorController.h; sourceTree = "<group>"; };
+		E31C57A318AA37F4003ED684 /* AFPhotoEditorControllerOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorControllerOptions.h; sourceTree = "<group>"; };
+		E31C57A418AA37F4003ED684 /* AFPhotoEditorCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorCustomization.h; sourceTree = "<group>"; };
+		E31C57A518AA37F4003ED684 /* AFPhotoEditorProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorProduct.h; sourceTree = "<group>"; };
+		E31C57A618AA37F4003ED684 /* AFPhotoEditorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPhotoEditorSession.h; sourceTree = "<group>"; };
+		E31C57A718AA37F4003ED684 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
+		E31C57A818AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Olmack Investments iOS White Label Permissions File.avyPermission"; sourceTree = "<group>"; };
+		E31C57AA18AA37F4003ED684 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
+		E31C57AB18AA37F4003ED684 /* White Labelling Doc.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "White Labelling Doc.md"; sourceTree = "<group>"; };
 		E31CADB6189CC2890081241D /* icon-person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-person.png"; sourceTree = "<group>"; };
 		E322BAE918A36B7600CAC9E5 /* cog-30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-30x30.png"; sourceTree = "<group>"; };
 		E322BAEA18A36B7600CAC9E5 /* earn-30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earn-30x30.png"; sourceTree = "<group>"; };
@@ -508,6 +524,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E31C57AC18AA37F4003ED684 /* libAviarySDK.a in Frameworks */,
 				E31C575918AA01EF003ED684 /* AddressBookUI.framework in Frameworks */,
 				E31C575818AA01EA003ED684 /* AddressBook.framework in Frameworks */,
 				E170E90218A4EE0E002D3D17 /* CoreLocation.framework in Frameworks */,
@@ -662,6 +679,41 @@
 			path = "UIAlertView+UITableView";
 			sourceTree = "<group>";
 		};
+		E31C579D18AA37F4003ED684 /* AviarySDK */ = {
+			isa = PBXGroup;
+			children = (
+				E31C579E18AA37F4003ED684 /* Headers */,
+				E31C57A718AA37F4003ED684 /* libAviarySDK.a */,
+				E31C57A818AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */,
+				E31C57A918AA37F4003ED684 /* Resources */,
+				E31C57AB18AA37F4003ED684 /* White Labelling Doc.md */,
+			);
+			path = AviarySDK;
+			sourceTree = "<group>";
+		};
+		E31C579E18AA37F4003ED684 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				E31C579F18AA37F4003ED684 /* AFOpenGLManager.h */,
+				E31C57A018AA37F4003ED684 /* AFPhotoEditorContext.h */,
+				E31C57A118AA37F4003ED684 /* AFPhotoEditorController+InAppPurchase.h */,
+				E31C57A218AA37F4003ED684 /* AFPhotoEditorController.h */,
+				E31C57A318AA37F4003ED684 /* AFPhotoEditorControllerOptions.h */,
+				E31C57A418AA37F4003ED684 /* AFPhotoEditorCustomization.h */,
+				E31C57A518AA37F4003ED684 /* AFPhotoEditorProduct.h */,
+				E31C57A618AA37F4003ED684 /* AFPhotoEditorSession.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		E31C57A918AA37F4003ED684 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E31C57AA18AA37F4003ED684 /* AviarySDKResources.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		E31C75C81897B27600A8CC7F /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -767,6 +819,7 @@
 		FC976395188FEB89008DF1F8 /* photoshare */ = {
 			isa = PBXGroup;
 			children = (
+				E31C579D18AA37F4003ED684 /* AviarySDK */,
 				E31C575A18AA08A6003ED684 /* SMContactsSelector */,
 				E1067DE2189AA7D600F08A5F /* AFNetworking */,
 				E317676B1899115500923E35 /* ProgressBar */,
@@ -1129,6 +1182,7 @@
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E18262821897F6DC00C1C799 /* facebook.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
+				E31C57AF18AA37F4003ED684 /* White Labelling Doc.md in Resources */,
 				E322BAEE18A36B7600CAC9E5 /* cog-30x30.png in Resources */,
 				E31A558418A502E800B0015B /* homelogo@2x.png in Resources */,
 				E1717A7C189CF624008899EC /* ajaxloader.gif in Resources */,
@@ -1153,6 +1207,7 @@
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
 				E31A558118A502E800B0015B /* folder-icon-bottom.png in Resources */,
 				FC35A892189BDFFD006DDDFC /* splash320x480.png in Resources */,
+				E31C57AE18AA37F4003ED684 /* AviarySDKResources.bundle in Resources */,
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				FC35A894189BE02D006DDDFC /* splash640x960.png in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
@@ -1200,6 +1255,7 @@
 				E179A85518AA1F4500028358 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */,
 				E31A558018A502E800B0015B /* earnings-icon@2x.png in Resources */,
 				E1067DE0189A97AD00F08A5F /* edit_btn.png in Resources */,
+				E31C57AD18AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
