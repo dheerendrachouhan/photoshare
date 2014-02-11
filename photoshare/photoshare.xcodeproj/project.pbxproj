@@ -151,6 +151,8 @@
 		E31C578518AA08A6003ED684 /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C577618AA08A6003ED684 /* CustomIOS7AlertView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		E31C578618AA08A6003ED684 /* UIAlertView+UITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E31C577818AA08A6003ED684 /* UIAlertView+UITableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E31C579818AA0DA2003ED684 /* SMContactsSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = E31C579618AA0DA2003ED684 /* SMContactsSelector.strings */; };
+		E31C579B18AA2374003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */ = {isa = PBXBuildFile; fileRef = E31C579918AA2374003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */; };
+		E31C579C18AA2374003ED684 /* White Labelling Doc.md in Resources */ = {isa = PBXBuildFile; fileRef = E31C579A18AA2374003ED684 /* White Labelling Doc.md */; };
 		E31CADB5189CC0FB0081241D /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DDA757189A6B1700144C43 /* libAviarySDK.a */; };
 		E31CADB7189CC2890081241D /* icon-person.png in Resources */ = {isa = PBXBuildFile; fileRef = E31CADB6189CC2890081241D /* icon-person.png */; };
 		E322BAEE18A36B7600CAC9E5 /* cog-30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAE918A36B7600CAC9E5 /* cog-30x30.png */; };
@@ -431,6 +433,8 @@
 		E31C577718AA08A6003ED684 /* UIAlertView+UITableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+UITableView.h"; sourceTree = "<group>"; };
 		E31C577818AA08A6003ED684 /* UIAlertView+UITableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+UITableView.m"; sourceTree = "<group>"; };
 		E31C579718AA0DA2003ED684 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SMContactsSelector.strings; sourceTree = "<group>"; };
+		E31C579918AA2374003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Olmack Investments iOS White Label Permissions File.avyPermission"; sourceTree = "<group>"; };
+		E31C579A18AA2374003ED684 /* White Labelling Doc.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "White Labelling Doc.md"; sourceTree = "<group>"; };
 		E31CADB6189CC2890081241D /* icon-person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-person.png"; sourceTree = "<group>"; };
 		E322BAE918A36B7600CAC9E5 /* cog-30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-30x30.png"; sourceTree = "<group>"; };
 		E322BAEA18A36B7600CAC9E5 /* earn-30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earn-30x30.png"; sourceTree = "<group>"; };
