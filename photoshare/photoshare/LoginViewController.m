@@ -35,9 +35,6 @@
     if (self) {
         // Custom initialization
     }
-    
-    objManager = [ContentManager sharedManager];
-    
     return self;
 }
 
@@ -144,8 +141,8 @@
             //get the userId
             NSDictionary *dic=[outPutData objectAtIndex:0];
             //Setting values globally
-            //ContentManager *objManager=[ContentManager sharedManager];
-            //objManager.loginDetailsDict = dic;
+            //ContentManager *manager=[ContentManager sharedManager];
+            //manager.loginDetailsDict = dic;
             userid =[dic objectForKey:@"user_id"];
             [dmc setUserId:[NSString stringWithFormat:@"%@",userid]] ;
             [dmc setUserName:[NSString stringWithFormat:@"%@",[dic objectForKey:@"user_username"]]];
@@ -177,23 +174,38 @@
         }
         else if(isGetStorage)
         {
-            
-            NSLog(@"Get Storage %@",data);
-            NSDictionary *dic=[outPutData objectAtIndex:0];
-            NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
-            NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
-            
-            //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
-            float availableSpaceInMB=0.0f;
-            float usedSpaceInMB=0.0f;
-            availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
-            usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
-            
-            //set the diskSpacePercentage
-            float progressPercent=0.0f;
-            progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
-            //store in NSDefault
-            [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
+            @try {
+                NSLog(@"Get Storage %@",data);
+                NSDictionary *dic=[outPutData objectAtIndex:0];
+                NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
+                NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
+                if(availableStorage==(id)NULL)
+                {
+                    availableStorage=@0;
+                }
+                if(usedStorage==(id)NULL)
+                {
+                    usedStorage=@0;
+                }
+                //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
+                float availableSpaceInMB=0.0f;
+                float usedSpaceInMB=0.0f;
+                availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
+                usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
+                
+                //set the diskSpacePercentage
+                float progressPercent=0.0f;
+                progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
+                //store in NSDefault
+                [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
+            }
+            @catch (NSException *exception) {
+                
+            }
+            @finally {
+                
+            }
+           
             
             [self getIncomeFromServer];
         }
@@ -204,8 +216,8 @@
             NSLog(@"Get Storage %@",data);
             NSNumber *dict = [outPutData valueForKey:@"total_expected_income"];
             
-            objManager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
-            NSLog(@"%@",objManager.weeklyearningStr);
+            manager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
+            NSLog(@"%@",manager.weeklyearningStr);
             //remove fetchView and status bar
             [dataFetchView removeFromSuperview];
             [SVProgressHUD dismiss];

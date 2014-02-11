@@ -9,12 +9,14 @@
 #import "PhotoViewController.h"
 #import "NavigationBar.h"
 #import "PhotoShareController.h"
+#import "EditPhotoDetailViewController.h"
+
 @interface PhotoViewController ()
 
 @end
 
 @implementation PhotoViewController
-@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,photoDetail;
+@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,selectedIndex;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,9 +46,6 @@
      "collection_photo_title" = dsfasfd;
      
      */
-    EditPhotoDetailViewController *edit=[[EditPhotoDetailViewController alloc] init];
-    edit.delegate=self;
-    
     
     imageView.layer.masksToBounds=YES;
     if(self.isViewPhoto)
@@ -99,15 +98,11 @@
     }
     
 }
--(void)PhotoDetail:(NSDictionary *)photoInfo
-{
-    self.photoDetail=photoInfo;
-}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    NSLog(@"Photo detail is %@",self.photoDetail);
     [self getCollectionInfoFromUserDefault];
     [self addCustomNavigationBar];
     if (isCameraEditMode) {
@@ -117,6 +112,10 @@
                                        selector:@selector(openeditorcontrol)
                                        userInfo:nil
                                         repeats:NO];
+    }
+    if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
+    {
+        [self.navigationController popViewControllerAnimated:NO];
     }
 }
 -(void)openeditorcontrol
@@ -194,7 +193,8 @@
             EditPhotoDetailViewController *editPhotoDetail=[[EditPhotoDetailViewController alloc] init];
             editPhotoDetail.photoId=self.photoId;
             editPhotoDetail.collectionId=self.collectionId;
-            editPhotoDetail.photoDetail=self.photoDetail;
+            editPhotoDetail.selectedIndex=self.selectedIndex;
+            
             [self.navigationController pushViewController:editPhotoDetail animated:YES];
         }
         @catch (NSException *exception) {
@@ -392,7 +392,12 @@
     // navnBar.backgroundColor = [UIColor redColor];
     
     UILabel *photoTitleLBL=[[UILabel alloc] initWithFrame:CGRectMake(60, 50, 200, 30)];
-    photoTitleLBL.text=[[manager getData:@"photo_detail"] objectForKey:@"collection_photo_title"];
+    //get photo info from nsuser default
+    NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
+    photoTitleLBL.text=[[photoDetail objectAtIndex:self.selectedIndex ] objectForKey:@"collection_photo_title"];
+    
+   
+    
     photoTitleLBL.textAlignment=NSTextAlignmentCenter;
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];

@@ -138,8 +138,6 @@
     }
     if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
     {
-        
-        
         [manager storeData:@"NO" :@"istabcamera"];
         [self.navigationController popViewControllerAnimated:NO];
     }
@@ -260,7 +258,7 @@
             EditPhotoDetailViewController *editPhotoDetail=[[EditPhotoDetailViewController alloc] init];
             editPhotoDetail.photoId=[photoIdsArray objectAtIndex:selectedEditImageIndex];
             editPhotoDetail.collectionId=self.collectionId;
-            editPhotoDetail.photoDetail=[photoInfoArray objectAtIndex:selectedEditImageIndex];
+           
             [self.navigationController pushViewController:editPhotoDetail animated:YES];
         }
         isEditPhotoMode=NO;
@@ -415,6 +413,12 @@
                         [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
                     
                         [photoInfoArray addObjectsFromArray:[collectionContent allValues]];
+                        //store photo info array in nsuser default ARRAY IS store in data format
+                        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
+                        [manager storeData:data:@"photoInfoArray"];
+                    
+                        NSLog(@"Photo infio array %@",[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]] );
+                    
                     
                         [collectionview reloadData];
                         
@@ -689,8 +693,8 @@
         viewPhoto.smallImage=[photoArray objectAtIndex:indexPath.row];
         viewPhoto.isViewPhoto=YES;
         viewPhoto.collectionId=self.collectionId;
-        viewPhoto.photoDetail=[photoInfoArray objectAtIndex:indexPath.row] ;
-        [manager storeData:[photoInfoArray objectAtIndex:indexPath.row] :@"photo_detail"];
+        viewPhoto.selectedIndex=indexPath.row;
+        NSLog(@"Selected index is %d",indexPath.row);
         isGoToViewPhoto=YES;
         if(self.isPublicFolder)
         {
@@ -1171,13 +1175,10 @@
     }
     else
     {
-        /*UIButton *iconbtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        iconbtn.frame=CGRectMake(200.0, 55.0, 18.0, 18.0);
-        [iconbtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-        iconbtn.userInteractionEnabled=NO;*/
-        UILabel *foldernamelabel=[[UILabel alloc] initWithFrame:CGRectMake(220.0, 55.0, 100.0, 18.0)];
+       
+        UILabel *foldernamelabel=[[UILabel alloc] initWithFrame:CGRectMake(110.0, 55.0, 200.0, 18.0)];
         foldernamelabel.text=self.folderName;
-        
+        foldernamelabel.textAlignment=NSTextAlignmentRight;
         //[navnBar addSubview:iconbtn];
         [navnBar addSubview:foldernamelabel];
         

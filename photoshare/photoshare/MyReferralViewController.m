@@ -33,14 +33,17 @@
         // Custom initialization
     }
     
-    dmc = [[DataMapperController alloc] init];
-    ObjManager = [ContentManager sharedManager];
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    dmc = [[DataMapperController alloc] init];
+    ObjManager = [ContentManager sharedManager];
+    
     userID = [NSNumber numberWithInteger:[[dmc getUserId]integerValue]];
     NSLog(@"Userid : %@",userID);
     // Do any additional setup after loading the view from its nib.

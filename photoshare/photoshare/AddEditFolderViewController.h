@@ -14,14 +14,10 @@
 {
     IBOutlet UILabel *headingLabel;
     IBOutlet UIView *folderNameView;
-    IBOutlet UIView *shareForWritingWithView;
-    IBOutlet UIView *shareForReadingWithView;
     IBOutlet UIButton *addButton;
     IBOutlet UIButton *saveButton;
     IBOutlet UIButton *deleteButton;
     IBOutlet UITextField *folderName;
-    IBOutlet UITextField *shareForWritingWith ;
-    IBOutlet UITextField *shareForReadingWith ;
     IBOutlet UIScrollView *scrollView;
     
     NSNumber *userid;
@@ -32,29 +28,19 @@
     BOOL isAdd;
     BOOL isSave;
     BOOL isDelete;
-    BOOL isSearchUserList;
-    BOOL isShareForWritingWith;
-    BOOL isShareForReadingWith;
     
     BOOL isGetPhotoIdFromServer;
-    
-    NSString *selectedWriteUser;
-    NSString *selectetReadUser;
-    
-    NSString *selectedWriteUserId;
-    NSString *selectetReadUserId;
-    UIButton *searchList;
-    NSNumber *shareWith;
-   
-    UIView *searchView;
-    
+    BOOL isGetCollectionDetails;
+       
     UITextField *activeField;
     
     NSMutableArray *photoIdArray;
-    BOOL isDeletePhotoMode;
+    NSMutableDictionary *collectionDetail;
     NSMutableArray *searchUserList;
-    IBOutlet UIButton *privateShareBtn;
-    IBOutlet UIButton *publicShareBtn;
+    
+    BOOL isDeletePhotoMode;
+    
+    
 }
 
 @property(nonatomic,assign)BOOL isAddFolder;
@@ -68,6 +54,7 @@
 -(IBAction)saveFolder:(id)sender;
 -(IBAction)deleteFolder:(id)sender;
 
+-(IBAction)shareForWritingWith:(id)sender;
+-(IBAction)shareForReadingWith:(id)sender;
 
--(IBAction)shareWithUser:(id)sender;
 @end

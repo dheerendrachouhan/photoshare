@@ -10,7 +10,8 @@
 #import "CommonTopView.h"
 #import "CommunityViewController.h"
 #import "NavigationBar.h"
-
+#import "SVProgressHUD.h"
+#import "ShareWithUserViewController.h"
 @interface AddEditFolderViewController ()
 
 @end
@@ -25,7 +26,7 @@
         // Custom initialization
     }
     
-    manager = [ContentManager sharedManager];
+   
    
     return self;
 }
@@ -37,22 +38,13 @@
     
     //initialize the photo is array
     photoIdArray=[[NSMutableArray alloc] init];
+    collectionDetail=[[NSMutableDictionary alloc] init];
     
     //contant manager Object
-    
+     manager = [ContentManager sharedManager];
     webServices=[[WebserviceController alloc] init];
     
-    //initialize the search view and button
-    searchList=[[UIButton alloc] init];
-
-    searchView=[[UIView alloc] init];
-    searchView.layer.borderColor=[UIColor darkGrayColor].CGColor;
-    searchView.layer.borderWidth=1;
     
-   
-    
-    //initialize the search user list array
-    searchUserList=[[NSMutableArray alloc] init];
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
     float tfBackViewBorderWidth=2;
@@ -61,13 +53,7 @@
     folderNameView.layer.borderWidth=tfBackViewBorderWidth;
     folderNameView.layer.cornerRadius=tfBackViewCornerRadius;
     folderNameView.layer.borderColor=tfBackViewBorderColor.CGColor;
-    
-    shareForReadingWithView.layer.borderWidth=tfBackViewBorderWidth;
-    shareForReadingWithView.layer.cornerRadius=tfBackViewCornerRadius;
-    shareForReadingWithView.layer.borderColor=tfBackViewBorderColor.CGColor;
-    shareForWritingWithView.layer.borderWidth=tfBackViewBorderWidth;
-    shareForWritingWithView.layer.cornerRadius=tfBackViewCornerRadius;
-    shareForWritingWithView.layer.borderColor=tfBackViewBorderColor.CGColor;
+
     
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
@@ -95,21 +81,8 @@
         deleteButton.hidden=NO;
         NSLog(@"Share With %@",self.collectionShareWith);
         folderName.text=self.setFolderName;
-        if([self.collectionShareWith intValue]==0)
-        {
-            [privateShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
-            [publicShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
-            shareWith=@0;
-        }
-        else if ([self.collectionShareWith intValue]==1)
-        {
-            [privateShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
-            [publicShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
-            shareWith=@1;
-        }
-      // [self getCollectionDetail];
         
-        [self getPhotoIdFromServer];
+        [self getCollectionDetail];
      
     }
     else if(isAddFolder)
@@ -118,9 +91,7 @@
         addButton.hidden=NO;
         saveButton.hidden=YES;
         deleteButton.hidden=YES;
-        [privateShareBtn setImage:[UIImage imageNamed:@"radio_selected.png"] forState:UIControlStateNormal];
-        [publicShareBtn setImage:[UIImage imageNamed:@"radio.png"] forState:UIControlStateNormal];
-        shareWith=@0;
+        
     }
     
     
@@ -136,21 +107,19 @@
     
     
 }
--(void)getCollectionDetail
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    webServices.delegate=self;
-    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
-    [webServices call:dicData controller:@"collection" method:@"get"];
-    
+    return [textField resignFirstResponder];
 }
 //get PhotoId From Server
--(void)getPhotoIdFromServer
+-(void)getCollectionDetail
 {
     @try {
-        isGetPhotoIdFromServer=YES;
         
+        isGetCollectionDetails=YES;
         webServices.delegate=self;
-        // NSString *data=[NSString stringWithFormat:@"user_id=%d&collection_id=%d",[NSNumber numberWithInt:usrId],self.collectionId];
+        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+        
         NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
         
         [webServices call:dicData controller:@"collection" method:@"get"];
@@ -164,91 +133,7 @@
     
 }
 
-//search user for share With option
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    [searchView removeFromSuperview];
-    
-    
-    
-    if (textField.tag==1102&&textField.text.length>=2) {
-        isSearchUserList=YES;
-        NSLog(@"Text is %@",textField.text);
-        selectedWriteUserId=@"";
-        isShareForWritingWith=YES;
-    }
-    else if (textField.tag==1103&&textField.text.length>=2) {
-        isSearchUserList=YES;
-        NSLog(@"Text is %@",textField.text);
-        selectetReadUserId=@"";
-        isShareForReadingWith=YES;
-    }
-    if(isShareForReadingWith||isShareForWritingWith)
-    {
-        @try {
-            webServices.delegate=self;
-            NSDictionary *dicData=@{@"user_id":userid,@"target_username":textField.text,@"target_user_emailaddress":@""};
-            [webServices call:dicData controller:@"user" method:@"search"];
-            
-        }
-        @catch (NSException *exception) {
-            NSLog(@"Exception is %@",exception.description);
-        }
-        @finally {
-            
-        }
-    }
-    
-    
-    return YES;
-}
 
-//set ccrollview content in center
-// called when textField start editting.
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    activeField = textField;
-    if(textField.tag==1102)
-    {
-        [scrollView setContentOffset:CGPointMake(0,shareForWritingWithView.center.y-60) animated:YES];
-    }
-    else if(textField.tag==1103)
-    {
-        [scrollView setContentOffset:CGPointMake(0,shareForReadingWithView.center.y-60) animated:YES];
-    }
-}
-
-// called when click on the retun button.
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [searchView removeFromSuperview];
-    
-    NSInteger nextTag = textField.tag + 1;
-    // Try to find next responder
-    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
-    
-    if (nextResponder) {
-        if(textField.tag==1102)
-        {
-            [scrollView setContentOffset:CGPointMake(0,shareForWritingWithView.center.y-60) animated:YES];
-        }
-        else if(textField.tag==1103)
-        {
-            [scrollView setContentOffset:CGPointMake(0,shareForReadingWithView.center.y-60) animated:YES];
-        }
-        else
-        {
-            [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
-        }
-        [nextResponder becomeFirstResponder];
-    } else {
-        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
-        [textField resignFirstResponder];
-        return YES;
-    }
-    
-    return NO;
-}
 
 //clear the text of textField
 -(void)clearTextField:(id)sender
@@ -259,26 +144,30 @@
         folderName.text=@"";
         [folderName becomeFirstResponder];
     }
-    else if(btn.tag==102)
-    {
-        shareForWritingWith.text=@"";
-        selectedWriteUserId=@"";
-        [shareForWritingWith becomeFirstResponder];
-    }
-    else if(btn.tag==103)
-    {
-        shareForReadingWith.text=@"";
-        selectetReadUserId=@"";
-        [shareForReadingWith becomeFirstResponder];
-    }
+    
 }
 
-
+-(IBAction)shareForWritingWith:(id)sender
+{
+    ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
+    sharewith.isWriteUser=YES;
+    sharewith.collectionId=self.collectionId;
+    sharewith.isEditFolder=self.isEditFolder;
+    [self.navigationController pushViewController:sharewith animated:NO];
+}
+-(IBAction)shareForReadingWith:(id)sender
+{
+    ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
+    sharewith.isWriteUser=NO;
+    sharewith.collectionId=self.collectionId;
+    sharewith.isEditFolder=self.isEditFolder;
+    [self.navigationController pushViewController:sharewith animated:NO];
+}
 //Btn Action
 -(IBAction)addFolder:(id)sender
 {
     @try {
-        [self addCollectionInfoInServer:folderName.text sharing:shareWith writeUserIds:selectedWriteUserId readUserIds:selectetReadUserId];
+        [self addCollectionInfoInServer:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readuserId"]];
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
@@ -293,7 +182,7 @@
 {
     @try {
         
-            [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:shareWith writeUserIds:selectedWriteUserId readUserIds:selectetReadUserId];
+            [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readUserId"]];
         
     }
     @catch (NSException *exception) {
@@ -398,80 +287,42 @@
     
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     
-        if(isGetPhotoIdFromServer)
+        if (isGetCollectionDetails)
         {
             if(exitCode ==1)
             {
-            @try {
-                NSDictionary *outputData=[data objectForKey:@"output_data"];
-                NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
-                if(collectionContent.count>0)
-                {
-                    [photoIdArray addObjectsFromArray:[collectionContent allKeys]];
-                }
+                @try {
+                    NSDictionary *outputData=[data objectForKey:@"output_data"];
+                    NSDictionary *collectionContent=[[outputData objectForKey:@"collection_contents"] mutableCopy];
+                    collectionDetail=[outputData mutableCopy];
+                    
+                    @try {
+                        
+                        [photoIdArray addObjectsFromArray:[collectionContent allKeys]];
+                        NSString *writeUserIdStr=[[collectionDetail objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
+                        NSString *readUserIdStr=[[collectionDetail objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
+                        //store in nsuserDefault
+                        [manager storeData:writeUserIdStr :@"writeUserId"];
+                        [manager storeData:readUserIdStr :@"readUserId"];
+                    }
+                    @catch (NSException *exception) {
+                        
+                    }
+                    @finally {
+                        
+                    }
                 
+                }
+                @catch (NSException *exception) {
+                
+                }
+                @finally {
+                    
+                }
+                isGetCollectionDetails=NO;
+                [SVProgressHUD dismiss];
+            }
 
-            }
-            @catch (NSException *exception) {
-                
-            }
-            @finally {
-                
-            }
-         }
-        isGetPhotoIdFromServer=NO;
-        }
-        else if (isSearchUserList)
-        {
-            if(exitCode ==1)
-            {
-                [searchView removeFromSuperview];
-                NSArray *outPutData=[data objectForKey:@"output_data"];
-                for (int i=0; i<outPutData.count; i++) {
-                    [[outPutData objectAtIndex:i] objectForKey:@"user_username"];
-                    NSLog(@"search user List %@", [[outPutData objectAtIndex:i] objectForKey:@"user_username"]);
-                    
-                    NSString *resultName=[NSString stringWithFormat:@"%@ (%@)",[[outPutData objectAtIndex:i] objectForKey:@"user_username"],[[outPutData objectAtIndex:i] objectForKey:@"user_realname"]];
-                    
-                    if (isShareForWritingWith)
-                    {
-                        searchView.frame=CGRectMake(shareForWritingWithView.frame.origin.x, shareForWritingWithView.frame.origin.y+35, shareForWritingWithView.frame.size.width, 30);
-                        selectedWriteUser=resultName;
-                        selectedWriteUserId=[[outPutData objectAtIndex:i] objectForKey:@"user_id"];
-                        
-                        searchList.frame=CGRectMake(0, 5, shareForWritingWithView.frame.size.width, 20);
-                        searchList.tag=1110;
-                        [searchList.titleLabel setFont:[UIFont fontWithName:@"verdana" size:13]];
-                        searchList.contentHorizontalAlignment=UIControlContentHorizontalAlignmentLeft;
-                        [searchList addTarget:self action:@selector(selctUserList:) forControlEvents:UIControlEventTouchUpInside];
-                        [searchList setTitle:resultName forState:UIControlStateNormal];
-                        [searchList setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                        
-                        [searchView addSubview:searchList];
-                        [scrollView addSubview:searchView];
-                    }
-                    else if(isShareForReadingWith)
-                    {
-                        searchView.frame=CGRectMake(shareForReadingWithView.frame.origin.x, shareForReadingWithView.frame.origin.y+35, shareForReadingWithView.frame.size.width, 30);
-                        selectetReadUser=resultName;
-                        selectetReadUserId=[[outPutData objectAtIndex:i] objectForKey:@"user_id"];
-                        
-                        searchList.frame=CGRectMake(0, 5, shareForReadingWithView.frame.size.width, 20);
-                        searchList.tag=1111;
-                        [searchList.titleLabel setFont:[UIFont fontWithName:@"verdana" size:13]];
-                        searchList.contentHorizontalAlignment=UIControlContentHorizontalAlignmentLeft;                    [searchList addTarget:self action:@selector(selctUserList:) forControlEvents:UIControlEventTouchUpInside];
-                        [searchList setTitle:resultName forState:UIControlStateNormal];
-                        [searchList setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                        
-                        [searchView addSubview:searchList];
-                        [scrollView addSubview:searchView];
-                       
-                    }
-                }
-            }
-            isShareForWritingWith=NO;
-            isShareForReadingWith=NO;
-            isSearchUserList=NO;
         }
         else if(isAdd||isSave||isDelete)
         {
@@ -490,20 +341,6 @@
             isDelete=NO;
         }
     
-}
--(void)selctUserList: (id)sender
-{
-   
-    UIButton *btn=(UIButton *)sender;
-    if(btn.tag==1110)
-    {
-        shareForWritingWith.text=selectedWriteUser;
-    }
-    else if (btn.tag==1111)
-    {
-        shareForReadingWith.text=selectetReadUser;
-    }
-     [searchView removeFromSuperview];
 }
 
 

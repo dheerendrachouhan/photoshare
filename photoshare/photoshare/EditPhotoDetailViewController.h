@@ -11,12 +11,6 @@
 #import "ContentManager.h"
 #import <CoreLocation/CoreLocation.h>
 
-@protocol EditPhotoDetailDelagate <NSObject>
-
--(void)PhotoDetail: (NSDictionary *)photoInfo;
-
-@end
-
 @interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate>
 {
     //get the userf location
@@ -43,8 +37,6 @@
 
 @property(nonatomic,retain)NSNumber *photoId;
 @property(nonatomic,retain)NSNumber *collectionId;
-@property(nonatomic,retain)NSDictionary *photoDetail;
+@property(nonatomic,assign)int selectedIndex;
 
-
-@property(nonatomic,retain)id <EditPhotoDetailDelagate> delegate;
 @end
