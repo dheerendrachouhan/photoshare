@@ -9,14 +9,44 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "photoshare/ReferralStageFourVC.m"
-            timestampString = "413813736.381607"
+            filePath = "photoshare/SMContactsSelector/SMContactsSelector.m"
+            timestampString = "413815917.669398"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
-            landmarkName = "-numberOfRowsSelected:withData:andDataType:"
+            startingLineNumber = "991"
+            endingLineNumber = "991"
+            landmarkName = "-displayChanges:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[SMContactsSelector displayChanges:]"
+                  moduleName = "photoshare"
+                  urlString = "file:///Users/ignis3/Desktop/project/photoshare/photoshare/SMContactsSelector/SMContactsSelector.m"
+                  timestampString = "413817024.840307"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "991"
+                  endingLineNumber = "991"
+                  offsetFromSymbolStart = "1190">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[SMContactsSelector displayChanges:]"
+                  moduleName = "photoshare"
+                  urlString = "file:///Users/ignis3/Desktop/project/photoshare/photoshare/SMContactsSelector/SMContactsSelector.m"
+                  timestampString = "413817024.840827"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "991"
+                  endingLineNumber = "991"
+                  offsetFromSymbolStart = "1711">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -124,7 +124,7 @@
         (requestData != DATA_CONTACT_EMAIL) &&
         (requestData != DATA_CONTACT_ID))
     {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController dismissViewControllerAnimated:NO completion:nil];
         
         @throw ([NSException exceptionWithName:@"Undefined data request"
                                         reason:@"Define requestData variable (EMAIL or TELEPHONE)" 
@@ -486,7 +486,7 @@
 
 - (void)dismiss
 {
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
