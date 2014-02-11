@@ -183,7 +183,7 @@
                                               otherButtonTitles:@"OK", nil];
         alert.tag = 457;
         [alert show];
-        [alert release];
+        //[alert release];
         CFRelease(addressBookRef);
         return;
     }
@@ -239,7 +239,7 @@
             }
         }
         
-        [propertyArray release];
+        //[propertyArray release];
         
         CFStringRef name;
         name = ABRecordCopyValue(person, kABPersonFirstNameProperty);
@@ -311,7 +311,7 @@
         else
             [allContacts addObject:info];
         
-        [info release];
+        //[info release];
         if (name) CFRelease(name);
         if (lastNameString) CFRelease(lastNameString);
     }
@@ -360,14 +360,14 @@
     
     }
 
-    NSSortDescriptor *sorter = [[[NSSortDescriptor alloc] initWithKey:@"name"
+    NSSortDescriptor *sorter = [[NSSortDescriptor alloc] initWithKey:@"name"
                                                             ascending:YES
-                                                             selector:@selector(localizedStandardCompare:)] autorelease];
+                                                             selector:@selector(localizedStandardCompare:)];
     
     NSArray *sortDescriptors = [NSArray arrayWithObject:sorter];
     
     NSArray* data = [[allContacts allObjects] sortedArrayUsingDescriptors:sortDescriptors];
-    [allContacts release];
+    //[allContacts release];
    
     if (self.savedSearchTerm)
     {
@@ -399,7 +399,7 @@
         }
         
         [info setValue:array forKey:[arrayLetters objectAtIndex:i]];
-        [array release];
+        //[array release];
     }
     
     for (int i = 0; i < [arrayLetters count]; i++)
@@ -418,14 +418,14 @@
         }
         
         [info setValue:array forKey:@"#"];
-        [array release];
+        //[array release];
     }
     
     dataArray = [[NSArray alloc] initWithObjects:info, nil];
   
     self.filteredListContent = [NSMutableArray arrayWithCapacity:[data count]];
     [self.searchDisplayController.searchBar setShowsCancelButton:NO];
-    [info release];
+   // [info release];
     [self.table reloadData];
 }
 
@@ -480,7 +480,7 @@
     if ([self.delegate respondsToSelector:@selector(numberOfRowsSelected:withData:andDataType:)]) 
         [self.delegate numberOfRowsSelected:[objects count] withData:objects andDataType:requestData];
     
-	[objects release];
+	//[objects release];
 	[self dismiss];
 }
 
@@ -551,7 +551,7 @@
         
         if (cell == nil)
         {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kCustomCellID] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kCustomCellID];
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
         }
@@ -575,7 +575,7 @@
         
         if (cell == nil)
         {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCustomCellID] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCustomCellID];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         }
@@ -710,7 +710,6 @@
                                                             row:indexPath.row];
             alertTable.isModal = showModal;
             [alertTable show];
-            [alertTable release];
         }
     }
     else
@@ -774,7 +773,6 @@
     labelTitle.font = [UIFont boldSystemFontOfSize:15];
     
     [contentView addSubview:labelTitle];
-    [labelTitle release];
     
     telsTable = [[UITableView alloc] initWithFrame:CGRectMake(11, labelTitle.frame.size.height + 10, contentView.frame.size.width - 22, 150) style:UITableViewStylePlain];
     
@@ -1001,7 +999,7 @@
 		}
 	}
 	
-	[selected release];
+	selected = nil; //changes
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)_searchBar
@@ -1100,9 +1098,9 @@
 
 - (void)dealloc
 {
-    [dataArray release];
-    [objectsArray release];
-    [telsTable release];
+    dataArray = nil;
+    objectsArray = nil;
+    telsTable = nil;
 	self.filteredListContent = nil;
     self.arrayLetters = nil;
 	[super dealloc];

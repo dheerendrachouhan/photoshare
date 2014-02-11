@@ -149,6 +149,8 @@
 		E31C579418AA0A06003ED684 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E31C579118AA0A06003ED684 /* libAviarySDK.a */; };
 		E31C579518AA0A07003ED684 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E31C579318AA0A06003ED684 /* AviarySDKResources.bundle */; };
 		E31C579818AA0DA2003ED684 /* SMContactsSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = E31C579618AA0DA2003ED684 /* SMContactsSelector.strings */; };
+		E31C579B18AA2374003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */ = {isa = PBXBuildFile; fileRef = E31C579918AA2374003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */; };
+		E31C579C18AA2374003ED684 /* White Labelling Doc.md in Resources */ = {isa = PBXBuildFile; fileRef = E31C579A18AA2374003ED684 /* White Labelling Doc.md */; };
 		E31CADB5189CC0FB0081241D /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DDA757189A6B1700144C43 /* libAviarySDK.a */; };
 		E31CADB7189CC2890081241D /* icon-person.png in Resources */ = {isa = PBXBuildFile; fileRef = E31CADB6189CC2890081241D /* icon-person.png */; };
 		E322BAEE18A36B7600CAC9E5 /* cog-30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAE918A36B7600CAC9E5 /* cog-30x30.png */; };
@@ -427,6 +429,8 @@
 		E31C579118AA0A06003ED684 /* libAviarySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAviarySDK.a; sourceTree = "<group>"; };
 		E31C579318AA0A06003ED684 /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
 		E31C579718AA0DA2003ED684 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SMContactsSelector.strings; sourceTree = "<group>"; };
+		E31C579918AA2374003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Olmack Investments iOS White Label Permissions File.avyPermission"; sourceTree = "<group>"; };
+		E31C579A18AA2374003ED684 /* White Labelling Doc.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "White Labelling Doc.md"; sourceTree = "<group>"; };
 		E31CADB6189CC2890081241D /* icon-person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-person.png"; sourceTree = "<group>"; };
 		E322BAE918A36B7600CAC9E5 /* cog-30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog-30x30.png"; sourceTree = "<group>"; };
 		E322BAEA18A36B7600CAC9E5 /* earn-30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earn-30x30.png"; sourceTree = "<group>"; };
@@ -674,6 +678,8 @@
 		E31C578718AA0A06003ED684 /* AviarySDK */ = {
 			isa = PBXGroup;
 			children = (
+				E31C579918AA2374003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */,
+				E31C579A18AA2374003ED684 /* White Labelling Doc.md */,
 				E31C578818AA0A06003ED684 /* Headers */,
 				E31C579118AA0A06003ED684 /* libAviarySDK.a */,
 				E31C579218AA0A06003ED684 /* Resources */,
@@ -1211,6 +1217,7 @@
 				E1717A87189D2A8E008899EC /* radio_selected.png in Resources */,
 				FC85D53D1897F9E3006AD7E0 /* save.png in Resources */,
 				E31A557E18A502E800B0015B /* community-icon@2x.png in Resources */,
+				E31C579C18AA2374003ED684 /* White Labelling Doc.md in Resources */,
 				FC35A890189BDF96006DDDFC /* splash640x1136.png in Resources */,
 				E31A556818A4A08E00B0015B /* home.png in Resources */,
 				E31CADB7189CC2890081241D /* icon-person.png in Resources */,
@@ -1224,6 +1231,7 @@
 				FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E31B9E18189A558D00722761 /* ReferrelStageFourVC3.xib in Resources */,
+				E31C579B18AA2374003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E17222CB189281B000F28748 /* ResetPasswordController.xib in Resources */,
 				E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */,
