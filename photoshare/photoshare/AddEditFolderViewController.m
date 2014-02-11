@@ -78,10 +78,21 @@
         addButton.hidden=YES;
         saveButton.hidden=NO;
         deleteButton.hidden=NO;
+        folderName.enabled=YES;
+        folderNameView.userInteractionEnabled=YES;
         NSLog(@"Share With %@",self.collectionShareWith);
         folderName.text=self.setFolderName;
         collectionOwnerNameLbl.text=@"";
         [self getCollectionDetail];
+        NSNumber *i=self.targetUserId;
+        if(self.targetUserId.integerValue != userid.integerValue)
+        {
+            addButton.hidden=YES;
+            saveButton.hidden=YES;
+            deleteButton.hidden=YES;
+            folderName.enabled=NO;
+            folderNameView.userInteractionEnabled=NO;
+        }
      
     }
     else if(self.isAddFolder)
@@ -89,6 +100,8 @@
         addButton.hidden=NO;
         saveButton.hidden=YES;
         deleteButton.hidden=YES;
+        folderName.enabled=YES;
+        folderNameView.userInteractionEnabled=YES;
         NSDictionary *dic = [manager getData:@"user_details"];
         collectionOwnerNameLbl.text=[dic objectForKey:@"user_realname"];
     }
@@ -160,6 +173,7 @@
     sharewith.isWriteUser=YES;
     sharewith.collectionId=self.collectionId;
     sharewith.isEditFolder=self.isEditFolder;
+    sharewith.targetUserId=self.targetUserId;
     [self.navigationController pushViewController:sharewith animated:NO];
 }
 -(IBAction)shareForReadingWith:(id)sender
@@ -168,6 +182,7 @@
     sharewith.isWriteUser=NO;
     sharewith.collectionId=self.collectionId;
     sharewith.isEditFolder=self.isEditFolder;
+    sharewith.targetUserId=self.targetUserId;
     [self.navigationController pushViewController:sharewith animated:NO];
 }
 //Btn Action

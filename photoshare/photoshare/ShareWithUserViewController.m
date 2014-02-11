@@ -9,12 +9,13 @@
 #import "ShareWithUserViewController.h"
 #import "NavigationBar.h"
 #import "SVProgressHUD.h"
+
 @interface ShareWithUserViewController ()
 
 @end
 
 @implementation ShareWithUserViewController
-@synthesize isEditFolder,isWriteUser,collectionId;
+@synthesize isEditFolder,isWriteUser,collectionId,targetUserId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -75,8 +76,21 @@
     
     //collection view
     [sharingUserListCollView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CVCell"];
+    NSLog(@"Is edit %d",self.isEditFolder);
     
-   
+    shareSearchView.hidden=NO;
+    saveBtn.hidden=NO;
+    sharingUserListCollView.userInteractionEnabled=YES;
+   if(self.isEditFolder)
+   {
+       if(self.targetUserId.integerValue!=userid.integerValue)
+       {
+           shareSearchView.hidden=YES;
+           saveBtn.hidden=YES;
+           sharingUserListCollView.userInteractionEnabled=NO;
+       }
+   }
+    
         if(self.isWriteUser)
         {
             [self getWriteSharingUserList];
@@ -96,7 +110,9 @@
 }
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
+    
     [self.view endEditing:YES];
+    //[searchView removeFromSuperview];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -105,7 +121,7 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-     [searchView removeFromSuperview];
+    
     NSString *str=searchUserTF.text;
     if(str.length>0)
     {
@@ -198,7 +214,7 @@
     }
     else if (isSearchUserList)
     {
-         [searchView removeFromSuperview];
+        
         if(exitCode ==1)
         {
             for (UIView *view in [searchView subviews]) {
@@ -235,6 +251,10 @@
                     [self.view addSubview:searchView];
                 }
         
+        }
+        else
+        {
+            [searchView removeFromSuperview];
         }
         isShareForWritingWith=NO;
         isShareForReadingWith=NO;
@@ -294,9 +314,18 @@
     {
         if([searchUserTF.text isEqualToString:selecteduserName])
         {
-            [sharingUserIdArray addObject:selectedUserId];
-            [sharingUserNameArray addObject:selecteduserName];
-            [sharingUserListCollView reloadData];
+            if([sharingUserIdArray containsObject:selectedUserId])
+            {
+                [manager showAlert:@"Message" msg:@"Already Share this User" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                searchUserTF.text=@"";
+            }
+            else
+            {
+                [sharingUserIdArray addObject:selectedUserId];
+                [sharingUserNameArray addObject:selecteduserName];
+                [sharingUserListCollView reloadData];
+                searchUserTF.text=@"";
+            }
         }
         else
         {
@@ -307,8 +336,6 @@
     {
         [manager showAlert:@"Message" msg:@"Enter User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
-    
-    
 }
 -(IBAction)saveSharingUser:(id)sender
 {
@@ -321,7 +348,7 @@
     {
         [manager storeData:useridstr :@"readUserId"];
     }
-    searchUserTF.text=@"";
+    
     [self.navigationController popViewControllerAnimated:NO];
 }
 

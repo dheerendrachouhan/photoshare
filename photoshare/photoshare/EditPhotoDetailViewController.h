@@ -11,7 +11,7 @@
 #import "ContentManager.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate>
+@interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate>
 {
     //get the userf location
     CLLocationManager *locationManager;

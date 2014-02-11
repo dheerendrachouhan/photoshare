@@ -89,6 +89,8 @@
 		E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */; };
 		E172F53218A271EE006799B9 /* homepage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E172F53118A271EE006799B9 /* homepage.jpg */; };
 		E174AC121898C096001B5278 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC111898C096001B5278 /* iconr3.png */; };
+		E179A85518AA1F4500028358 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */ = {isa = PBXBuildFile; fileRef = E179A85318AA1F4500028358 /* Olmack Investments iOS White Label Permissions File.avyPermission */; };
+		E179A85618AA1F4500028358 /* White Labelling Doc.md in Resources */ = {isa = PBXBuildFile; fileRef = E179A85418AA1F4500028358 /* White Labelling Doc.md */; };
 		E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */; };
 		E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626518976CDA00C1C799 /* EditProfileViewController.xib */; };
 		E18262821897F6DC00C1C799 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262811897F6DC00C1C799 /* facebook.png */; };
@@ -322,6 +324,8 @@
 		E172F53118A271EE006799B9 /* homepage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = homepage.jpg; sourceTree = "<group>"; };
 		E174AC111898C096001B5278 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E174AC131898C09B001B5278 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		E179A85318AA1F4500028358 /* Olmack Investments iOS White Label Permissions File.avyPermission */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Olmack Investments iOS White Label Permissions File.avyPermission"; sourceTree = "<group>"; };
+		E179A85418AA1F4500028358 /* White Labelling Doc.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "White Labelling Doc.md"; sourceTree = "<group>"; };
 		E17C8F93189FA5000079E0FE /* LaunchCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCameraViewController.h; sourceTree = "<group>"; };
 		E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCameraViewController.m; sourceTree = "<group>"; };
 		E182626318976CDA00C1C799 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
@@ -658,6 +662,8 @@
 		FC35A872189BCA5B006DDDFC /* AviarySDK */ = {
 			isa = PBXGroup;
 			children = (
+				E179A85318AA1F4500028358 /* Olmack Investments iOS White Label Permissions File.avyPermission */,
+				E179A85418AA1F4500028358 /* White Labelling Doc.md */,
 				FC35A873189BCA5B006DDDFC /* Headers */,
 				FC35A87C189BCA5B006DDDFC /* libAviarySDK.a */,
 				FC35A87D189BCA5B006DDDFC /* Resources */,
@@ -1075,6 +1081,7 @@
 				E174AC121898C096001B5278 /* iconr3.png in Resources */,
 				E322BB0018A3AD7700CAC9E5 /* logo_29x29.png in Resources */,
 				E17222CD189281C000F28748 /* login2_new.png in Resources */,
+				E179A85618AA1F4500028358 /* White Labelling Doc.md in Resources */,
 				E31A558518A502E800B0015B /* photo-icon.png in Resources */,
 				E16F391418912C9C00064806 /* shared-icon.png in Resources */,
 				E31A558318A502E800B0015B /* homelogo.png in Resources */,
@@ -1165,6 +1172,7 @@
 				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
+				E179A85518AA1F4500028358 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */,
 				E31A558018A502E800B0015B /* earnings-icon@2x.png in Resources */,
 				E1067DE0189A97AD00F08A5F /* edit_btn.png in Resources */,
 			);
