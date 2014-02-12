@@ -28,21 +28,21 @@
 		<key>alpha</key>
 		<real>1</real>
 		<key>hex</key>
-		<string>#000000</string>
+		<string>#ffffff</string>
 	</dict>
 	<key>applyButtonGradientBottomColor</key>
 	<dict>
 		<key>alpha</key>
 		<real>1</real>
 		<key>hex</key>
-		<string>#1c88ff</string>
+		<string>#1680ff</string>
 	</dict>
 	<key>applyButtonGradientTopColor</key>
 	<dict>
 		<key>alpha</key>
 		<real>1</real>
 		<key>hex</key>
-		<string>#2491ff</string>
+		<string>#1e7eff</string>
 	</dict>
 	<key>applyButtonHighlightedTextColor</key>
 	<dict>
@@ -54,7 +54,7 @@
 	<key>applyButtonInnerShadowColor</key>
 	<dict>
 		<key>alpha</key>
-		<real>1</real>
+		<real>0.0</real>
 		<key>hex</key>
 		<string>#ffffff</string>
 	</dict>
@@ -119,7 +119,7 @@
 		<key>alpha</key>
 		<real>1</real>
 		<key>hex</key>
-		<string>#1f87ff</string>
+		<string>#1e92ff</string>
 	</dict>
 	<key>cancelButtonDefaultTextColor</key>
 	<dict>
@@ -133,7 +133,7 @@
 		<key>alpha</key>
 		<real>1</real>
 		<key>hex</key>
-		<string>#000000</string>
+		<string>#ffffff</string>
 	</dict>
 	<key>cancelButtonHighlightedTextColor</key>
 	<dict>
@@ -145,7 +145,7 @@
 	<key>cancelButtonInnerShadowColor</key>
 	<dict>
 		<key>alpha</key>
-		<real>0.40000000596046448</real>
+		<real>0.0</real>
 		<key>hex</key>
 		<string>#ffffff</string>
 	</dict>
@@ -161,7 +161,7 @@
 		<key>alpha</key>
 		<real>1</real>
 		<key>hex</key>
-		<string>#f5feff</string>
+		<string>#ffffff</string>
 	</dict>
 	<key>defaultIconDropShadowColor</key>
 	<dict>
