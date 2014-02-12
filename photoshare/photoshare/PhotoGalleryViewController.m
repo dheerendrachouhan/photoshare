@@ -801,7 +801,7 @@
 {
     //if editBtnIs in view
     [editBtn removeFromSuperview];
-    
+    [self resetButton];
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
