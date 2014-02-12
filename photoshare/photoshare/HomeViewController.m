@@ -162,6 +162,8 @@
                 if([[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"public"])
                 {
                     publicCollectionId=[[collection objectAtIndex:i-1] objectForKey:@"collection_id"];
+                    colOwnerId=[[collection objectAtIndex:i-1] objectForKey:@"collection_user_id"];
+                    folderIndex=i-1;
                 }
             }
             
@@ -209,6 +211,9 @@
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     photoGallery.isPublicFolder=YES;
     photoGallery.collectionId=publicCollectionId;
+    photoGallery.folderName=@"Public";
+    photoGallery.selectedFolderIndex=folderIndex;
+    photoGallery.collectionOwnerId=colOwnerId;
     [self.navigationController pushViewController:photoGallery animated:YES];
 }
 -(IBAction)goToCommunity:(id)sender

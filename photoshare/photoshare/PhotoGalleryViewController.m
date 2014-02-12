@@ -119,17 +119,25 @@
     [self getCollectionDetail];
     
     //set the add ,delete photo btn visibility
-    if(self.collectionOwnerId.integerValue==userid.integerValue)
+    if([self.folderName isEqualToString:@"Public"] || [self.folderName isEqualToString:@"public"])
     {
-        addPhotoBtn.hidden=NO;
-        deletePhotoBtn.hidden=NO;
         
     }
     else
     {
-        deletePhotoBtn.hidden=YES;
-        addPhotoBtn.hidden=YES;
+        if(self.collectionOwnerId.integerValue==userid.integerValue)
+        {
+            addPhotoBtn.hidden=NO;
+            deletePhotoBtn.hidden=NO;
+            
+        }
+        else
+        {
+            deletePhotoBtn.hidden=YES;
+            addPhotoBtn.hidden=YES;
+        }
     }
+    
     
 }
     
@@ -450,7 +458,7 @@
     }
     else if(isGetPhotoFromServer)
     {
-        [self saveImageInDocumentDirectry:image index:photoArray.count];
+        //[self saveImageInDocumentDirectry:image index:photoArray.count];
         [photoArray addObject:image];
         
         int count=photoArray.count;
@@ -557,7 +565,7 @@
                     
                     
                         [collectionview reloadData];
-                    NSString *checkNotFirstTime=[manager getData:[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
+                   /* NSString *checkNotFirstTime=[manager getData:[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
                     if([checkNotFirstTime isEqualToString:@"YES"])
                     {
                         for (int i=0; i<photoIdsArray.count; i++) {
@@ -577,8 +585,9 @@
                     {
                         [self getPhotoFromServer:0];
                         [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
-                    }
-                    
+                    }*/
+                    [self getPhotoFromServer:0];
+                    [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
                 }
                 else
                 {

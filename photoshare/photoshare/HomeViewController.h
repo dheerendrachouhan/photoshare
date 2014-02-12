@@ -54,6 +54,8 @@
     BOOL isPhotoSavingMode;
     BOOL isColletionCreateMode;
     
+    int folderIndex;
+    NSNumber *colOwnerId;
     NSNumber *publicCollectionId;
     
     NSMutableArray *collectionNameArray;
