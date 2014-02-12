@@ -10,6 +10,7 @@
 #import "NavigationBar.h"
 #import "ContentManager.h"
 #import "SVProgressHUD.h"
+#import "MailMessageTable.h"
 
 @interface PhotoShareController ()
 
@@ -34,8 +35,13 @@
     int imageCount;
     int imageLoaded;
     BOOL webServiceStart;
+    NSMutableDictionary *contactData;
+    NSMutableArray *contactSelectedArray;
+    NSMutableArray *contactNoSelectedArray;
 }
+
 @synthesize sharedImage, sharedImagesArray, otherDetailArray;
+@synthesize shareEmailStr,sharePhoneStr,shareValue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,6 +63,8 @@
     mailFilter = NO;
     smsFilter = NO;
 	grant = NO;
+    contactSelectedArray = [[NSMutableArray alloc] init];
+    contactNoSelectedArray = [[NSMutableArray alloc] init];
     
     messageStr= [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/1/%@",[objManager getData:@"user_username"]];
     
@@ -97,6 +105,24 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    
+    if([shareValue isEqualToString:@"Share Mail"])
+    {
+        userSelectedEmail = shareEmailStr;
+        NSArray *arr = [shareEmailStr componentsSeparatedByString:@","];
+        contactSelectedArray = [NSMutableArray arrayWithArray:arr];
+        mailFilter = YES;
+        [self mailTo];
+    }
+    else if ([shareValue isEqualToString:@"Share Text"])
+    {
+        userSelectedPhone = sharePhoneStr;
+        NSArray *arr = [sharePhoneStr componentsSeparatedByString:@", "];
+        contactNoSelectedArray = [NSMutableArray arrayWithArray:arr];
+        smsFilter = YES;
+        [self sendInAppSMS];
+    }
+
 }
 
 
@@ -144,7 +170,7 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    [self showContactListPicker];
+    [self ContactSelectorMethod];
 }
 
 - (IBAction)smsFilter_Btn:(id)sender {
@@ -152,7 +178,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self showContactListPicker];
+    [self ContactSelectorMethod];
 }
 
 //FaceBook SDK Implemetation
@@ -257,12 +283,14 @@
 //Email from Contacts
 -(void)mailTo {
     
+    shareValue = @"";
+    
     // Email Subject
     NSString *emailTitle = @"Join 123 Friday";
     // Email Content
     NSString *messageBody = [NSString stringWithFormat:@"<a href=\"%@\">Join Now</a>",messageStr]; // Change the message body to HTML
     // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:userSelectedEmail];
+    NSArray *toRecipents = [NSArray arrayWithArray:contactSelectedArray];
     
     MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
     mfMail.mailComposeDelegate = self;
@@ -320,11 +348,13 @@
 //Message to user
 -(void)sendInAppSMS
 {
+    shareValue = @"";
+    
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
 		controller.body = [@"Join 123 Friday, " stringByAppendingString:messageStr];
-		controller.recipients = [NSArray arrayWithObject:userSelectedPhone];
+		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
         
         if (sharedImagesArray.count > 0) {
             for(int l=0;l<sharedImagesArray.count;l++)
@@ -364,86 +394,6 @@
 	[self dismissModals];
 }
 
-//Contact List
-- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
-{
-    [self dismissModals];
-}
-
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
-{
-    [self displayPerson:person];
-    [self dismissModals];
-    
-    
-    if(mailFilter)
-    {
-        if([userSelectedEmail length]==0)
-        {
-            [objManager showAlert:@"NO Email" msg:@"No Email Found" cancelBtnTitle:@"Ok" otherBtn:nil];
-        }
-        else {
-            [self mailTo];
-        }
-    }
-    else if(smsFilter)
-    {
-        if([userSelectedPhone length]==0)
-        {
-            [objManager showAlert:@"No Phone" msg:@"Phone no not found" cancelBtnTitle:@"Ok" otherBtn:nil];
-        }
-        else {
-            [self sendInAppSMS];
-        }
-    }
-    return YES;
-}
-
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
-{
-    return NO;
-}
-
-//Setting the contact List for Email
-- (void)displayPerson:(ABRecordRef)person
-{
-    NSString *emailID = nil;
-    ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
-    if(ABMultiValueGetCount(emails) >0)
-    {
-        emailID = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(emails, 0);
-        userSelectedEmail = emailID;
-    } else {
-        userSelectedEmail = emailID;
-    }
-    CFRelease(emails);
-    NSLog(@"%@",userSelectedEmail);
-    
-    
-    NSString* phone = nil;
-    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person,kABPersonPhoneProperty);
-    
-    if (ABMultiValueGetCount(phoneNumbers) > 0) {
-        phone = (__bridge_transfer NSString*)
-        ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-        userSelectedPhone = phone;
-    } else {
-        userSelectedPhone = phone;
-    }
-    CFRelease(phoneNumbers);
-    NSLog(@"%@",userSelectedPhone);
-    
-}
-
--(void)showContactListPicker
-{
-    ABPeoplePickerNavigationController *picker =
-    [[ABPeoplePickerNavigationController alloc] init];
-    picker.peoplePickerDelegate = self;
-    
-    [self presentViewController:picker animated:YES completion:nil];
-}
-
 //alertView
 -(void)alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -451,10 +401,102 @@
     NSLog(@"The %@ button was tapped.", [alert buttonTitleAtIndex:buttonIndex]);
     if(buttonIndex == 1)
     {
-        if((userSelectedEmail.length != 0) || (userSelectedPhone.length != 0))
+        if(mailFilter)
         {
-            [self showContactListPicker];
+            [self ContactSelectorMethod];
         }
+        else if(smsFilter)
+        {
+            [self ContactSelectorMethod];
+        }
+    }
+}
+
+-(void)ContactSelectorMethod
+{
+    CFErrorRef error = NULL;
+    
+    contactData = [[NSMutableDictionary alloc] init];
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    
+    if (addressBook != nil)
+    {
+        NSLog(@"Succesful.");
+        
+        NSArray *allContacts = (__bridge_transfer NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
+        
+        NSUInteger i = 0;
+        for (i = 0; i < [allContacts count]; i++)
+        {
+            
+            ABRecordRef contactPerson = (__bridge ABRecordRef)allContacts[i];
+            
+            NSString *firstName = (__bridge_transfer NSString
+                                   *)ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty);
+            NSString *lastName =  (__bridge_transfer NSString
+                                   *)ABRecordCopyValue(contactPerson, kABPersonLastNameProperty);
+            NSString *fullName = [NSString stringWithFormat:@"%@ %@",
+                                  firstName, lastName];
+            NSLog(@"Full Name: %@",fullName);
+            
+            NSString *concatStr = @"";
+            //email
+            ABMultiValueRef emails = ABRecordCopyValue(contactPerson, kABPersonEmailProperty);
+            NSUInteger j = 0;
+            for (j = 0; j < ABMultiValueGetCount(emails); j++)
+            {
+                NSString *email = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(emails, j);
+                if(concatStr.length == 0)
+                {
+                    concatStr = email;
+                }
+                else
+                {
+                    concatStr = [NSString stringWithFormat:@"%@,%@",concatStr,email];
+                }
+            }
+            
+            NSString *concatStr2 = @"";
+            
+            ABMutableMultiValueRef phones = ABRecordCopyValue(contactPerson, kABPersonPhoneProperty);
+            NSUInteger k = 0;
+            for(k = 0;k< ABMultiValueGetCount(phones); k++)
+            {
+                NSString *phone = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, k);
+                if(concatStr2.length == 0)
+                {
+                    concatStr2 = phone;
+                }
+                else
+                {
+                    concatStr2 = [NSString stringWithFormat:@"%@ , %@",concatStr2,phone];
+                }
+            }
+            
+            //NSdictionary add
+            NSDictionary *dict = @{@"name":fullName,@"email":concatStr,@"phone":concatStr2};
+            
+            [contactData setObject:dict forKey:[NSString stringWithFormat:@"%d",i]];
+        }
+    }
+    CFRelease(addressBook);
+    
+    //forwarding to controller
+    if(mailFilter)
+    {
+        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        mmVC.contactDictionary = contactData;
+        mmVC.filterType = @"Share Mail";
+        
+        [self.navigationController pushViewController:mmVC animated:YES];
+    }
+    else if (smsFilter)
+    {
+        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        mmVC.contactDictionary = contactData;
+        mmVC.filterType = @"Share Text";
+        
+        [self.navigationController pushViewController:mmVC animated:YES];
     }
 }
 

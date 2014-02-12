@@ -14,6 +14,7 @@
 #import "TwitterTable.h"
 #import "AppDelegate.h"
 #import "NavigationBar.h"
+#import "MailMessageTable.h"
 
 @interface ReferralStageFourVC ()
 
@@ -34,10 +35,12 @@
     NSString *tweetFail;
     BOOL grant;
     NSNumber *userID;
-    NSMutableArray *contactSelectedArray;
-    NSMutableArray *contactNoSelectedArray;
+    NSMutableArray *contactSelectedArray;  //need to be removed
+    NSMutableArray *contactNoSelectedArray; // need to be removed
+    NSMutableDictionary *contactData;
 }
 @synthesize stringStr,twitterTweet,toolkitLink;
+@synthesize referEmailStr,referPhoneStr,referredValue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -132,7 +135,7 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    [self showContactsEmails];
+    [self ContactSelectorMethod];
 }
 
 - (IBAction)smsFilter_Btn:(id)sender {
@@ -140,7 +143,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self showContactsEmails];
+    [self ContactSelectorMethod];
 }
 
 //FaceBook SDK Implemetation
@@ -366,7 +369,7 @@
 -(void)mailTo {
     
     [self composedMailMessage];
-    
+    referredValue = @"";
     // Email Subject
     NSString *emailTitle = @"Join 123 Friday";
     // Email Content
@@ -405,7 +408,6 @@
         case MFMailComposeResultSent:
             [alert show];
             [self mailToServer];
-            [contactSelectedArray removeAllObjects];
             break;
         case MFMailComposeResultFailed:
             [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
@@ -423,6 +425,7 @@
 -(void)sendInAppSMS
 {
     [self composedMailMessage];
+    referredValue = @"";
     
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
@@ -463,84 +466,95 @@
     [SVProgressHUD dismissWithSuccess:@"Composed"];
 }
 
--(void)showContactsEmails
+
+-(void)ContactSelectorMethod
 {
-    SMContactsSelector *emailController = [[SMContactsSelector alloc] initWithNibName:@"SMContactsSelector" bundle:nil];
-    emailController.delegate = self;
+    CFErrorRef error = NULL;
+    
+    contactData = [[NSMutableDictionary alloc] init];
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    
+    if (addressBook != nil)
+    {
+        NSLog(@"Succesful.");
+        
+        NSArray *allContacts = (__bridge_transfer NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
+        
+        NSUInteger i = 0;
+        for (i = 0; i < [allContacts count]; i++)
+        {
+            
+            ABRecordRef contactPerson = (__bridge ABRecordRef)allContacts[i];
+            
+            NSString *firstName = (__bridge_transfer NSString
+                                   *)ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty);
+            NSString *lastName =  (__bridge_transfer NSString
+                                   *)ABRecordCopyValue(contactPerson, kABPersonLastNameProperty);
+            NSString *fullName = [NSString stringWithFormat:@"%@ %@",
+                                  firstName, lastName];
+            NSLog(@"Full Name: %@",fullName);
+            
+            NSString *concatStr = @"";
+            //email
+            ABMultiValueRef emails = ABRecordCopyValue(contactPerson, kABPersonEmailProperty);
+            NSUInteger j = 0;
+            for (j = 0; j < ABMultiValueGetCount(emails); j++)
+            {
+                NSString *email = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(emails, j);
+                if(concatStr.length == 0)
+                {
+                    concatStr = email;
+                }
+                else
+                {
+                    concatStr = [NSString stringWithFormat:@"%@,%@",concatStr,email];
+                }
+            }
+            
+            NSString *concatStr2 = @"";
+            
+            ABMutableMultiValueRef phones = ABRecordCopyValue(contactPerson, kABPersonPhoneProperty);
+            NSUInteger k = 0;
+            for(k = 0;k< ABMultiValueGetCount(phones); k++)
+            {
+                NSString *phone = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phones, k);
+                if(concatStr2.length == 0)
+                {
+                    concatStr2 = phone;
+                }
+                else
+                {
+                    concatStr2 = [NSString stringWithFormat:@"%@ , %@",concatStr2,phone];
+                }
+            }
+            
+            //NSdictionary add
+            NSDictionary *dict = @{@"name":fullName,@"email":concatStr,@"phone":concatStr2};
+            
+            [contactData setObject:dict forKey:[NSString stringWithFormat:@"%d",i]];
+        }
+    }        
+    CFRelease(addressBook);
+    
+    //forwarding to controller
     if(mailFilter)
     {
-        emailController.requestData = DATA_CONTACT_EMAIL;
-    }
-    else if(smsFilter)
-    {
-        emailController.requestData = DATA_CONTACT_TELEPHONE;
-    }
+        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        mmVC.contactDictionary = contactData;
+        mmVC.filterType = @"Refer Mail";
     
-    emailController.showModal = YES; //Mandatory: YES or NO
-    emailController.showCheckButton = YES; //Mandatory: YES or NO
-    [self presentViewController:emailController animated:NO completion:nil];
-}
-
-
-#pragma -
-#pragma SMContactsSelectorDelegate Methods
-
-- (void)numberOfRowsSelected:(NSInteger)numberRows withData:(NSArray *)data andDataType:(DATA_CONTACT)type
-{
-    if (type == DATA_CONTACT_TELEPHONE)
-    {
-        for (int i = 0; i < [data count]; i++)
-        {
-            NSString *str = [data objectAtIndex:i];
-            
-            str = [str reformatTelephone];
-            
-            NSLog(@"Telephone: %@", str);
-            NSLog(@"Emails: %@", str);
-            if(userSelectedPhone.length == 0)
-            {
-                userSelectedPhone = str;
-            }
-            else
-            {
-                userSelectedPhone = [NSString stringWithFormat:@"%@, %@",userSelectedPhone,str];
-            }
-            [contactNoSelectedArray addObject:str];
-        }
-        [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
-        [self sendInAppSMS];
+        [self.navigationController pushViewController:mmVC animated:YES];
     }
-    else if (type == DATA_CONTACT_EMAIL)
+    else if (smsFilter)
     {
-        for (int i = 0; i < [data count]; i++)
-        {
-            NSString *str = [data objectAtIndex:i];
-            
-            NSLog(@"Emails: %@", str);
-            if(userSelectedEmail.length == 0)
-            {
-                userSelectedEmail = str;
-            }
-            else
-            {
-                userSelectedEmail = [NSString stringWithFormat:@"%@, %@",userSelectedEmail,str];
-            }
-            [contactSelectedArray addObject:str];
-            
-        }
-        [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
-        [self mailTo];
-    }
-	else
-    {
-        for (int i = 0; i < [data count]; i++)
-        {
-            NSString *str = [data objectAtIndex:i];
-            
-            NSLog(@"IDs: %@", str);
-        }
+        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        mmVC.contactDictionary = contactData;
+        mmVC.filterType = @"Refer Text";
+        
+        [self.navigationController pushViewController:mmVC animated:YES];
     }
 }
+
 
 //alertView
 -(void)alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -551,11 +565,11 @@
     {
         if(mailFilter)
         {
-            [self showContactsEmails];
+            [self ContactSelectorMethod];
         }
         else if(smsFilter)
         {
-            [self showContactsEmails]; //going to email filter
+            [self ContactSelectorMethod];
         }
     }
 }
@@ -607,6 +621,24 @@
         }
         twitterTweet = @"";
     }
+
+    if([referredValue isEqualToString:@"Refer Mail"])
+    {
+        userSelectedEmail = referEmailStr;
+        NSArray *arr = [referEmailStr componentsSeparatedByString:@","];
+        contactSelectedArray = [NSMutableArray arrayWithArray:arr];
+        mailFilter = YES;
+        [self mailTo];
+    }
+    else if ([referredValue isEqualToString:@"Refer Text"])
+    {
+        userSelectedPhone = referPhoneStr;
+        NSArray *arr = [referPhoneStr componentsSeparatedByString:@", "];
+        contactNoSelectedArray = [NSMutableArray arrayWithArray:arr];
+        smsFilter = YES;
+        [self sendInAppSMS];
+    }
+
 }
 
 //dismiss models
@@ -620,10 +652,12 @@
 {
     WebserviceController *wbh = [[WebserviceController alloc] init];
     wbh.delegate = self;
-    NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":userSelectedEmail,@"message_title":userMessage.text,@"toolkit_id":toolkitLink};
-    [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
-    userSelectedEmail = @"";
-    userSelectedPhone = @"";
+    for(int s=0;s<contactSelectedArray.count;s++)
+    {
+        NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s],@"message_title":userMessage.text,@"toolkit_id":toolkitLink};
+        [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
+    }
+    [contactSelectedArray removeAllObjects];
 }
 
 -(void)addCustomNavigationBar

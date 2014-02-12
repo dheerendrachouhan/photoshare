@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import <Social/Social.h>
 #import "WebserviceController.h"
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
 #import "DataMapperController.h"
-#import "SMContactsSelector.h"
 
 @class ContentManager;
-@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate,WebserviceDelegate,SMContactsSelectorDelegate>
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate,WebserviceDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;
@@ -36,5 +36,8 @@
 @property (nonatomic, strong) NSString *stringStr;
 @property (nonatomic, strong) NSString *twitterTweet;
 @property (nonatomic, strong) NSString *toolkitLink;
+@property (nonatomic, strong) NSString *referEmailStr;
+@property (nonatomic, strong) NSString *referPhoneStr;
+@property (nonatomic, strong) NSString *referredValue;
 
 @end

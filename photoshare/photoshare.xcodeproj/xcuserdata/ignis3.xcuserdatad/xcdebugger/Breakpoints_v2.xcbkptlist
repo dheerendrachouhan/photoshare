@@ -17,34 +17,114 @@
             endingLineNumber = "991"
             landmarkName = "-displayChanges:"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/MailMessageTable.m"
+            timestampString = "413895864.758224"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "510"
+            endingLineNumber = "510"
+            landmarkName = "-sameB:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/PhotoShareController.m"
+            timestampString = "413894213.394698"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
+            landmarkName = "-ContactSelectorMethod"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/PhotoShareController.m"
+            timestampString = "413895284.228558"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "495"
+            endingLineNumber = "495"
+            landmarkName = "-ContactSelectorMethod"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/ReferralStageFourVC.m"
+            timestampString = "413895590.97147"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "660"
+            endingLineNumber = "660"
+            landmarkName = "-mailToServer"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/ReferralStageFourVC.m"
+            timestampString = "413895592.396199"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "655"
+            endingLineNumber = "655"
+            landmarkName = "-mailToServer"
+            landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[SMContactsSelector displayChanges:]"
+                  symbolName = "-[ReferralStageFourVC mailToServer]"
                   moduleName = "photoshare"
-                  urlString = "file:///Users/ignis3/Desktop/project/photoshare/photoshare/SMContactsSelector/SMContactsSelector.m"
-                  timestampString = "413822022.5857"
+                  urlString = "file:///Users/ignis3/Desktop/project/photoshare/photoshare/ReferralStageFourVC.m"
+                  timestampString = "413895663.825163"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "991"
-                  endingLineNumber = "991"
-                  offsetFromSymbolStart = "1214">
+                  startingLineNumber = "655"
+                  endingLineNumber = "655"
+                  offsetFromSymbolStart = "120">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[SMContactsSelector displayChanges:]"
+                  symbolName = "-[ReferralStageFourVC mailToServer]"
                   moduleName = "photoshare"
-                  urlString = "file:///Users/ignis3/Desktop/project/photoshare/photoshare/SMContactsSelector/SMContactsSelector.m"
-                  timestampString = "413822022.58722"
+                  urlString = "file:///Users/ignis3/Desktop/project/photoshare/photoshare/ReferralStageFourVC.m"
+                  timestampString = "413895663.826727"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "991"
-                  endingLineNumber = "991"
-                  offsetFromSymbolStart = "1735">
+                  startingLineNumber = "655"
+                  endingLineNumber = "655"
+                  offsetFromSymbolStart = "529">
                </Location>
             </Locations>
          </BreakpointContent>

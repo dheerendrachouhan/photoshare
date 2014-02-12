@@ -83,6 +83,7 @@
             webViewReferral.frame = frame;
         }
     }
+    
     toolKitReferralStr = @"";
 }
 
