@@ -793,7 +793,7 @@
     //sharePhotoBtn.frame=frameForShareBtn;
     isDeleteMode=NO;
     isShareMode=NO;
-    
+    sharePhotoBtn.frame =frame;
     [selectedImagesIndex removeAllObjects];
 }
 
@@ -801,7 +801,7 @@
 {
     //if editBtnIs in view
     [editBtn removeFromSuperview];
-    [self resetButton];
+    
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];

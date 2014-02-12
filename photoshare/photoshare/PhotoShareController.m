@@ -435,8 +435,20 @@
                                    *)ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty);
             NSString *lastName =  (__bridge_transfer NSString
                                    *)ABRecordCopyValue(contactPerson, kABPersonLastNameProperty);
+            if(firstName.length == 0)
+            {
+                firstName = @"";
+            }
+            else if(lastName.length == 0)
+            {
+                lastName = @"";
+            }
             NSString *fullName = [NSString stringWithFormat:@"%@ %@",
                                   firstName, lastName];
+            if(fullName.length<=1)
+            {
+                fullName=@"";
+            }
             NSLog(@"Full Name: %@",fullName);
             
             NSString *concatStr = @"";

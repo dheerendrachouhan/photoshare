@@ -500,6 +500,10 @@
             }
             NSString *fullName = [NSString stringWithFormat:@"%@ %@",
                                   firstName, lastName];
+            if(fullName.length<=1)
+            {
+                fullName=@"";
+            }
             NSLog(@"Full Name: %@",fullName);
             
             NSString *concatStr = @"";
