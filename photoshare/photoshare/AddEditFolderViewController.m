@@ -18,7 +18,7 @@
 
 @implementation AddEditFolderViewController
 
-@synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionShareWith,targetUserId;
+@synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionShareWith,collectionOwnerId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -84,8 +84,8 @@
         folderName.text=self.setFolderName;
         collectionOwnerNameLbl.text=@"";
         [self getCollectionDetail];
-        NSNumber *i=self.targetUserId;
-        if(self.targetUserId.integerValue != userid.integerValue)
+        NSNumber *i=self.collectionOwnerId;
+        if(self.collectionOwnerId.integerValue != userid.integerValue)
         {
             addButton.hidden=YES;
             saveButton.hidden=YES;
@@ -174,7 +174,7 @@
     sharewith.isWriteUser=YES;
     sharewith.collectionId=self.collectionId;
     sharewith.isEditFolder=self.isEditFolder;
-    sharewith.targetUserId=self.targetUserId;
+    sharewith.collectionOwnerId=self.collectionOwnerId;
     [self.navigationController pushViewController:sharewith animated:NO];
 }
 -(IBAction)shareForReadingWith:(id)sender
@@ -183,7 +183,7 @@
     sharewith.isWriteUser=NO;
     sharewith.collectionId=self.collectionId;
     sharewith.isEditFolder=self.isEditFolder;
-    sharewith.targetUserId=self.targetUserId;
+    sharewith.collectionOwnerId=self.collectionOwnerId;
     [self.navigationController pushViewController:sharewith animated:NO];
 }
 //Btn Action
@@ -303,7 +303,7 @@
 }
 -(void)getTheCollectionOwnerName
 {
-    NSDictionary *dicData=@{@"user_id":userid,@"target_user_id":self.targetUserId,@"target_username":@""};
+    NSDictionary *dicData=@{@"user_id":userid,@"target_user_id":self.collectionOwnerId,@"target_username":@""};
     webServices.delegate=self;
     isGetCollectionOwnername=YES;
     [webServices call:dicData controller:@"user" method:@"get"];

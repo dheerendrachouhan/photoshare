@@ -51,7 +51,7 @@
 @property(nonatomic,assign)BOOL isEditFolder;
 @property(nonatomic,assign)BOOL isWriteUser;
 @property(nonatomic,assign)NSNumber *collectionId;
-@property(nonatomic,assign)NSNumber *targetUserId;
+@property(nonatomic,assign)NSNumber *collectionOwnerId;
 
 -(IBAction)addUserInSharing:(id)sender;
 -(IBAction)saveSharingUser:(id)sender;

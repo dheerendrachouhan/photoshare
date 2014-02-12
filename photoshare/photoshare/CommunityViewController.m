@@ -441,6 +441,7 @@
                 photoGallery.selectedFolderIndex=index;
                 photoGallery.folderName=[collectionNameArray objectAtIndex:index];
                 photoGallery.collectionId=[collectionIdArray objectAtIndex:index];
+                photoGallery.collectionOwnerId=[collectionUserIdArray objectAtIndex:index];
                 
                 [self.navigationController pushViewController:photoGallery animated:YES];
             }
@@ -503,7 +504,7 @@
         aec.setFolderName=[collectionNameArray objectAtIndex:index];
         aec.collectionId=[collectionIdArray objectAtIndex:index] ;
         aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
-        aec.targetUserId=[collectionUserIdArray objectAtIndex:index];
+        aec.collectionOwnerId=[collectionUserIdArray objectAtIndex:index];
         
         CommunityViewController *cm = [[CommunityViewController alloc] init];
         HomeViewController *hm = [[HomeViewController alloc] init] ;

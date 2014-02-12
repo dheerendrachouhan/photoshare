@@ -28,7 +28,7 @@
 
 @implementation PhotoGalleryViewController
 @synthesize isPublicFolder,selectedFolderIndex,folderName;
-@synthesize library,collectionId,userID;
+@synthesize library,collectionId,collectionOwnerId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -45,7 +45,7 @@
     //initialize the WebService Object
     webServices=[[WebserviceController alloc] init];
      manager=[ContentManager sharedManager];
-    
+    [manager storeData:@"NO" :@"isEditPhoto"];
     selectedImagesIndex=[[NSMutableArray alloc] init];
     //initialize the assets Library
     library=[[ALAssetsLibrary alloc] init];
@@ -118,15 +118,29 @@
     isSaveDataOnServer=NO;
     [self getCollectionDetail];
     
-
+    //set the add ,delete photo btn visibility
+    if(self.collectionOwnerId.integerValue==userid.integerValue)
+    {
+        addPhotoBtn.hidden=NO;
+        deletePhotoBtn.hidden=NO;
+        
+    }
+    else
+    {
+        deletePhotoBtn.hidden=YES;
+        addPhotoBtn.hidden=YES;
+    }
     
 }
+    
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     [self addCustomNavigationBar];
    
+    
     
     isPopFromPhotos=NO;
     isGoToViewPhoto=NO;
@@ -142,14 +156,20 @@
         [self.navigationController popViewControllerAnimated:NO];
     }
     frameForShareBtn=sharePhotoBtn.frame;
-    if([[manager getData:@"isEditPhoto"] isEqualToString:@"YES"])
+    if([[manager getData:@"isEditPhotoInViewPhoto"] isEqualToString:@"YES"])
     {
-        [photoArray addObject:[manager getData:@"photo"]];
+        NSData *photo=[manager getData:@"photo"];
+        UIImage *image=[UIImage imageWithData:photo];
+        [photoArray addObject:image];
         [photoIdsArray addObject:[manager getData:@"photoId"]];
         NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
         photoInfoArray=photoinfoarray;
         [collectionview reloadData];
-        [manager storeData:@"NO" :@"isEditPhoto"];
+        [manager storeData:@"NO" :@"isEditPhotoInViewPhoto"];
+        //remove data from nsuser default
+        [manager removeData:@"photo,photoId,isEditPhotoInViewPhoto"];//photo info array is use later
+        
+        
     }
     
 }
@@ -174,12 +194,47 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if(!isGoToViewPhoto&&!isCameraMode&&!isCameraEditMode)
+    if(!isGoToViewPhoto&&!isCameraMode&&!isCameraEditMode&&!isMailSendMode)
     {
         isPopFromPhotos=YES;
     }
     
 }
+-(void)photoCaching
+{
+    
+     NSOperationQueue *myQueue = [[NSOperationQueue alloc] init];
+    
+     // Add an operation as a block to a queue
+     [myQueue addOperationWithBlock: ^ {
+     
+     
+     [[NSOperationQueue mainQueue] addOperationWithBlock: ^ {
+     NSLog(@"thumbnail image download");
+    
+     
+         NSString *filenameWithExtension ;//= [imageURL lastPathComponent];
+     
+         NSData * imageData ;//= [NSData dataWithContentsOfURL:imageURL];
+     
+     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+     NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
+     NSString *documentsPaths = [documentsPath stringByAppendingString:@"/schudioimages"];
+     
+     NSError *error = nil;
+     if (![[NSFileManager defaultManager] fileExistsAtPath:documentsPaths])
+     [[NSFileManager defaultManager] createDirectoryAtPath:documentsPaths withIntermediateDirectories:NO attributes:nil error:&error];
+     
+     NSString *filePath = [documentsPaths stringByAppendingPathComponent:filenameWithExtension]; //Add the file name
+     
+     [imageData writeToFile:filePath atomically:YES];
+     }];
+     
+     }];
+
+    
+}
+
 -(void)removeProgressBar
 {
     //[progressBarGestureView removeFromSuperview];
@@ -273,7 +328,7 @@
             EditPhotoDetailViewController *editPhotoDetail=[[EditPhotoDetailViewController alloc] init];
             editPhotoDetail.photoId=[photoIdsArray objectAtIndex:selectedEditImageIndex];
             editPhotoDetail.collectionId=self.collectionId;
-           
+            editPhotoDetail.selectedIndex=selectedEditImageIndex;
             [self.navigationController pushViewController:editPhotoDetail animated:NO];
         }
         isEditPhotoMode=NO;
@@ -395,7 +450,9 @@
     }
     else if(isGetPhotoFromServer)
     {
+        [self saveImageInDocumentDirectry:image index:photoArray.count];
         [photoArray addObject:image];
+        
         int count=photoArray.count;
         NSLog(@"Photo Array Count is : %d",count);
         UIImageView *imgView=(UIImageView *)[collectionview viewWithTag:100+count];
@@ -417,6 +474,25 @@
         //[collectionview reloadData];
     }
 
+}
+-(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@photoID_%@.png",folderName,[photoIdsArray objectAtIndex:index]]];
+    UIImage *image = img; // imageView is my image from camera
+    NSData *imgData = UIImagePNGRepresentation(image);
+    [imgData writeToFile:savedImagePath atomically:NO];
+    
+}
+-(UIImage *)getImageFromDocumentDirectory :(NSInteger)index
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,    NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@photoID_%@.png",folderName,[photoIdsArray objectAtIndex:index]]];
+    UIImage *img = [UIImage imageWithContentsOfFile:getImagePath];
+    return img;
+   
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
@@ -455,7 +531,7 @@
                 NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
                 [manager storeData:data :@"photoInfoArray"];
                 
-
+                [photoInfoArray addObject:dic];
                 [collectionview reloadData];
                 
             }
@@ -477,12 +553,32 @@
                         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
                         [manager storeData:data:@"photoInfoArray"];
                     
-                        NSLog(@"Photo infio array %@",[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]] );
+                        NSLog(@"Photo info array %@",[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]] );
                     
                     
                         [collectionview reloadData];
-                        
+                    NSString *checkNotFirstTime=[manager getData:[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
+                    if([checkNotFirstTime isEqualToString:@"YES"])
+                    {
+                        for (int i=0; i<photoIdsArray.count; i++) {
+                            if([self getImageFromDocumentDirectory:i]!=(id)nil)
+                            {
+                                [photoArray addObject:[self getImageFromDocumentDirectory:i]];
+                            }
+                            else
+                            {
+                                [self getPhotoFromServer:i];
+                            }
+                            
+                        }
+                        [collectionview reloadData];
+                    }
+                    else
+                    {
                         [self getPhotoFromServer:0];
+                        [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
+                    }
+                    
                 }
                 else
                 {
@@ -512,7 +608,10 @@
                         NSArray *readPer=[outputData objectForKey:@"collection_read_user_ids"];
                         isWritePermission=[writePer containsObject:userid];
                         isReadPermission=[readPer containsObject:userid];
-                        
+                        if(isWritePermission)
+                        {
+                            addPhotoBtn.hidden=NO;
+                        }
                         [manager storeData:writeUserIdStr :@"writeUserId"];
                         [manager storeData:readUserIdStr :@"readUserId"];
                         
@@ -571,6 +670,7 @@
                         [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
                         [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
                         [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                        [photoInfoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
                     }
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[NSString stringWithFormat:@"%d Photo deleted",sortedArray.count] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
@@ -774,17 +874,182 @@
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
-        if(photoArray.count>0&&!isDeleteMode&&!isShareMode)
+
+        UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
+        if(collectionOwnerId.integerValue==userid.integerValue)
         {
-            UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-            editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+5, 60, 50);
-            [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
-            [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
-            [collectionview addSubview:editBtn];
+            if(photoArray.count>0&&!isDeleteMode&&!isShareMode)
+            {
+                
+                editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+5, 60, 50);
+                [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
+                [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
+                [collectionview addSubview:editBtn];
+            }
+        }
+        else
+        {
+            selectedEditImageIndex=indexPath.row;
+            if(isWritePermission)
+            {
+                NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+
+                if(photoUserId.integerValue==userid.integerValue)
+                {
+                    UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
+                    UIMenuItem *delete = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deletePhoto:)];
+                    
+                    UIMenuController *menu = [UIMenuController sharedMenuController];
+                    
+                    [menu setMenuItems:[NSArray arrayWithObjects:edit,delete, nil]];
+                    [menu setTargetRect:CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+50, cell.frame.size.width, cell.frame.size.height) inView:cell.superview];
+                    [menu setMenuVisible:YES animated:YES];
+                }
+                else
+                {
+                    UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
+                    UIMenuItem *reportAbuse = [[UIMenuItem alloc] initWithTitle:@"Report Abuse" action:@selector(reportAbuse:)];
+                    
+                    UIMenuController *menu = [UIMenuController sharedMenuController];
+                    
+                    [menu setMenuItems:[NSArray arrayWithObjects:edit, reportAbuse,nil]];
+                    [menu setTargetRect:CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+50, cell.frame.size.width, cell.frame.size.height) inView:cell.superview];
+                    [menu setMenuVisible:YES animated:YES];
+                }
+                
+                NSLog(@"Write Permission");
+            }
+            else if (isReadPermission)
+            {
+               UIMenuItem *reportAbuse = [[UIMenuItem alloc] initWithTitle:@"Report Abuse" action:@selector(reportAbuse:)];
+                
+                UIMenuController *menu = [UIMenuController sharedMenuController];
+                [menu setMenuItems:[NSArray arrayWithObjects:reportAbuse,nil]];
+                [menu setTargetRect:CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+50, cell.frame.size.width, cell.frame.size.height) inView:cell.superview];
+                [menu setMenuVisible:YES animated:YES];
+                NSLog(@"Read Permission");
+            }
         }
        
     }
 }
+- (BOOL) canPerformAction:(SEL)action withSender:(id)sender
+{
+    if(isWritePermission)
+    {
+        NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+        
+        if(photoUserId.integerValue==userid.integerValue)
+        {
+            if (action == @selector(edit:))
+            {
+                return YES;
+            }
+            if (action == @selector(delete:))
+            {
+                return YES;
+            }
+        }
+        else
+        {
+            if (action == @selector(reportAbuse:))
+            {
+                return YES;
+            }
+            if (action == @selector(edit:))
+            {
+                return YES;
+            }
+        }
+    }
+    else if (isReadPermission)
+    {
+        if (action == @selector(reportAbuse:))
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+   
+}
+//for UIMenu controller
+- (BOOL)canBecomeFirstResponder {
+	return YES;
+}
+
+- (void)edit:(id)sender {
+    photoLocationStr=@"";
+    [self callGetLocation];
+    NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+    
+    if(photoUserId.integerValue==userid.integerValue)
+    {
+        isEditPhotoMode=YES;
+        UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
+        [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        
+    }
+    else
+    {
+        [self getImageFromServerForEdit:selectedEditImageIndex];
+
+    }
+   	NSLog(@"Photo Edit");
+}
+//send mail
+- (void)reportAbuse:(id)sender {
+    
+    isMailSendMode=YES;//for photo loading
+    
+    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+    controller.mailComposeDelegate = self;
+    [controller setToRecipients:[NSArray arrayWithObject:@"reportabuse@123friday.com"]];
+    [controller setSubject:@"Report Abuse"];
+    
+    NSString *body=[NSString stringWithFormat:@"Collection Owner Id :%@\nCollection Name:%@\nCollection Id:%@\nPhoto Id:%@",self.collectionOwnerId,self.folderName,self.collectionId,[photoIdsArray objectAtIndex:selectedEditImageIndex]];
+    
+    [controller setMessageBody:body isHTML:NO];
+    /*
+     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+     UIImage *ui = resultimg.image;
+     pasteboard.image = ui;
+     NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(ui)];
+     [controller addAttachmentData:imageData mimeType:@"image/png" fileName:@" "];
+     */
+    if (controller)
+    {
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+	NSLog(@"Cell was approved");
+}
+-(void)delete:(id)sender
+{
+    [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:selectedEditImageIndex]];
+    [photoArray removeObjectAtIndex:selectedEditImageIndex];
+    [photoIdsArray removeObjectAtIndex:selectedEditImageIndex];
+    [photoInfoArray removeObjectAtIndex:selectedEditImageIndex];
+    [collectionview reloadData];
+    
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo Deleted" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+    [alert show];
+
+}
+//main delegate method
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error;
+{
+    isMailSendMode=NO;
+    
+    if (result == MFMailComposeResultSent) {
+        NSLog(@"It's away!");
+        [manager showAlert:@"Message" msg:@"Mail Successfully sent" cancelBtnTitle:@"Ok" otherBtn:Nil];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 -(void)viewPhoto :(NSIndexPath *)indexPath
 {
     @try {
@@ -793,6 +1058,7 @@
         viewPhoto.smallImage=[photoArray objectAtIndex:indexPath.row];
         viewPhoto.isViewPhoto=YES;
         viewPhoto.collectionId=self.collectionId;
+        viewPhoto.collectionOwnerId=self.collectionOwnerId;
         viewPhoto.selectedIndex=indexPath.row;
         NSLog(@"Selected index is %d",indexPath.row);
         isGoToViewPhoto=YES;
@@ -1051,10 +1317,11 @@
 
 #pragma mark - Photo Editor Customization
 
+
 - (void) setPhotoEditorCustomizationOptions
 {
     // Set Tool Order
-    NSArray * toolOrder = @[kAFEffects];
+    NSArray * toolOrder = @[kAFEffects, kAFFocus, kAFFrames, kAFStickers, kAFEnhance, kAFOrientation, kAFCrop, kAFAdjustments, kAFSplash, kAFDraw, kAFText, kAFRedeye, kAFWhiten, kAFBlemish, kAFMeme];
     [AFPhotoEditorCustomization setToolOrder:toolOrder];
     
     // Set Custom Crop Sizes
@@ -1065,8 +1332,8 @@
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
+    
 }
-
 #pragma mark - ALAssets Helper Methods
 
 - (UIImage *)editingResImageForAsset:(ALAsset*)asset

@@ -19,4 +19,5 @@
 -(void)storeData:(id)storedObj :(NSString *)storeKey;
 -(id)getData:(NSString *)getKey;
 -(void)showAlert:(NSString *)alrttittle msg:(NSString *)msg cancelBtnTitle:(NSString *)btnTittle otherBtn:(NSString *)otherBtn;
+-(void)removeData :(NSString *)keysString;
 @end

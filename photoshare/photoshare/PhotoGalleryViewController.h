@@ -18,7 +18,11 @@
 #import "AFOpenGLManager.h"
 
 #import <CoreLocation/CoreLocation.h>
-@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate,CLLocationManagerDelegate,UITextViewDelegate>
+
+//for mail send
+#import <MessageUI/MFMailComposeViewController.h>
+
+@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate,CLLocationManagerDelegate,UITextViewDelegate,MFMailComposeViewControllerDelegate>
 {
     //get the userf location
     CLLocationManager *locationManager;
@@ -63,6 +67,7 @@
     BOOL isPopFromPhotos;
     BOOL isGoToViewPhoto;
     BOOL isPickerMode;
+    BOOL isMailSendMode;
     
     UIImage *pickImage;
     BOOL isCameraMode;
@@ -102,7 +107,7 @@
 @property(nonatomic,assign)int selectedFolderIndex;
 
 @property(nonatomic,assign)NSNumber *collectionId;
-@property(nonatomic,assign)int userID;
+@property(nonatomic,assign)NSNumber *collectionOwnerId;
 
 @property(nonatomic,retain)ALAssetsLibrary *library;
 @property(nonatomic,retain)NSString *folderName;

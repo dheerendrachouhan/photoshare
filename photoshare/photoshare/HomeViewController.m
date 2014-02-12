@@ -367,7 +367,7 @@
 - (void) setPhotoEditorCustomizationOptions
 {
     // Set Tool Order
-    NSArray * toolOrder = @[kAFEffects];
+    NSArray * toolOrder = @[kAFEffects, kAFFocus, kAFFrames, kAFStickers, kAFEnhance, kAFOrientation, kAFCrop, kAFAdjustments, kAFSplash, kAFDraw, kAFText, kAFRedeye, kAFWhiten, kAFBlemish, kAFMeme];
     [AFPhotoEditorCustomization setToolOrder:toolOrder];
     
     // Set Custom Crop Sizes
@@ -377,6 +377,7 @@
     NSDictionary * fiveBySeven = @{kAFCropPresetHeight : @(5.0f), kAFCropPresetWidth : @(7.0f)};
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
+    
     
 }
 

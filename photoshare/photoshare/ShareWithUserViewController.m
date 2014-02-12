@@ -15,7 +15,7 @@
 @end
 
 @implementation ShareWithUserViewController
-@synthesize isEditFolder,isWriteUser,collectionId,targetUserId;
+@synthesize isEditFolder,isWriteUser,collectionId,collectionOwnerId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -83,7 +83,7 @@
     sharingUserListCollView.userInteractionEnabled=YES;
    if(self.isEditFolder)
    {
-       if(self.targetUserId.integerValue!=userid.integerValue)
+       if(self.collectionOwnerId.integerValue!=userid.integerValue)
        {
            shareSearchView.hidden=YES;
            saveBtn.hidden=YES;

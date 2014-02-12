@@ -52,7 +52,7 @@
     UIImage *originalImage;
     BOOL isoriginalImageGet;
     IBOutlet UIImageView *imageView;
-    
+    IBOutlet UISegmentedControl *segmentControl;
     IBOutlet UILabel *folderLocationShowLabel;
     //for add photo Detail
     UIView *backViewPhotDetail;
@@ -70,6 +70,8 @@
 
 @property(nonatomic,retain)NSNumber *photoId;
 @property(nonatomic,assign)NSNumber *collectionId;
+@property(nonatomic,assign)NSNumber *collectionOwnerId;
+
 @property(nonatomic,assign)int selectedIndex;
 @property(nonatomic,retain)UIImage *smallImage;
 @property(nonatomic,retain)NSString *folderNameLocation;

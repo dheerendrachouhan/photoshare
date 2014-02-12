@@ -49,7 +49,7 @@
 @property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,retain)NSString *setFolderName;
 @property(nonatomic,assign)NSNumber *collectionShareWith;
-@property(nonatomic,assign)NSNumber *targetUserId;
+@property(nonatomic,assign)NSNumber *collectionOwnerId;
 
 -(IBAction)clearTextField:(id)sender;
 -(IBAction)addFolder:(id)sender;

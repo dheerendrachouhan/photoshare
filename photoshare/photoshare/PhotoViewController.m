@@ -10,13 +10,13 @@
 #import "NavigationBar.h"
 #import "PhotoShareController.h"
 #import "EditPhotoDetailViewController.h"
-
+#import "SVProgressHUD.h"
 @interface PhotoViewController ()
 
 @end
 
 @implementation PhotoViewController
-@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,selectedIndex;
+@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,selectedIndex,collectionOwnerId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -37,15 +37,7 @@
     dmc=[[DataMapperController alloc] init];
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
-    //imagePicker
-    /*
-     
-     "collection_photo_description" = dfsdf;
-     "collection_photo_filesize" = 1343866;
-     "collection_photo_id" = 412;
-     "collection_photo_title" = dsfasfd;
-     
-     */
+    
     
     imageView.layer.masksToBounds=YES;
     if(self.isViewPhoto)
@@ -65,6 +57,27 @@
     [imageView addGestureRecognizer:doubleTap];
     
 
+    if(self.collectionOwnerId.integerValue==userid.integerValue)
+    {
+        segmentControl.hidden=NO;
+    }
+    else
+    {
+        segmentControl.hidden=YES;
+    }
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    return [textField resignFirstResponder];
+}
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
 }
 -(void)getImageFromServer
 {
@@ -154,6 +167,8 @@
 
     }
     else if (selectedSegment == 1) {//Edit image
+        photoLocationStr=@"";
+        [self callGetLocation];
         
         if(isoriginalImageGet)
         {
@@ -296,7 +311,7 @@
      imageView.image=pickImage;
      imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self savePhotosOnServer:userid filepath:imgData photoTitle:@"" photoDescription:@"" photoCollection:[NSString stringWithFormat:@"%@",self.collectionId]];
+    [self addPhotoDescriptionView];
     //[manager showAlert:@"Message" msg:@"Photo Edit success" cancelBtnTitle:@"Ok" otherBtn:nil];
 }
 
@@ -308,10 +323,11 @@
 
 #pragma mark - Photo Editor Customization
 
+
 - (void) setPhotoEditorCustomizationOptions
 {
     // Set Tool Order
-    NSArray * toolOrder = @[kAFEffects];
+    NSArray * toolOrder = @[kAFEffects, kAFFocus, kAFFrames, kAFStickers, kAFEnhance, kAFOrientation, kAFCrop, kAFAdjustments, kAFSplash, kAFDraw, kAFText, kAFRedeye, kAFWhiten, kAFBlemish, kAFMeme];
     [AFPhotoEditorCustomization setToolOrder:toolOrder];
     
     // Set Custom Crop Sizes
@@ -322,8 +338,8 @@
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
+    
 }
-
 #pragma mark - ALAssets Helper Methods
 
 - (UIImage *)editingResImageForAsset:(ALAsset*)asset
@@ -359,13 +375,13 @@
 
 
 //save Photo on Server Photo With Detaill
--(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData photoTitle:(NSString *)photoTitl photoDescription:(NSString *)photoDescription photoCollection:(NSString *)photoCollection
+-(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData
 {
-    
+    webservices=[[WebserviceController alloc] init];
     webservices.delegate=self;
     isSavePhotoOnServer=YES;
-    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitl,@"photo_description":photoDescription, @"photo_collections":photoCollection};
-    //store data
+    [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
+    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":self.collectionId};    //store data
     // [webServices call:data controller:@"photo" method:@"store"];
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
 }
@@ -375,11 +391,10 @@
     NSDictionary *outputData=[data objectForKey:@"output_data"];
     if(isSavePhotoOnServer)
     {
+        [SVProgressHUD dismiss];
         int exitcode=[[data objectForKey:@"exit_code"] integerValue];
         if(exitcode==1)
         {
-            //[photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
-            
             //update the photo info  in nsuser default
             NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
             
@@ -397,9 +412,8 @@
             
             NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
             [manager storeData:data :@"photoInfoArray"];
-            
-            [manager storeData:@"YES" :@"isEditPhoto"];
-            [manager storeData:pickImage :@"photo"];
+            [manager storeData:@"YES" :@"isEditPhotoInViewPhoto"];
+            [manager storeData:imgData :@"photo"];
             [manager storeData:[outputData objectForKey:@"image_id"] :@"photoId"];
 
             
@@ -515,10 +529,10 @@
 }
 -(void)removebackViewPhotDetail
 {
-    photoTitleStr=@"";
+    photoTitleStr=@"Untitle";
     photoDescriptionStr=@"";
     photoTagStr=@"";
-    //[self savePhotosOnServer:userid filepath:imgData];
+    [self savePhotosOnServer:userid filepath:imgData];
     [backViewPhotDetail removeFromSuperview];
 }
 
@@ -530,7 +544,7 @@
     }
     else
     {
-        photoTitleStr=@"";
+        photoTitleStr=@"Untitle";
     }
     if(photoDescriptionTF.text.length>0)
     {
@@ -549,7 +563,7 @@
         photoTagStr=@"";
     }
     
-    //[self savePhotosOnServer:userid filepath:imageData];
+    [self savePhotosOnServer:userid filepath:imgData];
     [backViewPhotDetail removeFromSuperview];
 }
 
