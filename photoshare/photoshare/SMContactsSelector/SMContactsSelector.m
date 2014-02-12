@@ -169,6 +169,7 @@
     else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized)
     {
         // The user has previously given access, add the contact
+        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
         [self loadContacts];
         CFRelease(addressBookRef);
     }
@@ -655,11 +656,11 @@
     objectsArray = nil;
     
     if (requestData == DATA_CONTACT_TELEPHONE)
-        objectsArray = [(NSArray *)[[item valueForKey:@"telephone"] componentsSeparatedByString:@","] retain];
+        objectsArray = (NSArray *)[[item valueForKey:@"telephone"] componentsSeparatedByString:@","];
     else if (requestData == DATA_CONTACT_EMAIL)
-        objectsArray = [(NSArray *)[[item valueForKey:@"email"] componentsSeparatedByString:@","] retain];
+        objectsArray = (NSArray *)[[item valueForKey:@"email"] componentsSeparatedByString:@","];
     else
-        objectsArray = [(NSArray *)[[item valueForKey:@"recordID"] componentsSeparatedByString:@","] retain];
+        objectsArray = (NSArray *)[[item valueForKey:@"recordID"] componentsSeparatedByString:@","];
 
     float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
     
