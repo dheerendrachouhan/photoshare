@@ -68,7 +68,12 @@
     BOOL isCameraMode;
     BOOL isCameraEditMode;
     BOOL isPhotoPickMode;
-        
+    
+    BOOL isGetCollectionDetails;
+    
+    //permission type of collection data
+    BOOL isWritePermission;
+    BOOL isReadPermission;
     
     NSString *assetUrlOfImage;
     
@@ -80,6 +85,7 @@
     
     
     NSData *imageData;
+    UIImage *editedImage;
     
     //for add photo Detail
     UIView *backViewPhotDetail;

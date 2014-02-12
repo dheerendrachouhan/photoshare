@@ -116,7 +116,7 @@
     isGetPhotoFromServer=NO;
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
-    [self getPhotoIdFromServer];
+    [self getCollectionDetail];
     
 
     
@@ -126,7 +126,7 @@
     [super viewWillAppear:animated];
     
     [self addCustomNavigationBar];
-    [self callGetLocation];
+   
     
     isPopFromPhotos=NO;
     isGoToViewPhoto=NO;
@@ -142,6 +142,15 @@
         [self.navigationController popViewControllerAnimated:NO];
     }
     frameForShareBtn=sharePhotoBtn.frame;
+    if([[manager getData:@"isEditPhoto"] isEqualToString:@"YES"])
+    {
+        [photoArray addObject:[manager getData:@"photo"]];
+        [photoIdsArray addObject:[manager getData:@"photoId"]];
+        NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
+        photoInfoArray=photoinfoarray;
+        [collectionview reloadData];
+        [manager storeData:@"NO" :@"isEditPhoto"];
+    }
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -191,7 +200,7 @@
 //action sheet delegate Method
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
+    photoLocationStr=@"";
     if(isAddPhotoMode)
     {
         if(photoArray.count==photoIdsArray.count)
@@ -315,6 +324,26 @@
 
     
 }
+//fetch the collection detail from server for read write permission check
+-(void)getCollectionDetail
+{
+    @try {
+        
+        isGetCollectionDetails=YES;
+        webServices.delegate=self;
+        
+        NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
+        
+        [webServices call:dicData controller:@"collection" method:@"get"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    
+}
 
 //save Photo on Server Photo With Detaill
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)image
@@ -391,7 +420,7 @@
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
-     [self removeProgressBar];
+    
     NSDictionary *outputData=[data objectForKey:@"output_data"];
    
     NSLog(@"outPutData is %@",outputData);
@@ -401,17 +430,41 @@
        // photoInfoArray = [[NSMutableArray alloc] init];
         if(isSaveDataOnServer)
         {
+             [self removeProgressBar];
             if(exitcode==1)
             {
+                [photoArray addObject:editedImage];
                 [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
             
+                
+                //update the photo info  in nsuser default
+                NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
+                
+                NSDictionary *photoDetail=[photoinfoarray lastObject];
+                
+                NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
+                [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
+                [dic setObject:photoDescriptionStr forKey:@"collection_photo_description"];
+                [dic setObject:photoTitleStr forKey:@"collection_photo_title"];
+                [dic setObject:[outputData objectForKey:@"image_id"] forKey:@"collection_photo_id"];
+                [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
+                [dic setObject:userid forKey:@"collection_photo_user_id"];
+                //update photo info array in nsuser default
+                [photoinfoarray addObject:dic];
+                
+                NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
+                [manager storeData:data :@"photoInfoArray"];
+                
+
                 [collectionview reloadData];
+                
             }
           isSaveDataOnServer=NO;
         
         }
         else if(isGetPhotoIdFromServer)
         {
+             [self removeProgressBar];
             if(exitcode==1)
             {
                 NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
@@ -430,7 +483,6 @@
                         [collectionview reloadData];
                         
                         [self getPhotoFromServer:0];
-                    
                 }
                 else
                 {
@@ -443,7 +495,48 @@
             isGetPhotoIdFromServer=NO;
             
         }
-    
+        else if (isGetCollectionDetails)
+        {
+            if(exitcode ==1)
+            {
+                @try {
+                    NSDictionary *outputData=[data objectForKey:@"output_data"];
+                    
+                    @try {
+                        
+                        
+                        NSString *writeUserIdStr=[[outputData objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
+                        NSString *readUserIdStr=[[outputData objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
+                        //store in nsuserDefault
+                        NSArray *writePer=[outputData objectForKey:@"collection_write_user_ids"];
+                        NSArray *readPer=[outputData objectForKey:@"collection_read_user_ids"];
+                        isWritePermission=[writePer containsObject:userid];
+                        isReadPermission=[readPer containsObject:userid];
+                        
+                        [manager storeData:writeUserIdStr :@"writeUserId"];
+                        [manager storeData:readUserIdStr :@"readUserId"];
+                        
+                    }
+                    @catch (NSException *exception) {
+                        
+                    }
+                    @finally {
+                        
+                    }
+                    
+                }
+                @catch (NSException *exception) {
+                    
+                }
+                @finally {
+                    
+                }
+                isGetCollectionDetails=NO;
+                [self getPhotoIdFromServer];
+                
+            }
+            
+        }
 }
 
 -(IBAction)deletePhoto:(id)sender
@@ -937,13 +1030,12 @@
        // }
    // }];
     imageData = UIImagePNGRepresentation(image);
-    
+    editedImage=image;
    
     [self dismissViewControllerAnimated:NO completion:nil];
     [self dismissModals];
     
     //add image in collection Array
-    [photoArray addObject:image];
     
     [self addPhotoDescriptionView];
    //[self savePhotosOnServer:userid filepath:imageData];
@@ -1025,56 +1117,61 @@
 {
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
+    UIColor *lblTextColor=[UIColor blackColor];
     backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
     backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     
-    UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-210, 200, 300)];
+    UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-130, self.view.center.y-210, 260, 300)];
     addPhotoDescriptionView.layer.borderWidth=1;
     addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
     addPhotoDescriptionView.layer.cornerRadius=8;
     addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
+    //tap getsure on view for dismiss the keyboard
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    tapper.cancelsTouchesInView = NO;
+    [addPhotoDescriptionView addGestureRecognizer:tapper];
     
-    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 160, 30)];
+    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(40, 10, addPhotoDescriptionView.frame.size.width-80, 30)];
     headLbl.text=@"Add Photo Details";
     headLbl.layer.cornerRadius=5;
     headLbl.textAlignment=NSTextAlignmentCenter;
-    headLbl.textColor=btnTextColor;
+    headLbl.textColor=lblTextColor;
     //headLbl.backgroundColor=[UIColor darkGrayColor];
     
     
     //add label for photo title and photo description
-    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(30, 40, 100, 20)];
+    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(20, 60, 80, 30)];
     title.text=@"Title";
-    title.textColor=btnTextColor;
+    title.textColor=lblTextColor;
     title.font=[UIFont fontWithName:@"Verdana" size:13];
     
-    photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 60, 140, 30)];
-    photoTitleTF.layer.borderWidth=1;
+    photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 60, 140, 30)];
+    photoTitleTF.layer.borderWidth=0.3;
     photoTitleTF.backgroundColor=[UIColor whiteColor];
     [photoTitleTF setDelegate:self];
     
-    UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(30, 95, 100, 20)];
+    UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(20, 110, 80, 30)];
     description.text=@"Description";
-    description.textColor=btnTextColor;
+    description.textColor=lblTextColor;
     description.font=[UIFont fontWithName:@"Verdana" size:13];
     
-    photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(30, 115, 140, 70)];
-    photoDescriptionTF.layer.borderWidth=1;
+    photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(100, 110, 140, 70)];
+    photoDescriptionTF.layer.borderWidth=0.3;
     photoDescriptionTF.backgroundColor=[UIColor whiteColor];
     [photoDescriptionTF setDelegate:self];
     
     
-    UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(30, 190, 100, 20)];
+    UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(20, 200, 80, 30)];
     tag.text=@"Tag";
-    tag.textColor=btnTextColor;
+    tag.textColor=lblTextColor;
     tag.font=[UIFont fontWithName:@"Verdana" size:13];
     
-    phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 210, 140, 30)];
-    phototagTF.layer.borderWidth=1;
+    phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 200, 140, 30)];
+    phototagTF.layer.borderWidth=0.3;
     phototagTF.backgroundColor=[UIColor whiteColor];
     [phototagTF setDelegate:self];
     
-    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(30, 250, 65, 30)];
+    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 65, 30)];
     
     //cancelButton.backgroundColor=btnBorderColor;
     cancelButton.layer.cornerRadius=5;
@@ -1086,7 +1183,7 @@
     [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
+    UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(170, 250, 70, 30)];
     
     //addButton.backgroundColor=btnBorderColor;
     save.layer.cornerRadius=5;
@@ -1114,13 +1211,17 @@
     
     
 }
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+{
+    //[self.view endEditing:YES];
+}
 -(void)removebackViewPhotDetail
 {
     photoTitleStr=@"";
     photoDescriptionStr=@"";
     photoTagStr=@"";
-    [backViewPhotDetail removeFromSuperview];
     [self savePhotosOnServer:userid filepath:imageData];
+     [backViewPhotDetail removeFromSuperview];
 }
 
 -(void)savePhotoDetail
@@ -1149,8 +1250,9 @@
     {
         photoTagStr=@"";
     }
-    [backViewPhotDetail removeFromSuperview];
+   
     [self savePhotosOnServer:userid filepath:imageData];
+     [backViewPhotDetail removeFromSuperview];
 }
 
 

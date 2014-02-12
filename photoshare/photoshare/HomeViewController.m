@@ -147,14 +147,24 @@
     [collectionIdArray removeAllObjects];
     [collectionNameArray removeAllObjects];
     @try {
-        for (int i=0;i<collection.count; i++)
+        for (int i=0;i<collection.count+1; i++)
         {
-                [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
-                [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
-                if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+            if(i==0)
+            {
+                [collectionIdArray addObject:@0];
+                [collectionNameArray addObject:@"Add New Folder"];
+
+            }
+            else
+            {
+                [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
+                [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
+                if([[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"public"])
                 {
-                    publicCollectionId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
+                    publicCollectionId=[[collection objectAtIndex:i-1] objectForKey:@"collection_id"];
                 }
+            }
+            
         }
     }
     @catch (NSException *exception) {
@@ -429,7 +439,10 @@
         [categoryPickerView setDataSource: self];
         [categoryPickerView setDelegate: self];
         categoryPickerView.showsSelectionIndicator = YES;
+        UITapGestureRecognizer* gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickerViewTapGestureRecognized:)];
+        gestureRecognizer.cancelsTouchesInView = NO;
         
+        [categoryPickerView addGestureRecognizer:gestureRecognizer];
         pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-220, 320, 40)];
         pickerToolbar.barStyle = UIBarStyleBlackOpaque;
         [pickerToolbar sizeToFit];
@@ -450,7 +463,7 @@
         UIBarButtonItem *addFolder=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFolderView)];
         
         [barItems addObject:flexSpace];
-        [barItems addObject:addFolder];
+        //[barItems addObject:addFolder];
         UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(categoryDoneButtonPressed)];
         [barItems addObject:doneBtn];
         
@@ -472,60 +485,172 @@
     }
    
 }
+- (void)pickerViewTapGestureRecognized:(UITapGestureRecognizer*)gestureRecognizer
+{
+    //CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view.superview];
+    
+    //CGRect frame = categoryPickerView.frame;
+    //CGRect selectorFrame = CGRectInset( frame, 0.0, categoryPickerView.bounds.size.height * 0.85 / 2.0 );
+    
+    NSLog( @"Selected Row: %i", [categoryPickerView selectedRowInComponent:0] );
+    if([categoryPickerView selectedRowInComponent:0]==0)
+    {
+        [self addNewFolderView];
+    }
+}
+/*
+ -(void)addPhotoDescriptionView
+ {
+ UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+ UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
+ backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
+ backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+ 
+ UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-210, 200, 300)];
+ addPhotoDescriptionView.layer.borderWidth=1;
+ addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
+ addPhotoDescriptionView.layer.cornerRadius=8;
+ addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
+ 
+ UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 160, 30)];
+ headLbl.text=@"Add Photo Details";
+ headLbl.layer.cornerRadius=5;
+ headLbl.textAlignment=NSTextAlignmentCenter;
+ headLbl.textColor=btnTextColor;
+ //headLbl.backgroundColor=[UIColor darkGrayColor];
+ 
+ 
+ //add label for photo title and photo description
+ UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(30, 40, 100, 20)];
+ title.text=@"Title";
+ title.textColor=btnTextColor;
+ title.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 60, 140, 30)];
+ photoTitleTF.layer.borderWidth=1;
+ photoTitleTF.backgroundColor=[UIColor whiteColor];
+ [photoTitleTF setDelegate:self];
+ 
+ UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(30, 95, 100, 20)];
+ description.text=@"Description";
+ description.textColor=btnTextColor;
+ description.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(30, 115, 140, 70)];
+ photoDescriptionTF.layer.borderWidth=1;
+ photoDescriptionTF.backgroundColor=[UIColor whiteColor];
+ [photoDescriptionTF setDelegate:self];
+ 
+ 
+ UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(30, 190, 100, 20)];
+ tag.text=@"Tag";
+ tag.textColor=btnTextColor;
+ tag.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 210, 140, 30)];
+ phototagTF.layer.borderWidth=1;
+ phototagTF.backgroundColor=[UIColor whiteColor];
+ [phototagTF setDelegate:self];
+ 
+ UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(30, 250, 65, 30)];
+ 
+ //cancelButton.backgroundColor=btnBorderColor;
+ cancelButton.layer.cornerRadius=5;
+ cancelButton.layer.borderColor=btnBorderColor.CGColor;
+ cancelButton.layer.borderWidth=1;
+ 
+ cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+ [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
+ [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+ [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
+ 
+ UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
+ 
+ //addButton.backgroundColor=btnBorderColor;
+ save.layer.cornerRadius=5;
+ save.layer.borderColor=btnBorderColor.CGColor;
+ save.layer.borderWidth=1;
+ 
+ save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+ [save setTitleColor:btnTextColor forState:UIControlStateNormal];
+ 
+ 
+ [save setTitle:@"Save" forState:UIControlStateNormal];
+ [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
+ [addPhotoDescriptionView addSubview:headLbl];
+ [addPhotoDescriptionView addSubview:title];
+ [addPhotoDescriptionView addSubview:description];
+ [addPhotoDescriptionView addSubview:tag];
+ [addPhotoDescriptionView addSubview:photoTitleTF];
+ [addPhotoDescriptionView addSubview:photoDescriptionTF];
+ [addPhotoDescriptionView addSubview:phototagTF];
+ [addPhotoDescriptionView addSubview:cancelButton];
+ [addPhotoDescriptionView addSubview:save];
+ 
+ [backViewPhotDetail addSubview:addPhotoDescriptionView];
+ [self.view addSubview:backViewPhotDetail];
+ 
+ 
+ }*/
 -(void)addPhotoDescriptionView
 {
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
+    UIColor *lblTextColor=[UIColor blackColor];
     backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
     backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     
-    UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-210, 200, 300)];
+    UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-130, self.view.center.y-210, 260, 300)];
     addPhotoDescriptionView.layer.borderWidth=1;
     addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
     addPhotoDescriptionView.layer.cornerRadius=8;
     addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
-    
-    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 160, 30)];
+    //tap getsure on view for dismiss the keyboard
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    tapper.cancelsTouchesInView = NO;
+    [addPhotoDescriptionView addGestureRecognizer:tapper];
+
+    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(40, 10, addPhotoDescriptionView.frame.size.width-80, 30)];
     headLbl.text=@"Add Photo Details";
     headLbl.layer.cornerRadius=5;
     headLbl.textAlignment=NSTextAlignmentCenter;
-    headLbl.textColor=btnTextColor;
+    headLbl.textColor=lblTextColor;
     //headLbl.backgroundColor=[UIColor darkGrayColor];
     
     
     //add label for photo title and photo description
-    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(30, 40, 100, 20)];
+    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(20, 60, 80, 30)];
     title.text=@"Title";
-    title.textColor=btnTextColor;
+    title.textColor=lblTextColor;
     title.font=[UIFont fontWithName:@"Verdana" size:13];
     
-    photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 60, 140, 30)];
-    photoTitleTF.layer.borderWidth=1;
+    photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 60, 140, 30)];
+    photoTitleTF.layer.borderWidth=0.3;
     photoTitleTF.backgroundColor=[UIColor whiteColor];
     [photoTitleTF setDelegate:self];
     
-    UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(30, 95, 100, 20)];
+    UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(20, 110, 80, 30)];
     description.text=@"Description";
-    description.textColor=btnTextColor;
+    description.textColor=lblTextColor;
     description.font=[UIFont fontWithName:@"Verdana" size:13];
     
-    photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(30, 115, 140, 70)];
-    photoDescriptionTF.layer.borderWidth=1;
+    photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(100, 110, 140, 70)];
+    photoDescriptionTF.layer.borderWidth=0.3;
     photoDescriptionTF.backgroundColor=[UIColor whiteColor];
     [photoDescriptionTF setDelegate:self];
     
     
-    UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(30, 190, 100, 20)];
+    UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(20, 200, 80, 30)];
     tag.text=@"Tag";
-    tag.textColor=btnTextColor;
+    tag.textColor=lblTextColor;
     tag.font=[UIFont fontWithName:@"Verdana" size:13];
     
-    phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 210, 140, 30)];
-    phototagTF.layer.borderWidth=1;
+    phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 200, 140, 30)];
+    phototagTF.layer.borderWidth=0.3;
     phototagTF.backgroundColor=[UIColor whiteColor];
     [phototagTF setDelegate:self];
     
-    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(30, 250, 65, 30)];
+    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 65, 30)];
     
     //cancelButton.backgroundColor=btnBorderColor;
     cancelButton.layer.cornerRadius=5;
@@ -537,7 +662,7 @@
     [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
+    UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(170, 250, 70, 30)];
     
     //addButton.backgroundColor=btnBorderColor;
     save.layer.cornerRadius=5;
@@ -565,6 +690,10 @@
 
     
 }
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+{
+    [self.view endEditing:YES];
+}
 -(void)addNewFolderView
 {
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
@@ -585,7 +714,7 @@
     headLbl.textColor=btnTextColor;
     //headLbl.backgroundColor=[UIColor darkGrayColor];
     folderName=[[UITextField alloc] initWithFrame:CGRectMake(15, 60, 170, 30)];
-    folderName.layer.borderWidth=1;
+    folderName.layer.borderWidth=0.3;
     folderName.backgroundColor=[UIColor whiteColor];
     [folderName setDelegate:self];
     
@@ -767,7 +896,12 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     // Handle the selection
     
-        selectedCollectionId=[collectionIdArray objectAtIndex:row];
+    if(row!=0)
+    {
+         selectedCollectionId=[collectionIdArray objectAtIndex:row];
+    }
+    
+    
     
     NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
     
