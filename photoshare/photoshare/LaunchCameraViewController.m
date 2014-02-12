@@ -261,10 +261,11 @@
 
 #pragma mark - Photo Editor Customization
 
+
 - (void) setPhotoEditorCustomizationOptions
 {
     // Set Tool Order
-    NSArray * toolOrder = @[kAFEffects];
+    NSArray * toolOrder = @[kAFEffects, kAFFocus, kAFFrames, kAFStickers, kAFEnhance, kAFOrientation, kAFCrop, kAFAdjustments, kAFSplash, kAFDraw, kAFText, kAFRedeye, kAFWhiten, kAFBlemish, kAFMeme];
     [AFPhotoEditorCustomization setToolOrder:toolOrder];
     
     // Set Custom Crop Sizes
@@ -275,8 +276,8 @@
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
+    
 }
-
 #pragma mark - ALAssets Helper Methods
 
 - (UIImage *)editingResImageForAsset:(ALAsset*)asset

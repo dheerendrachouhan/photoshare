@@ -45,7 +45,25 @@ static ContentManager *objContantManager = nil;
      getData = [[NSUserDefaults standardUserDefaults] objectForKey:getKey];
     return getData;
 }
-
+-(void)removeData :(NSString *)keysString
+{
+    @try {
+        NSArray *keyArray=[keysString componentsSeparatedByString:@","];
+        
+        for (int i=0; i<keyArray.count; i++) {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:[keyArray objectAtIndex:i]];
+            
+        }
+        [[NSUserDefaults standardUserDefaults]synchronize ];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Execption in Remove Data from nsuser default is %@",exception.description);
+    }
+    @finally {
+        
+    }
+    
+}
 -(void)showAlert:(NSString *)alrttittle msg:(NSString *)msg cancelBtnTitle:(NSString *)btnTittle otherBtn:(NSString *)otherBtn{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alrttittle message:msg delegate:nil cancelButtonTitle:btnTittle otherButtonTitles:otherBtn, nil];
     [alert show];

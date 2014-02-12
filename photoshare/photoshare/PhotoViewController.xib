@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="folderLocationShowLabel" destination="EtP-Bk-sDW" id="hGG-Ty-2xh"/>
                 <outlet property="imageView" destination="Zt0-jW-0MP" id="51w-9S-LtF"/>
+                <outlet property="segmentControl" destination="hXd-ql-F46" id="gDE-hz-KEa"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
