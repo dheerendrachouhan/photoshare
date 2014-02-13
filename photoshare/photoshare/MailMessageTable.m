@@ -154,6 +154,7 @@
         }
     }
     [SVProgressHUD dismissWithSuccess:@"Contacts Loaded"];
+
 }
 
 - (IBAction)doneBtnPressed:(id)sender {
