@@ -26,6 +26,10 @@
     NSMutableArray *selectedUserArr;
     NSMutableArray *finalSelectArr;
     NSMutableString *StringTweet;
+    NSMutableArray *arSelectedRows;
+    NSTimer *timer;
+    BOOL check;
+    
 }
 @synthesize table;
 @synthesize contactDictionary,filterType;
@@ -46,6 +50,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    check = YES;
+    checkBoxBtn_Arr = [[NSMutableArray alloc] init];
+    arSelectedRows = [[NSMutableArray alloc] init];
     contactName = [[NSMutableArray alloc] init];
     contactEmail = [[NSMutableArray alloc] init];
     contactPhone = [[NSMutableArray alloc] init];
@@ -150,12 +157,6 @@
 }
 
 - (IBAction)doneBtnPressed:(id)sender {
-    /*
-    ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
-
-    [self.navigationController popToViewController:rf animated:YES];
-    [SVProgressHUD showWithStatus:@"Composing" maskType:SVProgressHUDMaskTypeBlack];
-     */
     if([filterType isEqualToString:@"Refer Mail"])
     {
         ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
@@ -272,94 +273,77 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identitifier];
     }
     
+    
     if([filterType isEqualToString:@"Refer Mail"])
     {
         cell.textLabel.text = [contactName objectAtIndex:indexPath.row];
         cell.detailTextLabel.text = [contactEmail objectAtIndex:indexPath.row];
         
-        UIButton *checkBox = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        if([arSelectedRows containsObject:indexPath])
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        [checkBoxBtn_Arr addObject:indexPath];
         
-        checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
-        
-        [checkBox setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
-        
-        [checkBox setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateSelected];
-        
-        [cell addSubview:checkBox];
-        
-        [checkBox addTarget:self action:@selector(sameB:) forControlEvents:UIControlEventTouchUpInside];
     }
     else if([filterType isEqualToString:@"Refer Text"])
     {
         cell.textLabel.text = [contactName objectAtIndex:indexPath.row];
         cell.detailTextLabel.text = [contactPhone objectAtIndex:indexPath.row];
         
-        UIButton *checkBox = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        
-        checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
-        
-        [checkBox setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
-        
-        [checkBox setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateSelected];
-        
-        [cell addSubview:checkBox];
-        
-        [checkBox addTarget:self action:@selector(sameB:) forControlEvents:UIControlEventTouchUpInside];
+        if([arSelectedRows containsObject:indexPath])
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        [checkBoxBtn_Arr addObject:indexPath];
     }
     else if([filterType isEqualToString:@"Share Mail"])
     {
         cell.textLabel.text = [contactName objectAtIndex:indexPath.row];
         cell.detailTextLabel.text = [contactEmail objectAtIndex:indexPath.row];
         
-        UIButton *checkBox = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        
-        checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
-        
-        [checkBox setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
-        
-        [checkBox setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateSelected];
-        
-        [cell addSubview:checkBox];
-        
-        [checkBox addTarget:self action:@selector(sameB:) forControlEvents:UIControlEventTouchUpInside];
+        if([arSelectedRows containsObject:indexPath])
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        [checkBoxBtn_Arr addObject:indexPath];
     }
     else if([filterType isEqualToString:@"Share Text"])
     {
         cell.textLabel.text = [contactName objectAtIndex:indexPath.row];
         cell.detailTextLabel.text = [contactPhone objectAtIndex:indexPath.row];
         
-        UIButton *checkBox = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        
-        checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
-        
-        [checkBox setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
-        
-        [checkBox setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateSelected];
-        
-        [cell addSubview:checkBox];
-        
-        [checkBox addTarget:self action:@selector(sameB:) forControlEvents:UIControlEventTouchUpInside];
+        if([arSelectedRows containsObject:indexPath])
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        [checkBoxBtn_Arr addObject:indexPath];
     }
-    
-    
     return cell;
 }
 
--(IBAction)sameB:(id)sender
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableString *tweetString = [[NSMutableString alloc] init];
-    UIButton *btn = (UIButton *) sender;
-    btn.selected = !btn.selected;
-    BOOL valz = (BOOL)btn.selected;
-    
     if([filterType isEqualToString:@"Refer Mail"])
     {
-        if(valz==1)
+        UITableViewCell *cell = [table cellForRowAtIndexPath:indexPath];
+        NSMutableString *tweetString = [[NSMutableString alloc] init];
+    
+        if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
-            CGRect buttonFrameInTableView = [btn convertRect:btn.bounds toView:table];
-            
-            NSIndexPath *indexPath = [table indexPathForRowAtPoint:buttonFrameInTableView.origin];
-            NSLog(@"%d",indexPath.row);
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
             [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
             for(int i=0;i<[selectedUserArr count];i++)
             {
@@ -371,14 +355,12 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
+            [arSelectedRows addObject:indexPath];
         }
-        else if(valz == 0)
-        {
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        
             tweetString = [NSMutableString stringWithString:@""];
-            CGRect buttonFrameInTableView = [btn convertRect:btn.bounds toView:table];
-            
-            NSIndexPath *indexPath = [table indexPathForRowAtPoint:buttonFrameInTableView.origin];
-            NSLog(@"%d",indexPath.row);
             [finalSelectArr removeAllObjects];
             for(NSString *match in selectedUserArr)
             {
@@ -396,21 +378,22 @@
                     [tweetString appendFormat:@"%@",match];
                     [finalSelectArr addObject:match];
                 }
-                
+            
             }
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
+            [arSelectedRows removeObject:indexPath];
         }
     }
     else if([filterType isEqualToString:@"Refer Text"])
     {
-        if(valz==1)
+        UITableViewCell *cell = [table cellForRowAtIndexPath:indexPath];
+        NSMutableString *tweetString = [[NSMutableString alloc] init];
+        
+        if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
-            CGRect buttonFrameInTableView = [btn convertRect:btn.bounds toView:table];
-            
-            NSIndexPath *indexPath = [table indexPathForRowAtPoint:buttonFrameInTableView.origin];
-            NSLog(@"%d",indexPath.row);
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
             [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
             for(int i=0;i<[selectedUserArr count];i++)
             {
@@ -422,14 +405,12 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
+            [arSelectedRows addObject:indexPath];
         }
-        else if(valz == 0)
-        {
-            tweetString = [NSMutableString stringWithString:@""];
-            CGRect buttonFrameInTableView = [btn convertRect:btn.bounds toView:table];
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
             
-            NSIndexPath *indexPath = [table indexPathForRowAtPoint:buttonFrameInTableView.origin];
-            NSLog(@"%d",indexPath.row);
+            tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
             for(NSString *match in selectedUserArr)
             {
@@ -452,16 +433,17 @@
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
+            [arSelectedRows removeObject:indexPath];
         }
     }
     else if([filterType isEqualToString:@"Share Mail"])
     {
-        if(valz==1)
+        UITableViewCell *cell = [table cellForRowAtIndexPath:indexPath];
+        NSMutableString *tweetString = [[NSMutableString alloc] init];
+        
+        if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
-            CGRect buttonFrameInTableView = [btn convertRect:btn.bounds toView:table];
-            
-            NSIndexPath *indexPath = [table indexPathForRowAtPoint:buttonFrameInTableView.origin];
-            NSLog(@"%d",indexPath.row);
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
             [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
             for(int i=0;i<[selectedUserArr count];i++)
             {
@@ -473,14 +455,12 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
+            [arSelectedRows addObject:indexPath];
         }
-        else if(valz == 0)
-        {
-            tweetString = [NSMutableString stringWithString:@""];
-            CGRect buttonFrameInTableView = [btn convertRect:btn.bounds toView:table];
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
             
-            NSIndexPath *indexPath = [table indexPathForRowAtPoint:buttonFrameInTableView.origin];
-            NSLog(@"%d",indexPath.row);
+            tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
             for(NSString *match in selectedUserArr)
             {
@@ -503,16 +483,17 @@
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
+            [arSelectedRows removeObject:indexPath];
         }
     }
     else if([filterType isEqualToString:@"Share Text"])
     {
-        if(valz==1)
+        UITableViewCell *cell = [table cellForRowAtIndexPath:indexPath];
+        NSMutableString *tweetString = [[NSMutableString alloc] init];
+        
+        if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
-            CGRect buttonFrameInTableView = [btn convertRect:btn.bounds toView:table];
-            
-            NSIndexPath *indexPath = [table indexPathForRowAtPoint:buttonFrameInTableView.origin];
-            NSLog(@"%d",indexPath.row);
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
             [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
             for(int i=0;i<[selectedUserArr count];i++)
             {
@@ -524,14 +505,12 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
+            [arSelectedRows addObject:indexPath];
         }
-        else if(valz == 0)
-        {
-            tweetString = [NSMutableString stringWithString:@""];
-            CGRect buttonFrameInTableView = [btn convertRect:btn.bounds toView:table];
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
             
-            NSIndexPath *indexPath = [table indexPathForRowAtPoint:buttonFrameInTableView.origin];
-            NSLog(@"%d",indexPath.row);
+            tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
             for(NSString *match in selectedUserArr)
             {
@@ -554,10 +533,167 @@
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
+            [arSelectedRows removeObject:indexPath];
+        }
+    }
+}
+
+
+//Testing Area
+
+- (IBAction)selectAllbtn:(id)sender {
+    
+    NSMutableString *tweetString = [[NSMutableString alloc] init];
+    
+    if([filterType isEqualToString:@"Refer Mail"])
+    {
+        if(check)
+        {
+            for (NSInteger s = 0; s < self.table.numberOfSections; s++)
+            {
+                for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
+                {
+                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    [arSelectedRows addObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    if([tweetString length])
+                    {
+                        [tweetString appendString:@", "];
+                    }
+                    [tweetString appendString:[contactEmail objectAtIndex:r]];
+                    [selectedUserArr addObject:[contactEmail objectAtIndex:r]];
+                }
+                StringTweet = [NSMutableString stringWithString:tweetString];
+                
+            }
+            check = NO;
+        }
+        else
+        {
+            for (NSInteger s = 0; s < self.table.numberOfSections; s++)
+            {
+                for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
+                {
+                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
+                    [arSelectedRows removeObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                }
+            }
+            StringTweet = nil;
+            check = YES;
+            [selectedUserArr removeLastObject];
         }
     }
     
+    else if([filterType isEqualToString:@"Refer Text"])
+    {
+        if(check)
+        {
+            for (NSInteger s = 0; s < self.table.numberOfSections; s++)
+            {
+                for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
+                {
+                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    [arSelectedRows addObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    if([tweetString length])
+                    {
+                        [tweetString appendString:@", "];
+                    }
+                    [tweetString appendString:[contactPhone objectAtIndex:r]];
+                    [selectedUserArr addObject:[contactPhone objectAtIndex:r]];
+                }
+                
+            }
+            check = NO;
+        }
+        else
+        {
+            for (NSInteger s = 0; s < self.table.numberOfSections; s++)
+            {
+                for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
+                {
+                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
+                    [arSelectedRows removeObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                }
+            }
+            StringTweet = nil;
+            check = YES;
+            [selectedUserArr removeLastObject];
+        }
+    }
+    else if([filterType isEqualToString:@"Share Mail"])
+    {
+        if(check)
+        {
+            for (NSInteger s = 0; s < self.table.numberOfSections; s++)
+            {
+                for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
+                {
+                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    [arSelectedRows addObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    if([tweetString length])
+                    {
+                        [tweetString appendString:@", "];
+                    }
+                    [tweetString appendString:[contactEmail objectAtIndex:r]];
+                    [selectedUserArr addObject:[contactEmail objectAtIndex:r]];
+                }
+                StringTweet = [NSMutableString stringWithString:tweetString];
+            }
+            check = NO;
+        }
+        else
+        {
+            for (NSInteger s = 0; s < self.table.numberOfSections; s++)
+            {
+                for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
+                {
+                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
+                    [arSelectedRows removeObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                }
+            }
+            StringTweet = nil;
+            check = YES;
+            [selectedUserArr removeLastObject];
+        }
+    }
+    else if([filterType isEqualToString:@"Share Text"])
+    {
+        if(check)
+        {
+            for (NSInteger s = 0; s < self.table.numberOfSections; s++)
+            {
+                for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
+                {
+                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    [arSelectedRows addObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    if([tweetString length])
+                    {
+                        [tweetString appendString:@", "];
+                    }
+                    [tweetString appendString:[contactPhone objectAtIndex:r]];
+                    [selectedUserArr addObject:[contactPhone objectAtIndex:r]];
+                }
+                StringTweet = [NSMutableString stringWithString:tweetString];
+            }
+            check = NO;
+        }
+        else
+        {
+            for (NSInteger s = 0; s < self.table.numberOfSections; s++)
+            {
+                for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
+                {
+                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
+                    [arSelectedRows removeObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                }
+            }
+            StringTweet = nil;
+            check = YES;
+            [selectedUserArr removeLastObject];
+        }
+    }
 }
+
+// testing area Finished
 
 -(void)addCustomNavigationBar
 {

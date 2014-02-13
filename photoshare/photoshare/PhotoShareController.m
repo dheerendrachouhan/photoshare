@@ -112,7 +112,16 @@
         NSArray *arr = [shareEmailStr componentsSeparatedByString:@","];
         contactSelectedArray = [NSMutableArray arrayWithArray:arr];
         mailFilter = YES;
-        [self mailTo];
+        NSString *objFirst = [arr objectAtIndex:0];
+        if(objFirst.length == 0)
+        {
+            [objManager showAlert:@"No Contact" msg:@"No contact available to mail" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        else
+        {
+            [self mailTo];
+        }
+        
     }
     else if ([shareValue isEqualToString:@"Share Text"])
     {
@@ -120,7 +129,15 @@
         NSArray *arr = [sharePhoneStr componentsSeparatedByString:@", "];
         contactNoSelectedArray = [NSMutableArray arrayWithArray:arr];
         smsFilter = YES;
-        [self sendInAppSMS];
+        NSString *objFirst = [arr objectAtIndex:0];
+        if(objFirst.length == 0)
+        {
+            [objManager showAlert:@"No Contact" msg:@"No contact available for text" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        else
+        {
+            [self sendInAppSMS];
+        }
     }
 
 }
@@ -435,8 +452,20 @@
                                    *)ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty);
             NSString *lastName =  (__bridge_transfer NSString
                                    *)ABRecordCopyValue(contactPerson, kABPersonLastNameProperty);
+            if(firstName.length == 0)
+            {
+                firstName = @"";
+            }
+            else if(lastName.length == 0)
+            {
+                lastName = @"";
+            }
             NSString *fullName = [NSString stringWithFormat:@"%@ %@",
                                   firstName, lastName];
+            if(fullName.length<=1)
+            {
+                fullName=@"";
+            }
             NSLog(@"Full Name: %@",fullName);
             
             NSString *concatStr = @"";
