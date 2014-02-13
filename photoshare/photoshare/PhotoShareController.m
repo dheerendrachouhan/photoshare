@@ -112,7 +112,16 @@
         NSArray *arr = [shareEmailStr componentsSeparatedByString:@","];
         contactSelectedArray = [NSMutableArray arrayWithArray:arr];
         mailFilter = YES;
-        [self mailTo];
+        NSString *objFirst = [arr objectAtIndex:0];
+        if(objFirst.length == 0)
+        {
+            [objManager showAlert:@"No Contact" msg:@"No contact available to mail" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        else
+        {
+            [self mailTo];
+        }
+        
     }
     else if ([shareValue isEqualToString:@"Share Text"])
     {
@@ -120,7 +129,15 @@
         NSArray *arr = [sharePhoneStr componentsSeparatedByString:@", "];
         contactNoSelectedArray = [NSMutableArray arrayWithArray:arr];
         smsFilter = YES;
-        [self sendInAppSMS];
+        NSString *objFirst = [arr objectAtIndex:0];
+        if(objFirst.length == 0)
+        {
+            [objManager showAlert:@"No Contact" msg:@"No contact available for text" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        else
+        {
+            [self sendInAppSMS];
+        }
     }
 
 }

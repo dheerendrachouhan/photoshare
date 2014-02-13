@@ -12,8 +12,11 @@
 @interface MailMessageTable : UIViewController <UITableViewDataSource,UITableViewDelegate>
 {
     ContentManager *objManager;
+    NSMutableArray *checkBoxBtn_Arr;
 }
 @property (nonatomic, strong) IBOutlet UITableView *table;
 @property (nonatomic, strong) NSMutableDictionary *contactDictionary;
 @property (nonatomic, strong) NSString *filterType;
+
+
 @end

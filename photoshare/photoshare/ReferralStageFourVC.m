@@ -640,7 +640,15 @@
         NSArray *arr = [referEmailStr componentsSeparatedByString:@","];
         contactSelectedArray = [NSMutableArray arrayWithArray:arr];
         mailFilter = YES;
-        [self mailTo];
+        NSString *objFirst = [arr objectAtIndex:0];
+        if(objFirst.length == 0)
+        {
+            [objManager showAlert:@"No Contact" msg:@"No contact available to mail" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        else
+        {
+            [self mailTo];
+        }
     }
     else if ([referredValue isEqualToString:@"Refer Text"])
     {
@@ -648,7 +656,15 @@
         NSArray *arr = [referPhoneStr componentsSeparatedByString:@", "];
         contactNoSelectedArray = [NSMutableArray arrayWithArray:arr];
         smsFilter = YES;
-        [self sendInAppSMS];
+        NSString *objFirst = [arr objectAtIndex:0];
+        if(objFirst.length == 0)
+        {
+            [objManager showAlert:@"No Contact" msg:@"No contact available for text" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        else
+        {
+            [self sendInAppSMS];
+        }
     }
 
 }
