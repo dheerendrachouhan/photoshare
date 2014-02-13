@@ -49,6 +49,11 @@
     //temp Hidden
    // loginBackgroundImage.hidden=YES;
     
+    //initialize the sharing IdArray
+    sharingIdArray=[[NSMutableArray alloc] init];
+    collectionArrayWithSharing =[[NSMutableArray alloc] init];
+    
+    
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;
     pwsFlt = NO;
@@ -119,117 +124,126 @@
     NSLog(@"login callback%@",data);
    
          //validate the user
+    
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    if(exitCode.integerValue==1)
+     NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+    if(isGetLoginDetail)
     {
-        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-        if(rememberFltr)
-        {
-            [dmc setRememberMe:@"YES"];
-            NSDictionary *loginFields = @{@"username":nameTextField.text,@"password":passwordTextField.text};
-            [dmc setRememberFields:loginFields];
-        }
-        else
-        {
-            [dmc setRememberMe:@"NO"];
-            NSDictionary *loginFields = @{@"username":@"",@"password":@""};
-            [dmc setRememberFields:loginFields];
-        }
-        
-        if(isGetLoginDetail)
+        if(exitCode.integerValue==1)
         {
             //get the userId
             NSDictionary *dic=[outPutData objectAtIndex:0];
-            //Setting values globally
-            //ContentManager *manager=[ContentManager sharedManager];
-            //manager.loginDetailsDict = dic;
             userid =[dic objectForKey:@"user_id"];
+            
+            //store user details in nsuser default
             [dmc setUserId:[NSString stringWithFormat:@"%@",userid]] ;
             [dmc setUserName:[NSString stringWithFormat:@"%@",[dic objectForKey:@"user_username"]]];
-            
             [dmc setUserDetails:dic] ;
-            
-            //userid=[dic objectForKey:@"user_id"];
-            
-           // NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
-            
-            //store the UserId in NSUser Defaults
-            //[manager storeData:userid :@"user_id"];
-            
             
             NSLog(@"Successful Login");
             
-            
-            //is FirstTimeLogin
-            [self ifFirstTimeLogin];     
-           
-
+            isGetLoginDetail=NO;
+            //display the DataFetchingProgress
+            [self displayTheDataFetchingView];
+            //call the get collection detail method
+            [self getSharingusersId];
         }
-        else if(isGetTheCollectionListData)
+        else
         {
-            //set collection List in NSDefault
-            [manager storeData:outPutData :@"collection_data_list"];
-
-            [self getStorageFromServer];
-            
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
         }
-        else if(isGetStorage)
-        {
-            @try {
-                NSLog(@"Get Storage %@",data);
-                NSDictionary *dic=[outPutData objectAtIndex:0];
-                NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
-                NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
-                if(availableStorage==(id)NULL)
-                {
-                    availableStorage=@0;
-                }
-                if(usedStorage==(id)NULL)
-                {
-                    usedStorage=@0;
-                }
-                //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
-                float availableSpaceInMB=0.0f;
-                float usedSpaceInMB=0.0f;
-                availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
-                usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
-                
-                //set the diskSpacePercentage
-                float progressPercent=0.0f;
-                progressPercent=(float)(usedSpaceInMB/availableSpaceInMB);
-                //store in NSDefault
-                [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
-            }
-            @catch (NSException *exception) {
-                
-            }
-            @finally {
-                
-            }
-           
-            
-            [self getIncomeFromServer];
-        }
-        else if(isGetIcomeDetail)
-        {
-            [self resetAllBoolValue];
-            
-            NSLog(@"Get Storage %@",data);
-            NSNumber *dict = [outPutData valueForKey:@"total_expected_income"];
-            
-            manager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
-            NSLog(@"%@",manager.weeklyearningStr);
-            //remove fetchView and status bar
-            [dataFetchView removeFromSuperview];
-            [SVProgressHUD dismiss];
-            //[self dismissViewControllerAnimated:YES completion:nil];
-            [self loadData];
-        }
+        
     }
     else
     {
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
+        if(exitCode.integerValue==1)
+        {
+            
+            if(rememberFltr)
+            {
+                [dmc setRememberMe:@"YES"];
+                NSDictionary *loginFields = @{@"username":nameTextField.text,@"password":passwordTextField.text};
+                [dmc setRememberFields:loginFields];
+            }
+            else
+            {
+                [dmc setRememberMe:@"NO"];
+                NSDictionary *loginFields = @{@"username":@"",@"password":@""};
+                [dmc setRememberFields:loginFields];
+            }
+            ////////////////////////get the collection sharing user id
+            if(isGetSharingUserId)
+            {
+                    NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+                    for (int i=0; i<outPutData.count; i++)
+                    {
+                        @try {
+                            [sharingIdArray addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
+                        }
+                        @catch (NSException *exception) {
+                            
+                        }
+                        @finally {
+                            
+                        }
+                    }
+                
+                isGetSharingUserId=NO;
+                [self fetchOwnCollectionInfoFromServer];
+                
+            }
+            
+            else if(isGetTheOwnCollectionListData)
+            {
+                [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]];
+                
+                isGetTheOwnCollectionListData=NO;
+                
+                if(sharingIdArray.count>0)
+                {
+                    [self fetchSharingCollectionInfoFromServer];
+                }
+                else
+                {
+                    //save collectioon detail in nsuser default
+                    [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+                    [self getIncomeFromServer];
+                }
+                
+            }
+            else if (isGetTheSharingCollectionListData)
+            {
+                [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]];
+                countSharing++;
+                if(countSharing==sharingIdArray.count)
+                {
+                    
+                    //save collectioon detail in nsuser default
+                    [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+                    isGetTheSharingCollectionListData=NO;
+                    
+                    [self getIncomeFromServer];
+                }
+            }
+            
+            else if(isGetIcomeDetail)
+            {
+                [self resetAllBoolValue];
+                
+                NSLog(@"Get Storage %@",data);
+                NSNumber *dict = [outPutData valueForKey:@"total_expected_income"];
+                
+                manager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
+                NSLog(@"%@",manager.weeklyearningStr);
+                
+                isGetIcomeDetail=NO;
+                [self removeDataFetchView];
+                
+                [self loadData];
+            }
+        }
+
     }
 }
 
@@ -254,34 +268,82 @@
         
     }
     
+}
+//for fetching data from server add Loading view
+-(void)displayTheDataFetchingView
+{
     //set Fetching View
     dataFetchView=[[UIView alloc] initWithFrame:self.view.frame];
     dataFetchView.backgroundColor=[UIColor whiteColor];
-    [SVProgressHUD showWithStatus:@"Data is Loading From Server" maskType:SVProgressHUDMaskTypeBlack];
-    
-    //UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(self.view.center.x-100,self.view.center.y-20,200,20)];
-    //label.text=@"Please wait data is fetchinf from server";
-
-    //[dataFetchView addSubview:label];
-    
     [self.view addSubview:dataFetchView];
-    [self fetchCollectionInfoFromServer];
+    [SVProgressHUD showWithStatus:@"Data is Loading From Server" maskType:SVProgressHUDMaskTypeBlack];
 
+}
+-(void)removeDataFetchView
+{
+    //remove fetchView and status bar
+    [dataFetchView removeFromSuperview];
+    [SVProgressHUD dismiss];
+}
+
+
+//Fetch collection info From Server
+-(void)getSharingusersId
+{
+    @try {
+        
+        isGetSharingUserId=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid};
+        [webservices call:dicData controller:@"collection" method:@"sharing"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 //Fetch data From Server
--(void)fetchCollectionInfoFromServer
+-(void)fetchOwnCollectionInfoFromServer
 {
-[self resetAllBoolValue];
-    [self resetAllBoolValue];
-
-    isGetTheCollectionListData=YES;
-    webservices.delegate=self;
+    @try {
+        isGetTheOwnCollectionListData=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
+        [webservices call:dicData controller:@"collection" method:@"getlist"];
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
     
-    NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
-
-    [webservices call:dicData controller:@"collection" method:@"getlist"];
-
 }
+-(void)fetchSharingCollectionInfoFromServer
+{
+    @try {
+        if(sharingIdArray.count>0)
+        {
+            countSharing=0;
+            for (int i=0; i<sharingIdArray.count; i++) {
+                isGetTheSharingCollectionListData=YES;
+                webservices.delegate=self;
+                NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":[sharingIdArray objectAtIndex:i]};
+                [webservices call:dicData controller:@"collection" method:@"getlist"];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+}
+
 -(void)getStorageFromServer
 {
     [self resetAllBoolValue];
@@ -290,6 +352,8 @@
     NSDictionary *dicData=@{@"user_id":userid};
     [webservices call:dicData controller:@"storage" method:@"get"];
 }
+//---------------------------
+//---------------------------
 -(void)getIncomeFromServer
 {
     [self resetAllBoolValue];

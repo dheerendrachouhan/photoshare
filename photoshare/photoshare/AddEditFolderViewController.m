@@ -42,7 +42,7 @@
     
     //contant manager Object
      manager = [ContentManager sharedManager];
-    webServices=[[WebserviceController alloc] init];
+    webservices=[[WebserviceController alloc] init];
     
     
     //set the disign of the button , View and Label
@@ -54,6 +54,9 @@
     folderNameView.layer.cornerRadius=tfBackViewCornerRadius;
     folderNameView.layer.borderColor=tfBackViewBorderColor.CGColor;
 
+    //initialize the array
+    sharingIdArray=[[NSMutableArray alloc] init];
+    collectionArrayWithSharing=[[NSMutableArray alloc] init];
     
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
@@ -84,7 +87,7 @@
         folderName.text=self.setFolderName;
         collectionOwnerNameLbl.text=@"";
         [self getCollectionDetail];
-        NSNumber *i=self.collectionOwnerId;
+       
         if(self.collectionOwnerId.integerValue != userid.integerValue)
         {
             addButton.hidden=YES;
@@ -138,12 +141,12 @@
     @try {
         
         isGetCollectionDetails=YES;
-        webServices.delegate=self;
+        webservices.delegate=self;
         [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
         
         NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
         
-        [webServices call:dicData controller:@"collection" method:@"get"];
+        [webservices call:dicData controller:@"collection" method:@"get"];
     }
     @catch (NSException *exception) {
         
@@ -231,7 +234,7 @@
    
     isAdd=YES;
     
-    webServices.delegate=self;
+    webservices.delegate=self;
    if(writeUserIds==Nil)
    {
        writeUserIds=@"";
@@ -242,7 +245,7 @@
     }
      NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
     @try {
-        [webServices call:dicData controller:@"collection" method:@"store"];
+        [webservices call:dicData controller:@"collection" method:@"store"];
 
     }
     @catch (NSException *exception) {
@@ -265,7 +268,7 @@
     if(readUserIds == nil)
     readUserIds=@"";
   
-    webServices.delegate=self;
+    webservices.delegate=self;
     
     //edit data
     NSDictionary *dicData;
@@ -279,7 +282,7 @@
     }
     
     @try {
-        [webServices call:dicData controller:@"collection" method:@"change"];
+        [webservices call:dicData controller:@"collection" method:@"change"];
 
     }
     @catch (NSException *exception) {
@@ -295,18 +298,18 @@
     
     isDelete=YES;
     
-    webServices.delegate=self;
+    webservices.delegate=self;
     //delete data
     NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
-    [webServices call:dicData controller:@"collection" method:@"delete"];
+    [webservices call:dicData controller:@"collection" method:@"delete"];
     
 }
 -(void)getTheCollectionOwnerName
 {
     NSDictionary *dicData=@{@"user_id":userid,@"target_user_id":self.collectionOwnerId,@"target_username":@""};
-    webServices.delegate=self;
+    webservices.delegate=self;
     isGetCollectionOwnername=YES;
-    [webServices call:dicData controller:@"user" method:@"get"];
+    [webservices call:dicData controller:@"user" method:@"get"];
     
 }
 //call back Method
@@ -324,13 +327,15 @@
                 @try {
                     NSDictionary *outputData=[data objectForKey:@"output_data"];
                     NSDictionary *collectionContent=[[outputData objectForKey:@"collection_contents"] mutableCopy];
-                    NSArray *collectionUserDetails=[[outputData objectForKey:@"collection_user_details"] mutableCopy];
+                    
 
                     collectionDetail=[outputData mutableCopy];
                     
                     @try {
-                        
-                        [photoIdArray addObjectsFromArray:[collectionContent allKeys]];
+                      if(collectionContent.count!=0)
+                      {
+                          [photoIdArray addObjectsFromArray:[collectionContent allKeys]];
+                      }
                         NSString *writeUserIdStr=[[collectionDetail objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
                         NSString *readUserIdStr=[[collectionDetail objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
                         //store in nsuserDefault
@@ -368,33 +373,179 @@
         }
         isGetCollectionOwnername=NO;
     }
-        else if(isAdd||isSave||isDelete)
+    
+    else if(isAdd||isSave||isDelete)
+    {
+        if(exitCode ==1)
         {
-            if(exitCode ==1)
+            if(isAdd)
             {
-                UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-                [alertView show];
-                            }
-            else
-            {
-                [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
+                
+                
+                newCollectionId=[[[data objectForKey:@"output_data"] objectAtIndex:0] objectForKey:@"collection_id"];
             }
-            //reset
-            isAdd=NO;
-            isSave=NO;
-            isDelete=NO;
+            else if (isDelete)
+            {
+                [self deletePhotoFromServer];
+            }
+            //[self updateCollectionDetailInNsUserDefault];
+            [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+            user_message=[data objectForKey:@"user_message"];
+            [self getSharingusersId];//for update the collection detail in nsuser default
         }
+        else
+        {
+            [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        //reset
+        isAdd=NO;
+        isSave=NO;
+        isDelete=NO;
+
+    }
+    else if(isGetSharingUserId)
+    {
+        if(exitCode==1)
+        {
+            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+            [sharingIdArray removeAllObjects];
+            for (int i=0; i<outPutData.count; i++)
+            {
+                @try {
+                    [sharingIdArray addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
+                }
+                @catch (NSException *exception) {
+                    
+                }
+                @finally {
+                    
+                }
+                
+            }
+            
+        }
+        isGetSharingUserId=NO;
+        [self fetchOwnCollectionInfoFromServer];
+        
+    }
+    else if(isGetTheOwnCollectionListData)
+    {
+        [collectionArrayWithSharing removeAllObjects];
+        if(exitCode==1)
+        {
+            [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
+            //nsuser default
+            
+        }
+        isGetTheOwnCollectionListData=NO;
+        if(sharingIdArray.count>0)
+        {
+            [self fetchSharingCollectionInfoFromServer];
+        }
+        else
+        {
+            
+            [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alertView show];
+        }
+        
+    }
+    else if (isGetTheSharingCollectionListData)
+    {
+        if(exitCode==1)
+        {
+            [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
+        }
+        countSharing++;
+        if(countSharing==sharingIdArray.count)
+        {
+            [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+            [SVProgressHUD dismiss];
+            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alertView show];
+        }
+    }
+
     
 }
 
+-(void)updateCollectionDetailInNsUserDefault
+{
+    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
+    
+    NSString *writeUserIds=[manager getData:@"writeUserId"];
+    NSString *readUserIds=[manager getData:@"readUserId"];
+    NSNumber *shared=@0;
+    if(writeUserIds.length>0||readUserIds.length>0)
+    {
+        shared=@1;
+    }
+    
+    if(isAdd)
+    {
+        NSMutableDictionary *newCol=[[NSMutableDictionary alloc] init];
+        [newCol setObject:@0 forKey:@"collection_default"];
+        [newCol setObject:newCollectionId forKey:@"collection_id"];
+        [newCol setObject:folderName.text forKey:@"collection_name"];
+        [newCol setObject:shared forKey:@"collection_shared"];
+        [newCol setObject:@0 forKey:@"collection_sharing"];
+        [newCol setObject:userid forKey:@"collection_user_id"];
+        
+        [collection addObject:newCol];
+        [manager storeData:collection :@"collection_data_list"];
+    }
+    else if (isSave)
+    {
+        NSMutableDictionary *newCol=[[NSMutableDictionary alloc] init];
+        [newCol setObject:@0 forKey:@"collection_default"];
+        [newCol setObject:self.collectionId forKey:@"collection_id"];
+        [newCol setObject:folderName.text forKey:@"collection_name"];
+        [newCol setObject:shared forKey:@"collection_shared"];
+        [newCol setObject:@0 forKey:@"collection_sharing"];
+        [newCol setObject:userid forKey:@"collection_user_id"];
+        
+        for (int i=0; i<collection.count; i++) {
+            
+            NSNumber *colId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
+            if(colId.integerValue==self.collectionId.integerValue)
+            {
+                [collection replaceObjectAtIndex:i withObject:newCol];
+                [manager storeData:collection :@"collection_data_list"];
+                break;
+            }
+            
+        }
+    }
+    else if (isDelete)
+    {
+        
+        for (int i=0; i<collection.count; i++) {
+            
+            NSNumber *colId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
+            if(colId.integerValue==self.collectionId.integerValue)
+            {
+                [collection removeObjectAtIndex:i];
+                [manager storeData:collection :@"collection_data_list"];
+                break;
+            }
+            
+        }
+    }
+    //reset
+    isAdd=NO;
+    isSave=NO;
+    isDelete=NO;
 
+
+}
 -(void)deletePhotoFromServer
 {
     @try {
         for (int i=0; i<photoIdArray.count; i++) {
             
             NSDictionary *dicData=@{@"user_id":userid,@"photo_id":[photoIdArray objectAtIndex:i]};
-            [webServices call:dicData controller:@"photo" method:@"delete"];
+            [webservices call:dicData controller:@"photo" method:@"delete"];
         }
     }
     @catch (NSException *exception) {
@@ -406,6 +557,61 @@
    
     
 }
+-(void)getSharingusersId
+{
+    @try {
+        isGetSharingUserId=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid};
+        [webservices call:dicData controller:@"collection" method:@"sharing"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+}
+//Fetch data From Server
+-(void)fetchOwnCollectionInfoFromServer
+{
+    @try {
+        isGetTheOwnCollectionListData=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":userid};
+        [webservices call:dicData controller:@"collection" method:@"getlist"];
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    
+}
+-(void)fetchSharingCollectionInfoFromServer
+{
+    @try {
+        if(sharingIdArray.count>0)
+        {
+            countSharing=0;
+            for (int i=0; i<sharingIdArray.count; i++) {
+                isGetTheSharingCollectionListData=YES;
+                webservices.delegate=self;
+                NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":[sharingIdArray objectAtIndex:i]};
+                [webservices call:dicData controller:@"collection" method:@"getlist"];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+}
+
 //alert Delegate Method
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

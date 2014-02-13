@@ -157,16 +157,22 @@
             }
             else
             {
-                [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
-                [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
+                NSNumber *coluserId=[[collection objectAtIndex:i-1] objectForKey:@"collection_user_id"];
+                if(coluserId.integerValue==userid.integerValue)
+                {
+                    [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
+                    [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
+                    
+                }
                 if([[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"public"])
                 {
                     publicCollectionId=[[collection objectAtIndex:i-1] objectForKey:@"collection_id"];
-                    colOwnerId=[[collection objectAtIndex:i-1] objectForKey:@"collection_user_id"];
+                    colOwnerId=coluserId;
                     folderIndex=i-1;
                 }
+
             }
-            
+           
         }
     }
     @catch (NSException *exception) {
@@ -840,7 +846,7 @@
     
     webservices.delegate=self;
     
-    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":selectedCollectionId};
+    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":[NSString stringWithFormat:@"%@",selectedCollectionId]};
     //store data
     // [webServices call:data controller:@"photo" method:@"store"];
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;

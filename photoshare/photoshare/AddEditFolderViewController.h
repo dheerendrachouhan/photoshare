@@ -21,7 +21,7 @@
     IBOutlet UILabel *collectionOwnerNameLbl;
     NSNumber *userid;
     ContentManager *manager;
-    WebserviceController *webServices;
+    WebserviceController *webservices;
     NSNumber *newCollectionId;
     
     BOOL isAdd;
@@ -41,6 +41,16 @@
     
     BOOL isDeletePhotoMode;
     
+    NSString *user_message;
+    
+    //for sharing detail get
+
+    NSMutableArray *collectionArrayWithSharing;
+    BOOL isGetTheOwnCollectionListData;
+    BOOL isGetTheSharingCollectionListData;
+    int countSharing;
+    BOOL isGetSharingUserId;
+    NSMutableArray *sharingIdArray;
     
 }
 

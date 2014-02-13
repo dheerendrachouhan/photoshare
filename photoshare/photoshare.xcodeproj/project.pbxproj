@@ -29,6 +29,8 @@
 		E1067DFE189AA7D600F08A5F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067DF5189AA7D600F08A5F /* AFURLSessionManager.m */; };
 		E1067E01189AA7F400F08A5F /* WebserviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E00189AA7F400F08A5F /* WebserviceController.m */; };
 		E1067E03189AA80400F08A5F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E02189AA80400F08A5F /* LoginViewController.m */; };
+		E11AD1B018ACC4F600C6185E /* SearchPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */; };
+		E11AD1B118ACC4F600C6185E /* SearchPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */; };
 		E11C55DF18A8ECC700C67B6D /* ShareWithUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C55DD18A8ECC700C67B6D /* ShareWithUserViewController.m */; };
 		E11C55E018A8ECC700C67B6D /* ShareWithUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E11C55DE18A8ECC700C67B6D /* ShareWithUserViewController.xib */; };
 		E165CF3B18A3B8950030099C /* EditPhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */; };
@@ -255,6 +257,9 @@
 		E1067DFF189AA7F400F08A5F /* WebserviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceController.h; sourceTree = "<group>"; };
 		E1067E00189AA7F400F08A5F /* WebserviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceController.m; sourceTree = "<group>"; };
 		E1067E02189AA80400F08A5F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPhotoViewController.h; sourceTree = "<group>"; };
+		E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPhotoViewController.m; sourceTree = "<group>"; };
+		E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchPhotoViewController.xib; sourceTree = "<group>"; };
 		E11C55DC18A8ECC700C67B6D /* ShareWithUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareWithUserViewController.h; sourceTree = "<group>"; };
 		E11C55DD18A8ECC700C67B6D /* ShareWithUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareWithUserViewController.m; sourceTree = "<group>"; };
 		E11C55DE18A8ECC700C67B6D /* ShareWithUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareWithUserViewController.xib; sourceTree = "<group>"; };
@@ -789,6 +794,9 @@
 				E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */,
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
+				E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */,
+				E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */,
+				E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */,
 				E1B07427189951CC00589867 /* CommunityViewController.h */,
 				E1B07428189951CC00589867 /* CommunityViewController.m */,
 				E1B074241899518600589867 /* AddEditFolderViewController.h */,
@@ -1144,6 +1152,7 @@
 				FC35A894189BE02D006DDDFC /* splash640x960.png in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E31A557F18A502E800B0015B /* earnings-icon.png in Resources */,
+				E11AD1B118ACC4F600C6185E /* SearchPhotoViewController.xib in Resources */,
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
 				E322BAF018A36B7600CAC9E5 /* folder-30x30.png in Resources */,
 				E31A558618A502E800B0015B /* photo-icon@2x.png in Resources */,
@@ -1217,6 +1226,7 @@
 				E1067DFC189AA7D600F08A5F /* AFURLRequestSerialization.m in Sources */,
 				E1067DF8189AA7D600F08A5F /* AFHTTPSessionManager.m in Sources */,
 				FC85D52E1896EAC1006AD7E0 /* EditProfileViewController.m in Sources */,
+				E11AD1B018ACC4F600C6185E /* SearchPhotoViewController.m in Sources */,
 				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
 				E1067DFB189AA7D600F08A5F /* AFURLConnectionOperation.m in Sources */,
 				E3BAA8EC18993ABC00ED2CA2 /* NSString+SBJSON.m in Sources */,
