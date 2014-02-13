@@ -106,7 +106,7 @@
             
         }
         isSearchPhoto=NO;
-        if(searchResultArray.count>0)
+        if(photDetailArray.count>0)
         {
             photoCount=0;
             isGetPhotoFromServer=YES;
