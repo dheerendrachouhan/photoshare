@@ -387,7 +387,7 @@
      //stop loader
     
     // Present mail view controller on screen
-    [self presentViewController:mfMail animated:YES completion:nil];
+    [[self navigationController] presentViewController:mfMail animated:YES completion:nil];
     
 }
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -433,7 +433,7 @@
 		controller.body = [NSString stringWithFormat:@"%@ %@",userMessage.text,toolkitLink];
 		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
 		controller.messageComposeDelegate = self;
-		[self presentViewController:controller animated:YES completion:nil];
+		[[self navigationController] presentViewController:controller animated:YES completion:nil];
 	}
 }
 
@@ -647,7 +647,8 @@
         }
         else
         {
-            [self mailTo];
+            [SVProgressHUD showWithStatus:@"Composing" maskType:SVProgressHUDMaskTypeBlack];
+            [self performSelector:@selector(mailTo) withObject:self afterDelay:3.0];
         }
     }
     else if ([referredValue isEqualToString:@"Refer Text"])
