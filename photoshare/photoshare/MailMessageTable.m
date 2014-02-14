@@ -330,6 +330,8 @@
         NSString *title;
         NSString *contacts;
         if (isSearching && [filteredList count]) {
+            
+                       
             //If the user is searching, use the list in our filteredList array.
             title = [filteredList objectAtIndex:indexPath.row];
             contacts = [filteredContact objectAtIndex:indexPath.row];
@@ -344,7 +346,14 @@
         
         if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            if (isSearching && [filteredList count]) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+            else
+            {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+            
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -371,7 +380,14 @@
         
         if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            if (isSearching && [filteredList count]) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+            else
+            {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+            
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -397,7 +413,14 @@
         
         if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            if (isSearching && [filteredList count]) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+            else
+            {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+            
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -423,7 +446,14 @@
         
         if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            if (isSearching && [filteredList count]) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+            else
+            {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+            
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -452,7 +482,7 @@
             }
             else
             {
-                index = [contactEmail indexOfObject:[contactEmail objectAtIndex:indexPath.row]];
+                index = indexPath.row;
                 [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
             }
             for(int i=0;i<[selectedUserArr count];i++)
@@ -505,7 +535,8 @@
         if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            int index;
+            NSLog(@"Index path is %d",indexPath.row);
+            int index = 0;
             if(isSearching)
             {
                 index =[contactPhone indexOfObject:[filteredPhone objectAtIndex:indexPath.row]];
@@ -513,7 +544,7 @@
             }
             else
             {
-                index = [contactPhone indexOfObject:[contactPhone objectAtIndex:indexPath.row]];
+                index = indexPath.row;
                 [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
             }
             for(int i=0;i<[selectedUserArr count];i++)
@@ -574,7 +605,7 @@
             }
             else
             {
-                index = [contactEmail indexOfObject:[contactEmail objectAtIndex:indexPath.row]];
+                index = indexPath.row;
                 [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
             }
             for(int i=0;i<[selectedUserArr count];i++)
@@ -627,7 +658,8 @@
         if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            int index;
+            NSLog(@"Index path is %d",indexPath.row);
+            int index = 0;
             if(isSearching)
             {
                 index =[contactPhone indexOfObject:[filteredPhone objectAtIndex:indexPath.row]];
@@ -635,7 +667,7 @@
             }
             else
             {
-                index = [contactPhone indexOfObject:[contactPhone objectAtIndex:indexPath.row]];
+                index = indexPath.row;
                 [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
             }
             for(int i=0;i<[selectedUserArr count];i++)
