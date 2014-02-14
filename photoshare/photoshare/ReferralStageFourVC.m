@@ -647,7 +647,7 @@
         }
         else
         {
-            [SVProgressHUD showWithStatus:@"Composing" maskType:SVProgressHUDMaskTypeBlack];
+            [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
             [self performSelector:@selector(mailTo) withObject:self afterDelay:3.0];
         }
     }
@@ -664,8 +664,8 @@
         }
         else
         {
-           
-            [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:25.0f];
+            [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
+            [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:5.0f];
         }
     }
 
