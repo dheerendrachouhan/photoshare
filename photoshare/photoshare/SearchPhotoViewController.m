@@ -110,7 +110,7 @@
         {
             photoCount=0;
             isGetPhotoFromServer=YES;
-            [self getPhotoFromServer:0 imageResize:@"40"];
+            [self getPhotoFromServer:0 imageResize:@"80"];
             [collectionViewForPhoto reloadData];
         }
         else
@@ -170,7 +170,7 @@
         {
             isGetPhotoFromServer=YES;
 
-            [self getPhotoFromServer:photoCount imageResize:@"40"];
+            [self getPhotoFromServer:photoCount imageResize:@"80"];
             
         }
         else

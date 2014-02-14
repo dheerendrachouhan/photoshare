@@ -45,7 +45,7 @@
     ObjManager = [ContentManager sharedManager];
     
     userID = [NSNumber numberWithInteger:[[dmc getUserId]integerValue]];
-    NSLog(@"Userid : %@",userID);
+  
     // Do any additional setup after loading the view from its nib.
     
     userNameArr = [[NSMutableArray alloc] init];

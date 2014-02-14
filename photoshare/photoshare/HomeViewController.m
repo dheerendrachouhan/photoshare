@@ -913,10 +913,6 @@
          selectedCollectionId=[collectionIdArray objectAtIndex:row];
     }
     
-    
-    
-    NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
-    
 }
 // tell the picker how many rows are available for a given component
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
@@ -943,7 +939,7 @@
 }
 
 -(void)categoryDoneButtonPressed{
-    NSLog(@"selected index is %@",selectedCollectionId);
+   
     if(selectedCollectionId==nil)
     {
         selectedCollectionId=[collectionIdArray objectAtIndex:0];
