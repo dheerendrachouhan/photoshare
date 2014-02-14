@@ -38,6 +38,7 @@
     NSMutableArray *contactSelectedArray;  //need to be removed
     NSMutableArray *contactNoSelectedArray; // need to be removed
     NSMutableDictionary *contactData;
+    int messagecount;
 }
 @synthesize stringStr,twitterTweet,toolkitLink;
 @synthesize referEmailStr,referPhoneStr,referredValue;
@@ -57,6 +58,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    messagecount = 0;
     grant = NO;
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     tweetFail =@"";
@@ -431,7 +433,19 @@
 	if([MFMessageComposeViewController canSendText])
 	{
 		controller.body = [NSString stringWithFormat:@"%@ %@",userMessage.text,toolkitLink];
-		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
+        int contactCount = 0;
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+        for(int i=0;i<contactNoSelectedArray.count;i++)
+        {
+            [arr addObject:[contactNoSelectedArray objectAtIndex:i]];
+            messagecount++;
+            contactCount++;
+            if(contactCount == 5)
+            {
+                break;
+            }
+        }
+		controller.recipients = [NSArray arrayWithArray:arr];
 		controller.messageComposeDelegate = self;
 		[[self navigationController] presentViewController:controller animated:YES completion:nil];
 	}
@@ -451,8 +465,15 @@
             userSelectedPhone = @"";
             break;
 		case MessageComposeResultSent:
-            [alert show];
-            [contactNoSelectedArray removeAllObjects];
+            if((messagecount+1) == contactNoSelectedArray.count)
+            {
+                [alert show];
+                [contactNoSelectedArray removeAllObjects];
+            }
+            else
+            {
+                [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:2.0];
+            }
 			break;
 		default:
 			break;

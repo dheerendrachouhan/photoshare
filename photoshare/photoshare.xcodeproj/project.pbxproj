@@ -129,6 +129,7 @@
 		E1B07429189951CC00589867 /* CommunityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B07428189951CC00589867 /* CommunityViewController.m */; };
 		E1B0742C1899529900589867 /* PhotoGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B0742B1899529900589867 /* PhotoGalleryViewController.m */; };
 		E1B07430189952DB00589867 /* PhotoGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1B0742F189952DB00589867 /* PhotoGalleryViewController.xib */; };
+		E302861218AE4FB800574650 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DDA757189A6B1700144C43 /* libAviarySDK.a */; };
 		E31649B218AB55B900083C7F /* MailMessageTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E31649B018AB55B900083C7F /* MailMessageTable.m */; };
 		E31649B318AB55B900083C7F /* MailMessageTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31649B118AB55B900083C7F /* MailMessageTable.xib */; };
 		E317675D1898BE0A00923E35 /* FBTWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E317675B1898BE0A00923E35 /* FBTWViewController.m */; };
@@ -170,11 +171,9 @@
 		E31B9E18189A558D00722761 /* ReferrelStageFourVC3.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31B9E17189A558D00722761 /* ReferrelStageFourVC3.xib */; };
 		E31C575818AA01EA003ED684 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4C31896AA160065F8E2 /* AddressBook.framework */; };
 		E31C575918AA01EF003ED684 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */; };
-		E31C57AC18AA37F4003ED684 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E31C57A718AA37F4003ED684 /* libAviarySDK.a */; };
 		E31C57AD18AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */ = {isa = PBXBuildFile; fileRef = E31C57A818AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission */; };
 		E31C57AE18AA37F4003ED684 /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E31C57AA18AA37F4003ED684 /* AviarySDKResources.bundle */; };
 		E31C57AF18AA37F4003ED684 /* White Labelling Doc.md in Resources */ = {isa = PBXBuildFile; fileRef = E31C57AB18AA37F4003ED684 /* White Labelling Doc.md */; };
-		E31CADB5189CC0FB0081241D /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DDA757189A6B1700144C43 /* libAviarySDK.a */; };
 		E31CADB7189CC2890081241D /* icon-person.png in Resources */ = {isa = PBXBuildFile; fileRef = E31CADB6189CC2890081241D /* icon-person.png */; };
 		E322BAEE18A36B7600CAC9E5 /* cog-30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAE918A36B7600CAC9E5 /* cog-30x30.png */; };
 		E322BAEF18A36B7600CAC9E5 /* earn-30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAEA18A36B7600CAC9E5 /* earn-30x30.png */; };
@@ -555,11 +554,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E31C57AC18AA37F4003ED684 /* libAviarySDK.a in Frameworks */,
+				E302861218AE4FB800574650 /* libAviarySDK.a in Frameworks */,
 				E31C575918AA01EF003ED684 /* AddressBookUI.framework in Frameworks */,
 				E31C575818AA01EA003ED684 /* AddressBook.framework in Frameworks */,
 				E170E90218A4EE0E002D3D17 /* CoreLocation.framework in Frameworks */,
-				E31CADB5189CC0FB0081241D /* libAviarySDK.a in Frameworks */,
 				FC976394188FEB89008DF1F8 /* UIKit.framework in Frameworks */,
 				E1067DCF189A514000F08A5F /* SystemConfiguration.framework in Frameworks */,
 				E1067DCD189A513700F08A5F /* StoreKit.framework in Frameworks */,
@@ -1506,6 +1504,7 @@
 					/Users/BrijendraTiwari/Desktop/project/photoshare_4/photoshare/photoshare/AviarySDK,
 					/Users/ignis3/Desktop/pb/photoshare/photoshare/AviarySDK,
 					/Users/ignis3/Desktop/project/photoshare/photoshare/SMContactsSelector/AviarySDK,
+					/Users/ignis3/photoshare/photoshare/photoshare/AviarySDK,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1548,6 +1547,7 @@
 					/Users/BrijendraTiwari/Desktop/project/photoshare_4/photoshare/photoshare/AviarySDK,
 					/Users/ignis3/Desktop/pb/photoshare/photoshare/AviarySDK,
 					/Users/ignis3/Desktop/project/photoshare/photoshare/SMContactsSelector/AviarySDK,
+					/Users/ignis3/photoshare/photoshare/photoshare/AviarySDK,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (

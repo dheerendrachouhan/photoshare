@@ -38,6 +38,7 @@
     NSMutableDictionary *contactData;
     NSMutableArray *contactSelectedArray;
     NSMutableArray *contactNoSelectedArray;
+    int messagecount;
 }
 
 @synthesize sharedImage, sharedImagesArray, otherDetailArray;
@@ -63,6 +64,7 @@
     mailFilter = NO;
     smsFilter = NO;
 	grant = NO;
+    messagecount =0;
     contactSelectedArray = [[NSMutableArray alloc] init];
     contactNoSelectedArray = [[NSMutableArray alloc] init];
     
@@ -376,7 +378,20 @@
 	if([MFMessageComposeViewController canSendText])
 	{
 		controller.body = [@"Join 123 Friday, " stringByAppendingString:messageStr];
-		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
+        int contactCount = 0;
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+        for(int i=0;i<contactNoSelectedArray.count;i++)
+        {
+            [arr addObject:[contactNoSelectedArray objectAtIndex:i]];
+            messagecount++;
+            contactCount++;
+            if(contactCount == 5)
+            {
+                break;
+            }
+        }
+        
+		controller.recipients = [NSArray arrayWithArray:arr];
         
         if (sharedImagesArray.count > 0) {
             for(int l=0;l<sharedImagesArray.count;l++)
@@ -407,7 +422,15 @@
 			[objManager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
 		case MessageComposeResultSent:
-            [alert show];
+            if((messagecount+1) == contactNoSelectedArray.count)
+            {
+                [alert show];
+                [contactNoSelectedArray removeAllObjects];
+            }
+            else
+            {
+                [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:2.0];
+            }
 			break;
 		default:
 			break;
