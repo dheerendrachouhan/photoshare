@@ -510,100 +510,6 @@
         [self addNewFolderView];
     }
 }
-/*
- -(void)addPhotoDescriptionView
- {
- UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
- UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
- backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
- backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
- 
- UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-210, 200, 300)];
- addPhotoDescriptionView.layer.borderWidth=1;
- addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
- addPhotoDescriptionView.layer.cornerRadius=8;
- addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
- 
- UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 160, 30)];
- headLbl.text=@"Add Photo Details";
- headLbl.layer.cornerRadius=5;
- headLbl.textAlignment=NSTextAlignmentCenter;
- headLbl.textColor=btnTextColor;
- //headLbl.backgroundColor=[UIColor darkGrayColor];
- 
- 
- //add label for photo title and photo description
- UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(30, 40, 100, 20)];
- title.text=@"Title";
- title.textColor=btnTextColor;
- title.font=[UIFont fontWithName:@"Verdana" size:13];
- 
- photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 60, 140, 30)];
- photoTitleTF.layer.borderWidth=1;
- photoTitleTF.backgroundColor=[UIColor whiteColor];
- [photoTitleTF setDelegate:self];
- 
- UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(30, 95, 100, 20)];
- description.text=@"Description";
- description.textColor=btnTextColor;
- description.font=[UIFont fontWithName:@"Verdana" size:13];
- 
- photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(30, 115, 140, 70)];
- photoDescriptionTF.layer.borderWidth=1;
- photoDescriptionTF.backgroundColor=[UIColor whiteColor];
- [photoDescriptionTF setDelegate:self];
- 
- 
- UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(30, 190, 100, 20)];
- tag.text=@"Tag";
- tag.textColor=btnTextColor;
- tag.font=[UIFont fontWithName:@"Verdana" size:13];
- 
- phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 210, 140, 30)];
- phototagTF.layer.borderWidth=1;
- phototagTF.backgroundColor=[UIColor whiteColor];
- [phototagTF setDelegate:self];
- 
- UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(30, 250, 65, 30)];
- 
- //cancelButton.backgroundColor=btnBorderColor;
- cancelButton.layer.cornerRadius=5;
- cancelButton.layer.borderColor=btnBorderColor.CGColor;
- cancelButton.layer.borderWidth=1;
- 
- cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
- [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
- [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
- [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
- 
- UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
- 
- //addButton.backgroundColor=btnBorderColor;
- save.layer.cornerRadius=5;
- save.layer.borderColor=btnBorderColor.CGColor;
- save.layer.borderWidth=1;
- 
- save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
- [save setTitleColor:btnTextColor forState:UIControlStateNormal];
- 
- 
- [save setTitle:@"Save" forState:UIControlStateNormal];
- [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
- [addPhotoDescriptionView addSubview:headLbl];
- [addPhotoDescriptionView addSubview:title];
- [addPhotoDescriptionView addSubview:description];
- [addPhotoDescriptionView addSubview:tag];
- [addPhotoDescriptionView addSubview:photoTitleTF];
- [addPhotoDescriptionView addSubview:photoDescriptionTF];
- [addPhotoDescriptionView addSubview:phototagTF];
- [addPhotoDescriptionView addSubview:cancelButton];
- [addPhotoDescriptionView addSubview:save];
- 
- [backViewPhotDetail addSubview:addPhotoDescriptionView];
- [self.view addSubview:backViewPhotDetail];
- 
- 
- }*/
 -(void)addPhotoDescriptionView
 {
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
@@ -1046,3 +952,97 @@
 }
 
 @end
+/*
+ -(void)addPhotoDescriptionView
+ {
+ UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+ UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
+ backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
+ backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+ 
+ UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-210, 200, 300)];
+ addPhotoDescriptionView.layer.borderWidth=1;
+ addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
+ addPhotoDescriptionView.layer.cornerRadius=8;
+ addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
+ 
+ UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 160, 30)];
+ headLbl.text=@"Add Photo Details";
+ headLbl.layer.cornerRadius=5;
+ headLbl.textAlignment=NSTextAlignmentCenter;
+ headLbl.textColor=btnTextColor;
+ //headLbl.backgroundColor=[UIColor darkGrayColor];
+ 
+ 
+ //add label for photo title and photo description
+ UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(30, 40, 100, 20)];
+ title.text=@"Title";
+ title.textColor=btnTextColor;
+ title.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 60, 140, 30)];
+ photoTitleTF.layer.borderWidth=1;
+ photoTitleTF.backgroundColor=[UIColor whiteColor];
+ [photoTitleTF setDelegate:self];
+ 
+ UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(30, 95, 100, 20)];
+ description.text=@"Description";
+ description.textColor=btnTextColor;
+ description.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(30, 115, 140, 70)];
+ photoDescriptionTF.layer.borderWidth=1;
+ photoDescriptionTF.backgroundColor=[UIColor whiteColor];
+ [photoDescriptionTF setDelegate:self];
+ 
+ 
+ UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(30, 190, 100, 20)];
+ tag.text=@"Tag";
+ tag.textColor=btnTextColor;
+ tag.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 210, 140, 30)];
+ phototagTF.layer.borderWidth=1;
+ phototagTF.backgroundColor=[UIColor whiteColor];
+ [phototagTF setDelegate:self];
+ 
+ UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(30, 250, 65, 30)];
+ 
+ //cancelButton.backgroundColor=btnBorderColor;
+ cancelButton.layer.cornerRadius=5;
+ cancelButton.layer.borderColor=btnBorderColor.CGColor;
+ cancelButton.layer.borderWidth=1;
+ 
+ cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+ [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
+ [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+ [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
+ 
+ UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
+ 
+ //addButton.backgroundColor=btnBorderColor;
+ save.layer.cornerRadius=5;
+ save.layer.borderColor=btnBorderColor.CGColor;
+ save.layer.borderWidth=1;
+ 
+ save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+ [save setTitleColor:btnTextColor forState:UIControlStateNormal];
+ 
+ 
+ [save setTitle:@"Save" forState:UIControlStateNormal];
+ [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
+ [addPhotoDescriptionView addSubview:headLbl];
+ [addPhotoDescriptionView addSubview:title];
+ [addPhotoDescriptionView addSubview:description];
+ [addPhotoDescriptionView addSubview:tag];
+ [addPhotoDescriptionView addSubview:photoTitleTF];
+ [addPhotoDescriptionView addSubview:photoDescriptionTF];
+ [addPhotoDescriptionView addSubview:phototagTF];
+ [addPhotoDescriptionView addSubview:cancelButton];
+ [addPhotoDescriptionView addSubview:save];
+ 
+ [backViewPhotDetail addSubview:addPhotoDescriptionView];
+ [self.view addSubview:backViewPhotDetail];
+ 
+ 
+ }*/

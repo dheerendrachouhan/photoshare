@@ -650,7 +650,8 @@
                     }
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[NSString stringWithFormat:@"%d Photo deleted",sortedArray.count] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
-                    
+                
+                    sortedArray=nil;
                 }
                 @catch (NSException *exception) {
                     NSLog(@"%@",exception.description);
@@ -1148,9 +1149,9 @@
     */
     
     //indicatorV.image=[UIImage imageNamed:@"ajaxloader.gif"];
-    for (UIView *view in [cell.contentView subviews]) {
+    /*for (UIView *view in [cell.contentView subviews]) {
         [view removeFromSuperview];
-    }
+    }*/
    
     @try {
         
@@ -1159,6 +1160,20 @@
         {
             UIImage *image=[photoArray objectAtIndex:indexPath.row];
             imgView.image=image;
+            
+            [cell.contentView addSubview:imgView];
+            int i=[indexPath row];
+            NSLog(@"index %d",i);
+            
+            if([selectedImagesIndex containsObject:[NSNumber numberWithInteger:[indexPath row]]])
+            {
+                UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
+                checkBoxImg.layer.masksToBounds=YES;
+                checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                checkBoxImg.tag=1001;
+                [cell.contentView addSubview:checkBoxImg];
+
+            }
         }
         else
         {
@@ -1190,7 +1205,7 @@
         
             }
     
-    [cell.contentView addSubview:imgView];
+    
     return cell;
 }
 
