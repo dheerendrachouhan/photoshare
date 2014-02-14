@@ -18,6 +18,6 @@
     UILabel *totalEarning;
 }
 -(void)goToEarningViewController;
--(void)setTheTotalEarning;
+
 +(CommonTopView *)sharedTopView;
 @end

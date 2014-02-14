@@ -121,7 +121,6 @@
 
 -(void) webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"login callback%@",data);
    
          //validate the user
     
@@ -231,11 +230,9 @@
             {
                 [self resetAllBoolValue];
                 
-                NSLog(@"Get Storage %@",data);
                 NSNumber *dict = [outPutData valueForKey:@"total_expected_income"];
                 
                 manager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
-                NSLog(@"%@",manager.weeklyearningStr);
                 
                 isGetIcomeDetail=NO;
                 [self removeDataFetchView];
@@ -255,14 +252,13 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
     {
         //[self dismissViewControllerAnimated:YES completion:nil] ;
-        NSLog(@"// app already launched");
     }
     else
     {
         
         
         
-        NSLog(@"// First time launched");
+        
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         

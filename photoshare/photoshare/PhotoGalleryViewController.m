@@ -209,40 +209,6 @@
     }
     
 }
--(void)photoCaching
-{
-    
-     NSOperationQueue *myQueue = [[NSOperationQueue alloc] init];
-    
-     // Add an operation as a block to a queue
-     [myQueue addOperationWithBlock: ^ {
-     
-     
-     [[NSOperationQueue mainQueue] addOperationWithBlock: ^ {
-     NSLog(@"thumbnail image download");
-    
-     
-         NSString *filenameWithExtension ;//= [imageURL lastPathComponent];
-     
-         NSData * imageData ;//= [NSData dataWithContentsOfURL:imageURL];
-     
-     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-     NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
-     NSString *documentsPaths = [documentsPath stringByAppendingString:@"/schudioimages"];
-     
-     NSError *error = nil;
-     if (![[NSFileManager defaultManager] fileExistsAtPath:documentsPaths])
-     [[NSFileManager defaultManager] createDirectoryAtPath:documentsPaths withIntermediateDirectories:NO attributes:nil error:&error];
-     
-     NSString *filePath = [documentsPaths stringByAppendingPathComponent:filenameWithExtension]; //Add the file name
-     
-     [imageData writeToFile:filePath atomically:YES];
-     }];
-     
-     }];
-
-    
-}
 
 -(void)removeProgressBar
 {
@@ -276,7 +242,6 @@
             isCameraMode=YES;
             if(buttonIndex==0)  //From Camera
             {
-                NSLog(@"camera");
                 
                 if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
                 {
@@ -291,13 +256,13 @@
             }
             else if(buttonIndex==1)//From Gallery
             {
-                NSLog(@"gallery");
+              
                 imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
                 [self presentViewController:imagePicker animated:YES completion:nil];
             }
             else if(buttonIndex==2)//From Camera Roll
             {
-                NSLog(@"gallery");
+               
                 @try {
                     
                     imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
@@ -372,7 +337,7 @@
             webServices.delegate=self;
             NSNumber *num = [NSNumber numberWithInt:1] ;
             selectedPhotoId = [photoIdsArray objectAtIndex:photoIdIndex];
-            dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"40"};
+            dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"80"};
             
             [webServices call:dicData controller:@"photo" method:@"get"];
             

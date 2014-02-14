@@ -72,12 +72,7 @@ static CommonTopView *topView=nil;
     [self addSubview:totalEarning];
     ContentManager *objManager=[ContentManager sharedManager];
     NSDictionary *dic =objManager.loginDetailsDict ;
-
     
-    
-    NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
-    
-
     return self;
 }
 -(void)goToEarningViewController
@@ -88,16 +83,6 @@ static CommonTopView *topView=nil;
     
     [delgate.tbc setSelectedIndex:1] ;
  }
--(void)setTheTotalEarning
-{
- //   totalEarning.text=totalEarn;
-    
-    //UILabel *lb = (UILabel *) [self viewWithTag:1];
-    
-  //  [lb removeFromSuperview] ;
-    
-  
-    
-}
+
 
 @end
