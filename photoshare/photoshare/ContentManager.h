@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#define IDIOM    UI_USER_INTERFACE_IDIOM()
+#define IPAD     UIUserInterfaceIdiomPad
+
 
 @interface ContentManager:NSObject{
 
@@ -20,4 +23,6 @@
 -(id)getData:(NSString *)getKey;
 -(void)showAlert:(NSString *)alrttittle msg:(NSString *)msg cancelBtnTitle:(NSString *)btnTittle otherBtn:(NSString *)otherBtn;
 -(void)removeData :(NSString *)keysString;
+
+-(BOOL)isiPad;
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
 #import "WebserviceController.h"
+
 @class CollectionViewCell;
 @interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate,WebserviceDelegate>
 {

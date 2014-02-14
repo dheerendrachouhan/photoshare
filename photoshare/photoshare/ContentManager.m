@@ -9,6 +9,8 @@
 #import "ContentManager.h"
 #import "NavigationBar.h"
 
+
+
 @implementation ContentManager
 @synthesize loginDetailsDict;
 @synthesize weeklyearningStr;
@@ -69,6 +71,15 @@ static ContentManager *objContantManager = nil;
     [alert show];
 }
 
+//check if device is ipad or iPhone
+-(BOOL)isiPad
+{
+    if ( IDIOM == IPAD ) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
 
 @end

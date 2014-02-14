@@ -491,6 +491,7 @@
     [editBtn removeFromSuperview];
     @try {
         AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
+        
         aec.isAddFolder=NO;
         aec.isEditFolder=YES;
         aec.setFolderName=[collectionNameArray objectAtIndex:index];
