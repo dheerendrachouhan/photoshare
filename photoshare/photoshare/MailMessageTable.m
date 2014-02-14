@@ -30,6 +30,11 @@
     NSTimer *timer;
     BOOL check;
     
+    BOOL isSearching;
+    NSMutableArray *filteredList;
+    NSMutableArray *filteredContact;
+    NSMutableArray *filteredPhone;
+
 }
 @synthesize table;
 @synthesize contactDictionary,filterType;
@@ -51,6 +56,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     check = YES;
+    isSearching = NO;
+    filteredList = [[NSMutableArray alloc] init];
+    filteredContact = [[NSMutableArray alloc] init];
+    filteredPhone = [[NSMutableArray alloc] init];
     checkBoxBtn_Arr = [[NSMutableArray alloc] init];
     arSelectedRows = [[NSMutableArray alloc] init];
     contactName = [[NSMutableArray alloc] init];
@@ -157,6 +166,39 @@
 
 }
 
+- (void)filterListForSearchText:(NSString *)searchText
+{
+    [filteredList removeAllObjects];
+    [filteredContact removeAllObjects];
+    [filteredPhone removeAllObjects];
+    //clears the array from all the string objects it might contain from the previous searches
+    
+   /* for (NSString *title in contactName)
+    {
+        NSRange nameRange = [title rangeOfString:searchText options:NSCaseInsensitiveSearch];
+        if (nameRange.location != NSNotFound) {
+            [filteredList addObject:title];
+        }
+    }*/
+    for (int i=0; i<contactName.count; i++) {
+        NSString *title=[contactName objectAtIndex:i];
+        NSRange nameRange = [title rangeOfString:searchText options:NSCaseInsensitiveSearch];
+        if (nameRange.location != NSNotFound) {
+            [filteredList addObject:title];
+            if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
+            {
+                [filteredContact addObject:[contactEmail objectAtIndex:i]];
+            }
+            else if([filterType isEqualToString:@"Refer Text"] || [filterType isEqualToString:@"Share Text"])
+            {
+                [filteredPhone addObject:[contactPhone objectAtIndex:i]];
+            }
+        }
+
+    }
+}
+
+
 - (IBAction)doneBtnPressed:(id)sender {
     if([filterType isEqualToString:@"Refer Mail"])
     {
@@ -256,13 +298,21 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([contactName count] == 0)
+    // Return the number of rows in the section.
+    if (isSearching)
     {
-        return 0;
+        return [filteredList count];
     }
     else
     {
-        return contactName.count;
+        if([contactName count] == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return contactName.count;
+        }
     }
 }
 
@@ -277,60 +327,108 @@
     
     if([filterType isEqualToString:@"Refer Mail"])
     {
-        cell.textLabel.text = [contactName objectAtIndex:indexPath.row];
-        cell.detailTextLabel.text = [contactEmail objectAtIndex:indexPath.row];
+        NSString *title;
+        NSString *contacts;
+        if (isSearching && [filteredList count]) {
+            //If the user is searching, use the list in our filteredList array.
+            title = [filteredList objectAtIndex:indexPath.row];
+            contacts = [filteredContact objectAtIndex:indexPath.row];
+            
+        } else {
+            title = [contactName objectAtIndex:indexPath.row];
+            contacts = [contactEmail objectAtIndex:indexPath.row];
+        }
         
-        if([arSelectedRows containsObject:indexPath])
+        cell.textLabel.text = title;
+        cell.detailTextLabel.text = contacts;
+        
+        if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        [checkBoxBtn_Arr addObject:indexPath];
+        
         
     }
     else if([filterType isEqualToString:@"Refer Text"])
     {
-        cell.textLabel.text = [contactName objectAtIndex:indexPath.row];
-        cell.detailTextLabel.text = [contactPhone objectAtIndex:indexPath.row];
+        NSString *title;
+        NSString *contacts;
+        if (isSearching && [filteredList count]) {
+            //If the user is searching, use the list in our filteredList array.
+            title = [filteredList objectAtIndex:indexPath.row];
+            contacts = [filteredPhone objectAtIndex:indexPath.row];
+            
+        } else {
+            title = [contactName objectAtIndex:indexPath.row];
+            contacts = [contactPhone objectAtIndex:indexPath.row];
+        }
         
-        if([arSelectedRows containsObject:indexPath])
+        cell.textLabel.text = title;
+        cell.detailTextLabel.text = contacts;
+        
+        if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        [checkBoxBtn_Arr addObject:indexPath];
+
     }
     else if([filterType isEqualToString:@"Share Mail"])
     {
-        cell.textLabel.text = [contactName objectAtIndex:indexPath.row];
-        cell.detailTextLabel.text = [contactEmail objectAtIndex:indexPath.row];
+        NSString *title;
+        NSString *contacts;
+        if (isSearching && [filteredList count]) {
+            //If the user is searching, use the list in our filteredList array.
+            title = [filteredList objectAtIndex:indexPath.row];
+            contacts = [filteredContact objectAtIndex:indexPath.row];
+            
+        } else {
+            title = [contactName objectAtIndex:indexPath.row];
+            contacts = [contactEmail objectAtIndex:indexPath.row];
+        }
         
-        if([arSelectedRows containsObject:indexPath])
+        cell.textLabel.text = title;
+        cell.detailTextLabel.text = contacts;
+        
+        if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        [checkBoxBtn_Arr addObject:indexPath];
+
     }
     else if([filterType isEqualToString:@"Share Text"])
     {
-        cell.textLabel.text = [contactName objectAtIndex:indexPath.row];
-        cell.detailTextLabel.text = [contactPhone objectAtIndex:indexPath.row];
+        NSString *title;
+        NSString *contacts;
+        if (isSearching && [filteredList count]) {
+            //If the user is searching, use the list in our filteredList array.
+            title = [filteredList objectAtIndex:indexPath.row];
+            contacts = [filteredPhone objectAtIndex:indexPath.row];
+            
+        } else {
+            title = [contactName objectAtIndex:indexPath.row];
+            contacts = [contactPhone objectAtIndex:indexPath.row];
+        }
         
-        if([arSelectedRows containsObject:indexPath])
+        cell.textLabel.text = title;
+        cell.detailTextLabel.text = contacts;
+        
+        if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        [checkBoxBtn_Arr addObject:indexPath];
+
     }
     return cell;
 }
@@ -345,7 +443,18 @@
         if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
+            NSLog(@"Index path is %d",indexPath.row);
+            int index;
+            if(isSearching)
+            {
+               index =[contactEmail indexOfObject:[filteredContact objectAtIndex:indexPath.row]];
+                [selectedUserArr addObject:[filteredContact objectAtIndex:indexPath.row]];
+            }
+            else
+            {
+                index = [contactEmail indexOfObject:[contactEmail objectAtIndex:indexPath.row]];
+                [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
+            }
             for(int i=0;i<[selectedUserArr count];i++)
             {
                 if([tweetString length])
@@ -356,7 +465,8 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows addObject:indexPath];
+            
+            [arSelectedRows addObject:[NSNumber numberWithInt:index]];
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -384,7 +494,7 @@
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows removeObject:indexPath];
+            [arSelectedRows removeObject:[NSNumber numberWithInt:indexPath.row]];
         }
     }
     else if([filterType isEqualToString:@"Refer Text"])
@@ -395,7 +505,17 @@
         if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
+            int index;
+            if(isSearching)
+            {
+                index =[contactPhone indexOfObject:[filteredPhone objectAtIndex:indexPath.row]];
+                [selectedUserArr addObject:[filteredPhone objectAtIndex:indexPath.row]];
+            }
+            else
+            {
+                index = [contactPhone indexOfObject:[contactPhone objectAtIndex:indexPath.row]];
+                [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
+            }
             for(int i=0;i<[selectedUserArr count];i++)
             {
                 if([tweetString length])
@@ -406,7 +526,7 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows addObject:indexPath];
+            [arSelectedRows addObject:[NSNumber numberWithInt:index]];
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -434,7 +554,7 @@
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows removeObject:indexPath];
+            [arSelectedRows removeObject:[NSNumber numberWithInt:indexPath.row]];
         }
     }
     else if([filterType isEqualToString:@"Share Mail"])
@@ -445,7 +565,18 @@
         if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
+            NSLog(@"Index path is %d",indexPath.row);
+            int index;
+            if(isSearching)
+            {
+                index =[contactEmail indexOfObject:[filteredContact objectAtIndex:indexPath.row]];
+                [selectedUserArr addObject:[filteredContact objectAtIndex:indexPath.row]];
+            }
+            else
+            {
+                index = [contactEmail indexOfObject:[contactEmail objectAtIndex:indexPath.row]];
+                [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
+            }
             for(int i=0;i<[selectedUserArr count];i++)
             {
                 if([tweetString length])
@@ -456,7 +587,8 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows addObject:indexPath];
+            
+            [arSelectedRows addObject:[NSNumber numberWithInt:index]];
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -484,7 +616,7 @@
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows removeObject:indexPath];
+            [arSelectedRows removeObject:[NSNumber numberWithInt:indexPath.row]];
         }
     }
     else if([filterType isEqualToString:@"Share Text"])
@@ -495,7 +627,17 @@
         if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
+            int index;
+            if(isSearching)
+            {
+                index =[contactPhone indexOfObject:[filteredPhone objectAtIndex:indexPath.row]];
+                [selectedUserArr addObject:[filteredPhone objectAtIndex:indexPath.row]];
+            }
+            else
+            {
+                index = [contactPhone indexOfObject:[contactPhone objectAtIndex:indexPath.row]];
+                [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
+            }
             for(int i=0;i<[selectedUserArr count];i++)
             {
                 if([tweetString length])
@@ -506,7 +648,7 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows addObject:indexPath];
+            [arSelectedRows addObject:[NSNumber numberWithInt:index]];
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -534,7 +676,7 @@
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows removeObject:indexPath];
+            [arSelectedRows removeObject:[NSNumber numberWithInt:indexPath.row]];
         }
     }
 }
@@ -567,6 +709,7 @@
                 
             }
             check = NO;
+            [select_deseletBtn setTitle:@"Deselect All" forState:UIControlStateNormal];
         }
         else
         {
@@ -581,6 +724,7 @@
             StringTweet = nil;
             check = YES;
             [selectedUserArr removeLastObject];
+            [select_deseletBtn setTitle:@"Select All" forState:UIControlStateNormal];
         }
     }
     
@@ -604,6 +748,7 @@
                 StringTweet = [NSMutableString stringWithString:tweetString];
             }
             check = NO;
+            [select_deseletBtn setTitle:@"Deselect All" forState:UIControlStateNormal];
         }
         else
         {
@@ -618,6 +763,7 @@
             StringTweet = nil;
             check = YES;
             [selectedUserArr removeLastObject];
+            [select_deseletBtn setTitle:@"Select All" forState:UIControlStateNormal];
         }
     }
     else if([filterType isEqualToString:@"Share Mail"])
@@ -640,6 +786,7 @@
                 StringTweet = [NSMutableString stringWithString:tweetString];
             }
             check = NO;
+            [select_deseletBtn setTitle:@"Deselect All" forState:UIControlStateNormal];
         }
         else
         {
@@ -654,6 +801,7 @@
             StringTweet = nil;
             check = YES;
             [selectedUserArr removeLastObject];
+            [select_deseletBtn setTitle:@"Select All" forState:UIControlStateNormal];
         }
     }
     else if([filterType isEqualToString:@"Share Text"])
@@ -676,6 +824,7 @@
                 StringTweet = [NSMutableString stringWithString:tweetString];
             }
             check = NO;
+            [select_deseletBtn setTitle:@"Deselect All" forState:UIControlStateNormal];
         }
         else
         {
@@ -690,12 +839,45 @@
             StringTweet = nil;
             check = YES;
             [selectedUserArr removeLastObject];
+            [select_deseletBtn setTitle:@"Select All" forState:UIControlStateNormal];
         }
     }
 }
 
-// testing area Finished
+#pragma mark - UISearchDisplayControllerDelegate
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    //When the user taps the search bar, this means that the controller will begin searching.
+    isSearching = YES;
+}
 
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+    //When the user taps the Cancel Button, or anywhere aside from the view.
+    
+    isSearching = NO;
+}
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    isSearching=NO;
+    [table reloadData];
+}
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterListForSearchText:searchString]; // The method we made in step 7
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self filterListForSearchText:[self.searchDisplayController.searchBar text]]; // The method we made in step 7
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+
+// Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;

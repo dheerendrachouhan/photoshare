@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class ContentManager;
-@interface MailMessageTable : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface MailMessageTable : UIViewController <UITableViewDataSource,UITableViewDelegate,UISearchDisplayDelegate, UISearchBarDelegate>
 {
     ContentManager *objManager;
     NSMutableArray *checkBoxBtn_Arr;
+    IBOutlet UIButton *select_deseletBtn;
 }
 @property (nonatomic, strong) IBOutlet UITableView *table;
 @property (nonatomic, strong) NSMutableDictionary *contactDictionary;
