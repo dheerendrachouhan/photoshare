@@ -180,6 +180,7 @@
         
     }
     
+    
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -348,7 +349,6 @@
 -(void)getPhotoIdFromServer
 {
     isGetPhotoIdFromServer=YES;
-    [self addProgressBar:@"Standby"];
     
     webServices.delegate=self;
     
@@ -391,7 +391,7 @@
 -(void)getCollectionDetail
 {
     @try {
-        
+         [self addProgressBar:@"Standby"];
         isGetCollectionDetails=YES;
         webServices.delegate=self;
         
@@ -458,7 +458,7 @@
     }
     else if(isGetPhotoFromServer)
     {
-        //[self saveImageInDocumentDirectry:image index:photoArray.count];
+        [self saveImageInDocumentDirectry:image index:photoArray.count];
         [photoArray addObject:image];
         
         int count=photoArray.count;
@@ -565,7 +565,7 @@
                     
                     
                         [collectionview reloadData];
-                   /* NSString *checkNotFirstTime=[manager getData:[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
+                    NSString *checkNotFirstTime=[manager getData:[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
                     if([checkNotFirstTime isEqualToString:@"YES"])
                     {
                         for (int i=0; i<photoIdsArray.count; i++) {
@@ -576,6 +576,7 @@
                             else
                             {
                                 [self getPhotoFromServer:i];
+                                break;
                             }
                             
                         }
@@ -585,9 +586,10 @@
                     {
                         [self getPhotoFromServer:0];
                         [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
-                    }*/
-                    [self getPhotoFromServer:0];
-                    [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
+                        [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
+                    }
+                   
+                    
                 }
                 else
                 {

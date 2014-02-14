@@ -601,7 +601,7 @@
                     [tweetString appendString:[contactPhone objectAtIndex:r]];
                     [selectedUserArr addObject:[contactPhone objectAtIndex:r]];
                 }
-                
+                StringTweet = [NSMutableString stringWithString:tweetString];
             }
             check = NO;
         }

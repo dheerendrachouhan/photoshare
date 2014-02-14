@@ -121,8 +121,14 @@
             }
             else
             {
-                [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
-                [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
+                NSNumber *coluserId=[[collection objectAtIndex:i-1] objectForKey:@"collection_user_id"];
+                if(coluserId.integerValue==userid.integerValue)
+                {
+                    [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
+                    [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
+                    
+                }
+                
             }
             
         }

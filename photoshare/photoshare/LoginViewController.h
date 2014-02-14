@@ -40,6 +40,14 @@
     BOOL isGetIcomeDetail;
     DataMapperController *dmc;
     ContentManager *objManager;
+    //get collection info from server
+    BOOL isGetSharingUserId;
+    BOOL isGetTheOwnCollectionListData;
+    BOOL isGetTheSharingCollectionListData;
+    NSMutableArray *sharingIdArray;
+    NSMutableArray *collectionArrayWithSharing;
+    int countSharing;
+    
 }
 @property(nonatomic,retain)ALAssetsLibrary *library;
 - (IBAction)rememberBtnTapped;

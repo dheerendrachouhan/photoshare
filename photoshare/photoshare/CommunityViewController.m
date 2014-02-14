@@ -14,7 +14,7 @@
 #import "JSONDictionary.h"
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
-
+#import "SearchPhotoViewController.h"
 @interface CommunityViewController ()
 
 @end
@@ -28,15 +28,13 @@
         // Custom initialization
     }
     
-    manager=[ContentManager sharedManager];
-    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+     manager=[ContentManager sharedManager];
     [manager storeData:@"" :@"writeUserId"];
     [manager storeData:@"" :@"readUserId"];
     self.navigationItem.title = @"Community folders";
@@ -45,6 +43,8 @@
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
     //webservice
     webservices=[[WebserviceController alloc] init];
+    //get the user ID from NSUSER Default
+    userid=[manager getData:@"user_id"];
     //add the Tap gesture for collection view
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc ]initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
@@ -62,10 +62,14 @@
     {
         collectionview.frame=CGRectMake(20, 190, 280, collectionview.frame.size.height-70);
     }
+    
+    
+    //editBtn When Longpress on folder
+    editBtn=[[UIButton alloc] init];
+    
     //initialize the array
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing=[[NSMutableArray alloc] init];
-    
     collectionDefaultArray=[[NSMutableArray alloc] init];
     collectionIdArray=[[NSMutableArray alloc] init];
     collectionNameArray=[[NSMutableArray alloc] init];
@@ -73,19 +77,29 @@
     collectionSharingArray=[[NSMutableArray alloc] init];
     collectionUserIdArray=[[NSMutableArray alloc] init];
 
+    
+    //update the collection info in nsuser default from server
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    //editBtn When Longpress on folder
-    editBtn=[[UIButton alloc] init];
+
+    //get DiskSpace from server
+    [self getStorageFromServer];
     
-    //remove all  object from array
-    [sharingIdArray removeAllObjects];
-    [collectionArrayWithSharing removeAllObjects];
     
+    //set title for navigation controller
+    [self addCustomNavigationBar];
+  
+    [self getCollectionInfoFromUserDefault];
+    
+}
+-(void)getCollectionInfoFromUserDefault
+{
+    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
     [collectionDefaultArray removeAllObjects];
     [collectionIdArray removeAllObjects];
     [collectionNameArray removeAllObjects];
@@ -93,19 +107,48 @@
     [collectionSharingArray removeAllObjects];
     [collectionUserIdArray removeAllObjects];
     
-    //set title for navigation controller
-    [self addCustomNavigationBar];
-  
-   
-    //set Disk Space Progress
-    float progressPercent=[[manager getData:@"disk_space"] floatValue];
-    NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",(progressPercent*100),@"%"];
-    diskSpaceTitle.text=diskTitle;
-    progressView.progress=progressPercent;
+    for (int i=0;i<collection.count; i++)
+    {
+        @try {
+            if(![[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]&& ![[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+            {
+                [collectionDefaultArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_default"]];
+                [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
+                [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
+                [collectionSharedArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_shared"]];
+                [collectionSharingArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_sharing"]];
+                [collectionUserIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_user_id"]];
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Execption is %@",exception.description);
+        }
+        @finally {
+            
+        }
+        
+    }
+    [collectionview reloadData];
+    //
     
-    //get the user ID from NSUSER Default
-    userid=[manager getData:@"user_id"];
-    [self getStorageFromServer];
+}
+
+-(void)getStorageFromServer
+{
+    @try {
+        //[SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+
+        isGetStorage=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid};
+        [webservices call:dicData controller:@"storage" method:@"get"];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception is %@",exception.description);
+    }
+    @finally {
+        
+    }
     
 }
 -(void)getSharingusersId
@@ -122,24 +165,6 @@
     @finally {
         
     }
-}
--(void)getStorageFromServer
-{
-    @try {
-        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
-
-        isGetStorage=YES;
-        webservices.delegate=self;
-        NSDictionary *dicData=@{@"user_id":userid};
-        [webservices call:dicData controller:@"storage" method:@"get"];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Exception is %@",exception.description);
-    }
-    @finally {
-        
-    }
-    
 }
 //Fetch data From Server
 -(void)fetchOwnCollectionInfoFromServer
@@ -186,31 +211,9 @@
     
     //validate the user
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    if(isGetSharingUserId)
-    {
-        if(exitCode.integerValue==1)
-        {
-            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-            for (int i=0; i<outPutData.count; i++)
-            {
-                @try {
-                    [sharingIdArray addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
-                }
-                @catch (NSException *exception) {
-                    
-                }
-                @finally {
-                    
-                }
-                
-            }
-            
-        }
-        isGetSharingUserId=NO;
-        [self fetchOwnCollectionInfoFromServer];
-        
-    }
-    else if(isGetStorage)
+    
+    
+    if(isGetStorage)
     {
         if(exitCode.integerValue==1)
         {
@@ -238,11 +241,10 @@
                 NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",(progressPercent*100),@"%"];
                 diskSpaceTitle.text=diskTitle;
                 progressView.progress=progressPercent;
-                //store in NSDefault
-                [manager storeData:[NSNumber numberWithFloat:progressPercent] :@"disk_space"];
+                
                 isGetStorage=NO;
                 
-                [self getSharingusersId];
+                //[self getSharingusersId];
             }
             @catch (NSException *exception) {
                 
@@ -250,17 +252,44 @@
             @finally {
                 
             }
-           
+            
         }
-  
+        
+    }
+
+    else if(isGetSharingUserId)
+    {
+        if(exitCode.integerValue==1)
+        {
+            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+            [sharingIdArray removeAllObjects];
+            for (int i=0; i<outPutData.count; i++)
+            {
+                @try {
+                    [sharingIdArray addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
+                }
+                @catch (NSException *exception) {
+                    
+                }
+                @finally {
+                    
+                }
+                
+            }
+            
+        }
+        isGetSharingUserId=NO;
+        [self fetchOwnCollectionInfoFromServer];
+        
     }
     else if(isGetTheOwnCollectionListData)
     {
+        [collectionArrayWithSharing removeAllObjects];
         if(exitCode.integerValue==1)
         {
             [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
             //nsuser default
-            [manager storeData:[data objectForKey:@"output_data"] :@"collection_data_list"];
+            
         }
         isGetTheOwnCollectionListData=NO;
         if(sharingIdArray.count>0)
@@ -269,8 +298,8 @@
         }
         else
         {
-            [SVProgressHUD dismiss];
-            [self getCollectionInfoFromUserDefault];
+            
+            [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
         }
         
     }
@@ -283,48 +312,11 @@
         countSharing++;
         if(countSharing==sharingIdArray.count)
         {
-            [SVProgressHUD dismiss];
-            [self getCollectionInfoFromUserDefault];
-
+            [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
         }
     }
 }
 
--(void)getCollectionInfoFromUserDefault
-{
-    NSMutableArray *collection=collectionArrayWithSharing;
-    
-    
-    for (int i=0;i<collection.count; i++)
-    {
-        @try {
-            if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
-            {
-                
-            }
-            else
-            {
-                [collectionDefaultArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_default"]];
-                [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
-                [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
-                [collectionSharedArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_shared"]];
-                [collectionSharingArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_sharing"]];
-                [collectionUserIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_user_id"]];
-            }
-
-        }
-        @catch (NSException *exception) {
-            NSLog(@"Execption is %@",exception.description);
-        }
-        @finally {
-            
-        }
-        
-    }
-    [collectionview reloadData];
-    //
-    
-}
 
 //collection view delegate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -549,13 +541,26 @@
     titleLabel.textAlignment=NSTextAlignmentCenter;
     titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
     titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    
+    //add photo search button
+    UIButton *searchBtn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    searchBtn.frame=CGRectMake(250.0, 47.0, 70.0, 30.0);
+    [searchBtn addTarget:self action:@selector(searchViewOpen) forControlEvents:UIControlEventTouchUpInside];
+    [searchBtn setTitle:@"Search" forState:UIControlStateNormal];
+    searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    
+    [navnBar addSubview:searchBtn];
     [navnBar addSubview:titleLabel];
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
-
+-(void)searchViewOpen
+{
+    SearchPhotoViewController *searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController" bundle:[NSBundle mainBundle]];
+    [self.navigationController pushViewController:searchController animated:NO];
+}
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
 }
