@@ -119,7 +119,8 @@
         }
         else
         {
-            [self mailTo];
+            [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
+            [self performSelector:@selector(mailTo) withObject:self afterDelay:3.0];
         }
         
     }
@@ -136,7 +137,8 @@
         }
         else
         {
-            [self sendInAppSMS];
+            [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
+            [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:3.0];
         }
     }
 
@@ -300,6 +302,8 @@
 //Email from Contacts
 -(void)mailTo {
     
+    [SVProgressHUD dismissWithSuccess:@"Composed"];
+    
     shareValue = @"";
     
     // Email Subject
@@ -331,7 +335,7 @@
     //stop loader
     
     // Present mail view controller on screen
-    [self presentViewController:mfMail animated:YES completion:nil];
+    [[self navigationController] presentViewController:mfMail animated:YES completion:nil];
     
 }
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -365,6 +369,7 @@
 //Message to user
 -(void)sendInAppSMS
 {
+    [SVProgressHUD dismissWithSuccess:@"Composed"];
     shareValue = @"";
     
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
@@ -387,7 +392,7 @@
 		}
         
         controller.messageComposeDelegate = self;
-		[self presentViewController:controller animated:NO completion:nil];
+		[[self navigationController] presentViewController:controller animated:NO completion:nil];
 	}
 }
 
