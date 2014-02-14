@@ -20,6 +20,9 @@
 #import "AppDelegate.h"
 #import "LaunchCameraViewController.h"
 #import "ContentManager.h"
+
+#define IDIOM    UI_USER_INTERFACE_IDIOM()
+#define IPAD     UIUserInterfaceIdiomPad
 @interface LoginViewController ()
 
 @end
@@ -515,7 +518,6 @@
     
      LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];
     HomeViewController *hm;
-    
     if([manager isiPad])
     {
         hm= [[HomeViewController alloc] initWithNibName:@"HomeViewController_iPad" bundle:nil] ;

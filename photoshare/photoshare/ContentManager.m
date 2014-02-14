@@ -74,7 +74,8 @@ static ContentManager *objContantManager = nil;
 //check if device is ipad or iPhone
 -(BOOL)isiPad
 {
-    if ( IDIOM == IPAD ) {
+    if ( [(NSString*)[UIDevice currentDevice].model hasPrefix:@"iPad"] )
+    {
         return YES;
     } else {
         return NO;
