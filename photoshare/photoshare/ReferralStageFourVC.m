@@ -664,7 +664,8 @@
         }
         else
         {
-            [self sendInAppSMS];
+           
+            [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:25.0f];
         }
     }
 
