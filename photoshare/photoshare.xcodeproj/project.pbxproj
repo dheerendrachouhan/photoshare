@@ -122,6 +122,10 @@
 		E18262841897F71700C1C799 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262831897F71700C1C799 /* twitter.png */; };
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
 		E18648D818969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
+		E18A726D18AE421500C96B38 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E18A726B18AE421500C96B38 /* EditProfileViewController.m */; };
+		E18A726E18AE421500C96B38 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18A726C18AE421500C96B38 /* EditProfileViewController.xib */; };
+		E18A727018AE424200C96B38 /* EditProfileViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18A726F18AE424200C96B38 /* EditProfileViewController_iPad.xib */; };
+		E18A727218AE42C900C96B38 /* ReferralStageFourVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E18A727118AE42C900C96B38 /* ReferralStageFourVC.m */; };
 		E1B07429189951CC00589867 /* CommunityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B07428189951CC00589867 /* CommunityViewController.m */; };
 		E1B0742C1899529900589867 /* PhotoGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B0742B1899529900589867 /* PhotoGalleryViewController.m */; };
 		E1B07430189952DB00589867 /* PhotoGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1B0742F189952DB00589867 /* PhotoGalleryViewController.xib */; };
@@ -201,7 +205,6 @@
 		FC35A890189BDF96006DDDFC /* splash640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = FC35A88F189BDF96006DDDFC /* splash640x1136.png */; };
 		FC35A892189BDFFD006DDDFC /* splash320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = FC35A891189BDFFD006DDDFC /* splash320x480.png */; };
 		FC35A894189BE02D006DDDFC /* splash640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = FC35A893189BE02D006DDDFC /* splash640x960.png */; };
-		FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */; };
 		FC85D5331896F01F006AD7E0 /* UserSecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */; };
 		FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC85D5321896F01F006AD7E0 /* UserSecurityViewController.xib */; };
 		FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FC85D53A1897F6D6006AD7E0 /* profile.png */; };
@@ -390,6 +393,11 @@
 		E18648D11896285800175E8D /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		E18648D618969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		E18648D718969A0F00175E8D /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
+		E18A726A18AE421500C96B38 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
+		E18A726B18AE421500C96B38 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
+		E18A726C18AE421500C96B38 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
+		E18A726F18AE424200C96B38 /* EditProfileViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController_iPad.xib; sourceTree = "<group>"; };
+		E18A727118AE42C900C96B38 /* ReferralStageFourVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferralStageFourVC.m; sourceTree = "<group>"; };
 		E1B074241899518600589867 /* AddEditFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEditFolderViewController.h; sourceTree = "<group>"; };
 		E1B074251899518600589867 /* AddEditFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEditFolderViewController.m; sourceTree = "<group>"; };
 		E1B07427189951CC00589867 /* CommunityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityViewController.h; sourceTree = "<group>"; };
@@ -500,7 +508,6 @@
 		FC35A88F189BDF96006DDDFC /* splash640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash640x1136.png; sourceTree = "<group>"; };
 		FC35A891189BDFFD006DDDFC /* splash320x480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash320x480.png; sourceTree = "<group>"; };
 		FC35A893189BE02D006DDDFC /* splash640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash640x960.png; sourceTree = "<group>"; };
-		FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
 		FC85D5301896F01F006AD7E0 /* UserSecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSecurityViewController.h; sourceTree = "<group>"; };
 		FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSecurityViewController.m; sourceTree = "<group>"; };
 		FC85D5321896F01F006AD7E0 /* UserSecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController.xib; sourceTree = "<group>"; };
@@ -834,6 +841,8 @@
 				E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */,
 				E31767711899130100923E35 /* EditPhotoViewController.h */,
 				E31767721899130100923E35 /* EditPhotoViewController.m */,
+				E18A726A18AE421500C96B38 /* EditProfileViewController.h */,
+				E18A726B18AE421500C96B38 /* EditProfileViewController.m */,
 				E317675A1898BE0A00923E35 /* FBTWViewController.h */,
 				E317675B1898BE0A00923E35 /* FBTWViewController.m */,
 				E3188DA01893968A004ACF77 /* FinanceCalculatorViewController.h */,
@@ -863,6 +872,7 @@
 				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
 				FC976404189004E0008DF1F8 /* ReferFriendViewController.m */,
 				E31AA48818962DFA0065F8E2 /* ReferralStageFourVC.h */,
+				E18A727118AE42C900C96B38 /* ReferralStageFourVC.m */,
 				E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */,
 				E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */,
 				E11C55DC18A8ECC700C67B6D /* ShareWithUserViewController.h */,
@@ -1002,6 +1012,8 @@
 				E108F12318AE2BA500B574F6 /* EditPhotoDetailViewController_iPad.xib */,
 				E31767731899130100923E35 /* EditPhotoViewController.xib */,
 				E108F12118AE2B4800B574F6 /* EditPhotoViewController_iPad.xib */,
+				E18A726C18AE421500C96B38 /* EditProfileViewController.xib */,
+				E18A726F18AE424200C96B38 /* EditProfileViewController_iPad.xib */,
 				E317675C1898BE0A00923E35 /* FBTWViewController.xib */,
 				E108F12718AE2BD500B574F6 /* FBTWViewController_iPad.xib */,
 				E31767691899031200923E35 /* financeCalculator3VC.xib */,
@@ -1152,6 +1164,7 @@
 				E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */,
 				E322BB0218A3AD7700CAC9E5 /* logo_57x57.png in Resources */,
 				E16F390218912C9C00064806 /* cog-itemX30.png in Resources */,
+				E18A727018AE424200C96B38 /* EditProfileViewController_iPad.xib in Resources */,
 				E322BB0318A3AD7700CAC9E5 /* logo_60x60.png in Resources */,
 				E16F390D18912C9C00064806 /* previous.png in Resources */,
 				E108F11E18AE2AF300B574F6 /* AccountViewController_iPad.xib in Resources */,
@@ -1248,6 +1261,7 @@
 				E31A556818A4A08E00B0015B /* home.png in Resources */,
 				E31CADB7189CC2890081241D /* icon-person.png in Resources */,
 				E16F390C18912C9C00064806 /* next.png in Resources */,
+				E18A726E18AE421500C96B38 /* EditProfileViewController.xib in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
 				E1717A88189D2A8E008899EC /* radio.png in Resources */,
 				E170E91518A55280002D3D17 /* logo_80x80.png in Resources */,
@@ -1255,7 +1269,6 @@
 				E322BAEF18A36B7600CAC9E5 /* earn-30x30.png in Resources */,
 				FC35A88C189BDE5F006DDDFC /* icon@2x-58.png in Resources */,
 				E108F14C18AE2E1100B574F6 /* TermConditionViewController_iPad.xib in Resources */,
-				FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E31B9E18189A558D00722761 /* ReferrelStageFourVC3.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
@@ -1306,6 +1319,7 @@
 				E31B9E16189A4E6200722761 /* MyReferralViewController.m in Sources */,
 				E1067DFC189AA7D600F08A5F /* AFURLRequestSerialization.m in Sources */,
 				E1067DF8189AA7D600F08A5F /* AFHTTPSessionManager.m in Sources */,
+				E18A726D18AE421500C96B38 /* EditProfileViewController.m in Sources */,
 				E11AD1B018ACC4F600C6185E /* SearchPhotoViewController.m in Sources */,
 				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
 				E1067DFB189AA7D600F08A5F /* AFURLConnectionOperation.m in Sources */,
@@ -1321,6 +1335,7 @@
 				E3BAA8EE18993ABC00ED2CA2 /* SBJsonBase.m in Sources */,
 				E1B0742C1899529900589867 /* PhotoGalleryViewController.m in Sources */,
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
+				E18A727218AE42C900C96B38 /* ReferralStageFourVC.m in Sources */,
 				E11C55DF18A8ECC700C67B6D /* ShareWithUserViewController.m in Sources */,
 				E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */,
 				E1067DF7189AA7D600F08A5F /* AFHTTPRequestOperationManager.m in Sources */,
