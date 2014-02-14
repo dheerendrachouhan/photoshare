@@ -551,7 +551,7 @@
                     {
                         [self getPhotoFromServer:0];
                         [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
-                        [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
+                       
                     }
                    
                     
@@ -1193,6 +1193,7 @@
             loading.text=@"Loading....";
             [cell.contentView addSubview:loading];
             */
+            [cell.contentView addSubview:imgView];
 
         }
         

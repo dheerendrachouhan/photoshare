@@ -228,7 +228,7 @@
         [view removeFromSuperview];
     }
     
-    @try {        
+    @try {
         
         if(photoArray.count>indexPath.row)
         {

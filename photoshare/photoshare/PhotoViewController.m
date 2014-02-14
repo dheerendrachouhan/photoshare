@@ -309,6 +309,8 @@
     
     pickImage=image;
      imageView.image=pickImage;
+    originalImage=pickImage;
+    
      imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
     [self addPhotoDescriptionView];
