@@ -211,18 +211,24 @@
     static NSString *identifier=@"CVCell";
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
-    UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+    UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height-25)];
     
     imgView.tag=101+indexPath.row;
     imgView.layer.masksToBounds=YES;
+    
+    
+    UILabel *photoTitleLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, cell.frame.size.height-25, cell.frame.size.width, 25)];
+    photoTitleLbl.font=[UIFont fontWithName:@"Verdana" size:10];
+    photoTitleLbl.numberOfLines=0;
+    photoTitleLbl.textAlignment=NSTextAlignmentCenter;
+    photoTitleLbl.text=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_title"];
     
     
     for (UIView *view in [cell.contentView subviews]) {
         [view removeFromSuperview];
     }
     
-    @try {
-        
+    @try {        
         
         if(photoArray.count>indexPath.row)
         {
@@ -236,7 +242,7 @@
             [activityIndicator startAnimating];
             activityIndicator.tag=1101+indexPath.row;
             activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |                                        UIViewAutoresizingFlexibleRightMargin |                                        UIViewAutoresizingFlexibleTopMargin |                                        UIViewAutoresizingFlexibleBottomMargin);
-            activityIndicator.center = CGPointMake(CGRectGetWidth(cell.bounds)/2, CGRectGetHeight(cell.bounds)/2);
+            activityIndicator.center = CGPointMake(CGRectGetWidth(imgView.bounds)/2, CGRectGetHeight(imgView.bounds)/2);
             [cell.contentView addSubview:activityIndicator];
             
             
@@ -252,6 +258,7 @@
     }
     
     [cell.contentView addSubview:imgView];
+    [cell.contentView addSubview:photoTitleLbl];
     return cell;
 }
 
