@@ -729,7 +729,7 @@
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
                     [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
-                    [arSelectedRows addObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    [arSelectedRows addObject:[NSNumber numberWithInteger:r]];
                     if([tweetString length])
                     {
                         [tweetString appendString:@", "];
@@ -750,7 +750,7 @@
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
                     [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
-                    [arSelectedRows removeObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    [arSelectedRows removeObject:[NSNumber numberWithInteger:r]];
                 }
             }
             StringTweet = nil;
@@ -769,7 +769,7 @@
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
                     [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
-                    [arSelectedRows addObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    [arSelectedRows addObject:[NSNumber numberWithInteger:r]];
                     if([tweetString length])
                     {
                         [tweetString appendString:@", "];
@@ -789,7 +789,7 @@
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
                     [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
-                    [arSelectedRows removeObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    [arSelectedRows removeObject:[NSNumber numberWithInteger:r]];
                 }
             }
             StringTweet = nil;
@@ -807,7 +807,7 @@
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
                     [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
-                    [arSelectedRows addObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    [arSelectedRows addObject:[NSNumber numberWithInteger:r]];
                     if([tweetString length])
                     {
                         [tweetString appendString:@", "];
@@ -827,7 +827,7 @@
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
                     [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
-                    [arSelectedRows removeObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    [arSelectedRows removeObject:[NSNumber numberWithInteger:r]];
                 }
             }
             StringTweet = nil;
@@ -845,7 +845,7 @@
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
                     [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
-                    [arSelectedRows addObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    [arSelectedRows addObject:[NSNumber numberWithInteger:r]];
                     if([tweetString length])
                     {
                         [tweetString appendString:@", "];
@@ -865,7 +865,7 @@
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
                     [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
-                    [arSelectedRows removeObject:[NSIndexPath indexPathForRow:r inSection:s]];
+                    [arSelectedRows removeObject:[NSNumber numberWithInteger:r]];
                 }
             }
             StringTweet = nil;
