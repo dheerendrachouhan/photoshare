@@ -340,6 +340,14 @@
             title = [contactName objectAtIndex:indexPath.row];
             contacts = [contactEmail objectAtIndex:indexPath.row];
         }
+        if([title isEqualToString:@" (null)"])
+        {
+            title=@"Unknown";
+        }
+        if(contacts==NULL)
+        {
+            contacts=@"";
+        }
         
         cell.textLabel.text = title;
         cell.detailTextLabel.text = contacts;
@@ -374,7 +382,14 @@
             title = [contactName objectAtIndex:indexPath.row];
             contacts = [contactPhone objectAtIndex:indexPath.row];
         }
-        
+        if([title isEqualToString:@" (null)"])
+        {
+            title=@"Unknown";
+        }
+        if(contacts==NULL)
+        {
+            contacts=@"";
+        }
         cell.textLabel.text = title;
         cell.detailTextLabel.text = contacts;
         
@@ -407,7 +422,14 @@
             title = [contactName objectAtIndex:indexPath.row];
             contacts = [contactEmail objectAtIndex:indexPath.row];
         }
-        
+        if([title isEqualToString:@" (null)"])
+        {
+            title=@"Unknown";
+        }
+        if(contacts==NULL)
+        {
+            contacts=@"";
+        }
         cell.textLabel.text = title;
         cell.detailTextLabel.text = contacts;
         
@@ -440,7 +462,14 @@
             title = [contactName objectAtIndex:indexPath.row];
             contacts = [contactPhone objectAtIndex:indexPath.row];
         }
-        
+        if([title isEqualToString:@" (null)"])
+        {
+            title=@"Unknown";
+        }
+        if(contacts==NULL)
+        {
+            contacts=@"";
+        }
         cell.textLabel.text = title;
         cell.detailTextLabel.text = contacts;
         

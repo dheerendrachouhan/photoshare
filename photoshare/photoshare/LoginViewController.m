@@ -517,15 +517,15 @@
     AccountViewController *acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
     
      LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];
-    HomeViewController *hm;
-    if([manager isiPad])
+    HomeViewController *hm=[[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    /*if([manager isiPad])
     {
         hm= [[HomeViewController alloc] initWithNibName:@"HomeViewController_iPad" bundle:nil] ;
     }
     else
     {
         hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil] ;
-    }
+    }*/
     
     
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
