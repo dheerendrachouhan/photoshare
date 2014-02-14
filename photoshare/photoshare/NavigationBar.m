@@ -68,7 +68,7 @@
     ContentManager *objManager=[ContentManager sharedManager];
     NSDictionary *dic =objManager.loginDetailsDict ;
     
-    NSLog(@"User id is %@",[dic objectForKey:@"user_id"]);
+   
     
     return self;
 }
