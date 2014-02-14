@@ -40,7 +40,7 @@
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
 
-    [manager POST:[NSString stringWithFormat:@"http://54.194.160.22/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
        if( [responseObject isKindOfClass:[UIImage class]] )
@@ -65,6 +65,9 @@
 
 }
 
+
+
+
 -(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSData *)imageData{
     
     
@@ -82,8 +85,8 @@
     */
     
     //NSError* error = nil ;
-    //before14 Febw ww.burningwindmill.com
-   [manager POST:[NSString stringWithFormat:@"http://54.194.160.22/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    //before14 Febwww.burningwindmill.com
+   [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         //[formData appendPartWithFileURL:filePath name:@"file" error: nil];
          [formData appendPartWithFileData:imageData name:@"file" fileName:@"photo.png" mimeType:@"image/png"];
         

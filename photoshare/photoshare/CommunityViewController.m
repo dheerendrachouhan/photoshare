@@ -562,7 +562,16 @@
     [self.navigationController pushViewController:searchController animated:NO];
 }
 -(void)navBackButtonClick{
-    [[self navigationController] popViewControllerAnimated:YES];
+    NSLog(@"Tab BAr Selected Index is %d",self.tabBarController.selectedIndex);
+    if(self.tabBarController.selectedIndex==3)
+    {
+        [self.tabBarController setSelectedIndex:0];
+    }
+    else
+    {
+        [[self navigationController] popViewControllerAnimated:YES];
+    }
+    
 }
 
 
