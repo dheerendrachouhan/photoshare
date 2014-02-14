@@ -29,6 +29,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    //set the search bar become first responder
+    [searchBarForPhoto becomeFirstResponder];
+    
+    
     manager =[ContentManager sharedManager];
     webservice =[[WebserviceController alloc] init];
     userid=[manager getData:@"user_id"];
@@ -265,6 +269,7 @@
 
 -(void)tapHandle :(UITapGestureRecognizer *)gesture
 {
+    [searchBarForPhoto resignFirstResponder];
     CGPoint p = [gesture locationInView:collectionViewForPhoto];
     
     NSIndexPath *indexPath = [collectionViewForPhoto indexPathForItemAtPoint:p];

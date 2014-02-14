@@ -29,6 +29,32 @@
 		E1067DFE189AA7D600F08A5F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067DF5189AA7D600F08A5F /* AFURLSessionManager.m */; };
 		E1067E01189AA7F400F08A5F /* WebserviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E00189AA7F400F08A5F /* WebserviceController.m */; };
 		E1067E03189AA80400F08A5F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E02189AA80400F08A5F /* LoginViewController.m */; };
+		E108F11C18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11B18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib */; };
+		E108F11E18AE2AF300B574F6 /* AccountViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11D18AE2AF300B574F6 /* AccountViewController_iPad.xib */; };
+		E108F12018AE2B0E00B574F6 /* CommunityViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */; };
+		E108F12218AE2B4800B574F6 /* EditPhotoViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F12118AE2B4800B574F6 /* EditPhotoViewController_iPad.xib */; };
+		E108F12418AE2BA500B574F6 /* EditPhotoDetailViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F12318AE2BA500B574F6 /* EditPhotoDetailViewController_iPad.xib */; };
+		E108F12618AE2BC000B574F6 /* EarningViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F12518AE2BC000B574F6 /* EarningViewController_iPad.xib */; };
+		E108F12818AE2BD500B574F6 /* FBTWViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F12718AE2BD500B574F6 /* FBTWViewController_iPad.xib */; };
+		E108F12A18AE2BF000B574F6 /* FinanceCalculatorViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F12918AE2BF000B574F6 /* FinanceCalculatorViewController_iPad.xib */; };
+		E108F12C18AE2C0C00B574F6 /* financeCalculator3VC_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F12B18AE2C0C00B574F6 /* financeCalculator3VC_iPad.xib */; };
+		E108F12E18AE2C5700B574F6 /* HomeViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F12D18AE2C5700B574F6 /* HomeViewController_iPad.xib */; };
+		E108F13018AE2C7100B574F6 /* LaunchCameraViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F12F18AE2C7100B574F6 /* LaunchCameraViewController_iPad.xib */; };
+		E108F13218AE2C9300B574F6 /* MailMessageTable_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13118AE2C9300B574F6 /* MailMessageTable_iPad.xib */; };
+		E108F13418AE2CAE00B574F6 /* MyReferralViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13318AE2CAE00B574F6 /* MyReferralViewController_iPad.xib */; };
+		E108F13618AE2CC700B574F6 /* PhotoShareController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13518AE2CC700B574F6 /* PhotoShareController_iPad.xib */; };
+		E108F13818AE2D0600B574F6 /* PhotoGalleryViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13718AE2D0600B574F6 /* PhotoGalleryViewController_iPad.xib */; };
+		E108F13A18AE2D1E00B574F6 /* PhotoViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13918AE2D1E00B574F6 /* PhotoViewController_iPad.xib */; };
+		E108F13C18AE2D3800B574F6 /* PastPayementViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13B18AE2D3800B574F6 /* PastPayementViewController_iPad.xib */; };
+		E108F13E18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13D18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib */; };
+		E108F14018AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13F18AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib */; };
+		E108F14218AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14118AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib */; };
+		E108F14418AE2DB600B574F6 /* ResetPasswordController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14318AE2DB600B574F6 /* ResetPasswordController_iPad.xib */; };
+		E108F14618AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14518AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib */; };
+		E108F14818AE2DE400B574F6 /* ShareWithUserViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14718AE2DE400B574F6 /* ShareWithUserViewController_iPad.xib */; };
+		E108F14A18AE2DFD00B574F6 /* TwitterTable_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */; };
+		E108F14C18AE2E1100B574F6 /* TermConditionViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14B18AE2E1100B574F6 /* TermConditionViewController_iPad.xib */; };
+		E108F14E18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14D18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib */; };
 		E11AD1B018ACC4F600C6185E /* SearchPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */; };
 		E11AD1B118ACC4F600C6185E /* SearchPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */; };
 		E11C55DF18A8ECC700C67B6D /* ShareWithUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C55DD18A8ECC700C67B6D /* ShareWithUserViewController.m */; };
@@ -92,7 +118,6 @@
 		E172F53218A271EE006799B9 /* homepage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E172F53118A271EE006799B9 /* homepage.jpg */; };
 		E174AC121898C096001B5278 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC111898C096001B5278 /* iconr3.png */; };
 		E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */; };
-		E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E182626518976CDA00C1C799 /* EditProfileViewController.xib */; };
 		E18262821897F6DC00C1C799 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262811897F6DC00C1C799 /* facebook.png */; };
 		E18262841897F71700C1C799 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262831897F71700C1C799 /* twitter.png */; };
 		E18648D21896285800175E8D /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E18648D11896285800175E8D /* Base64.m */; };
@@ -133,7 +158,6 @@
 		E31A558A18A5088600B0015B /* term.html in Resources */ = {isa = PBXBuildFile; fileRef = E31A558918A5088600B0015B /* term.html */; };
 		E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */; };
 		E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AA48E189662C00065F8E2 /* EditMessageVC.m */; };
-		E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31AA48F189662C00065F8E2 /* EditMessageVC.xib */; };
 		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
 		E31AEDAB18A0B8EA006AA40E /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AEDAA18A0B8EA006AA40E /* NavigationBar.m */; };
 		E31B9E10189A1D7F00722761 /* iconr3_uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = E31B9E0F189A1D7F00722761 /* iconr3_uncheck.png */; };
@@ -257,6 +281,32 @@
 		E1067DFF189AA7F400F08A5F /* WebserviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceController.h; sourceTree = "<group>"; };
 		E1067E00189AA7F400F08A5F /* WebserviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceController.m; sourceTree = "<group>"; };
 		E1067E02189AA80400F08A5F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		E108F11B18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddEditFolderViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F11D18AE2AF300B574F6 /* AccountViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F12118AE2B4800B574F6 /* EditPhotoViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPhotoViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F12318AE2BA500B574F6 /* EditPhotoDetailViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPhotoDetailViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F12518AE2BC000B574F6 /* EarningViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EarningViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F12718AE2BD500B574F6 /* FBTWViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FBTWViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F12918AE2BF000B574F6 /* FinanceCalculatorViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinanceCalculatorViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F12B18AE2C0C00B574F6 /* financeCalculator3VC_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = financeCalculator3VC_iPad.xib; sourceTree = "<group>"; };
+		E108F12D18AE2C5700B574F6 /* HomeViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F12F18AE2C7100B574F6 /* LaunchCameraViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchCameraViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F13118AE2C9300B574F6 /* MailMessageTable_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MailMessageTable_iPad.xib; sourceTree = "<group>"; };
+		E108F13318AE2CAE00B574F6 /* MyReferralViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyReferralViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F13518AE2CC700B574F6 /* PhotoShareController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoShareController_iPad.xib; sourceTree = "<group>"; };
+		E108F13718AE2D0600B574F6 /* PhotoGalleryViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoGalleryViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F13918AE2D1E00B574F6 /* PhotoViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F13B18AE2D3800B574F6 /* PastPayementViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PastPayementViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F13D18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferralStageFourVC_iPad.xib; sourceTree = "<group>"; };
+		E108F13F18AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferFriendViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F14118AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferrelStageFourVC3_iPad.xib; sourceTree = "<group>"; };
+		E108F14318AE2DB600B574F6 /* ResetPasswordController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResetPasswordController_iPad.xib; sourceTree = "<group>"; };
+		E108F14518AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchPhotoViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F14718AE2DE400B574F6 /* ShareWithUserViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareWithUserViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable_iPad.xib; sourceTree = "<group>"; };
+		E108F14B18AE2E1100B574F6 /* TermConditionViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermConditionViewController_iPad.xib; sourceTree = "<group>"; };
+		E108F14D18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController_iPad.xib; sourceTree = "<group>"; };
 		E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPhotoViewController.h; sourceTree = "<group>"; };
 		E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPhotoViewController.m; sourceTree = "<group>"; };
 		E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchPhotoViewController.xib; sourceTree = "<group>"; };
@@ -336,7 +386,6 @@
 		E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCameraViewController.m; sourceTree = "<group>"; };
 		E182626318976CDA00C1C799 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
 		E182626418976CDA00C1C799 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
-		E182626518976CDA00C1C799 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
 		E18262781897AEA400C1C799 /* JSONDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONDictionary.h; sourceTree = "<group>"; };
 		E182627B1897CB3A00C1C799 /* folder_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder_lock.png; sourceTree = "<group>"; };
 		E18262811897F6DC00C1C799 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
@@ -394,7 +443,6 @@
 		E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferralStageFourVC.xib; sourceTree = "<group>"; };
 		E31AA48D189662C00065F8E2 /* EditMessageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMessageVC.h; sourceTree = "<group>"; };
 		E31AA48E189662C00065F8E2 /* EditMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMessageVC.m; sourceTree = "<group>"; };
-		E31AA48F189662C00065F8E2 /* EditMessageVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMessageVC.xib; sourceTree = "<group>"; };
 		E31AA49218969D730065F8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		E31AA4941896A02A0065F8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		E31AA4C31896AA160065F8E2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -776,7 +824,6 @@
 				FCB3774B189C345B00FDE547 /* DataMapperController.m */,
 				E31767711899130100923E35 /* EditPhotoViewController.h */,
 				E31767721899130100923E35 /* EditPhotoViewController.m */,
-				E31767731899130100923E35 /* EditPhotoViewController.xib */,
 				E1067DE1189AA79700F08A5F /* LoginViewController.h */,
 				E1067E02189AA80400F08A5F /* LoginViewController.m */,
 				E16F39191891325600064806 /* CommonTopView.h */,
@@ -791,25 +838,20 @@
 				E1B0742B1899529900589867 /* PhotoGalleryViewController.m */,
 				E165CF3818A3B8950030099C /* EditPhotoDetailViewController.h */,
 				E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */,
-				E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */,
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
 				E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */,
 				E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */,
-				E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */,
 				E1B07427189951CC00589867 /* CommunityViewController.h */,
 				E1B07428189951CC00589867 /* CommunityViewController.m */,
 				E1B074241899518600589867 /* AddEditFolderViewController.h */,
 				E1B074251899518600589867 /* AddEditFolderViewController.m */,
-				E17222B21892518B00F28748 /* AddEditFolderViewController.xib */,
 				E11C55DC18A8ECC700C67B6D /* ShareWithUserViewController.h */,
 				E11C55DD18A8ECC700C67B6D /* ShareWithUserViewController.m */,
-				E11C55DE18A8ECC700C67B6D /* ShareWithUserViewController.xib */,
 				E182626318976CDA00C1C799 /* EditProfileViewController.h */,
 				E182626418976CDA00C1C799 /* EditProfileViewController.m */,
 				E170E90918A526EA002D3D17 /* PhotoShareController.h */,
 				E170E90E18A5275A002D3D17 /* PhotoShareController.m */,
-				E170E90B18A526EA002D3D17 /* PhotoShareController.xib */,
 				E17222AB18923AF900F28748 /* CollectionViewCell.h */,
 				E17222AC18923AF900F28748 /* CollectionViewCell.m */,
 				FC976403189004E0008DF1F8 /* ReferFriendViewController.h */,
@@ -819,16 +861,12 @@
 				FC35A897189C149F006DDDFC /* ReferralStageFourVC.m */,
 				E31649AF18AB55B900083C7F /* MailMessageTable.h */,
 				E31649B018AB55B900083C7F /* MailMessageTable.m */,
-				E31649B118AB55B900083C7F /* MailMessageTable.xib */,
 				E317675A1898BE0A00923E35 /* FBTWViewController.h */,
 				E317675B1898BE0A00923E35 /* FBTWViewController.m */,
-				E317675C1898BE0A00923E35 /* FBTWViewController.xib */,
 				E3BAA8F118993F9600ED2CA2 /* TwitterTable.h */,
 				E3BAA8F218993F9600ED2CA2 /* TwitterTable.m */,
-				E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */,
 				E31AA48D189662C00065F8E2 /* EditMessageVC.h */,
 				E31AA48E189662C00065F8E2 /* EditMessageVC.m */,
-				E31AA48F189662C00065F8E2 /* EditMessageVC.xib */,
 				E17222B81892817800F28748 /* EarningViewController.h */,
 				E17222B91892817800F28748 /* EarningViewController.m */,
 				E3188DA01893968A004ACF77 /* FinanceCalculatorViewController.h */,
@@ -843,13 +881,10 @@
 				FC97640918900505008DF1F8 /* AccountViewController.m */,
 				FC85D52B1896EAC1006AD7E0 /* EditProfileViewController.h */,
 				FC85D52C1896EAC1006AD7E0 /* EditProfileViewController.m */,
-				FC85D52D1896EAC1006AD7E0 /* EditProfileViewController.xib */,
 				FC85D5301896F01F006AD7E0 /* UserSecurityViewController.h */,
 				FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */,
-				FC85D5321896F01F006AD7E0 /* UserSecurityViewController.xib */,
 				E31767761899134700923E35 /* TermConditionViewController.h */,
 				E31767771899134700923E35 /* TermConditionViewController.m */,
-				E31767781899134700923E35 /* TermConditionViewController.xib */,
 				E170E90618A4F10E002D3D17 /* GetUserLocation.h */,
 				E170E90718A4F10E002D3D17 /* GetUserLocation.m */,
 			);
@@ -966,26 +1001,61 @@
 		FC97640D1890050C008DF1F8 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
-				E317675F1898BE4100923E35 /* FinanceCalculatorViewController.xib */,
-				E31767691899031200923E35 /* financeCalculator3VC.xib */,
-				E1B0742F189952DB00589867 /* PhotoGalleryViewController.xib */,
-				E182626518976CDA00C1C799 /* EditProfileViewController.xib */,
-				E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */,
-				E31AA48F189662C00065F8E2 /* EditMessageVC.xib */,
-				FC97641618900B00008DF1F8 /* HomeViewController.xib */,
-				FC97641118900734008DF1F8 /* PhotoViewController.xib */,
+				E17222B21892518B00F28748 /* AddEditFolderViewController.xib */,
+				E108F11B18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib */,
 				FC97640A18900505008DF1F8 /* AccountViewController.xib */,
-				FC976405189004E0008DF1F8 /* ReferFriendViewController.xib */,
-				E31B9E17189A558D00722761 /* ReferrelStageFourVC3.xib */,
+				E108F11D18AE2AF300B574F6 /* AccountViewController_iPad.xib */,
 				FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */,
+				E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */,
 				E16F38E518910DB000064806 /* CommunityCollectionCell.xib */,
-				E17222BA1892817800F28748 /* EarningViewController.xib */,
-				E17222C41892819A00F28748 /* PastPayementViewController.xib */,
-				E3188D961893829C004ACF77 /* MyReferralViewController.xib */,
 				E3188D9B18938888004ACF77 /* CustomCell.xib */,
-				E17222C9189281B000F28748 /* ResetPasswordController.xib */,
+				E31767731899130100923E35 /* EditPhotoViewController.xib */,
+				E108F12118AE2B4800B574F6 /* EditPhotoViewController_iPad.xib */,
+				E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */,
+				E108F12318AE2BA500B574F6 /* EditPhotoDetailViewController_iPad.xib */,
+				E17222BA1892817800F28748 /* EarningViewController.xib */,
+				E108F12518AE2BC000B574F6 /* EarningViewController_iPad.xib */,
+				E317675C1898BE0A00923E35 /* FBTWViewController.xib */,
+				E108F12718AE2BD500B574F6 /* FBTWViewController_iPad.xib */,
+				E317675F1898BE4100923E35 /* FinanceCalculatorViewController.xib */,
+				E108F12918AE2BF000B574F6 /* FinanceCalculatorViewController_iPad.xib */,
+				E31767691899031200923E35 /* financeCalculator3VC.xib */,
+				E108F12B18AE2C0C00B574F6 /* financeCalculator3VC_iPad.xib */,
+				FC97641618900B00008DF1F8 /* HomeViewController.xib */,
+				E108F12D18AE2C5700B574F6 /* HomeViewController_iPad.xib */,
 				E17222D8189285A100F28748 /* LoginViewController.xib */,
 				E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */,
+				E108F12F18AE2C7100B574F6 /* LaunchCameraViewController_iPad.xib */,
+				E31649B118AB55B900083C7F /* MailMessageTable.xib */,
+				E108F13118AE2C9300B574F6 /* MailMessageTable_iPad.xib */,
+				E3188D961893829C004ACF77 /* MyReferralViewController.xib */,
+				E108F13318AE2CAE00B574F6 /* MyReferralViewController_iPad.xib */,
+				E170E90B18A526EA002D3D17 /* PhotoShareController.xib */,
+				E108F13518AE2CC700B574F6 /* PhotoShareController_iPad.xib */,
+				E1B0742F189952DB00589867 /* PhotoGalleryViewController.xib */,
+				E108F13718AE2D0600B574F6 /* PhotoGalleryViewController_iPad.xib */,
+				FC97641118900734008DF1F8 /* PhotoViewController.xib */,
+				E108F13918AE2D1E00B574F6 /* PhotoViewController_iPad.xib */,
+				E17222C41892819A00F28748 /* PastPayementViewController.xib */,
+				E108F13B18AE2D3800B574F6 /* PastPayementViewController_iPad.xib */,
+				E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */,
+				E108F13D18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib */,
+				FC976405189004E0008DF1F8 /* ReferFriendViewController.xib */,
+				E108F13F18AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib */,
+				E31B9E17189A558D00722761 /* ReferrelStageFourVC3.xib */,
+				E108F14118AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib */,
+				E17222C9189281B000F28748 /* ResetPasswordController.xib */,
+				E108F14318AE2DB600B574F6 /* ResetPasswordController_iPad.xib */,
+				E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */,
+				E108F14518AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib */,
+				E11C55DE18A8ECC700C67B6D /* ShareWithUserViewController.xib */,
+				E108F14718AE2DE400B574F6 /* ShareWithUserViewController_iPad.xib */,
+				E3BAA8F318993F9600ED2CA2 /* TwitterTable.xib */,
+				E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */,
+				E31767781899134700923E35 /* TermConditionViewController.xib */,
+				E108F14B18AE2E1100B574F6 /* TermConditionViewController_iPad.xib */,
+				FC85D5321896F01F006AD7E0 /* UserSecurityViewController.xib */,
+				E108F14D18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib */,
 			);
 			name = Layouts;
 			sourceTree = "<group>";
@@ -1075,37 +1145,49 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E108F13618AE2CC700B574F6 /* PhotoShareController_iPad.xib in Resources */,
 				E170E90D18A526EA002D3D17 /* PhotoShareController.xib in Resources */,
 				FC35A85E189AFCCD006DDDFC /* folder_lock.png in Resources */,
 				FC35A85D189AFCBA006DDDFC /* earnings-iconX30.png in Resources */,
+				E108F14818AE2DE400B574F6 /* ShareWithUserViewController_iPad.xib in Resources */,
 				E3188D9F18939171004ACF77 /* cellImage.png in Resources */,
+				E108F13818AE2D0600B574F6 /* PhotoGalleryViewController_iPad.xib in Resources */,
 				E165CF3E18A3EC4C0030099C /* shared-icon3.png in Resources */,
 				E31A557B18A502E800B0015B /* cog-item.png in Resources */,
 				E17222E018928DE700F28748 /* cancel_red.png in Resources */,
 				E16F392018914D4A00064806 /* back.png in Resources */,
 				E31B9E10189A1D7F00722761 /* iconr3_uncheck.png in Resources */,
+				E108F14618AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib in Resources */,
 				E16F390518912C9C00064806 /* earnings-icon.png in Resources */,
+				E108F14218AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib in Resources */,
+				E108F12018AE2B0E00B574F6 /* CommunityViewController_iPad.xib in Resources */,
 				E16F390E18912C9C00064806 /* private-icon.png in Resources */,
 				E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */,
 				E322BB0218A3AD7700CAC9E5 /* logo_57x57.png in Resources */,
 				E16F390218912C9C00064806 /* cog-itemX30.png in Resources */,
 				E322BB0318A3AD7700CAC9E5 /* logo_60x60.png in Resources */,
 				E16F390D18912C9C00064806 /* previous.png in Resources */,
+				E108F11E18AE2AF300B574F6 /* AccountViewController_iPad.xib in Resources */,
 				E31767751899130100923E35 /* EditPhotoViewController.xib in Resources */,
 				E16F391218912C9C00064806 /* share-to-folder.png in Resources */,
+				E108F13E18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib in Resources */,
 				E16F390A18912C9C00064806 /* icon-takephotoX30.png in Resources */,
 				E31649B318AB55B900083C7F /* MailMessageTable.xib in Resources */,
+				E108F12C18AE2C0C00B574F6 /* financeCalculator3VC_iPad.xib in Resources */,
 				FC35A88A189BDE1B006DDDFC /* Icon@2x-80.png in Resources */,
+				E108F14418AE2DB600B574F6 /* ResetPasswordController_iPad.xib in Resources */,
 				FCC76CA91896A64000F4B41A /* bg.png in Resources */,
 				E174AC121898C096001B5278 /* iconr3.png in Resources */,
 				E322BB0018A3AD7700CAC9E5 /* logo_29x29.png in Resources */,
 				E17222CD189281C000F28748 /* login2_new.png in Resources */,
 				E31A558518A502E800B0015B /* photo-icon.png in Resources */,
 				E16F391418912C9C00064806 /* shared-icon.png in Resources */,
+				E108F12A18AE2BF000B574F6 /* FinanceCalculatorViewController_iPad.xib in Resources */,
 				E31A558318A502E800B0015B /* homelogo.png in Resources */,
 				E317675E1898BE0A00923E35 /* FBTWViewController.xib in Resources */,
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
 				E3A5B90218A8F22F00CED95F /* CustomCells.xib in Resources */,
+				E108F14A18AE2DFD00B574F6 /* TwitterTable_iPad.xib in Resources */,
 				E322BAF218A36B7600CAC9E5 /* refer-30x30.png in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
 				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
@@ -1120,10 +1202,14 @@
 				E322BB0118A3AD7700CAC9E5 /* logo_40x40.png in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
 				E322BAF118A36B7600CAC9E5 /* photo-30x30.png in Resources */,
+				E108F12E18AE2C5700B574F6 /* HomeViewController_iPad.xib in Resources */,
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E18262821897F6DC00C1C799 /* facebook.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
 				E31C57AF18AA37F4003ED684 /* White Labelling Doc.md in Resources */,
+				E108F12618AE2BC000B574F6 /* EarningViewController_iPad.xib in Resources */,
+				E108F14018AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib in Resources */,
+				E108F12418AE2BA500B574F6 /* EditPhotoDetailViewController_iPad.xib in Resources */,
 				E322BAEE18A36B7600CAC9E5 /* cog-30x30.png in Resources */,
 				E31A558418A502E800B0015B /* homelogo@2x.png in Resources */,
 				E1717A7C189CF624008899EC /* ajaxloader.gif in Resources */,
@@ -1133,12 +1219,16 @@
 				E16F3916189130A800064806 /* folder-icon.png in Resources */,
 				E31767621898BED100923E35 /* edit.png in Resources */,
 				E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */,
+				E108F13C18AE2D3800B574F6 /* PastPayementViewController_iPad.xib in Resources */,
 				FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */,
+				E108F11C18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib in Resources */,
 				E170E91618A55280002D3D17 /* Icon-120.png in Resources */,
 				FCC76CAB1896A93C00F4B41A /* arrow.png in Resources */,
+				E108F13018AE2C7100B574F6 /* LaunchCameraViewController_iPad.xib in Resources */,
 				E317676A1899031200923E35 /* financeCalculator3VC.xib in Resources */,
 				FCC76CA71896A39C00F4B41A /* line.png in Resources */,
 				FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */,
+				E108F13418AE2CAE00B574F6 /* MyReferralViewController_iPad.xib in Resources */,
 				E16F390718912C9C00064806 /* folder-icon-bottomX30.png in Resources */,
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
 				E31AA48C18962DFA0065F8E2 /* ReferralStageFourVC.xib in Resources */,
@@ -1151,9 +1241,12 @@
 				FC97639A188FEB89008DF1F8 /* InfoPlist.strings in Resources */,
 				FC35A894189BE02D006DDDFC /* splash640x960.png in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
+				E108F12818AE2BD500B574F6 /* FBTWViewController_iPad.xib in Resources */,
 				E31A557F18A502E800B0015B /* earnings-icon.png in Resources */,
 				E11AD1B118ACC4F600C6185E /* SearchPhotoViewController.xib in Resources */,
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
+				E108F13218AE2C9300B574F6 /* MailMessageTable_iPad.xib in Resources */,
+				E108F12218AE2B4800B574F6 /* EditPhotoViewController_iPad.xib in Resources */,
 				E322BAF018A36B7600CAC9E5 /* folder-30x30.png in Resources */,
 				E31A558618A502E800B0015B /* photo-icon@2x.png in Resources */,
 				E170E91418A55280002D3D17 /* logo_58x58.png in Resources */,
@@ -1163,6 +1256,7 @@
 				E1717A87189D2A8E008899EC /* radio_selected.png in Resources */,
 				FC85D53D1897F9E3006AD7E0 /* save.png in Resources */,
 				E31A557E18A502E800B0015B /* community-icon@2x.png in Resources */,
+				E108F13A18AE2D1E00B574F6 /* PhotoViewController_iPad.xib in Resources */,
 				FC35A890189BDF96006DDDFC /* splash640x1136.png in Resources */,
 				E31A556818A4A08E00B0015B /* home.png in Resources */,
 				E31CADB7189CC2890081241D /* icon-person.png in Resources */,
@@ -1173,6 +1267,7 @@
 				E31A557C18A502E800B0015B /* cog-item@2x.png in Resources */,
 				E322BAEF18A36B7600CAC9E5 /* earn-30x30.png in Resources */,
 				FC35A88C189BDE5F006DDDFC /* icon@2x-58.png in Resources */,
+				E108F14C18AE2E1100B574F6 /* TermConditionViewController_iPad.xib in Resources */,
 				FC85D52F1896EAC1006AD7E0 /* EditProfileViewController.xib in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E31B9E18189A558D00722761 /* ReferrelStageFourVC3.xib in Resources */,
@@ -1188,13 +1283,12 @@
 				E17222BC1892817800F28748 /* EarningViewController.xib in Resources */,
 				E31A557D18A502E800B0015B /* community-icon.png in Resources */,
 				E170E91818A5539E002D3D17 /* Default-568h@2x.png in Resources */,
-				E182626718976CDA00C1C799 /* EditProfileViewController.xib in Resources */,
-				E31AA491189662C00065F8E2 /* EditMessageVC.xib in Resources */,
 				FC97641318900734008DF1F8 /* PhotoViewController.xib in Resources */,
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
 				E31A558018A502E800B0015B /* earnings-icon@2x.png in Resources */,
 				E1067DE0189A97AD00F08A5F /* edit_btn.png in Resources */,
 				E31C57AD18AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */,
+				E108F14E18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

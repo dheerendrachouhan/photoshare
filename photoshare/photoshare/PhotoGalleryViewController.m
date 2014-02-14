@@ -1543,8 +1543,9 @@
     else
     {
        
-        UILabel *foldernamelabel=[[UILabel alloc] initWithFrame:CGRectMake(110.0, 55.0, 200.0, 18.0)];
+        UILabel *foldernamelabel=[[UILabel alloc] initWithFrame:CGRectMake(90.0, 47.0, 220.0, 30.0)];
         foldernamelabel.text=self.folderName;
+        
         foldernamelabel.textAlignment=NSTextAlignmentRight;
         //[navnBar addSubview:iconbtn];
         [navnBar addSubview:foldernamelabel];

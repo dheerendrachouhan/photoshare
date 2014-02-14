@@ -56,7 +56,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" id="qg9-d2-zHT">
-                            <rect key="frame" x="47" y="86" width="210" height="35.000002824085058"/>
+                            <rect key="frame" x="47" y="86" width="210" height="35.000002226555218"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" tag="1101" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Collection Name" minimumFontSize="17" id="CeT-09-z0D">
