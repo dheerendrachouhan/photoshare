@@ -39,6 +39,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"TwitterTable" owner:self options:nil];
+    }
+    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"TwitterTable_iPad" owner:self options:nil];
+    }
     [SVProgressHUD dismissWithSuccess:@"Loaded"];
     // Do any additional setup after loading the view from its nib.
     selectedUserArr = [[NSMutableArray alloc] init];
@@ -75,7 +84,15 @@
     
     UIButton *checkBox = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
+    }
+    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        checkBox.Frame = CGRectMake(700.0f, 10.0f, 25.0f, 25.0f);
+    }
     
     [checkBox setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
     
@@ -154,21 +171,36 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(87, 50, 150, 40)];
-    navTitle.font = [UIFont systemFontOfSize:17.0f];
-    navTitle.text = @"Pick Twitter Firends";
-    [navnBar addSubview:navTitle];
-    [navnBar addSubview:button];
-    
+    UILabel *navTitle = [[UILabel alloc] init];
     
     //Button for Next
     UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [buttonLeft addTarget:self action:@selector(doneBtnPressed:) forControlEvents:UIControlEventTouchDown];
     [buttonLeft setTitle:@"Done >" forState:UIControlStateNormal];
-    buttonLeft.frame = CGRectMake(240, 50, 90, 30.0);
-    buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    if([objManager isiPad])
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 150)];
+        navTitle.frame = CGRectMake(220, 100, 320, 50);
+        navTitle.font = [UIFont systemFontOfSize:36.0f];
+        button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+        buttonLeft.frame = CGRectMake(620, 120, 140, 30.0);
+        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+    }
+    else
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+        navTitle.frame = CGRectMake(80, 50, 170, 40);
+        navTitle.font = [UIFont systemFontOfSize:18.0f];
+        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        buttonLeft.frame = CGRectMake(240, 50, 80, 30.0);
+        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
+    
+    navTitle.text = @"Pick Twitter Firends";
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
     [navnBar addSubview:buttonLeft];
     
     [[self view] addSubview:navnBar];

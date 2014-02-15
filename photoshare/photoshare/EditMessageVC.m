@@ -35,6 +35,11 @@
     // Do any additional setup after loading the view from its nib.
     //Navigation Back Title
     
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"EditMessageVCiPad" owner:self options:nil];
+    }
+    
     [textMessage setDelegate:self];
     textMessage.text = edittedMessage;
     custumImageBackground.layer.cornerRadius = 5;
@@ -59,27 +64,46 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    NavigationBar *navnBar;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 40)];
-    navTitle.font = [UIFont systemFontOfSize:18.0f];
-    navTitle.text = @"Edit Message";
-    [navnBar addSubview:navTitle];
-    [navnBar addSubview:button];
+    UILabel *navTitle = [[UILabel alloc] init];
+    
     
 
     //Button for Next
     UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [buttonLeft addTarget:self action:@selector(doneBtnPressed:) forControlEvents:UIControlEventTouchDown];
     [buttonLeft setTitle:@"Choose >" forState:UIControlStateNormal];
-    buttonLeft.frame = CGRectMake(230, 50, 90, 30.0);
-    buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    
+    if([objManager isiPad])
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 150)];
+        navTitle.frame = CGRectMake(280, 100, 250, 50);
+        navTitle.font = [UIFont systemFontOfSize:36.0f];
+        button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+        buttonLeft.frame = CGRectMake(620, 120, 140, 30.0);
+        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+    }
+    else
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+        navTitle.frame = CGRectMake(110, 50, 120, 40);
+        navTitle.font = [UIFont systemFontOfSize:18.0f];
+        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        buttonLeft.frame = CGRectMake(240, 50, 80, 30.0);
+        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
+    
+    
+    navTitle.text = @"Edit Message";
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
     [navnBar addSubview:buttonLeft];
     
     [[self view] addSubview:navnBar];
