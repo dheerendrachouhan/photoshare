@@ -39,7 +39,7 @@
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"image/png"];
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
-
+    //www.burningwindmill.com
     [manager POST:[NSString stringWithFormat:@"http://54.194.160.22/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
