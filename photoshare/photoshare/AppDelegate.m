@@ -15,11 +15,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+    objManager = [ContentManager sharedManager];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds] ] ;
   
-    LoginViewController *lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    LoginViewController *lg = [[LoginViewController alloc] init];
+    if([objManager isiPad])
+    {
+        lg= [[LoginViewController alloc] initWithNibName:@"LoginViewControlleriPadMini" bundle:nil] ;
+    }
+    else
+    {
+        lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
+    }
     
     self.window.rootViewController = lg;
     

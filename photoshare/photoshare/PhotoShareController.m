@@ -126,7 +126,7 @@
         }
         
     }
-    else if ([shareValue isEqualToString:@"Share Text"])
+   /* else if ([shareValue isEqualToString:@"Share Text"])
     {
         userSelectedPhone = sharePhoneStr;
         NSArray *arr = [sharePhoneStr componentsSeparatedByString:@", "];
@@ -142,7 +142,7 @@
             [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
             [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:3.0];
         }
-    }
+    }*/
 
 }
 
@@ -199,7 +199,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self ContactSelectorMethod];
+    [self performSelector:@selector(sendInAppSMS)];
 }
 
 //FaceBook SDK Implemetation
@@ -371,14 +371,14 @@
 //Message to user
 -(void)sendInAppSMS
 {
-    [SVProgressHUD dismissWithSuccess:@"Composed"];
-    shareValue = @"";
+    /*[SVProgressHUD dismissWithSuccess:@"Composed"];
+    shareValue = @"";*/
     
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
 		controller.body = [@"Join 123 Friday, " stringByAppendingString:messageStr];
-        int contactCount = 0;
+       /* int contactCount = 0;
         NSMutableArray *arr = [[NSMutableArray alloc] init];
         for(int i=0;i<contactNoSelectedArray.count;i++)
         {
@@ -391,7 +391,7 @@
             }
         }
         
-		controller.recipients = [NSArray arrayWithArray:arr];
+		controller.recipients = [NSArray arrayWithArray:arr];*/
         
         if (sharedImagesArray.count > 0) {
             for(int l=0;l<sharedImagesArray.count;l++)
@@ -422,16 +422,16 @@
 			[objManager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
 		case MessageComposeResultSent:
-            if((messagecount+1) == contactNoSelectedArray.count)
-            {
+           /* if((messagecount+1) == contactNoSelectedArray.count)
+            {*/
                 [alert show];
-                [contactNoSelectedArray removeAllObjects];
+            /*    [contactNoSelectedArray removeAllObjects];
                 messagecount=0;
             }
             else
             {
                 [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:2.0];
-            }
+            }*/
 			break;
 		default:
 			break;
@@ -453,7 +453,7 @@
         }
         else if(smsFilter)
         {
-            [self ContactSelectorMethod];
+            [self performSelector:@selector(sendInAppSMS)];
         }
     }
 }
@@ -548,14 +548,14 @@
         
         [self.navigationController pushViewController:mmVC animated:YES];
     }
-    else if (smsFilter)
+  /*  else if (smsFilter)
     {
         MailMessageTable *mmVC = [[MailMessageTable alloc] init];
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Share Text";
         
         [self.navigationController pushViewController:mmVC animated:YES];
-    }
+    }*/
 }
 
 //dismiss models
