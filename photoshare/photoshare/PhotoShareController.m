@@ -426,6 +426,7 @@
             {
                 [alert show];
                 [contactNoSelectedArray removeAllObjects];
+                messagecount=0;
             }
             else
             {
