@@ -38,6 +38,8 @@
     if (self) {
         // Custom initialization
     }
+    
+    manager=[ContentManager sharedManager];
     return self;
 }
 
@@ -55,8 +57,7 @@
     //initialize the sharing IdArray
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing =[[NSMutableArray alloc] init];
-    
-    
+
     signinBtn.layer.cornerRadius = 6.0;
     usrFlt = NO;
     pwsFlt = NO;
@@ -75,7 +76,7 @@
     //initialize webservices Object
     webservices=[[WebserviceController alloc] init];
     
-    manager=[ContentManager sharedManager];
+    
     dmc = [[DataMapperController alloc] init] ;
     
     NSString *rememberStr = [dmc getRemeberMe];
@@ -511,10 +512,34 @@
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     EarningViewController *ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
+    if([manager isiPad])
+    {
+        ea= [[EarningViewController alloc] initWithNibName:@"EarningViewController_iPad" bundle:nil] ;
+    }
+    else
+    {
+        ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
+    }
     
     CommunityViewController *com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:nil] ;
+    if([manager isiPad])
+    {
+        com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:nil] ;
+    }
+    else
+    {
+        com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:nil] ;
+    }
     
     AccountViewController *acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
+    if([manager isiPad])
+    {
+        acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController_iPad" bundle:nil] ;
+    }
+    else
+    {
+        acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
+    }
     
      LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];
     //HomeViewController *hm=[[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];

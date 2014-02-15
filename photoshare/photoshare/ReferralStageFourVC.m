@@ -145,7 +145,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self ContactSelectorMethod];
+    [self performSelector:@selector(sendInAppSMS)];
 }
 
 //FaceBook SDK Implemetation
@@ -426,14 +426,14 @@
 //Message to user
 -(void)sendInAppSMS
 {
-    [self composedMailMessage];
-    referredValue = @"";
+    /*[self composedMailMessage];
+    referredValue = @"";*/
     
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
 		controller.body = [NSString stringWithFormat:@"%@ %@",userMessage.text,toolkitLink];
-        int contactCount = 0;
+       /* int contactCount = 0;
         NSMutableArray *arr = [[NSMutableArray alloc] init];
         for(int i=0;i<contactNoSelectedArray.count;i++)
         {
@@ -444,8 +444,9 @@
             {
                 break;
             }
+            
         }
-		controller.recipients = [NSArray arrayWithArray:arr];
+		controller.recipients = [NSArray arrayWithArray:arr];*/
 		controller.messageComposeDelegate = self;
 		[[self navigationController] presentViewController:controller animated:NO completion:nil];
 	}
@@ -465,16 +466,16 @@
             userSelectedPhone = @"";
             break;
 		case MessageComposeResultSent:
-            if((messagecount+1) == contactNoSelectedArray.count)
-            {
+            /*if((messagecount+1) == contactNoSelectedArray.count)
+            {*/
                 [alert show];
-                [contactNoSelectedArray removeAllObjects];
+              /*  [contactNoSelectedArray removeAllObjects];
                 messagecount=0;
             }
             else
             {
                 [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:2.0];
-            }
+            }*/
 			break;
 		default:
 			break;
@@ -579,14 +580,14 @@
     
         [self.navigationController pushViewController:mmVC animated:YES];
     }
-    else if (smsFilter)
+    /*else if (smsFilter)
     {
         MailMessageTable *mmVC = [[MailMessageTable alloc] init];
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Refer Text";
         
         [self.navigationController pushViewController:mmVC animated:YES];
-    }
+    }*/
 }
 
 
@@ -603,7 +604,7 @@
         }
         else if(smsFilter)
         {
-            [self ContactSelectorMethod];
+            [self performSelector:@selector(sendInAppSMS)];
         }
     }
 }
@@ -673,7 +674,7 @@
             [self performSelector:@selector(mailTo) withObject:self afterDelay:3.0];
         }
     }
-    else if ([referredValue isEqualToString:@"Refer Text"])
+   /* else if ([referredValue isEqualToString:@"Refer Text"])
     {
         userSelectedPhone = referPhoneStr;
         NSArray *arr = [referPhoneStr componentsSeparatedByString:@", "];
@@ -689,7 +690,7 @@
             [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
             [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:5.0f];
         }
-    }
+    }*/
 
 }
 

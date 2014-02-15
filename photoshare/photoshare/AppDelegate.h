@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class ContentManager;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
+{
+    ContentManager *objManager;
+}
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic)UITabBarController *tbc;
 @property (strong, nonatomic) UINavigationController *navControllerhome;

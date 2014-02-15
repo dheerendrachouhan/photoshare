@@ -117,10 +117,23 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 90)];
+    NavigationBar *navnBar;
     
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(130, 50, 80, 40)];
-    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    UILabel *navTitle = [[UILabel alloc] init];
+    
+    if([objManager isiPad])
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 160)];
+        navTitle.frame = CGRectMake(320, 100, 250, 50);
+        navTitle.font = [UIFont systemFontOfSize:36.0f];
+    }
+    else
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 90)];
+        navTitle.frame = CGRectMake(130, 50, 80, 40);
+        navTitle.font = [UIFont systemFontOfSize:18.0f];
+    }
+    
     navTitle.text = @"Finance";
     [navnBar addSubview:navTitle];
     [[self view] addSubview:navnBar];

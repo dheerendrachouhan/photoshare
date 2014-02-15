@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DataMapperController.h"
 
+@class ContentManager;
 @interface NavigationBar : UINavigationBar
 {
     UILabel *topBlueLbl;
@@ -18,6 +19,7 @@
     UILabel *totalEarningHeading;
     UILabel *totalEarning;
     DataMapperController *dmc;
+    ContentManager *objManager;
 }
 -(void)goToEarningViewController;
 -(void)setTheTotalEarning:(NSString *)earners;
