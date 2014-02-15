@@ -49,6 +49,11 @@
 {
     [super viewDidLoad];
     
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"ReferFriendViewController_iPad" owner:self options:nil];
+    }
+    
     //allocate & initializing Array
     toolkitIDArr = [[NSMutableArray alloc] init];
     toolkitTitleArr = [[NSMutableArray alloc] init];
@@ -131,16 +136,32 @@
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        layout.itemSize = CGSizeMake(250.0f, 80.0f);
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 260.0f, 768.0f, 100.0f) collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+        _collectionView.layer.borderWidth = 0.5;
+        _collectionView.layer.cornerRadius = 5;
+
+    }
+    else
+    {
+        layout.itemSize = CGSizeMake(100.0f, 40.0f);
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 145.0f, 320.0f, 50.0f) collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+        _collectionView.layer.borderWidth = 0.5;
+        _collectionView.layer.cornerRadius = 5;
+    }
     
-    layout.itemSize = CGSizeMake(100.0f, 40.0f);
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 145.0f, 320.0f, 50.0f) collectionViewLayout:layout];
-    _collectionView.backgroundColor = [UIColor whiteColor];
-    _collectionView.dataSource = self;
-    _collectionView.delegate = self;
-    _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-    _collectionView.layer.borderWidth = 0.5;
-    _collectionView.layer.cornerRadius = 5;
+    
     [self.view addSubview:_collectionView];
     
     [_collectionView registerClass:[CustomCells class] forCellWithReuseIdentifier:@"CustomCells"];
@@ -204,29 +225,45 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    NavigationBar *navnBar;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    [navnBar addSubview:button];
-    
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 50, 120, 40)];
-    navTitle.font = [UIFont systemFontOfSize:18.0f];
-    navTitle.text = @"Refer Friends";
-    [navnBar addSubview:navTitle];
-    
+    UILabel *navTitle = [[UILabel alloc] init];
+
     
     //Button for Next
     UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [buttonLeft addTarget:self action:@selector(chooseView) forControlEvents:UIControlEventTouchDown];
     [buttonLeft setTitle:@"Next >" forState:UIControlStateNormal];
-    buttonLeft.frame = CGRectMake(260, 50, 60, 30.0);
-    buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    
+    if([objManager isiPad])
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 150)];
+        navTitle.frame = CGRectMake(280, 100, 250, 50);
+        navTitle.font = [UIFont systemFontOfSize:36.0f];
+        button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+        buttonLeft.frame = CGRectMake(670, 120, 100, 30.0);
+        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+    }
+    else
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+        navTitle.frame = CGRectMake(110, 50, 120, 40);
+        navTitle.font = [UIFont systemFontOfSize:18.0f];
+        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        buttonLeft.frame = CGRectMake(260, 50, 60, 30.0);
+        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
+    
+    navTitle.text = @"Refer Friends";
+    [navnBar addSubview:button];
+    [navnBar addSubview:navTitle];
     [navnBar addSubview:buttonLeft];
     
     [[self view] addSubview:navnBar];

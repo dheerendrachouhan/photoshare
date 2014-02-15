@@ -185,7 +185,6 @@
 		E322BB0218A3AD7700CAC9E5 /* logo_57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAFE18A3AD7700CAC9E5 /* logo_57x57.png */; };
 		E322BB0318A3AD7700CAC9E5 /* logo_60x60.png in Resources */ = {isa = PBXBuildFile; fileRef = E322BAFF18A3AD7700CAC9E5 /* logo_60x60.png */; };
 		E386F29218AF2F320043B071 /* LoginViewControlleriPadMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = E386F29118AF2F320043B071 /* LoginViewControlleriPadMini.xib */; };
-		E386F29418AF32130043B071 /* Screen Shot 2014-02-15 at 10.55.22 am.png in Resources */ = {isa = PBXBuildFile; fileRef = E386F29318AF32130043B071 /* Screen Shot 2014-02-15 at 10.55.22 am.png */; };
 		E3A5B90118A8F22F00CED95F /* CustomCells.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A5B8FF18A8F22F00CED95F /* CustomCells.m */; };
 		E3A5B90218A8F22F00CED95F /* CustomCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3A5B90018A8F22F00CED95F /* CustomCells.xib */; };
 		E3BAA8C01899162800ED2CA2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAA8BF1899162800ED2CA2 /* Social.framework */; };
@@ -482,7 +481,9 @@
 		E322BAFE18A3AD7700CAC9E5 /* logo_57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57x57.png; sourceTree = "<group>"; };
 		E322BAFF18A3AD7700CAC9E5 /* logo_60x60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_60x60.png; sourceTree = "<group>"; };
 		E386F29118AF2F320043B071 /* LoginViewControlleriPadMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewControlleriPadMini.xib; sourceTree = "<group>"; };
-		E386F29318AF32130043B071 /* Screen Shot 2014-02-15 at 10.55.22 am.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2014-02-15 at 10.55.22 am.png"; sourceTree = "<group>"; };
+		E386F29518AF7E1F0043B071 /* CustomCelliPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCelliPad.h; sourceTree = "<group>"; };
+		E386F29618AF7E1F0043B071 /* CustomCelliPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCelliPad.m; sourceTree = "<group>"; };
+		E386F29718AF7E1F0043B071 /* CustomCelliPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCelliPad.xib; sourceTree = "<group>"; };
 		E3A5B8FE18A8F22F00CED95F /* CustomCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCells.h; sourceTree = "<group>"; };
 		E3A5B8FF18A8F22F00CED95F /* CustomCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCells.m; sourceTree = "<group>"; };
 		E3A5B90018A8F22F00CED95F /* CustomCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCells.xib; sourceTree = "<group>"; };
@@ -706,7 +707,6 @@
 		E31C75C81897B27600A8CC7F /* JSON */ = {
 			isa = PBXGroup;
 			children = (
-				E386F29318AF32130043B071 /* Screen Shot 2014-02-15 at 10.55.22 am.png */,
 				E3BAA8DE18993ABC00ED2CA2 /* JSON.h */,
 				E3BAA8DF18993ABC00ED2CA2 /* NSObject+SBJSON.h */,
 				E3BAA8E018993ABC00ED2CA2 /* NSObject+SBJSON.m */,
@@ -834,6 +834,8 @@
 				E1B07428189951CC00589867 /* CommunityViewController.m */,
 				E31B9E11189A4E6200722761 /* CustomCell.h */,
 				E31B9E12189A4E6200722761 /* CustomCell.m */,
+				E386F29518AF7E1F0043B071 /* CustomCelliPad.h */,
+				E386F29618AF7E1F0043B071 /* CustomCelliPad.m */,
 				FCB3774A189C345B00FDE547 /* DataMapperController.h */,
 				FCB3774B189C345B00FDE547 /* DataMapperController.m */,
 				E17222B81892817800F28748 /* EarningViewController.h */,
@@ -1009,6 +1011,7 @@
 				FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */,
 				E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */,
 				E3188D9B18938888004ACF77 /* CustomCell.xib */,
+				E386F29718AF7E1F0043B071 /* CustomCelliPad.xib */,
 				E17222BA1892817800F28748 /* EarningViewController.xib */,
 				E108F12518AE2BC000B574F6 /* EarningViewController_iPad.xib */,
 				E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */,
@@ -1292,7 +1295,6 @@
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
 				E31A558018A502E800B0015B /* earnings-icon@2x.png in Resources */,
 				E1067DE0189A97AD00F08A5F /* edit_btn.png in Resources */,
-				E386F29418AF32130043B071 /* Screen Shot 2014-02-15 at 10.55.22 am.png in Resources */,
 				E31C57AD18AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */,
 				E108F14E18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib in Resources */,
 			);

@@ -40,7 +40,7 @@
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
 
-    [manager POST:[NSString stringWithFormat:@"http://123friday.starcode.co.uk/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"http://54.194.160.22/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
        if( [responseObject isKindOfClass:[UIImage class]] )
