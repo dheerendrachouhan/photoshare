@@ -582,17 +582,33 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    // navnBar.backgroundColor = [UIColor redColor];
+   
     
-    UILabel *photoTitleLBL=[[UILabel alloc] initWithFrame:CGRectMake(60, 50, 200, 30)];
+    UILabel *photoTitleLBL=[[UILabel alloc] init];
     //get photo info from nsuser default
     NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
     photoTitleLBL.text=[[photoDetail objectAtIndex:self.selectedIndex ] objectForKey:@"collection_photo_title"];
-    
-   
-    
     photoTitleLBL.textAlignment=NSTextAlignmentCenter;
+    
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        photoTitleLBL.frame=CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+        photoTitleLBL.font = [UIFont systemFontOfSize:23.0f];
+        
+    }
+    else
+    {
+        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        photoTitleLBL.frame=CGRectMake(60, 50, 200, 30);
+        photoTitleLBL.font = [UIFont systemFontOfSize:17.0f];
+    }
+    
+    
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];

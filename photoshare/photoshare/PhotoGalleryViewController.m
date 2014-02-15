@@ -11,7 +11,6 @@
 #import "Base64.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "WebserviceController.h"
-#import "EditPhotoViewController.h"
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
 #import "EditPhotoDetailViewController.h"
@@ -299,7 +298,15 @@
         }
         else if(buttonIndex==1)//Edit Detail
         {
-            EditPhotoDetailViewController *editPhotoDetail=[[EditPhotoDetailViewController alloc] init];
+            EditPhotoDetailViewController *editPhotoDetail;
+            if([manager isiPad])
+            {
+                editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+            }
+            else
+            {
+                editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
+            }
             editPhotoDetail.photoId=[photoIdsArray objectAtIndex:selectedEditImageIndex];
             editPhotoDetail.collectionId=self.collectionId;
             editPhotoDetail.selectedIndex=selectedEditImageIndex;
@@ -1031,7 +1038,17 @@
 -(void)viewPhoto :(NSIndexPath *)indexPath
 {
     @try {
-        PhotoViewController *viewPhoto=[[PhotoViewController alloc] init];
+        PhotoViewController *viewPhoto;
+        if([manager isiPad])
+        {
+            viewPhoto=[[PhotoViewController alloc] initWithNibName:@"PhotoViewController_iPad" bundle:[NSBundle mainBundle]];
+
+        }
+        else
+        {
+            viewPhoto=[[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:[NSBundle mainBundle]];
+        }
+        
         viewPhoto.photoId=[photoIdsArray objectAtIndex:indexPath.row];
         viewPhoto.smallImage=[photoArray objectAtIndex:indexPath.row];
         viewPhoto.isViewPhoto=YES;
@@ -1536,15 +1553,34 @@
         UILabel *titleLabel = [[UILabel alloc] init ];
         titleLabel.text=@"Public Folder";
         titleLabel.textAlignment=NSTextAlignmentCenter;
-        titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
-        titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        if([manager isiPad])
+        {
+            titleLabel.frame=CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+            titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        }
+        else
+        {
+            titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+            titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        }
+        
         [navnBar addSubview:titleLabel];
 
     }
     else
     {
        
-        UILabel *foldernamelabel=[[UILabel alloc] initWithFrame:CGRectMake(90.0, 47.0, 220.0, 30.0)];
+        UILabel *foldernamelabel=[[UILabel alloc] init];
+        if([manager isiPad])
+        {
+            foldernamelabel.frame=CGRectMake(self.view.frame.size.width-310, 105.0, 300.0, 40.0);
+            foldernamelabel.font=[UIFont fontWithName:@"Verdana" size:23.0f];
+        }
+        else
+        {
+            foldernamelabel.frame=CGRectMake(90.0, 47.0, 220.0, 30.0);
+            foldernamelabel.font=[UIFont fontWithName:@"Verdana" size:17.0f];
+        }
         foldernamelabel.text=self.folderName;
         
         foldernamelabel.textAlignment=NSTextAlignmentRight;
@@ -1552,6 +1588,18 @@
         [navnBar addSubview:foldernamelabel];
         
     }
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+    }
+    else
+    {
+        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
+
     [[self view] bringSubviewToFront:navnBar];
     [[self view] addSubview:navnBar];
 }

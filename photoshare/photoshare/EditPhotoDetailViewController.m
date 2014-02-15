@@ -175,8 +175,18 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    // navnBar.backgroundColor = [UIColor redColor];
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+    }
+    else
+    {
+        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
+
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];

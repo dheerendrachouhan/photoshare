@@ -899,7 +899,16 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 60)];
+    navnBar = [[NavigationBar alloc] init];
+    //for home page view controller navBar
+    if([manager isiPad])
+    {
+        navnBar.frame=CGRectMake(0, 20, self.view.frame.size.width, 110);
+    }
+    else
+    {
+        navnBar.frame=CGRectMake(0, 20, 320, 60);
+    }
     
     [[self view] addSubview:navnBar];
 }

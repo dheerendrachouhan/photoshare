@@ -20,7 +20,15 @@
         // Initialization code
         dmc = [[DataMapperController alloc] init];
         objManager = [ContentManager sharedManager];
-        
+        if([objManager isiPad])
+        {
+            self.frame=CGRectMake(0, 20, 768, 160);
+        }
+        else
+        {
+            self.frame=CGRectMake(0, 20, 320, 90);
+        }
+
         
         UITapGestureRecognizer *tapGesture;
         UITapGestureRecognizer *tapGestureHome;

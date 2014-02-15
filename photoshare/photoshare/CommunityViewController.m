@@ -445,7 +445,15 @@
         {
             @try {
                 int index=indexPath.row-1;
-                PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+                PhotoGalleryViewController *photoGallery;
+                if([manager isiPad])
+                {
+                    photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController_iPad" bundle:[NSBundle mainBundle]];
+                }
+                else
+                {
+                    photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+                }
                 photoGallery.isPublicFolder=NO;
                 photoGallery.selectedFolderIndex=index;
                 photoGallery.folderName=[collectionNameArray objectAtIndex:index];
@@ -491,8 +499,16 @@
 
 -(void)addFolder
 {
+    AddEditFolderViewController *aec1;
+    if([manager isiPad])
+    {
+        aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController_iPad" bundle:[NSBundle mainBundle]] ;
+    }
+    else
+    {
+        aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:[NSBundle mainBundle]] ;
+    }
     
-    AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
        aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
     [self.navigationController pushViewController:aec1 animated:NO];
@@ -507,7 +523,16 @@
     //if editBtnIs in view
     [editBtn removeFromSuperview];
     @try {
-        AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
+        AddEditFolderViewController *aec;
+        if([manager isiPad])
+        {
+            aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController_iPad" bundle:[NSBundle mainBundle]] ;
+        }
+        else
+        {
+            aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:[NSBundle mainBundle]] ;
+        }
+
         
         aec.isAddFolder=NO;
         aec.isEditFolder=YES;
@@ -516,8 +541,19 @@
         aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
         aec.collectionOwnerId=[collectionUserIdArray objectAtIndex:index];
         
-        CommunityViewController *cm = [[CommunityViewController alloc] init];
-        HomeViewController *hm = [[HomeViewController alloc] init] ;
+        CommunityViewController *cm ;
+        HomeViewController *hm;
+        if([manager isiPad])
+        {
+            cm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]];
+            hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController_iPad" bundle:[NSBundle mainBundle]] ;
+        }
+        else
+        {
+            cm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]];
+            hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:[NSBundle mainBundle]] ;
+        }
+        
         [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
         
         [self.navigationController pushViewController:aec animated:NO];
@@ -544,47 +580,66 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    NavigationBar *navnBar = [[NavigationBar alloc] init];    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+   
    // button.backgroundColor = [UIColor redColor];
     
     UILabel *titleLabel = [[UILabel alloc] init ];
     titleLabel.text=@"Your folders";
     titleLabel.textAlignment=NSTextAlignmentCenter;
-    titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
-    titleLabel.font = [UIFont systemFontOfSize:17.0f];
+   
     
     //add photo search button
     UIButton *searchBtn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    searchBtn.frame=CGRectMake(250.0, 47.0, 70.0, 30.0);
     [searchBtn addTarget:self action:@selector(searchViewOpen) forControlEvents:UIControlEventTouchUpInside];
     [searchBtn setTitle:@"Search" forState:UIControlStateNormal];
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        titleLabel.frame = CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+        titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        searchBtn.frame=CGRectMake(self.view.frame.size.width-100, 105.0, 100.0, 40.0);
+        searchBtn.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+    }
+    else
+    {
+         button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+        titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        searchBtn.frame=CGRectMake(250.0, 47.0, 70.0, 30.0);
+        searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
     [navnBar addSubview:searchBtn];
     [navnBar addSubview:titleLabel];
     NSLog(@"tab index %d",self.tabBarController.selectedIndex);
-    if(self.tabBarController.selectedIndex!=3 && self.tabBarController.selectedIndex!=0 )
-    {
-        [navnBar addSubview:button];
-    }
+   
+    [navnBar addSubview:button];
     
-    if(self.isInNavigation)
-    {
-        [navnBar addSubview:button];
-    }
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 -(void)searchViewOpen
 {
-    SearchPhotoViewController *searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController" bundle:[NSBundle mainBundle]];
+    SearchPhotoViewController *searchController;
+    if([manager isiPad])
+    {
+        searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else{
+        searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController" bundle:[NSBundle mainBundle]];
+
+    }
     [self.navigationController pushViewController:searchController animated:NO];
 }
 -(void)navBackButtonClick{
