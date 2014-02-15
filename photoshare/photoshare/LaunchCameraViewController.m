@@ -332,6 +332,19 @@
             NSMutableArray *outPutData=[data objectForKey:@"output_data"];
             selectedCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];//New created collection id
             isColletionCreateMode=NO;
+            //upade collection info in  nsUser Default
+            NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
+            NSMutableDictionary *newCol=[[NSMutableDictionary alloc] init];
+            [newCol setObject:@0 forKey:@"collection_default"];
+            [newCol setObject:selectedCollectionId forKey:@"collection_id"];
+            [newCol setObject:folderName.text forKey:@"collection_name"];
+            [newCol setObject:@0 forKey:@"collection_shared"];
+            [newCol setObject:@0 forKey:@"collection_sharing"];
+            [newCol setObject:userid forKey:@"collection_user_id"];
+            
+            [collection addObject:newCol];
+            [manager storeData:collection :@"collection_data_list"];
+
             [self categoryDoneButtonPressed];//For save the photo
         }
         
@@ -345,8 +358,7 @@
         else
         {
             NSLog(@"Photo saving Fail ");
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saving Fail" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            
             
         }
         isPhotoSavingMode=NO;
@@ -600,7 +612,7 @@
 }
 -(void)removebackViewPhotDetail
 {
-    photoTitleStr=@"";
+    photoTitleStr=@"Untitle";
     photoDescriptionStr=@"";
     photoTagStr=@"";
     [backViewPhotDetail removeFromSuperview];
@@ -617,7 +629,7 @@
     }
     else
     {
-        photoTitleStr=@"";
+        photoTitleStr=@"Untitle";
     }
     if(photoDescriptionTF.text.length>0)
     {

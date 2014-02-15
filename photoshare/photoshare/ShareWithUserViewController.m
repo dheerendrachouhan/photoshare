@@ -110,10 +110,11 @@
 }
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
-    
+   
     [self.view endEditing:YES];
     //[searchView removeFromSuperview];
 }
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
      [searchView removeFromSuperview];
@@ -223,7 +224,7 @@
 
             NSArray *outPutData=[data objectForKey:@"output_data"];
             
-            searchView.frame=CGRectMake(shareSearchView.frame.origin.x, shareSearchView.frame.origin.y+35, shareSearchView.frame.size.width, 30*outPutData.count);
+            searchView.frame=CGRectMake(shareSearchView.frame.origin.x, shareSearchView.frame.origin.y+shareSearchView.frame.size.height, shareSearchView.frame.size.width, 30*outPutData.count);
             searchView.backgroundColor=[UIColor whiteColor];
             
             //remove all objects
@@ -241,7 +242,15 @@
                 
                     searchList.frame=CGRectMake(0, 5+(i*25), shareSearchView.frame.size.width, 20);
                     searchList.tag=1100+i;
+                
+                if([manager isiPad])
+                {
+                     [searchList.titleLabel setFont:[UIFont fontWithName:@"verdana" size:17]];
+                }
+                else
+                {
                     [searchList.titleLabel setFont:[UIFont fontWithName:@"verdana" size:13]];
+                }
                     searchList.contentHorizontalAlignment=UIControlContentHorizontalAlignmentLeft;
                     [searchList addTarget:self action:@selector(shareWithUserBtnPress:) forControlEvents:UIControlEventTouchUpInside];
                     [searchList setTitle:resultName forState:UIControlStateNormal];
@@ -381,8 +390,19 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    // navnBar.backgroundColor = [UIColor redColor];
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+    }
+    else
+    {
+        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];        
+       
+    }
+
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];

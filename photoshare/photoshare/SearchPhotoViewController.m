@@ -307,9 +307,24 @@
     UILabel *titleLabel = [[UILabel alloc] init ];
     titleLabel.text=@"Search Photos";
     titleLabel.textAlignment=NSTextAlignmentCenter;
-    titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
-    titleLabel.font = [UIFont systemFontOfSize:17.0f];
     
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        titleLabel.frame=CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+        titleLabel.font =[UIFont systemFontOfSize:23.0f];
+        
+    }
+    else
+    {
+        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+        titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
     
     [navnBar addSubview:titleLabel];
     [navnBar addSubview:button];

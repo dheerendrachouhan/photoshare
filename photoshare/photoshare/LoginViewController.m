@@ -511,7 +511,7 @@
 {
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    EarningViewController *ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
+    EarningViewController *ea;
     if([manager isiPad])
     {
         ea= [[EarningViewController alloc] initWithNibName:@"EarningViewController_iPad" bundle:nil] ;
@@ -521,17 +521,17 @@
         ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
     }
     
-    CommunityViewController *com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:nil] ;
+    CommunityViewController *com ;
     if([manager isiPad])
     {
-        com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:nil] ;
+        com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]] ;
     }
     else
     {
-        com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:nil] ;
+        com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]] ;
     }
     
-    AccountViewController *acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
+    AccountViewController *acc;
     if([manager isiPad])
     {
         acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController_iPad" bundle:nil] ;
@@ -542,7 +542,9 @@
     }
     
      LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];
-    HomeViewController *hm=[[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    //HomeViewController *hm=[[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    
+    HomeViewController *hm;
     if([manager isiPad])
     {
         hm= [[HomeViewController alloc] initWithNibName:@"HomeViewController_iPad" bundle:nil] ;

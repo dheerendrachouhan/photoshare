@@ -25,9 +25,6 @@
     if (self) {
         // Custom initialization
     }
-    
-   
-   
     return self;
 }
 
@@ -173,7 +170,15 @@
 
 -(IBAction)shareForWritingWith:(id)sender
 {
-    ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
+    ShareWithUserViewController *sharewith;
+    if([manager isiPad])
+    {
+        sharewith=[[ShareWithUserViewController alloc] initWithNibName:@"ShareWithUserViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        sharewith=[[ShareWithUserViewController alloc] initWithNibName:@"ShareWithUserViewController" bundle:[NSBundle mainBundle]];
+    }
     sharewith.isWriteUser=YES;
     sharewith.collectionId=self.collectionId;
     sharewith.isEditFolder=self.isEditFolder;
@@ -182,7 +187,15 @@
 }
 -(IBAction)shareForReadingWith:(id)sender
 {
-    ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
+    ShareWithUserViewController *sharewith;
+    if([manager isiPad])
+    {
+        sharewith=[[ShareWithUserViewController alloc] initWithNibName:@"ShareWithUserViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        sharewith=[[ShareWithUserViewController alloc] initWithNibName:@"ShareWithUserViewController" bundle:[NSBundle mainBundle]];
+    }
     sharewith.isWriteUser=NO;
     sharewith.collectionId=self.collectionId;
     sharewith.isEditFolder=self.isEditFolder;
@@ -444,7 +457,7 @@
         }
         else
         {
-            
+            [SVProgressHUD dismiss];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alertView show];
@@ -460,8 +473,9 @@
         countSharing++;
         if(countSharing==sharingIdArray.count)
         {
+             [SVProgressHUD dismiss];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
-            [SVProgressHUD dismiss];
+           
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alertView show];
         }
@@ -484,6 +498,7 @@
     
     if(isAdd)
     {
+        
         NSMutableDictionary *newCol=[[NSMutableDictionary alloc] init];
         [newCol setObject:@0 forKey:@"collection_default"];
         [newCol setObject:newCollectionId forKey:@"collection_id"];
@@ -661,11 +676,11 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+    
     // navnBar.backgroundColor = [UIColor redColor];
-    UILabel *titleLbl=[[UILabel alloc] initWithFrame:CGRectMake(100, 50, 120, 30)];
+    UILabel *titleLbl=[[UILabel alloc] init];
     titleLbl.textAlignment=NSTextAlignmentCenter;
-    titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
+    
     if(self.isEditFolder)
     {
         titleLbl.text=@"Edit Folder";
@@ -674,6 +689,23 @@
     {
         titleLbl.text=@"New Folder";
     }
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        titleLbl.frame=CGRectMake(self.view.center.x-70, 105, 140, 40);
+        titleLbl.font=[UIFont fontWithName:@"Verdana" size:23];
+    }
+    else
+    {
+        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        titleLbl.frame=CGRectMake(100, 50, 120, 30);
+        titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
+    }
+    
     [navnBar addSubview:titleLbl];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];

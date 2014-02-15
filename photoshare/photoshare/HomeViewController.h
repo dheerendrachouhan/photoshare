@@ -17,7 +17,7 @@
 #import "AFOpenGLManager.h"
 #import "DataMapperController.h"
 #import "AFPhotoEditorController+InAppPurchase.h"
-
+#import "ContentManager.h"
 #import <CoreLocation/CoreLocation.h>
 @protocol homeDelagate <NSObject>
 
@@ -40,7 +40,7 @@
     UINavigationController *navController;
     
     UIImagePickerController *imagePicker;
-    ContentManager *objManager;
+    ContentManager *manager;
     
     NSNumber *userid;
     WebserviceController *webservices;

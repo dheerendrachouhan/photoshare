@@ -38,15 +38,30 @@
      manager=[ContentManager sharedManager];
     [manager storeData:@"" :@"writeUserId"];
     [manager storeData:@"" :@"readUserId"];
-    self.navigationItem.title = @"Community folders";
-    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-    UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
-    [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
+    
     //webservice
     webservices=[[WebserviceController alloc] init];
     //get the user ID from NSUSER Default
     userid=[manager getData:@"user_id"];
-    //add the Tap gesture for collection view
+
+    
+    
+    self.navigationItem.title = @"Community folders";
+    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
+    //UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
+    
+    UINib *nib;
+    if([manager isiPad])
+    {
+        nib=[UINib nibWithNibName:@"CommunityCollectionCell_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
+    }
+    
+    [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
+       //add the Tap gesture for collection view
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc ]initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
     
@@ -77,7 +92,6 @@
     collectionSharedArray=[[NSMutableArray alloc] init];
     collectionSharingArray=[[NSMutableArray alloc] init];
     collectionUserIdArray=[[NSMutableArray alloc] init];
-
     
     //update the collection info in nsuser default from server
     
@@ -331,6 +345,8 @@
     obj_Cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     obj_Cell.folder_imgV.hidden=NO;
+    obj_Cell.folder_imgV.layer.masksToBounds=YES;
+    obj_Cell.icon_img.layer.masksToBounds=YES;
     @try {
         int index=indexPath.row-1;
         if(indexPath.row==0)
@@ -342,11 +358,11 @@
         }
         else
         {
-            int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
-             BOOL flag=FALSE;
+           
             int shared=[[collectionSharedArray objectAtIndex:index] intValue];
+            //int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
+            //BOOL flag=FALSE;
             
-                 
                  /*if(sharing==1)
                  {
                      obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
@@ -429,7 +445,15 @@
         {
             @try {
                 int index=indexPath.row-1;
-                PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+                PhotoGalleryViewController *photoGallery;
+                if([manager isiPad])
+                {
+                    photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController_iPad" bundle:[NSBundle mainBundle]];
+                }
+                else
+                {
+                    photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+                }
                 photoGallery.isPublicFolder=NO;
                 photoGallery.selectedFolderIndex=index;
                 photoGallery.folderName=[collectionNameArray objectAtIndex:index];
@@ -475,8 +499,16 @@
 
 -(void)addFolder
 {
+    AddEditFolderViewController *aec1;
+    if([manager isiPad])
+    {
+        aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController_iPad" bundle:[NSBundle mainBundle]] ;
+    }
+    else
+    {
+        aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:[NSBundle mainBundle]] ;
+    }
     
-    AddEditFolderViewController *aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
        aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
     [self.navigationController pushViewController:aec1 animated:NO];
@@ -491,7 +523,16 @@
     //if editBtnIs in view
     [editBtn removeFromSuperview];
     @try {
-        AddEditFolderViewController *aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:nil] ;
+        AddEditFolderViewController *aec;
+        if([manager isiPad])
+        {
+            aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController_iPad" bundle:[NSBundle mainBundle]] ;
+        }
+        else
+        {
+            aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:[NSBundle mainBundle]] ;
+        }
+
         
         aec.isAddFolder=NO;
         aec.isEditFolder=YES;
@@ -500,8 +541,19 @@
         aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
         aec.collectionOwnerId=[collectionUserIdArray objectAtIndex:index];
         
-        CommunityViewController *cm = [[CommunityViewController alloc] init];
-        HomeViewController *hm = [[HomeViewController alloc] init] ;
+        CommunityViewController *cm ;
+        HomeViewController *hm;
+        if([manager isiPad])
+        {
+            cm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]];
+            hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController_iPad" bundle:[NSBundle mainBundle]] ;
+        }
+        else
+        {
+            cm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]];
+            hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:[NSBundle mainBundle]] ;
+        }
+        
         [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
         
         [self.navigationController pushViewController:aec animated:NO];
@@ -528,47 +580,66 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    NavigationBar *navnBar = [[NavigationBar alloc] init];    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+   
    // button.backgroundColor = [UIColor redColor];
     
     UILabel *titleLabel = [[UILabel alloc] init ];
     titleLabel.text=@"Your folders";
     titleLabel.textAlignment=NSTextAlignmentCenter;
-    titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
-    titleLabel.font = [UIFont systemFontOfSize:17.0f];
+   
     
     //add photo search button
     UIButton *searchBtn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    searchBtn.frame=CGRectMake(250.0, 47.0, 70.0, 30.0);
     [searchBtn addTarget:self action:@selector(searchViewOpen) forControlEvents:UIControlEventTouchUpInside];
     [searchBtn setTitle:@"Search" forState:UIControlStateNormal];
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        titleLabel.frame = CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+        titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        searchBtn.frame=CGRectMake(self.view.frame.size.width-100, 105.0, 100.0, 40.0);
+        searchBtn.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+    }
+    else
+    {
+         button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+        titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        searchBtn.frame=CGRectMake(250.0, 47.0, 70.0, 30.0);
+        searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
     [navnBar addSubview:searchBtn];
     [navnBar addSubview:titleLabel];
     NSLog(@"tab index %d",self.tabBarController.selectedIndex);
-    if(self.tabBarController.selectedIndex!=3 && self.tabBarController.selectedIndex!=0 )
-    {
-        [navnBar addSubview:button];
-    }
+   
+    [navnBar addSubview:button];
     
-    if(self.isInNavigation)
-    {
-        [navnBar addSubview:button];
-    }
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 -(void)searchViewOpen
 {
-    SearchPhotoViewController *searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController" bundle:[NSBundle mainBundle]];
+    SearchPhotoViewController *searchController;
+    if([manager isiPad])
+    {
+        searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else{
+        searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController" bundle:[NSBundle mainBundle]];
+
+    }
     [self.navigationController pushViewController:searchController animated:NO];
 }
 -(void)navBackButtonClick{
