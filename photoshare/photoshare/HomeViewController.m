@@ -15,7 +15,7 @@
 #import "EarningViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-#import "ContentManager.h"
+
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "NavigationBar.h"
 #import "AppDelegate.h"
@@ -36,7 +36,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        objManager = [ContentManager sharedManager];
     }
     
     return self;
@@ -48,7 +47,7 @@
     //LoginViewController *loginv = [[LoginViewController alloc] init] ;
     //[self.navigationController presentViewController:loginv animated:NO completion:nil];
     webservices=[[WebserviceController alloc] init];
-    objManager=[ContentManager sharedManager];
+    manager=[ContentManager sharedManager];
     //initialize the collectionId and name array
     collectionIdArray=[[NSMutableArray alloc] init];
     collectionNameArray=[[NSMutableArray alloc] init];
@@ -103,7 +102,7 @@
     welcomeName.text=[dic objectForKey:@"user_realname"];
     self.navigationController.navigationBarHidden=YES;
     
-    NSArray *publicImgArray=[objManager getData:@"publicImgArray"];
+    NSArray *publicImgArray=[manager getData:@"publicImgArray"];
     if([publicImgArray count]==0)
     {
         photoCountLbl.hidden=YES;
@@ -142,7 +141,7 @@
 }
 -(void)getCollectionInfoFromUserDefault
 {
-    NSMutableArray *collection=[[objManager getData:@"collection_data_list"] mutableCopy];
+    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
     
     [collectionIdArray removeAllObjects];
     [collectionNameArray removeAllObjects];
@@ -225,7 +224,17 @@
 -(IBAction)goToCommunity:(id)sender
 {
     
-    CommunityViewController *comm=[[CommunityViewController alloc] init];
+    //CommunityViewController *comm=[[CommunityViewController alloc] init];
+    CommunityViewController *comm;
+    if([manager isiPad])
+    {
+        comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]];
+
+    }
+    else
+    {
+        comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]];
+    }
     //AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     comm.isInNavigation=YES;
     [self.navigationController pushViewController:comm animated:YES];
@@ -671,7 +680,7 @@
 }
 -(void)removebackViewPhotDetail
 {
-    photoTitleStr=@"";
+    photoTitleStr=@"Untitle";
     photoDescriptionStr=@"";
     photoTagStr=@"";
     [backViewPhotDetail removeFromSuperview];
@@ -688,7 +697,7 @@
     }
     else
     {
-        photoTitleStr=@"";
+        photoTitleStr=@"Untitle";
     }
     if(photoDescriptionTF.text.length>0)
     {
@@ -782,6 +791,20 @@
                 NSMutableArray *outPutData=[data objectForKey:@"output_data"];
                 selectedCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];//New created collection id
                 isColletionCreateMode=NO;
+                
+                //upade collection info in  nsUser Default
+                    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
+                    NSMutableDictionary *newCol=[[NSMutableDictionary alloc] init];
+                    [newCol setObject:@0 forKey:@"collection_default"];
+                    [newCol setObject:selectedCollectionId forKey:@"collection_id"];
+                    [newCol setObject:folderName.text forKey:@"collection_name"];
+                    [newCol setObject:@0 forKey:@"collection_shared"];
+                    [newCol setObject:@0 forKey:@"collection_sharing"];
+                    [newCol setObject:userid forKey:@"collection_user_id"];
+                    
+                    [collection addObject:newCol];
+                    [manager storeData:collection :@"collection_data_list"];
+                
                 [self categoryDoneButtonPressed];//For save the photo
             }
             
@@ -795,8 +818,7 @@
             else
             {
                 NSLog(@"Photo saving Fail ");
-                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo saving Fail" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-                [alert show];
+                
                 
             }
             isPhotoSavingMode=NO;
@@ -952,97 +974,4 @@
 }
 
 @end
-/*
- -(void)addPhotoDescriptionView
- {
- UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
- UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
- backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
- backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
- 
- UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-210, 200, 300)];
- addPhotoDescriptionView.layer.borderWidth=1;
- addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
- addPhotoDescriptionView.layer.cornerRadius=8;
- addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
- 
- UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 160, 30)];
- headLbl.text=@"Add Photo Details";
- headLbl.layer.cornerRadius=5;
- headLbl.textAlignment=NSTextAlignmentCenter;
- headLbl.textColor=btnTextColor;
- //headLbl.backgroundColor=[UIColor darkGrayColor];
- 
- 
- //add label for photo title and photo description
- UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(30, 40, 100, 20)];
- title.text=@"Title";
- title.textColor=btnTextColor;
- title.font=[UIFont fontWithName:@"Verdana" size:13];
- 
- photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 60, 140, 30)];
- photoTitleTF.layer.borderWidth=1;
- photoTitleTF.backgroundColor=[UIColor whiteColor];
- [photoTitleTF setDelegate:self];
- 
- UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(30, 95, 100, 20)];
- description.text=@"Description";
- description.textColor=btnTextColor;
- description.font=[UIFont fontWithName:@"Verdana" size:13];
- 
- photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(30, 115, 140, 70)];
- photoDescriptionTF.layer.borderWidth=1;
- photoDescriptionTF.backgroundColor=[UIColor whiteColor];
- [photoDescriptionTF setDelegate:self];
- 
- 
- UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(30, 190, 100, 20)];
- tag.text=@"Tag";
- tag.textColor=btnTextColor;
- tag.font=[UIFont fontWithName:@"Verdana" size:13];
- 
- phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(30, 210, 140, 30)];
- phototagTF.layer.borderWidth=1;
- phototagTF.backgroundColor=[UIColor whiteColor];
- [phototagTF setDelegate:self];
- 
- UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(30, 250, 65, 30)];
- 
- //cancelButton.backgroundColor=btnBorderColor;
- cancelButton.layer.cornerRadius=5;
- cancelButton.layer.borderColor=btnBorderColor.CGColor;
- cancelButton.layer.borderWidth=1;
- 
- cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
- [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
- [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
- [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
- 
- UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 70, 30)];
- 
- //addButton.backgroundColor=btnBorderColor;
- save.layer.cornerRadius=5;
- save.layer.borderColor=btnBorderColor.CGColor;
- save.layer.borderWidth=1;
- 
- save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
- [save setTitleColor:btnTextColor forState:UIControlStateNormal];
- 
- 
- [save setTitle:@"Save" forState:UIControlStateNormal];
- [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
- [addPhotoDescriptionView addSubview:headLbl];
- [addPhotoDescriptionView addSubview:title];
- [addPhotoDescriptionView addSubview:description];
- [addPhotoDescriptionView addSubview:tag];
- [addPhotoDescriptionView addSubview:photoTitleTF];
- [addPhotoDescriptionView addSubview:photoDescriptionTF];
- [addPhotoDescriptionView addSubview:phototagTF];
- [addPhotoDescriptionView addSubview:cancelButton];
- [addPhotoDescriptionView addSubview:save];
- 
- [backViewPhotDetail addSubview:addPhotoDescriptionView];
- [self.view addSubview:backViewPhotDetail];
- 
- 
- }*/
+

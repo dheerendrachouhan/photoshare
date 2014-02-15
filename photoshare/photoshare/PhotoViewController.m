@@ -138,7 +138,7 @@
 }
 -(void)viewImage
 {
-    UIImageView *imgV=[[UIImageView alloc ] initWithFrame:self.view.frame];
+    UIImageView *imgV=[[UIImageView alloc ] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-40)];
     imgV.tag=10000;
     imgV.userInteractionEnabled=YES;
     imgV.layer.masksToBounds=YES;

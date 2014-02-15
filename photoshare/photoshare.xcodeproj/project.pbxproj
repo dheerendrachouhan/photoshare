@@ -55,6 +55,7 @@
 		E108F14A18AE2DFD00B574F6 /* TwitterTable_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */; };
 		E108F14C18AE2E1100B574F6 /* TermConditionViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14B18AE2E1100B574F6 /* TermConditionViewController_iPad.xib */; };
 		E108F14E18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14D18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib */; };
+		E112391318AF3319002D6318 /* CommunityCollectionCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E112391218AF3319002D6318 /* CommunityCollectionCell_iPad.xib */; };
 		E11AD1B018ACC4F600C6185E /* SearchPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */; };
 		E11AD1B118ACC4F600C6185E /* SearchPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */; };
 		E11C55DF18A8ECC700C67B6D /* ShareWithUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C55DD18A8ECC700C67B6D /* ShareWithUserViewController.m */; };
@@ -307,6 +308,7 @@
 		E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable_iPad.xib; sourceTree = "<group>"; };
 		E108F14B18AE2E1100B574F6 /* TermConditionViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermConditionViewController_iPad.xib; sourceTree = "<group>"; };
 		E108F14D18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController_iPad.xib; sourceTree = "<group>"; };
+		E112391218AF3319002D6318 /* CommunityCollectionCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell_iPad.xib; sourceTree = "<group>"; };
 		E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPhotoViewController.h; sourceTree = "<group>"; };
 		E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPhotoViewController.m; sourceTree = "<group>"; };
 		E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchPhotoViewController.xib; sourceTree = "<group>"; };
@@ -1001,6 +1003,7 @@
 				E17222B21892518B00F28748 /* AddEditFolderViewController.xib */,
 				E108F11B18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib */,
 				E16F38E518910DB000064806 /* CommunityCollectionCell.xib */,
+				E112391218AF3319002D6318 /* CommunityCollectionCell_iPad.xib */,
 				FC9763FB189003E9008DF1F8 /* CommunityViewController.xib */,
 				E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */,
 				E3188D9B18938888004ACF77 /* CustomCell.xib */,
@@ -1200,6 +1203,7 @@
 				E322BB0118A3AD7700CAC9E5 /* logo_40x40.png in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
 				E322BAF118A36B7600CAC9E5 /* photo-30x30.png in Resources */,
+				E112391318AF3319002D6318 /* CommunityCollectionCell_iPad.xib in Resources */,
 				E108F12E18AE2C5700B574F6 /* HomeViewController_iPad.xib in Resources */,
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E18262821897F6DC00C1C799 /* facebook.png in Resources */,
@@ -1514,7 +1518,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "268D284E-9C5C-409E-B459-6198D7D66E99";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1557,7 +1561,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "268D284E-9C5C-409E-B459-6198D7D66E99";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

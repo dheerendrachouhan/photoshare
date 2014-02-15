@@ -25,9 +25,6 @@
     if (self) {
         // Custom initialization
     }
-    
-   
-   
     return self;
 }
 
@@ -444,7 +441,7 @@
         }
         else
         {
-            
+            [SVProgressHUD dismiss];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alertView show];
@@ -460,8 +457,9 @@
         countSharing++;
         if(countSharing==sharingIdArray.count)
         {
+             [SVProgressHUD dismiss];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
-            [SVProgressHUD dismiss];
+           
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alertView show];
         }
@@ -484,6 +482,7 @@
     
     if(isAdd)
     {
+        
         NSMutableDictionary *newCol=[[NSMutableDictionary alloc] init];
         [newCol setObject:@0 forKey:@"collection_default"];
         [newCol setObject:newCollectionId forKey:@"collection_id"];

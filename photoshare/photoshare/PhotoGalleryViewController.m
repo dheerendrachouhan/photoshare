@@ -625,6 +625,7 @@
             NSLog(@"Not selected");
             addPhotoBtn.hidden=YES;
             sharePhotoBtn.hidden=YES;
+            frame = sharePhotoBtn.frame;
             isDeleteMode=YES;
         }
         else
@@ -1476,7 +1477,7 @@
 }
 -(void)removebackViewPhotDetail
 {
-    photoTitleStr=@"";
+    photoTitleStr=@"Untitle";
     photoDescriptionStr=@"";
     photoTagStr=@"";
     [self savePhotosOnServer:userid filepath:imageData];
@@ -1491,7 +1492,7 @@
     }
     else
     {
-        photoTitleStr=@"";
+        photoTitleStr=@"Untitle";
     }
     if(photoDescriptionTF.text.length>0)
     {

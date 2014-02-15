@@ -38,15 +38,30 @@
      manager=[ContentManager sharedManager];
     [manager storeData:@"" :@"writeUserId"];
     [manager storeData:@"" :@"readUserId"];
-    self.navigationItem.title = @"Community folders";
-    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-    UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
-    [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
+    
     //webservice
     webservices=[[WebserviceController alloc] init];
     //get the user ID from NSUSER Default
     userid=[manager getData:@"user_id"];
-    //add the Tap gesture for collection view
+
+    
+    
+    self.navigationItem.title = @"Community folders";
+    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
+    //UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
+    
+    UINib *nib;
+    if([manager isiPad])
+    {
+        nib=[UINib nibWithNibName:@"CommunityCollectionCell_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
+    }
+    
+    [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
+       //add the Tap gesture for collection view
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc ]initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
     
@@ -77,7 +92,6 @@
     collectionSharedArray=[[NSMutableArray alloc] init];
     collectionSharingArray=[[NSMutableArray alloc] init];
     collectionUserIdArray=[[NSMutableArray alloc] init];
-
     
     //update the collection info in nsuser default from server
     
@@ -331,6 +345,8 @@
     obj_Cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     obj_Cell.folder_imgV.hidden=NO;
+    obj_Cell.folder_imgV.layer.masksToBounds=YES;
+    obj_Cell.icon_img.layer.masksToBounds=YES;
     @try {
         int index=indexPath.row-1;
         if(indexPath.row==0)
@@ -342,11 +358,11 @@
         }
         else
         {
-            int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
-             BOOL flag=FALSE;
+           
             int shared=[[collectionSharedArray objectAtIndex:index] intValue];
+            //int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
+            //BOOL flag=FALSE;
             
-                 
                  /*if(sharing==1)
                  {
                      obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
