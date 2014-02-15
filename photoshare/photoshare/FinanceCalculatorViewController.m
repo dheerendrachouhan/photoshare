@@ -53,7 +53,17 @@
             [[NSBundle mainBundle] loadNibNamed:@"financeCalculator3VC" owner:self options:nil];
         }
     }
-     [self.navigationItem setTitle:@"Calculator"];
+    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"financeCalculator3VC_iPad" owner:self options:nil];
+        CGRect frame = myPickerView.frame;
+        frame.size.height = 500;
+        myPickerView.frame = frame;
+        myPickerView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        
+
+    }
+    
 	// Do any additional setup after loading the view.
     border1.layer.borderColor = [UIColor colorWithRed:0.039 green:0.451 blue:1 alpha:1].CGColor;
     border1.layer.borderWidth = 2.0f;
@@ -84,8 +94,6 @@
     myPickerView.dataSource = self;
     myPickerView.layer.borderColor = [UIColor blackColor].CGColor;
    
-    //http://www.google.com/ig/calculator?hl=en&q=100EUR=?USD
-    //1GBP=?EUR , 1GBP=?USD
 }
 
 //Segment Controll
@@ -187,8 +195,23 @@
 #pragma mark - UIPickerView Delegate
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
-    return 30.0;
+
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
+    {
+        return 30.0;
+    }
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        
+        return 60.0;
+    }
+    else
+    {
+        return 0;
+    }
 }
+
+
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
@@ -231,10 +254,23 @@
 }
 -(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
 {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 44)]; // your frame, so picker gets "colored"
+    UILabel *label;
+    
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
+    {
+        label= [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 44)];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
+    }
+    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+
+        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 58)];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:25];
+    }
+    // your frame, so picker gets "colored"
     label.backgroundColor = [UIColor lightGrayColor];
     label.textColor = [UIColor blackColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
+    
     label.textAlignment = NSTextAlignmentCenter;
     label.text = [NSString stringWithFormat:@"%d",row];
     
@@ -260,16 +296,33 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    NavigationBar *navnBar;
+    UILabel *navTitle = [[UILabel alloc] init];
+    
+     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(120, 50, 120, 40)];
-    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    
+    
+    if([objManager isiPad])
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 160)];
+        navTitle.frame = CGRectMake(320, 118, 250, 50);
+        navTitle.font = [UIFont systemFontOfSize:36.0f];
+        button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+    }
+    else
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+        navTitle.frame = CGRectMake(130, 50, 100, 40);
+        navTitle.font = [UIFont systemFontOfSize:18.0f];
+        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
+   
     navTitle.text = @"Calculator";
     [navnBar addSubview:navTitle];
     [navnBar addSubview:button];

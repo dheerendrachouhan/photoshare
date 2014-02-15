@@ -11,10 +11,12 @@
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
 #import "ContentManager.h"
+#import "CustomCelliPad.m"
 
 @interface MyReferralViewController ()
 {
     CustomCell *cell;
+    CustomCelliPad *cells;
     WebserviceController *webServiceHlpr;
     NSNumber *userID;
     NSMutableArray *userNameArr;
@@ -32,7 +34,7 @@
     if (self) {
         // Custom initialization
     }
-    
+    ObjManager = [ContentManager sharedManager];
     
     return self;
 }
@@ -41,8 +43,13 @@
 {
     [super viewDidLoad];
     
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"MyReferralViewController_iPad" owner:self options:Nil];
+    }
+    
     dmc = [[DataMapperController alloc] init];
-    ObjManager = [ContentManager sharedManager];
+    
     
     userID = [NSNumber numberWithInteger:[[dmc getUserId]integerValue]];
   
@@ -116,20 +123,40 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier=@"CustomCell";
-    cell=[tableView dequeueReusableCellWithIdentifier:identifier];
-    if(cell==nil)
+    static NSString *identifier=@"";
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        NSArray *nib=[[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
-        cell=[nib objectAtIndex:0];
+        identifier=@"CustomCelliPad";
+        cells=[tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cells==nil)
+        {
+            NSArray *nib=[[NSBundle mainBundle] loadNibNamed:@"CustomCelliPad" owner:self options:nil];
+            cells=[nib objectAtIndex:0];
+        }
+        cells.name.text = [userNameArr objectAtIndex:indexPath.row];
+        
+        cells.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
+        cells.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
+        cells.imageView.image = [UIImage imageNamed:@"icon-person.png"];
+        return cells;
     }
-    cell.name.text = [userNameArr objectAtIndex:indexPath.row];
-    cell.name.font = [UIFont systemFontOfSize:12.0f];
-    cell.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
-    cell.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
-    cell.imageView.image = [UIImage imageNamed:@"icon-person.png"];
-
-    return cell;
+    else
+    {
+        identifier=@"CustomCell";
+        cell=[tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell==nil)
+        {
+            NSArray *nib=[[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
+            cell=[nib objectAtIndex:0];
+        }
+        cell.name.text = [userNameArr objectAtIndex:indexPath.row];
+        cell.name.font = [UIFont systemFontOfSize:12.0f];
+        cell.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
+        cell.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:@"icon-person.png"];
+        return  cell;
+    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -140,16 +167,32 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    NavigationBar *navnBar;
+    UILabel *navTitle = [[UILabel alloc] init];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 55, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(110, 50, 120, 40)];
-    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    
+    
+    if([ObjManager isiPad])
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 135)];
+        navTitle.frame = CGRectMake(290, 90, 250, 50);
+        navTitle.font = [UIFont systemFontOfSize:36.0f];
+        button.frame = CGRectMake(0.0, 100, 100.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+    }
+    else
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+        navTitle.frame = CGRectMake(110, 50, 120, 40);
+        navTitle.font = [UIFont systemFontOfSize:18.0f];
+        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
     navTitle.text = @"My Referrals";
     [navnBar addSubview:navTitle];
     [navnBar addSubview:button];

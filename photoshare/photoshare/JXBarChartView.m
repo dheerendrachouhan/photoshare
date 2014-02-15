@@ -76,6 +76,10 @@
 {
     label.textColor = self.textColor;
     label.font = [UIFont systemFontOfSize:13.5];
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        label.font = [UIFont systemFontOfSize:25.0];
+    }
     [label setTextAlignment:NSTextAlignmentLeft];
     label.adjustsFontSizeToFitWidth = YES;
     label.backgroundColor = [UIColor clearColor];
@@ -101,6 +105,15 @@
     float barMargin = 22;
     float marginOfTextAndBar = 8;
     float textWidth = 50;
+    int poundBar;
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        poundBar = 660;
+    }
+    else
+    {
+        poundBar = 240;
+    }
     for (int i = 0; i < count; i++) {
         //handle and setting textlabel
         float textMargin_y = (i * (self.barHeight + barMargin)) + starty;
@@ -127,7 +140,7 @@
         [self drawRectangle:barFrame context:self.context];
         
         //handle and setting textlabel
-        UILabel *textLabelValue = [[UILabel alloc] initWithFrame:CGRectMake(240, textMargin_y, textWidth, self.barHeight)];
+        UILabel *textLabelValue = [[UILabel alloc] initWithFrame:CGRectMake(poundBar, textMargin_y, textWidth, self.barHeight)];
         
         NSNumber *def =self.values[i];
         NSString *cob = [NSString stringWithFormat:@"%@",def];
@@ -148,9 +161,14 @@
     {
         label.font = [UIFont systemFontOfSize:19.0];
     }
-    else
+    else if(screenFrame.size.height == 568)
     {
         label.font = [UIFont systemFontOfSize:23.0];
+    }
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        label.font = [UIFont systemFontOfSize:30.0];
     }
     
     [label setTextAlignment:NSTextAlignmentRight];

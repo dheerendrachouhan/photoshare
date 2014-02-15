@@ -37,6 +37,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if([objManager isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"PastPayementViewController_iPad" owner:self options:nil];
+    }
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     NSLog(@"Userid : %@",userID);
     
@@ -100,23 +105,35 @@
         CGRect frame;
         int point = 0;
         int bHeight = 0;
+        int bMaxWidth = 0;
         //Initiating the frame of bar graph
         if([[UIScreen mainScreen] bounds].size.height == 568)
         {
             frame = CGRectMake(0, 90, 320, 458);
             point = 20;
             bHeight = 30;
+            bMaxWidth = 150;
         }
         else if([[UIScreen mainScreen] bounds].size.height == 480)
         {
             frame = CGRectMake(0, 90, 320, 360);
             point = 20;
             bHeight = 20;
+            bMaxWidth = 150;
         }
-    
-        JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:150 gradient:nil];
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame = CGRectMake(0, 180, 768, 800);
+            point = 40;
+            bHeight = 60;
+            bMaxWidth = 520;
+        }
+        
+        JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:bMaxWidth gradient:nil];
     
         [self.view addSubview:barChartView];
+         
+        
         [SVProgressHUD dismissWithSuccess:@"Loaded"];
     }
 }
@@ -125,16 +142,33 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 70)];
+    NavigationBar *navnBar;
+    UILabel *navTitle = [[UILabel alloc] init];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 45, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(105, 40, 120, 40)];
-    navTitle.font = [UIFont systemFontOfSize:18.0f];
+    
+    
+    if([objManager isiPad])
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 160)];
+        navTitle.frame = CGRectMake(280, 118, 250, 50);
+        navTitle.font = [UIFont systemFontOfSize:36.0f];
+        button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+    }
+    else
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 75)];
+        navTitle.frame = CGRectMake(110, 40, 150, 40);
+        navTitle.font = [UIFont systemFontOfSize:18.0f];
+        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
+    
     navTitle.text = @"Past Payment";
     [navnBar addSubview:navTitle];
     [navnBar addSubview:button];

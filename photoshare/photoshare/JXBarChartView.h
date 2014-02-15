@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class ContentManager;
 @interface JXBarChartView : UIView
+{
+    ContentManager *objmanager;
+}
 @property (nonatomic, strong) NSMutableArray *values;
 @property (nonatomic) float maxValue;
 @property (nonatomic, strong) NSMutableArray *textIndicators;
