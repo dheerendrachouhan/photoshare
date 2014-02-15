@@ -39,6 +39,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"TwitterTable" owner:self options:nil];
+    }
+    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"TwitterTable_iPad" owner:self options:nil];
+    }
     [SVProgressHUD dismissWithSuccess:@"Loaded"];
     // Do any additional setup after loading the view from its nib.
     selectedUserArr = [[NSMutableArray alloc] init];
@@ -75,7 +84,15 @@
     
     UIButton *checkBox = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
+    }
+    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        checkBox.Frame = CGRectMake(740.0f, 10.0f, 25.0f, 25.0f);
+    }
     
     [checkBox setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
     

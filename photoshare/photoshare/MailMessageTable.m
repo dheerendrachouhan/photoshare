@@ -55,6 +55,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"MailMessageTable_iPad" owner:self options:nil];
+    }
+    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"MailMessageTable" owner:self options:nil];
+    }
+    
     check = YES;
     isSearching = NO;
     filteredList = [[NSMutableArray alloc] init];
@@ -943,29 +953,43 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    NavigationBar *navnBar;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(120, 50, 80, 40)];
-    navTitle.font = [UIFont systemFontOfSize:17.0f];
+    UILabel *navTitle = [[UILabel alloc] init];
     navTitle.text = @"Contacts";
-    [navnBar addSubview:navTitle];
-    [navnBar addSubview:button];
-    
     
     //Button for Next
     UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [buttonLeft addTarget:self action:@selector(doneBtnPressed:) forControlEvents:UIControlEventTouchDown];
     [buttonLeft setTitle:@"Done >" forState:UIControlStateNormal];
-    buttonLeft.frame = CGRectMake(240, 50, 90, 30.0);
-    buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    [navnBar addSubview:buttonLeft];
+    if([objManager isiPad])
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 150)];
+        navTitle.frame = CGRectMake(280, 100, 250, 50);
+        navTitle.font = [UIFont systemFontOfSize:36.0f];
+        button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+        buttonLeft.frame = CGRectMake(670, 120, 100, 30.0);
+        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+    }
+    else
+    {
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 75)];
+        navTitle.frame = CGRectMake(120, 50, 120, 40);
+        navTitle.font = [UIFont systemFontOfSize:18.0f];
+        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        buttonLeft.frame = CGRectMake(260, 50, 60, 30.0);
+        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    }
     
+    [navnBar addSubview:buttonLeft];
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }

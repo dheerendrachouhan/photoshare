@@ -252,7 +252,7 @@
     }
     else
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 75)];
         navTitle.frame = CGRectMake(110, 50, 120, 40);
         navTitle.font = [UIFont systemFontOfSize:18.0f];
         button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
