@@ -227,7 +227,7 @@
     
     CommunityViewController *comm=[[CommunityViewController alloc] init];
     //AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-    
+    comm.isInNavigation=YES;
     [self.navigationController pushViewController:comm animated:YES];
     self.navigationController.navigationBarHidden = NO;
        

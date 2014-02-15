@@ -15,12 +15,13 @@
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
 #import "SearchPhotoViewController.h"
+
 @interface CommunityViewController ()
 
 @end
 
 @implementation CommunityViewController
-
+@synthesize isInNavigation;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -552,12 +553,16 @@
     
     [navnBar addSubview:searchBtn];
     [navnBar addSubview:titleLabel];
-    if(self.tabBarController.selectedIndex!=3)
+    NSLog(@"tab index %d",self.tabBarController.selectedIndex);
+    if(self.tabBarController.selectedIndex!=3 && self.tabBarController.selectedIndex!=0 )
     {
         [navnBar addSubview:button];
     }
     
-    
+    if(self.isInNavigation)
+    {
+        [navnBar addSubview:button];
+    }
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }

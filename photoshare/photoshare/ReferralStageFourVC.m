@@ -447,7 +447,7 @@
         }
 		controller.recipients = [NSArray arrayWithArray:arr];
 		controller.messageComposeDelegate = self;
-		[[self navigationController] presentViewController:controller animated:YES completion:nil];
+		[[self navigationController] presentViewController:controller animated:NO completion:nil];
 	}
 }
 
@@ -469,6 +469,7 @@
             {
                 [alert show];
                 [contactNoSelectedArray removeAllObjects];
+                messagecount=0;
             }
             else
             {

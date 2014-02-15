@@ -18,8 +18,7 @@
     IBOutlet UIProgressView *progressView;
     IBOutlet UILabel *diskSpaceTitle;
     CollectionViewCell *obj_Cell;
-    
-    
+  
     NSMutableArray *collectionArrayWithSharing;
     //collection Info Array
     NSMutableArray *collectionDefaultArray;
@@ -47,5 +46,6 @@
     NSMutableArray *sharingIdArray;
     
 }
+@property (nonatomic,assign)BOOL isInNavigation;
 
 @end
