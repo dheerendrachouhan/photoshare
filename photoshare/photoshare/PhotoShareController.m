@@ -51,7 +51,7 @@
         // Custom initialization
     }
     
-    objManager = [ContentManager sharedManager];
+    manager = [ContentManager sharedManager];
     
     return self;
 }
@@ -68,7 +68,7 @@
     contactSelectedArray = [[NSMutableArray alloc] init];
     contactNoSelectedArray = [[NSMutableArray alloc] init];
     
-    messageStr= [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/1/%@",[objManager getData:@"user_username"]];
+    messageStr= [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
     
     ImageCollection = [[NSMutableArray alloc] init];
     
@@ -117,7 +117,7 @@
         NSString *objFirst = [arr objectAtIndex:0];
         if(objFirst.length == 0)
         {
-            [objManager showAlert:@"No Contact" msg:@"No contact available to mail" cancelBtnTitle:@"Ok" otherBtn:Nil];
+            [manager showAlert:@"No Contact" msg:@"No contact available to mail" cancelBtnTitle:@"Ok" otherBtn:Nil];
         }
         else
         {
@@ -135,7 +135,7 @@
         NSString *objFirst = [arr objectAtIndex:0];
         if(objFirst.length == 0)
         {
-            [objManager showAlert:@"No Contact" msg:@"No contact available for text" cancelBtnTitle:@"Ok" otherBtn:Nil];
+            [manager showAlert:@"No Contact" msg:@"No contact available for text" cancelBtnTitle:@"Ok" otherBtn:Nil];
         }
         else
         {
@@ -229,11 +229,11 @@
             
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
-                    [objManager showAlert:@"Post Cancelled" msg:@"Share photo on facebook cancelled." cancelBtnTitle:@"Ok" otherBtn:Nil];
+                    [manager showAlert:@"Post Cancelled" msg:@"Share photo on facebook cancelled." cancelBtnTitle:@"Ok" otherBtn:Nil];
                     [self dismissModals];
                     break;
                 case SLComposeViewControllerResultDone:
-                    [objManager showAlert:@"Post Cancelled" msg:@"Your photo has been shared successfully." cancelBtnTitle:@"Ok" otherBtn:Nil];
+                    [manager showAlert:@"Post Cancelled" msg:@"Your photo has been shared successfully." cancelBtnTitle:@"Ok" otherBtn:Nil];
                     break;
                     
                 default:
@@ -280,11 +280,11 @@
             
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
-                    [objManager showAlert:@"Tweet Cancelled" msg:@"Share photo on facebook cancelled." cancelBtnTitle:@"Ok" otherBtn:Nil];
+                    [manager showAlert:@"Tweet Cancelled" msg:@"Share photo on facebook cancelled." cancelBtnTitle:@"Ok" otherBtn:Nil];
                     [self dismissModals];
                     break;
                 case SLComposeViewControllerResultDone:
-                    [objManager showAlert:@"Tweet Succuessfully" msg:@"Your photo has been shared successfully." cancelBtnTitle:@"Ok" otherBtn:Nil];
+                    [manager showAlert:@"Tweet Succuessfully" msg:@"Your photo has been shared successfully." cancelBtnTitle:@"Ok" otherBtn:Nil];
                     break;
                     
                 default:
@@ -348,17 +348,17 @@
     switch (result)
     {
         case MFMailComposeResultCancelled:
-            [objManager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [manager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         case MFMailComposeResultSaved:
-            [objManager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [manager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         case MFMailComposeResultSent:
             [alert show];
             [self sendToServer];
             break;
         case MFMailComposeResultFailed:
-            [objManager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
+            [manager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
         default:
             break;
@@ -416,10 +416,10 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Your photo has been shared successfully." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
 	switch (result) {
 		case MessageComposeResultCancelled:
-			[objManager showAlert:@"Cancelled" msg:@"Message Composed Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+			[manager showAlert:@"Cancelled" msg:@"Message Composed Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
 			break;
 		case MessageComposeResultFailed:
-			[objManager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
+			[manager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
 		case MessageComposeResultSent:
            /* if((messagecount+1) == contactNoSelectedArray.count)
@@ -578,13 +578,30 @@
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
     // navnBar.backgroundColor = [UIColor redColor];
     
-    UILabel *photoTitleLBL=[[UILabel alloc] initWithFrame:CGRectMake(85, 50, 150, 30)];
+    UILabel *photoTitleLBL=[[UILabel alloc] init];
     photoTitleLBL.text=@"Share Your Photo";
     photoTitleLBL.textAlignment=NSTextAlignmentCenter;
+    if([manager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        photoTitleLBL.frame=CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+        photoTitleLBL.font = [UIFont systemFontOfSize:23.0f];
+    }
+    else
+    {
+        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        photoTitleLBL.frame=CGRectMake(85, 50, 150, 30);
+        photoTitleLBL.font= [UIFont systemFontOfSize:17.0f];
+    }
+
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
-    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 
 }
 

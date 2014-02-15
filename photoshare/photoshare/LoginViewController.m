@@ -534,11 +534,11 @@
     AccountViewController *acc;
     if([manager isiPad])
     {
-        acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController_iPad" bundle:nil] ;
+        acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController_iPad" bundle:[NSBundle mainBundle]] ;
     }
     else
     {
-        acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] ;
+        acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:[NSBundle mainBundle]] ;
     }
     
      LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];

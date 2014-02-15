@@ -209,11 +209,19 @@
         isCameraMode=NO;
         imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     }
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    
 }
 -(IBAction)goToPublicFolder:(id)sender
 {
-    PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+    PhotoGalleryViewController *photoGallery;
+    if([manager isiPad])
+    {
+        photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
+    }
     photoGallery.isPublicFolder=YES;
     photoGallery.collectionId=publicCollectionId;
     photoGallery.folderName=@"Public";
