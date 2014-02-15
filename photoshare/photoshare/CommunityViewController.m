@@ -552,7 +552,11 @@
     
     [navnBar addSubview:searchBtn];
     [navnBar addSubview:titleLabel];
-    [navnBar addSubview:button];
+    if(self.tabBarController.selectedIndex!=3)
+    {
+        [navnBar addSubview:button];
+    }
+    
     
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
@@ -564,14 +568,9 @@
 }
 -(void)navBackButtonClick{
     NSLog(@"Tab BAr Selected Index is %d",self.tabBarController.selectedIndex);
-    if(self.tabBarController.selectedIndex==3)
-    {
-        [self.tabBarController setSelectedIndex:0];
-    }
-    else
-    {
+   
+    
         [[self navigationController] popViewControllerAnimated:YES];
-    }
     
 }
 
