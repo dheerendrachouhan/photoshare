@@ -15,7 +15,7 @@
 @end
 
 @implementation LaunchCameraViewController
-
+@synthesize isFromHomePage,sessions,assetLibrary;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -777,12 +777,17 @@
 
 -(void)goToHomePage
 {
-    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-    //UITabBarController *tb = (UITabBarController *) self.window.rootViewController ;
-    //HomeViewController *homeViewController=[[HomeViewController alloc] init];
-    
-    [manager storeData:@"YES" :@"istabcamera"];
-    [delgate.tbc setSelectedIndex:0];
+    if(isFromHomePage)
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+    {
+        AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+        [manager storeData:@"YES" :@"istabcamera"];
+        [delgate.tbc setSelectedIndex:0];
+    }
+   
 }
 
 
