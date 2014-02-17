@@ -492,6 +492,33 @@
 {
     CFErrorRef error = NULL;
     
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined)
+    {
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            if (granted)
+            {
+                [self loadContacts];
+            }
+    });
+    }
+    else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized)
+    {
+        [self loadContacts];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Permission Denied" message:@"You have denied to load contact for this app" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+       
+        [alert show];
+    }
+}
+
+-(void)loadContacts
+{
+    CFErrorRef error = NULL;
+    
     contactData = [[NSMutableDictionary alloc] init];
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
     
@@ -566,7 +593,7 @@
             
             [contactData setObject:dict forKey:[NSString stringWithFormat:@"%d",i]];
         }
-    }        
+    }
     CFRelease(addressBook);
     
     //forwarding to controller
@@ -584,15 +611,15 @@
         }
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Refer Mail";
-    
+        
         [self.navigationController pushViewController:mmVC animated:YES];
        /// [contactData removeAllObjects];
     }
     else if (smsFilter)
     {
-     
+        
         MailMessageTable *mmVC;
-     
+        
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable_iPad" bundle:nil];
@@ -608,7 +635,6 @@
         //[contactData removeAllObjects];
     }
 }
-
 
 //alertView
 -(void)alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
