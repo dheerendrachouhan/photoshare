@@ -255,6 +255,7 @@
 #pragma mark - Photo Editor Creation and Presentation
 - (void) launchPhotoEditorWithImage:(UIImage *)editingResImage highResolutionImage:(UIImage *)highResImage
 {
+    [SVProgressHUD dismiss];
     // Customize the editor's apperance. The customization options really only need to be set once in this case since they are never changing, so we used dispatch once here.
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

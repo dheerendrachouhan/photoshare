@@ -541,7 +541,17 @@
         acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:[NSBundle mainBundle]] ;
     }
     
-     LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];
+    LaunchCameraViewController *lcam;
+    
+    if([manager isiPad])
+    {
+        lcam=[[LaunchCameraViewController alloc] initWithNibName:@"LaunchCameraViewController_iPad" bundle:[NSBundle mainBundle]];
+        
+    }
+    else
+    {
+        lcam=[[LaunchCameraViewController alloc] initWithNibName:@"LaunchCameraViewController" bundle:[NSBundle mainBundle]];
+    }
     //HomeViewController *hm=[[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
     
     HomeViewController *hm;
@@ -571,11 +581,22 @@
     //delegate.navControlleraccount.navigationBar.translucent=NO;
     
     
+    NSDictionary *textAttr=[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor], UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0,0)], UITextAttributeTextShadowOffset,[UIFont fontWithName:@"Verdana-Bold" size:10.0], UITextAttributeFont, nil];
+    
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"Home" image:[UIImage imageNamed:@"homelogo.png"] tag:1];
+    [tabBarItem setTitleTextAttributes:textAttr forState:UIControlStateNormal];
+    
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Finance" image:[UIImage imageNamed:@"earnings-icon.png"] tag:2];
+    [tabBarItem2 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
+    
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Camera" image:[UIImage imageNamed:@"photo-icon.png"] tag:3];
+    [tabBarItem3 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
+    
     UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"Folder" image:[UIImage imageNamed:@"folder-icon-bottom.png"] tag:4];
+    [tabBarItem4 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
+    
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"cog-item.png"] tag:5];
+    [tabBarItem5 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
     
     delegate.tbc = [[UITabBarController alloc] init] ;
     

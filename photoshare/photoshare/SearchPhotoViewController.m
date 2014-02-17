@@ -57,6 +57,10 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    isPopFromSearchPhoto=YES;
+}
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -174,7 +178,14 @@
         {
             isGetPhotoFromServer=YES;
 
-            [self getPhotoFromServer:photoCount imageResize:@"80"];
+            if(isPopFromSearchPhoto)
+            {
+                isPopFromSearchPhoto=NO;
+            }
+            else
+            {
+                [self getPhotoFromServer:photoCount imageResize:@"80"];
+            }
             
         }
         else

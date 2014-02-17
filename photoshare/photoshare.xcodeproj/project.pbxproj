@@ -29,6 +29,7 @@
 		E1067DFE189AA7D600F08A5F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067DF5189AA7D600F08A5F /* AFURLSessionManager.m */; };
 		E1067E01189AA7F400F08A5F /* WebserviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E00189AA7F400F08A5F /* WebserviceController.m */; };
 		E1067E03189AA80400F08A5F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E02189AA80400F08A5F /* LoginViewController.m */; };
+		E107D3C618B1EE8900D8D310 /* CustomCelliPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E386F29718AF7E1F0043B071 /* CustomCelliPad.xib */; };
 		E108F11C18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11B18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib */; };
 		E108F11E18AE2AF300B574F6 /* AccountViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11D18AE2AF300B574F6 /* AccountViewController_iPad.xib */; };
 		E108F12018AE2B0E00B574F6 /* CommunityViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */; };
@@ -47,7 +48,6 @@
 		E108F13C18AE2D3800B574F6 /* PastPayementViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13B18AE2D3800B574F6 /* PastPayementViewController_iPad.xib */; };
 		E108F13E18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13D18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib */; };
 		E108F14018AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F13F18AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib */; };
-		E108F14218AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14118AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib */; };
 		E108F14618AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14518AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib */; };
 		E108F14818AE2DE400B574F6 /* ShareWithUserViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14718AE2DE400B574F6 /* ShareWithUserViewController_iPad.xib */; };
 		E108F14A18AE2DFD00B574F6 /* TwitterTable_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */; };
@@ -298,7 +298,6 @@
 		E108F13B18AE2D3800B574F6 /* PastPayementViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PastPayementViewController_iPad.xib; sourceTree = "<group>"; };
 		E108F13D18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferralStageFourVC_iPad.xib; sourceTree = "<group>"; };
 		E108F13F18AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferFriendViewController_iPad.xib; sourceTree = "<group>"; };
-		E108F14118AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferrelStageFourVC3_iPad.xib; sourceTree = "<group>"; };
 		E108F14518AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchPhotoViewController_iPad.xib; sourceTree = "<group>"; };
 		E108F14718AE2DE400B574F6 /* ShareWithUserViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareWithUserViewController_iPad.xib; sourceTree = "<group>"; };
 		E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable_iPad.xib; sourceTree = "<group>"; };
@@ -1043,7 +1042,6 @@
 				E31AA48A18962DFA0065F8E2 /* ReferralStageFourVC.xib */,
 				E108F13D18AE2D5100B574F6 /* ReferralStageFourVC_iPad.xib */,
 				E31B9E17189A558D00722761 /* ReferrelStageFourVC3.xib */,
-				E108F14118AE2D8800B574F6 /* ReferrelStageFourVC3_iPad.xib */,
 				E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */,
 				E108F14518AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib */,
 				E11C55DE18A8ECC700C67B6D /* ShareWithUserViewController.xib */,
@@ -1163,6 +1161,7 @@
 				E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */,
 				E322BB0218A3AD7700CAC9E5 /* logo_57x57.png in Resources */,
 				E16F390218912C9C00064806 /* cog-itemX30.png in Resources */,
+				E107D3C618B1EE8900D8D310 /* CustomCelliPad.xib in Resources */,
 				E18A727018AE424200C96B38 /* EditProfileViewController_iPad.xib in Resources */,
 				E322BB0318A3AD7700CAC9E5 /* logo_60x60.png in Resources */,
 				E16F390D18912C9C00064806 /* previous.png in Resources */,

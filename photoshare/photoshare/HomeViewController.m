@@ -298,7 +298,7 @@
         
     }
     @finally {
-         [self dismissViewControllerAnimated:NO completion:Nil];
+        
     }
     
    

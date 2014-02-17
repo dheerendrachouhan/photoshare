@@ -28,7 +28,7 @@
     BOOL isGetPhotoFromServer;
     BOOL isGetOriginalPhotoFromServer;
     
-    BOOL 
+    BOOL isPopFromSearchPhoto;
     
     UIImageView *imgView1;
 }
