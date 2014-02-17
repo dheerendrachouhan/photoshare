@@ -607,9 +607,10 @@
     [delegate.tbc setDelegate:self];
     delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
     
+    [delegate.window setRootViewController:delegate.tbc];
     
   //  [delegate.tbc.view addSubview:topView];
-    [self.view addSubview:delegate.tbc.view];
+   // [self.view addSubview:delegate.tbc.view];
 }
 
 - (void)didReceiveMemoryWarning
