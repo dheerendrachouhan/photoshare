@@ -73,4 +73,6 @@
 //for Aviary
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;
+
+@property (nonatomic,assign)BOOL isFromHomePage;
 @end

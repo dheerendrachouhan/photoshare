@@ -603,6 +603,7 @@
         mmVC.filterType = @"Refer Mail";
         
         [self.navigationController pushViewController:mmVC animated:YES];
+       /// [contactData removeAllObjects];
     }
     else if (smsFilter)
     {
@@ -621,6 +622,7 @@
         mmVC.filterType = @"Refer Text";
         
         [self.navigationController pushViewController:mmVC animated:YES];
+        //[contactData removeAllObjects];
     }
 }
 
