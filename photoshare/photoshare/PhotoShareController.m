@@ -126,7 +126,7 @@
         }
         
     }
-   /* else if ([shareValue isEqualToString:@"Share Text"])
+    else if ([shareValue isEqualToString:@"Share Text"])
     {
         userSelectedPhone = sharePhoneStr;
         NSArray *arr = [sharePhoneStr componentsSeparatedByString:@", "];
@@ -140,9 +140,9 @@
         else
         {
             [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
-            [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:3.0];
+            [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:0.0];
         }
-    }*/
+    }
 
 }
 
@@ -199,7 +199,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self performSelector:@selector(sendInAppSMS)];
+    [self ContactSelectorMethod];
 }
 
 //FaceBook SDK Implemetation
@@ -349,16 +349,20 @@
     {
         case MFMailComposeResultCancelled:
             [manager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactSelectedArray removeAllObjects];
             break;
         case MFMailComposeResultSaved:
             [manager showAlert:@"Saved" msg:@"You mail is saved in draft" cancelBtnTitle:@"Ok" otherBtn:nil];
             break;
+            [contactSelectedArray removeAllObjects];
         case MFMailComposeResultSent:
             [alert show];
+            [contactSelectedArray removeAllObjects];
             [self sendToServer];
             break;
         case MFMailComposeResultFailed:
             [manager showAlert:@"Mail sent failure" msg:[error localizedDescription] cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactSelectedArray removeAllObjects];
             break;
         default:
             break;
@@ -371,27 +375,15 @@
 //Message to user
 -(void)sendInAppSMS
 {
-    /*[SVProgressHUD dismissWithSuccess:@"Composed"];
-    shareValue = @"";*/
+    [SVProgressHUD dismissWithSuccess:@"Composed"];
+    shareValue = @"";
     
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
 		controller.body = [@"Join 123 Friday, " stringByAppendingString:messageStr];
-       /* int contactCount = 0;
-        NSMutableArray *arr = [[NSMutableArray alloc] init];
-        for(int i=0;i<contactNoSelectedArray.count;i++)
-        {
-            [arr addObject:[contactNoSelectedArray objectAtIndex:i]];
-            messagecount++;
-            contactCount++;
-            if(contactCount == 5)
-            {
-                break;
-            }
-        }
         
-		controller.recipients = [NSArray arrayWithArray:arr];*/
+		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
         
         if (sharedImagesArray.count > 0) {
             for(int l=0;l<sharedImagesArray.count;l++)
@@ -417,21 +409,15 @@
 	switch (result) {
 		case MessageComposeResultCancelled:
 			[manager showAlert:@"Cancelled" msg:@"Message Composed Cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactNoSelectedArray removeAllObjects];
 			break;
 		case MessageComposeResultFailed:
 			[manager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
+            [contactNoSelectedArray removeAllObjects];
             break;
 		case MessageComposeResultSent:
-           /* if((messagecount+1) == contactNoSelectedArray.count)
-            {*/
                 [alert show];
-            /*    [contactNoSelectedArray removeAllObjects];
-                messagecount=0;
-            }
-            else
-            {
-                [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:2.0];
-            }*/
+                [contactNoSelectedArray removeAllObjects];
 			break;
 		default:
 			break;
@@ -453,12 +439,39 @@
         }
         else if(smsFilter)
         {
-            [self performSelector:@selector(sendInAppSMS)];
+            [self ContactSelectorMethod];
         }
     }
 }
 
 -(void)ContactSelectorMethod
+{
+    CFErrorRef error = NULL;
+    
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined)
+    {
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            if (granted)
+            {
+                [self loadContacts];
+            }
+        });
+    }
+    else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized)
+    {
+        [self loadContacts];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Permission Denied" message:@"You have denied to load contact for this app" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        
+        [alert show];
+    }
+}
+
+-(void)loadContacts
 {
     CFErrorRef error = NULL;
     
@@ -557,10 +570,10 @@
         
         [self.navigationController pushViewController:mmVC animated:YES];
     }
-  /*  else if (smsFilter)
+    else if (smsFilter)
     {
         MailMessageTable *mmVC;
-   
+        
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable_iPad" bundle:nil];
@@ -573,7 +586,7 @@
         mmVC.filterType = @"Share Text";
         
         [self.navigationController pushViewController:mmVC animated:YES];
-    }*/
+    }
 }
 
 //dismiss models
