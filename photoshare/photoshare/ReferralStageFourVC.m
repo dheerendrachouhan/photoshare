@@ -58,6 +58,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
         if ([[UIScreen mainScreen] bounds].size.height == 568)
@@ -430,7 +431,7 @@
 }
 
 //Message to user
--(void)sendInAppSMS
+-(void)sendInAppSMS_referral
 {
     [self composedMailMessage];
     referredValue = @"";
@@ -439,23 +440,12 @@
 	if([MFMessageComposeViewController canSendText])
 	{
 		controller.body = [NSString stringWithFormat:@"%@ %@",userMessage.text,toolkitLink];
-       /* int contactCount = 0;
-        NSMutableArray *arr = [[NSMutableArray alloc] init];
-        for(int i=0;i<contactNoSelectedArray.count;i++)
-        {
-            [arr addObject:[contactNoSelectedArray objectAtIndex:i]];
-            messagecount++;
-            contactCount++;
-            if(contactCount == 5)
-            {
-                break;
-            }
-            
-        }*/
-		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
-		controller.messageComposeDelegate = self;
-		[[self navigationController] presentViewController:controller animated:NO completion:nil];
+        controller.recipients = contactNoSelectedArray;
+        controller.messageComposeDelegate = self;
+        [[self navigationController] presentViewController:controller animated:NO completion:nil];
 	}
+    
+    
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
@@ -731,11 +721,12 @@
         else
         {
             [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
-            [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:5.0f];
+            [self performSelector:@selector(sendInAppSMS_referral) withObject:self afterDelay:5.0f];
         }
     }
 
 }
+
 
 //dismiss models
 -(void)dismissModals
