@@ -94,6 +94,7 @@
     }
     else if([filterType isEqualToString:@"Refer Text"] || [filterType isEqualToString:@"Share Text"])
     {
+        [select_deseletBtn setHidden:YES];
         if(contactDictionary.count >0)
         {
             for(int i=0;i<contactDictionary.count;i++)
@@ -458,8 +459,19 @@
                 [tweetString appendString:[selectedUserArr objectAtIndex:i]];
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
-            StringTweet = [NSMutableString stringWithString:tweetString];
             [arSelectedRows addObject:[NSNumber numberWithInt:index]];
+            if(arSelectedRows.count > 10)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Maximum limit reached" message:@"You can select only 10 contacts per text." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                [alert show];
+                [arSelectedRows removeLastObject];
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+            else
+            {
+                StringTweet = [NSMutableString stringWithString:tweetString];
+            }
+            
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -489,6 +501,7 @@
             StringTweet = [NSMutableString stringWithString:tweetString];
             [arSelectedRows removeObject:[NSNumber numberWithInt:indexPath.row]];
         }
+        
     }
 }
 
