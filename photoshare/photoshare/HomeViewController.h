@@ -82,6 +82,8 @@
     NSString *photoDescriptionStr;
     NSString *photoTagStr;
     NSString *photoLocationStr; //userLoaction is save
+    
+    UIPopoverController *popVc;
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 

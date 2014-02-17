@@ -44,7 +44,15 @@
 {
     self.navigationController.navigationBarHidden = NO;
 
-    EditProfileViewController *ep = [[EditProfileViewController alloc] init] ;
+    EditProfileViewController *ep;
+    if([objManager isiPad])
+    {
+        ep = [[EditProfileViewController alloc] initWithNibName:@"EditProfileViewController_iPad" bundle:[NSBundle mainBundle]] ;
+    }
+    else
+    {
+        ep = [[EditProfileViewController alloc] initWithNibName:@"EditProfileViewController" bundle:[NSBundle mainBundle]] ;
+    }
     
     [self.navigationController pushViewController:ep animated:YES] ;
     ep.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
@@ -53,7 +61,14 @@
 {
     self.navigationController.navigationBarHidden = NO;
 
-    UserSecurityViewController *us = [[UserSecurityViewController alloc] init] ;
+    UserSecurityViewController *us;
+    if([objManager isiPad])
+    {
+        us = [[UserSecurityViewController alloc] initWithNibName:@"UserSecurityViewController_iPad" bundle:[NSBundle mainBundle]] ;
+    }
+    else{
+        us = [[UserSecurityViewController alloc] initWithNibName:@"UserSecurityViewController" bundle:[NSBundle mainBundle]] ;
+    }
     
     [self.navigationController pushViewController:us animated:YES] ;
     us.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
@@ -63,16 +78,31 @@
 {
     self.navigationController.navigationBarHidden = NO;
 
-    ReferFriendViewController *rf = [[ReferFriendViewController alloc] init] ;
-    
+    ReferFriendViewController *rf;
+    if([objManager isiPad])
+    {
+        rf = [[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController_iPad" bundle:[NSBundle mainBundle]] ;
+
+    }
+    else
+    {
+        rf = [[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:[NSBundle mainBundle]] ;
+    }
     [self.navigationController pushViewController:rf animated:YES] ;
 rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     
 }
 -(IBAction)logout:(id)sender
 {
-    LoginViewController *login = [[LoginViewController alloc] init] ;
-    
+    LoginViewController *login;
+    if([objManager isiPad])
+    {
+        login= [[LoginViewController alloc] initWithNibName:@"LoginViewControlleriPadMini" bundle:[NSBundle mainBundle]] ;
+    }
+    else
+    {
+        login= [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]] ;
+    }
     [self.navigationController presentViewController:login animated:NO completion:nil] ;
 
 
@@ -81,7 +111,15 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 {
     self.navigationController.navigationBarHidden = NO;
 
-    TermConditionViewController *tc = [[TermConditionViewController alloc] init] ;
+    TermConditionViewController *tc;
+    if([objManager isiPad])
+    {
+        tc = [[TermConditionViewController alloc] initWithNibName:@"TermConditionViewController_iPad" bundle:[NSBundle mainBundle]] ;
+    }
+    else
+    {
+        tc = [[TermConditionViewController alloc] initWithNibName:@"TermConditionViewController" bundle:[NSBundle mainBundle]] ;
+    }
     
     [self.navigationController pushViewController:tc animated:YES] ;
 tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
@@ -93,7 +131,15 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 48)];
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    if([objManager isiPad])
+    {
+        navnBar.frame=CGRectMake(0, 20, self.view.frame.size.width, 110);
+    }
+    else
+    {
+        navnBar.frame=CGRectMake(0, 20, 320, 48);
+    }
     
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];

@@ -26,7 +26,7 @@
         }
         else
         {
-            self.frame=CGRectMake(0, 20, 320, 90);
+            self.frame=CGRectMake(0, 20, 320, 80);
         }
 
         

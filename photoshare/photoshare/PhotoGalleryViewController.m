@@ -737,7 +737,14 @@
                 }
                 NSArray *userDetail = [[NSArray alloc] initWithObjects:userid,collectionId,@1, nil];
                 
-                PhotoShareController *photoShare = [[PhotoShareController alloc] init];
+                PhotoShareController *photoShare;
+                if([manager isiPad])
+                {
+                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController_iPad" bundle:[NSBundle mainBundle]];
+                }
+                else{
+                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController" bundle:[NSBundle mainBundle]];
+                }
                 
                 photoShare.otherDetailArray = userDetail;
                 photoShare.sharedImagesArray = photoIdList;

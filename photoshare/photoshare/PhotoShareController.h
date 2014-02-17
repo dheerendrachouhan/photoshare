@@ -17,7 +17,7 @@
 @class ContentManager;
 @interface PhotoShareController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,WebserviceDelegate>
 {
-    ContentManager *objManager;
+    ContentManager *manager;
     IBOutlet UIImageView *imageView;
     BOOL fbFilter, twFilter, mailFilter, smsFilter;
 }

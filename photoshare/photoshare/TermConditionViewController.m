@@ -38,10 +38,10 @@
     //  [webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com"]]];
     if([[UIScreen mainScreen] bounds].size.height == 480)
     {
-        CGRect frame = webview.frame;
+       /* CGRect frame = webview.frame;
         frame.origin.y = 126;
         frame.size.height = 290;
-        webview.frame = frame;
+        webview.frame = frame;*/
     }
 }
 
@@ -55,8 +55,18 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 40, 70.0, 40.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+    if([objManager isiPad])
+    {
+        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+    }
+    else
+    {
+        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+    }
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
