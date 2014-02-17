@@ -137,7 +137,7 @@
 }
 -(void)setContent
 {
-    profilePicImgView.image=[UIImage imageNamed:@"homepage.jpg"];
+    profilePicImgView.image=[UIImage imageNamed:@"homePageimg.jpeg"];
 }
 -(void)getCollectionInfoFromUserDefault
 {

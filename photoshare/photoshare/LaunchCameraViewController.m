@@ -44,20 +44,13 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:NO];
     selectedCollectionId=Nil;
     [self callGetLocation];
     
     [self getCollectionInfoFromUserDefault];
     [self addCustomNavigationBar];
-    if (isCameraEditMode) {
-        isCameraEditMode = false ;
-        [NSTimer scheduledTimerWithTimeInterval:2.0f
-        target:self selector:@selector(openeditorcontrol)
-      userInfo:nil  repeats:NO];
-        
-    }
-    else
-    {
+    
         if(!isCameraMode)
         {
             photoLocationStr=@"";
@@ -69,14 +62,14 @@
             {
                
                 picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+                isCameraMode=YES;
             }
             else
             {
-                picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+                picker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
             }
             [self presentViewController:picker animated:YES completion:nil];
-            isCameraMode=YES;
-        }
+        
     }
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -160,25 +153,32 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     
-   UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-    imgView.layer.masksToBounds=YES;
+    NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+      
+    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     imgView.image=image;
+    pickImage=image;
+    isCameraEditMode=YES;
     @try {
-        isCameraMode=NO;
-        isCameraEditMode=YES;
-            [self dismissViewControllerAnimated:YES completion:nil];
-       
-        pickImage=image;
+        if (isCameraEditMode) {
+            isCameraEditMode = false ;
+            [NSTimer scheduledTimerWithTimeInterval:2.0f
+                                             target:self selector:@selector(openeditorcontrol)
+                                           userInfo:nil  repeats:NO];
+            
+        }
+            
+            [self dismissViewControllerAnimated:NO completion:Nil];
+        
         [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-
+        
     }
     @catch (NSException *exception) {
         
     }
     @finally {
-        [self dismissViewControllerAnimated:YES completion:Nil];
+        
     }
-    
     
     
 }

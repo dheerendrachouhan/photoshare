@@ -76,7 +76,7 @@
     }
     else if([UIScreen mainScreen].bounds.size.height == 480)
     {
-        collectionview.frame=CGRectMake(20, 190, 280, collectionview.frame.size.height-70);
+        collectionview.frame=CGRectMake(20, 190, 280, collectionview.frame.size.height-76);
     }
     
     

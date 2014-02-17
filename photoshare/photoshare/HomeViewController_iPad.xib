@@ -17,7 +17,7 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homepage.jpg" id="pJ2-eW-ajU">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homePageimg.jpeg" id="pJ2-eW-ajU">
                     <rect key="frame" x="0.0" y="130" width="768" height="834"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -128,6 +128,6 @@
     <resources>
         <image name="folder-icon.png" width="135" height="94"/>
         <image name="home-photo-quicklink.png" width="135" height="93"/>
-        <image name="homepage.jpg" width="640" height="1136"/>
+        <image name="homePageimg.jpeg" width="1600" height="1101"/>
     </resources>
 </document>
