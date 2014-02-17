@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class ContentManager;
-@interface MailMessageTable : UIViewController <UITableViewDataSource,UITableViewDelegate,UISearchDisplayDelegate, UISearchBarDelegate>
+@interface MailMessageTable : UIViewController <UITableViewDataSource,UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 {
     ContentManager *objManager;
     NSMutableArray *checkBoxBtn_Arr;

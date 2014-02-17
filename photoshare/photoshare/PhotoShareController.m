@@ -542,7 +542,16 @@
     //forwarding to controller
     if(mailFilter)
     {
-        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        MailMessageTable *mmVC;
+        
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable_iPad" bundle:nil];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable" bundle:nil];
+        }
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Share Mail";
         
@@ -550,7 +559,16 @@
     }
   /*  else if (smsFilter)
     {
-        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        MailMessageTable *mmVC;
+   
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable_iPad" bundle:nil];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable" bundle:nil];
+        }
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Share Text";
         

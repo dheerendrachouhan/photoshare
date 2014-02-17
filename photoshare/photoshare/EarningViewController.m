@@ -76,7 +76,7 @@
     
         totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
         peopleReferredLabel.text = peopleRefStr;
-        projectedEarninglabel.text = [@"£" stringByAppendingString:projectedEarnStr];
+       // projectedEarninglabel.text = [@"£" stringByAppendingString:projectedEarnStr];
         [SVProgressHUD dismissWithSuccess:@"Success"];
     }
 }
@@ -124,17 +124,17 @@
     if([objManager isiPad])
     {
         navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 160)];
-        navTitle.frame = CGRectMake(320, 100, 250, 50);
+        navTitle.frame = CGRectMake(310, 100, 250, 50);
         navTitle.font = [UIFont systemFontOfSize:36.0f];
     }
     else
     {
         navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 90)];
-        navTitle.frame = CGRectMake(130, 50, 80, 40);
+        navTitle.frame = CGRectMake(115, 50, 95, 40);
         navTitle.font = [UIFont systemFontOfSize:18.0f];
     }
     
-    navTitle.text = @"Finance";
+    navTitle.text = @"My Money";
     [navnBar addSubview:navTitle];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];

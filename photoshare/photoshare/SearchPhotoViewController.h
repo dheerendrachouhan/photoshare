@@ -28,8 +28,6 @@
     BOOL isGetPhotoFromServer;
     BOOL isGetOriginalPhotoFromServer;
     
-    BOOL 
-    
     UIImageView *imgView1;
 }
 

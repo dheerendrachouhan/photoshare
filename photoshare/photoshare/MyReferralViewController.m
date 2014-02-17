@@ -11,7 +11,7 @@
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
 #import "ContentManager.h"
-#import "CustomCelliPad.m"
+#import "CustomCelliPad.h"
 
 @interface MyReferralViewController ()
 {
@@ -123,12 +123,12 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier=@"";
+    static NSString *identifier=@"CustomCell";
     
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        identifier=@"CustomCelliPad";
-        cells=[tableView dequeueReusableCellWithIdentifier:identifier];
+        identifier = @"CustomCelliPad";
+        cells = [tableView dequeueReusableCellWithIdentifier:identifier];
         if(cells==nil)
         {
             NSArray *nib=[[NSBundle mainBundle] loadNibNamed:@"CustomCelliPad" owner:self options:nil];

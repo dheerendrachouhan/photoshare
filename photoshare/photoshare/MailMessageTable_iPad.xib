@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MailMessageTable">
             <connections>
+                <outlet property="searchDisplayController" destination="X7C-8S-Li8" id="EIH-zR-uzM"/>
                 <outlet property="select_deseletBtn" destination="0H9-sX-BE2" id="49Z-sp-ld4"/>
                 <outlet property="table" destination="dW9-IT-52m" id="egK-eg-yNn"/>
                 <outlet property="view" destination="1" id="ZSM-h1-odt"/>
@@ -38,18 +39,25 @@
                         <action selector="selectAllbtn:" destination="-1" eventType="touchUpInside" id="iiz-cd-sUR"/>
                     </connections>
                 </button>
-                <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zTY-5c-7Re">
+                <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X5p-Ee-Wie">
                     <rect key="frame" x="0.0" y="182" width="768" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="i4c-7q-Bnb"/>
+                    </connections>
                 </searchBar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
         </view>
-        <searchDisplayController id="Otu-hD-SJN">
+        <searchDisplayController id="X7C-8S-Li8">
             <connections>
-                <outlet property="searchBar" destination="zTY-5c-7Re" id="iqa-Fk-eNk"/>
+                <outlet property="delegate" destination="-1" id="o4B-aL-v6I"/>
+                <outlet property="searchBar" destination="X5p-Ee-Wie" id="Fnh-Pr-Oxs"/>
+                <outlet property="searchContentsController" destination="-1" id="oEY-Mi-LYC"/>
+                <outlet property="searchResultsDataSource" destination="-1" id="Zd7-E4-QSl"/>
+                <outlet property="searchResultsDelegate" destination="-1" id="xjF-Rc-PZ5"/>
             </connections>
         </searchDisplayController>
     </objects>

@@ -572,7 +572,7 @@
     
     
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"Home" image:[UIImage imageNamed:@"homelogo.png"] tag:1];
-    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Finance" image:[UIImage imageNamed:@"earnings-icon.png"] tag:2];
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Money" image:[UIImage imageNamed:@"earnings-icon.png"] tag:2];
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Camera" image:[UIImage imageNamed:@"photo-icon.png"] tag:3];
     UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"Folder" image:[UIImage imageNamed:@"folder-icon-bottom.png"] tag:4];
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"cog-item.png"] tag:5];

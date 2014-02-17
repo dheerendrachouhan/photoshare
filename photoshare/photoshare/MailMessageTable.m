@@ -56,15 +56,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        [[NSBundle mainBundle] loadNibNamed:@"MailMessageTable_iPad" owner:self options:nil];
-    }
-    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        [[NSBundle mainBundle] loadNibNamed:@"MailMessageTable" owner:self options:nil];
-    }
-    
     check = YES;
     isSearching = NO;
     filteredList = [[NSMutableArray alloc] init];

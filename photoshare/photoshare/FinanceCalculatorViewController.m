@@ -56,13 +56,13 @@
     else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         [[NSBundle mainBundle] loadNibNamed:@"financeCalculator3VC_iPad" owner:self options:nil];
-        CGRect frame = myPickerView.frame;
-        frame.size.height = 500;
-        myPickerView.frame = frame;
-        myPickerView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        myPickerView.transform = CGAffineTransformMakeScale(0.75f, 0.75f);
         
 
     }
+    
+    [segmentControl setEnabled:NO forSegmentAtIndex:0];
+    [segmentControl setEnabled:NO forSegmentAtIndex:2];
     
 	// Do any additional setup after loading the view.
     border1.layer.borderColor = [UIColor colorWithRed:0.039 green:0.451 blue:1 alpha:1].CGColor;
@@ -309,7 +309,7 @@
     if([objManager isiPad])
     {
         navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 160)];
-        navTitle.frame = CGRectMake(320, 118, 250, 50);
+        navTitle.frame = CGRectMake(240, 118, 300, 50);
         navTitle.font = [UIFont systemFontOfSize:36.0f];
         button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
         button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
@@ -317,13 +317,13 @@
     else
     {
         navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
-        navTitle.frame = CGRectMake(130, 50, 100, 40);
+        navTitle.frame = CGRectMake(90, 50, 150, 40);
         navTitle.font = [UIFont systemFontOfSize:18.0f];
         button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
    
-    navTitle.text = @"Calculator";
+    navTitle.text = @"Money Calculator";
     [navnBar addSubview:navTitle];
     [navnBar addSubview:button];
     
