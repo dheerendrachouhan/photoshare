@@ -645,7 +645,14 @@
 -(void)navBackButtonClick{
     NSLog(@"Tab BAr Selected Index is %d",self.tabBarController.selectedIndex);
     
-    [[self navigationController] popToRootViewControllerAnimated:YES];
+    if([[self navigationController] popViewControllerAnimated:YES])
+    {
+        
+    }
+    else
+    {
+        NSLog(@"no");
+    }
     
 }
 
