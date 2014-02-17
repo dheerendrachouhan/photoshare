@@ -30,6 +30,7 @@
 		E1067E01189AA7F400F08A5F /* WebserviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E00189AA7F400F08A5F /* WebserviceController.m */; };
 		E1067E03189AA80400F08A5F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E02189AA80400F08A5F /* LoginViewController.m */; };
 		E107D3C618B1EE8900D8D310 /* CustomCelliPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E386F29718AF7E1F0043B071 /* CustomCelliPad.xib */; };
+		E107D3C818B201C400D8D310 /* homePageimg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E107D3C718B201C400D8D310 /* homePageimg.jpeg */; };
 		E108F11C18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11B18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib */; };
 		E108F11E18AE2AF300B574F6 /* AccountViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11D18AE2AF300B574F6 /* AccountViewController_iPad.xib */; };
 		E108F12018AE2B0E00B574F6 /* CommunityViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */; };
@@ -280,6 +281,7 @@
 		E1067DFF189AA7F400F08A5F /* WebserviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceController.h; sourceTree = "<group>"; };
 		E1067E00189AA7F400F08A5F /* WebserviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceController.m; sourceTree = "<group>"; };
 		E1067E02189AA80400F08A5F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		E107D3C718B201C400D8D310 /* homePageimg.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = homePageimg.jpeg; sourceTree = "<group>"; };
 		E108F11B18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddEditFolderViewController_iPad.xib; sourceTree = "<group>"; };
 		E108F11D18AE2AF300B574F6 /* AccountViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController_iPad.xib; sourceTree = "<group>"; };
 		E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityViewController_iPad.xib; sourceTree = "<group>"; };
@@ -924,6 +926,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E107D3C718B201C400D8D310 /* homePageimg.jpeg */,
 				E31A556718A4A08E00B0015B /* home.png */,
 				E165CF3D18A3EC4C0030099C /* shared-icon3.png */,
 				E322BAE918A36B7600CAC9E5 /* cog-30x30.png */,
@@ -1184,6 +1187,7 @@
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
 				E3A5B90218A8F22F00CED95F /* CustomCells.xib in Resources */,
 				E108F14A18AE2DFD00B574F6 /* TwitterTable_iPad.xib in Resources */,
+				E107D3C818B201C400D8D310 /* homePageimg.jpeg in Resources */,
 				E322BAF218A36B7600CAC9E5 /* refer-30x30.png in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
 				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
