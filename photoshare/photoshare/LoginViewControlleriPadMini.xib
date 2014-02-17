@@ -70,7 +70,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BjR-LY-aLl">
-                            <rect key="frame" x="377" y="779" width="272" height="30"/>
+                            <rect key="frame" x="90" y="796" width="272" height="46"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="26"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -6,7 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MailMessageTable">
             <connections>
-                <outlet property="searchDisplayController" destination="ZAV-E5-o1d" id="Qjw-VX-HGD"/>
+                <outlet property="searchDisplayController" destination="oBg-OF-Crx" id="jOP-qh-ow6"/>
                 <outlet property="select_deseletBtn" destination="7gW-a1-0yE" id="XIH-4L-kmt"/>
                 <outlet property="table" destination="fHa-fh-gsc" id="5oD-7c-dp3"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -18,16 +18,16 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="fHa-fh-gsc">
-                    <rect key="frame" x="0.0" y="204" width="320" height="364"/>
+                    <rect key="frame" x="0.0" y="188" width="320" height="380"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="wZd-3C-Sm6"/>
-                        <outlet property="delegate" destination="-1" id="lqQ-Jc-Jh9"/>
+                        <outlet property="dataSource" destination="-1" id="VeO-8k-kUF"/>
+                        <outlet property="delegate" destination="-1" id="eIs-FO-Dap"/>
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7gW-a1-0yE">
-                    <rect key="frame" x="0.0" y="160" width="320" height="44"/>
+                    <rect key="frame" x="0.0" y="145" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.12599232769999999" green="0.38773500519999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="Select All">
@@ -39,15 +39,15 @@
                     </connections>
                 </button>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" id="far-2X-78a">
-                    <rect key="frame" x="0.0" y="204" width="320" height="2"/>
+                    <rect key="frame" x="0.0" y="188" width="320" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </progressView>
-                <searchBar contentMode="redraw" id="p55-ed-OCS">
-                    <rect key="frame" x="0.0" y="116" width="320" height="44"/>
+                <searchBar contentMode="redraw" id="SiA-cx-QTm">
+                    <rect key="frame" x="0.0" y="101" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
-                        <outlet property="delegate" destination="-1" id="p5y-6y-DBH"/>
+                        <outlet property="delegate" destination="-1" id="TgA-Ef-ioc"/>
                     </connections>
                 </searchBar>
             </subviews>
@@ -55,13 +55,13 @@
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
-        <searchDisplayController id="ZAV-E5-o1d">
+        <searchDisplayController id="oBg-OF-Crx">
             <connections>
-                <outlet property="delegate" destination="-1" id="7ga-Bt-YRd"/>
-                <outlet property="searchBar" destination="p55-ed-OCS" id="8jQ-Tc-35n"/>
-                <outlet property="searchContentsController" destination="-1" id="9Fu-XA-S1L"/>
-                <outlet property="searchResultsDataSource" destination="-1" id="gJh-FO-QvZ"/>
-                <outlet property="searchResultsDelegate" destination="-1" id="nbV-ii-Aky"/>
+                <outlet property="delegate" destination="-1" id="KOw-da-Oxb"/>
+                <outlet property="searchBar" destination="SiA-cx-QTm" id="Yje-Qc-ZQ9"/>
+                <outlet property="searchContentsController" destination="-1" id="7jb-uI-B8O"/>
+                <outlet property="searchResultsDataSource" destination="-1" id="Ves-Uf-8J6"/>
+                <outlet property="searchResultsDelegate" destination="-1" id="1Rq-Zk-UeB"/>
             </connections>
         </searchDisplayController>
     </objects>

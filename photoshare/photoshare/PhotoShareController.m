@@ -542,7 +542,16 @@
     //forwarding to controller
     if(mailFilter)
     {
-        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        MailMessageTable *mmVC;
+        
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable_iPad" bundle:nil];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable" bundle:nil];
+        }
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Share Mail";
         
@@ -550,7 +559,16 @@
     }
   /*  else if (smsFilter)
     {
-        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        MailMessageTable *mmVC;
+   
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable_iPad" bundle:nil];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable" bundle:nil];
+        }
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Share Text";
         
@@ -586,7 +604,7 @@
         button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
-        photoTitleLBL.frame=CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+        photoTitleLBL.frame=CGRectMake(self.view.center.x-75, 105.0, 200.0, 40.0);
         photoTitleLBL.font = [UIFont systemFontOfSize:23.0f];
     }
     else

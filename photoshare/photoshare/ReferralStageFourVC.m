@@ -151,7 +151,7 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self performSelector:@selector(sendInAppSMS)];
+    [self ContactSelectorMethod];
 }
 
 //FaceBook SDK Implemetation
@@ -432,8 +432,8 @@
 //Message to user
 -(void)sendInAppSMS
 {
-    /*[self composedMailMessage];
-    referredValue = @"";*/
+    [self composedMailMessage];
+    referredValue = @"";
     
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
@@ -451,8 +451,8 @@
                 break;
             }
             
-        }
-		controller.recipients = [NSArray arrayWithArray:arr];*/
+        }*/
+		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
 		controller.messageComposeDelegate = self;
 		[[self navigationController] presentViewController:controller animated:NO completion:nil];
 	}
@@ -472,16 +472,8 @@
             userSelectedPhone = @"";
             break;
 		case MessageComposeResultSent:
-            /*if((messagecount+1) == contactNoSelectedArray.count)
-            {*/
                 [alert show];
-              /*  [contactNoSelectedArray removeAllObjects];
-                messagecount=0;
-            }
-            else
-            {
-                [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:2.0];
-            }*/
+                [contactNoSelectedArray removeAllObjects];
 			break;
 		default:
 			break;
@@ -580,20 +572,41 @@
     //forwarding to controller
     if(mailFilter)
     {
-        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+        MailMessageTable *mmVC;
+        
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable_iPad" bundle:nil];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable" bundle:nil];
+        }
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Refer Mail";
     
         [self.navigationController pushViewController:mmVC animated:YES];
+        [contactData removeAllObjects];
     }
-    /*else if (smsFilter)
+    else if (smsFilter)
     {
-        MailMessageTable *mmVC = [[MailMessageTable alloc] init];
+     
+        MailMessageTable *mmVC;
+     
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable_iPad" bundle:nil];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            mmVC = [[MailMessageTable alloc] initWithNibName:@"MailMessageTable" bundle:nil];
+        }
         mmVC.contactDictionary = contactData;
         mmVC.filterType = @"Refer Text";
         
         [self.navigationController pushViewController:mmVC animated:YES];
-    }*/
+        [contactData removeAllObjects];
+    }
 }
 
 
@@ -610,7 +623,7 @@
         }
         else if(smsFilter)
         {
-            [self performSelector:@selector(sendInAppSMS)];
+            [self ContactSelectorMethod];
         }
     }
 }
@@ -680,7 +693,7 @@
             [self performSelector:@selector(mailTo) withObject:self afterDelay:3.0];
         }
     }
-   /* else if ([referredValue isEqualToString:@"Refer Text"])
+    else if ([referredValue isEqualToString:@"Refer Text"])
     {
         userSelectedPhone = referPhoneStr;
         NSArray *arr = [referPhoneStr componentsSeparatedByString:@", "];
@@ -696,7 +709,7 @@
             [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
             [self performSelector:@selector(sendInAppSMS) withObject:self afterDelay:5.0f];
         }
-    }*/
+    }
 
 }
 

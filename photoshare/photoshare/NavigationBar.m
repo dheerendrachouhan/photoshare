@@ -46,14 +46,14 @@
             homeController = [[UIView alloc] initWithFrame:CGRectMake(7, 30, 102, 51)];
             homeController.layer.cornerRadius = 3;
             
-            totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(560,30, 200, 60)];
+            totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(530,30, 200, 60)];
             //totalEarningView.backgroundColor=[UIColor grayColor];
             totalEarningView.layer.cornerRadius=10;
             
-            totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(570, 30, 200, 31)];
+            totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(530, 30, 230, 31)];
             totalEarningHeading.textAlignment=NSTextAlignmentCenter;
-            totalEarningHeading.text=@"Weekly Earnings";
-            totalEarningHeading.font=[UIFont fontWithName:@"verdana" size:22];
+            totalEarningHeading.text=@"This Week's Earnings";
+            totalEarningHeading.font=[UIFont fontWithName:@"verdana" size:20];
             totalEarningHeading.textColor=[UIColor blackColor];
             
             totalEarning=[[UILabel alloc] initWithFrame:CGRectMake(570, 60, 180, 30)];
@@ -85,14 +85,14 @@
         homeController = [[UIView alloc] initWithFrame:CGRectMake(7, 13, 55, 35)];
         homeController.layer.cornerRadius = 3;
         
-        totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(220,20, 100, 50)];
+        totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(215,20, 100, 50)];
         //totalEarningView.backgroundColor=[UIColor grayColor];
         totalEarningView.layer.cornerRadius=10;
         
-        totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(225, 10, 95, 21)];
+        totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(218, 10, 100, 21)];
         totalEarningHeading.textAlignment=NSTextAlignmentCenter;
-        totalEarningHeading.text=@"Weekly Earnings";
-        totalEarningHeading.font=[UIFont fontWithName:@"verdana" size:11];
+        totalEarningHeading.text=@"This Week's Earnings";
+        totalEarningHeading.font=[UIFont fontWithName:@"verdana" size:9];
         totalEarningHeading.textColor=[UIColor blackColor];
         
         totalEarning=[[UILabel alloc] initWithFrame:CGRectMake(225, 27, 100, 20)];

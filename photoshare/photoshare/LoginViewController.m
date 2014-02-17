@@ -584,11 +584,7 @@
     NSDictionary *textAttr=[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor], UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0,0)], UITextAttributeTextShadowOffset,[UIFont fontWithName:@"Verdana-Bold" size:10.0], UITextAttributeFont, nil];
     
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"Home" image:[UIImage imageNamed:@"homelogo.png"] tag:1];
-    [tabBarItem setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    
-    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Finance" image:[UIImage imageNamed:@"earnings-icon.png"] tag:2];
-    [tabBarItem2 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Money" image:[UIImage imageNamed:@"earnings-icon.png"] tag:2];
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Camera" image:[UIImage imageNamed:@"photo-icon.png"] tag:3];
     [tabBarItem3 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
     
