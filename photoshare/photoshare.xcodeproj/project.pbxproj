@@ -29,6 +29,7 @@
 		E1067DFE189AA7D600F08A5F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067DF5189AA7D600F08A5F /* AFURLSessionManager.m */; };
 		E1067E01189AA7F400F08A5F /* WebserviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E00189AA7F400F08A5F /* WebserviceController.m */; };
 		E1067E03189AA80400F08A5F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1067E02189AA80400F08A5F /* LoginViewController.m */; };
+		E107D3C618B1EE8900D8D310 /* CustomCelliPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E386F29718AF7E1F0043B071 /* CustomCelliPad.xib */; };
 		E108F11C18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11B18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib */; };
 		E108F11E18AE2AF300B574F6 /* AccountViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11D18AE2AF300B574F6 /* AccountViewController_iPad.xib */; };
 		E108F12018AE2B0E00B574F6 /* CommunityViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F11F18AE2B0E00B574F6 /* CommunityViewController_iPad.xib */; };
