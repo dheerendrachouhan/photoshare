@@ -604,7 +604,7 @@
         button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
-        photoTitleLBL.frame=CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+        photoTitleLBL.frame=CGRectMake(self.view.center.x-75, 105.0, 200.0, 40.0);
         photoTitleLBL.font = [UIFont systemFontOfSize:23.0f];
     }
     else

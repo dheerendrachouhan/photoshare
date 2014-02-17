@@ -125,23 +125,33 @@
 {
     static NSString *identifier=@"CustomCell";
     
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        identifier = @"CustomCelliPad";
-        cells = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cells==nil)
-        {
-            NSArray *nib=[[NSBundle mainBundle] loadNibNamed:@"CustomCelliPad" owner:self options:nil];
-            cells=[nib objectAtIndex:0];
-        }
-        cells.name.text = [userNameArr objectAtIndex:indexPath.row];
-        
-        cells.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
-        cells.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
-        cells.imageView.image = [UIImage imageNamed:@"icon-person.png"];
-        return cells;
+    NSString * nib_name= @"CustomCell";
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        nib_name = @"CustomCelliPad";
+  
     }
-    else
+        CustomCell *cell_obj = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(cell_obj==nil)
+        {
+            NSArray *nib=[[NSBundle mainBundle] loadNibNamed:nib_name owner:self options:nil];
+            cell_obj=[nib objectAtIndex:0];
+        }
+    
+    
+        cell_obj.name.text = [userNameArr objectAtIndex:indexPath.row];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            cell_obj.name.font = [UIFont systemFontOfSize:12.0f];
+        }
+            
+        cell_obj.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
+        cell_obj.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
+        cell_obj.imageView.image = [UIImage imageNamed:@"icon-person.png"];
+    
+    return cell_obj;
+    
+ /*   else
     {
         identifier=@"CustomCell";
         cell=[tableView dequeueReusableCellWithIdentifier:identifier];
@@ -156,11 +166,17 @@
         cell.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
         cell.imageView.image = [UIImage imageNamed:@"icon-person.png"];
         return  cell;
-    }
+    }*/
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 65;
+     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+         return 130;
+     }
+    else
+    {
+        return 65;
+    }
 }
 
 -(void)addCustomNavigationBar
