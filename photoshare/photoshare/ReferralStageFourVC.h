@@ -16,8 +16,9 @@
 #import <Twitter/Twitter.h>
 #import "DataMapperController.h"
 
+
 @class ContentManager;
-@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate,WebserviceDelegate>
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, WebserviceDelegate, UITabBarControllerDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;
