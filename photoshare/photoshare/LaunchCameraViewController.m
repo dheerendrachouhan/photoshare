@@ -378,7 +378,7 @@
 {
     @try {
         backView1=[[UIView alloc] initWithFrame:self.view.frame];
-        categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, 320,120)];
+        categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, self.view.frame.size.width,120)];
         categoryPickerView.backgroundColor=[UIColor whiteColor];
         [categoryPickerView setDataSource: self];
         [categoryPickerView setDelegate: self];

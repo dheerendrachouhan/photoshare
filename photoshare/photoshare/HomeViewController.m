@@ -209,7 +209,7 @@
         isCameraMode=NO;
         imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     }
-    
+    [self presentViewController:imagePicker animated:YES completion:nil];
 }
 -(IBAction)goToPublicFolder:(id)sender
 {
@@ -228,6 +228,7 @@
     photoGallery.selectedFolderIndex=folderIndex;
     photoGallery.collectionOwnerId=colOwnerId;
     [self.navigationController pushViewController:photoGallery animated:YES];
+    
 }
 -(IBAction)goToCommunity:(id)sender
 {
@@ -463,7 +464,7 @@
 {
     @try {
          backView1=[[UIView alloc] initWithFrame:self.view.frame];
-        categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, 320,120)];
+        categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, self.view.frame.size.width,120)];
         categoryPickerView.backgroundColor=[UIColor whiteColor];
         [categoryPickerView setDataSource: self];
         [categoryPickerView setDelegate: self];
