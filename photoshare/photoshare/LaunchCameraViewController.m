@@ -145,16 +145,14 @@
 //imagePicker DelegateMethod
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-   [self goToHomePage];
     isCameraMode=NO;
     [self dismissViewControllerAnimated:YES completion:nil];
+     [self goToHomePage];
     
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     
-    NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
-      
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     imgView.image=image;
     pickImage=image;
@@ -162,9 +160,7 @@
     @try {
         if (isCameraEditMode) {
             isCameraEditMode = false ;
-            [NSTimer scheduledTimerWithTimeInterval:2.0f
-                                             target:self selector:@selector(openeditorcontrol)
-                                           userInfo:nil  repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self selector:@selector(openeditorcontrol) userInfo:nil  repeats:NO];
             
         }
             
@@ -453,6 +449,11 @@
 }
 -(void)addPhotoDescriptionView
 {
+    float textFieldBorderWidth=0.3;
+    if([manager isiPad])
+    {
+        textFieldBorderWidth=0.8f;
+    }
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
     UIColor *lblTextColor=[UIColor blackColor];
@@ -484,7 +485,7 @@
     title.font=[UIFont fontWithName:@"Verdana" size:13];
     
     photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 60, 140, 30)];
-    photoTitleTF.layer.borderWidth=0.3;
+    photoTitleTF.layer.borderWidth=textFieldBorderWidth;
     photoTitleTF.backgroundColor=[UIColor whiteColor];
     [photoTitleTF setDelegate:self];
     
@@ -494,7 +495,7 @@
     description.font=[UIFont fontWithName:@"Verdana" size:13];
     
     photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(100, 110, 140, 70)];
-    photoDescriptionTF.layer.borderWidth=0.3;
+    photoDescriptionTF.layer.borderWidth=textFieldBorderWidth;
     photoDescriptionTF.backgroundColor=[UIColor whiteColor];
     [photoDescriptionTF setDelegate:self];
     
@@ -505,7 +506,7 @@
     tag.font=[UIFont fontWithName:@"Verdana" size:13];
     
     phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 200, 140, 30)];
-    phototagTF.layer.borderWidth=0.3;
+    phototagTF.layer.borderWidth=textFieldBorderWidth;
     phototagTF.backgroundColor=[UIColor whiteColor];
     [phototagTF setDelegate:self];
     
@@ -555,6 +556,11 @@
 }
 -(void)addNewFolderView
 {
+    float textFieldBorderWidth=0.3;
+    if([manager isiPad])
+    {
+        textFieldBorderWidth=0.8f;
+    }
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
     backView2=[[UIView alloc] initWithFrame:self.view.frame];
@@ -573,7 +579,9 @@
     headLbl.textColor=btnTextColor;
     //headLbl.backgroundColor=[UIColor darkGrayColor];
     folderName=[[UITextField alloc] initWithFrame:CGRectMake(15, 60, 170, 30)];
-    folderName.layer.borderWidth=0.3;
+    folderName.layer.borderColor=[UIColor grayColor].CGColor;
+    folderName.layer.borderWidth=textFieldBorderWidth;
+    
     folderName.backgroundColor=[UIColor whiteColor];
     [folderName setDelegate:self];
     

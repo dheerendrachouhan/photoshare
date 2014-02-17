@@ -19,6 +19,7 @@
 #import "DataMapperController.h"
 
 #import <CoreLocation/CoreLocation.h>
+
 @interface PhotoViewController : UIViewController
 <WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate>
 {

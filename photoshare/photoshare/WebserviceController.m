@@ -84,7 +84,7 @@
     NSURL *filePath = [NSURL fileURLWithPath:path];
     */
     
-    //NSError* error = nil ;54.194.160.22
+    //NSError* error = nil ;
     
     
     
