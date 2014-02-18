@@ -201,7 +201,6 @@
     ACAccountStore *accountStore = [[ACAccountStore alloc] init];
     ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     
-    
     //Check if user Exists
     NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
     

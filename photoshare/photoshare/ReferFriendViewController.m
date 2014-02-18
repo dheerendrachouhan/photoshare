@@ -286,6 +286,15 @@
     [self.navigationController pushViewController:hm animated:NO];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    
+    //All orientations are accepted except for the upsidedown orientation
+    if(interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {

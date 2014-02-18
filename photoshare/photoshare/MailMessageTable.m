@@ -253,7 +253,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (isSearching)
+    if (tableView == self.searchDisplayController.searchResultsTableView)
     {
         return [filteredList count];
     }
@@ -372,8 +372,13 @@
     {
         UITableViewCell *cell = [table cellForRowAtIndexPath:indexPath];
         NSMutableString *tweetString = [[NSMutableString alloc] init];
-    
-        if(cell.accessoryType == UITableViewCellAccessoryNone)
+        
+        UITableViewCell *cells;
+        if(self.searchDisplayController.searchResultsTableView == tableView)
+        {
+            cells = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        }
+        if(cell.accessoryType == UITableViewCellAccessoryNone || cells.accessoryType == UITableViewCellAccessoryNone)
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             NSLog(@"Index path is %d",indexPath.row);
@@ -382,6 +387,7 @@
             {
                index =[contactEmail indexOfObject:[filteredContact objectAtIndex:indexPath.row]];
                 [selectedUserArr addObject:[filteredContact objectAtIndex:indexPath.row]];
+                cells.accessoryType = UITableViewCellAccessoryCheckmark;
             }
             else
             {
@@ -403,7 +409,12 @@
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
-        
+            
+            if(self.searchDisplayController.searchResultsTableView == tableView)
+            {
+                cells.accessoryType = UITableViewCellAccessoryNone;
+            }
+            
             tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
             for(NSString *match in selectedUserArr)
@@ -435,6 +446,11 @@
         UITableViewCell *cell = [table cellForRowAtIndexPath:indexPath];
         NSMutableString *tweetString = [[NSMutableString alloc] init];
         
+        UITableViewCell *cells;
+        if(self.searchDisplayController.searchResultsTableView == tableView)
+        {
+            cells = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        }
         if(cell.accessoryType == UITableViewCellAccessoryNone)
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -444,6 +460,7 @@
             {
                 index =[contactPhone indexOfObject:[filteredPhone objectAtIndex:indexPath.row]];
                 [selectedUserArr addObject:[filteredPhone objectAtIndex:indexPath.row]];
+                cells.accessoryType = UITableViewCellAccessoryCheckmark;
             }
             else
             {
@@ -476,6 +493,10 @@
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
             
+            if(self.searchDisplayController.searchResultsTableView == tableView)
+            {
+                cells.accessoryType = UITableViewCellAccessoryNone;
+            }
             tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
             for(NSString *match in selectedUserArr)
@@ -625,6 +646,7 @@
 }
 
 
+
 // Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
@@ -646,7 +668,7 @@
     if([objManager isiPad])
     {
         navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 150)];
-        navTitle.frame = CGRectMake(280, 100, 250, 50);
+        navTitle.frame = CGRectMake(300, 100, 250, 50);
         navTitle.font = [UIFont systemFontOfSize:36.0f];
         button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
         button.titleLabel.font = [UIFont systemFontOfSize:29.0f];

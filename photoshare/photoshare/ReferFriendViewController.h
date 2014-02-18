@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
+#import <EventKit/EventKit.h>
+#import <EventKitUI/EventKitUI.h>
 
 @class ContentManager;
 @interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
