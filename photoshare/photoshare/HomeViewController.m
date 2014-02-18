@@ -148,8 +148,7 @@
 }
 -(void)getCollectionInfoFromUserDefault
 {
-    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
-   
+    NSMutableArray *collection=[dmc getCollectionDataList];
     @try {
         for (int i=0;i<collection.count; i++)
         {

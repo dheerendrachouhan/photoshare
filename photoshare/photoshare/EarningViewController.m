@@ -117,21 +117,21 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar;
+    NavigationBar *navnBar=[[NavigationBar alloc] init];
     
     UILabel *navTitle = [[UILabel alloc] init];
     
     if([objManager isiPad])
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 160)];
-        navTitle.frame = CGRectMake(310, 100, 250, 50);
+        navTitle.frame = CGRectMake(310, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
+        
         navTitle.font = [UIFont systemFontOfSize:36.0f];
     }
     else
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 90)];
-        navTitle.frame = CGRectMake(115, 50, 95, 40);
+        navTitle.frame = CGRectMake(115, NavBtnYPosForiPhone, 95, NavBtnHeightForiPhone);
         navTitle.font = [UIFont systemFontOfSize:18.0f];
+
     }
     
     navTitle.text = @"My Money";

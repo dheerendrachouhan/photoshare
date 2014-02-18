@@ -119,8 +119,7 @@
 
 -(void)getCollectionInfoFromUserDefault
 {
-    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
-    
+    NSMutableArray *collection=[dmc getCollectionDataList];
     [collectionIdArray removeAllObjects];
     [collectionNameArray removeAllObjects];
     @try {

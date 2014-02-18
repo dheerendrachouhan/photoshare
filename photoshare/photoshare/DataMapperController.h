@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
 
+#define NavBtnYPosForiPhone 45.0f
+#define NavBtnYPosForiPad 105.0f
+#define NavBtnHeightForiPhone 30
+#define NavBtnHeightForiPad 50
+
 @interface DataMapperController : UIViewController
 {
     ContentManager *objManager;
