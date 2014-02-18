@@ -1634,7 +1634,10 @@
 
 -(void)navBackButtonClick{
     
-    [[self navigationController] popViewControllerAnimated:YES];
+   if(![[self navigationController] popViewControllerAnimated:YES])
+   {
+       [self.tabBarController setSelectedIndex:3];
+   }
 }
 
 

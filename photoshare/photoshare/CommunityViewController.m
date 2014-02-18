@@ -651,7 +651,7 @@
     }
     else
     {
-        NSLog(@"no");
+        [self.tabBarController setSelectedIndex:0];
     }
     
 }
