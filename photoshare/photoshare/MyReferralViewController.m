@@ -148,26 +148,9 @@
         cell_obj.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
         cell_obj.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
         cell_obj.imageView.image = [UIImage imageNamed:@"icon-person.png"];
-    
     return cell_obj;
-    
- /*   else
-    {
-        identifier=@"CustomCell";
-        cell=[tableView dequeueReusableCellWithIdentifier:identifier];
-        if(cell==nil)
-        {
-            NSArray *nib=[[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
-            cell=[nib objectAtIndex:0];
-        }
-        cell.name.text = [userNameArr objectAtIndex:indexPath.row];
-        cell.name.font = [UIFont systemFontOfSize:12.0f];
-        cell.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
-        cell.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
-        cell.imageView.image = [UIImage imageNamed:@"icon-person.png"];
-        return  cell;
-    }*/
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -182,16 +165,12 @@
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
-    
     NavigationBar *navnBar;
     UILabel *navTitle = [[UILabel alloc] init];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self
-               action:@selector(navBackButtonClick)
-     forControlEvents:UIControlEventTouchDown];
+    [button addTarget:self action:@selector(navBackButtonClick) forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    
     
     if([ObjManager isiPad])
     {

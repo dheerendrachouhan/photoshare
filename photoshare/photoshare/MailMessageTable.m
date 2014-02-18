@@ -294,7 +294,7 @@
             title = [contactName objectAtIndex:indexPath.row];
             contacts = [contactEmail objectAtIndex:indexPath.row];
         }
-        if([title isEqualToString:@" (null)"])
+        if([title isEqualToString:@"(null)"])
         {
             title=@"Unknown";
         }

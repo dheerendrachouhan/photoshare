@@ -29,6 +29,8 @@
         lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
     }
     
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     self.window.rootViewController = lg;
     
     [self.window makeKeyAndVisible];

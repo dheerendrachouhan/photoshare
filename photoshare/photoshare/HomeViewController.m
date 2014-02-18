@@ -50,6 +50,7 @@
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     //rounded the Community Count Label
     photoCountLbl.layer.cornerRadius=12;
