@@ -145,7 +145,12 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    [self ContactSelectorMethod];
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select Email-Id from Contacts", @"Manually input Email", nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
+    
 }
 
 - (IBAction)smsFilter_Btn:(id)sender {
@@ -153,7 +158,39 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self ContactSelectorMethod];
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select from Contacts", @"Manually enter contact", nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 0:
+            [self ContactSelectorMethod];
+            break;
+        case 1:
+            [self actionsheetCheeker];
+            break;
+        case 2:
+            NSLog(@"2");
+            break;
+    }
+}
+
+-(void)actionsheetCheeker
+{
+    if(mailFilter)
+    {
+        [self mailTo];
+    }
+    else if(smsFilter)
+    {
+        [self sendInAppSMS_referral];
+    }
 }
 
 //FaceBook SDK Implemetation
@@ -739,14 +776,17 @@
 //API calling
 -(void)mailToServer
 {
-    WebserviceController *wbh = [[WebserviceController alloc] init];
-    wbh.delegate = self;
-    for(int s=0;s<contactSelectedArray.count;s++)
+    if(contactSelectedArray.count !=0)
     {
-        NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s],@"message_title":userMessage.text,@"toolkit_id":toolkitLink};
-        [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
+        WebserviceController *wbh = [[WebserviceController alloc] init];
+        wbh.delegate = self;
+        for(int s=0;s<contactSelectedArray.count;s++)
+        {
+            NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s],@"message_title":userMessage.text,@"toolkit_id":toolkitLink};
+            [wbh call:dictData controller:@"broadcast" method:@"sendmail"]  ;
+        }
+        [SVProgressHUD showWithStatus:@"Sending Mail" maskType:SVProgressHUDMaskTypeBlack];
     }
-    [SVProgressHUD showWithStatus:@"Sending Mail" maskType:SVProgressHUDMaskTypeBlack];
 }
 
 -(void)addCustomNavigationBar
