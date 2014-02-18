@@ -71,7 +71,7 @@
     {
         NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
         NSString *peopleRefStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_referrals"]];
-        NSString *projectedEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"projected_earnings"]];
+        //NSString *projectedEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"projected_earnings"]];
         NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
     
         totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];

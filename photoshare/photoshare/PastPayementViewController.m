@@ -8,7 +8,6 @@
 
 #import "PastPayementViewController.h"
 #import "JXBarChartView.h"
-#import "CommonTopView.h"
 #import "SVProgressHUD.h"
 #import "NavigationBar.h"
 #import "ContentManager.h"

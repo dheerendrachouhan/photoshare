@@ -7,7 +7,6 @@
 //
 
 #import "AddEditFolderViewController.h"
-#import "CommonTopView.h"
 #import "CommunityViewController.h"
 #import "NavigationBar.h"
 #import "SVProgressHUD.h"
