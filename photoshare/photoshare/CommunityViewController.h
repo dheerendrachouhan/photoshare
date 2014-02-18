@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
 #import "WebserviceController.h"
-
+#import "DataMapperController.h"
 @class CollectionViewCell;
 @interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate,WebserviceDelegate>
 {
@@ -31,7 +31,7 @@
     WebserviceController *webservices;
         
     ContentManager *manager;
-    
+    DataMapperController *dmc;
     UIButton *editBtn;
     NSNumber *userid;
 

@@ -22,6 +22,8 @@
 -(void) sethomeIndex;
 -(BOOL) gethomeIndex;
 -(void) resetHomeIndex;
+-(void)setCollectionDataList :(NSMutableArray *)collectionArray;
+-(NSMutableArray *)getCollectionDataList;
 
 -(NSString * ) getUserId ;
 -(NSDictionary *) getUserDetails ;
