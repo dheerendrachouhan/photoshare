@@ -209,7 +209,8 @@
                 else
                 {
                     //save collectioon detail in nsuser default
-                    [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+                    [dmc setCollectionDataList:collectionArrayWithSharing];
+                    
                     [self getIncomeFromServer];
                 }
                 
@@ -222,7 +223,8 @@
                 {
                     
                     //save collectioon detail in nsuser default
-                    [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+                    [dmc setCollectionDataList:collectionArrayWithSharing];
+                    
                     isGetTheSharingCollectionListData=NO;
                     
                     [self getIncomeFromServer];
@@ -243,7 +245,6 @@
                 [self loadData];
             }
         }
-
     }
 }
 

@@ -41,6 +41,7 @@
     
     //webservice
     webservices=[[WebserviceController alloc] init];
+    dmc=[[DataMapperController alloc] init];
     //get the user ID from NSUSER Default
     userid=[manager getData:@"user_id"];
 
@@ -114,7 +115,7 @@
 }
 -(void)getCollectionInfoFromUserDefault
 {
-    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
+    NSMutableArray *collection=[dmc getCollectionDataList];
     [collectionDefaultArray removeAllObjects];
     [collectionIdArray removeAllObjects];
     [collectionNameArray removeAllObjects];
@@ -629,6 +630,12 @@
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
+-(void)navBackButtonClick{
+    if(![[self navigationController] popViewControllerAnimated:YES])
+    {
+        [self.tabBarController setSelectedIndex:0];
+    }
+}
 -(void)searchViewOpen
 {
     SearchPhotoViewController *searchController;
@@ -638,24 +645,9 @@
     }
     else{
         searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController" bundle:[NSBundle mainBundle]];
-
     }
     [self.navigationController pushViewController:searchController animated:NO];
 }
--(void)navBackButtonClick{
-    NSLog(@"Tab BAr Selected Index is %d",self.tabBarController.selectedIndex);
-    
-    if([[self navigationController] popViewControllerAnimated:YES])
-    {
-        
-    }
-    else
-    {
-        [self.tabBarController setSelectedIndex:0];
-    }
-    
-}
-
 
 
 @end

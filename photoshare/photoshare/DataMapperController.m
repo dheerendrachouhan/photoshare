@@ -115,6 +115,16 @@
     NSString *str= @"FALSE";
     [objManager storeData:str :@"setHomeIndex"];
 }
+//store the collection data list
+-(void)setCollectionDataList :(NSMutableArray *)collectionArray
+{
+    [objManager storeData:collectionArray :@"collection_data_list"];
+}
+-(NSMutableArray *)getCollectionDataList
+{
+    return [[objManager getData:@"collection_data_list"] mutableCopy];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

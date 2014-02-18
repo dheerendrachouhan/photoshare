@@ -135,6 +135,7 @@
     {
         photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     }
+    //get the collection  info from nsuser default
     [self getCollectionInfoFromUserDefault];
     
     photoGallery.isPublicFolder=YES;
