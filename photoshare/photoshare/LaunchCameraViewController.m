@@ -10,6 +10,23 @@
 #import "AppDelegate.h"
 #import "HomeViewController.h"
 #import "SVProgressHUD.h"
+
+
+@interface NoStatusBarImagePickerController : UIImagePickerController
+@end
+
+@implementation NoStatusBarImagePickerController
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return nil;
+}
+
+@end
+
 @interface LaunchCameraViewController ()
 
 @end
@@ -30,7 +47,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
     
     collectionIdArray=[[NSMutableArray alloc] init];
     collectionNameArray=[[NSMutableArray alloc] init];
@@ -63,11 +79,15 @@
                
                 picker.sourceType=UIImagePickerControllerSourceTypeCamera;
                 isCameraMode=YES;
+                
+
             }
             else
             {
                 picker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
             }
+            
+            [picker childViewControllerForStatusBarHidden];
             [self presentViewController:picker animated:YES completion:nil];
         
     }
