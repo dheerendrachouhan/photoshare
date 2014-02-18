@@ -321,19 +321,19 @@
     
     if([manager isiPad])
     {
-        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
-        titleLabel.frame=CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+        titleLabel.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 150.0, NavBtnHeightForiPad);
         titleLabel.font =[UIFont systemFontOfSize:23.0f];
         
     }
     else
     {
-        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         
-        titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+        titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
         titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
     

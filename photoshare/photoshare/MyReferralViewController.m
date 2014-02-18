@@ -196,17 +196,17 @@
     if([ObjManager isiPad])
     {
         navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 135)];
-        navTitle.frame = CGRectMake(290, 90, 250, 50);
+        navTitle.frame = CGRectMake(290, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
         navTitle.font = [UIFont systemFontOfSize:36.0f];
-        button.frame = CGRectMake(0.0, 100, 100.0, 30.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
     }
     else
     {
         navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
-        navTitle.frame = CGRectMake(110, 50, 120, 40);
+        navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
         navTitle.font = [UIFont systemFontOfSize:18.0f];
-        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
     navTitle.text = @"My Referrals";

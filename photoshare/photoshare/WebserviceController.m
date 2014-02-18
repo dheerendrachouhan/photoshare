@@ -82,7 +82,7 @@
                       @"123-mobile-logo.png" ];
     
     NSURL *filePath = [NSURL fileURLWithPath:path];
-    */
+    *///54.194.160.22
     
     //NSError* error = nil ;
     

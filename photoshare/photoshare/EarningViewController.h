@@ -11,6 +11,7 @@
 #import "DataMapperController.h"
 
 @class ContentManager;
+
 @interface EarningViewController : UIViewController<WebserviceDelegate>
 {
     IBOutlet UILabel *totalEarningLabel;

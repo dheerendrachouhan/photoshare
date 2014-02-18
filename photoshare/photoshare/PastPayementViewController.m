@@ -108,21 +108,21 @@
         //Initiating the frame of bar graph
         if([[UIScreen mainScreen] bounds].size.height == 568)
         {
-            frame = CGRectMake(0, 90, 320, 458);
+            frame = CGRectMake(0, 105, 320, 458);
             point = 20;
             bHeight = 30;
             bMaxWidth = 150;
         }
         else if([[UIScreen mainScreen] bounds].size.height == 480)
         {
-            frame = CGRectMake(0, 90, 320, 360);
+            frame = CGRectMake(0, 105, 320, 360);
             point = 20;
             bHeight = 20;
             bMaxWidth = 150;
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
-            frame = CGRectMake(0, 180, 768, 800);
+            frame = CGRectMake(0, 185, 768, 800);
             point = 40;
             bHeight = 60;
             bMaxWidth = 520;
@@ -141,7 +141,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar;
+    NavigationBar *navnBar= [[NavigationBar alloc] init];
     UILabel *navTitle = [[UILabel alloc] init];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -153,18 +153,16 @@
     
     if([objManager isiPad])
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 160)];
-        navTitle.frame = CGRectMake(280, 118, 250, 50);
+        navTitle.frame = CGRectMake(280, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
         navTitle.font = [UIFont systemFontOfSize:36.0f];
-        button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
     }
     else
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 75)];
-        navTitle.frame = CGRectMake(110, 40, 150, 40);
+        navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
         navTitle.font = [UIFont systemFontOfSize:18.0f];
-        button.frame = CGRectMake(0.0, 50, 70.0, 30.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
     

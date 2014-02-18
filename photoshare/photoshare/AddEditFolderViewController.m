@@ -669,7 +669,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
@@ -690,18 +690,18 @@
     }
     if([manager isiPad])
     {
-        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
-        titleLbl.frame=CGRectMake(self.view.center.x-70, 105, 140, 40);
+        titleLbl.frame=CGRectMake(self.view.center.x-70, NavBtnYPosForiPad, 140, NavBtnHeightForiPad);
         titleLbl.font=[UIFont fontWithName:@"Verdana" size:23];
     }
     else
     {
-        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         
-        titleLbl.frame=CGRectMake(100, 50, 120, 30);
+        titleLbl.frame=CGRectMake(100, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
         titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
     }
     

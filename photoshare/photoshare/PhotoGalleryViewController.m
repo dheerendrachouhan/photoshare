@@ -1583,12 +1583,12 @@
         titleLabel.textAlignment=NSTextAlignmentCenter;
         if([manager isiPad])
         {
-            titleLabel.frame=CGRectMake(self.view.center.x-75, 105.0, 150.0, 40.0);
+            titleLabel.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 150.0, NavBtnHeightForiPad);
             titleLabel.font = [UIFont systemFontOfSize:23.0f];
         }
         else
         {
-            titleLabel.frame = CGRectMake(100.0, 47.0, 120.0, 30.0);
+            titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
             titleLabel.font = [UIFont systemFontOfSize:17.0f];
         }
         
@@ -1601,12 +1601,12 @@
         UILabel *foldernamelabel=[[UILabel alloc] init];
         if([manager isiPad])
         {
-            foldernamelabel.frame=CGRectMake(self.view.frame.size.width-310, 105.0, 300.0, 40.0);
+            foldernamelabel.frame=CGRectMake(self.view.frame.size.width-310, NavBtnYPosForiPad, 300.0, NavBtnHeightForiPad);
             foldernamelabel.font=[UIFont fontWithName:@"Verdana" size:23.0f];
         }
         else
         {
-            foldernamelabel.frame=CGRectMake(90.0, 47.0, 220.0, 30.0);
+            foldernamelabel.frame=CGRectMake(90.0, NavBtnYPosForiPhone, 220.0, NavBtnHeightForiPhone);
             foldernamelabel.font=[UIFont fontWithName:@"Verdana" size:17.0f];
         }
         foldernamelabel.text=self.folderName;
@@ -1618,13 +1618,13 @@
     }
     if([manager isiPad])
     {
-        button.frame = CGRectMake(0.0, 105.0, 90.0, 40.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
     }
     else
     {
-        button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
 
@@ -1637,6 +1637,7 @@
    if(![[self navigationController] popViewControllerAnimated:YES])
    {
        [self.tabBarController setSelectedIndex:3];
+       [[self navigationController] popViewControllerAnimated:YES];
    }
 }
 
