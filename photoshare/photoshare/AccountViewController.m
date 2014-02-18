@@ -103,8 +103,7 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     {
         login= [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]] ;
     }
-    [self.navigationController presentViewController:login animated:NO completion:nil] ;
-
+    [self presentViewController:login animated:NO completion:nil] ;
 
 }
 -(IBAction)termCondition:(id)sender

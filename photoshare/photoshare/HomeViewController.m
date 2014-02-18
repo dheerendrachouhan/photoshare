@@ -50,9 +50,7 @@
     //[self.navigationController presentViewController:loginv animated:NO completion:nil];
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
-    //initialize the collectionId and name array
-    collectionIdArray=[[NSMutableArray alloc] init];
-    collectionNameArray=[[NSMutableArray alloc] init];
+   
     
     //rounded the Community Count Label
     photoCountLbl.layer.cornerRadius=12;
@@ -60,25 +58,11 @@
     photoCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
     
     
-    [self setContent];
     
-    //for Aviary
-    // Allocate Asset Library
-    ALAssetsLibrary * assetLibrary = [[ALAssetsLibrary alloc] init];
-    [self setAssetLibrary:assetLibrary];
-    
-    // Allocate Sessions Array
-    NSMutableArray * sessions = [NSMutableArray new];
-    [self setSessions:sessions];
-    
-    // Start the Aviary Editor OpenGL Load
-    [AFOpenGLManager beginOpenGLLoad];
-     dmc = [[DataMapperController alloc] init];
+    dmc = [[DataMapperController alloc] init];
     
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
 }
-
-
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -106,9 +90,7 @@
         photoCountLbl.hidden=NO;
         photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)[publicImgArray count]];        
     }
-    selectedCollectionId=Nil;
     
-     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -124,59 +106,7 @@
     return YES;
 }
 
--(void)setContent
-{
-    profilePicImgView.image=[UIImage imageNamed:@"homePageimg.jpeg"];
-}
--(void)getCollectionInfoFromUserDefault
-{
-    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
-    
-    [collectionIdArray removeAllObjects];
-    [collectionNameArray removeAllObjects];
-    @try {
-        for (int i=0;i<collection.count+1; i++)
-        {
-            if(i==0)
-            {
-                [collectionIdArray addObject:@0];
-                [collectionNameArray addObject:@"Add New Folder"];
 
-            }
-            else
-            {
-                NSNumber *coluserId=[[collection objectAtIndex:i-1] objectForKey:@"collection_user_id"];
-                if(coluserId.integerValue==userid.integerValue)
-                {
-                    [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
-                    [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
-                    
-                }
-                if([[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"public"])
-                {
-                    publicCollectionId=[[collection objectAtIndex:i-1] objectForKey:@"collection_id"];
-                    colOwnerId=coluserId;
-                    folderIndex=i-1;
-                }
-
-            }
-           
-        }
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Exec is %@",exception.description);
-    }
-    @finally {
-        
-    }
-    
-    
-}
-
--(void)getLocation:(NSString *)currentLocation
-{
-    NSLog(@"Currebt loca is %@",currentLocation);
-}
 -(IBAction)takePhoto:(id)sender
 {
     
@@ -190,27 +120,9 @@
         lcam=[[LaunchCameraViewController alloc] initWithNibName:@"LaunchCameraViewController" bundle:[NSBundle mainBundle]];
 
     }
+    lcam.isFromHomePage=YES;
     [self.navigationController pushViewController:lcam animated:YES];
-    /*photoLocationStr=@"";
-    [self callGetLocation];
-    
-    if(imagePicker==nil)
-    {
-        imagePicker=[[UIImagePickerController alloc] init];
-        imagePicker.delegate=self;
-    }
-    
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        isCameraMode=YES;
-        imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
-    }
-    else
-    {
-        isCameraMode=NO;
-        imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    }
-    [self presentViewController:imagePicker animated:YES completion:nil];*/
+
 }
 -(IBAction)goToPublicFolder:(id)sender
 {
@@ -223,6 +135,8 @@
     {
         photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     }
+    [self getCollectionInfoFromUserDefault];
+    
     photoGallery.isPublicFolder=YES;
     photoGallery.collectionId=publicCollectionId;
     photoGallery.folderName=@"Public";
@@ -231,6 +145,35 @@
     [self.navigationController pushViewController:photoGallery animated:YES];
     
 }
+-(void)getCollectionInfoFromUserDefault
+{
+    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
+   
+    @try {
+        for (int i=0;i<collection.count; i++)
+        {
+                NSNumber *coluserId=[[collection objectAtIndex:i] objectForKey:@"collection_user_id"];
+                
+                if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+                {
+                    publicCollectionId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
+                    colOwnerId=coluserId;
+                    folderIndex=i;
+                    break;
+                }
+                
+            }
+      
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exec is %@",exception.description);
+    }
+    @finally {
+        
+    }
+    
+}
+
 -(IBAction)goToCommunity:(id)sender
 {
     
@@ -239,7 +182,6 @@
     if([manager isiPad])
     {
         comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]];
-
     }
     else
     {
@@ -249,7 +191,6 @@
     comm.isInNavigation=YES;
     [self.navigationController pushViewController:comm animated:YES];
     self.navigationController.navigationBarHidden = NO;
-       
 }
 
 -(void)webserviceCallback:(NSDictionary *)data

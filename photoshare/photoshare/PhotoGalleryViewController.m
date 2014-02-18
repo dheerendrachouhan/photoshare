@@ -136,8 +136,6 @@
             addPhotoBtn.hidden=YES;
         }
     }
-    
-    
 }
     
 
@@ -151,12 +149,7 @@
     
     isPopFromPhotos=NO;
     isGoToViewPhoto=NO;
-    if (isCameraEditMode) {
-        isCameraEditMode = false ;
-        [NSTimer scheduledTimerWithTimeInterval:1.0f                                       target:self selector:@selector(openeditorcontrol)
-            userInfo:nil repeats:NO];
-        
-    }
+    
     if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
     {
         [manager storeData:@"NO" :@"istabcamera"];
@@ -263,7 +256,6 @@
             {
                
                 @try {
-                    
                     imagePicker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
                     [self presentViewController:imagePicker animated:YES completion:nil];
                 }
@@ -340,11 +332,20 @@
         {
             
             deleteImageCount=0;
+            NSString *imageReSize;
+            if([manager isiPad])
+            {
+                imageReSize=@"140";
+            }
+            else
+            {
+                imageReSize=@"80";
+            }
             //callling First Time Webservice for Get image from server
             webServices.delegate=self;
             NSNumber *num = [NSNumber numberWithInt:1] ;
             selectedPhotoId = [photoIdsArray objectAtIndex:photoIdIndex];
-            dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"80"};
+            dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
             
             [webServices call:dicData controller:@"photo" method:@"get"];
             
@@ -409,7 +410,17 @@
     isEditImageFromServer=YES;
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webServices.delegate=self;
-    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"image_resize":@"400",@"collection_id":self.collectionId};
+    
+    NSString *imageReSize;
+    if([manager isiPad])
+    {
+        imageReSize=@"700";
+    }
+    else
+    {
+        imageReSize=@"500";
+    }
+    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"image_resize":imageReSize,@"collection_id":self.collectionId};
     
     [self addProgressBar:@"Photo is Loading"];
     
@@ -1132,7 +1143,12 @@
         isCameraMode=NO;
         pickImage=image;
         [self dismissViewControllerAnimated:NO completion:Nil];
-        //[self launchPhotoEditorWithImage:image highResolutionImage:image];
+        if (isCameraEditMode) {
+            isCameraEditMode = false ;
+            [NSTimer scheduledTimerWithTimeInterval:1.0f                                       target:self selector:@selector(openeditorcontrol)
+                                           userInfo:nil repeats:NO];
+            
+        }
     }
     else
     {
@@ -1399,6 +1415,11 @@
 //fro add photo details
 -(void)addPhotoDescriptionView
 {
+    float textFieldBorderWidth=0.3;
+    if([manager isiPad])
+    {
+        textFieldBorderWidth=0.8f;
+    }
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
     UIColor *lblTextColor=[UIColor blackColor];
@@ -1430,7 +1451,7 @@
     title.font=[UIFont fontWithName:@"Verdana" size:13];
     
     photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 60, 140, 30)];
-    photoTitleTF.layer.borderWidth=0.3;
+    photoTitleTF.layer.borderWidth=textFieldBorderWidth;
     photoTitleTF.backgroundColor=[UIColor whiteColor];
     [photoTitleTF setDelegate:self];
     
@@ -1440,7 +1461,7 @@
     description.font=[UIFont fontWithName:@"Verdana" size:13];
     
     photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(100, 110, 140, 70)];
-    photoDescriptionTF.layer.borderWidth=0.3;
+    photoDescriptionTF.layer.borderWidth=textFieldBorderWidth;
     photoDescriptionTF.backgroundColor=[UIColor whiteColor];
     [photoDescriptionTF setDelegate:self];
     
@@ -1451,7 +1472,7 @@
     tag.font=[UIFont fontWithName:@"Verdana" size:13];
     
     phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 200, 140, 30)];
-    phototagTF.layer.borderWidth=0.3;
+    phototagTF.layer.borderWidth=textFieldBorderWidth;
     phototagTF.backgroundColor=[UIColor whiteColor];
     [phototagTF setDelegate:self];
     
@@ -1612,7 +1633,11 @@
 }
 
 -(void)navBackButtonClick{
-    [[self navigationController] popViewControllerAnimated:YES];
+    
+   if(![[self navigationController] popViewControllerAnimated:YES])
+   {
+       [self.tabBarController setSelectedIndex:3];
+   }
 }
 
 

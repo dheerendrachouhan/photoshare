@@ -52,6 +52,10 @@
     [photoTag setDelegate:self];
     
     photoDescriptionTxt.layer.borderWidth=0.3;
+    if([manager isiPad])
+    {
+        photoDescriptionTxt.layer.borderWidth=0.8;
+    }
     photoDescriptionTxt.layer.borderColor=[UIColor lightGrayColor].CGColor;
     
     
