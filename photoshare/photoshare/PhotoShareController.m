@@ -39,6 +39,7 @@
     NSMutableArray *contactSelectedArray;
     NSMutableArray *contactNoSelectedArray;
     int messagecount;
+    int mailSent;
 }
 
 @synthesize sharedImage, sharedImagesArray, otherDetailArray;
@@ -145,14 +146,6 @@
     }
 
 }
-
-
-//This function is not used here
--(void)webserviceCallback:(NSDictionary *)data
-{
-    NSLog(@"%@",data);
-}
-//////
 
 //Protocol for getting images....
 -(void)webserviceCallbackImage:(UIImage *)image
@@ -640,11 +633,23 @@
 {
     webSwevice = [[WebserviceController alloc] init];
     webSwevice.delegate = self;
+    mailSent = 0;
     for(int u=0;u<sharedImagesArray.count;u++)
     {
         NSDictionary *dictData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"email_addresses":userSelectedEmail,@"message_title":@"Join 123 Friday",@"collection_id":[otherDetailArray objectAtIndex:1],@"photo_id":[sharedImagesArray objectAtIndex:u]};
     
         [webSwevice call:dictData controller:@"broadcast" method:@"sendphotomail"];
+    }
+    [SVProgressHUD showWithStatus:@"Sharing Photo's" maskType:SVProgressHUDMaskTypeBlack];
+}
+
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSLog(@"%@",data);
+    mailSent++;
+    if(mailSent == sharedImagesArray.count)
+    {
+        [SVProgressHUD dismissWithSuccess:@"Done"];
     }
 }
 

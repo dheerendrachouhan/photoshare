@@ -83,7 +83,6 @@
 		E16F391418912C9C00064806 /* shared-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F38FF18912C9C00064806 /* shared-icon.png */; };
 		E16F3916189130A800064806 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F3915189130A800064806 /* folder-icon.png */; };
 		E16F3918189131C600064806 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E16F3917189131C600064806 /* wall.jpg */; };
-		E16F391B1891325600064806 /* CommonTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E16F391A1891325600064806 /* CommonTopView.m */; };
 		E16F392018914D4A00064806 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F391F18914D4A00064806 /* back.png */; };
 		E170E90218A4EE0E002D3D17 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E170E90118A4EE0E002D3D17 /* CoreLocation.framework */; };
 		E170E90818A4F10E002D3D17 /* GetUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = E170E90718A4F10E002D3D17 /* GetUserLocation.m */; };
@@ -339,8 +338,6 @@
 		E16F38FF18912C9C00064806 /* shared-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shared-icon.png"; sourceTree = "<group>"; };
 		E16F3915189130A800064806 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		E16F3917189131C600064806 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
-		E16F39191891325600064806 /* CommonTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTopView.h; sourceTree = "<group>"; };
-		E16F391A1891325600064806 /* CommonTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonTopView.m; sourceTree = "<group>"; };
 		E16F391F18914D4A00064806 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		E170E90118A4EE0E002D3D17 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E170E90618A4F10E002D3D17 /* GetUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetUserLocation.h; sourceTree = "<group>"; };
@@ -822,8 +819,6 @@
 				E1B074251899518600589867 /* AddEditFolderViewController.m */,
 				E17222AB18923AF900F28748 /* CollectionViewCell.h */,
 				E17222AC18923AF900F28748 /* CollectionViewCell.m */,
-				E16F39191891325600064806 /* CommonTopView.h */,
-				E16F391A1891325600064806 /* CommonTopView.m */,
 				E1B07427189951CC00589867 /* CommunityViewController.h */,
 				E1B07428189951CC00589867 /* CommunityViewController.m */,
 				E31B9E11189A4E6200722761 /* CustomCell.h */,
@@ -1318,7 +1313,6 @@
 				E1067DF8189AA7D600F08A5F /* AFHTTPSessionManager.m in Sources */,
 				E18A726D18AE421500C96B38 /* EditProfileViewController.m in Sources */,
 				E11AD1B018ACC4F600C6185E /* SearchPhotoViewController.m in Sources */,
-				E16F391B1891325600064806 /* CommonTopView.m in Sources */,
 				E1067DFB189AA7D600F08A5F /* AFURLConnectionOperation.m in Sources */,
 				E3BAA8EC18993ABC00ED2CA2 /* NSString+SBJSON.m in Sources */,
 				E3BAA8ED18993ABC00ED2CA2 /* SBJSON.m in Sources */,

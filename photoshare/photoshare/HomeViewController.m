@@ -11,7 +11,6 @@
 #import "AppDelegate.h"
 #import "CommunityViewController.h"
 #import "PhotoGalleryViewController.h"
-#import "CommonTopView.h"
 #import "EarningViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"

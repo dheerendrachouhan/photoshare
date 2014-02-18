@@ -13,7 +13,6 @@
 #import "ReferFriendViewController.h"
 #import "AccountViewController.h"
 #import "PhotoViewController.h"
-#import "CommonTopView.h"
 #import "WebserviceController.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "SVProgressHUD.h"

@@ -39,6 +39,7 @@
     NSMutableArray *contactNoSelectedArray; // need to be removed
     NSMutableDictionary *contactData;
     int messagecount;
+    int mailSent;
 }
 @synthesize stringStr,twitterTweet,toolkitLink;
 @synthesize referEmailStr,referPhoneStr,referredValue;
@@ -74,7 +75,7 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"ReferralStageFourVC_iPad" owner:self options:nil];
     }
-    
+    mailSent = 0;
     messagecount = 0;
     grant = NO;
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
@@ -746,7 +747,7 @@
         NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s],@"message_title":userMessage.text,@"toolkit_id":toolkitLink};
         [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
     }
-    [contactSelectedArray removeAllObjects];
+    [SVProgressHUD showWithStatus:@"Sending Mail" maskType:SVProgressHUDMaskTypeBlack];
 }
 
 -(void)addCustomNavigationBar
@@ -793,6 +794,13 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"WebService Data -- %@",data);
+    mailSent++;
+    if(contactSelectedArray.count == mailSent)
+    {
+        [SVProgressHUD dismissWithSuccess:@"Mail sent"];
+        mailSent = 0;
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
