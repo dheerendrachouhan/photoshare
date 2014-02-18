@@ -72,27 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/ReferralStageFourVC.m"
-            timestampString = "414338283.313942"
+            timestampString = "414388612.696338"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "697"
-            endingLineNumber = "697"
-            landmarkName = "-viewWillAppear:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "photoshare/ReferralStageFourVC.m"
-            timestampString = "414338295.02214"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "-postTofacebook:"
             landmarkType = "5">
             <Locations>
@@ -103,11 +87,11 @@
                   symbolName = "__38-[ReferralStageFourVC postTofacebook:]_block_invoke"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/ReferralStageFourVC.m"
-                  timestampString = "414340408.808294"
+                  timestampString = "414388613.362487"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "188"
-                  endingLineNumber = "188"
+                  startingLineNumber = "189"
+                  endingLineNumber = "189"
                   offsetFromSymbolStart = "244">
                </Location>
                <Location
@@ -117,11 +101,11 @@
                   symbolName = "__copy_helper_block_"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/ReferralStageFourVC.m"
-                  timestampString = "414340408.808682"
+                  timestampString = "414388613.364984"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "188"
-                  endingLineNumber = "188"
+                  startingLineNumber = "189"
+                  endingLineNumber = "189"
                   offsetFromSymbolStart = "20">
                </Location>
                <Location
@@ -131,11 +115,11 @@
                   symbolName = "__destroy_helper_block_"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/ReferralStageFourVC.m"
-                  timestampString = "414340408.809147"
+                  timestampString = "414388613.365399"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "188"
-                  endingLineNumber = "188"
+                  startingLineNumber = "189"
+                  endingLineNumber = "189"
                   offsetFromSymbolStart = "17">
                </Location>
             </Locations>
@@ -148,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/ReferralStageFourVC.m"
-            timestampString = "414338331.454492"
+            timestampString = "414388612.696338"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
+            startingLineNumber = "444"
+            endingLineNumber = "444"
             landmarkName = "-sendInAppSMS_referral"
             landmarkType = "5">
          </BreakpointContent>
@@ -195,7 +179,7 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "414340408.810458"
+                  timestampString = "414388613.366666"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "214"
@@ -209,7 +193,7 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "414340408.810822"
+                  timestampString = "414388613.368348"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "214"
