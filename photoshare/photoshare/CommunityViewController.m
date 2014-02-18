@@ -409,7 +409,7 @@
             {
                 obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                 obj_Cell.icon_img.hidden=NO;
-                obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
+                obj_Cell.icon_img.image=[UIImage imageNamed:@"sharedIcon.png"];
             }
 
             obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:index];

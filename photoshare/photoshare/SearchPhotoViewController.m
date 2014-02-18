@@ -97,6 +97,7 @@
         for (int i=0; i<searchResultArray.count; i++) {
             
             NSNumber *colId=[[searchResultArray objectAtIndex:i] objectForKey:@"photo_collection_id"];
+            
             @try {
                 NSLog(@"col is **%d",colId.integerValue);
                     [photDetailArray addObject:[searchResultArray objectAtIndex:i]];
