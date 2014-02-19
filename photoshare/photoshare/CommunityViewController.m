@@ -44,7 +44,7 @@
     dmc=[[DataMapperController alloc] init];
     //get the user ID from NSUSER Default
     userid=[manager getData:@"user_id"];
-
+    
     
     
     self.navigationItem.title = @"Community folders";
@@ -102,6 +102,11 @@
 {
     [super viewWillAppear:animated];
     
+    //clear the photoInfoArray from nsuser default
+    if([[manager getData:@"isEditPhotoInViewPhoto"] isEqualToString:@"YES"])
+    {
+        [manager removeData:@"photoInfoArray"];
+    }
 
     //get DiskSpace from server
     [self getStorageFromServer];
@@ -601,14 +606,14 @@
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     if([manager isiPad])
     {
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 110.0, NavBtnHeightForiPad);
+        button.titleLabel.font = [UIFont systemFontOfSize:30.0f];
         
-        titleLabel.frame = CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 150.0, NavBtnHeightForiPad);
-        titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        titleLabel.frame = CGRectMake(self.view.center.x-100, NavBtnYPosForiPad, 200, NavBtnHeightForiPad);
+        titleLabel.font = [UIFont systemFontOfSize:30.0f];
         
         searchBtn.frame=CGRectMake(self.view.frame.size.width-100, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        searchBtn.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        searchBtn.titleLabel.font = [UIFont systemFontOfSize:30.0f];
     }
     else
     {

@@ -19,7 +19,7 @@
 #import "NavigationBar.h"
 #import "AppDelegate.h"
 #import "SVProgressHUD.h"
-
+#import "ReferFriendViewController.h"
 #import "LaunchCameraViewController.h"
 
 @interface HomeViewController ()
@@ -121,6 +121,15 @@
 
     }
     lcam.isFromHomePage=YES;
+   /* ReferFriendViewController *rvc;
+    if ([manager isiPad]) {
+        rvc=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+         rvc=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:[NSBundle mainBundle]];
+    }*/
+    
     [self.navigationController pushViewController:lcam animated:YES];
 
 }
