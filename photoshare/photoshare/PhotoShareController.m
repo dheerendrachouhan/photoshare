@@ -184,7 +184,10 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    [self ContactSelectorMethod];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select Email-Id from Contacts", @"Manually input Email", nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionSheet showInView:self.view];
 }
 
 - (IBAction)smsFilter_Btn:(id)sender {
@@ -192,7 +195,38 @@
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
-    [self ContactSelectorMethod];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select from Contacts", @"Manually enter contact", nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 0:
+            [self ContactSelectorMethod];
+            break;
+        case 1:
+            [self actionsheetCheeker];
+            break;
+        case 2:
+            NSLog(@"Cancelled");
+            break;
+    }
+}
+
+-(void)actionsheetCheeker
+{
+    if(mailFilter)
+    {
+        [self mailTo];
+    }
+    else if(smsFilter)
+    {
+        [self sendInAppSMS];
+    }
 }
 
 //FaceBook SDK Implemetation
@@ -407,6 +441,7 @@
 		case MessageComposeResultFailed:
 			[manager showAlert:@"Failed" msg:@"Something went wrong!! Please try again" cancelBtnTitle:@"Ok" otherBtn:nil];
             [contactNoSelectedArray removeAllObjects];
+            
             break;
 		case MessageComposeResultSent:
                 [alert show];
@@ -417,6 +452,11 @@
 	}
     
 	[self dismissModals];
+}
+
+-(void)getEmail:(NSArray *)emails
+{
+    NSLog(@"%@",emails);
 }
 
 //alertView
@@ -631,16 +671,19 @@
 
 -(void)sendToServer
 {
-    webSwevice = [[WebserviceController alloc] init];
-    webSwevice.delegate = self;
-    mailSent = 0;
-    for(int u=0;u<sharedImagesArray.count;u++)
+    if(userSelectedEmail.length != 0)
     {
-        NSDictionary *dictData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"email_addresses":userSelectedEmail,@"message_title":@"Join 123 Friday",@"collection_id":[otherDetailArray objectAtIndex:1],@"photo_id":[sharedImagesArray objectAtIndex:u]};
+        webSwevice = [[WebserviceController alloc] init];
+        webSwevice.delegate = self;
+        mailSent = 0;
+        for(int u=0;u<sharedImagesArray.count;u++)
+        {
+            NSDictionary *dictData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"email_addresses":userSelectedEmail,@"message_title":@"Join 123 Friday",@"collection_id":[otherDetailArray objectAtIndex:1],@"photo_id":[sharedImagesArray objectAtIndex:u]};
     
-        [webSwevice call:dictData controller:@"broadcast" method:@"sendphotomail"];
+            [webSwevice call:dictData controller:@"broadcast" method:@"sendphotomail"];
+        }
+        [SVProgressHUD showWithStatus:@"Sharing Photo's" maskType:SVProgressHUDMaskTypeBlack];
     }
-    [SVProgressHUD showWithStatus:@"Sharing Photo's" maskType:SVProgressHUDMaskTypeBlack];
 }
 
 -(void)webserviceCallback:(NSDictionary *)data

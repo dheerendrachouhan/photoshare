@@ -110,29 +110,42 @@
         {
             frame = CGRectMake(0, 105, 320, 458);
             point = 20;
-            bHeight = 30;
+            bHeight = 26;
             bMaxWidth = 150;
         }
         else if([[UIScreen mainScreen] bounds].size.height == 480)
         {
             frame = CGRectMake(0, 105, 320, 360);
             point = 20;
-            bHeight = 20;
+            bHeight = 17;
             bMaxWidth = 150;
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             frame = CGRectMake(0, 185, 768, 800);
             point = 40;
-            bHeight = 60;
+            bHeight = 50;
             bMaxWidth = 520;
         }
+        
         
         JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:bMaxWidth gradient:nil];
     
         [self.view addSubview:barChartView];
          
-        
+        /*
+        NSMutableArray *textIndicatorsz = [[NSMutableArray alloc] initWithObjects:@"Date 1", @"Date 2", @"Date 3", @"Date 4", @"Date 5",@"Date 6",@"Date 7",@"Date 8", nil];
+        NSMutableArray *valuesz = [[NSMutableArray alloc] initWithObjects:@0, @5, @10, @3, @7, @4, @2, @6, nil];
+        //CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame
+                                                                  startPoint:CGPointMake(point, point)
+                                                                      values:valuesz maxValue:10
+                                                              textIndicators:textIndicatorsz
+                                                                   textColor:[UIColor orangeColor]
+                                                                   barHeight:bHeight
+                                                                 barMaxWidth:bMaxWidth
+                                                                    gradient:nil];
+        [self.view addSubview:barChartView];*/
         [SVProgressHUD dismissWithSuccess:@"Loaded"];
     }
 }

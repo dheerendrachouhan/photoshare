@@ -39,22 +39,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "photoshare/ReferralStageFourVC.m"
-            timestampString = "414392578.581021"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
-            landmarkName = "-sendInAppSMS_referral"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "photoshare/PhotoShareController.m"
             timestampString = "414390488.448441"
             startingColumnNumber = "9223372036854775807"
@@ -87,12 +71,12 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "414401562.306923"
+                  timestampString = "414482684.448041"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "214"
                   endingLineNumber = "214"
-                  offsetFromSymbolStart = "3066">
+                  offsetFromSymbolStart = "3332">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -101,12 +85,12 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "414401562.307373"
+                  timestampString = "414482684.4484"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "214"
                   endingLineNumber = "214"
-                  offsetFromSymbolStart = "5062">
+                  offsetFromSymbolStart = "4690">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -252,6 +236,22 @@
             startingLineNumber = "405"
             endingLineNumber = "405"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/PhotoShareController.m"
+            timestampString = "414404025.791394"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "459"
+            endingLineNumber = "459"
+            landmarkName = "-getEmail:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

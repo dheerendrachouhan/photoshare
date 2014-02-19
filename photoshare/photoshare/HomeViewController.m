@@ -14,6 +14,7 @@
 #import "EarningViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "ReferFriendViewController.h"
 
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "NavigationBar.h"
@@ -110,14 +111,14 @@
 -(IBAction)takePhoto:(id)sender
 {
     
-    LaunchCameraViewController *lcam;
+    ReferFriendViewController *lcam;
     if([manager isiPad])
     {
-        lcam=[[LaunchCameraViewController alloc] initWithNibName:@"LaunchCameraViewController_iPad" bundle:[NSBundle mainBundle]];
+        lcam=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController_iPad" bundle:[NSBundle mainBundle]];
     }
     else
     {
-        lcam=[[LaunchCameraViewController alloc] initWithNibName:@"LaunchCameraViewController" bundle:[NSBundle mainBundle]];
+        lcam=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:[NSBundle mainBundle]];
 
     }
     lcam.isFromHomePage=YES;
