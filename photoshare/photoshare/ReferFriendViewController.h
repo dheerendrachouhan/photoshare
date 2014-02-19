@@ -17,7 +17,7 @@
     IBOutlet UIWebView *webViewReferral;
     ContentManager *objManager;
 }
--(void)openHomeController;
+
 @property (nonatomic, retain) IBOutlet UIWebView *webViewReferral;
 @property (nonatomic, retain) NSString *toolKitReferralStr;
 @property (nonatomic, retain) UICollectionView *collectionView;
