@@ -114,7 +114,7 @@
     isGetPhotoFromServer=NO;
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
-    [self getCollectionDetail];
+    [self getPhotoIdFromServer];
     
     //set the add ,delete photo btn visibility
     if([self.folderName isEqualToString:@"Public"] || [self.folderName isEqualToString:@"public"])
@@ -143,7 +143,6 @@
     [super viewWillAppear:animated];
     
     [self addCustomNavigationBar];
-   
     
     
     isPopFromPhotos=NO;
@@ -289,19 +288,23 @@
         }
         else if(buttonIndex==1)//Edit Detail
         {
-            EditPhotoDetailViewController *editPhotoDetail;
-            if([manager isiPad])
+            if(isPhotoOwner)
             {
-                editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+                EditPhotoDetailViewController *editPhotoDetail;
+                if([manager isiPad])
+                {
+                    editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+                }
+                else
+                {
+                    editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
+                }
+                editPhotoDetail.photoId=[photoIdsArray objectAtIndex:selectedEditImageIndex];
+                editPhotoDetail.collectionId=self.collectionId;
+                editPhotoDetail.selectedIndex=selectedEditImageIndex;
+                [self.navigationController pushViewController:editPhotoDetail animated:NO];
             }
-            else
-            {
-                editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
-            }
-            editPhotoDetail.photoId=[photoIdsArray objectAtIndex:selectedEditImageIndex];
-            editPhotoDetail.collectionId=self.collectionId;
-            editPhotoDetail.selectedIndex=selectedEditImageIndex;
-            [self.navigationController pushViewController:editPhotoDetail animated:NO];
+            
         }
         isEditPhotoMode=NO;
     }
@@ -357,26 +360,6 @@
         
     }
 
-    
-}
-//fetch the collection detail from server for read write permission check
--(void)getCollectionDetail
-{
-    @try {
-         [self addProgressBar:@"Standby"];
-        isGetCollectionDetails=YES;
-        webServices.delegate=self;
-        
-        NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
-        
-        [webServices call:dicData controller:@"collection" method:@"get"];
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
-    }
     
 }
 
@@ -506,14 +489,15 @@
                 //update the photo info  in nsuser default
                 NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
                 
-                NSDictionary *photoDetail=[photoinfoarray lastObject];
+               
+                size_t imageSize = CGImageGetBytesPerRow(pickImage.CGImage) * CGImageGetHeight(pickImage.CGImage);
                 
                 NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-                [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
+                [dic setObject:[NSString stringWithFormat:@"%@",[NSDate date]] forKey:@"collection_photo_added_date"];
                 [dic setObject:photoDescriptionStr forKey:@"collection_photo_description"];
                 [dic setObject:photoTitleStr forKey:@"collection_photo_title"];
                 [dic setObject:[outputData objectForKey:@"image_id"] forKey:@"collection_photo_id"];
-                [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
+                [dic setObject:[NSString stringWithFormat:@"%zu",imageSize] forKey:@"collection_photo_filesize"];
                 [dic setObject:userid forKey:@"collection_photo_user_id"];
                 //update photo info array in nsuser default
                 [photoinfoarray addObject:dic];
@@ -522,8 +506,15 @@
                 [manager storeData:data :@"photoInfoArray"];
                 
                 [photoInfoArray addObject:dic];
-                [collectionview reloadData];
+                if(self.isPublicFolder)
+                {
+                    //public img count for home page
+                    NSNumber *imgCout=[NSNumber numberWithInteger:photoArray.count];
+                    [manager storeData:imgCout :@"publicImgIdArray"];
+                }
                 
+                
+                [collectionview reloadData];
             }
           isSaveDataOnServer=NO;
         
@@ -536,14 +527,30 @@
                 NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
                 if(collectionContent.count>0)
                 {
+                    //set the collection details
+                    NSString *writeUserIdStr=[[outputData objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
+                    NSString *readUserIdStr=[[outputData objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
+                    //store in nsuserDefault
+                    NSArray *writePer=[outputData objectForKey:@"collection_write_user_ids"];
+                    NSArray *readPer=[outputData objectForKey:@"collection_read_user_ids"];
+                    isWritePermission=[writePer containsObject:userid];
+                    isReadPermission=[readPer containsObject:userid];
+                    if(isWritePermission)
+                    {
+                        addPhotoBtn.hidden=NO;
+                    }
+                    [manager storeData:writeUserIdStr :@"writeUserId"];
+                    [manager storeData:readUserIdStr :@"readUserId"];
+                    
+                    
+                    
+                    //set the photo id
                         [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
                     
                         [photoInfoArray addObjectsFromArray:[collectionContent allValues]];
                         //store photo info array in nsuser default ARRAY IS store in data format
-                        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
-                        [manager storeData:data:@"photoInfoArray"];
-                    
-                        NSLog(@"Photo info array %@",[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]] );
+                        NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
+                        [manager storeData:dat:@"photoInfoArray"];
                     
                     
                         [collectionview reloadData];
@@ -575,7 +582,8 @@
                 }
                 else
                 {
-                    
+                    NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
+                    [manager storeData:dat:@"photoInfoArray"];
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
                 }
@@ -584,50 +592,7 @@
             isGetPhotoIdFromServer=NO;
             
         }
-        else if (isGetCollectionDetails)
-        {
-            if(exitcode ==1)
-            {
-                @try {
-                    NSDictionary *outputData=[data objectForKey:@"output_data"];
-                    
-                    @try {
-                        
-                        NSString *writeUserIdStr=[[outputData objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
-                        NSString *readUserIdStr=[[outputData objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
-                        //store in nsuserDefault
-                        NSArray *writePer=[outputData objectForKey:@"collection_write_user_ids"];
-                        NSArray *readPer=[outputData objectForKey:@"collection_read_user_ids"];
-                        isWritePermission=[writePer containsObject:userid];
-                        isReadPermission=[readPer containsObject:userid];
-                        if(isWritePermission)
-                        {
-                            addPhotoBtn.hidden=NO;
-                        }
-                        [manager storeData:writeUserIdStr :@"writeUserId"];
-                        [manager storeData:readUserIdStr :@"readUserId"];
-                        
-                    }
-                    @catch (NSException *exception) {
-                        
-                    }
-                    @finally {
-                        
-                    }
-                    
-                }
-                @catch (NSException *exception) {
-                    
-                }
-                @finally {
-                    
-                }
-                isGetCollectionDetails=NO;
-                [self getPhotoIdFromServer];
-                
-            }
-            
-        }
+    
 }
 
 -(IBAction)deletePhoto:(id)sender
@@ -665,6 +630,15 @@
                         [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
                         [photoInfoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
                     }
+                    NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
+                    [manager storeData:dat:@"photoInfoArray"];
+                    if(self.isPublicFolder)
+                    {
+                        //public img count for home page
+                        NSNumber *imgCout=[NSNumber numberWithInteger:photoArray.count];
+                        [manager storeData:imgCout :@"publicImgIdArray"];
+                    }
+                    
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[NSString stringWithFormat:@"%d Photo deleted",sortedArray.count] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
                 
@@ -802,17 +776,29 @@
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
         if(isDeleteMode)
         {
+            NSLog(@"%hhd",cell.selected);
+            
             if(cell.selected==NO)
             {
                 if(photoArray.count>indexPath.row)
                 {
-                    UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
-                    checkBoxImg.layer.masksToBounds=YES;
-                    checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
-                    checkBoxImg.tag=1001;
-                    [cell.contentView addSubview:checkBoxImg];
+                    selectedEditImageIndex=indexPath.row;
+                    NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+                    if(photoUserId.integerValue==userid.integerValue)
+                    {
+                        UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
+                        checkBoxImg.layer.masksToBounds=YES;
+                        checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                        checkBoxImg.tag=1001;
+                        [cell.contentView addSubview:checkBoxImg];
+                        
+                        [selectedImagesIndex addObject:[NSNumber numberWithInteger:[indexPath row]]];
+                    }
+                    else
+                    {
+                        [manager showAlert:@"Warning" msg:@"You are not the owner of this Photo" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                    }
                     
-                    [selectedImagesIndex addObject:[NSNumber numberWithInteger:[indexPath row]]];
                 }
                 else
                 {
@@ -858,7 +844,8 @@
         {
             if(photoArray.count>indexPath.row)
             {
-            [self viewPhoto:indexPath];
+                selectedEditImageIndex=indexPath.row;
+                [self viewPhoto:indexPath];
             }
             else
             {
@@ -871,37 +858,43 @@
 }
 -(void)longPressHandle:(UILongPressGestureRecognizer *)gestureRecognizer
 {
+    [editBtn removeFromSuperview];
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
 
+         selectedEditImageIndex=indexPath.row;
+        NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+        
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
         if(collectionOwnerId.integerValue==userid.integerValue)
         {
             if(photoArray.count>0&&!isDeleteMode&&!isShareMode)
             {
                 
-                editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+5, 60, 50);
-                [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
-                [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
-                [collectionview addSubview:editBtn];
+                    editBtn.frame=CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+5, 60, 50);
+                    if([manager isiPad])
+                    {
+                        editBtn.frame=CGRectMake(cell.center.x-30, cell.frame.origin.y+5, 60, 50);
+                    }
+                    [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
+                    [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
+                    [collectionview addSubview:editBtn];
+               
+                
             }
         }
         else
         {
-            selectedEditImageIndex=indexPath.row;
+           
             if(isWritePermission)
             {
-                NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
-
                 if(photoUserId.integerValue==userid.integerValue)
                 {
                     UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
                     UIMenuItem *delete = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deletePhoto:)];
-                    
                     UIMenuController *menu = [UIMenuController sharedMenuController];
-                    
                     [menu setMenuItems:[NSArray arrayWithObjects:edit,delete, nil]];
                     [menu setTargetRect:CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+50, cell.frame.size.width, cell.frame.size.height) inView:cell.superview];
                     [menu setMenuVisible:YES animated:YES];
@@ -1064,13 +1057,15 @@
         {
             viewPhoto=[[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:[NSBundle mainBundle]];
         }
-        
+        NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+        viewPhoto.photoOwnerId=photoUserId;
         viewPhoto.photoId=[photoIdsArray objectAtIndex:indexPath.row];
         viewPhoto.smallImage=[photoArray objectAtIndex:indexPath.row];
         viewPhoto.isViewPhoto=YES;
         viewPhoto.collectionId=self.collectionId;
         viewPhoto.collectionOwnerId=self.collectionOwnerId;
         viewPhoto.selectedIndex=indexPath.row;
+        viewPhoto.isPublicFolder=self.isPublicFolder;
         NSLog(@"Selected index is %d",indexPath.row);
         isGoToViewPhoto=YES;
         if(self.isPublicFolder)
@@ -1099,11 +1094,23 @@
     CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
     NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
     @try {
-        //UIImage *image=  [photoArray objectAtIndex:[indexPath row]];
-        //[self launchPhotoEditorWithImage:image highResolutionImage:image];
+        
         isEditPhotoMode=YES;
-        UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
-        [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        selectedEditImageIndex=indexPath.row;
+        NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+        if(photoUserId.integerValue==userid.integerValue)
+        {
+            isPhotoOwner=YES;
+            UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
+            [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        }
+        else
+        {
+            isPhotoOwner=NO;
+            UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo", nil];
+            [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        }
+        
         
         selectedEditImageIndex=indexPath.row;
         

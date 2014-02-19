@@ -36,6 +36,8 @@
     WebserviceController *webservices;
     DataMapperController *dmc ;
     
+    BOOL isGetTheNoOfImagesInPublicFolder;
+    
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 

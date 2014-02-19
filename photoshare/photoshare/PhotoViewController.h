@@ -50,6 +50,8 @@
     BOOL isCameraMode;
     BOOL isCameraEditMode;
     
+    BOOL isPhotoOwner;
+    
     UIImage *originalImage;
     BOOL isoriginalImageGet;
     IBOutlet UIImageView *imageView;
@@ -72,12 +74,13 @@
 @property(nonatomic,retain)NSNumber *photoId;
 @property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,assign)NSNumber *collectionOwnerId;
-
+@property(nonatomic,assign)NSNumber *photoOwnerId;
 @property(nonatomic,assign)int selectedIndex;
 @property(nonatomic,retain)UIImage *smallImage;
 @property(nonatomic,retain)NSString *folderNameLocation;
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;
 @property(nonatomic,assign)BOOL isViewPhoto;
+@property(nonatomic,assign)BOOL isPublicFolder;
 @end
 

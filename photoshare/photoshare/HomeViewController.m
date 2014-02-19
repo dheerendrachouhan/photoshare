@@ -51,11 +51,21 @@
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
    
+    
+    //get the no of images in public folder
+    
+    
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     //rounded the Community Count Label
     photoCountLbl.layer.cornerRadius=12;
     photoCountLbl.layer.borderWidth=2;
+    
+    if([manager isiPad])
+    {
+        photoCountLbl.layer.cornerRadius=18;
+    }
+    
     photoCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
     
     
@@ -81,15 +91,15 @@
     welcomeName.text=[dic objectForKey:@"user_realname"];
     self.navigationController.navigationBarHidden=YES;
     
-    NSArray *publicImgArray=[manager getData:@"publicImgArray"];
-    if([publicImgArray count]==0)
+    NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
+    if(publicImgCount.integerValue==0)
     {
         photoCountLbl.hidden=YES;
     }
     else
     {
         photoCountLbl.hidden=NO;
-        photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)[publicImgArray count]];        
+        photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)publicImgCount.integerValue];
     }
     
 }
@@ -121,17 +131,7 @@
         lcam=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:[NSBundle mainBundle]];
 
     }
-    lcam.isFromHomePage=YES;
-   /* ReferFriendViewController *rvc;
-    if ([manager isiPad]) {
-        rvc=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController_iPad" bundle:[NSBundle mainBundle]];
-    }
-    else
-    {
-         rvc=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:[NSBundle mainBundle]];
-    }*/
-    
-    [self.navigationController pushViewController:lcam animated:YES];
+        [self.navigationController pushViewController:lcam animated:YES];
 
 }
 -(IBAction)goToPublicFolder:(id)sender

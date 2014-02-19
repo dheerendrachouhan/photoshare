@@ -41,7 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //initialize the WebService Object
-    webservices=[[WebserviceController alloc] init];
+   
     
     
     userid =[manager getData:@"user_id"];
@@ -65,7 +65,7 @@
     saveButton.layer.borderWidth=1;
     
     
-    
+    NSArray *photoInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
     @try {
          NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
         photoTitletxt.text=[[photoDetail  objectAtIndex:self.selectedIndex] objectForKey:@"collection_photo_title"];
@@ -145,10 +145,11 @@
         
         NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
         [manager storeData:data :@"photoInfoArray"];
-     
         
         NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":photoLocationString,@"photo_tags":photoTag.text,@"photo_collections":self.collectionId};
         
+         webservices=[[WebserviceController alloc] init];
+        webservices.delegate=self;
         [webservices call:dicData controller:@"photo" method:@"change"];
         
         [self.navigationController popViewControllerAnimated:YES];
@@ -160,8 +161,12 @@
     @finally {
         
     }
-   }
-
+}
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSNumber *exitCode=[data objectForKey:@"exit_code"];
+    NSString *user_message=[data objectForKey:@"user_message"];
+}
 -(IBAction)savePhotoDetail:(id)sender
 {
     [self savePhotoDetailOnServer];

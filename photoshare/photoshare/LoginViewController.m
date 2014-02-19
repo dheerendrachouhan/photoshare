@@ -242,6 +242,17 @@
                 manager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
                 
                 isGetIcomeDetail=NO;
+                [self getTheNoOfImagesInPublicFolderFromServer];
+            }
+            else if (isGetTheNoOfImagesInPublicFolder)
+            {
+                NSDictionary *outputData=[data objectForKey:@"output_data"];
+                NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
+                NSNumber *imgCout=[NSNumber numberWithInteger:collectionContent.count];
+                [manager storeData:imgCout :@"publicImgIdArray"];
+                
+                
+                isGetTheNoOfImagesInPublicFolder=NO;
                 [self removeDataFetchView];
                 
                 [self loadData];
@@ -353,6 +364,26 @@
     webservices.delegate=self;
     NSDictionary *dicData=@{@"user_id":userid};
     [webservices call:dicData controller:@"storage" method:@"get"];
+}
+-(void)getTheNoOfImagesInPublicFolderFromServer
+{
+    NSNumber *publicCollectionId;
+    NSMutableArray *collection=[dmc getCollectionDataList];
+    for (int i=0;i<collection.count; i++)
+    {
+        if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+        {
+            publicCollectionId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];            
+            break;
+        }
+    }
+
+    
+    isGetTheNoOfImagesInPublicFolder=YES;
+    webservices.delegate=self;
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":publicCollectionId};
+    [webservices call:dicData controller:@"collection" method:@"get"];
+    
 }
 //---------------------------
 //---------------------------

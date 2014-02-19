@@ -102,12 +102,7 @@
 {
     [super viewWillAppear:animated];
     
-    //clear the photoInfoArray from nsuser default
-    if([[manager getData:@"isEditPhotoInViewPhoto"] isEqualToString:@"YES"])
-    {
-        [manager removeData:@"photoInfoArray"];
-    }
-
+    
     //get DiskSpace from server
     [self getStorageFromServer];
     
@@ -493,6 +488,10 @@
             
             UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
             editBtn.frame=CGRectMake(cell.frame.origin.x+12, cell.frame.origin.y-10, 60, 50);
+            if([manager isiPad])
+            {
+                 editBtn.frame=CGRectMake(cell.center.x-30, cell.frame.origin.y-10, 60, 50);
+            }
             [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
             [editBtn addTarget:self action:@selector(editFolder:) forControlEvents:UIControlEventTouchUpInside];
             

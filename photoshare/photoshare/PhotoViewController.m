@@ -16,7 +16,7 @@
 @end
 
 @implementation PhotoViewController
-@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,selectedIndex,collectionOwnerId;
+@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,selectedIndex,collectionOwnerId,isPublicFolder,photoOwnerId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -63,7 +63,7 @@
     }
     else
     {
-        segmentControl.hidden=YES;
+        //segmentControl.hidden=YES;
     }
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -141,7 +141,6 @@
 -(void)openeditorcontrol
 {
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
-    
 }
 -(void)viewImage
 {
@@ -156,7 +155,9 @@
     [imgV addGestureRecognizer:doubleTap];
     [self.view addSubview:imgV];
 }
-- (IBAction)segmentSwitch:(id)sender {
+
+- (IBAction)segmentSwitch:(id)sender
+{
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     
@@ -179,8 +180,19 @@
         
         if(isoriginalImageGet)
         {
-            UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
-            [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+            if(self.photoOwnerId.integerValue==userid.integerValue)
+            {
+                isPhotoOwner=YES;
+                UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
+                [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+            }
+            else
+            {
+                isPhotoOwner=NO;
+                UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo", nil];
+                [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+            }
+            
         }
         else
         {
@@ -211,29 +223,31 @@
     }
     else if(buttonIndex==1)//Edit Detail
     {
-        @try {
-            EditPhotoDetailViewController *editPhotoDetail;
-            if([manager isiPad])
-            {
-                editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+        if(isPhotoOwner)
+        {
+            @try {
+                EditPhotoDetailViewController *editPhotoDetail;
+                if([manager isiPad])
+                {
+                    editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+                }
+                else
+                {
+                    editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
+                }
+                editPhotoDetail.photoId=self.photoId;
+                editPhotoDetail.collectionId=self.collectionId;
+                editPhotoDetail.selectedIndex=self.selectedIndex;
+                
+                [self.navigationController pushViewController:editPhotoDetail animated:YES];
             }
-            else
-            {
-                editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
+            @catch (NSException *exception) {
+                
             }
-            editPhotoDetail.photoId=self.photoId;
-            editPhotoDetail.collectionId=self.collectionId;
-            editPhotoDetail.selectedIndex=self.selectedIndex;
-            
-            [self.navigationController pushViewController:editPhotoDetail animated:YES];
+            @finally {
+                
+            }
         }
-        @catch (NSException *exception) {
-            
-        }
-        @finally {
-            
-        }
-       
     }
 }
 -(void)removveimageView
@@ -433,7 +447,12 @@
             [manager storeData:@"YES" :@"isEditPhotoInViewPhoto"];
             [manager storeData:imgData :@"photo"];
             [manager storeData:[outputData objectForKey:@"image_id"] :@"photoId"];
-
+            if(self.isPublicFolder)
+            {
+                //public img count for home page
+                NSNumber *imgCout=[NSNumber numberWithInteger:photoinfoarray.count];
+                [manager storeData:imgCout :@"publicImgIdArray"];
+            }
             
         }
         isSavePhotoOnServer=NO;

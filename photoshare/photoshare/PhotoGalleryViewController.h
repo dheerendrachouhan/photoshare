@@ -74,11 +74,10 @@
     BOOL isCameraEditMode;
     BOOL isPhotoPickMode;
     
-    BOOL isGetCollectionDetails;
-    
     //permission type of collection data
     BOOL isWritePermission;
     BOOL isReadPermission;
+    BOOL isPhotoOwner;
     
     NSString *assetUrlOfImage;
     

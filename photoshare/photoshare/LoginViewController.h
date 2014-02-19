@@ -44,6 +44,9 @@
     BOOL isGetSharingUserId;
     BOOL isGetTheOwnCollectionListData;
     BOOL isGetTheSharingCollectionListData;
+    BOOL isGetTheNoOfImagesInPublicFolder;
+
+    
     NSMutableArray *sharingIdArray;
     NSMutableArray *collectionArrayWithSharing;
     int countSharing;
