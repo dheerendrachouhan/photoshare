@@ -61,7 +61,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
-    selectedCollectionId=Nil;
+    selectedCollectionId=@0;
     [self callGetLocation];
     
     [self getCollectionInfoFromUserDefault];

@@ -47,8 +47,7 @@
     [manager storeData:@"NO" :@"isEditPhoto"];
     selectedImagesIndex=[[NSMutableArray alloc] init];
     //initialize the assets Library
-    library=[[ALAssetsLibrary alloc] init];
-    
+    library=[[ALAssetsLibrary alloc] init];    
     
    
     //set the design of the button
@@ -593,7 +592,6 @@
                     NSDictionary *outputData=[data objectForKey:@"output_data"];
                     
                     @try {
-                        
                         
                         NSString *writeUserIdStr=[[outputData objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
                         NSString *readUserIdStr=[[outputData objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
@@ -1663,7 +1661,6 @@
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError: %@", error);
-    
 }
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
