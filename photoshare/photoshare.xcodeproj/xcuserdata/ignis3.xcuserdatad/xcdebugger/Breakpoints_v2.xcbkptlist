@@ -71,12 +71,12 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "414482684.448041"
+                  timestampString = "414486099.814195"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "214"
                   endingLineNumber = "214"
-                  offsetFromSymbolStart = "3332">
+                  offsetFromSymbolStart = "3066">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -85,30 +85,14 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "414482684.4484"
+                  timestampString = "414486099.814664"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "214"
                   endingLineNumber = "214"
-                  offsetFromSymbolStart = "4690">
+                  offsetFromSymbolStart = "5062">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "photoshare/ReferFriendViewController.m"
-            timestampString = "414393741.102143"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
-            landmarkName = "-shouldAutorotateToInterfaceOrientation:"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

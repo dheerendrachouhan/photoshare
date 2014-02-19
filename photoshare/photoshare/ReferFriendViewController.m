@@ -127,7 +127,6 @@
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
     
-    //
     for(int i=1;i<=toolkitIDArr.count;i++)
     {
         NSString *toolName = [NSString stringWithFormat:@"Toolbox %d",i];
@@ -159,8 +158,6 @@
         _collectionView.layer.borderWidth = 0.5;
         _collectionView.layer.cornerRadius = 5;
     }
-    
-    
     
     [self.view addSubview:_collectionView];
     
@@ -212,7 +209,7 @@
     
 }
 
-//WEbView Required Delegates
+//push to referral stage 4 view controller
 -(void)chooseView
 {
     ReferralStageFourVC *rf4 = [[ReferralStageFourVC alloc] init];
@@ -278,22 +275,6 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
-}
-
--(void)openHomeController
-{
-    HomeViewController *hm =[[HomeViewController alloc] init];
-    [self.navigationController pushViewController:hm animated:NO];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    
-    //All orientations are accepted except for the upsidedown orientation
-    if(interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown) {
-        return YES;
-    } else {
-        return NO;
-    }
 }
 
 - (void)didReceiveMemoryWarning

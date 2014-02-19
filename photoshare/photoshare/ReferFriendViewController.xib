@@ -23,9 +23,12 @@
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <webView contentMode="scaleToFill" scalesPageToFit="YES" id="1sJ-lM-kkB">
+                <webView clipsSubviews="YES" contentMode="scaleToFill" scalesPageToFit="YES" id="1sJ-lM-kkB">
                     <rect key="frame" x="0.0" y="233" width="320" height="233"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="Yta-G4-UcA"/>
+                    </connections>
                 </webView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
