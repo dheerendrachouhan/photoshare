@@ -109,10 +109,6 @@
             @finally {
                 
             }
-           
-           
-            
-            
         }
         isSearchPhoto=NO;
         if(photDetailArray.count>0)
@@ -127,8 +123,6 @@
             [manager showAlert:@"Message" msg:@"No Photo Found" cancelBtnTitle:@"Ok" otherBtn:Nil];
         }
     }
-    
-    
 }
 //get Photo From Server
 -(void)getPhotoFromServer :(int)photoIdIndex imageResize:(NSString *)resize
@@ -147,7 +141,6 @@
             NSNumber *num = [NSNumber numberWithInt:1] ;
            
             dicData = @{@"user_id":userid,@"photo_id":photoId,@"get_image":num,@"collection_id":colId,@"image_resize":resize};
-            
             [webservice call:dicData controller:@"photo" method:@"get"];
             
         }
@@ -158,8 +151,6 @@
     @finally {
         
     }
-    
-    
 }
 -(void)webserviceCallbackImage:(UIImage *)image
 {

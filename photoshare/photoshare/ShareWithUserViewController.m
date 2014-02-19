@@ -36,9 +36,6 @@
      userid=[manager getData:@"user_id"];
     [self addCustomNavigationBar];
     
-    
-    
-    
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
     float tfBackViewBorderWidth=2;
@@ -50,7 +47,6 @@
     shareSearchView.layer.borderWidth=tfBackViewBorderWidth;
     shareSearchView.layer.cornerRadius=tfBackViewCornerRadius;
     shareSearchView.layer.borderColor=tfBackViewBorderColor.CGColor;
-    
     
     sharingUserListCollView.layer.borderColor=[UIColor darkGrayColor].CGColor;
     sharingUserListCollView.layer.borderWidth=1;
@@ -309,12 +305,18 @@
     username.font=[UIFont fontWithName:@"verdana" size:13];
     username.text=[sharingUserNameArray objectAtIndex:indexPath.row];
 
-    UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-15, 0, 15, 15)];
-    btn.tag=indexPath.row;
-    [btn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(removeShareUser:) forControlEvents:UIControlEventTouchUpInside];
+    //user remove btn
+    if(self.collectionOwnerId.integerValue==userid.integerValue)
+    {
+        UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-15, 0, 15, 15)];
+        btn.tag=indexPath.row;
+        [btn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(removeShareUser:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:btn];
+    }
+    
     [cell.contentView addSubview:username];
-    [cell.contentView addSubview:btn];
+    
     return cell;
 }
 -(IBAction)addUserInSharing:(id)sender

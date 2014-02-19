@@ -113,7 +113,6 @@
     
     for (int i=1;i<collection.count; i++)
     {
-        
         [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
         [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
         

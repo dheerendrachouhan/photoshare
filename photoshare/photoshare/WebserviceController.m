@@ -51,7 +51,6 @@
        }
         else
         {
-        
         NSDictionary *JSON = (NSDictionary *) responseObject;
         
         [self.delegate webserviceCallback:JSON];
@@ -69,13 +68,12 @@
 
 -(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSData *)imageData{
     
-    
     //manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = postData;
     
   /*
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                         NSUserDomainMask, YES);
+            NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString* path = [documentsDirectory stringByAppendingPathComponent:
                       @"123-mobile-logo.png" ];

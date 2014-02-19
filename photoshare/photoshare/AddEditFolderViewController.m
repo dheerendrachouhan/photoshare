@@ -71,9 +71,11 @@
     
     //drop down setting
    userid=[manager getData:@"user_id"];
-    
+    shareForReadingWithBtn.hidden=NO;
+    shareForWritingWithBtn.hidden=NO;
     if(self.isEditFolder)
     {
+        crossBtnForTF.hidden=NO;
         addButton.hidden=YES;
         saveButton.hidden=NO;
         deleteButton.hidden=NO;
@@ -86,16 +88,29 @@
        
         if(self.collectionOwnerId.integerValue != userid.integerValue)
         {
+            crossBtnForTF.hidden=YES;
             addButton.hidden=YES;
             saveButton.hidden=YES;
             deleteButton.hidden=YES;
             folderName.enabled=NO;
             folderNameView.userInteractionEnabled=NO;
         }
+        if([self.setFolderName isEqualToString:@"Private"] || [self.setFolderName isEqualToString:@"private"])
+        {
+            crossBtnForTF.hidden=YES;
+            addButton.hidden=YES;
+            saveButton.hidden=YES;
+            deleteButton.hidden=YES;
+            folderName.enabled=NO;
+            folderNameView.userInteractionEnabled=NO;
+            shareForReadingWithBtn.hidden=YES;
+            shareForWritingWithBtn.hidden=YES;
+        }
      
     }
     else if(self.isAddFolder)
     {
+        crossBtnForTF.hidden=NO;
         addButton.hidden=NO;
         saveButton.hidden=YES;
         deleteButton.hidden=YES;
@@ -105,6 +120,7 @@
         collectionOwnerNameLbl.text=[dic objectForKey:@"user_realname"];
     }
     
+
     
     //tap getsure on view for dismiss the keyboard
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]

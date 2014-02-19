@@ -8,11 +8,14 @@
             <connections>
                 <outlet property="addButton" destination="A2T-49-isG" id="lYp-3n-mN4"/>
                 <outlet property="collectionOwnerNameLbl" destination="UnN-2K-zDr" id="rpc-JG-qZp"/>
+                <outlet property="crossBtnForTF" destination="Yj9-TS-XfG" id="6ke-E6-Nx6"/>
                 <outlet property="deleteButton" destination="gaK-jH-mwO" id="KFR-lK-GvZ"/>
                 <outlet property="folderName" destination="CeT-09-z0D" id="hGs-Us-cHR"/>
                 <outlet property="folderNameView" destination="qg9-d2-zHT" id="slx-5v-VCo"/>
                 <outlet property="saveButton" destination="pXp-aO-0b0" id="oDY-gd-hrT"/>
                 <outlet property="scrollView" destination="9Fu-hu-Y5m" id="LyJ-Od-bUZ"/>
+                <outlet property="shareForReadingWithBtn" destination="p5B-NR-aID" id="QLy-Rt-fgL"/>
+                <outlet property="shareForWritingWithBtn" destination="zWm-52-rGZ" id="uA0-fk-SdP"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -56,7 +59,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" id="qg9-d2-zHT">
-                            <rect key="frame" x="47" y="86" width="210" height="35.00000244067008"/>
+                            <rect key="frame" x="47" y="86" width="210" height="35.000002363945583"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" tag="1101" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Collection Name" minimumFontSize="17" id="CeT-09-z0D">

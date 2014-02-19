@@ -126,6 +126,7 @@
     for (int i=0;i<collection.count; i++)
     {
         @try {
+             
             if(![[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]&& ![[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
             {
                 [collectionDefaultArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_default"]];
@@ -460,6 +461,7 @@
                 photoGallery.folderName=[collectionNameArray objectAtIndex:index];
                 photoGallery.collectionId=[collectionIdArray objectAtIndex:index];
                 photoGallery.collectionOwnerId=[collectionUserIdArray objectAtIndex:index];
+                [manager storeData:@"NO" :@"istabcamera"];
                 
                 [self.navigationController pushViewController:photoGallery animated:YES];
             }

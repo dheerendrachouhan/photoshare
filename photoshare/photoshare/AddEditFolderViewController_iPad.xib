@@ -8,11 +8,14 @@
             <connections>
                 <outlet property="addButton" destination="aeU-VQ-jxv" id="tCo-Ft-Jyy"/>
                 <outlet property="collectionOwnerNameLbl" destination="AV2-qM-2U9" id="eKT-Lr-SBM"/>
+                <outlet property="crossBtnForTF" destination="Caf-Lh-94k" id="hQz-hJ-qp2"/>
                 <outlet property="deleteButton" destination="xyj-d9-6PJ" id="sQB-0g-clW"/>
                 <outlet property="folderName" destination="qKF-IC-PrA" id="rcJ-tD-owV"/>
                 <outlet property="folderNameView" destination="R1R-D8-oRa" id="Tgd-UV-wPN"/>
                 <outlet property="saveButton" destination="i2a-2f-Vmp" id="R9G-8r-3LN"/>
                 <outlet property="scrollView" destination="pF9-mf-OEU" id="YXP-91-SS0"/>
+                <outlet property="shareForReadingWithBtn" destination="RcM-Wm-Yrs" id="Xdu-vC-Sjf"/>
+                <outlet property="shareForWritingWithBtn" destination="iF6-Yq-Tw0" id="gor-Fd-smh"/>
                 <outlet property="view" destination="1" id="zG3-Gj-spl"/>
             </connections>
         </placeholder>

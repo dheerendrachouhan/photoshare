@@ -19,6 +19,9 @@
     IBOutlet UITextField *folderName;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UILabel *collectionOwnerNameLbl;
+    IBOutlet UIButton *shareForWritingWithBtn;
+    IBOutlet UIButton *shareForReadingWithBtn;
+    IBOutlet UIButton *crossBtnForTF;
     NSNumber *userid;
     ContentManager *manager;
     WebserviceController *webservices;
