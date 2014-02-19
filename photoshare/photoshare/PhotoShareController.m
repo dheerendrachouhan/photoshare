@@ -186,7 +186,7 @@
     smsFilter = NO;
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select Email-Id from Contacts", @"Manually input Email", nil];
     
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
 }
 
@@ -197,7 +197,7 @@
     mailFilter = NO;
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select from Contacts", @"Manually enter contact", nil];
     
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
 }
 
@@ -212,7 +212,7 @@
             [self actionsheetCheeker];
             break;
         case 2:
-            NSLog(@"2");
+            NSLog(@"Cancelled");
             break;
     }
 }

@@ -148,7 +148,7 @@
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select Email-Id from Contacts", @"Manually input Email", nil];
     
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
     
 }
@@ -161,7 +161,7 @@
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select from Contacts", @"Manually enter contact", nil];
     
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
 }
 
@@ -176,7 +176,7 @@
             [self actionsheetCheeker];
             break;
         case 2:
-            NSLog(@"2");
+            NSLog(@"Cancelled");
             break;
     }
 }
@@ -782,8 +782,8 @@
         wbh.delegate = self;
         for(int s=0;s<contactSelectedArray.count;s++)
         {
-            NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s],@"message_title":userMessage.text,@"toolkit_id":toolkitLink};
-            [wbh call:dictData controller:@"broadcast" method:@"sendmail"]  ;
+            NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s]};
+            [wbh call:dictData controller:@"referral" method:@"store"]  ;
         }
         [SVProgressHUD showWithStatus:@"Sending Mail" maskType:SVProgressHUDMaskTypeBlack];
     }

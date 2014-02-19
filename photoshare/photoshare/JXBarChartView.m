@@ -74,11 +74,11 @@
 
 - (void)setLabelDefaults:(UILabel *)label
 {
-    label.textColor = self.textColor;
+    label.textColor = [UIColor colorWithRed:0.125 green:0.514 blue:0.769 alpha:1];
     label.font = [UIFont systemFontOfSize:13.5];
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        label.font = [UIFont systemFontOfSize:25.0];
+        label.font = [UIFont systemFontOfSize:30.0];
     }
     [label setTextAlignment:NSTextAlignmentLeft];
     label.adjustsFontSizeToFitWidth = YES;
@@ -109,6 +109,7 @@
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         poundBar = 660;
+        barMargin = 40;
     }
     else
     {
