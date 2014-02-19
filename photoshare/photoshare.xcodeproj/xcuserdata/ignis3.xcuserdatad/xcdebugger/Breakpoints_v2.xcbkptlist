@@ -71,12 +71,12 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "414404749.135561"
+                  timestampString = "414405101.846135"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "214"
                   endingLineNumber = "214"
-                  offsetFromSymbolStart = "3066">
+                  offsetFromSymbolStart = "3332">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -85,12 +85,12 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/photoshare/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "414404749.136031"
+                  timestampString = "414405101.846658"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "214"
                   endingLineNumber = "214"
-                  offsetFromSymbolStart = "5062">
+                  offsetFromSymbolStart = "4690">
                </Location>
             </Locations>
          </BreakpointContent>
