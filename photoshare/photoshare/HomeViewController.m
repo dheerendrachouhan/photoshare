@@ -92,7 +92,7 @@
     userid=[dic objectForKey:@"user_id"];
     welcomeName.text=[dic objectForKey:@"user_realname"];
     self.navigationController.navigationBarHidden=YES;
-    
+    //publicImgesCount
     NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
     if(publicImgCount.integerValue==0)
     {
@@ -173,9 +173,7 @@
                     folderIndex=i;
                     break;
                 }
-                
             }
-      
     }
     @catch (NSException *exception) {
         NSLog(@"Exec is %@",exception.description);
@@ -183,7 +181,6 @@
     @finally {
         
     }
-    
 }
 
 -(IBAction)goToCommunity:(id)sender
@@ -207,7 +204,6 @@
 
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    
     NSLog(@"Data %@",data);
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
     if([servicesStr isEqualToString:@"two"])
@@ -220,7 +216,6 @@
             servicesStr = @"";
         }
     }
-    
 }
 
 -(void)addCustomNavigationBar

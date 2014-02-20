@@ -59,6 +59,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    imageView.layer.masksToBounds=YES;
     imageView.image = sharedImage;
     fbFilter = NO;
     twFilter = NO;
@@ -639,7 +640,7 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
+    
     // navnBar.backgroundColor = [UIColor redColor];
     
     UILabel *photoTitleLBL=[[UILabel alloc] init];

@@ -314,6 +314,7 @@
 //get PhotoId From Server
 -(void)getPhotoIdFromServer
 {
+    [self addProgressBar:@"Standby"];
     isGetPhotoIdFromServer=YES;
     
     webServices.delegate=self;
@@ -469,7 +470,6 @@
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    
     NSDictionary *outputData=[data objectForKey:@"output_data"];
    
     NSLog(@"outPutData is %@",outputData);
@@ -512,8 +512,6 @@
                     NSNumber *imgCout=[NSNumber numberWithInteger:photoArray.count];
                     [manager storeData:imgCout :@"publicImgIdArray"];
                 }
-                
-                
                 [collectionview reloadData];
             }
             else
@@ -728,10 +726,10 @@
                 PhotoShareController *photoShare;
                 if([manager isiPad])
                 {
-                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController_iPad" bundle:[NSBundle mainBundle]];
+                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController_iPad" bundle:nil];
                 }
                 else{
-                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController" bundle:[NSBundle mainBundle]];
+                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController" bundle:nil];
                 }
                 
                 photoShare.otherDetailArray = userDetail;
@@ -996,7 +994,9 @@
     }
    	NSLog(@"Photo Edit");
 }
-//send mail
+// How much?' underneath the icon. Of you cannot find a suitable graphic then please use a calculator graphic.
+
+//send mail.
 - (void)reportAbuse:(id)sender {
     
     isMailSendMode=YES;//for photo loading
@@ -1062,7 +1062,19 @@
         {
             viewPhoto=[[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:[NSBundle mainBundle]];
         }
+        
+        NSLog(@"isWritePermission:%hhd",isWritePermission);
+         NSLog(@"isReadPermission:%hhd",isReadPermission);
+        
         NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+        if(!isWritePermission && isReadPermission)
+        {
+            viewPhoto.isOnlyReadPermission=YES;
+        }
+        else
+        {
+            viewPhoto.isOnlyReadPermission=NO;
+        }
         viewPhoto.photoOwnerId=photoUserId;
         viewPhoto.photoId=[photoIdsArray objectAtIndex:indexPath.row];
         viewPhoto.smallImage=[photoArray objectAtIndex:indexPath.row];

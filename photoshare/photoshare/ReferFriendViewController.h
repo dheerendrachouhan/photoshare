@@ -12,7 +12,7 @@
 #import <EventKitUI/EventKitUI.h>
 
 @class ContentManager;
-@interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIWebViewDelegate>
 {
     IBOutlet UIWebView *webViewReferral;
     ContentManager *objManager;

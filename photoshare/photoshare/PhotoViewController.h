@@ -57,6 +57,7 @@
     IBOutlet UIImageView *imageView;
     IBOutlet UISegmentedControl *segmentControl;
     IBOutlet UILabel *folderLocationShowLabel;
+    IBOutlet UIButton *photoViewBtn;
     //for add photo Detail
     UIView *backViewPhotDetail;
     UITextField *photoTitleTF;
@@ -69,6 +70,7 @@
     NSString *photoLocationStr; //userLoaction is save
 }
 - (IBAction)segmentSwitch:(id)sender;
+- (IBAction)viewPhoto:(id)sender;
 //for Aviary
 
 @property(nonatomic,retain)NSNumber *photoId;
@@ -82,5 +84,7 @@
 @property (nonatomic, strong) NSMutableArray * sessions;
 @property(nonatomic,assign)BOOL isViewPhoto;
 @property(nonatomic,assign)BOOL isPublicFolder;
+@property(nonatomic,assign)BOOL isOnlyReadPermission;
+
 @end
 

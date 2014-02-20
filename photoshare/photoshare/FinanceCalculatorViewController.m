@@ -287,9 +287,6 @@
 - (IBAction)hidethreeView:(id)sender {
     [self.cutomView setHidden:NO];
 }
-- (IBAction)hideFinalView:(id)sender {
-    [self.cutomView setHidden:YES];
-}
 
 //Custom Navigation
 -(void)addCustomNavigationBar

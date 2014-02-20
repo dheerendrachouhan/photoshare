@@ -93,7 +93,6 @@
     collectionSharedArray=[[NSMutableArray alloc] init];
     collectionSharingArray=[[NSMutableArray alloc] init];
     collectionUserIdArray=[[NSMutableArray alloc] init];
-    
     //update the collection info in nsuser default from server
     
 }
@@ -146,7 +145,7 @@
         
     }
     [collectionview reloadData];
-    
+    //[self getSharingusersId];
 }
 
 -(void)getStorageFromServer
@@ -199,6 +198,7 @@
     }
     
 }
+//fetch shareing collection info from server
 -(void)fetchSharingCollectionInfoFromServer
 {
     @try {
@@ -259,7 +259,7 @@
                 
                 isGetStorage=NO;
                 
-                //[self getSharingusersId];
+                
             }
             @catch (NSException *exception) {
                 
@@ -282,7 +282,16 @@
             {
                 @try {
                     [sharingIdArray addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
-                }
+                       if([collectionUserIdArray containsObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]])
+                        {
+                            NSLog(@"Contain");
+                        }
+                        else
+                        {
+                            NSLog(@"Not Contain");
+                        }
+                        
+                    }
                 @catch (NSException *exception) {
                     
                 }
@@ -360,31 +369,7 @@
         {
            
             int shared=[[collectionSharedArray objectAtIndex:index] intValue];
-            //int sharing=[[collectionSharingArray objectAtIndex:index] intValue];
-            //BOOL flag=FALSE;
-            
-                 /*if(sharing==1)
-                 {
-                     obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-                     obj_Cell.icon_img.hidden=NO;
-                     obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon.png"];
-                      flag=TRUE;                        }
-                 else
-                 {
-                     
-                     obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-                     obj_Cell.icon_img.hidden=YES;
-                 }
-            
-             if(!flag && shared==1)
-             {
-                 obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
-                 obj_Cell.icon_img.hidden=NO;
-                 obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon3.png"];
-
-             }*/
-            
-            
+                        
             int colOwnerId=[[collectionUserIdArray objectAtIndex:index] integerValue];
             
             if(userid.integerValue==colOwnerId)

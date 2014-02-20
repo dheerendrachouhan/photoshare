@@ -17,6 +17,7 @@
 
 @implementation PhotoViewController
 @synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,selectedIndex,collectionOwnerId,isPublicFolder,photoOwnerId;
+@synthesize  isOnlyReadPermission;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,26 +45,77 @@
     {
         folderLocationShowLabel.text=self.folderNameLocation;
         imageView.image=self.smallImage;
-        [self getImageFromServer];
+        
         UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [activityIndicator startAnimating];
         activityIndicator.tag=1100;
         activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |                                        UIViewAutoresizingFlexibleRightMargin |                                        UIViewAutoresizingFlexibleTopMargin |                                        UIViewAutoresizingFlexibleBottomMargin);
         activityIndicator.center = CGPointMake(CGRectGetWidth(imageView.bounds)/2, CGRectGetHeight(imageView.bounds)/2);
         [imageView addSubview:activityIndicator];
+        
+        if([self getImageFromDocumentDirectory:photoId.integerValue]!=(id)nil)
+        {
+            UIActivityIndicatorView *indeicator=(UIActivityIndicatorView *)[imageView viewWithTag:1100];
+            [indeicator removeFromSuperview];
+            imageView.image=[self getImageFromDocumentDirectory:photoId.integerValue];
+            originalImage=[self getImageFromDocumentDirectory:photoId.integerValue];
+            isoriginalImageGet=YES;
+        }
+        else
+        {
+            [self getImageFromServer];
+        }
     }
     UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewImage)];
     doubleTap.numberOfTapsRequired=2;
     [imageView addGestureRecognizer:doubleTap];
     
 
-    if(self.collectionOwnerId.integerValue==userid.integerValue)
+    //photoViewBtnBorderSet
+    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+    photoViewBtn.layer.cornerRadius=5;
+    if([manager isiPad])
     {
-        segmentControl.hidden=NO;
+        photoViewBtn.layer.cornerRadius=10;
+    }
+    photoViewBtn.layer.borderColor=btnBorderColor.CGColor;
+    photoViewBtn.layer.borderWidth=1;
+    segmentControl.hidden=NO;
+    photoViewBtn.hidden=YES;
+    if(isOnlyReadPermission)
+    {
+        segmentControl.hidden=YES;
+        photoViewBtn.hidden=NO;
+    }
+}
+-(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@OriginalImage%@photoID_%@.png",userid,self.folderNameLocation,[NSNumber numberWithInteger:index]]];
+    UIImage *image = img; // imageView is my image from camera
+    NSData *imgData1 = UIImagePNGRepresentation(image);
+    [imgData1 writeToFile:savedImagePath atomically:NO];
+    
+}
+-(UIImage *)getImageFromDocumentDirectory :(NSInteger)index
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,    NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@OriginalImage%@photoID_%@.png",userid,self.folderNameLocation,[NSNumber numberWithInteger:index]]];
+    UIImage *img = [UIImage imageWithContentsOfFile:getImagePath];
+    return img;
+    
+}
+- (IBAction)viewPhoto:(id)sender
+{
+    if(isoriginalImageGet)
+    {
+        [self viewImage];
     }
     else
     {
-        //segmentControl.hidden=YES;
+        [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
     }
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -103,6 +155,8 @@
     imageView.image=image;
     originalImage=image;
     isoriginalImageGet=YES;
+    
+    [self saveImageInDocumentDirectry:image index:self.photoId.integerValue];
 }
 -(void)getCollectionInfoFromUserDefault
 {
@@ -258,7 +312,15 @@
 -(void)shareImage:(UIImage *)imageToShare
 {
     //UIImage *shareImg = imageToShare;
-    PhotoShareController *photoShare = [[PhotoShareController alloc] init];
+    PhotoShareController *photoShare;
+    if([manager isiPad])
+    {
+        photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController_iPad" bundle:nil];
+    }
+    else{
+        photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController" bundle:nil];
+    }
+    
     photoShare.sharedImage = imageToShare;
     
     [self.navigationController pushViewController:photoShare animated:YES];
@@ -337,8 +399,7 @@
 {
     
     pickImage=image;
-     imageView.image=pickImage;
-    originalImage=pickImage;
+    
     
      imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -452,6 +513,8 @@
                 NSNumber *imgCout=[NSNumber numberWithInteger:photoinfoarray.count];
                 [manager storeData:imgCout :@"publicImgIdArray"];
             }
+            imageView.image=pickImage;
+            originalImage=pickImage;
             
         }
         else

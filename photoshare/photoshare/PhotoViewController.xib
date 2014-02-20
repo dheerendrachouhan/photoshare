@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="folderLocationShowLabel" destination="EtP-Bk-sDW" id="hGG-Ty-2xh"/>
                 <outlet property="imageView" destination="Zt0-jW-0MP" id="51w-9S-LtF"/>
+                <outlet property="photoViewBtn" destination="Vuv-Zs-2so" id="p4T-ke-Gyz"/>
                 <outlet property="segmentControl" destination="hXd-ql-F46" id="gDE-hz-KEa"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -46,6 +47,17 @@
                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Vuv-Zs-2so">
+                    <rect key="frame" x="135" y="482" width="59" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="View">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="viewPhoto:" destination="-1" eventType="touchUpInside" id="pCq-6o-poy"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

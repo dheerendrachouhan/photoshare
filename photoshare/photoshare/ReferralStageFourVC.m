@@ -387,6 +387,7 @@
                             if(totalCount == 0)
                             {
                                 [SVProgressHUD dismissWithError:@"No Twitter ID's Found"];
+                                [objManager showAlert:@"Alert" msg:@"No Twitter ID Found or There are zero Follower in your Twitter account" cancelBtnTitle:@"Ok" otherBtn:nil];
                             }
                         }
                     });
@@ -833,11 +834,20 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"WebService Data -- %@",data);
+    NSNumber *numb = [data objectForKey:@"exit_code"];
     mailSent++;
     if(contactSelectedArray.count == mailSent)
     {
-        [SVProgressHUD dismissWithSuccess:@"Mail sent"];
-        mailSent = 0;
+        if([numb integerValue]==0)
+        {
+            [SVProgressHUD dismissWithSuccess:@"Emailaddress is not a valid email address"];
+            mailSent = 0;
+        }
+        else
+        {
+            [SVProgressHUD dismissWithSuccess:@"Mail sent"];
+            mailSent = 0;
+        }
     }
     
 }

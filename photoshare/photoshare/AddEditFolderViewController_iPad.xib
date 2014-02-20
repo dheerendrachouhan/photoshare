@@ -14,8 +14,8 @@
                 <outlet property="folderNameView" destination="R1R-D8-oRa" id="Tgd-UV-wPN"/>
                 <outlet property="saveButton" destination="i2a-2f-Vmp" id="R9G-8r-3LN"/>
                 <outlet property="scrollView" destination="pF9-mf-OEU" id="YXP-91-SS0"/>
-                <outlet property="shareForReadingWithBtn" destination="RcM-Wm-Yrs" id="Xdu-vC-Sjf"/>
-                <outlet property="shareForWritingWithBtn" destination="iF6-Yq-Tw0" id="gor-Fd-smh"/>
+                <outlet property="shareForReadingWithBtn" destination="iF6-Yq-Tw0" id="cY3-K1-IWi"/>
+                <outlet property="shareForWritingWithBtn" destination="RcM-Wm-Yrs" id="OlW-R1-OhL"/>
                 <outlet property="view" destination="1" id="zG3-Gj-spl"/>
             </connections>
         </placeholder>
@@ -86,27 +86,27 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iF6-Yq-Tw0">
-                            <rect key="frame" x="203" y="315" width="400" height="55"/>
+                            <rect key="frame" x="312" y="334" width="183" height="55"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                            <state key="normal" title="Share for Writing With">
+                            <state key="normal" title="Share - view only">
                                 <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="shareForWritingWith:" destination="-1" eventType="touchUpInside" id="0RS-S1-UfZ"/>
+                                <action selector="shareForReadingWith:" destination="-1" eventType="touchUpInside" id="xxY-78-QoE"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RcM-Wm-Yrs">
-                            <rect key="frame" x="203" y="409" width="400" height="47"/>
+                            <rect key="frame" x="260" y="409" width="286" height="47"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                            <state key="normal" title="Share for Reading With">
+                            <state key="normal" title="Share - view &amp; add pictures">
                                 <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="shareForReadingWith:" destination="-1" eventType="touchUpInside" id="4HR-Hx-4vv"/>
+                                <action selector="shareForWritingWith:" destination="-1" eventType="touchUpInside" id="5Yd-Wa-yNQ"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Collection Owner Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jkm-mg-QEC">

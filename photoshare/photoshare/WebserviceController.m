@@ -29,9 +29,6 @@
 
 -(void) call:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method
 {
-    
-
-    
     NSDictionary *parameters = postData;
   
     if([controller isEqualToString:@"photo"] && [method isEqualToString:@"get"])
@@ -40,7 +37,8 @@
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
     //www.burningwindmill.com
-    [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    //http://54.229.193.111/api/
+    [manager POST:[NSString stringWithFormat:@"http://54.194.160.22/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
        if( [responseObject isKindOfClass:[UIImage class]] )
@@ -64,8 +62,6 @@
 }
 
 
-
-
 -(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSData *)imageData{
     
     //manager = [AFHTTPRequestOperationManager manager];
@@ -85,7 +81,7 @@
     
     
     
-   [manager POST:[NSString stringWithFormat:@"http://www.burningwindmill.com/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+   [manager POST:[NSString stringWithFormat:@"http://54.194.160.22/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         //[formData appendPartWithFileURL:filePath name:@"file" error: nil];
          [formData appendPartWithFileData:imageData name:@"file" fileName:@"photo.png" mimeType:@"image/png"];
         

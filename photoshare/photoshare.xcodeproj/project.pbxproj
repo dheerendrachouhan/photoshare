@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E10624A918B6345B0068FD01 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10624A818B6345B0068FD01 /* MediaPlayer.framework */; };
+		E10624AB18B634930068FD01 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10624AA18B634930068FD01 /* MediaToolbox.framework */; };
+		E10624AD18B63A110068FD01 /* play-button.png in Resources */ = {isa = PBXBuildFile; fileRef = E10624AC18B63A110068FD01 /* play-button.png */; };
+		E10624AF18B64F470068FD01 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10624AE18B64F470068FD01 /* CoreMedia.framework */; };
 		E1067DBD189A50AB00F08A5F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DBC189A50AB00F08A5F /* Accelerate.framework */; };
 		E1067DBF189A50BA00F08A5F /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DBE189A50BA00F08A5F /* AdSupport.framework */; };
 		E1067DC1189A50C200F08A5F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1067DC0189A50C200F08A5F /* CoreData.framework */; };
@@ -247,6 +251,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E10624A818B6345B0068FD01 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		E10624AA18B634930068FD01 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
+		E10624AC18B63A110068FD01 /* play-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-button.png"; sourceTree = "<group>"; };
+		E10624AE18B64F470068FD01 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E1067DBC189A50AB00F08A5F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E1067DBE189A50BA00F08A5F /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		E1067DC0189A50C200F08A5F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -554,6 +562,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E10624AF18B64F470068FD01 /* CoreMedia.framework in Frameworks */,
+				E10624AB18B634930068FD01 /* MediaToolbox.framework in Frameworks */,
+				E10624A918B6345B0068FD01 /* MediaPlayer.framework in Frameworks */,
 				E302861218AE4FB800574650 /* libAviarySDK.a in Frameworks */,
 				E31C575918AA01EF003ED684 /* AddressBookUI.framework in Frameworks */,
 				E31C575818AA01EA003ED684 /* AddressBook.framework in Frameworks */,
@@ -775,6 +786,9 @@
 		FC97638E188FEB89008DF1F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E10624AE18B64F470068FD01 /* CoreMedia.framework */,
+				E10624AA18B634930068FD01 /* MediaToolbox.framework */,
+				E10624A818B6345B0068FD01 /* MediaPlayer.framework */,
 				E170E90118A4EE0E002D3D17 /* CoreLocation.framework */,
 				E3DDA757189A6B1700144C43 /* libAviarySDK.a */,
 				E1067DCE189A514000F08A5F /* SystemConfiguration.framework */,
@@ -923,6 +937,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E10624AC18B63A110068FD01 /* play-button.png */,
 				E30DF42E18B47E7E00FE6CB3 /* referr-icon.png */,
 				E107D3C718B201C400D8D310 /* homePageimg.jpeg */,
 				E31A556718A4A08E00B0015B /* home.png */,
@@ -1215,6 +1230,7 @@
 				E31A558218A502E800B0015B /* folder-icon-bottom@2x.png in Resources */,
 				E1B07430189952DB00589867 /* PhotoGalleryViewController.xib in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
+				E10624AD18B63A110068FD01 /* play-button.png in Resources */,
 				E16F3916189130A800064806 /* folder-icon.png in Resources */,
 				E31767621898BED100923E35 /* edit.png in Resources */,
 				E3188DAA1893BABF004ACF77 /* currencyselector_btn.png in Resources */,

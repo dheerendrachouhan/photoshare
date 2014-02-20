@@ -90,6 +90,8 @@
     }
     
     toolKitReferralStr = @"";
+    webViewReferral.scalesPageToFit = YES;
+    webViewReferral.autoresizesSubviews = YES;
 }
 
 
@@ -162,6 +164,8 @@
     [self.view addSubview:_collectionView];
     
     [_collectionView registerClass:[CustomCells class] forCellWithReuseIdentifier:@"CustomCells"];
+    
+    
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -275,6 +279,22 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+}
+
+
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+//For Delegate
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 - (void)didReceiveMemoryWarning
