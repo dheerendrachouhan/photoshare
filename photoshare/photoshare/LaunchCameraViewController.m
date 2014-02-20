@@ -136,6 +136,11 @@
                 NSNumber *coluserId=[[collection objectAtIndex:i-1] objectForKey:@"collection_user_id"];
                 if(coluserId.integerValue==userid.integerValue)
                 {
+                    //get the public collection id
+                    if([[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"public"])
+                    {
+                        publicCollectionId=[[collection objectAtIndex:i-1] objectForKey:@"collection_id"];
+                    }
                     [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
                     [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
                     
@@ -335,7 +340,6 @@
 
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    [self removePickerView];
     [SVProgressHUD dismiss];
     
     NSLog(@"Data %@",data);
@@ -362,20 +366,28 @@
 
             [self categoryDoneButtonPressed];//For save the photo
         }
-        
     }
     else if (isPhotoSavingMode)
     {
         if(exitCode.integerValue==1)
         {
+            if(selectedCollectionId.integerValue==publicCollectionId.integerValue)
+            {
+                //for public imgarray count lbl for home page
+                NSNumber *imgCout=[manager getData:@"publicImgIdArray"];
+                int i=imgCout.integerValue+1;
+                [manager storeData:[NSNumber numberWithInt:i] :@"publicImgIdArray"];
+            }
             NSLog(@"Photo saving Suucees ");
+            
         }
         else
         {
             NSLog(@"Photo saving Fail ");
-            
+            [manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
             
         }
+         [self removePickerView];
         isPhotoSavingMode=NO;
     }
     

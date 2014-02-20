@@ -126,6 +126,19 @@
 }
 
 
+//remove all the data on Logout from nsuser default except Remember fields
+-(void)removeAllData
+{
+    NSString *rememberMe=[self getRemeberMe];
+    NSDictionary *remeberFeild=[self getRememberFields];
+    //remove all of the data from nsuser default
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+    
+    [self setRememberMe:rememberMe];
+    [self setRememberFields:remeberFeild];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -172,11 +172,9 @@
     }
     
 }
-
+//webservices call back
 -(void)webserviceCallback:(NSDictionary *)data
 {
-   
-    
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     [SVProgressHUD dismiss];
     if (isGetSharingWriteUserName)
@@ -192,7 +190,6 @@
                 [sharingUserListCollView reloadData];
             }
         }
-        
     }
     else if (isGetSharingReadUserName)
     {
@@ -207,11 +204,9 @@
                 [sharingUserListCollView reloadData];
             }
         }
-        
     }
     else if (isSearchUserList)
-    {
-        
+    {        
         if(exitCode ==1)
         {
             for (UIView *view in [searchView subviews]) {
@@ -283,7 +278,6 @@
 //colllection view delgate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    
     return sharingUserNameArray.count;
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -366,7 +360,7 @@
 -(void)removeShareUser :(id)sender
 {
     UIButton *btn=(UIButton *)sender;
-    NSLog(@"index is %d",btn.tag);
+   
     @try {
         [sharingUserNameArray removeObjectAtIndex:btn.tag];
         [sharingUserIdArray removeObjectAtIndex:btn.tag];

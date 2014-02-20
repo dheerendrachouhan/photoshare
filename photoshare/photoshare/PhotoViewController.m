@@ -454,6 +454,11 @@
             }
             
         }
+        else
+        {
+            NSLog(@"Photo saving failed");
+            [manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
         isSavePhotoOnServer=NO;
         
     }

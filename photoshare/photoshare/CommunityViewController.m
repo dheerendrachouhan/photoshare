@@ -146,15 +146,13 @@
         
     }
     [collectionview reloadData];
-    //
     
 }
 
 -(void)getStorageFromServer
 {
     @try {
-        //[SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
-
+       
         isGetStorage=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};

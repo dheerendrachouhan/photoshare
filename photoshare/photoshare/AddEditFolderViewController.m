@@ -289,7 +289,6 @@
     isSave=YES;
   
     if (writeUserIds == nil) {
-    
     writeUserIds=@"";
     }
     

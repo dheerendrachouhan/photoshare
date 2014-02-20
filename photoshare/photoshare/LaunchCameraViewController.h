@@ -32,6 +32,7 @@
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
     
+    NSNumber *publicCollectionId;
     NSNumber *selectedCollectionId;
     NSData *imgData;
     UIPickerView *categoryPickerView;

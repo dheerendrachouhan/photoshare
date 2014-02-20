@@ -28,6 +28,8 @@
 -(BOOL) gethomeIndex;
 -(void) resetHomeIndex;
 -(void)setCollectionDataList :(NSMutableArray *)collectionArray;
+-(void)removeAllData;
+
 -(NSMutableArray *)getCollectionDataList;
 
 -(NSString * ) getUserId ;

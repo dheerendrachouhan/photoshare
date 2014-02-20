@@ -452,7 +452,7 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@photoID_%@.png",folderName,[photoIdsArray objectAtIndex:index]]];
+    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@%@photoID_%@.png",userid,folderName,[photoIdsArray objectAtIndex:index]]];
     UIImage *image = img; // imageView is my image from camera
     NSData *imgData = UIImagePNGRepresentation(image);
     [imgData writeToFile:savedImagePath atomically:NO];
@@ -462,7 +462,7 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,    NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@photoID_%@.png",folderName,[photoIdsArray objectAtIndex:index]]];
+    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@%@photoID_%@.png",userid,folderName,[photoIdsArray objectAtIndex:index]]];
     UIImage *img = [UIImage imageWithContentsOfFile:getImagePath];
     return img;
    
@@ -515,6 +515,11 @@
                 
                 
                 [collectionview reloadData];
+            }
+            else
+            {
+                NSLog(@"Photo saving failed");
+                [manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
             }
           isSaveDataOnServer=NO;
         

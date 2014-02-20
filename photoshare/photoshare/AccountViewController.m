@@ -94,6 +94,8 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 -(IBAction)logout:(id)sender
 {
+    [dmc removeAllData];//remove data from nsuser default
+    
     LoginViewController *login;
     if([objManager isiPad])
     {

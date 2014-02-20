@@ -79,6 +79,8 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    //for launch camera
+    [manager storeData:@"NO" :@"istabcamera"];
     
    UIView *vi = [self.tabBarController.view viewWithTag:11];
     
