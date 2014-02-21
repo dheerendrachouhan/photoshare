@@ -93,6 +93,7 @@
     {
         [photDetailArray removeAllObjects];
         [photoArray removeAllObjects];
+    
         searchResultArray=[data objectForKey:@"output_data"];
         for (int i=0; i<searchResultArray.count; i++) {
             
@@ -115,8 +116,9 @@
         {
             photoCount=0;
             isGetPhotoFromServer=YES;
-            [self getPhotoFromServer:0 imageResize:@"80"];
             [collectionViewForPhoto reloadData];
+            [self getPhotoFromServer:0 imageResize:@"80"];
+
         }
         else
         {
@@ -156,6 +158,7 @@
 {
     if(isGetPhotoFromServer)
     {
+
         [photoArray addObject:image];
         photoCount++;
         int count=photoArray.count;
@@ -163,7 +166,9 @@
         UIImageView *imgView=(UIImageView *)[collectionViewForPhoto viewWithTag:100+count];
         UIActivityIndicatorView *indicator=(UIActivityIndicatorView *)[collectionViewForPhoto viewWithTag:1100+count];
         [indicator removeFromSuperview];
+        imgView.backgroundColor=[UIColor clearColor];
         imgView.image=image;
+        [collectionViewForPhoto reloadData];
         
         
         if(photoCount<photDetailArray.count)
@@ -217,8 +222,12 @@
 {
     static NSString *identifier=@"CVCell";
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    
+    for (UIView *vi in [cell.contentView subviews]) {
+        [vi removeFromSuperview];
+    }
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height-25)];
+    
+    int x=indexPath.row;
     
     imgView.tag=101+indexPath.row;
     imgView.layer.masksToBounds=YES;
@@ -231,9 +240,6 @@
     photoTitleLbl.text=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_title"];
     
     
-    for (UIView *view in [cell.contentView subviews]) {
-        [view removeFromSuperview];
-    }
     
     @try {
         
@@ -241,6 +247,7 @@
         {
             UIImage *image=[photoArray objectAtIndex:indexPath.row];
             imgView.image=image;
+            
         }
         else
         {
@@ -266,6 +273,7 @@
     
     [cell.contentView addSubview:imgView];
     [cell.contentView addSubview:photoTitleLbl];
+
     return cell;
 }
 

@@ -14,7 +14,7 @@
 {
     IBOutlet UISearchBar *searchBarForPhoto;
     IBOutlet UICollectionView *collectionViewForPhoto;
-    
+       
     WebserviceController *webservice;
     ContentManager *manager;
     NSNumber *userid;
@@ -28,6 +28,8 @@
     BOOL isGetPhotoFromServer;
     BOOL isGetOriginalPhotoFromServer;
     BOOL isPopFromSearchPhoto;
+    
+
     UIImageView *imgView1;
 }
 

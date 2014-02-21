@@ -145,11 +145,6 @@
             [webservices call:dicdata controller:@"user" method:@"get"];
         }
     }
-    else
-    {
-        
-    }
-    
     
 }
 -(void)getReadSharingUserList
@@ -166,10 +161,7 @@
             [webservices call:dicdata controller:@"user" method:@"get"];
         }
     }
-    else
-    {
-        
-    }
+    
     
 }
 //webservices call back
@@ -299,7 +291,9 @@
     username.font=[UIFont fontWithName:@"verdana" size:13];
     username.text=[sharingUserNameArray objectAtIndex:indexPath.row];
 
-    //user remove btn
+   
+     [cell.contentView addSubview:username];
+     //user remove btn
     if(self.collectionOwnerId.integerValue==userid.integerValue)
     {
         UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-15, 0, 15, 15)];
@@ -309,28 +303,37 @@
         [cell.contentView addSubview:btn];
     }
     
-    [cell.contentView addSubview:username];
+   
     
     return cell;
 }
 -(IBAction)addUserInSharing:(id)sender
 {
-    if(searchUserTF.text>0)
+    if(searchUserTF.text.length>0)
     {
         if([searchUserTF.text isEqualToString:selecteduserName])
         {
-            if([sharingUserIdArray containsObject:selectedUserId])
+            if(selectedUserId.integerValue==userid.integerValue)
             {
-                [manager showAlert:@"Message" msg:@"Already Share this User" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                [manager showAlert:@"Message" msg:@"You can not share to yourself" cancelBtnTitle:@"Ok" otherBtn:Nil];
                 searchUserTF.text=@"";
             }
             else
             {
-                [sharingUserIdArray addObject:selectedUserId];
-                [sharingUserNameArray addObject:selecteduserName];
-                [sharingUserListCollView reloadData];
-                searchUserTF.text=@"";
+                if([sharingUserIdArray containsObject:selectedUserId])
+                {
+                    [manager showAlert:@"Message" msg:@"Already Share this User" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                    searchUserTF.text=@"";
+                }
+                else
+                {
+                    [sharingUserIdArray addObject:selectedUserId];
+                    [sharingUserNameArray addObject:selecteduserName];
+                    [sharingUserListCollView reloadData];
+                    searchUserTF.text=@"";
+                }
             }
+           
         }
         else
         {

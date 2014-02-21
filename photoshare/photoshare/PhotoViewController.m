@@ -138,11 +138,11 @@
     NSString *imageReSize;
     if([manager isiPad])
     {
-        imageReSize=@"700";
+        imageReSize=@"900";
     }
     else
     {
-        imageReSize=@"500";
+        imageReSize=@"700";
     }
     NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
     
