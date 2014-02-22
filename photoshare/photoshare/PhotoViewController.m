@@ -39,12 +39,13 @@
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
     
-    
+    imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.layer.masksToBounds=YES;
+    imageView.backgroundColor=[UIColor blackColor];
     if(self.isViewPhoto)
     {
         folderLocationShowLabel.text=self.folderNameLocation;
-        imageView.image=self.smallImage;
+        //imageView.image=self.smallImage;
         
         UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [activityIndicator startAnimating];
@@ -135,15 +136,8 @@
 {
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webservices.delegate=self;
-    NSString *imageReSize;
-    if([manager isiPad])
-    {
-        imageReSize=@"900";
-    }
-    else
-    {
-        imageReSize=@"700";
-    }
+    NSString *imageReSize=@"0";
+    
     NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
     
     [webservices call:dicData controller:@"photo" method:@"get"];
@@ -152,6 +146,7 @@
 {
     UIActivityIndicatorView *indeicator=(UIActivityIndicatorView *)[imageView viewWithTag:1100];
     [indeicator removeFromSuperview];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.image=image;
     originalImage=image;
     isoriginalImageGet=YES;
@@ -197,12 +192,13 @@
 }
 -(void)viewImage
 {
-    UIImageView *imgV=[[UIImageView alloc ] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-40)];
+    imgV=[[UIImageView alloc ] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-self.tabBarController.tabBar.frame.size.height)];
     imgV.tag=10000;
+    imgV.backgroundColor=[UIColor blackColor];
     imgV.userInteractionEnabled=YES;
-    imgV.layer.masksToBounds=YES;
+    imgV.contentMode=UIViewContentModeScaleAspectFit;
     imgV.image=originalImage;
-    
+    NSLog(@"Image Size %f,%f",originalImage.size.width,originalImage.size.height);
     UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removveimageView)];
     doubleTap.numberOfTapsRequired=2;
     [imgV addGestureRecognizer:doubleTap];
@@ -224,8 +220,6 @@
         {
             [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
         }
-       
-
     }
     else if (selectedSegment == 1) {//Edit image
         photoLocationStr=@"";
@@ -702,7 +696,7 @@
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
-        photoTitleLBL.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 150.0, NavBtnHeightForiPad);
+        photoTitleLBL.frame=CGRectMake(self.view.center.x-150, NavBtnYPosForiPad, 300.0f, NavBtnHeightForiPad);
         photoTitleLBL.font = [UIFont systemFontOfSize:23.0f];
         
     }

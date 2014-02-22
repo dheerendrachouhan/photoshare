@@ -775,7 +775,8 @@
 }
 
 //API calling
--(void)mailToServer
+
+ -(void)mailToServer
 {
     if(contactSelectedArray.count !=0)
     {
@@ -783,8 +784,9 @@
         wbh.delegate = self;
         for(int s=0;s<contactSelectedArray.count;s++)
         {
-            NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s]};
-            [wbh call:dictData controller:@"referral" method:@"store"]  ;
+            NSArray *arr = [toolkitLink componentsSeparatedByString:@"/"];
+            NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s],@"message_title":userMessage.text,@"toolkit_id":[arr objectAtIndex:6]};
+            [wbh call:dictData controller:@"broadcast" method:@"sendmail"]  ;
         }
         [SVProgressHUD showWithStatus:@"Sending Mail" maskType:SVProgressHUDMaskTypeBlack];
     }

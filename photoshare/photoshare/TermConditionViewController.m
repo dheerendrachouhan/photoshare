@@ -35,14 +35,6 @@
     
   [webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"term" ofType:@"html"]isDirectory:NO]]];
     
-    //  [webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com"]]];
-    if([[UIScreen mainScreen] bounds].size.height == 480)
-    {
-       /* CGRect frame = webview.frame;
-        frame.origin.y = 126;
-        frame.size.height = 290;
-        webview.frame = frame;*/
-    }
 }
 
 -(void)addCustomNavigationBar

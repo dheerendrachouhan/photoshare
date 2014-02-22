@@ -15,7 +15,7 @@
 #import "NavigationBar.h"
 #import "HomeViewController.h"
 #import "ContentManager.h"
-
+#import "WebserviceController.h"
 @interface AccountViewController ()
 
 @end
@@ -94,6 +94,19 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 -(IBAction)logout:(id)sender
 {
+    [self logOutFromServer];
+    
+    [self goToLoginPageAfterLogout];
+}
+//logout from server
+-(void)logOutFromServer
+{
+    WebserviceController *ws=[[WebserviceController alloc] init];
+    NSDictionary *dicData=@{@"user_id":[objManager getData:@"user_id"]};
+    [ws call:dicData controller:@"authentication" method:@"logout"];
+}
+-(void)goToLoginPageAfterLogout
+{
     [dmc removeAllData];//remove data from nsuser default
     
     LoginViewController *login;
@@ -106,8 +119,9 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
         login= [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]] ;
     }
     [self presentViewController:login animated:NO completion:nil] ;
-
+    
 }
+
 -(IBAction)termCondition:(id)sender
 {
     self.navigationController.navigationBarHidden = NO;

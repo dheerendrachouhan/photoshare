@@ -41,6 +41,16 @@
     wc.delegate = self;
     
     dmc = [[DataMapperController alloc] init] ;
+
+    
+    
+    UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    [self.view addGestureRecognizer:tapGesture];
+    
+}
+-(void)hideKeyboard :(UITapGestureRecognizer *)gesture
+{
+    [self.view endEditing:YES];
 }
 
 

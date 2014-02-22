@@ -46,10 +46,14 @@
     [self getDetails] ;
     
     
-   
+    UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    [self.view addGestureRecognizer:tapGesture];
 
 }
-
+-(void)hideKeyboard :(UITapGestureRecognizer *)gesture
+{
+    [self.view endEditing:YES];
+}
 
 -(void) getDetails
 {
@@ -91,6 +95,13 @@
    }
     if([calltype isEqualToString:@"saveprofile"])
     {
+        //update userDetails in NSUserDefaults
+        NSDictionary *userDetails=[[dmc getUserDetails] mutableCopy];
+        [userDetails setValue:name.text forKey:@"user_realname"];
+        [userDetails setValue:email.text forKey:@"user_emailaddress"];
+        [dmc setUserDetails:userDetails];
+        
+        
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     

@@ -86,7 +86,6 @@
            sharingUserListCollView.userInteractionEnabled=NO;
        }
    }
-    
         if(self.isWriteUser)
         {
             [self getWriteSharingUserList];
@@ -118,7 +117,6 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    
     NSString *str=searchUserTF.text;
     if(str.length>0)
     {
@@ -161,8 +159,6 @@
             [webservices call:dicdata controller:@"user" method:@"get"];
         }
     }
-    
-    
 }
 //webservices call back
 -(void)webserviceCallback:(NSDictionary *)data
@@ -242,7 +238,6 @@
                     [searchView addSubview:searchList];
                     [self.view addSubview:searchView];
                 }
-        
         }
         else
         {

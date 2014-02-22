@@ -683,18 +683,12 @@
     
             [webSwevice call:dictData controller:@"broadcast" method:@"sendphotomail"];
         }
-        [SVProgressHUD showWithStatus:@"Sharing Photo's" maskType:SVProgressHUDMaskTypeBlack];
     }
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"%@",data);
-    mailSent++;
-    if(mailSent == sharedImagesArray.count)
-    {
-        [SVProgressHUD dismissWithSuccess:@"Done"];
-    }
 }
 
 -(void)navBackButtonClick{

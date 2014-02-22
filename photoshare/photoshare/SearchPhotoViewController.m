@@ -48,6 +48,14 @@
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionViewForPhoto addGestureRecognizer:tapGesture];
     
+    imgView1=[[UIImageView alloc] initWithFrame:self.view.frame];
+    imgView1.contentMode=UIViewContentModeScaleAspectFit;
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeImgView:)];
+    tap.numberOfTapsRequired=2;
+    imgView1.backgroundColor=[UIColor blackColor];
+    imgView1.userInteractionEnabled=YES;
+    imgView1.layer.masksToBounds=YES;
+    [imgView1 addGestureRecognizer:tap];
     
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -64,6 +72,12 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    isStartGetPhoto=NO;
+    [photoArray removeAllObjects];
+    [photDetailArray removeAllObjects];
+    
+    [collectionViewForPhoto reloadData];
+    
     [searchBar resignFirstResponder];
     NSLog(@"search bar text %@",searchBar.text);
     
@@ -135,6 +149,7 @@
     @try {
         if(photDetailArray.count>0)
         {
+            isStartGetPhoto=YES;
             NSNumber *colId=[[photDetailArray objectAtIndex:photoIdIndex] objectForKey:@"photo_collection_id"];
             
             NSNumber *photoId=[[photDetailArray objectAtIndex:photoIdIndex] objectForKey:@"photo_id"];
@@ -144,7 +159,6 @@
            
             dicData = @{@"user_id":userid,@"photo_id":photoId,@"get_image":num,@"collection_id":colId,@"image_resize":resize};
             [webservice call:dicData controller:@"photo" method:@"get"];
-            
         }
     }
     @catch (NSException *exception) {
@@ -156,6 +170,8 @@
 }
 -(void)webserviceCallbackImage:(UIImage *)image
 {
+    //dismiss the progress bar
+     [SVProgressHUD dismiss];
     if(isGetPhotoFromServer)
     {
 
@@ -181,7 +197,11 @@
             }
             else
             {
-                [self getPhotoFromServer:photoCount imageResize:@"80"];
+                if(isStartGetPhoto)
+                {
+                    [self getPhotoFromServer:photoCount imageResize:@"80"];
+
+                }
             }
             
         }
@@ -193,17 +213,9 @@
     }
     else if(isGetOriginalPhotoFromServer)
     {
-        [SVProgressHUD dismiss];
-        imgView1=[[UIImageView alloc] initWithFrame:self.view.frame];
-        
-        UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeImgView:)];
-        tap.numberOfTapsRequired=2;
-        
-        imgView1.userInteractionEnabled=YES;
-        imgView1.layer.masksToBounds=YES;
+       
         
         imgView1.image=image;
-        [imgView1 addGestureRecognizer:tap];
         [self.view addSubview:imgView1];
         isGetOriginalPhotoFromServer=NO;
     }
@@ -227,9 +239,9 @@
     }
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height-25)];
     
-    int x=indexPath.row;
+    int row=indexPath.row;
     
-    imgView.tag=101+indexPath.row;
+    imgView.tag=101+row;
     imgView.layer.masksToBounds=YES;
     
     
@@ -237,7 +249,7 @@
     photoTitleLbl.font=[UIFont fontWithName:@"Verdana" size:10];
     photoTitleLbl.numberOfLines=0;
     photoTitleLbl.textAlignment=NSTextAlignmentCenter;
-    photoTitleLbl.text=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_title"];
+    photoTitleLbl.text=[[photDetailArray objectAtIndex:row] objectForKey:@"photo_title"];
     
     
     
@@ -294,9 +306,8 @@
         {
             [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
             isGetOriginalPhotoFromServer=YES;
-            [self getPhotoFromServer:indexPath.row imageResize:@"400"];
+            [self getPhotoFromServer:indexPath.row imageResize:@"0"];
         }
-        
     }
 }
 

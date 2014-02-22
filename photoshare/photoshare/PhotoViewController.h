@@ -58,6 +58,8 @@
     IBOutlet UISegmentedControl *segmentControl;
     IBOutlet UILabel *folderLocationShowLabel;
     IBOutlet UIButton *photoViewBtn;
+    
+    UIImageView *imgV;//for view image in full screen
     //for add photo Detail
     UIView *backViewPhotDetail;
     UITextField *photoTitleTF;
