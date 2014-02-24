@@ -40,11 +40,8 @@
     [name setDelegate:self] ;
     [email setDelegate:self] ;
     
-    
     dmc  = [[DataMapperController alloc] init] ;
-    
     [self getDetails] ;
-    
     
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapGesture];
@@ -66,8 +63,6 @@
 
 }
 
-
-
 -(IBAction)saveProfile:(id)sender
 {
     NSString *nameval = name.text ;
@@ -85,7 +80,6 @@
 
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    
     NSLog(@"data--%@ ",data) ;
    if([calltype isEqualToString:@"getdetails"] )
    {
@@ -101,16 +95,13 @@
         [userDetails setValue:email.text forKey:@"user_emailaddress"];
         [dmc setUserDetails:userDetails];
         
-        
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     
     }
 }
 
-- (IBAction)userCancelButton:(id)sender {
-  
-    
+- (IBAction)userCancelButton:(id)sender { 
     UITextField *field = (UITextField *) [self.view viewWithTag:([sender tag] -10)];
     field.text = @"";
 }

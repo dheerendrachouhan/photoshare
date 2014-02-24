@@ -485,6 +485,11 @@
     return YES;
 }
 
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+   
+}
+
+
 //RememberMe Function
 - (IBAction)rememberBtnTapped{
     if(!rememberFltr)

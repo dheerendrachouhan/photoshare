@@ -118,10 +118,8 @@
     [self addSubview:totalEarning];
     [self addSubview:homeController];
     
-    ContentManager *objManager=[ContentManager sharedManager];
     NSDictionary *dic =objManager.loginDetailsDict ;
     NSLog(@"Dictionary : %@",dic);
-   
     
     return self;
 }

@@ -56,6 +56,7 @@
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", [error localizedDescription]);
+        [self.delegate webserviceCallback:[NSDictionary dictionaryWithObject:@0 forKey:@"exit_code"]];
     }];
 
 
@@ -81,9 +82,6 @@
     //54.194.160.22
     //54.229.193.111
     //54.72.11.106
-    
-   
-    
     
     
    [manager POST:[NSString stringWithFormat:@"http://api.123friday.com/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
