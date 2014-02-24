@@ -98,6 +98,64 @@
         passwordTextField.text = [dict valueForKey:@"password"];
     }
     
+    NSTimer *timerGo = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
+    
+}
+
+-(void)deviceOrientDetect
+{
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
+}
+
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 480.0f, 320.0f);
+            
+            scrollView.contentSize = CGSizeMake(480,480);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 568.0f, 320.0f);
+            
+            scrollView.contentSize = CGSizeMake(568,480);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 1024.0f, 768.0f);
+            loginBackgroundImage.frame = CGRectMake(0.0f,0.0f, 1024.0f, 900.0f);
+            scrollView.contentSize = CGSizeMake(1024,900);
+            scrollView.bounces = NO;
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 480.0f);
+            scrollView.contentSize = CGSizeMake(320,480);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 568.0f);
+            scrollView.contentSize = CGSizeMake(320,456);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 768.0f, 1024.0f);
+            loginBackgroundImage.frame = CGRectMake(0.0f,0.0f, 768.0f, 1024.0f);
+            scrollView.contentSize = CGSizeMake(768,1024);
+            scrollView.bounces = NO;
+        }
+    }
 }
 
 //user sign in function
