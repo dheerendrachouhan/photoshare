@@ -52,7 +52,14 @@
     NSDictionary *dictData = @{@"user_id":userID};
     [wc call:dictData controller:@"user" method:@"getearningsdetails"] ;
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-    
+    if([[UIScreen mainScreen] bounds].size.height == 568)
+    {
+        scrollView.frame = CGRectMake(0, 105, 320, 458);
+    }
+    else if([[UIScreen mainScreen] bounds].size.height == 480)
+    {
+        scrollView.frame = CGRectMake(0, 103, 320, 360);
+    }
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
@@ -108,32 +115,32 @@
         //Initiating the frame of bar graph
         if([[UIScreen mainScreen] bounds].size.height == 568)
         {
-            frame = CGRectMake(0, 105, 320, 458);
+            frame = CGRectMake(0, -20, 320, 458);
             point = 20;
             bHeight = 26;
             bMaxWidth = 150;
         }
         else if([[UIScreen mainScreen] bounds].size.height == 480)
         {
-            frame = CGRectMake(0, 105, 320, 360);
+            frame = CGRectMake(0, -20, 320, 360);
             point = 20;
             bHeight = 17;
             bMaxWidth = 150;
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
-            frame = CGRectMake(0, 185, 768, 800);
+            frame = CGRectMake(0, -10, 768, 800);
             point = 40;
             bHeight = 50;
             bMaxWidth = 520;
         }
         
-        
+        /*
         JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:bMaxWidth gradient:nil];
     
         [self.view addSubview:barChartView];
          
-        /*
+        */
         NSMutableArray *textIndicatorsz = [[NSMutableArray alloc] initWithObjects:@"Date 1", @"Date 2", @"Date 3", @"Date 4", @"Date 5",@"Date 6",@"Date 7",@"Date 8", nil];
         NSMutableArray *valuesz = [[NSMutableArray alloc] initWithObjects:@0, @5, @10, @3, @7, @4, @2, @6, nil];
         //CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -145,7 +152,7 @@
                                                                    barHeight:bHeight
                                                                  barMaxWidth:bMaxWidth
                                                                     gradient:nil];
-        [self.view addSubview:barChartView];*/
+        [scrollView addSubview:barChartView];
         [SVProgressHUD dismissWithSuccess:@"Loaded"];
     }
 }
@@ -195,6 +202,59 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 105.0f, 480.0f, 300.0f);
+            scrollView.contentSize = CGSizeMake(480,400);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 101.0f, 568.0f, 320.0f);
+            scrollView.contentSize = CGSizeMake(568,480);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0.0f, 180.0f, 1024.0f, 768.0f);
+            scrollView.contentSize = CGSizeMake(1024,900);
+            scrollView.bounces = NO;
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 105, 320, 360);
+            scrollView.contentSize = CGSizeMake(320,290);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 101.0f, 320.0f, 415.0f);
+            scrollView.contentSize = CGSizeMake(320,340);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0.0f, 185.0f, 768.0f, 800.0f);
+            scrollView.contentSize = CGSizeMake(768,700);
+            scrollView.bounces = NO;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
