@@ -27,7 +27,7 @@
     IBOutlet UIButton *passwordcancelBtn;
     IBOutlet UIButton *rememberMeBtn;
     BOOL rememberFltr;
-    
+    IBOutlet UIButton *forgetPwd;
     NSNumber *userid;
     
     UIView *dataFetchView;

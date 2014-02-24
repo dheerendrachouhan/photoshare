@@ -122,6 +122,7 @@
         NSDictionary *postdic = @{@"username":username, @"password":password} ;
         [webservices call:postdic controller:@"authentication" method:@"login"];
     }
+    
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
@@ -524,7 +525,16 @@
     visibleRect.size.height -= keyboardSize.height;
     
     if (!CGRectContainsPoint(visibleRect, buttonOrigin)){
-        CGPoint scrollPoint = CGPointMake(0.0, buttonOrigin.y - visibleRect.size.height + buttonHeight);
+        CGPoint scrollPoint;
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            
+        {
+           scrollPoint = CGPointMake(0.0, buttonOrigin.y - visibleRect.size.height + buttonHeight);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollPoint = CGPointMake(0.0, 300.0);
+        }
         [scrollView setContentOffset:scrollPoint animated:YES];
     }
 }
@@ -657,6 +667,51 @@
     
   //  [delegate.tbc.view addSubview:topView];
    // [self.view addSubview:delegate.tbc.view];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    if (interfaceOrientation == (UIInterfaceOrientationLandscapeRight | UIInterfaceOrientationLandscapeLeft))
+    {
+        return YES;
+    }
+    else
+    {
+        return YES;
+    }
+    
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 480.0f, 320.0f);
+            
+            scrollView.contentSize = CGSizeMake(480,480);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 568.0f, 320.0f);
+            
+            scrollView.contentSize = CGSizeMake(568,480);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0.0f, 0.0f, 1024.0f, 768.0f);
+            loginBackgroundImage.frame = CGRectMake(0.0f,0.0f, 1024.0f, 900.0f);
+            scrollView.contentSize = CGSizeMake(1024,900);
+            scrollView.bounces = NO;
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning
