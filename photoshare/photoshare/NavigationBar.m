@@ -28,8 +28,6 @@
         {
             self.frame=CGRectMake(0, 20, 320, 80);
         }
-
-        
         UITapGestureRecognizer *tapGesture;
         UITapGestureRecognizer *tapGestureHome;
         //self.frame=CGRectMake(0, 20, 320, 80);

@@ -306,7 +306,12 @@
         {
             [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
             isGetOriginalPhotoFromServer=YES;
-            [self getPhotoFromServer:indexPath.row imageResize:@"0"];
+            NSString *resize=@"320";
+            if ([manager isiPad])
+            {
+                resize=@"768";
+            }
+            [self getPhotoFromServer:indexPath.row imageResize:@""];
         }
     }
 }

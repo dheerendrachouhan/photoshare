@@ -70,7 +70,7 @@
     addButton.layer.borderColor=btnBorderColor.CGColor;
     
     //drop down setting
-   userid=[manager getData:@"user_id"];
+    userid=[manager getData:@"user_id"];
     shareForReadingWithBtn.hidden=NO;
     shareForWritingWithBtn.hidden=NO;
     if(self.isEditFolder)

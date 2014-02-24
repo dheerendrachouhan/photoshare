@@ -71,14 +71,14 @@
     longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
     
-    if([UIScreen mainScreen].bounds.size.height == 568)
+    /*if([UIScreen mainScreen].bounds.size.height == 568)
     {
-         collectionview.frame=CGRectMake(20, 100, 280, 365);
+         collectionview.frame=CGRectMake(20, 100, 280, collectionview.frame.size.height);
     }
     else if([UIScreen mainScreen].bounds.size.height == 480)
     {
-        collectionview.frame=CGRectMake(20, 190, 280, collectionview.frame.size.height-76);
-    }
+        collectionview.frame=CGRectMake(20, 110, 280, collectionview.frame.size.height-76);
+    }*/
     
     
     //editBtn When Longpress on folder

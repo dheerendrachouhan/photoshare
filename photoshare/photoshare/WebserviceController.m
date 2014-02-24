@@ -36,9 +36,9 @@
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"image/png"];
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
-    //www.burningwindmill.com
-    //http://54.229.193.111/api/
-    [manager POST:[NSString stringWithFormat:@"http://54.229.193.111/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    
+    [manager POST:[NSString stringWithFormat:@"http://api.123friday.com/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
        if( [responseObject isKindOfClass:[UIImage class]] )
@@ -61,7 +61,7 @@
 
 }
 
-
+//save image
 -(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSData *)imageData{
     
     //manager = [AFHTTPRequestOperationManager manager];
@@ -75,16 +75,20 @@
                       @"123-mobile-logo.png" ];
     
     NSURL *filePath = [NSURL fileURLWithPath:path];
-    *///54.194.160.22
-    
     //NSError* error = nil ;
+   */
+    //www.burningwindmill.com
+    //54.194.160.22
+    //54.229.193.111
+    //54.72.11.106
+    
+   
     
     
     
-   [manager POST:[NSString stringWithFormat:@"http://54.229.193.111/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+   [manager POST:[NSString stringWithFormat:@"http://api.123friday.com/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         //[formData appendPartWithFileURL:filePath name:@"file" error: nil];
          [formData appendPartWithFileData:imageData name:@"file" fileName:@"photo.png" mimeType:@"image/png"];
-        
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);

@@ -310,7 +310,7 @@
         {
             if(selectedUserId.integerValue==userid.integerValue)
             {
-                [manager showAlert:@"Message" msg:@"You can not share to yourself" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                [manager showAlert:@"Message" msg:@"You can not share to yourself!" cancelBtnTitle:@"Ok" otherBtn:Nil];
                 searchUserTF.text=@"";
             }
             else

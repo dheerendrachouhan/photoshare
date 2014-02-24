@@ -394,15 +394,12 @@
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webServices.delegate=self;
     
-    NSString *imageReSize;
+    NSString *imageReSize=@"320";
     if([manager isiPad])
     {
-        imageReSize=@"700";
+        imageReSize=@"768";
     }
-    else
-    {
-        imageReSize=@"500";
-    }
+    
     NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"image_resize":imageReSize,@"collection_id":self.collectionId};
     
     [self addProgressBar:@"Photo is Loading"];
@@ -683,6 +680,7 @@
     }
     
 }
+
 
 -(IBAction)sharePhoto:(id)sender
 {
