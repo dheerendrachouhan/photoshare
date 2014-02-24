@@ -17,6 +17,7 @@
     IBOutlet UILabel *totalEarningLabel;
     IBOutlet UILabel *projectedEarninglabel;
     IBOutlet UILabel *peopleReferredLabel;
+    IBOutlet UIScrollView *scrollView;
     DataMapperController *dmc;
     ContentManager *objManager;
 }

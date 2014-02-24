@@ -157,6 +157,58 @@
     checkAgain = NO;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 101.0f, 480.0f, 320.0f);
+            
+            scrollView.contentSize = CGSizeMake(480,400);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 101.0f, 568.0f, 320.0f);
+            
+            scrollView.contentSize = CGSizeMake(568,400);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0.0f, 190.0f, 1024.0f, 768.0f);
+            scrollView.contentSize = CGSizeMake(1024,1000);
+            scrollView.bounces = NO;
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 101.0f, 320.0f, 327.0f);
+            scrollView.contentSize = CGSizeMake(320,257);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 101.0f, 320.0f, 415.0f);
+            scrollView.contentSize = CGSizeMake(320,320);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0.0f, 185.0f, 768.0f, 800.0f);
+            scrollView.contentSize = CGSizeMake(768,700);
+            scrollView.bounces = NO;
+        }
+    }
+}
+
 
 - (void)didReceiveMemoryWarning
 {
