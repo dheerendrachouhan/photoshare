@@ -18,7 +18,7 @@
 
 
 @class ContentManager;
-@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, WebserviceDelegate, UITabBarControllerDelegate, UIActionSheetDelegate>
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, WebserviceDelegate, UITabBarControllerDelegate, UIActionSheetDelegate,UITextViewDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;
@@ -32,7 +32,11 @@
     BOOL fbFilter,twFilter,mailFilter,smsFilter;
     DataMapperController *dmc;
     ContentManager *objManager;
+    IBOutlet UIView *emailView;
 }
+
+@property (weak, nonatomic) IBOutlet UITextView *emailContacts;
+@property (weak, nonatomic) IBOutlet UITextView *emailMessageBody;
 
 @property (nonatomic, strong) NSString *stringStr;
 @property (nonatomic, strong) NSString *twitterTweet;

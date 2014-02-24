@@ -75,6 +75,11 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"ReferralStageFourVC_iPad" owner:self options:nil];
     }
+    _emailContacts.delegate = self;
+    _emailMessageBody.delegate = self;
+    emailView.hidden = YES;
+    emailView.layer.borderColor = [UIColor blackColor].CGColor;
+    emailView.layer.borderWidth = 2.0f;
     mailSent = 0;
     messagecount = 0;
     grant = NO;
@@ -145,12 +150,7 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select Email-Id from Contacts", @"Manually input Email", nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.view];
-    
+    [self ContactSelectorMethod];
 }
 
 - (IBAction)smsFilter_Btn:(id)sender {
@@ -732,7 +732,9 @@
 
     if([referredValue isEqualToString:@"Refer Mail"])
     {
+        
         userSelectedEmail = referEmailStr;
+        
         NSArray *arr = [referEmailStr componentsSeparatedByString:@","];
         contactSelectedArray = [NSMutableArray arrayWithArray:arr];
         mailFilter = YES;
@@ -743,9 +745,22 @@
         }
         else
         {
-            [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
-            [self performSelector:@selector(mailTo) withObject:self afterDelay:3.0];
+            emailView.hidden = NO;
+            
+            if(_emailContacts.text.length == 0)
+            {
+                _emailContacts.text = referEmailStr;
+            }
+            else
+            {
+                NSString *appStr = [_emailContacts.text stringByAppendingString:@", "];
+                NSString *addStr = [appStr stringByAppendingString:referEmailStr];
+                _emailContacts.text = addStr;
+                
+            }
+            _emailMessageBody.text = userMessage.text;
         }
+
     }
     else if ([referredValue isEqualToString:@"Refer Text"])
     {
@@ -778,18 +793,12 @@
 
  -(void)mailToServer
 {
-    if(contactSelectedArray.count !=0)
-    {
-        WebserviceController *wbh = [[WebserviceController alloc] init];
-        wbh.delegate = self;
-        for(int s=0;s<contactSelectedArray.count;s++)
-        {
-            NSArray *arr = [toolkitLink componentsSeparatedByString:@"/"];
-            NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:s],@"message_title":userMessage.text,@"toolkit_id":[arr objectAtIndex:6]};
-            [wbh call:dictData controller:@"broadcast" method:@"sendmail"]  ;
-        }
-        [SVProgressHUD showWithStatus:@"Sending Mail" maskType:SVProgressHUDMaskTypeBlack];
-    }
+    
+    WebserviceController *wbh = [[WebserviceController alloc] init];
+    wbh.delegate = self;
+    NSArray *arr = [toolkitLink componentsSeparatedByString:@"/"];
+    NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":_emailContacts.text ,@"message_title":userMessage.text,@"toolkit_id":[arr objectAtIndex:6]};
+    [wbh call:dictData controller:@"broadcast" method:@"sendmail"]  ;
 }
 
 -(void)addCustomNavigationBar
@@ -833,25 +842,44 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+- (IBAction)sendEmailView:(id)sender {
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
+    [alert show];
+    
+    [self mailToServer];
+    emailView.hidden = YES;
+    referredValue = @"";
+    referEmailStr = @"";
+    _emailContacts.text = @"";
+}
+- (IBAction)cancelEmailView:(id)sender {
+    _emailContacts.text = @"";
+    
+    [objManager showAlert:@"Cancelled" msg:@"Mail cancelled" cancelBtnTitle:@"Ok" otherBtn:nil];
+    emailView.hidden = TRUE;
+    referredValue = @"";
+    referEmailStr = @"";
+}
+
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"WebService Data -- %@",data);
     NSNumber *numb = [data objectForKey:@"exit_code"];
     mailSent++;
-    if(contactSelectedArray.count == mailSent)
-    {
-        if([numb integerValue]==0)
-        {
-            [SVProgressHUD dismissWithSuccess:@"Emailaddress is not a valid email address"];
-            mailSent = 0;
-        }
-        else
-        {
-            [SVProgressHUD dismissWithSuccess:@"Mail sent"];
-            mailSent = 0;
-        }
+}
+- (IBAction)addmoreBtn:(id)sender
+{
+    [self ContactSelectorMethod];
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
     }
     
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
