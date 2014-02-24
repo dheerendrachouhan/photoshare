@@ -29,22 +29,52 @@
         lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
     }
     
+    
+    
+    // Register for push notifications
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeSound];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
     self.window.rootViewController = lg;
     
     [self.window makeKeyAndVisible];
     
-    
 
     return YES;
+}
+
+#pragma Mark
+#pragma UIApplication Notifications
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+	NSLog(@"My token is: %@", deviceToken);
+    
+    _token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""]
+               stringByReplacingOccurrencesOfString:@">" withString:@""]
+              stringByReplacingOccurrencesOfString: @" " withString: @""];
+    NSLog(@"My token is: %@", _token);
+    //[self setDevieTokenOnServer:token];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    NSLog(@"userInfo-- %@",userInfo);
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error{
+	NSLog(@"Failed to get token, error: %@", error.description);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application

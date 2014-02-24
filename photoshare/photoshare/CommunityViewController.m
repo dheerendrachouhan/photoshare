@@ -259,7 +259,6 @@
                 
                 isGetStorage=NO;
                 
-                
             }
             @catch (NSException *exception) {
                 
@@ -268,6 +267,10 @@
                 
             }
             
+        }
+        else
+        {
+            [SVProgressHUD dismiss];
         }
         
     }

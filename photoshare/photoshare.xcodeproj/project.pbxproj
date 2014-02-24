@@ -1501,7 +1501,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Code Droid Ltd (A64L9F9GJU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: John Platt (9FP4B96V72)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
@@ -1544,7 +1544,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Code Droid Ltd (A64L9F9GJU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: John Platt (9FP4B96V72)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,

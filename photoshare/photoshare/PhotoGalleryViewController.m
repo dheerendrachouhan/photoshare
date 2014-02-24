@@ -101,14 +101,14 @@
     //get the user id from nsuserDefaults
     userid=[manager getData:@"user_id"];
     
-    if([UIScreen mainScreen].bounds.size.height == 480)
+    /*if([UIScreen mainScreen].bounds.size.height == 480)
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height);
     }
     else if([UIScreen mainScreen].bounds.size.height == 568)
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height + 85);
-    }
+    }*/
     
     isPopFromPhotos=NO;
     isGetPhotoFromServer=NO;
@@ -881,8 +881,7 @@
                     }
                     [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
                     [editBtn addTarget:self action:@selector(editImage:) forControlEvents:UIControlEventTouchUpInside];
-                    [collectionview addSubview:editBtn];
-               
+                    [collectionview addSubview:editBtn];               
                 
             }
         }

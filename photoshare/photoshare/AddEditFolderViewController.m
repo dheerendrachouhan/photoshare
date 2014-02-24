@@ -130,6 +130,8 @@
 }
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
+    //reset the text field
+    [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.view endEditing:YES];
 }
 
@@ -142,9 +144,82 @@
     
     
 }
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return [textField resignFirstResponder];
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    
+    //Landscape Mode
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 105.0f, 480.0f, 200.0f);
+            scrollView.contentSize = CGSizeMake(480,326);
+            scrollView.scrollEnabled=YES;
+            
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 105.0f, 568.0f, 200.0f);
+            scrollView.contentSize = CGSizeMake(320,326);
+            scrollView.scrollEnabled=YES;
+        }
+    }
+    //Portrait Mode
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f,105.0f,320.0f, 326.0f);
+            scrollView.contentSize = CGSizeMake(320.0f,326.0f);
+            scrollView.scrollEnabled=NO;
+            
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0.0f, 105.0f,320.0f, 420.0f);
+            scrollView.contentSize = CGSizeMake(320,420);
+            scrollView.scrollEnabled=NO;
+        }
+    }
+}
+// called when textField start editting.
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    activeField = textField;
+    [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-70) animated:YES];
+}
+
+
+
+// called when click on the retun button.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    
+    
+    NSInteger nextTag = textField.tag + 1;
+    // Try to find next responder
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    
+    if (nextResponder) {
+        [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-70) animated:YES];
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+    } else {
+        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+        [textField resignFirstResponder];
+        return YES;
+    }
+    
+    return NO;
 }
 
 //get the collection detail from server
@@ -387,6 +462,10 @@
                 isGetCollectionDetails=NO;
                 [self getTheCollectionOwnerName];
             }
+            else
+            {
+                [SVProgressHUD dismiss];
+            }
 
         }
     else if (isGetCollectionOwnername)
@@ -396,6 +475,10 @@
             NSArray *outputData=[data objectForKey:@"output_data"];
             collectionOwnerName=[[outputData objectAtIndex:0] objectForKey:@"user_realname"];
             collectionOwnerNameLbl.text=collectionOwnerName;
+            [SVProgressHUD dismiss];
+        }
+        else
+        {
             [SVProgressHUD dismiss];
         }
         isGetCollectionOwnername=NO;
@@ -451,6 +534,7 @@
             }
             
         }
+        
         isGetSharingUserId=NO;
         [self fetchOwnCollectionInfoFromServer];
         

@@ -22,4 +22,6 @@
 @property (strong, nonatomic) UINavigationController *navControlleraccount;
 @property (strong, nonatomic) UINavigationController *photoGalNav;
 
+@property (strong, nonatomic) NSString *token;
+
 @end
