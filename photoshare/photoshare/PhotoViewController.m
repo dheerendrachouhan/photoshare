@@ -136,7 +136,11 @@
 {
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webservices.delegate=self;
-    NSString *imageReSize=@"0";
+    NSString *imageReSize=@"640";
+    if([manager isiPad])
+    {
+        imageReSize=@"1500";
+    }
     
     NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
     

@@ -95,7 +95,6 @@
 }
 
 
-
 -(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
@@ -197,7 +196,6 @@
     
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:indexPath.row]]]]];
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:indexPath.row],[objManager getData:@"user_username"]];
-    
 }
 
 

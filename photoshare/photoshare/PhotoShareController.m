@@ -60,6 +60,7 @@
 {
     [super viewDidLoad];
     imageView.layer.masksToBounds=YES;
+    imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.image = sharedImage;
     fbFilter = NO;
     twFilter = NO;

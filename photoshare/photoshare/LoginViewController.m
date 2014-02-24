@@ -367,22 +367,31 @@
 }
 -(void)getTheNoOfImagesInPublicFolderFromServer
 {
-    NSNumber *publicCollectionId;
-    NSMutableArray *collection=[dmc getCollectionDataList];
-    for (int i=0;i<collection.count; i++)
-    {
-        if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+    @try {
+        NSNumber *publicCollectionId;
+        NSMutableArray *collection=[dmc getCollectionDataList];
+        for (int i=0;i<collection.count; i++)
         {
-            publicCollectionId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];            
-            break;
+            if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
+            {
+                publicCollectionId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
+                break;
+            }
         }
+        
+        
+        isGetTheNoOfImagesInPublicFolder=YES;
+        webservices.delegate=self;
+        NSDictionary *dicData=@{@"user_id":userid,@"collection_id":publicCollectionId};
+        [webservices call:dicData controller:@"collection" method:@"get"];
     }
-
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
     
-    isGetTheNoOfImagesInPublicFolder=YES;
-    webservices.delegate=self;
-    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":publicCollectionId};
-    [webservices call:dicData controller:@"collection" method:@"get"];
     
 }
 //---------------------------
