@@ -780,6 +780,11 @@
         }
     }
 
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
 }
 
 
@@ -880,6 +885,120 @@
     }
     
     return YES;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 80, 480, 320);
+            scrollView.contentSize = CGSizeMake(480, 450);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(0, 80, 480, 430);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 0, 568, 300);
+            scrollView.contentSize = CGSizeMake(568, 480);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(0, 81, 568, 400);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+           scrollView.frame = CGRectMake(0, 170, 1024, 900);
+            scrollView.contentSize = CGSizeMake(1024, 1100);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(14, 20, 1000, 688);
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 60, 320, 370);
+            scrollView.contentSize = CGSizeMake(320, 280);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(0, 20, 320, 330);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 0, 320, 568);
+            scrollView.contentSize = CGSizeMake(320, 300);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(0, 81, 320, 390);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 170, 768, 752);
+            scrollView.contentSize = CGSizeMake(768, 500);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(14, 20, 734, 688);
+            
+        }
+    }
+}
+
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 80, 480, 320);
+            scrollView.contentSize = CGSizeMake(480, 450);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(0, 80, 480, 430);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 0, 568, 300);
+            scrollView.contentSize = CGSizeMake(568, 480);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(0, 81, 568, 400);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 170, 1024, 900);
+            scrollView.contentSize = CGSizeMake(1024, 1100);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(14, 20, 1000, 688);
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 60, 320, 370);
+            scrollView.contentSize = CGSizeMake(320, 280);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(0, 20, 320, 330);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 0, 320, 568);
+            scrollView.contentSize = CGSizeMake(320, 300);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(0, 81, 320, 390);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 170, 768, 752);
+            scrollView.contentSize = CGSizeMake(768, 500);
+            scrollView.bounces = NO;
+            emailView.frame = CGRectMake(14, 20, 734, 688);
+            
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
