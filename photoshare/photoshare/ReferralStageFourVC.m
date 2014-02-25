@@ -942,7 +942,6 @@
             scrollView.contentSize = CGSizeMake(768, 500);
             scrollView.bounces = NO;
             emailView.frame = CGRectMake(14, 20, 734, 688);
-            
         }
     }
 }
@@ -996,7 +995,6 @@
             scrollView.contentSize = CGSizeMake(768, 500);
             scrollView.bounces = NO;
             emailView.frame = CGRectMake(14, 20, 734, 688);
-            
         }
     }
 }
