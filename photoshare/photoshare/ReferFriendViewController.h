@@ -16,6 +16,7 @@
 {
     IBOutlet UIWebView *webViewReferral;
     ContentManager *objManager;
+    IBOutlet UIScrollView *scrollView;
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *webViewReferral;
