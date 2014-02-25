@@ -20,6 +20,9 @@
     NSMutableArray *rowSecondArr;
     NSMutableArray *rowThirdArr;
     NSString *setCurrenyStr;
+    int first;
+    int second;
+    int third;
 }
 @synthesize myPickerView;
 @synthesize cutomView;
@@ -42,6 +45,7 @@
     rowFirstArr = [[NSMutableArray alloc] init];
     rowSecondArr = [[NSMutableArray alloc] init];
     rowThirdArr = [[NSMutableArray alloc] init];
+    first=second=third = 0;
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
         if ([[UIScreen mainScreen] bounds].size.height == 568)
@@ -93,7 +97,54 @@
     myPickerView.delegate = self;
     myPickerView.dataSource = self;
     myPickerView.layer.borderColor = [UIColor blackColor].CGColor;
-   
+}
+
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 480, 300);
+            scrollView.contentSize = CGSizeMake(480, 400);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 568, 400);
+            scrollView.contentSize = CGSizeMake(568, 560);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 173, 1024, 710);
+            scrollView.contentSize = CGSizeMake(1024, 720);
+            scrollView.bounces = NO;
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 320, 345);
+            scrollView.contentSize = CGSizeMake(320, 260);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 320, 433);
+            scrollView.contentSize = CGSizeMake(320, 360);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 173, 768, 710);
+            scrollView.contentSize = CGSizeMake(768, 600);
+            scrollView.bounces = NO;
+        }
+    }
 }
 
 //Segment Controll
@@ -118,9 +169,6 @@
 //Function to calculate the gem
 -(void)calculateUserGem
 {
-    int first = [firstGem.text intValue];
-    int second = [secondGem.text intValue];
-    int third = [thirdGem.text intValue];
     
     int totalGemCalculated = (first*1) + (first*second) +(first*second*third);
     
@@ -236,19 +284,19 @@
     if(component == 0)
     {
         NSLog(@"Row 1 Chosen item: %@", [rowFirstArr objectAtIndex:row]);
-        firstGem.text  = [rowFirstArr objectAtIndex:row];
+        first  = [[rowFirstArr objectAtIndex:row] integerValue];
         [self calculateUserGem];
     }
     else if (component == 1)
     {
         NSLog(@"Row 2 Chosen item: %@", [rowSecondArr objectAtIndex:row]);
-        secondGem.text = [rowSecondArr objectAtIndex:row];
+        second = [[rowSecondArr objectAtIndex:row] integerValue];
         [self calculateUserGem];
     }
     else if (component == 2)
     {
         NSLog(@"Row 3 Chosen item: %@", [rowThirdArr objectAtIndex:row]);
-        thirdGem.text = [rowThirdArr objectAtIndex:row];
+        third = [[rowThirdArr objectAtIndex:row] integerValue];
         [self calculateUserGem];
     }
 }
@@ -336,6 +384,66 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 480, 300);
+            scrollView.contentSize = CGSizeMake(480, 400);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 568, 400);
+            scrollView.contentSize = CGSizeMake(568, 560);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 173, 1024, 710);
+            scrollView.contentSize = CGSizeMake(1024, 720);
+            scrollView.bounces = NO;
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 320, 345);
+            scrollView.contentSize = CGSizeMake(320, 260);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 320, 433);
+            scrollView.contentSize = CGSizeMake(320, 360);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 173, 768, 710);
+            scrollView.contentSize = CGSizeMake(768, 600);
+            scrollView.bounces = NO;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

@@ -28,6 +28,7 @@
     IBOutlet UIButton *thirdGemDown_btn;
     IBOutlet UIView *cutomView;
     ContentManager *objManager;
+    IBOutlet UIScrollView *scrollView;
 }
 @property (nonatomic, strong) IBOutlet UIPickerView *myPickerView;
 @property (nonatomic, retain) IBOutlet UIView *cutomView;

@@ -15,5 +15,6 @@
 {
     DataMapperController *dmc;
     ContentManager *objManager;
+    IBOutlet UIScrollView *scrollView;
 }
 @end
