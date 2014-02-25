@@ -14,6 +14,7 @@
     IBOutlet UIImageView *custumImageBackground;
     IBOutlet UITextView *textMessage;
     ContentManager *objManager;
+    IBOutlet UIScrollView *scrollView;
 }
 
 @property (nonatomic, strong) NSString *edittedMessage;

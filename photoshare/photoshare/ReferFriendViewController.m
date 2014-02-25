@@ -29,6 +29,7 @@
     NSMutableArray *toolkitreferralsArr;
     NSString *segmentControllerIndexStr;
     NSMutableArray *toolKitNameArray;
+    UICollectionViewFlowLayout *layout;
 }
 @synthesize webViewReferral,toolKitReferralStr;
 @synthesize collectionView = _collectionView;
@@ -83,7 +84,7 @@
         {
             //custumizing frame of webview for 3.5 inch
             CGRect frame = webViewReferral.frame;
-            frame.origin.y = 200;
+            frame.origin.y = 105;
             frame.size.height = 220;
             webViewReferral.frame = frame;
         }
@@ -134,33 +135,74 @@
         [toolKitNameArray addObject:toolName];
     }
     
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
         layout.itemSize = CGSizeMake(250.0f, 80.0f);
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 260.0f, 768.0f, 100.0f) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 100.0f, 768.0f, 100.0f) collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
         _collectionView.layer.borderWidth = 0.5;
         _collectionView.layer.cornerRadius = 5;
-
+        }
+        else
+        {
+            layout.itemSize = CGSizeMake(250.0f, 80.0f);
+            _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 100.0f, 1024.0f, 100.0f) collectionViewLayout:layout];
+            _collectionView.backgroundColor = [UIColor whiteColor];
+            _collectionView.dataSource = self;
+            _collectionView.delegate = self;
+            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+            _collectionView.layer.borderWidth = 0.5;
+            _collectionView.layer.cornerRadius = 5;
+        }
     }
     else
     {
-        layout.itemSize = CGSizeMake(100.0f, 40.0f);
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 145.0f, 320.0f, 50.0f) collectionViewLayout:layout];
-        _collectionView.backgroundColor = [UIColor whiteColor];
-        _collectionView.dataSource = self;
-        _collectionView.delegate = self;
-        _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-        _collectionView.layer.borderWidth = 0.5;
-        _collectionView.layer.cornerRadius = 5;
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            layout.itemSize = CGSizeMake(100.0f, 40.0f);
+            _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 320.0f, 50.0f) collectionViewLayout:layout];
+            _collectionView.backgroundColor = [UIColor whiteColor];
+            _collectionView.dataSource = self;
+            _collectionView.delegate = self;
+            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+            _collectionView.layer.borderWidth = 0.5;
+            _collectionView.layer.cornerRadius = 5;
+        }else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+            {
+                layout.itemSize = CGSizeMake(100.0f, 40.0f);
+                _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 480.0f, 50.0f) collectionViewLayout:layout];
+                _collectionView.backgroundColor = [UIColor whiteColor];
+                _collectionView.dataSource = self;
+                _collectionView.delegate = self;
+                _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+                _collectionView.layer.borderWidth = 0.5;
+                _collectionView.layer.cornerRadius = 5;
+            }
+            else
+            {
+                layout.itemSize = CGSizeMake(100.0f, 40.0f);
+                _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 568.0f, 50.0f) collectionViewLayout:layout];
+                _collectionView.backgroundColor = [UIColor whiteColor];
+                _collectionView.dataSource = self;
+                _collectionView.delegate = self;
+                _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+                _collectionView.layer.borderWidth = 0.5;
+                _collectionView.layer.cornerRadius = 5;
+            }
+        }
+        
     }
     
-    [self.view addSubview:_collectionView];
+    [scrollView addSubview:_collectionView];
     
     [_collectionView registerClass:[CustomCells class] forCellWithReuseIdentifier:@"CustomCells"];
     
@@ -277,22 +319,191 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
 }
 
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 480, 300);
+            scrollView.contentSize = CGSizeMake(480, 380);
+            scrollView.bounces = NO;
+            [self CollectionLayoutRotation];
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 568, 300);
+            scrollView.contentSize = CGSizeMake(568, 440);
+            scrollView.bounces = NO;
+            [self CollectionLayoutRotation];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 161, 1024, 700);
+            scrollView.contentSize = CGSizeMake(1024, 770);
+            scrollView.bounces = NO;
+            [self CollectionLayoutRotation];
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 320, 370);
+            scrollView.contentSize = CGSizeMake(320, 300);
+            [self CollectionLayoutRotation];
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 320, 423);
+            scrollView.contentSize = CGSizeMake(320, 300);
+            [self CollectionLayoutRotation];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 161, 768, 780);
+            scrollView.contentSize = CGSizeMake(768, 600);
+            scrollView.bounces = NO;
+            [self CollectionLayoutRotation];
+        }
+    }
+}
 
-
-- (BOOL)shouldAutorotate {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 480, 300);
+            scrollView.contentSize = CGSizeMake(480, 380);
+            scrollView.bounces = NO;
+            [self CollectionLayoutRotation];
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 568, 300);
+            scrollView.contentSize = CGSizeMake(568, 440);
+            scrollView.bounces = NO;
+            [self CollectionLayoutRotation];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 161, 1024, 700);
+            scrollView.contentSize = CGSizeMake(1024, 770);
+            scrollView.bounces = NO;
+            [self CollectionLayoutRotation];
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 320, 370);
+            scrollView.contentSize = CGSizeMake(320, 300);
+            [self CollectionLayoutRotation];
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 72, 320, 423);
+            scrollView.contentSize = CGSizeMake(320, 300);
+           [self CollectionLayoutRotation];
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 161, 768, 780);
+            scrollView.contentSize = CGSizeMake(768, 600);
+            scrollView.bounces = NO;
+            [self CollectionLayoutRotation];
+        }
+    }
 }
 
-//For Delegate
-- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-    
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+-(void)CollectionLayoutRotation
+{
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            layout.itemSize = CGSizeMake(250.0f, 80.0f);
+            _collectionView.frame = CGRectMake(0.0f, 100.0f, 768.0f, 100.0f);
+            _collectionView.backgroundColor = [UIColor whiteColor];
+            _collectionView.dataSource = self;
+            _collectionView.delegate = self;
+            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+            _collectionView.layer.borderWidth = 0.5;
+            _collectionView.layer.cornerRadius = 5;
+        }
+        else
+        {
+            layout.itemSize = CGSizeMake(250.0f, 80.0f);
+            _collectionView.frame = CGRectMake(0.0f, 100.0f, 1024.0f, 100.0f);
+            _collectionView.backgroundColor = [UIColor whiteColor];
+            _collectionView.dataSource = self;
+            _collectionView.delegate = self;
+            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+            _collectionView.layer.borderWidth = 0.5;
+            _collectionView.layer.cornerRadius = 5;
+        }
+    }
+    else
+    {
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            layout.itemSize = CGSizeMake(100.0f, 40.0f);
+            _collectionView.frame = CGRectMake(0.0f, 50.0f, 320.0f, 50.0f);
+            _collectionView.backgroundColor = [UIColor whiteColor];
+            _collectionView.dataSource = self;
+            _collectionView.delegate = self;
+            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+            _collectionView.layer.borderWidth = 0.5;
+            _collectionView.layer.cornerRadius = 5;
+        }else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+            {
+                layout.itemSize = CGSizeMake(100.0f, 40.0f);
+                _collectionView.frame = CGRectMake(0.0f, 50.0f, 480.0f, 50.0f);
+                
+                _collectionView.backgroundColor = [UIColor whiteColor];
+                _collectionView.dataSource = self;
+                _collectionView.delegate = self;
+                _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+                _collectionView.layer.borderWidth = 0.5;
+                _collectionView.layer.cornerRadius = 5;
+            }
+            else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+            {
+                layout.itemSize = CGSizeMake(100.0f, 40.0f);
+                _collectionView.frame = CGRectMake(0.0f, 50.0f, 568.0f, 50.0f);
+                _collectionView.backgroundColor = [UIColor whiteColor];
+                _collectionView.dataSource = self;
+                _collectionView.delegate = self;
+                _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
+                _collectionView.layer.borderWidth = 0.5;
+                _collectionView.layer.cornerRadius = 5;
+            }
+            
+        }
+        
+    }
+   
 }
 
 - (void)didReceiveMemoryWarning

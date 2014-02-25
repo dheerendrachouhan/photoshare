@@ -118,6 +118,111 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
+}
+
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.bounces = NO;
+            scrollView.frame = CGRectMake(0, 80, 480, 300);
+            scrollView.contentSize = CGSizeMake(480,350);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.bounces = NO;
+            scrollView.frame = CGRectMake(0, 80, 568, 300);
+            scrollView.contentSize = CGSizeMake(568,350);
+            
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            
+            
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.bounces = NO;
+            scrollView.frame = CGRectMake(0, 80, 320, 300);
+            scrollView.contentSize = CGSizeMake(320,260);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.bounces = NO;
+            scrollView.frame = CGRectMake(0, 80, 320, 300);
+            scrollView.contentSize = CGSizeMake(320,220);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            
+            
+        }
+    }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.bounces = NO;
+            scrollView.frame = CGRectMake(0, 80, 480, 300);
+            scrollView.contentSize = CGSizeMake(480,350);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.bounces = NO;
+            scrollView.frame = CGRectMake(0, 80, 568, 300);
+            scrollView.contentSize = CGSizeMake(568,350);
+            
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            
+            
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.bounces = NO;
+            scrollView.frame = CGRectMake(0, 80, 320, 300);
+            scrollView.contentSize = CGSizeMake(320,260);
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.bounces = NO;
+            scrollView.frame = CGRectMake(0, 80, 320, 300);
+            scrollView.contentSize = CGSizeMake(320,220);
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            
+            
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

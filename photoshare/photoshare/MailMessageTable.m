@@ -31,6 +31,7 @@
     BOOL check;
     
     BOOL isSearching;
+    CGRect frame;
     NSMutableArray *filteredList;
     NSMutableArray *filteredContact;
     NSMutableArray *filteredPhone;
@@ -679,6 +680,102 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
+}
+
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    frame = table.frame;
+    
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 480;
+            table.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 568;
+            table.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 320;
+            table.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 320;
+            table.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 768;
+            table.frame = frame;
+        }
+    }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    frame = table.frame;
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 480;
+            table.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 568;
+            table.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 1024;
+            table.frame = frame;
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 320;
+            table.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 320;
+            table.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 768;
+            table.frame = frame;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
