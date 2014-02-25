@@ -11,7 +11,7 @@
 #import "ContentManager.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate,WebserviceDelegate>
+@interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate,WebserviceDelegate,UIScrollViewDelegate>
 {
     //get the userf location
     CLLocationManager *locationManager;
@@ -25,6 +25,7 @@
     
     IBOutlet UILabel *headingLabel;
     IBOutlet UIButton *saveButton;
+    IBOutlet UIScrollView *scrollView;
     
     NSNumber *userid;
     ContentManager *manager;
@@ -32,9 +33,14 @@
     BOOL isPhotoDetailSaveOnServer;
     
     NSString *photoLocationString;
+    
+    //check orientation
+    UIInterfaceOrientation orientation;
 }
 -(IBAction)savePhotoDetail:(id)sender;
 
+
+@property(nonatomic,assign)BOOL isFromLaunchCamera;
 @property(nonatomic,retain)NSNumber *photoId;
 @property(nonatomic,retain)NSNumber *collectionId;
 @property(nonatomic,assign)int selectedIndex;

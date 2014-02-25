@@ -48,8 +48,10 @@
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionViewForPhoto addGestureRecognizer:tapGesture];
     
-    imgView1=[[UIImageView alloc] initWithFrame:self.view.frame];
+    imgView1.hidden=YES;
+    [imgView1 removeFromSuperview];
     imgView1.contentMode=UIViewContentModeScaleAspectFit;
+    
     UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeImgView:)];
     tap.numberOfTapsRequired=2;
     imgView1.backgroundColor=[UIColor blackColor];
@@ -63,11 +65,33 @@
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
     
+    [self checkOrientation];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     isPopFromSearchPhoto=YES;
+}
+-(void)checkOrientation
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    float height=self.view.frame.size.height;
+    float width=self.view.frame.size.width;
+    imgView1.frame=CGRectMake(0, 0, width,height);
+}
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    [self checkOrientation];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -214,7 +238,7 @@
     else if(isGetOriginalPhotoFromServer)
     {
        
-        
+        imgView1.hidden=NO;
         imgView1.image=image;
         [self.view addSubview:imgView1];
         isGetOriginalPhotoFromServer=NO;
@@ -222,6 +246,7 @@
 }
 -(void)removeImgView :(UITapGestureRecognizer *)gesture
 {
+    imgView1.hidden=YES;
     [imgView1 removeFromSuperview];
 }
 //collection view method
@@ -311,7 +336,7 @@
             {
                 resize=@"768";
             }
-            [self getPhotoFromServer:indexPath.row imageResize:@""];
+            [self getPhotoFromServer:indexPath.row imageResize:resize];
         }
     }
 }

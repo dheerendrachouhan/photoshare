@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchPhotoViewController">
             <connections>
                 <outlet property="collectionViewForPhoto" destination="pPL-In-LDb" id="kRm-yn-tB2"/>
+                <outlet property="imgView1" destination="Wh6-q5-Hoe" id="Auq-qb-Kh1"/>
                 <outlet property="searchBarForPhoto" destination="fNM-eS-Rk6" id="FRB-mX-kf0"/>
                 <outlet property="view" destination="1" id="UCy-KX-8IZ"/>
             </connections>
@@ -40,6 +41,10 @@
                         <outlet property="delegate" destination="-1" id="OfZ-y2-9gy"/>
                     </connections>
                 </collectionView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Wh6-q5-Hoe">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="925"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>

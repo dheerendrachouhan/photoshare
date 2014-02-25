@@ -30,7 +30,9 @@
     BOOL isPopFromSearchPhoto;
     BOOL isStartGetPhoto;
 
-    UIImageView *imgView1;
+    IBOutlet UIImageView *imgView1;
+    
+    UIInterfaceOrientation orientation;
 }
 
 @end

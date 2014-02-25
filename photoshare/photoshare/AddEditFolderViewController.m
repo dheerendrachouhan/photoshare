@@ -30,6 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
     
     //initialize the photo is array
@@ -40,6 +41,8 @@
      manager = [ContentManager sharedManager];
     webservices=[[WebserviceController alloc] init];
     
+    //set the delgate of text field
+    [folderName setDelegate:self];
     
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
@@ -127,6 +130,8 @@
                                       initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
+    
+    
 }
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
@@ -134,15 +139,49 @@
     [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.view endEditing:YES];
 }
-
+-(void)checkOrientation
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f,100.0f,320.0f, 326.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,323);
+            scrollView.scrollEnabled=NO;
+            
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f,320.0f, 420.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,323);
+            scrollView.scrollEnabled=NO;
+        }
+    }
+    else {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f, 480.0f, 200.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
+            scrollView.scrollEnabled=YES;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f, 568.0f, 200.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
+            scrollView.scrollEnabled=YES;
+        }
+    }
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
+    [self checkOrientation];
+    
     [self addCustomNavigationBar];
     
     //get the user id from nsuserDefaults
-    
-    
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -154,72 +193,28 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     
-    
-    //Landscape Mode
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0.0f, 105.0f, 480.0f, 200.0f);
-            scrollView.contentSize = CGSizeMake(480,326);
-            scrollView.scrollEnabled=YES;
-            
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0.0f, 105.0f, 568.0f, 200.0f);
-            scrollView.contentSize = CGSizeMake(320,326);
-            scrollView.scrollEnabled=YES;
-        }
-    }
-    //Portrait Mode
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0.0f,105.0f,320.0f, 326.0f);
-            scrollView.contentSize = CGSizeMake(320.0f,326.0f);
-            scrollView.scrollEnabled=NO;
-            
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0.0f, 105.0f,320.0f, 420.0f);
-            scrollView.contentSize = CGSizeMake(320,420);
-            scrollView.scrollEnabled=NO;
-        }
-    }
+    [self checkOrientation];
 }
 // called when textField start editting.
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     activeField = textField;
-    [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-70) animated:YES];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+       [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-30) animated:YES];
+    }
+    else
+    {
+       [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-30) animated:NO];
+    }
 }
-
-
-
-// called when click on the retun button.
+//called when click on the retun button.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     
-    
-    NSInteger nextTag = textField.tag + 1;
-    // Try to find next responder
-    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
-    
-    if (nextResponder) {
-        [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-70) animated:YES];
-        // Found next responder, so set it.
-        [nextResponder becomeFirstResponder];
-    } else {
-        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
-        [textField resignFirstResponder];
-        return YES;
-    }
-    
-    return NO;
+    [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+    [textField resignFirstResponder];
+    return YES;
 }
 
 //get the collection detail from server
@@ -464,7 +459,7 @@
             }
             else
             {
-                [SVProgressHUD dismiss];
+                [manager showAlert:@"Error" msg:@"Network Error" cancelBtnTitle:@"Ok" otherBtn:Nil];
             }
 
         }

@@ -167,9 +167,7 @@
         //remove data from nsuser default
         [manager removeData:@"photo,photoId,isEditPhotoInViewPhoto"];//photo info array is use later
         
-        
-    }
-    
+    }    
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -481,7 +479,6 @@
             {
                 [photoArray addObject:editedImage];
                 [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
-            
                 
                 //update the photo info  in nsuser default
                 NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
@@ -620,7 +617,6 @@
             sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
             if(sortedArray.count>0)
             {
-                
                 deleteImageCount=0;
                 @try {
                     for(int i=0;i<sortedArray.count;i++)

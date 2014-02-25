@@ -36,6 +36,8 @@
      userid=[manager getData:@"user_id"];
     [self addCustomNavigationBar];
     
+    
+    
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
     float tfBackViewBorderWidth=2;
@@ -110,6 +112,15 @@
     //[searchView removeFromSuperview];
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    //set the contentsize
+    [self checkOrientation];
+
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
      [searchView removeFromSuperview];
@@ -128,6 +139,59 @@
         
     }
     return YES;
+}
+
+-(void)checkOrientation
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f,100.0f,320.0f, 326.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
+            scrollView.scrollEnabled=NO;
+            
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f,320.0f, 420.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
+            scrollView.scrollEnabled=NO;
+        }
+    }
+    else {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f, 480.0f, 200.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,240);
+            scrollView.scrollEnabled=YES;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f, 568.0f, 200.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,240);
+            scrollView.scrollEnabled=YES;
+        }
+        else if ([manager isiPad])
+        {
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,500);
+            scrollView.scrollEnabled=YES;
+        }
+    }
+}
+
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    [self checkOrientation];
 }
 -(void)getWriteSharingUserList
 {
@@ -384,19 +448,29 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
+    
+    UILabel *titleLabel = [[UILabel alloc] init ];
+    titleLabel.text=@"Share with User";
+    titleLabel.textAlignment=NSTextAlignmentCenter;
     if([manager isiPad])
     {
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
+        titleLabel.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 150.0, NavBtnHeightForiPad);
+        titleLabel.font =[UIFont systemFontOfSize:23.0f];
+        
     }
     else
     {
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];        
+        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        
+        titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+        titleLabel.font = [UIFont systemFontOfSize:17.0f];
        
     }
-
+    
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];

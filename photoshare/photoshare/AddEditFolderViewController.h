@@ -55,6 +55,10 @@
     BOOL isGetSharingUserId;
     NSMutableArray *sharingIdArray;
     
+    
+    //orientation
+    UIInterfaceOrientation orientation;
+    
 }
 
 @property(nonatomic,assign)BOOL isAddFolder;

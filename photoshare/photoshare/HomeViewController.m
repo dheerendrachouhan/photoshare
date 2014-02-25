@@ -82,9 +82,9 @@
     //for launch camera
     [manager storeData:@"NO" :@"istabcamera"];
     
-   UIView *vi = [self.tabBarController.view viewWithTag:11];
+    UIView *vi = [self.tabBarController.view viewWithTag:11];
     
-   UILabel *lbl = (UILabel *)[vi viewWithTag:1] ;
+    UILabel *lbl = (UILabel *)[vi viewWithTag:1] ;
     
     NSDictionary *dic = [dmc getUserDetails] ;
     NSNumber *total = [dic objectForKey:@"total_earnings"] ;
