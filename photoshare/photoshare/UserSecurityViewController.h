@@ -18,6 +18,7 @@
     WebserviceController *wc ;
     DataMapperController *dmc ;
     ContentManager *objManager;
+    IBOutlet UIScrollView *scrollView;
 }
 
 

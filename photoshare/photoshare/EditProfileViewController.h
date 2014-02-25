@@ -23,6 +23,7 @@
     WebserviceController *wc ;
     NSString *calltype ;
     DataMapperController *dmc;
+    IBOutlet UIScrollView *scrollView;
 }
 
 
