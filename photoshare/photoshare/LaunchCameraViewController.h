@@ -76,4 +76,5 @@
 @property (nonatomic, strong) NSMutableArray * sessions;
 
 @property (nonatomic,assign)BOOL isFromHomePage;
+
 @end

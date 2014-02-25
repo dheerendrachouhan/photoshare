@@ -9,7 +9,7 @@
 #import "EditPhotoDetailViewController.h"
 #import "NavigationBar.h"
 #import "PhotoViewController.h"
-
+#import "LaunchCameraViewController.h"
 @interface EditPhotoDetailViewController ()
 
 @end
@@ -63,19 +63,23 @@
     saveButton.layer.borderColor=btnBorderColor.CGColor;
     saveButton.layer.borderWidth=1;
     
+    if(!self.isFromLaunchCamera)
+    {
+        NSArray *photoInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
+        @try {
+            NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
+            photoTitletxt.text=[[photoDetail  objectAtIndex:self.selectedIndex] objectForKey:@"collection_photo_title"];
+            photoDescriptionTxt.text=[[photoDetail  objectAtIndex:self.selectedIndex] objectForKey:@"collection_photo_description"];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+
+    }
     
-    NSArray *photoInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
-    @try {
-         NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
-        photoTitletxt.text=[[photoDetail  objectAtIndex:self.selectedIndex] objectForKey:@"collection_photo_title"];
-        photoDescriptionTxt.text=[[photoDetail  objectAtIndex:self.selectedIndex] objectForKey:@"collection_photo_description"];
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
-    }
    
     //tap getsure on view for dismiss the keyboard
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
@@ -209,74 +213,77 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    
     [self checkOrientation];
 }
 -(void)savePhotoDetailOnServer
 {
-    isPhotoDetailSaveOnServer=YES;
-    
-    //savePhotoDetailONTempArray
-    
-    /*
-     "collection_photo_added_date" = "2014-02-06 22:59:43";
-     "collection_photo_description" = "no dec";
-     "collection_photo_filesize" = 1360015;
-     "collection_photo_id" = 439;
-     "collection_photo_title" = "my photo";
-     "collection_photo_user_id" = 11;     */
-   
-    
     NSString *photodes=photoDescriptionTxt.text;
-   
+    
     NSString *photoTitle=photoTitletxt.text;
     if(photodes.length==0)
     {
-       photodes=@"";
+        photodes=@"";
     }
     if(photoTitle.length==0)
     {
-        photoTitle=@"";
+        photoTitle=@"Untitle";
     }
-    @try {
-        
-        NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
-        
-        NSDictionary *photoDetail=[photoinfoarray objectAtIndex:self.selectedIndex];
-        
-        NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-        [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
-        [dic setObject:photodes forKey:@"collection_photo_description"];
-        [dic setObject:photoTitle forKey:@"collection_photo_title"];
-        [dic setObject:self.photoId forKey:@"collection_photo_id"];
-        [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
-        [dic setObject:userid forKey:@"collection_photo_user_id"];
-        //update photo info array in nsuser default
-        [photoinfoarray replaceObjectAtIndex:self.selectedIndex withObject:dic];
-        
-        NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
-        [manager storeData:data :@"photoInfoArray"];
-        
-        NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitletxt.text,@"photo_description":photoDescriptionTxt.text,@"photo_location":photoLocationString,@"photo_tags":photoTag.text,@"photo_collections":self.collectionId};
-        
-         webservices=[[WebserviceController alloc] init];
-        webservices.delegate=self;
-        [webservices call:dicData controller:@"photo" method:@"change"];
-        
-        [self.navigationController popViewControllerAnimated:YES];
 
+    if(self.isFromLaunchCamera)
+    {
+        NSDictionary *photoDetail=@{@"photo_title":photoTitle,@"photo_description":photodes,@"photo_tags":photoTag.text};
+        
+        //launch camera viewController
+        LaunchCameraViewController *launchCamera=[[LaunchCameraViewController alloc] init];
+       
+        [manager storeData:@"yes" :@"isfromphotodetailcontroller"];
+        [manager storeData:photoDetail :@"takephotodetail"];
     }
-    @catch (NSException *exception) {
+    else
+    {
+        isPhotoDetailSaveOnServer=YES;
+        
+        @try {
+            
+            NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
+            
+            NSDictionary *photoDetail=[photoinfoarray objectAtIndex:self.selectedIndex];
+            
+            NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
+            [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
+            [dic setObject:photodes forKey:@"collection_photo_description"];
+            [dic setObject:photoTitle forKey:@"collection_photo_title"];
+            [dic setObject:self.photoId forKey:@"collection_photo_id"];
+            [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
+            [dic setObject:userid forKey:@"collection_photo_user_id"];
+            //update photo info array in nsuser default
+            [photoinfoarray replaceObjectAtIndex:self.selectedIndex withObject:dic];
+            
+            NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
+            [manager storeData:data :@"photoInfoArray"];
+            
+            NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitle,@"photo_description":photodes,@"photo_location":photoLocationString,@"photo_tags":photoTag.text,@"photo_collections":self.collectionId};
+            
+            webservices=[[WebserviceController alloc] init];
+            webservices.delegate=self;
+            [webservices call:dicData controller:@"photo" method:@"change"];
+            
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+
         
     }
-    @finally {
-        
-    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    NSString *user_message=[data objectForKey:@"user_message"];
+    //NSNumber *exitCode=[data objectForKey:@"exit_code"];
+    //NSString *user_message=[data objectForKey:@"user_message"];
 }
 -(IBAction)savePhotoDetail:(id)sender
 {
@@ -307,7 +314,11 @@
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
 
-    [navnBar addSubview:button];
+    if(!self.isFromLaunchCamera)
+    {
+         [navnBar addSubview:button];
+    }
+   
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
