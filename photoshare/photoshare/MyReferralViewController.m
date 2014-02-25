@@ -22,6 +22,7 @@
     NSMutableArray *userNameArr;
     NSMutableArray *userActiveArr;
     NSMutableArray *userDateArr;
+    CGRect frame;
 }
 @end
 
@@ -47,6 +48,11 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"MyReferralViewController_iPad" owner:self options:Nil];
     }
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
     
     dmc = [[DataMapperController alloc] init];
     
@@ -59,6 +65,7 @@
     userActiveArr = [[NSMutableArray alloc] init];
     userDateArr = [[NSMutableArray alloc] init];
     
+    
     [self.navigationItem setTitle:@"My Referrals"];
     webServiceHlpr = [[WebserviceController alloc] init];
     webServiceHlpr.delegate = self;
@@ -67,6 +74,7 @@
     NSDictionary *dictData = @{@"user_id":userID};
     [webServiceHlpr call:dictData controller:@"user" method:@"getearningsdetails"];
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+    
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
@@ -205,6 +213,103 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
+}
+
+
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    frame = tableView.frame;
+    
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 480;
+            tableView.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 568;
+            tableView.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+           frame.size.width = 320;
+            tableView.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 320;
+            tableView.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 768;
+            tableView.frame = frame;
+        }
+    }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    frame = tableView.frame;
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 480;
+            tableView.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 568;
+            tableView.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 1024;
+            tableView.frame = frame;
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 320;
+            tableView.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 320;
+            tableView.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 768;
+            tableView.frame = frame;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
