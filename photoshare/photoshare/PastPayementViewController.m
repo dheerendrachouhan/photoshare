@@ -135,15 +135,14 @@
             bMaxWidth = 520;
         }
         
-        /*
+        
         JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:bMaxWidth gradient:nil];
-    
+        /*
         [self.view addSubview:barChartView];
          
-        */
+       
         NSMutableArray *textIndicatorsz = [[NSMutableArray alloc] initWithObjects:@"Date 1", @"Date 2", @"Date 3", @"Date 4", @"Date 5",@"Date 6",@"Date 7",@"Date 8", nil];
         NSMutableArray *valuesz = [[NSMutableArray alloc] initWithObjects:@0, @5, @10, @3, @7, @4, @2, @6, nil];
-        //CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame
                                                                   startPoint:CGPointMake(point, point)
                                                                       values:valuesz maxValue:10
@@ -151,7 +150,8 @@
                                                                    textColor:[UIColor orangeColor]
                                                                    barHeight:bHeight
                                                                  barMaxWidth:bMaxWidth
-                                                                    gradient:nil];
+                                                                    gradient:nil];*/
+        
         [scrollView addSubview:barChartView];
         [SVProgressHUD dismissWithSuccess:@"Loaded"];
     }

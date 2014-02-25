@@ -45,6 +45,7 @@
     
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapGesture];
+    
 
 }
 -(void)hideKeyboard :(UITapGestureRecognizer *)gesture
@@ -99,6 +100,10 @@
         [alert show];
     
     }
+    if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+    {
+        scrollView.frame = CGRectMake(0, 88, 320, 297);
+    }
 }
 
 - (IBAction)userCancelButton:(id)sender { 
@@ -149,6 +154,112 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
+}
+
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 60, 480, 300);
+            scrollView.contentSize = CGSizeMake(480, 330);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 60, 568, 300);
+            scrollView.contentSize = CGSizeMake(568, 330);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 150, 1024, 500);
+            scrollView.contentSize = CGSizeMake(1024, 500);
+            scrollView.bounces = NO;
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 88, 320, 297);
+            scrollView.contentSize = CGSizeMake(320, 250);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 88, 320, 297);
+            scrollView.contentSize = CGSizeMake(320, 250);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 150, 768, 477);
+            scrollView.contentSize = CGSizeMake(768, 250);
+            scrollView.bounces = NO;
+        }
+    }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 60, 480, 300);
+            scrollView.contentSize = CGSizeMake(480, 330);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 60, 568, 300);
+            scrollView.contentSize = CGSizeMake(568, 330);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 150, 1024, 500);
+            scrollView.contentSize = CGSizeMake(1024, 500);
+            scrollView.bounces = NO;
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            scrollView.frame = CGRectMake(0, 88, 320, 297);
+            scrollView.contentSize = CGSizeMake(320, 250);
+            scrollView.bounces = NO;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            scrollView.frame = CGRectMake(0, 88, 320, 297);
+            scrollView.contentSize = CGSizeMake(320, 250);
+            scrollView.bounces = NO;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            scrollView.frame = CGRectMake(0, 150, 768, 477);
+            scrollView.contentSize = CGSizeMake(768, 250);
+            scrollView.bounces = NO;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
