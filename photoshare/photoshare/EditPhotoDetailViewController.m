@@ -15,7 +15,7 @@
 @end
 
 @implementation EditPhotoDetailViewController
-@synthesize photoId,collectionId,selectedIndex;
+@synthesize photoId,collectionId,selectedIndex,isFromLaunchCamera;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,6 +31,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self checkOrientation];
+    
     photoLocationString=@"";
     [self addCustomNavigationBar];
     [self callGetLocation];
@@ -41,9 +43,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //initialize the WebService Object
-   
-    
-    
     userid =[manager getData:@"user_id"];
     
     //set text fielddelegate
@@ -86,39 +85,76 @@
 }
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
+    [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.view endEditing:YES];
 }
 // called when textField start editting.
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+    if([manager isiPad])
+    {
+        if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+        {
+            [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+        }
+        else
+        {
+            [scrollView setContentOffset:CGPointMake(0,textField.center.y-70) animated:NO];
+        }
+    }
+    else
+    {
+        if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+        {
+            [scrollView setContentOffset:CGPointMake(0,textField.center.y-30) animated:YES];
+        }
+        else
+        {
+            [scrollView setContentOffset:CGPointMake(0,textField.center.y-30) animated:NO];
+        }
+    }
+    
 }
+//for text view
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if([manager isiPad])
+    {
+        if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+        {
+            [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+        }
+        else
+        {
+            [scrollView setContentOffset:CGPointMake(0,textView.center.y-80) animated:NO];
+        }
+    }
+    else
+    {
+        if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+        {
+            [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+        }
+        else
+        {
+            [scrollView setContentOffset:CGPointMake(0,textView.center.y-30) animated:NO];
+        }
+    }
 
-
+}
 
 // called when click on the retun button.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {    
     
-    NSInteger nextTag = textField.tag + 1;
-    // Try to find next responder
-    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
-    
-    if (nextResponder) {
-        [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
-        // Found next responder, so set it.
-        [nextResponder becomeFirstResponder];
-    } else {
         [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
         [textField resignFirstResponder];
         return YES;
-    }
-    
-    return NO;
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
     if([text isEqualToString:@"\n"]) {
+        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
         [textView resignFirstResponder];
         return NO;
     }
@@ -134,14 +170,14 @@
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             //scrollView.frame = CGRectMake(0.0f,100.0f,320.0f, 326.0f);
-            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,323);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
             scrollView.scrollEnabled=NO;
             
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             //scrollView.frame = CGRectMake(0.0f, 100.0f,320.0f, 420.0f);
-            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,323);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
             scrollView.scrollEnabled=NO;
         }
     }
@@ -149,13 +185,18 @@
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             //scrollView.frame = CGRectMake(0.0f, 100.0f, 480.0f, 200.0f);
-            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,240);
             scrollView.scrollEnabled=YES;
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             //scrollView.frame = CGRectMake(0.0f, 100.0f, 568.0f, 200.0f);
-            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,240);
+            scrollView.scrollEnabled=YES;
+        }
+        else if ([manager isiPad])
+        {
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,500);
             scrollView.scrollEnabled=YES;
         }
     }

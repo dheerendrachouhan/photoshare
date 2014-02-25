@@ -39,6 +39,8 @@
 }
 -(IBAction)savePhotoDetail:(id)sender;
 
+
+@property(nonatomic,assign)BOOL isFromLaunchCamera;
 @property(nonatomic,retain)NSNumber *photoId;
 @property(nonatomic,retain)NSNumber *collectionId;
 @property(nonatomic,assign)int selectedIndex;

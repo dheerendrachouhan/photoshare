@@ -46,7 +46,7 @@
     [super viewDidLoad];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
+    dataFetchView=[[UIView alloc] initWithFrame:self.view.frame];
     // Do any additional setup after loading the view from its nib.
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
@@ -98,9 +98,10 @@
         passwordTextField.text = [dict valueForKey:@"password"];
     }
     
-    NSTimer *timerGo = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
+    
     
 }
+
 
 -(void)deviceOrientDetect
 {
@@ -113,9 +114,16 @@
 
 -(void)orient:(UIInterfaceOrientation)ott
 {
+    //set the fetchview frame
+    float width= self.view.frame.size.width;
+    float height= self.view.frame.size.height;
+    
+    
+    
     if (ott == UIInterfaceOrientationLandscapeLeft ||
         ott == UIInterfaceOrientationLandscapeRight)
     {
+        dataFetchView.frame=CGRectMake(0, 0, height,width);
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0.0f, 0.0f, 480.0f, 320.0f);
@@ -138,6 +146,8 @@
     }
     else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
     {
+        dataFetchView.frame=CGRectMake(0, 0, width,height);
+        
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 480.0f);
@@ -178,6 +188,9 @@
     {
         isGetLoginDetail=YES;
         webservices.delegate = self;
+        
+        [SVProgressHUD showWithStatus:@"Login" maskType:SVProgressHUDMaskTypeBlack];
+        
         NSDictionary *postdic = @{@"username":username, @"password":password} ;
         [webservices call:postdic controller:@"authentication" method:@"login"];
     }
@@ -193,6 +206,7 @@
      NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
     if(isGetLoginDetail)
     {
+        [SVProgressHUD dismiss];
         if(exitCode.integerValue==1)
         {
             //get the userId
@@ -214,7 +228,7 @@
         }
         else
         {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Network Error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
         }
         
@@ -318,6 +332,12 @@
                 [self loadData];
             }
         }
+        else
+        {
+            [self removeDataFetchView];
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Network Error" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
     }
 }
 
@@ -346,7 +366,6 @@
 -(void)displayTheDataFetchingView
 {
     //set Fetching View
-    dataFetchView=[[UIView alloc] initWithFrame:self.view.frame];
     dataFetchView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:dataFetchView];
     [SVProgressHUD showWithStatus:@"Data is Loading From Server" maskType:SVProgressHUDMaskTypeBlack];
@@ -604,6 +623,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSTimer *timerGo = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
+    
     [self registerForKeyboardNotifications];
 }
 - (void)viewWillDisappear:(BOOL)animated {
@@ -736,9 +757,13 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    float width= self.view.frame.size.width;
+    float height= self.view.frame.size.height;
+    
     if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
         toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
     {
+        dataFetchView.frame=CGRectMake(0, 0, height,width);
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0.0f, 0.0f, 480.0f, 320.0f);
@@ -761,6 +786,7 @@
     }
     else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
     {
+        dataFetchView.frame=CGRectMake(0, 0,width, height);
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0.0f, 0.0f, 320.0f, 480.0f);

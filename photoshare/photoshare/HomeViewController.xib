@@ -104,7 +104,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7vd-3R-lmQ">
-                            <rect key="frame" x="175" y="92" width="24" height="24"/>
+                            <rect key="frame" x="174" y="92" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" red="0.18586761800000001" green="1" blue="0.26417117410000002" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="12"/>

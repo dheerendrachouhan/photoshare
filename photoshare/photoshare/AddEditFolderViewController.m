@@ -30,7 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self checkOrientation];
+    
     // Do any additional setup after loading the view from its nib.
     
     //initialize the photo is array
@@ -177,6 +177,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
+    [self checkOrientation];
+    
     [self addCustomNavigationBar];
     
     //get the user id from nsuserDefaults
@@ -209,20 +211,10 @@
 //called when click on the retun button.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    NSInteger nextTag = textField.tag + 1;
-    // Try to find next responder
-    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
-    if (nextResponder) {
-        [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-30) animated:YES];
-        // Found next responder, so set it.
-        [nextResponder becomeFirstResponder];
-    } else {
-        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
-        [textField resignFirstResponder];
-        return YES;
-    }
     
-    return NO;
+    [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+    [textField resignFirstResponder];
+    return YES;
 }
 
 //get the collection detail from server

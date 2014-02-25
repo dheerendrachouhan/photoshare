@@ -16,6 +16,7 @@
     IBOutlet UIButton *saveBtn;
     IBOutlet UICollectionView *sharingUserListCollView;
     IBOutlet UIView *shareSearchView;
+    IBOutlet UIScrollView *scrollView;
     ContentManager *manager;
     WebserviceController *webservices;
     
@@ -47,6 +48,9 @@
     
     UIView *searchView;
 
+    
+    //check orientation
+    UIInterfaceOrientation orientation;
 }
 @property(nonatomic,assign)BOOL isEditFolder;
 @property(nonatomic,assign)BOOL isWriteUser;
