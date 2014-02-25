@@ -84,7 +84,7 @@
     //54.72.11.106
     
     
-   [manager POST:[NSString stringWithFormat:@"http://api.123friday.com/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+   [manager POST:[NSString stringWithFormat:@"http://dev-iis.com/project/123fridaydebug/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         //[formData appendPartWithFileURL:filePath name:@"file" error: nil];
          [formData appendPartWithFileData:imageData name:@"file" fileName:@"photo.png" mimeType:@"image/png"];
         

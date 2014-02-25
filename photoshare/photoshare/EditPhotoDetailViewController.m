@@ -88,9 +88,33 @@
 {
     [self.view endEditing:YES];
 }
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+// called when textField start editting.
+- (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    return [textField resignFirstResponder];
+    [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+}
+
+
+
+// called when click on the retun button.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{    
+    
+    NSInteger nextTag = textField.tag + 1;
+    // Try to find next responder
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    
+    if (nextResponder) {
+        [scrollView setContentOffset:CGPointMake(0,textField.center.y-60) animated:YES];
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+    } else {
+        [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+        [textField resignFirstResponder];
+        return YES;
+    }
+    
+    return NO;
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
@@ -100,6 +124,52 @@
     }
     
     return YES;
+}
+-(void)checkOrientation
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f,100.0f,320.0f, 326.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,323);
+            scrollView.scrollEnabled=NO;
+            
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f,320.0f, 420.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,323);
+            scrollView.scrollEnabled=NO;
+        }
+    }
+    else {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f, 480.0f, 200.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
+            scrollView.scrollEnabled=YES;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            //scrollView.frame = CGRectMake(0.0f, 100.0f, 568.0f, 200.0f);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
+            scrollView.scrollEnabled=YES;
+        }
+    }
+}
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    [self checkOrientation];
 }
 -(void)savePhotoDetailOnServer
 {

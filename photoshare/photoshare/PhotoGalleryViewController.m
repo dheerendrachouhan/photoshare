@@ -620,7 +620,6 @@
             sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
             if(sortedArray.count>0)
             {
-                
                 deleteImageCount=0;
                 @try {
                     for(int i=0;i<sortedArray.count;i++)

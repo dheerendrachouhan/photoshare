@@ -6,6 +6,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditPhotoDetailViewController">
             <connections>
+                <outlet property="photoDescriptionTxt" destination="u6C-YZ-7gx" id="bay-dv-6fl"/>
+                <outlet property="photoTag" destination="gHq-tB-rkX" id="iMy-sK-nhk"/>
+                <outlet property="photoTitletxt" destination="ZuG-sO-PVG" id="vbf-i4-ny8"/>
+                <outlet property="saveButton" destination="xeb-74-HLp" id="37k-bF-el0"/>
+                <outlet property="scrollView" destination="wlM-fT-7oC" id="rLV-33-CBY"/>
                 <outlet property="view" destination="1" id="OWR-Zt-lYg"/>
             </connections>
         </placeholder>
@@ -15,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wlM-fT-7oC">
-                    <rect key="frame" x="0.0" y="166" width="768" height="740"/>
+                    <rect key="frame" x="0.0" y="166" width="768" height="699"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xeb-74-HLp">
