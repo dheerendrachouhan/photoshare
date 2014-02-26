@@ -226,7 +226,13 @@
     //for home page view controller navBar
     if([manager isiPad])
     {
-        navnBar.frame=CGRectMake(0, 20, self.view.frame.size.width, 110);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+            [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :false];
+        
+        }else{
+            [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :true];
+        }
+        
     }
     else
     {
@@ -237,6 +243,16 @@
 }
 
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+}
 
 - (void)didReceiveMemoryWarning
 {
