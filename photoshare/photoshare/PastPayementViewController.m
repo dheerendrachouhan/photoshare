@@ -231,7 +231,16 @@
     
     if([objManager isiPad])
     {
-        navTitle.frame = CGRectMake(280, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+            [navnBar loadNav:CGRectNull :false];
+            navTitle.frame = CGRectMake(280, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+            navTitle.frame = CGRectMake(390, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
+        }
+        
         navTitle.font = [UIFont systemFontOfSize:36.0f];
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
@@ -270,6 +279,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [self addCustomNavigationBar];
     if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
         toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
     {

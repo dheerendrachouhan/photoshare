@@ -64,7 +64,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar;
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
@@ -81,12 +81,23 @@
     
     if([objManager isiPad])
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 150)];
-        navTitle.frame = CGRectMake(280, 100, 250, 50);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            navTitle.frame = CGRectMake(280, 120, 250, 50);
+            buttonLeft.frame = CGRectMake(620, 110, 140, 30.0);
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+            navTitle.frame = CGRectMake(400, 110, 250, 50);
+            buttonLeft.frame = CGRectMake(870, 120, 140, 30.0);
+        }
+        
         navTitle.font = [UIFont systemFontOfSize:36.0f];
         button.frame = CGRectMake(0.0, 120, 100.0, 30.0);
         button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-        buttonLeft.frame = CGRectMake(620, 120, 140, 30.0);
+        
         buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
     }
     else
@@ -180,6 +191,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [self addCustomNavigationBar];
     if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
         toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
     {
