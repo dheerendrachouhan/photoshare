@@ -10,7 +10,7 @@
 #import "AppDelegate.h"
 #import "HomeViewController.h"
 #import "SVProgressHUD.h"
-
+#import "EditPhotoDetailViewController.h"
 
 @interface NoStatusBarImagePickerController : UIImagePickerController
 @end
@@ -33,6 +33,7 @@
 
 @implementation LaunchCameraViewController
 @synthesize isFromHomePage,sessions,assetLibrary;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -57,16 +58,35 @@
     dmc=[[DataMapperController alloc] init];
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
+    
+    imgView.contentMode=UIViewContentModeScaleAspectFit;
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
-    selectedCollectionId=@0;
-    [self callGetLocation];
     
-    [self getCollectionInfoFromUserDefault];
-    [self addCustomNavigationBar];
-    
+    if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"yes"])
+    {
+        selectedCollectionId=@0;
+        [self callGetLocation];
+        
+        photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
+        photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
+        photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
+        
+        imgData=[manager getData:@"photo_data"];
+        
+        [manager storeData:@"no" :@"isfromphotodetailcontroller"];
+       [manager storeData:@"" :@"takephotodetail"];
+        [manager storeData:@"" :@"photo_data"];
+    }
+    else
+    {
+        
+        [self getCollectionInfoFromUserDefault];
+        [self addCustomNavigationBar];
+        
         if(!isCameraMode)
         {
             photoLocationStr=@"";
@@ -76,11 +96,11 @@
             picker.delegate=self;
             if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
             {
-               
+                
                 picker.sourceType=UIImagePickerControllerSourceTypeCamera;
                 isCameraMode=YES;
                 
-
+                
             }
             else
             {
@@ -89,8 +109,11 @@
             
             [picker childViewControllerForStatusBarHidden];
             [self presentViewController:picker animated:YES completion:nil];
-        
+            
+        }
+
     }
+    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -275,6 +298,9 @@
     imgView.image=image;
     imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    
     [self showSelectFolderOption];
 }
 
@@ -454,7 +480,8 @@
         [self.view addSubview:pickerToolbar];
         [self.view addSubview:categoryPickerView];
         
-         [self addPhotoDescriptionView];
+         //[self addPhotoDescriptionView];
+        
         
     }
     @catch (NSException *exception) {
@@ -464,6 +491,24 @@
         
     }
     
+    [self goToPhotoDetailViewControoler];
+}
+-(void)goToPhotoDetailViewControoler
+{
+    EditPhotoDetailViewController *editDetail;
+    if([manager isiPad])
+    {
+        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
+    }
+    editDetail.isFromLaunchCamera=YES;
+    
+    [manager storeData:imgData :@"photo_data"];
+    
+    [self.navigationController pushViewController:editDetail animated:NO];
 }
 - (void)pickerViewTapGestureRecognized:(UITapGestureRecognizer*)gestureRecognizer
 {

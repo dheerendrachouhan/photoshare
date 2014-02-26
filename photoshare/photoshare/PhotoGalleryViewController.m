@@ -144,30 +144,51 @@
     
     [self addCustomNavigationBar];
     
-    
-    isPopFromPhotos=NO;
-    isGoToViewPhoto=NO;
-    
-    if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
+    if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"yes"])
     {
-        [manager storeData:@"NO" :@"istabcamera"];
-        [self.navigationController popViewControllerAnimated:NO];
-    }
-    frameForShareBtn=sharePhotoBtn.frame;
-    if([[manager getData:@"isEditPhotoInViewPhoto"] isEqualToString:@"YES"])
-    {
-        NSData *photo=[manager getData:@"photo"];
-        UIImage *image=[UIImage imageWithData:photo];
-        [photoArray addObject:image];
-        [photoIdsArray addObject:[manager getData:@"photoId"]];
-        NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
-        photoInfoArray=photoinfoarray;
-        [collectionview reloadData];
-        [manager storeData:@"NO" :@"isEditPhotoInViewPhoto"];
-        //remove data from nsuser default
-        [manager removeData:@"photo,photoId,isEditPhotoInViewPhoto"];//photo info array is use later
         
-    }    
+        [self callGetLocation];
+        
+        photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
+        photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
+        photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
+        
+        imageData=[manager getData:@"photo_data"];
+        
+        [self savePhotosOnServer:userid filepath:imageData];
+        
+        [manager storeData:@"no" :@"isfromphotodetailcontroller"];
+        [manager storeData:@"" :@"takephotodetail"];
+        [manager storeData:@"" :@"photo_data"];
+    }
+    else
+    {
+        isPopFromPhotos=NO;
+        isGoToViewPhoto=NO;
+        
+        if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
+        {
+            [manager storeData:@"NO" :@"istabcamera"];
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+        frameForShareBtn=sharePhotoBtn.frame;
+        if([[manager getData:@"isEditPhotoInViewPhoto"] isEqualToString:@"YES"])
+        {
+            NSData *photo=[manager getData:@"photo"];
+            UIImage *image=[UIImage imageWithData:photo];
+            [photoArray addObject:image];
+            [photoIdsArray addObject:[manager getData:@"photoId"]];
+            NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
+            photoInfoArray=photoinfoarray;
+            [collectionview reloadData];
+            [manager storeData:@"NO" :@"isEditPhotoInViewPhoto"];
+            //remove data from nsuser default
+            [manager removeData:@"photo,photoId,isEditPhotoInViewPhoto"];//photo info array is use later
+            
+        }    
+
+    }
+
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -1351,11 +1372,28 @@
     
     //add image in collection Array
     
-    [self addPhotoDescriptionView];
+    //[self addPhotoDescriptionView];
+    [self goToPhotoDetailViewControler];
    //[self savePhotosOnServer:userid filepath:imageData];
     
 }
-
+-(void)goToPhotoDetailViewControler
+{
+    EditPhotoDetailViewController *editDetail;
+    if([manager isiPad])
+    {
+        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
+    }
+    editDetail.isFromLaunchCamera=YES;
+    
+    [manager storeData:imageData :@"photo_data"];
+    
+    [self.navigationController pushViewController:editDetail animated:NO];
+}
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {

@@ -176,18 +176,38 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self getCollectionInfoFromUserDefault];
-    [self addCustomNavigationBar];
-    if (isCameraEditMode) {
-        isCameraEditMode = false ;
-        [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self
-          selector:@selector(openeditorcontrol)  userInfo:nil
-        repeats:NO];
-    }
-    if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
+    if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"yes"])
     {
-        [self.navigationController popViewControllerAnimated:NO];
+        
+        [self callGetLocation];
+        
+        photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
+        photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
+        photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
+        
+        imgData=[manager getData:@"photo_data"];
+        
+        
+        [self savePhotosOnServer:userid filepath:imgData];
+        
+        [manager storeData:@"no" :@"isfromphotodetailcontroller"];
+        [manager storeData:@"" :@"takephotodetail"];
+        [manager storeData:@"" :@"photo_data"];
+    }
+    else
+    {
+        [self getCollectionInfoFromUserDefault];
+        [self addCustomNavigationBar];
+        if (isCameraEditMode) {
+            isCameraEditMode = false ;
+            [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self
+                                           selector:@selector(openeditorcontrol)  userInfo:nil
+                                            repeats:NO];
+        }
+        if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
+        {
+            [self.navigationController popViewControllerAnimated:NO];
+        }
     }
 }
 -(void)openeditorcontrol
@@ -401,10 +421,27 @@
     
      imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self addPhotoDescriptionView];
+    //[self addPhotoDescriptionView];
+    [self goToPhotoDetailViewControler];
     //[manager showAlert:@"Message" msg:@"Photo Edit success" cancelBtnTitle:@"Ok" otherBtn:nil];
 }
-
+-(void)goToPhotoDetailViewControler
+{
+    EditPhotoDetailViewController *editDetail;
+    if([manager isiPad])
+    {
+        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
+    }
+    editDetail.isFromLaunchCamera=YES;
+    
+    [manager storeData:imgData :@"photo_data"];
+    
+    [self.navigationController pushViewController:editDetail animated:NO];
+}
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
