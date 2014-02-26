@@ -192,7 +192,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    
+    [self addCustomNavigationBar];
     [self checkOrientation];
 }
 // called when textField start editting.
@@ -784,6 +784,14 @@
     }
     if([manager isiPad])
     {
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+        }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
