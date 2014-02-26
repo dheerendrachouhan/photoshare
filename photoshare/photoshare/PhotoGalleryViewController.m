@@ -367,7 +367,7 @@
             webServices.delegate=self;
             NSNumber *num = [NSNumber numberWithInt:1] ;
             selectedPhotoId = [photoIdsArray objectAtIndex:photoIdIndex];
-            dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":@"0"};
+            dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:photoIdIndex],@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
             
             [webServices call:dicData controller:@"photo" method:@"get"];
             
