@@ -197,7 +197,26 @@
     }
     else
     {
-        navTitle.frame = CGRectMake(115, NavBtnYPosForiPhone, 95, NavBtnHeightForiPhone);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            navTitle.frame = CGRectMake(115, NavBtnYPosForiPhone, 95, NavBtnHeightForiPhone);
+        }
+        else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                navTitle.frame = CGRectMake(200, NavBtnYPosForiPhone, 95, NavBtnHeightForiPhone);
+                [navnBar loadNav:CGRectNull :true];
+            }
+            else if([[UIScreen mainScreen] bounds].size.height == 568)
+            {
+                navTitle.frame = CGRectMake(245, NavBtnYPosForiPhone, 95, NavBtnHeightForiPhone);
+                [navnBar loadNav:CGRectNull :true];
+            }
+        }
+        
+        
         navTitle.font = [UIFont systemFontOfSize:18.0f];
 
     }

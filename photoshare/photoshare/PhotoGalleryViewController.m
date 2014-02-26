@@ -1641,7 +1641,21 @@
         }
         else
         {
-            titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+             if(UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+             {
+                 titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+             }
+            else
+            {
+                if([[UIScreen mainScreen] bounds].size.height == 480)
+                {
+                    titleLabel.frame = CGRectMake(180.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+                }
+                else
+                {
+                    titleLabel.frame = CGRectMake(220.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+                }
+            }
             titleLabel.font = [UIFont systemFontOfSize:17.0f];
         }
         
@@ -1659,7 +1673,22 @@
         }
         else
         {
-            foldernamelabel.frame=CGRectMake(90.0, NavBtnYPosForiPhone, 220.0, NavBtnHeightForiPhone);
+            if(UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+            {
+                foldernamelabel.frame=CGRectMake(90.0, NavBtnYPosForiPhone, 220.0, NavBtnHeightForiPhone);
+            }
+            else
+            {
+                if([[UIScreen mainScreen] bounds].size.height == 480)
+                {
+                    foldernamelabel.frame=CGRectMake(258.0, NavBtnYPosForiPhone, 220.0, NavBtnHeightForiPhone);
+                }
+                else
+                {
+                    foldernamelabel.frame=CGRectMake(347.0, NavBtnYPosForiPhone, 220.0, NavBtnHeightForiPhone);
+                }
+            }
+            
             foldernamelabel.font=[UIFont fontWithName:@"Verdana" size:17.0f];
         }
         foldernamelabel.text=self.folderName;
@@ -1685,6 +1714,14 @@
     }
     else
     {
+        if(UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+        }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }

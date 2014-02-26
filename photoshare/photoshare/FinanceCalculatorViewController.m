@@ -371,8 +371,25 @@
     }
     else
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
-        navTitle.frame = CGRectMake(90, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            navTitle.frame = CGRectMake(90, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+        }
+        else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                [navnBar loadNav:CGRectNull :true];
+                navTitle.frame = CGRectMake(170, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+            }
+            else if([[UIScreen mainScreen] bounds].size.height == 568)
+            {
+                [navnBar loadNav:CGRectNull :true];
+                navTitle.frame = CGRectMake(220, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+            }
+        }
+        
         navTitle.font = [UIFont systemFontOfSize:18.0f];
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
