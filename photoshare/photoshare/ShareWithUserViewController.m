@@ -305,7 +305,7 @@
                     [searchList setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                     
                     [searchView addSubview:searchList];
-                    [self.view addSubview:searchView];
+                    [scrollView addSubview:searchView];
                 }
         }
         else

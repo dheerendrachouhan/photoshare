@@ -238,7 +238,12 @@
         }
         else
         {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Network Error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            NSString *errorMessage=[data objectForKey:@"user_message"];
+            if(errorMessage.length==0)
+            {
+                errorMessage=@"Network Error";
+            }
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
         }
         

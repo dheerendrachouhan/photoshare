@@ -465,7 +465,11 @@
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
-    
+    // Set Supported Orientations
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        NSArray * supportedOrientations = @[@(UIInterfaceOrientationPortrait), @(UIInterfaceOrientationPortraitUpsideDown), @(UIInterfaceOrientationLandscapeLeft), @(UIInterfaceOrientationLandscapeRight)];
+        [AFPhotoEditorCustomization setSupportedIpadOrientations:supportedOrientations];
+    }
 }
 #pragma mark - ALAssets Helper Methods
 
