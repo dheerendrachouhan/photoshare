@@ -483,9 +483,16 @@
         
         [categoryPickerView addGestureRecognizer:gestureRecognizer];
         
-        pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-260, 320, 40)];
-        pickerToolbar.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleWidth;
+        if([manager isiPad])
+        {
+            pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-260, 320, 40)];
+        }
+        else
+        {
+            pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-217, 320, 40)];
+        }
         
+        pickerToolbar.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleWidth;
         
         pickerToolbar.barStyle = UIBarStyleBlackOpaque;
         [pickerToolbar sizeToFit];
@@ -685,6 +692,9 @@
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
     backView2=[[UIView alloc] initWithFrame:self.view.frame];
+    
+    backView1.autoresizingMask=UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    
     backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     
     UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-80, 200, 160)];
