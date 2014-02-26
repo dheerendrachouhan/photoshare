@@ -167,7 +167,17 @@
         }
     }
 }
-
+//if network error found
+-(void)networkError
+{
+    [collectionArrayWithSharing removeAllObjects];
+    [sharingIdArray removeAllObjects];
+    countSharing=0;
+    [self removeDataFetchView];
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Network Error" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
+    
+}
 //user sign in function
 - (IBAction)userSignInBtn:(id)sender {
     
@@ -334,9 +344,7 @@
         }
         else
         {
-            [self removeDataFetchView];
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Network Error" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            [self networkError];
         }
     }
 }

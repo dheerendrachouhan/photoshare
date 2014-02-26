@@ -108,12 +108,45 @@
             }
             
             [picker childViewControllerForStatusBarHidden];
-            [self presentViewController:picker animated:YES completion:nil];
-            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [self presentViewController:picker animated:YES completion:nil];
+            }else{
+                [self presentViewControllerInPopover:picker];
+            }
         }
 
     }
     
+}
+- (void) presentViewControllerInPopover:(UIViewController *)controller
+{
+    //CGRect sourceRect = [[self choosePhotoButton] frame];
+    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+    [popover setDelegate:self];
+    [self setPopover:popover];
+    [self setShouldReleasePopover:YES];
+    
+    CGRect popoverFrame=CGRectMake(50, 400,444, 50);
+    [self.popover presentPopoverFromRect:CGRectMake(270, 200, 500, 300) inView:self.view               permittedArrowDirections:0  animated:YES];
+}
+- (void) dismissPopoverWithCompletion:(void(^)(void))completion
+{
+    [[self popover] dismissPopoverAnimated:YES];
+    [self setPopover:nil];
+    
+    NSTimeInterval delayInSeconds = 0.5;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        completion();
+    });
+}
+
+- (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    if ([self shouldReleasePopover]){
+        [self setPopover:nil];
+    }
+    [self setShouldReleasePopover:YES];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -133,47 +166,7 @@
     
     return YES;
 }
--(void)checkOrientation
-{
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    
-    orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            
-            
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-           
-        }
-        
-    }
-    else {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            
-        }
-    }
-}
 
-
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    
-    [self checkOrientation];
-}
 
 -(void)openeditorcontrol
 {
@@ -221,7 +214,6 @@
     @finally {
         
     }
-    
     
 }
 - (void)didReceiveMemoryWarning
@@ -370,7 +362,11 @@
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
-    
+    // Set Supported Orientations
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        NSArray * supportedOrientations = @[@(UIInterfaceOrientationPortrait), @(UIInterfaceOrientationPortraitUpsideDown), @(UIInterfaceOrientationLandscapeLeft), @(UIInterfaceOrientationLandscapeRight)];
+        [AFPhotoEditorCustomization setSupportedIpadOrientations:supportedOrientations];
+    }
 }
 #pragma mark - ALAssets Helper Methods
 
@@ -489,7 +485,7 @@
         }
         else
         {
-            pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-217, 320, 40)];
+            pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-218, 320, 40)];
         }
         
         pickerToolbar.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleWidth;
@@ -693,15 +689,18 @@
     UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
     backView2=[[UIView alloc] initWithFrame:self.view.frame];
     
-    backView1.autoresizingMask=UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    backView2.autoresizingMask=UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
     
     backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     
-    UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-80, 200, 160)];
+    UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-120, 200, 160)];
     addFolderView.layer.borderWidth=1;
     addFolderView.layer.borderColor=[UIColor blackColor].CGColor;
     addFolderView.layer.cornerRadius=8;
     addFolderView.backgroundColor=[UIColor whiteColor];
+    
+    
+    addFolderView.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     
     UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 150, 30)];
     headLbl.text=@"Add New Folder";
