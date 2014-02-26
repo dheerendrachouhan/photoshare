@@ -880,7 +880,7 @@
         }
         else
         {
-            [navnBar loadNav:CGRectNull :false];
+            [navnBar loadNav:CGRectNull :true];
         }
     }
     else
@@ -892,10 +892,9 @@
         }
         else
         {
-            [navnBar loadNav:CGRectNull :false];
+            [navnBar loadNav:CGRectNull :true];
         }
     }
-    
     
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
@@ -973,5 +972,16 @@
     [locationManager stopUpdatingLocation];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+    
+}
 
 @end
