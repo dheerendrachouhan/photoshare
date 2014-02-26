@@ -190,7 +190,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    
+    [self addCustomNavigationBar];
     [self checkOrientation];
 }
 -(void)getWriteSharingUserList
@@ -442,7 +442,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
@@ -454,10 +454,18 @@
     titleLabel.textAlignment=NSTextAlignmentCenter;
     if([manager isiPad])
     {
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+        }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
-        titleLabel.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 150.0, NavBtnHeightForiPad);
+        titleLabel.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 200.0, NavBtnHeightForiPad);
         titleLabel.font =[UIFont systemFontOfSize:23.0f];
         
     }
@@ -472,6 +480,7 @@
     }
     
     [navnBar addSubview:button];
+    [navnBar addSubview:titleLabel];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
