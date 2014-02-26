@@ -483,7 +483,10 @@
         
         [categoryPickerView addGestureRecognizer:gestureRecognizer];
         
-        pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-220, 320, 40)];
+        pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-260, 320, 40)];
+        pickerToolbar.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleWidth;
+        
+        
         pickerToolbar.barStyle = UIBarStyleBlackOpaque;
         [pickerToolbar sizeToFit];
         
