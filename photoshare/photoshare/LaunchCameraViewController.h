@@ -21,7 +21,7 @@
 #import "DataMapperController.h"
 #import "NavigationBar.h"
 #import <CoreLocation/CoreLocation.h>
-@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UITabBarDelegate,CLLocationManagerDelegate,UITextViewDelegate>
+@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UITabBarDelegate,CLLocationManagerDelegate,UITextViewDelegate,UIPopoverControllerDelegate>
 {
     //get the userf location
     CLLocationManager *locationManager;
@@ -79,5 +79,9 @@
 @property (nonatomic, strong) NSMutableArray * sessions;
 
 @property (nonatomic,assign)BOOL isFromHomePage;
+
+//for popover
+@property (nonatomic, strong) UIPopoverController * popover;
+@property (nonatomic, assign) BOOL shouldReleasePopover;
 
 @end

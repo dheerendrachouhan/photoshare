@@ -108,12 +108,45 @@
             }
             
             [picker childViewControllerForStatusBarHidden];
-            [self presentViewController:picker animated:YES completion:nil];
-            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [self presentViewController:picker animated:YES completion:nil];
+            }else{
+                [self presentViewControllerInPopover:picker];
+            }
         }
 
     }
     
+}
+- (void) presentViewControllerInPopover:(UIViewController *)controller
+{
+    //CGRect sourceRect = [[self choosePhotoButton] frame];
+    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+    [popover setDelegate:self];
+    [self setPopover:popover];
+    [self setShouldReleasePopover:YES];
+    
+    CGRect popoverFrame=CGRectMake(50, 400,444, 50);
+    [self.popover presentPopoverFromRect:CGRectMake(270, 200, 500, 300) inView:self.view               permittedArrowDirections:0  animated:YES];
+}
+- (void) dismissPopoverWithCompletion:(void(^)(void))completion
+{
+    [[self popover] dismissPopoverAnimated:YES];
+    [self setPopover:nil];
+    
+    NSTimeInterval delayInSeconds = 0.5;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        completion();
+    });
+}
+
+- (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    if ([self shouldReleasePopover]){
+        [self setPopover:nil];
+    }
+    [self setShouldReleasePopover:YES];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -329,7 +362,11 @@
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
-    
+    // Set Supported Orientations
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        NSArray * supportedOrientations = @[@(UIInterfaceOrientationPortrait), @(UIInterfaceOrientationPortraitUpsideDown), @(UIInterfaceOrientationLandscapeLeft), @(UIInterfaceOrientationLandscapeRight)];
+        [AFPhotoEditorCustomization setSupportedIpadOrientations:supportedOrientations];
+    }
 }
 #pragma mark - ALAssets Helper Methods
 
