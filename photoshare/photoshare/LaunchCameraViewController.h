@@ -35,7 +35,7 @@
     NSNumber *publicCollectionId;
     NSNumber *selectedCollectionId;
     NSData *imgData;
-    UIPickerView *categoryPickerView;
+    IBOutlet UIPickerView *categoryPickerView;
     UIToolbar *pickerToolbar;
     
      NSNumber *userid;
@@ -69,6 +69,9 @@
     NSString *photoDescriptionStr;
     NSString *photoTagStr;
     NSString *photoLocationStr; //userLoaction is save
+    
+    UIInterfaceOrientation orientation;
+    
 }
 
 //for Aviary

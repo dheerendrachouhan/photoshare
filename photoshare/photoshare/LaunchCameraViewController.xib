@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LaunchCameraViewController">
             <connections>
+                <outlet property="categoryPickerView" destination="Fki-uP-bv3" id="Bdl-bs-aQi"/>
                 <outlet property="imgView" destination="HNi-ij-2mI" id="qBU-Ag-z7f"/>
                 <outlet property="view" destination="1" id="1H2-79-tvD"/>
             </connections>
@@ -19,6 +20,24 @@
                     <rect key="frame" x="0.0" y="69" width="320" height="356"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
+                <pickerView contentMode="scaleToFill" id="Fki-uP-bv3">
+                    <rect key="frame" x="0.0" y="294" width="320" height="162"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </pickerView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ep3-Rr-r8D">
+                    <rect key="frame" x="0.0" y="265" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <items>
+                        <barButtonItem title="Cancel" id="cmQ-U7-pG2"/>
+                        <barButtonItem width="46" style="plain" systemItem="fixedSpace" id="QQo-iB-vgB"/>
+                        <barButtonItem title="Select folder" id="OUP-d8-Ybz">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                        <barButtonItem width="45" style="plain" systemItem="fixedSpace" id="wTt-bI-ELY"/>
+                        <barButtonItem title="Done" id="WyI-Kw-zg7"/>
+                    </items>
+                </toolbar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
