@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LaunchCameraViewController">
             <connections>
+                <outlet property="categoryPickerView" destination="emm-Ig-r4k" id="ETc-O2-12Y"/>
                 <outlet property="imgView" destination="rQg-g9-AVe" id="0Zp-nv-tlo"/>
                 <outlet property="view" destination="1" id="QMV-xi-2eK"/>
             </connections>
@@ -19,6 +20,10 @@
                     <rect key="frame" x="0.0" y="152" width="768" height="748"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
+                <pickerView contentMode="scaleToFill" id="emm-Ig-r4k">
+                    <rect key="frame" x="0.0" y="788" width="768" height="216"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                </pickerView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>

@@ -150,14 +150,14 @@
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             //scrollView.frame = CGRectMake(0.0f,100.0f,320.0f, 326.0f);
-            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
             scrollView.scrollEnabled=NO;
             
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             //scrollView.frame = CGRectMake(0.0f, 100.0f,320.0f, 420.0f);
-            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
             scrollView.scrollEnabled=NO;
         }
     }
@@ -165,13 +165,13 @@
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             //scrollView.frame = CGRectMake(0.0f, 100.0f, 480.0f, 200.0f);
-            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,240);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
             scrollView.scrollEnabled=YES;
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             //scrollView.frame = CGRectMake(0.0f, 100.0f, 568.0f, 200.0f);
-            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,240);
+            scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
             scrollView.scrollEnabled=YES;
         }
         else if ([manager isiPad])

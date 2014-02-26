@@ -133,6 +133,48 @@
     
     return YES;
 }
+-(void)checkOrientation
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            
+            
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+           
+        }
+        
+    }
+    else {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            
+        }
+    }
+}
+
+
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    [self checkOrientation];
+}
+
 -(void)openeditorcontrol
 {
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
@@ -431,7 +473,7 @@
 {
     @try {
         backView1=[[UIView alloc] initWithFrame:self.view.frame];
-        categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, self.view.frame.size.width,120)];
+        //categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, self.view.frame.size.width,120)];
         categoryPickerView.backgroundColor=[UIColor whiteColor];
         [categoryPickerView setDataSource: self];
         [categoryPickerView setDelegate: self];
