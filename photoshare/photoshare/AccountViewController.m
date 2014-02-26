@@ -149,7 +149,14 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     NavigationBar *navnBar = [[NavigationBar alloc] init];
     if([objManager isiPad])
     {
-        navnBar.frame=CGRectMake(0, 20, self.view.frame.size.width, 110);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :false];
+        }
+        else
+        {
+            [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :true];
+        }
     }
     else
     {
@@ -172,6 +179,18 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
         [self presentViewController:hm animated:NO completion:nil];
         [dmc resetHomeIndex];
     }*/
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+    
 }
 
 - (void)didReceiveMemoryWarning
