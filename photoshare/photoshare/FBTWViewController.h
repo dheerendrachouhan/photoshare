@@ -15,5 +15,6 @@
     ContentManager *objManager;
 }
 @property (nonatomic, strong) NSString *successType;
+@property (nonatomic, strong) IBOutlet UILabel *success;
 
 @end

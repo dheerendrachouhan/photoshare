@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FBTWViewController">
             <connections>
                 <outlet property="scocialType" destination="AMb-g1-mXO" id="7gq-e4-ibT"/>
+                <outlet property="success" destination="abu-92-2Xd" id="Bzk-T4-3PJ"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>

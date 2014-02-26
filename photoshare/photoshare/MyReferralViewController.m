@@ -74,7 +74,7 @@
     NSDictionary *dictData = @{@"user_id":userID};
     [webServiceHlpr call:dictData controller:@"user" method:@"getearningsdetails"];
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-    
+    tableView.autoresizesSubviews = UIViewAutoresizingFlexibleWidth;
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
@@ -121,13 +121,24 @@
         
         [SVProgressHUD dismissWithSuccess:@"Done"];
         [tableView reloadData];
-        
+        if(userNameArr.count == 0)
+        {
+            [ObjManager showAlert:@"Message" msg:@"Zero referrals" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+            
     }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return userNameArr.count;
+    if(userActiveArr.count == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return userNameArr.count;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
