@@ -305,12 +305,33 @@
     }
     else
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 75)];
-        navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
+            buttonLeft.frame = CGRectMake(260, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
+        }
+        else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                [navnBar loadNav:CGRectNull :true];
+                navTitle.frame = CGRectMake(190, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
+                buttonLeft.frame = CGRectMake(420, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
+            }
+            else if ([[UIScreen mainScreen] bounds].size.height == 568)
+            {
+                [navnBar loadNav:CGRectNull :true];
+                navTitle.frame = CGRectMake(230, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
+                buttonLeft.frame = CGRectMake(510, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
+            }
+        }
+        
+        
         navTitle.font = [UIFont systemFontOfSize:18.0f];
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        buttonLeft.frame = CGRectMake(260, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
+        
         buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
     

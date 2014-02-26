@@ -63,6 +63,14 @@
     }
     else
     {
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+        }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         

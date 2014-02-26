@@ -800,10 +800,27 @@
     }
     else
     {
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            titleLbl.frame=CGRectMake(100, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                titleLbl.frame=CGRectMake(170, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+            }
+            else
+            {
+                titleLbl.frame=CGRectMake(210, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+            }
+        }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         
-        titleLbl.frame=CGRectMake(100, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
+        
         titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
     }
     

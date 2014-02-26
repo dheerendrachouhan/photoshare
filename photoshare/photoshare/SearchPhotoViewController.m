@@ -379,10 +379,28 @@
     }
     else
     {
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+        }
+        else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                [navnBar loadNav:CGRectNull :true];
+                titleLabel.frame = CGRectMake(180.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+            }
+            else if([[UIScreen mainScreen] bounds].size.height == 568)
+            {
+                [navnBar loadNav:CGRectNull :true];
+                titleLabel.frame = CGRectMake(220.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+            }
+        }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         
-        titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+        
         titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
     

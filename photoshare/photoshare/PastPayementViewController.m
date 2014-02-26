@@ -247,7 +247,26 @@
     }
     else
     {
-        navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+        }
+        else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                [navnBar loadNav:CGRectNull :true];
+                navTitle.frame = CGRectMake(190, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+                
+            }
+            else if ([[UIScreen mainScreen] bounds].size.height == 568)
+            {
+                [navnBar loadNav:CGRectNull :true];
+                navTitle.frame = CGRectMake(230, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
+            }
+        }
+        
         navTitle.font = [UIFont systemFontOfSize:18.0f];
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];

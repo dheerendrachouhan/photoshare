@@ -160,7 +160,23 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     }
     else
     {
-        navnBar.frame=CGRectMake(0, 20, 320, 48);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectMake(0, 20, 320, 48) :false];
+        }
+        else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                [navnBar loadNav:CGRectMake(0, 20, 480, 48) :true];
+            }
+            else
+            {
+                [navnBar loadNav:CGRectMake(0, 20, 568, 48) :true];
+            }
+            
+        }
+        
     }
     
     [[self view] addSubview:navnBar];

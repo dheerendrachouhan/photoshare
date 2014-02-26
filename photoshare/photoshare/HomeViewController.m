@@ -236,7 +236,22 @@
     }
     else
     {
-        navnBar.frame=CGRectMake(0, 20, 320, 60);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectMake(0, 20, 320, 60) :false];
+        }
+        else
+        {
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                [navnBar loadNav:CGRectMake(0, 20, 480, 60) :true];
+            }
+            else if([[UIScreen mainScreen] bounds].size.height == 568)
+            {
+                [navnBar loadNav:CGRectMake(0, 20, 568, 60) :true];
+            }
+        }
+        
     }
     
     [[self view] addSubview:navnBar];
