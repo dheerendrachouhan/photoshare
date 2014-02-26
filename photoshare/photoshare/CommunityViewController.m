@@ -573,7 +573,8 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
@@ -593,13 +594,25 @@
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     if([manager isiPad])
     {
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 110.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:30.0f];
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            titleLabel.frame = CGRectMake(self.view.center.x-100, NavBtnYPosForiPad, 200, NavBtnHeightForiPad);
+            searchBtn.frame=CGRectMake(self.view.frame.size.width-100, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+            titleLabel.frame = CGRectMake(self.view.center.x-100, NavBtnYPosForiPad, 200, NavBtnHeightForiPad);
+            searchBtn.frame=CGRectMake(self.view.frame.size.width-100, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
+        }
         
-        titleLabel.frame = CGRectMake(self.view.center.x-100, NavBtnYPosForiPad, 200, NavBtnHeightForiPad);
+        button.titleLabel.font = [UIFont systemFontOfSize:30.0f];
+        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 110.0, NavBtnHeightForiPad);
+        
         titleLabel.font = [UIFont systemFontOfSize:30.0f];
         
-        searchBtn.frame=CGRectMake(self.view.frame.size.width-100, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
+        
         searchBtn.titleLabel.font = [UIFont systemFontOfSize:30.0f];
     }
     else
@@ -641,5 +654,16 @@
     [self.navigationController pushViewController:searchController animated:NO];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+    
+}
 
 @end
