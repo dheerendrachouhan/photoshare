@@ -21,6 +21,8 @@
     DataMapperController *dmc;
     ContentManager *objManager;
 }
+
+-(void)loadNav:(CGRect)naviFrame:(BOOL)orient;
 -(void)goToEarningViewController;
 -(void)setTheTotalEarning:(NSString *)earners;
 -(void)goToHomeViewController;

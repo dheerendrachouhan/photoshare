@@ -180,9 +180,20 @@
     
     if([objManager isiPad])
     {
-        navTitle.frame = CGRectMake(310, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-        
-        navTitle.font = [UIFont systemFontOfSize:36.0f];
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+            navTitle.frame = CGRectMake(310, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
+            
+            navTitle.font = [UIFont systemFontOfSize:36.0f];
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+            navTitle.frame = CGRectMake(410, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
+            
+            navTitle.font = [UIFont systemFontOfSize:36.0f];
+        }
     }
     else
     {
@@ -227,6 +238,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [self addCustomNavigationBar];
     if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
         toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
     {

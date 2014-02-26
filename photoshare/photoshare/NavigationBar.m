@@ -20,19 +20,86 @@
         // Initialization code
         dmc = [[DataMapperController alloc] init];
         objManager = [ContentManager sharedManager];
-        if([objManager isiPad])
+    }
+    return self;
+}
+
+-(void)loadNav:(CGRect)navFrame:(BOOL)orient
+{
+    if([objManager isiPad])
+    {
+        if(orient)
         {
-            self.frame=CGRectMake(0, 20, 768, 160);
+            if(CGRectIsNull(navFrame))
+            {
+                self.frame=CGRectMake(0, 20, 1024, 160);
+            }
+            else
+            {
+                self.frame = navFrame;
+            }
         }
         else
         {
-            self.frame=CGRectMake(0, 20, 320, 80);
+            if(CGRectIsNull(navFrame))
+            {
+                self.frame=CGRectMake(0, 20, 768, 160);
+            }
+            else
+            {
+                self.frame = navFrame;
+            }
         }
-        UITapGestureRecognizer *tapGesture;
-        UITapGestureRecognizer *tapGestureHome;
-        //self.frame=CGRectMake(0, 20, 320, 80);
-        self.backgroundColor=[UIColor whiteColor];
-        if([objManager isiPad])
+    }
+    else
+    {
+        self.frame=CGRectMake(0, 20, 320, 80);
+    }
+    UITapGestureRecognizer *tapGesture;
+    UITapGestureRecognizer *tapGestureHome;
+    //self.frame=CGRectMake(0, 20, 320, 80);
+    self.backgroundColor=[UIColor whiteColor];
+    if([objManager isiPad])
+    {
+        if(orient)
+        {
+            topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 5, self.frame.size.width, 16)];
+            
+            topBlueLbl.backgroundColor=[UIColor colorWithRed:0.102 green:0.522 blue:0.773 alpha:1];
+            
+            logoImg=[[UIImageView alloc] initWithFrame:CGRectMake(7, 30, 100, 50)];
+            logoImg.image=[UIImage imageNamed:@"123-mobile-logo.png"];
+            
+            homeController = [[UIView alloc] initWithFrame:CGRectMake(7, 30, 102, 51)];
+            homeController.layer.cornerRadius = 3;
+            
+            totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(780,30, 200, 60)];
+            //totalEarningView.backgroundColor=[UIColor grayColor];
+            totalEarningView.layer.cornerRadius=10;
+            
+            totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(780, 30, 230, 31)];
+            totalEarningHeading.textAlignment=NSTextAlignmentCenter;
+            totalEarningHeading.text=@"This Week's Earnings";
+            totalEarningHeading.font=[UIFont fontWithName:@"verdana" size:20];
+            totalEarningHeading.textColor=[UIColor blackColor];
+            
+            totalEarning=[[UILabel alloc] initWithFrame:CGRectMake(810, 60, 180, 30)];
+            totalEarning.font=[UIFont fontWithName:@"verdana" size:36];
+            
+            totalEarning.tag = 1;
+            totalEarning.textColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+            NSString *totalEarn=[@"£" stringByAppendingString:@"0"];
+            
+            totalEarning.text=totalEarn;
+            totalEarning.textAlignment=NSTextAlignmentCenter;
+            
+            tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToEarningViewController)];
+            [totalEarningView addGestureRecognizer:tapGesture];
+            
+            tapGestureHome = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToHomeViewController)];
+            [homeController addGestureRecognizer:tapGestureHome];
+        }
+        else
         {
             topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 5, self.frame.size.width, 16)];
             
@@ -70,8 +137,10 @@
             tapGestureHome = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToHomeViewController)];
             [homeController addGestureRecognizer:tapGestureHome];
         }
-        else
-        {
+        
+    }
+    else
+    {
         
         topBlueLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 8)];
         
@@ -108,9 +177,8 @@
         
         tapGestureHome = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToHomeViewController)];
         [homeController addGestureRecognizer:tapGestureHome];
-        }
-        
     }
+    
     [self addSubview:topBlueLbl];
     [self addSubview:logoImg];
     [self addSubview:totalEarningView];
@@ -120,8 +188,6 @@
     
     NSDictionary *dic =objManager.loginDetailsDict ;
     NSLog(@"Dictionary : %@",dic);
-    
-    return self;
 }
 
 -(void)goToEarningViewController
