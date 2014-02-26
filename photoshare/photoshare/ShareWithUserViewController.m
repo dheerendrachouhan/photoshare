@@ -420,6 +420,10 @@
     {
         [manager storeData:useridstr :@"readUserId"];
     }
+
+    NSString *useridstr2=[manager getData:@"readUserId"];
+    useridstr2=[manager getData:@"writeUserId"];
+    
     
     [self.navigationController popViewControllerAnimated:NO];
 }

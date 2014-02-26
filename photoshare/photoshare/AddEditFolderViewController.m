@@ -179,6 +179,10 @@
     [super viewWillAppear: animated];
     [self checkOrientation];
     
+    NSString *useridstr=[manager getData:@"readUserId"];
+    useridstr=[manager getData:@"writeUserId"];
+    
+    
     [self addCustomNavigationBar];
     
     //get the user id from nsuserDefaults
@@ -543,6 +547,7 @@
             //nsuser default
             
         }
+        
         isGetTheOwnCollectionListData=NO;
         if(sharingIdArray.count>0)
         {

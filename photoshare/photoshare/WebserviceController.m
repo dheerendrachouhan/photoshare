@@ -59,7 +59,6 @@
         [self.delegate webserviceCallback:[NSDictionary dictionaryWithObject:@0 forKey:@"exit_code"]];
     }];
 
-
 }
 
 //save image
