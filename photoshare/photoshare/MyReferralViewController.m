@@ -121,7 +121,11 @@
         
         [SVProgressHUD dismissWithSuccess:@"Done"];
         [tableView reloadData];
-        
+        if(userNameArr.count == 0)
+        {
+            [ObjManager showAlert:@"Message" msg:@"Zero referrals" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+            
     }
 }
 
