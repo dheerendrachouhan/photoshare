@@ -15,7 +15,7 @@
 @end
 
 @implementation FBTWViewController
-@synthesize successType;
+@synthesize successType,success;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -39,6 +39,33 @@
     }
     
     // Do any additional setup after loading the view from its nib.
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+    {
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            scocialType.frame = CGRectMake(120, 179, 80, 80);
+            success.frame = CGRectMake(124, 273, 77, 21);
+        }
+        else
+        {
+            scocialType.frame = CGRectMake(250, 293, 248, 295);
+            success.frame = CGRectMake(250, 588, 248, 34);
+        }
+    }
+    else
+    {
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            scocialType.frame = CGRectMake(226, 94, 111, 116);
+            success.frame = CGRectMake(246, 218, 77, 21);
+        }
+        else
+        {
+            scocialType.frame = CGRectMake(383, 243, 248, 238);
+            success.frame = CGRectMake(383, 526, 248, 34);
+        }
+    }
+    
     if([successType isEqualToString:@"fb"])
     {
         scocialType.image = [UIImage imageNamed:@"facebook.png"];
@@ -65,7 +92,14 @@
     
     if([objManager isiPad])
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 160)];
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+        }
         navTitle.frame = CGRectMake(320, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
         navTitle.font = [UIFont systemFontOfSize:36.0f];
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
@@ -73,7 +107,14 @@
     }
     else
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+        }
         navTitle.frame = CGRectMake(130, NavBtnYPosForiPhone, 100, NavBtnHeightForiPhone);
         navTitle.font = [UIFont systemFontOfSize:18.0f];
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
@@ -100,6 +141,45 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+    
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+            toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            scocialType.frame = CGRectMake(226, 94, 111, 116);
+            success.frame = CGRectMake(246, 218, 77, 21);
+        }
+        else
+        {
+            scocialType.frame = CGRectMake(383, 243, 248, 238);
+            success.frame = CGRectMake(383, 526, 248, 34);
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            scocialType.frame = CGRectMake(120, 179, 80, 80);
+            success.frame = CGRectMake(124, 273, 77, 21);
+        }
+        else
+        {
+            scocialType.frame = CGRectMake(250, 293, 248, 295);
+            success.frame = CGRectMake(250, 588, 248, 34);
+        }
+    }
 }
 
 @end
