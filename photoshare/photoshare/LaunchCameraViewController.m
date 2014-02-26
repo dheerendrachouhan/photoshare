@@ -133,47 +133,7 @@
     
     return YES;
 }
--(void)checkOrientation
-{
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    
-    orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            
-            
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-           
-        }
-        
-    }
-    else {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            
-        }
-    }
-}
 
-
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    
-    [self checkOrientation];
-}
 
 -(void)openeditorcontrol
 {
@@ -221,7 +181,6 @@
     @finally {
         
     }
-    
     
 }
 - (void)didReceiveMemoryWarning
@@ -489,7 +448,7 @@
         }
         else
         {
-            pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-217, 320, 40)];
+            pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-218, 320, 40)];
         }
         
         pickerToolbar.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleWidth;
@@ -693,15 +652,18 @@
     UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
     backView2=[[UIView alloc] initWithFrame:self.view.frame];
     
-    backView1.autoresizingMask=UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    backView2.autoresizingMask=UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
     
     backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     
-    UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-80, 200, 160)];
+    UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-120, 200, 160)];
     addFolderView.layer.borderWidth=1;
     addFolderView.layer.borderColor=[UIColor blackColor].CGColor;
     addFolderView.layer.cornerRadius=8;
     addFolderView.backgroundColor=[UIColor whiteColor];
+    
+    
+    addFolderView.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     
     UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 150, 30)];
     headLbl.text=@"Add New Folder";
