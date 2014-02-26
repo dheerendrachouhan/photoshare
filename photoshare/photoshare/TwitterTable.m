@@ -21,6 +21,7 @@
     NSMutableArray *selectedUserArr;
     NSMutableArray *finalSelectArr;
     NSMutableString *StringTweet;
+    CGRect frame;
 }
 @synthesize table;
 @synthesize tweetUserName;
@@ -165,7 +166,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
@@ -179,22 +180,53 @@
     [buttonLeft setTitle:@"Done >" forState:UIControlStateNormal];
     if([objManager isiPad])
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 768, 150)];
-        navTitle.frame = CGRectMake(220, NavBtnYPosForiPad, 320, NavBtnHeightForiPad);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+             navTitle.frame = CGRectMake(220, NavBtnYPosForiPad, 320, NavBtnHeightForiPad);
+            buttonLeft.frame = CGRectMake(620, NavBtnYPosForiPad, 140, NavBtnHeightForiPad);
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+            navTitle.frame = CGRectMake(360, NavBtnYPosForiPad, 320, NavBtnHeightForiPad);
+            buttonLeft.frame = CGRectMake(900, NavBtnYPosForiPad, 140, NavBtnHeightForiPad);
+        }
+       
         navTitle.font = [UIFont systemFontOfSize:36.0f];
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-        buttonLeft.frame = CGRectMake(620, NavBtnYPosForiPad, 140, NavBtnHeightForiPad);
+        
         buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
     }
     else
     {
-        navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 80)];
-        navTitle.frame = CGRectMake(80, NavBtnYPosForiPhone, 170, NavBtnHeightForiPhone);
+        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            [navnBar loadNav:CGRectNull :false];
+             navTitle.frame = CGRectMake(80, NavBtnYPosForiPhone, 170, NavBtnHeightForiPhone);
+            buttonLeft.frame = CGRectMake(240, NavBtnYPosForiPhone, 80, NavBtnHeightForiPhone);
+        }
+        else
+        {
+            [navnBar loadNav:CGRectNull :true];
+            if([[UIScreen mainScreen] bounds].size.height ==480)
+            {
+                 navTitle.frame = CGRectMake(160, NavBtnYPosForiPhone, 170, NavBtnHeightForiPhone);
+                buttonLeft.frame = CGRectMake(400, NavBtnYPosForiPhone, 80, NavBtnHeightForiPhone);
+            }
+            else
+            {
+                 navTitle.frame = CGRectMake(200, NavBtnYPosForiPhone, 170, NavBtnHeightForiPhone);
+                buttonLeft.frame = CGRectMake(490, NavBtnYPosForiPhone, 80, NavBtnHeightForiPhone);
+            }
+        }
+        
+       
         navTitle.font = [UIFont systemFontOfSize:18.0f];
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        buttonLeft.frame = CGRectMake(240, NavBtnYPosForiPhone, 80, NavBtnHeightForiPhone);
+        
         buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
     
@@ -215,12 +247,109 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        [self orient:self.interfaceOrientation];
+    }else{
+        [self orient:self.interfaceOrientation];
+    }
+}
+
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    frame = table.frame;
+    
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 480;
+            table.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 568;
+            table.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            
+        }
+    }
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 320;
+            table.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 320;
+            table.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 768;
+            table.frame = frame;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+    frame = table.frame;
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 480;
+            table.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 568;
+            table.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 1024;
+            table.frame = frame;
+        }
+    }
+    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
+        {
+            frame.size.width = 320;
+            table.frame = frame;
+        }
+        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
+        {
+            frame.size.width = 320;
+            table.frame = frame;
+        }
+        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            frame.size.width = 768;
+            table.frame = frame;
+        }
+    }
 }
 
 @end
