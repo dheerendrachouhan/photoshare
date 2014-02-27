@@ -14,9 +14,7 @@
 @end
 
 @implementation SearchPhotoViewController
-{
-    NavigationBar *navnBar;
-}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,7 +32,7 @@
     //set the search bar become first responder
     [searchBarForPhoto becomeFirstResponder];
     
-    navnBar = [[NavigationBar alloc] init];
+    
     manager =[ContentManager sharedManager];
     webservice =[[WebserviceController alloc] init];
     userid=[manager getData:@"user_id"];
@@ -344,7 +342,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

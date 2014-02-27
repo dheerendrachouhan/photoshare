@@ -16,9 +16,6 @@
 @end
 
 @implementation EditMessageVC
-{
-    NavigationBar *navnBar;
-}
 @synthesize edittedMessage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -42,7 +39,7 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"EditMessageVCiPad" owner:self options:nil];
     }
-    navnBar = [[NavigationBar alloc] init];
+    
     [textMessage setDelegate:self];
     textMessage.text = edittedMessage;
     custumImageBackground.layer.cornerRadius = 5;
@@ -67,6 +64,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

@@ -25,7 +25,6 @@
     NSNumber *userID;
     NSString *service;
     BOOL checkAgain;
-    NavigationBar *navnBar;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,7 +40,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    navnBar=[[NavigationBar alloc] init];
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     NSLog(@"Userid : %@",userID);
     self.navigationController.navigationBarHidden = NO;
