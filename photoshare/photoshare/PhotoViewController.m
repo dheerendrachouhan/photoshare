@@ -71,7 +71,7 @@
     doubleTap.numberOfTapsRequired=2;
     [imageView addGestureRecognizer:doubleTap];
     
-
+    
     //photoViewBtnBorderSet
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     photoViewBtn.layer.cornerRadius=5;
@@ -216,17 +216,22 @@
 }
 -(void)viewImage
 {
-    imgV=[[UIImageView alloc ] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-self.tabBarController.tabBar.frame.size.height)];
-    imgV.tag=10000;
+    //UIImageView for view image in full screen
+    imgV=[[UIImageView alloc] initWithFrame:self.view.frame];
+    imgV.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    imgV.contentMode=UIViewContentModeScaleAspectFit;
     imgV.backgroundColor=[UIColor blackColor];
     imgV.userInteractionEnabled=YES;
-    imgV.contentMode=UIViewContentModeScaleAspectFit;
+
     imgV.image=originalImage;
     NSLog(@"Image Size %f,%f",originalImage.size.width,originalImage.size.height);
     UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removveimageView)];
     doubleTap.numberOfTapsRequired=2;
     [imgV addGestureRecognizer:doubleTap];
     [self.view addSubview:imgV];
+    
+    self.tabBarController.tabBar.hidden=YES;
+    isViewLargeImageMode=YES;
 }
 
 - (IBAction)segmentSwitch:(id)sender
@@ -323,8 +328,9 @@
 }
 -(void)removveimageView
 {
-    UIImageView *imgVi=(UIImageView *)[self.view viewWithTag:10000];
-    [imgVi removeFromSuperview];
+    [imgV removeFromSuperview];
+    isViewLargeImageMode=NO;
+    self.tabBarController.tabBar.hidden=NO;
 }
 
 -(void)shareImage:(UIImage *)imageToShare
@@ -783,8 +789,12 @@
     
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];
-    [[self view] addSubview:navnBar];
-
+    
+    if(!isViewLargeImageMode)
+    {
+        [[self view] addSubview:navnBar];
+    }
+    
 }
 
 -(void)navBackButtonClick{
