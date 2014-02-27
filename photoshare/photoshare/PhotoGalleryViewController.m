@@ -543,24 +543,25 @@
             if(exitcode==1)
             {
                 NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
+                //set the collection details
+                NSString *writeUserIdStr=[[outputData objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
+                NSString *readUserIdStr=[[outputData objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
+                //store in nsuserDefault
+                NSArray *writePer=[outputData objectForKey:@"collection_write_user_ids"];
+                NSArray *readPer=[outputData objectForKey:@"collection_read_user_ids"];
+                isWritePermission=[writePer containsObject:userid];
+                isReadPermission=[readPer containsObject:userid];
+                if(isWritePermission)
+                {
+                    addPhotoBtn.hidden=NO;
+                }
+                [manager storeData:writeUserIdStr :@"writeUserId"];
+                [manager storeData:readUserIdStr :@"readUserId"];
+                
+                
+
                 if(collectionContent.count>0)
                 {
-                    //set the collection details
-                    NSString *writeUserIdStr=[[outputData objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
-                    NSString *readUserIdStr=[[outputData objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
-                    //store in nsuserDefault
-                    NSArray *writePer=[outputData objectForKey:@"collection_write_user_ids"];
-                    NSArray *readPer=[outputData objectForKey:@"collection_read_user_ids"];
-                    isWritePermission=[writePer containsObject:userid];
-                    isReadPermission=[readPer containsObject:userid];
-                    if(isWritePermission)
-                    {
-                        addPhotoBtn.hidden=NO;
-                    }
-                    [manager storeData:writeUserIdStr :@"writeUserId"];
-                    [manager storeData:readUserIdStr :@"readUserId"];
-                    
-                    
                     
                     //set the photo id
                         [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
@@ -770,15 +771,46 @@
 //reset the button hidden no and previous frame
 -(void)resetButton
 {
-    addPhotoBtn.hidden=NO;
-    deletePhotoBtn.hidden=NO;
-    sharePhotoBtn.hidden=NO;
-    
-    //sharePhotoBtn.frame=frameForShareBtn;
-    isDeleteMode=NO;
-    isShareMode=NO;
-    sharePhotoBtn.frame =frame;
-    [selectedImagesIndex removeAllObjects];
+    if(collectionOwnerId.integerValue==userid.integerValue)
+    {
+        addPhotoBtn.hidden=NO;
+        deletePhotoBtn.hidden=NO;
+        sharePhotoBtn.hidden=NO;
+        
+        //sharePhotoBtn.frame=frameForShareBtn;
+        isDeleteMode=NO;
+        isShareMode=NO;
+        sharePhotoBtn.frame =frame;
+
+    }
+    else
+    {
+        if(isWritePermission)
+        {
+            addPhotoBtn.hidden=NO;
+            deletePhotoBtn.hidden=YES;
+            sharePhotoBtn.hidden=NO;
+            
+            //sharePhotoBtn.frame=frameForShareBtn;
+            isDeleteMode=NO;
+            isShareMode=NO;
+            sharePhotoBtn.frame =frame;
+
+        }
+        else
+        {
+            addPhotoBtn.hidden=YES;
+            deletePhotoBtn.hidden=YES;
+            sharePhotoBtn.hidden=NO;
+            
+            //sharePhotoBtn.frame=frameForShareBtn;
+            isDeleteMode=NO;
+            isShareMode=NO;
+            sharePhotoBtn.frame =frame;
+
+        }
+    }
+        [selectedImagesIndex removeAllObjects];
 }
 
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
