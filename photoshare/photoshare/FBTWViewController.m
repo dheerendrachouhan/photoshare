@@ -62,7 +62,7 @@
         else
         {
             scocialType.frame = CGRectMake(383, 243, 248, 238);
-            success.frame = CGRectMake(383, 526, 248, 34);
+            success.frame = CGRectMake(420, 526, 248, 34);
         }
     }
     
@@ -80,7 +80,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar;
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UILabel *navTitle = [[UILabel alloc] init];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -164,7 +164,7 @@
         else
         {
             scocialType.frame = CGRectMake(383, 243, 248, 238);
-            success.frame = CGRectMake(383, 526, 248, 34);
+            success.frame = CGRectMake(420, 526, 248, 34);
         }
     }
     else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
