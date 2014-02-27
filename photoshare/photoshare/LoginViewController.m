@@ -620,7 +620,22 @@
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             
         {
-           scrollPoint = CGPointMake(0.0, 300.0);
+            if([[UIScreen mainScreen] bounds].size.height == 480)
+            {
+                scrollPoint = CGPointMake(0.0, 300.0);
+            }
+            else
+            {
+                if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
+                {
+                    scrollPoint = CGPointMake(0.0, 200.0);
+                }
+                else
+                {
+                    scrollPoint = CGPointMake(0.0, 260.0);
+                }
+                
+            }
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
@@ -770,6 +785,8 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [nameTextField resignFirstResponder];
+    [passwordTextField resignFirstResponder];
     float width= self.view.frame.size.width;
     float height= self.view.frame.size.height;
     

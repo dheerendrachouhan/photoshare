@@ -358,7 +358,18 @@
    
      [cell.contentView addSubview:username];
      //user remove btn
-    if(self.collectionOwnerId.integerValue==userid.integerValue)
+    if(self.isEditFolder)
+    {
+        if(self.collectionOwnerId.integerValue==userid.integerValue)
+        {
+            UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-15, 0, 15, 15)];
+            btn.tag=indexPath.row;
+            [btn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(removeShareUser:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:btn];
+        }
+    }
+    else
     {
         UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-15, 0, 15, 15)];
         btn.tag=indexPath.row;
@@ -366,6 +377,7 @@
         [btn addTarget:self action:@selector(removeShareUser:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:btn];
     }
+    
     
    
     
@@ -420,6 +432,10 @@
     {
         [manager storeData:useridstr :@"readUserId"];
     }
+
+    NSString *useridstr2=[manager getData:@"readUserId"];
+    useridstr2=[manager getData:@"writeUserId"];
+    
     
     [self.navigationController popViewControllerAnimated:NO];
 }
