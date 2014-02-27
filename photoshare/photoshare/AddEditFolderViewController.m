@@ -187,8 +187,6 @@
     //contant manager Object
     manager = [ContentManager sharedManager];
     
-    NSString *useridstr=[manager getData:@"readUserId"];
-    useridstr=[manager getData:@"writeUserId"];
     
     
     [self addCustomNavigationBar];
@@ -302,8 +300,9 @@
 //Btn Action
 -(IBAction)addFolder:(id)sender
 {
+    
     @try {
-        [self addCollectionInfoInServer:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readuserId"]];
+        [self addCollectionInfoInServer:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readUserId"]];
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
@@ -339,21 +338,21 @@
 
 
 //store collection info in server
--(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+-(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserI readUserIds:(NSString *)readUserI
 {
    
     isAdd=YES;
     
     webservices.delegate=self;
-   if(writeUserIds==Nil)
+   if(writeUserI==Nil)
    {
-       writeUserIds=@"";
+       writeUserI=@"";
    }
-    if(readUserIds==Nil)
+    if(readUserI==Nil)
     {
-        readUserIds=@"";
+        readUserI=@"";
     }
-     NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
+     NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserI,@"collection_read_user_ids":readUserI};
     @try {
         [webservices call:dicData controller:@"collection" method:@"store"];
 
