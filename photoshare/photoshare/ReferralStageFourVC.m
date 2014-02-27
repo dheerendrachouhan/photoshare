@@ -150,7 +150,10 @@
     fbFilter = NO;
     twFilter = NO;
     smsFilter = NO;
-    [self ContactSelectorMethod];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select email from Contacts", @"Manually enter email", nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionSheet showInView:self.view];
 }
 
 - (IBAction)smsFilter_Btn:(id)sender {
@@ -170,7 +173,7 @@
     switch (buttonIndex)
     {
         case 0:
-            [self ContactSelectorMethod];
+            [self loadContacts];
             break;
         case 1:
             [self actionsheetCheeker];
@@ -185,7 +188,7 @@
 {
     if(mailFilter)
     {
-        [self mailTo];
+        [self mailToFun];
     }
     else if(smsFilter)
     {
@@ -413,7 +416,7 @@
 }
 
 //Email from Contacts
--(void)mailTo {
+-(void)mailToFun {
     
     [self composedMailMessage];
     referredValue = @"";
@@ -745,6 +748,7 @@
         }
         else
         {
+            /*
             emailView.hidden = NO;
             
             if(_emailContacts.text.length == 0)
@@ -758,7 +762,9 @@
                 _emailContacts.text = addStr;
                 
             }
-            _emailMessageBody.text = userMessage.text;
+            _emailMessageBody.text = userMessage.text;*/
+            [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
+            [self performSelector:@selector(mailToFun) withObject:self afterDelay:0.0f];
         }
 
     }
@@ -802,8 +808,11 @@
     WebserviceController *wbh = [[WebserviceController alloc] init];
     wbh.delegate = self;
     NSArray *arr = [toolkitLink componentsSeparatedByString:@"/"];
-    NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":_emailContacts.text ,@"message_title":userMessage.text,@"toolkit_id":[arr objectAtIndex:6]};
-    [wbh call:dictData controller:@"broadcast" method:@"sendmail"]  ;
+    for(int sm=0;sm<contactSelectedArray.count;sm++)
+    {
+        NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:sm] ,@"message_title":userMessage.text,@"toolkit_id":[arr objectAtIndex:6]};
+        [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
+    }
 }
 
 -(void)addCustomNavigationBar
