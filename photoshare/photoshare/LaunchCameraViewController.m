@@ -91,6 +91,12 @@
         {
             photoLocationStr=@"";
             [self callGetLocation];
+            
+            
+            //remove the add Folder View when appear
+            [backView2 removeFromSuperview];
+            [addFolderView removeFromSuperview];
+            
             //imagePicker
             UIImagePickerController *picker=[[UIImagePickerController alloc] init];
             picker.delegate=self;
@@ -658,7 +664,7 @@
     
     backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     
-    UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-120, 200, 160)];
+    addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-120, 200, 160)];
     addFolderView.layer.borderWidth=1;
     addFolderView.layer.borderColor=[UIColor blackColor].CGColor;
     addFolderView.layer.cornerRadius=8;

@@ -9,14 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
 #import "WebserviceController.h"
-@interface ShareWithUserViewController : UIViewController<WebserviceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UITextFieldDelegate>
+@interface ShareWithUserViewController : UIViewController<WebserviceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UITextFieldDelegate,UISearchBarDelegate>
 {
-    IBOutlet UITextField *searchUserTF;
+    
     IBOutlet UIButton *userAddButton;
     IBOutlet UIButton *saveBtn;
     IBOutlet UICollectionView *sharingUserListCollView;
     IBOutlet UIView *shareSearchView;
     IBOutlet UIScrollView *scrollView;
+    IBOutlet UISearchBar *searchBarForUserSearch;
+    
     ContentManager *manager;
     WebserviceController *webservices;
     

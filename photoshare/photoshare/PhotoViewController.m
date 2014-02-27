@@ -331,6 +331,7 @@
     [imgV removeFromSuperview];
     isViewLargeImageMode=NO;
     self.tabBarController.tabBar.hidden=NO;
+    [self addCustomNavigationBar];
 }
 
 -(void)shareImage:(UIImage *)imageToShare

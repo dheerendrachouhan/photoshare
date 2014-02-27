@@ -104,10 +104,10 @@
             }
         }
     
+    //search bar
+    UIColor *searchBarColor = [UIColor whiteColor];
+    [[UISearchBar appearance] setBackgroundColor:searchBarColor];
     
-    
-    //set textfeild delgate
-    [searchUserTF setDelegate:self];
     
     //tap getsure on view for dismiss the keyboard
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
@@ -134,25 +134,32 @@
 
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+
+
+//search bar Delegate Method
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-     [searchView removeFromSuperview];
-    return [textField resignFirstResponder];
-}
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    NSString *str=searchUserTF.text;
+    NSString *str=searchBar.text;
     if(str.length>0)
     {
-        
         webservices.delegate=self;
         isSearchUserList=YES;
         NSDictionary *dicData=@{@"user_id":userid,@"target_username":str,@"target_user_emailaddress":@""};
         [webservices call:dicData controller:@"user" method:@"search"];
         
     }
-    return YES;
 }
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    if ([searchBar.text isEqualToString:@""]) {
+        [searchView removeFromSuperview];
+    }
+}
+
+
 
 -(void)checkOrientation
 {
@@ -337,7 +344,7 @@
     UIButton *btn=(UIButton *)sender;
     int index=btn.tag-1100;
     
-    searchUserTF.text=[searchUserListResult objectAtIndex:index];
+    searchBarForUserSearch.text=[searchUserListResult objectAtIndex:index];
     selectedUserId=[searchUserIdResult objectAtIndex:index];
     selecteduserName=[searchUserListResult objectAtIndex:index];
     
@@ -395,28 +402,38 @@
 }
 -(IBAction)addUserInSharing:(id)sender
 {
-    if(searchUserTF.text.length>0)
+    if(searchBarForUserSearch.text.length>0)
     {
-        if([searchUserTF.text isEqualToString:selecteduserName])
+        if([searchUserListResult containsObject:searchBarForUserSearch.text])
+        {
+            int index=[searchUserListResult indexOfObject:searchBarForUserSearch.text];
+            if(index!=-1)
+            {
+                selectedUserId=[searchUserIdResult objectAtIndex:index];
+                selecteduserName=[searchUserListResult objectAtIndex:index];
+            }
+        }
+        
+        if([searchBarForUserSearch.text isEqualToString:selecteduserName])
         {
             if(selectedUserId.integerValue==userid.integerValue)
             {
                 [manager showAlert:@"Message" msg:@"You can not share to yourself!" cancelBtnTitle:@"Ok" otherBtn:Nil];
-                searchUserTF.text=@"";
+                searchBarForUserSearch.text=@"";
             }
             else
             {
                 if([sharingUserIdArray containsObject:selectedUserId])
                 {
                     [manager showAlert:@"Message" msg:@"Already Share this User" cancelBtnTitle:@"Ok" otherBtn:Nil];
-                    searchUserTF.text=@"";
+                    searchBarForUserSearch.text=@"";
                 }
                 else
                 {
                     [sharingUserIdArray addObject:selectedUserId];
                     [sharingUserNameArray addObject:selecteduserName];
                     [sharingUserListCollView reloadData];
-                    searchUserTF.text=@"";
+                    searchBarForUserSearch.text=@"";
                 }
             }
            
@@ -430,6 +447,8 @@
     {
         [manager showAlert:@"Message" msg:@"Enter User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
+    
+    [searchView removeFromSuperview];
 }
 -(IBAction)saveSharingUser:(id)sender
 {

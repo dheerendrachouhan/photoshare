@@ -72,6 +72,8 @@
     
     UIInterfaceOrientation orientation;
     
+    UIView *addFolderView;
+    
 }
 
 //for Aviary

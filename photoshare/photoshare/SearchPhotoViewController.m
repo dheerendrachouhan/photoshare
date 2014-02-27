@@ -244,6 +244,7 @@
     [imgView1 removeFromSuperview];
     isViewLargeImageMode=NO;
     self.tabBarController.tabBar.hidden=NO;
+    [self addCustomNavigationBar];
 }
 //collection view method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
