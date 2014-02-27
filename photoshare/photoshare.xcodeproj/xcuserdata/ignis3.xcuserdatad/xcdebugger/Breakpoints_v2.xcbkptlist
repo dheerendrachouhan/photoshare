@@ -71,7 +71,7 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/Desktop/photoshare_24/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "415114316.90079"
+                  timestampString = "415169639.755612"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "215"
@@ -85,7 +85,7 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/Desktop/photoshare_24/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "415114316.901155"
+                  timestampString = "415169639.755996"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "215"
@@ -156,6 +156,22 @@
             startingLineNumber = "212"
             endingLineNumber = "212"
             landmarkName = "-addCustomNavigationBar"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "photoshare/LoginViewController.m"
+            timestampString = "415169564.058811"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "805"
+            endingLineNumber = "805"
+            landmarkName = "-willAnimateRotationToInterfaceOrientation:duration:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
