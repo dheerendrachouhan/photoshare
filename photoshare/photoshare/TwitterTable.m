@@ -22,6 +22,7 @@
     NSMutableArray *finalSelectArr;
     NSMutableString *StringTweet;
     CGRect frame;
+    NavigationBar *navnBar;
 }
 @synthesize table;
 @synthesize tweetUserName;
@@ -49,6 +50,7 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"TwitterTable_iPad" owner:self options:nil];
     }
+    navnBar = [[NavigationBar alloc] init];
     [SVProgressHUD dismissWithSuccess:@"Loaded"];
     // Do any additional setup after loading the view from its nib.
     selectedUserArr = [[NSMutableArray alloc] init];
@@ -166,7 +168,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

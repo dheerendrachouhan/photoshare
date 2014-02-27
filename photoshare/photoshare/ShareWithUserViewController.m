@@ -15,6 +15,9 @@
 @end
 
 @implementation ShareWithUserViewController
+{
+    NavigationBar *navnBar;
+}
 @synthesize isEditFolder,isWriteUser,collectionId,collectionOwnerId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -29,7 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    navnBar = [[NavigationBar alloc] init];
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
     
@@ -460,7 +463,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

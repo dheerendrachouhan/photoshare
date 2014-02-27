@@ -40,6 +40,8 @@
     NSMutableDictionary *contactData;
     int messagecount;
     int mailSent;
+    NavigationBar *navnBar;
+
 }
 @synthesize stringStr,twitterTweet,toolkitLink;
 @synthesize referEmailStr,referPhoneStr,referredValue;
@@ -75,6 +77,7 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"ReferralStageFourVC_iPad" owner:self options:nil];
     }
+    navnBar = [[NavigationBar alloc] init];
     _emailContacts.delegate = self;
     _emailMessageBody.delegate = self;
     emailView.hidden = YES;
@@ -810,8 +813,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];

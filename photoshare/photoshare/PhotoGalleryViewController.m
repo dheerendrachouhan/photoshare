@@ -22,6 +22,7 @@
     SVProgressHUD *pro;
     CGRect frame; //frame for button
     NSNumber *selectedPhotoId;
+    NavigationBar *navnBar;
 }
 @end
 
@@ -40,7 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   
+    navnBar = [[NavigationBar alloc] init];
     //initialize the WebService Object
     webServices=[[WebserviceController alloc] init];
      manager=[ContentManager sharedManager];
@@ -1626,7 +1627,6 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

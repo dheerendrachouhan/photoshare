@@ -16,6 +16,9 @@
 @end
 
 @implementation PhotoViewController
+{
+    NavigationBar *navnBar;
+}
 @synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,selectedIndex,collectionOwnerId,isPublicFolder,photoOwnerId;
 @synthesize  isOnlyReadPermission;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -30,6 +33,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    navnBar = [[NavigationBar alloc] init];
     collectionIdArray=[[NSMutableArray alloc] init];
     collectionNameArray=[[NSMutableArray alloc] init];
     webservices=[[WebserviceController alloc] init];
@@ -728,7 +732,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

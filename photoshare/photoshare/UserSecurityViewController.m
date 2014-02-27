@@ -16,7 +16,9 @@
 @end
 
 @implementation UserSecurityViewController
-
+{
+    NavigationBar *navnBar;
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,8 +38,8 @@
     
     [oldpass setDelegate:self] ;
     [newpass setDelegate:self] ;
-    
-   wc = [[WebserviceController alloc] init] ;
+    navnBar = [[NavigationBar alloc] init];
+    wc = [[WebserviceController alloc] init] ;
     wc.delegate = self;
     
     dmc = [[DataMapperController alloc] init] ;
@@ -99,7 +101,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
