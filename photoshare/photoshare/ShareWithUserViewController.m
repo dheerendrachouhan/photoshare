@@ -82,26 +82,33 @@
     shareSearchView.hidden=NO;
     saveBtn.hidden=NO;
     sharingUserListCollView.userInteractionEnabled=YES;
-   if(self.isEditFolder)
-   {
-       if(self.collectionOwnerId.integerValue!=userid.integerValue)
-       {
-           shareSearchView.hidden=YES;
-           saveBtn.hidden=YES;
-           sharingUserListCollView.userInteractionEnabled=NO;
-       }
-   }
-        if(self.isWriteUser)
+    
+        //check the type of folder mode either "New Folder" or "Edit Folder"
+        if(self.isEditFolder)
         {
-            [self getWriteSharingUserList];
+            if(self.collectionOwnerId.integerValue!=userid.integerValue)
+            {
+                shareSearchView.hidden=YES;
+                saveBtn.hidden=YES;
+                sharingUserListCollView.userInteractionEnabled=NO;
+            }
+            
+            //check the type of sharing permission "Write Permission" or "Read Permission"
+            if(self.isWriteUser)
+            {
+                [self getWriteSharingUserList];
+            }
+            else
+            {
+                [self getReadSharingUserList];
+            }
         }
-        else
-        {
-            [self getReadSharingUserList];
-        }
+    
+    
     
     //set textfeild delgate
     [searchUserTF setDelegate:self];
+    
     //tap getsure on view for dismiss the keyboard
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(handleSingleTap:)];
@@ -121,6 +128,9 @@
     [super viewWillAppear:YES];
     //set the contentsize
     [self checkOrientation];
+    
+    //contant manager Object
+    manager = [ContentManager sharedManager];
 
 }
 
