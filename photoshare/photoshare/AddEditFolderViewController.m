@@ -41,6 +41,10 @@
      manager = [ContentManager sharedManager];
     webservices=[[WebserviceController alloc] init];
     
+    //set the write user 
+    [manager storeData:@"" :@"writeUserId"];
+    [manager storeData:@"" :@"readUserId"];
+    
     //set the delgate of text field
     [folderName setDelegate:self];
     
@@ -130,9 +134,8 @@
                                       initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
-    
-    
 }
+
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
     //reset the text field

@@ -7,8 +7,8 @@
 //
 
 #import "SearchPhotoViewController.h"
-#import "NavigationBar.h"
 #import "SVProgressHUD.h"
+
 @interface SearchPhotoViewController ()
 
 @end
@@ -48,16 +48,8 @@
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionViewForPhoto addGestureRecognizer:tapGesture];
     
-    imgView1.hidden=YES;
-    [imgView1 removeFromSuperview];
-    imgView1.contentMode=UIViewContentModeScaleAspectFit;
     
-    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeImgView:)];
-    tap.numberOfTapsRequired=2;
-    imgView1.backgroundColor=[UIColor blackColor];
-    imgView1.userInteractionEnabled=YES;
-    imgView1.layer.masksToBounds=YES;
-    [imgView1 addGestureRecognizer:tap];
+    
     
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -65,7 +57,6 @@
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
     
-    [self checkOrientation];
     
 }
 
@@ -73,15 +64,7 @@
 {
     isPopFromSearchPhoto=YES;
 }
--(void)checkOrientation
-{
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    
-    orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    float height=self.view.frame.size.height;
-    float width=self.view.frame.size.width;
-    imgView1.frame=CGRectMake(0, 0, width,height);
-}
+
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -91,7 +74,6 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self addCustomNavigationBar];
-    [self checkOrientation];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -238,16 +220,30 @@
     else if(isGetOriginalPhotoFromServer)
     {
        
-        imgView1.hidden=NO;
+        //UIImageView for view the large image (imgView1)
+        imgView1=[[UIImageView alloc] initWithFrame:self.view.frame];
+        imgView1.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        imgView1.contentMode=UIViewContentModeScaleAspectFit;
+        
+        UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeImgView:)];
+        tap.numberOfTapsRequired=2;
+        imgView1.backgroundColor=[UIColor blackColor];
+        imgView1.userInteractionEnabled=YES;
+        imgView1.layer.masksToBounds=YES;
+        [imgView1 addGestureRecognizer:tap];
+        
         imgView1.image=image;
+        isViewLargeImageMode=YES;
+        self.tabBarController.tabBar.hidden=YES;
         [self.view addSubview:imgView1];
         isGetOriginalPhotoFromServer=NO;
     }
 }
 -(void)removeImgView :(UITapGestureRecognizer *)gesture
 {
-    imgView1.hidden=YES;
     [imgView1 removeFromSuperview];
+    isViewLargeImageMode=NO;
+    self.tabBarController.tabBar.hidden=NO;
 }
 //collection view method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -406,8 +402,11 @@
     
     [navnBar addSubview:titleLabel];
     [navnBar addSubview:button];
+    if(!isViewLargeImageMode)
+    {
+        [[self view] addSubview:navnBar];
+    }
     
-    [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 -(void)navBackButtonClick{

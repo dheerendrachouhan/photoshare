@@ -52,6 +52,8 @@
     
     BOOL isPhotoOwner;
     
+    BOOL isViewLargeImageMode;
+    
     UIImage *originalImage;
     BOOL isoriginalImageGet;
     IBOutlet UIImageView *imageView;
@@ -60,6 +62,7 @@
     IBOutlet UIButton *photoViewBtn;
     
     UIImageView *imgV;//for view image in full screen
+    
     //for add photo Detail
     UIView *backViewPhotDetail;
     UITextField *photoTitleTF;

@@ -357,7 +357,8 @@
 
    
      [cell.contentView addSubview:username];
-     //user remove btn
+
+    //user remove button (cross button)
     if(self.isEditFolder)
     {
         if(self.collectionOwnerId.integerValue==userid.integerValue)
@@ -377,10 +378,6 @@
         [btn addTarget:self action:@selector(removeShareUser:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:btn];
     }
-    
-    
-   
-    
     return cell;
 }
 -(IBAction)addUserInSharing:(id)sender

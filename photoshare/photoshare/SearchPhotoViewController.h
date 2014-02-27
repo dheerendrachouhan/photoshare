@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
 #import "WebserviceController.h"
+#import "NavigationBar.h"
 
 @interface SearchPhotoViewController : UIViewController<UISearchBarDelegate,WebserviceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate>
 {
@@ -29,10 +30,12 @@
     BOOL isGetOriginalPhotoFromServer;
     BOOL isPopFromSearchPhoto;
     BOOL isStartGetPhoto;
+    BOOL isViewLargeImageMode;
 
-    IBOutlet UIImageView *imgView1;
+    UIImageView *imgView1;
     
-    UIInterfaceOrientation orientation;
+    
+    
 }
 
 @end
