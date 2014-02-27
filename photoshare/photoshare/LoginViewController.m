@@ -181,6 +181,10 @@
 //user sign in function
 - (IBAction)userSignInBtn:(id)sender {
     
+    
+    [dmc removeAllData];//remove data from nsuser default
+    
+    
     //Without Validation
     [self tapHideKeyboard];
     //[self dismissViewControllerAnimated:YES completion:nil] ;

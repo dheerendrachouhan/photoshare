@@ -371,7 +371,7 @@
     return YES;
 }
 
-
+//webservice call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
     [SVProgressHUD dismiss];
@@ -476,7 +476,7 @@
         [barItems addObject:flexSpace];
         [barItems addObject:toolBarTitle];
         //add folder button
-        UIBarButtonItem *addFolder=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFolderView)];
+        //UIBarButtonItem *addFolder=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFolderView)];
         
         [barItems addObject:flexSpace];
         //[barItems addObject:addFolder];
@@ -499,8 +499,6 @@
         [self.view addSubview:categoryPickerView];
         
          //[self addPhotoDescriptionView];
-        
-        
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
