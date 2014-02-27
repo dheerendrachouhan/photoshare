@@ -941,6 +941,7 @@
             {
                 if(photoUserId.integerValue==userid.integerValue)
                 {
+                    isPhotoOwner=YES;
                     UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
                     UIMenuItem *delete = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deletePhoto:)];
                     UIMenuController *menu = [UIMenuController sharedMenuController];
@@ -950,6 +951,7 @@
                 }
                 else
                 {
+                    isPhotoOwner=NO;
                     UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
                     UIMenuItem *reportAbuse = [[UIMenuItem alloc] initWithTitle:@"Report Abuse" action:@selector(reportAbuse:)];
                     
