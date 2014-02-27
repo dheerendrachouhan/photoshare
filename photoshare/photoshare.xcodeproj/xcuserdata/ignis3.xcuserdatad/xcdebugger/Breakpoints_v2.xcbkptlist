@@ -55,7 +55,7 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/Desktop/photoshare_24/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "415178522.961629"
+                  timestampString = "415179280.276351"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "215"
@@ -69,7 +69,7 @@
                   symbolName = "-[MailMessageTable doneBtnPressed:]"
                   moduleName = "photoshare"
                   urlString = "file:///Users/ignis3/Desktop/photoshare_24/photoshare/photoshare/MailMessageTable.m"
-                  timestampString = "415178522.962056"
+                  timestampString = "415179280.276829"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "215"
@@ -150,27 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "photoshare/FBTWViewController.m"
-            timestampString = "415178610.886124"
+            timestampString = "415179040.667825"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "photoshare/FBTWViewController.m"
-            timestampString = "415178656.677072"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "-willAnimateRotationToInterfaceOrientation:duration:"
             landmarkType = "5">
          </BreakpointContent>
