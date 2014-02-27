@@ -41,7 +41,7 @@
      manager = [ContentManager sharedManager];
     webservices=[[WebserviceController alloc] init];
     
-    //set the write user 
+    //set the write user
     [manager storeData:@"" :@"writeUserId"];
     [manager storeData:@"" :@"readUserId"];
     
@@ -181,6 +181,9 @@
 {
     [super viewWillAppear: animated];
     [self checkOrientation];
+    
+    //contant manager Object
+    manager = [ContentManager sharedManager];
     
     NSString *useridstr=[manager getData:@"readUserId"];
     useridstr=[manager getData:@"writeUserId"];
@@ -466,6 +469,7 @@
             }
             else
             {
+                [SVProgressHUD dismiss];
                 [manager showAlert:@"Error" msg:@"Network Error" cancelBtnTitle:@"Ok" otherBtn:Nil];
             }
 
