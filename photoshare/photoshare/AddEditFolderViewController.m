@@ -301,10 +301,8 @@
 -(IBAction)addFolder:(id)sender
 {
     
-    NSString *useridstr=[manager getData:@"readUserId"];
-    useridstr=[manager getData:@"writeUserId"];
     @try {
-        [self addCollectionInfoInServer:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readuserId"]];
+        [self addCollectionInfoInServer:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readUserId"]];
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
