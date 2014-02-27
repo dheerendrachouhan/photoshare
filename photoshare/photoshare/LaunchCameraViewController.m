@@ -32,6 +32,9 @@
 @end
 
 @implementation LaunchCameraViewController
+{
+    NavigationBar *navnBar;
+}
 @synthesize isFromHomePage,sessions,assetLibrary;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,7 +51,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+    navnBar = [[NavigationBar alloc] init];
     collectionIdArray=[[NSMutableArray alloc] init];
     collectionNameArray=[[NSMutableArray alloc] init];
     webservices=[[WebserviceController alloc] init];
@@ -869,8 +872,6 @@
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
-    
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
     
     if([manager isiPad])
     {

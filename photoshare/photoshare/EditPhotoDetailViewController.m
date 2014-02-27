@@ -15,6 +15,9 @@
 @end
 
 @implementation EditPhotoDetailViewController
+{
+    NavigationBar *navnBar;
+}
 @synthesize photoId,collectionId,selectedIndex,isFromLaunchCamera;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -44,7 +47,7 @@
     // Do any additional setup after loading the view from its nib.
     //initialize the WebService Object
     userid =[manager getData:@"user_id"];
-    
+    navnBar = [[NavigationBar alloc] init];
     //set text fielddelegate
     [photoTitletxt setDelegate:self];
     [photoDescriptionTxt setDelegate:self];
@@ -297,7 +300,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

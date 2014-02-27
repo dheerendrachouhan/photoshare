@@ -35,7 +35,7 @@
     NSMutableArray *filteredList;
     NSMutableArray *filteredContact;
     NSMutableArray *filteredPhone;
-
+    NavigationBar *navnBar;
 }
 @synthesize table;
 @synthesize contactDictionary,filterType;
@@ -56,7 +56,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    navnBar = [[NavigationBar alloc] init];
     check = YES;
     isSearching = NO;
     filteredList = [[NSMutableArray alloc] init];
@@ -631,7 +631,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

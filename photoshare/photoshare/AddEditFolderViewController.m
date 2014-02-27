@@ -16,7 +16,9 @@
 @end
 
 @implementation AddEditFolderViewController
-
+{
+    NavigationBar *navnBar;
+}
 @synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionShareWith,collectionOwnerId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,7 +34,7 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view from its nib.
-    
+    navnBar = [[NavigationBar alloc] init];
     //initialize the photo is array
     photoIdArray=[[NSMutableArray alloc] init];
     collectionDetail=[[NSMutableDictionary alloc] init];
@@ -775,7 +777,6 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

@@ -30,6 +30,7 @@
     NSString *segmentControllerIndexStr;
     NSMutableArray *toolKitNameArray;
     UICollectionViewFlowLayout *layout;
+    NavigationBar *navnBar;
 }
 @synthesize webViewReferral,toolKitReferralStr;
 @synthesize collectionView = _collectionView;
@@ -54,7 +55,7 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"ReferFriendViewController_iPad" owner:self options:nil];
     }
-    
+    navnBar = [[NavigationBar alloc] init];
     //allocate & initializing Array
     toolkitIDArr = [[NSMutableArray alloc] init];
     toolkitTitleArr = [[NSMutableArray alloc] init];
@@ -266,7 +267,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
     [button addTarget:self

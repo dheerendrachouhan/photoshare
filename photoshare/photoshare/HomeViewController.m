@@ -50,7 +50,7 @@
     //[self.navigationController presentViewController:loginv animated:NO completion:nil];
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
-   
+    navnBar = [[NavigationBar alloc] init];
     
     //get the no of images in public folder
     
@@ -222,7 +222,6 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    navnBar = [[NavigationBar alloc] init];
     //for home page view controller navBar
     if([manager isiPad])
     {

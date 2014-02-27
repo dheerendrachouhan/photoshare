@@ -23,6 +23,7 @@
     int first;
     int second;
     int third;
+    NavigationBar *navnBar;
 }
 @synthesize myPickerView;
 @synthesize cutomView;
@@ -39,7 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    navnBar = [[NavigationBar alloc] init];
     cutomView.layer.borderWidth = 2;
     cutomView.layer.borderColor = [UIColor blackColor].CGColor;
     rowFirstArr = [[NSMutableArray alloc] init];
@@ -341,7 +342,6 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UILabel *navTitle = [[UILabel alloc] init];
     
      UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
