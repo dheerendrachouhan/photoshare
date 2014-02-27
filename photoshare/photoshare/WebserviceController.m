@@ -23,6 +23,15 @@
     
     manager = [AFHTTPRequestOperationManager manager];
     
+    //apiUrl=@"www.burningwindmill.com/api/index.php";
+    //apiUrl=@"api.123friday.com/index.php";
+    //apiUrl=@"dev-iis.com/project/123fridaydebug/index.php";     //--
+    //apiUrl=@"54.194.160.22/api/index.php";
+    apiUrl=@"54.229.193.111/api/index.php";
+    //apiUrl=@"54.72.11.106/api/index.php";
+    //apiUrl=@"54.229.255.47/api/index.php";    //--
+    
+    
     return self;
 }
 
@@ -38,7 +47,7 @@
     }
    
     
-    [manager POST:[NSString stringWithFormat:@"http://54.229.193.111/api/index.php/%@/%@",controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
        if( [responseObject isKindOfClass:[UIImage class]] )
@@ -77,16 +86,9 @@
     NSURL *filePath = [NSURL fileURLWithPath:path];
     //NSError* error = nil ;
    */
-    //www.burningwindmill.com
-    //api.123friday.com/index.php
-    //dev-iis.com/project/123fridaydebug/index.php   --
-    //54.194.160.22/api/index.php
-    //54.229.193.111/api/index.php
-    //54.72.11.106/api/index.php
-    //54.229.255.47/api/index.php   --
     
     
-   [manager POST:[NSString stringWithFormat:@"http://54.229.193.111/api/index.php/%@/%@",controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+   [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         //[formData appendPartWithFileURL:filePath name:@"file" error: nil];
          [formData appendPartWithFileData:imageData name:@"file" fileName:@"photo.png" mimeType:@"image/png"];
         

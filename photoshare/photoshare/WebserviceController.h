@@ -22,6 +22,8 @@
 {
     id<WebserviceDelegate> delegate;
     AFHTTPRequestOperationManager *manager ;
+    
+    NSString *apiUrl;
 }
 
 @property (nonatomic,strong) id<WebserviceDelegate> delegate;
