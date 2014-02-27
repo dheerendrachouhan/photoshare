@@ -34,7 +34,7 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view from its nib.
-    navnBar = [[NavigationBar alloc] init];
+    
     //initialize the photo is array
     photoIdArray=[[NSMutableArray alloc] init];
     collectionDetail=[[NSMutableDictionary alloc] init];
@@ -777,7 +777,7 @@
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
-    
+    navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

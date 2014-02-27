@@ -23,7 +23,6 @@
     NSMutableArray *userActiveArr;
     NSMutableArray *userDateArr;
     CGRect frame;
-    NavigationBar *navnBar;
 }
 @end
 
@@ -56,7 +55,7 @@
     }
     
     dmc = [[DataMapperController alloc] init];
-    navnBar = [[NavigationBar alloc] init];
+    
     
     userID = [NSNumber numberWithInteger:[[dmc getUserId]integerValue]];
   
@@ -186,7 +185,7 @@
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
-    
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UILabel *navTitle = [[UILabel alloc] init];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];

@@ -21,9 +21,7 @@
 @end
 
 @implementation AccountViewController
-{
-    NavigationBar *navnBar;
-}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -33,7 +31,6 @@
     
     dmc = [[DataMapperController alloc] init];
     objManager = [ContentManager sharedManager];
-    navnBar = [[NavigationBar alloc] init];
     return self;
 }
 
@@ -149,6 +146,7 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 {
     self.navigationController.navigationBarHidden = TRUE;
     
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     if([objManager isiPad])
     {
         if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))

@@ -15,9 +15,6 @@
 @end
 
 @implementation FBTWViewController
-{
-    NavigationBar *navnBar;
-}
 @synthesize successType,success;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,7 +32,7 @@
 {
     [super viewDidLoad];
     
-    navnBar = [[NavigationBar alloc] init];
+    
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         [[NSBundle mainBundle] loadNibNamed:@"FBTWViewController_iPad" owner:self options:nil];
@@ -83,6 +80,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
+    NavigationBar *navnBar;
     UILabel *navTitle = [[UILabel alloc] init];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];

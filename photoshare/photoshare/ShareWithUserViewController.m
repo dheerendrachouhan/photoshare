@@ -32,7 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    navnBar = [[NavigationBar alloc] init];
+    
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
     
@@ -473,7 +473,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    
+    navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

@@ -40,7 +40,6 @@
     NSMutableArray *contactNoSelectedArray;
     int messagecount;
     int mailSent;
-    NavigationBar *navnBar;
 }
 
 @synthesize sharedImage, sharedImagesArray, otherDetailArray;
@@ -60,7 +59,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    navnBar = [[NavigationBar alloc] init];
     imageView.layer.masksToBounds=YES;
     imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.image = sharedImage;
@@ -637,7 +635,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)

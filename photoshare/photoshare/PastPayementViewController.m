@@ -21,7 +21,6 @@
     NSNumber *userID;
     NSMutableArray *textIndicators;
     NSMutableArray *values;
-    NavigationBar *navnBar;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,7 +41,6 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"PastPayementViewController_iPad" owner:self options:nil];
     }
-    navnBar= [[NavigationBar alloc] init];
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     NSLog(@"Userid : %@",userID);
     
@@ -221,6 +219,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
+    NavigationBar *navnBar= [[NavigationBar alloc] init];
     UILabel *navTitle = [[UILabel alloc] init];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];

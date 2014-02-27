@@ -21,9 +21,6 @@
 @end
 
 @implementation CommunityViewController
-{
-    NavigationBar *navnBar;
-}
 @synthesize isInNavigation;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,7 +35,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    navnBar = [[NavigationBar alloc] init];
      manager=[ContentManager sharedManager];
     [manager storeData:@"" :@"writeUserId"];
     [manager storeData:@"" :@"readUserId"];
@@ -577,7 +573,7 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    
+    NavigationBar *navnBar = [[NavigationBar alloc] init];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self
                action:@selector(navBackButtonClick)
