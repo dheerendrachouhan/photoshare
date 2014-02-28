@@ -29,8 +29,6 @@
         lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
     }
     
-    
-    
     // Register for Push Notifications Types
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
@@ -68,6 +66,25 @@
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error{
 	NSLog(@"Failed to get token, error: %@", error.description);
 }
+/*-(void)setDevieTokenOnServer:(NSString *)devToken:(NSString *)user_id{
+    WebServiceHelper *newsArcticleHlpr = [[WebServiceHelper alloc] init];
+    
+    [newsArcticleHlpr setDelegate:self];
+    [newsArcticleHlpr setMethodResult:@""];
+    [newsArcticleHlpr setMethodParameters:[[NSMutableDictionary alloc] init]];
+    //user_id = [NSString stringWithFormat:@"%@",user_id];
+    
+    [newsArcticleHlpr setMethodName:[NSString stringWithFormat:@"registerDeviceVerTwo"]];
+    [newsArcticleHlpr.MethodParameters setObject:[@"" stringByAppendingFormat:@"%@",devToken] forKey:@"token"];
+    [newsArcticleHlpr.MethodParameters setObject:[@"" stringByAppendingFormat:@"%@",user_id] forKey:@"user_id"];
+    
+    [newsArcticleHlpr setMethodResult:@""];
+    [newsArcticleHlpr setMethodType:@"POST"];
+    [newsArcticleHlpr setCurrentCall:@"termsLNA"];
+    
+    [newsArcticleHlpr initiateConnection];
+    
+}*/
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

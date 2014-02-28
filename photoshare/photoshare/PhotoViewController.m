@@ -11,6 +11,8 @@
 #import "PhotoShareController.h"
 #import "EditPhotoDetailViewController.h"
 #import "SVProgressHUD.h"
+
+#import "ZoomPhotoViewController.h"
 @interface PhotoViewController ()
 
 @end
@@ -232,6 +234,21 @@
     
     self.tabBarController.tabBar.hidden=YES;
     isViewLargeImageMode=YES;
+    
+    /*//zoomViewcontroller
+    ZoomPhotoViewController *zoomView;
+    if([manager isiPad])
+
+    {
+        zoomView=[[ZoomPhotoViewController alloc] initWithNibName:@"ZoomPhotoViewController_iPad" bundle:[NSBundle mainBundle]];
+        
+    }
+    else
+    {
+        zoomView=[[ZoomPhotoViewController alloc] initWithNibName:@"ZoomPhotoViewController" bundle:[NSBundle mainBundle]];
+    }
+    zoomView.image=originalImage;
+    [self.navigationController pushViewController:zoomView animated:NO];*/
 }
 
 - (IBAction)segmentSwitch:(id)sender
@@ -290,7 +307,7 @@
     }
      segmentedControl.selectedSegmentIndex = -1;
 }
-//action sheet delegate Method
+//Action sheet delegate Method
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex==0)//Edit Photo

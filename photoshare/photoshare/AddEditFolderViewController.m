@@ -843,8 +843,6 @@
         }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        
         titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
     }
     

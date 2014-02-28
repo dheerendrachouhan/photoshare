@@ -644,7 +644,6 @@
         
         titleLabel.font = [UIFont systemFontOfSize:17.0f];
         
-        
         searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
     [navnBar addSubview:searchBtn];

@@ -114,7 +114,7 @@
             }
             
             [picker childViewControllerForStatusBarHidden];
-            [self presentViewController:picker animated:YES completion:nil];
+            [self presentViewController:picker animated:NO completion:nil];
         }
 
     }

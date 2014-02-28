@@ -141,7 +141,7 @@
     {
         photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     }
-    //get the collection  info from nsuser default
+    //get the collection  info from NSUser Default default
     [self getCollectionInfoFromUserDefault];
     
     photoGallery.isPublicFolder=YES;
@@ -150,8 +150,9 @@
     photoGallery.selectedFolderIndex=folderIndex;
     photoGallery.collectionOwnerId=colOwnerId;
     [self.navigationController pushViewController:photoGallery animated:YES];
-    
 }
+
+//Get the collection info from nsuser Default
 -(void)getCollectionInfoFromUserDefault
 {
     NSMutableArray *collection=[dmc getCollectionDataList];
