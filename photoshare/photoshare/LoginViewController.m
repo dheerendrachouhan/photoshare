@@ -732,7 +732,6 @@
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
    // delegate.navControllerhome.navigationBar.translucent=NO;
     
-    
     delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
    // delegate.navControllerearning.navigationBar.translucent=NO;
     
