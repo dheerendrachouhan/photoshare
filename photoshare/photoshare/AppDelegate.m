@@ -16,7 +16,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     objManager = [ContentManager sharedManager];
-    // Override point for customization after application launch.
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds] ] ;
     
     LoginViewController *lg = [[LoginViewController alloc] init];
@@ -31,19 +31,16 @@
     
     
     
-    // Register for push notifications
+    // Register for Push Notifications Types
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
-    
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    
+    //----------
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
     self.window.rootViewController = lg;
-    
     [self.window makeKeyAndVisible];
     
 

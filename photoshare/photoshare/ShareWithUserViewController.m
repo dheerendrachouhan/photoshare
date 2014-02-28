@@ -146,9 +146,9 @@
         isSearchUserList=YES;
         NSDictionary *dicData=@{@"user_id":userid,@"target_username":str,@"target_user_emailaddress":@""};
         [webservices call:dicData controller:@"user" method:@"search"];
-        
     }
 }
+
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
@@ -158,8 +158,6 @@
         [searchView removeFromSuperview];
     }
 }
-
-
 
 -(void)checkOrientation
 {
@@ -515,7 +513,7 @@
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
         
-        titleLabel.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 200.0, NavBtnHeightForiPad);
+        titleLabel.frame=CGRectMake(navnBar.center.x-100, NavBtnYPosForiPad, 200.0, NavBtnHeightForiPad);
         titleLabel.font =[UIFont systemFontOfSize:23.0f];
         
     }

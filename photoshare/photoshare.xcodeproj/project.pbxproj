@@ -315,6 +315,8 @@
 		E108F14D18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController_iPad.xib; sourceTree = "<group>"; };
 		E10F8E3218B89DA400321843 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		E10F8E3418B89DEB00321843 /* CollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		E10FCB2818BF5D5D0011B93E /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PhotoGalleryViewController.h; path = AviarySDK/PhotoGalleryViewController.h; sourceTree = "<group>"; };
+		E10FCB2918BF5DEF0011B93E /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoGalleryViewController.h; path = AviarySDK/PhotoGalleryViewController.h; sourceTree = "<group>"; };
 		E112391218AF3319002D6318 /* CommunityCollectionCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell_iPad.xib; sourceTree = "<group>"; };
 		E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPhotoViewController.h; sourceTree = "<group>"; };
 		E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPhotoViewController.m; sourceTree = "<group>"; };
@@ -404,7 +406,6 @@
 		E1B074251899518600589867 /* AddEditFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEditFolderViewController.m; sourceTree = "<group>"; };
 		E1B07427189951CC00589867 /* CommunityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommunityViewController.h; sourceTree = "<group>"; };
 		E1B07428189951CC00589867 /* CommunityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommunityViewController.m; sourceTree = "<group>"; };
-		E1B0742A1899529900589867 /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoGalleryViewController.h; sourceTree = "<group>"; };
 		E1B0742B1899529900589867 /* PhotoGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoGalleryViewController.m; sourceTree = "<group>"; };
 		E1B0742F189952DB00589867 /* PhotoGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoGalleryViewController.xib; sourceTree = "<group>"; };
 		E30D92B518B2046700E2F072 /* CustomCelliPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCelliPad.xib; sourceTree = "<group>"; };
@@ -848,6 +849,7 @@
 				FCB3774A189C345B00FDE547 /* DataMapperController.h */,
 				FCB3774B189C345B00FDE547 /* DataMapperController.m */,
 				E17222B81892817800F28748 /* EarningViewController.h */,
+				E10FCB2818BF5D5D0011B93E /* PhotoGalleryViewController.h */,
 				E17222B91892817800F28748 /* EarningViewController.m */,
 				E31AA48D189662C00065F8E2 /* EditMessageVC.h */,
 				E31AA48E189662C00065F8E2 /* EditMessageVC.m */,
@@ -875,7 +877,7 @@
 				E31AEDAA18A0B8EA006AA40E /* NavigationBar.m */,
 				E17222C21892819A00F28748 /* PastPayementViewController.h */,
 				E17222C31892819A00F28748 /* PastPayementViewController.m */,
-				E1B0742A1899529900589867 /* PhotoGalleryViewController.h */,
+				E10FCB2918BF5DEF0011B93E /* PhotoGalleryViewController.h */,
 				E1B0742B1899529900589867 /* PhotoGalleryViewController.m */,
 				E170E90918A526EA002D3D17 /* PhotoShareController.h */,
 				E170E90E18A5275A002D3D17 /* PhotoShareController.m */,

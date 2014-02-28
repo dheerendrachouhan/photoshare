@@ -19,23 +19,17 @@
 @class ContentManager;
 @interface HomeViewController : UIViewController<WebserviceDelegate>
 {
-    
-    IBOutlet UIButton *totalEarningBtn;
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UILabel *welcomeName;
     IBOutlet UILabel *photoCountLbl;
-    
     UINavigationController *navController;
-    
     NSNumber *publicCollectionId;
     NSNumber *colOwnerId;
     int folderIndex;
-    
     ContentManager *manager;    
     NSNumber *userid;
     WebserviceController *webservices;
     DataMapperController *dmc ;
-    
     BOOL isGetTheNoOfImagesInPublicFolder;
     
 }

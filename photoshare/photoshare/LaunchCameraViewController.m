@@ -217,7 +217,6 @@
             [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self selector:@selector(openeditorcontrol) userInfo:nil  repeats:NO];
             
         }
-            
             [self dismissViewControllerAnimated:NO completion:Nil];
         
         [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
@@ -228,9 +227,7 @@
     }
     @finally {
         
-    }
-    
-    
+    }    
 }
 
 

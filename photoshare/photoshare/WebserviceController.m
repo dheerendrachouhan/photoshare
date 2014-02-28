@@ -45,7 +45,6 @@
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"image/png"];
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
-   
     
     [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
