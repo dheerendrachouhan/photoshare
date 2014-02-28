@@ -674,6 +674,7 @@
     [self.navigationController pushViewController:searchController animated:NO];
 }
 
+#pragma mark - Device Orientation
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -683,7 +684,6 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self addCustomNavigationBar];
-    
 }
 
 @end
