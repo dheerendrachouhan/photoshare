@@ -195,7 +195,7 @@
     [self.navigationController pushViewController:comm animated:YES];
     self.navigationController.navigationBarHidden = NO;
 }
-
+//Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Data %@",data);
@@ -245,7 +245,6 @@
                 [navnBar loadNav:CGRectMake(0, 20, 568, 60) :true];
             }
         }
-        
     }
     
     [[self view] addSubview:navnBar];
