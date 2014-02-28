@@ -16,7 +16,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     objManager = [ContentManager sharedManager];
-    // Override point for customization after application launch.
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds] ] ;
     
     LoginViewController *lg = [[LoginViewController alloc] init];
@@ -29,21 +29,16 @@
         lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
     }
     
-    
-    
-    // Register for push notifications
+    // Register for Push Notifications Types
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
-    
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    
+    //----------
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
     self.window.rootViewController = lg;
-    
     [self.window makeKeyAndVisible];
     
 
@@ -64,12 +59,32 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"userInfo-- %@",userInfo);
+    
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
 	NSLog(@"Failed to get token, error: %@", error.description);
 }
+/*-(void)setDevieTokenOnServer:(NSString *)devToken:(NSString *)user_id{
+    WebServiceHelper *newsArcticleHlpr = [[WebServiceHelper alloc] init];
+    
+    [newsArcticleHlpr setDelegate:self];
+    [newsArcticleHlpr setMethodResult:@""];
+    [newsArcticleHlpr setMethodParameters:[[NSMutableDictionary alloc] init]];
+    //user_id = [NSString stringWithFormat:@"%@",user_id];
+    
+    [newsArcticleHlpr setMethodName:[NSString stringWithFormat:@"registerDeviceVerTwo"]];
+    [newsArcticleHlpr.MethodParameters setObject:[@"" stringByAppendingFormat:@"%@",devToken] forKey:@"token"];
+    [newsArcticleHlpr.MethodParameters setObject:[@"" stringByAppendingFormat:@"%@",user_id] forKey:@"user_id"];
+    
+    [newsArcticleHlpr setMethodResult:@""];
+    [newsArcticleHlpr setMethodType:@"POST"];
+    [newsArcticleHlpr setCurrentCall:@"termsLNA"];
+    
+    [newsArcticleHlpr initiateConnection];
+    
+}*/
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

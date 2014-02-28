@@ -8,7 +8,7 @@
             <connections>
                 <outlet property="saveBtn" destination="UyZ-JV-A7p" id="Cm3-Ii-gK0"/>
                 <outlet property="scrollView" destination="jrP-H8-div" id="GcN-le-GDe"/>
-                <outlet property="searchUserTF" destination="7yr-j6-Nv2" id="yu7-TK-ZY1"/>
+                <outlet property="searchBarForUserSearch" destination="zBi-vG-7p0" id="Q9c-WC-ZBi"/>
                 <outlet property="shareSearchView" destination="QXs-0g-3UF" id="H2B-rQ-45f"/>
                 <outlet property="sharingUserListCollView" destination="PMb-yn-6bh" id="Usg-iO-MUX"/>
                 <outlet property="userAddButton" destination="qjR-Xe-8fe" id="3QE-GT-GCc"/>
@@ -28,12 +28,6 @@
                             <rect key="frame" x="20" y="10" width="280" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" tag="1101" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="search" minimumFontSize="17" id="7yr-j6-Nv2">
-                                    <rect key="frame" x="7" y="0.0" width="235" height="35"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" id="qjR-Xe-8fe">
                                     <rect key="frame" x="250" y="7" width="22" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -45,6 +39,15 @@
                                         <action selector="addUserInSharing:" destination="-1" eventType="touchUpInside" id="Ufj-G0-pvn"/>
                                     </connections>
                                 </button>
+                                <searchBar contentMode="redraw" text="" placeholder="Search" id="zBi-vG-7p0">
+                                    <rect key="frame" x="-8" y="-4" width="258" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="5Qn-Vc-xYq"/>
+                                    </connections>
+                                </searchBar>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -78,7 +81,7 @@
                     </subviews>
                 </scrollView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>

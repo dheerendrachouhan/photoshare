@@ -188,7 +188,7 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
-   /*
+   /* 
     if([dmc gethomeIndex])
     {
         HomeViewController *hm =[[HomeViewController alloc] init];

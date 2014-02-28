@@ -30,8 +30,6 @@
     apiUrl=@"54.229.193.111/api/index.php";
     //apiUrl=@"54.72.11.106/api/index.php";
     //apiUrl=@"54.229.255.47/api/index.php";    //--
-    
-    
     return self;
 }
 
@@ -45,7 +43,6 @@
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"image/png"];
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
-   
     
     [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
@@ -67,7 +64,6 @@
         NSLog(@"Error: %@", [error localizedDescription]);
         [self.delegate webserviceCallback:[NSDictionary dictionaryWithObject:@0 forKey:@"exit_code"]];
     }];
-
 }
 
 //save image

@@ -39,7 +39,6 @@
     if (self) {
         // Custom initialization
     }
-    
     return self;
 }
 
@@ -50,17 +49,12 @@
     //[self.navigationController presentViewController:loginv animated:NO completion:nil];
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
-   
-    
-    //get the no of images in public folder
-    
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
-    //rounded the Community Count Label
+    //Rounded the Count label of the show no of images is Public folder
     photoCountLbl.layer.cornerRadius=12;
     photoCountLbl.layer.borderWidth=2;
-    
     if([manager isiPad])
     {
         photoCountLbl.layer.cornerRadius=18;
@@ -68,10 +62,7 @@
     
     photoCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
     
-    
-    
     dmc = [[DataMapperController alloc] init];
-    
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
 }
 
@@ -79,6 +70,7 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
+    
     //for launch camera
     [manager storeData:@"NO" :@"istabcamera"];
     
@@ -92,7 +84,8 @@
     userid=[dic objectForKey:@"user_id"];
     welcomeName.text=[dic objectForKey:@"user_realname"];
     self.navigationController.navigationBarHidden=YES;
-    //publicImgesCount
+    
+    //Set the number of images in Public Folder
     NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
     if(publicImgCount.integerValue==0)
     {
@@ -119,7 +112,7 @@
     return YES;
 }
 
-
+//Open Refer friend View Controller
 -(IBAction)takePhoto:(id)sender
 {
     
@@ -136,6 +129,7 @@
         [self.navigationController pushViewController:lcam animated:YES];
 
 }
+//Go to the Public folder
 -(IBAction)goToPublicFolder:(id)sender
 {
     PhotoGalleryViewController *photoGallery;
@@ -147,7 +141,7 @@
     {
         photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
     }
-    //get the collection  info from nsuser default
+    //get the collection  info from NSUser Default default
     [self getCollectionInfoFromUserDefault];
     
     photoGallery.isPublicFolder=YES;
@@ -156,8 +150,9 @@
     photoGallery.selectedFolderIndex=folderIndex;
     photoGallery.collectionOwnerId=colOwnerId;
     [self.navigationController pushViewController:photoGallery animated:YES];
-    
 }
+
+//Get the collection info from nsuser Default
 -(void)getCollectionInfoFromUserDefault
 {
     NSMutableArray *collection=[dmc getCollectionDataList];
@@ -201,7 +196,7 @@
     [self.navigationController pushViewController:comm animated:YES];
     self.navigationController.navigationBarHidden = NO;
 }
-
+//Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Data %@",data);
@@ -251,13 +246,10 @@
                 [navnBar loadNav:CGRectMake(0, 20, 568, 60) :true];
             }
         }
-        
     }
     
     [[self view] addSubview:navnBar];
 }
-
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations

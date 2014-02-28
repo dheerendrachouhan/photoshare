@@ -558,8 +558,6 @@
                 [manager storeData:writeUserIdStr :@"writeUserId"];
                 [manager storeData:readUserIdStr :@"readUserId"];
                 
-                
-
                 if(collectionContent.count>0)
                 {
                     
@@ -594,10 +592,7 @@
                     {
                         [self getPhotoFromServer:0];
                         [manager storeData:@"YES" :[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
-                       
                     }
-                   
-                    
                 }
                 else
                 {
@@ -609,9 +604,7 @@
 
             }
             isGetPhotoIdFromServer=NO;
-            
         }
-    
 }
 
 -(IBAction)deletePhoto:(id)sender

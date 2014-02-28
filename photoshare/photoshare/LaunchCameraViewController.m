@@ -91,6 +91,12 @@
         {
             photoLocationStr=@"";
             [self callGetLocation];
+            
+            
+            //remove the add Folder View when appear
+            [backView2 removeFromSuperview];
+            [addFolderView removeFromSuperview];
+            
             //imagePicker
             UIImagePickerController *picker=[[UIImagePickerController alloc] init];
             picker.delegate=self;
@@ -108,7 +114,7 @@
             }
             
             [picker childViewControllerForStatusBarHidden];
-            [self presentViewController:picker animated:YES completion:nil];
+            [self presentViewController:picker animated:NO completion:nil];
         }
 
     }
@@ -211,7 +217,6 @@
             [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self selector:@selector(openeditorcontrol) userInfo:nil  repeats:NO];
             
         }
-            
             [self dismissViewControllerAnimated:NO completion:Nil];
         
         [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
@@ -222,9 +227,7 @@
     }
     @finally {
         
-    }
-    
-    
+    }    
 }
 
 
@@ -658,7 +661,7 @@
     
     backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     
-    UIView *addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-120, 200, 160)];
+    addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-120, 200, 160)];
     addFolderView.layer.borderWidth=1;
     addFolderView.layer.borderColor=[UIColor blackColor].CGColor;
     addFolderView.layer.cornerRadius=8;

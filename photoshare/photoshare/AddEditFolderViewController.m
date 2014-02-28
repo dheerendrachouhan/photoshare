@@ -435,7 +435,6 @@
                 @try {
                     NSDictionary *outputData=[data objectForKey:@"output_data"];
                     NSDictionary *collectionContent=[[outputData objectForKey:@"collection_contents"] mutableCopy];
-                    
 
                     collectionDetail=[outputData mutableCopy];
                     
@@ -501,10 +500,7 @@
                 
                 newCollectionId=[[[data objectForKey:@"output_data"] objectAtIndex:0] objectForKey:@"collection_id"];
             }
-            else if (isDelete)
-            {
-                [self deletePhotoFromServer];
-            }
+           
             //[self updateCollectionDetailInNsUserDefault];
             [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
             user_message=[data objectForKey:@"user_message"];
@@ -564,7 +560,16 @@
         else
         {
             [SVProgressHUD dismiss];
-            [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+            if(collectionArrayWithSharing.count>0)
+            {
+                [self deletePhotoFromServer];
+                 [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+            }
+            else
+            {
+                [self updateCollectionDetailInNsUserDefault];
+            }
+           
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alertView show];
         }
@@ -580,7 +585,15 @@
         if(countSharing==sharingIdArray.count)
         {
              [SVProgressHUD dismiss];
+            if(collectionArrayWithSharing.count>0)
+            {
+                [self deletePhotoFromServer];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+            }
+            else
+            {
+                [self updateCollectionDetailInNsUserDefault];
+            }
            
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alertView show];
@@ -675,7 +688,6 @@
     @finally {
         
     }
-   
     
 }
 -(void)getSharingusersId
@@ -831,8 +843,6 @@
         }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        
         titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
     }
     

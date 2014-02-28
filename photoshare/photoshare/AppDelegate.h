@@ -22,6 +22,7 @@
 @property (strong, nonatomic) UINavigationController *navControlleraccount;
 @property (strong, nonatomic) UINavigationController *photoGalNav;
 
+//Device token for Push notification
 @property (strong, nonatomic) NSString *token;
 
 @end
