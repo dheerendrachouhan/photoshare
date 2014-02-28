@@ -56,18 +56,18 @@
 {
 	NSLog(@"My token is: %@", deviceToken);
     
-    _token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""]
-               stringByReplacingOccurrencesOfString:@">" withString:@""]
-              stringByReplacingOccurrencesOfString: @" " withString: @""];
+    _token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString: @" " withString: @""];
     NSLog(@"My token is: %@", _token);
     //[self setDevieTokenOnServer:token];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
     NSLog(@"userInfo-- %@",userInfo);
 }
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error{
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
 	NSLog(@"Failed to get token, error: %@", error.description);
 }
 
