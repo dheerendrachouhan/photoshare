@@ -65,8 +65,8 @@
     //initialize the search view and button
     
     searchView=[[UIView alloc] init];
-    searchView.layer.borderColor=[UIColor darkGrayColor].CGColor;
-    searchView.layer.borderWidth=1;
+    searchView.layer.borderColor=[UIColor lightGrayColor].CGColor;
+    searchView.layer.borderWidth=1.0;
     
     searchUserListResult=[[NSMutableArray alloc] init];
     searchUserIdResult=[[NSMutableArray alloc] init];
@@ -290,8 +290,10 @@
 
             NSArray *outPutData=[data objectForKey:@"output_data"];
             
-            searchView.frame=CGRectMake(shareSearchView.frame.origin.x, shareSearchView.frame.origin.y+shareSearchView.frame.size.height, shareSearchView.frame.size.width, 30*outPutData.count);
+            searchView.frame=CGRectMake(shareSearchView.frame.origin.x-5, shareSearchView.frame.origin.y+shareSearchView.frame.size.height, shareSearchView.frame.size.width+10, 25*outPutData.count);
             searchView.backgroundColor=[UIColor whiteColor];
+            searchView.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+            
             
             //remove all objects
             [searchUserIdResult removeAllObjects];
@@ -306,7 +308,7 @@
                 [searchUserIdResult addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
                 searchList=[[UIButton alloc] init];
                 
-                    searchList.frame=CGRectMake(0, 5+(i*25), shareSearchView.frame.size.width, 20);
+                    searchList.frame=CGRectMake(5, i*25, shareSearchView.frame.size.width-10, 20);
                     searchList.tag=1100+i;
                 
                 if([manager isiPad])

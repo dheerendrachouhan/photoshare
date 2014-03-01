@@ -62,7 +62,9 @@
     
     dmc = [[DataMapperController alloc] init];
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
+    
 }
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -118,7 +120,7 @@
 }
 
 #pragma mark - IBAction method
--(IBAction)takePhoto:(id)sender
+-(IBAction)goToReferFriend:(id)sender
 {
     
     ReferFriendViewController *lcam;

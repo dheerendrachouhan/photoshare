@@ -599,8 +599,6 @@
             [alertView show];
         }
     }
-
-    
 }
 
 -(void)updateCollectionDetailInNsUserDefault
