@@ -59,6 +59,8 @@
 		E10C09E618C07459007A88D9 /* ZoomPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E10C09E418C07459007A88D9 /* ZoomPhotoViewController.m */; };
 		E10C09E718C07459007A88D9 /* ZoomPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10C09E518C07459007A88D9 /* ZoomPhotoViewController.xib */; };
 		E10C09E918C07D7B007A88D9 /* ZoomPhotoViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10C09E818C07D7B007A88D9 /* ZoomPhotoViewController_iPad.xib */; };
+		E10C09EB18C0B7F6007A88D9 /* tick_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = E10C09EA18C0B7F6007A88D9 /* tick_circle.png */; };
+		E10C09ED18C0BA68007A88D9 /* iconr3_uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = E10C09EC18C0BA68007A88D9 /* iconr3_uncheck.png */; };
 		E10F8E3318B89DA400321843 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E10F8E3218B89DA400321843 /* CollectionViewCell.m */; };
 		E112391318AF3319002D6318 /* CommunityCollectionCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E112391218AF3319002D6318 /* CommunityCollectionCell_iPad.xib */; };
 		E11AD1B018ACC4F600C6185E /* SearchPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */; };
@@ -119,7 +121,6 @@
 		E172672418A0BFE20059F6AD /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B074251899518600589867 /* AddEditFolderViewController.m */; };
 		E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */; };
 		E172F53218A271EE006799B9 /* homepage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E172F53118A271EE006799B9 /* homepage.jpg */; };
-		E174AC121898C096001B5278 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E174AC111898C096001B5278 /* iconr3.png */; };
 		E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */; };
 		E18262821897F6DC00C1C799 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262811897F6DC00C1C799 /* facebook.png */; };
 		E18262841897F71700C1C799 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262831897F71700C1C799 /* twitter.png */; };
@@ -166,7 +167,6 @@
 		E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AA48E189662C00065F8E2 /* EditMessageVC.m */; };
 		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
 		E31AEDAB18A0B8EA006AA40E /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AEDAA18A0B8EA006AA40E /* NavigationBar.m */; };
-		E31B9E10189A1D7F00722761 /* iconr3_uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = E31B9E0F189A1D7F00722761 /* iconr3_uncheck.png */; };
 		E31B9E15189A4E6200722761 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E31B9E12189A4E6200722761 /* CustomCell.m */; };
 		E31B9E16189A4E6200722761 /* MyReferralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31B9E14189A4E6200722761 /* MyReferralViewController.m */; };
 		E31C575818AA01EA003ED684 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA4C31896AA160065F8E2 /* AddressBook.framework */; };
@@ -320,6 +320,8 @@
 		E10C09E418C07459007A88D9 /* ZoomPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomPhotoViewController.m; sourceTree = "<group>"; };
 		E10C09E518C07459007A88D9 /* ZoomPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZoomPhotoViewController.xib; sourceTree = "<group>"; };
 		E10C09E818C07D7B007A88D9 /* ZoomPhotoViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZoomPhotoViewController_iPad.xib; sourceTree = "<group>"; };
+		E10C09EA18C0B7F6007A88D9 /* tick_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick_circle.png; sourceTree = "<group>"; };
+		E10C09EC18C0BA68007A88D9 /* iconr3_uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3_uncheck.png; sourceTree = "<group>"; };
 		E10F8E3218B89DA400321843 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		E10F8E3418B89DEB00321843 /* CollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		E10FCB2818BF5D5D0011B93E /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PhotoGalleryViewController.h; path = AviarySDK/PhotoGalleryViewController.h; sourceTree = "<group>"; };
@@ -393,7 +395,6 @@
 		E17222DD18928DE700F28748 /* cancel_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_red.png; sourceTree = "<group>"; };
 		E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchCameraViewController.xib; sourceTree = "<group>"; };
 		E172F53118A271EE006799B9 /* homepage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = homepage.jpg; sourceTree = "<group>"; };
-		E174AC111898C096001B5278 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E174AC131898C09B001B5278 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		E17C8F93189FA5000079E0FE /* LaunchCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCameraViewController.h; sourceTree = "<group>"; };
 		E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCameraViewController.m; sourceTree = "<group>"; };
@@ -425,7 +426,6 @@
 		E317675C1898BE0A00923E35 /* FBTWViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FBTWViewController.xib; sourceTree = "<group>"; };
 		E317675F1898BE4100923E35 /* FinanceCalculatorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinanceCalculatorViewController.xib; sourceTree = "<group>"; };
 		E31767611898BED100923E35 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
-		E31767631898BF1E00923E35 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E31767691899031200923E35 /* financeCalculator3VC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = financeCalculator3VC.xib; sourceTree = "<group>"; };
 		E317676C1899117600923E35 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		E317676D1899117600923E35 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -459,7 +459,6 @@
 		E31AA4C31896AA160065F8E2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		E31AEDA918A0B8EA006AA40E /* NavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationBar.h; sourceTree = "<group>"; };
 		E31AEDAA18A0B8EA006AA40E /* NavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationBar.m; sourceTree = "<group>"; };
-		E31B9E0F189A1D7F00722761 /* iconr3_uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3_uncheck.png; sourceTree = "<group>"; };
 		E31B9E11189A4E6200722761 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		E31B9E12189A4E6200722761 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		E31B9E13189A4E6200722761 /* MyReferralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyReferralViewController.h; sourceTree = "<group>"; };
@@ -952,6 +951,8 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E10C09EC18C0BA68007A88D9 /* iconr3_uncheck.png */,
+				E10C09EA18C0B7F6007A88D9 /* tick_circle.png */,
 				E3C2FD6C18BB11BC002430F0 /* plus_blue.png */,
 				E10624AC18B63A110068FD01 /* play-button.png */,
 				E30DF42E18B47E7E00FE6CB3 /* referr-icon.png */,
@@ -968,14 +969,11 @@
 				E1717A86189D2A8E008899EC /* radio.png */,
 				E1717A7B189CF624008899EC /* ajaxloader.gif */,
 				E31CADB6189CC2890081241D /* icon-person.png */,
-				E31B9E0F189A1D7F00722761 /* iconr3_uncheck.png */,
-				E31767631898BF1E00923E35 /* iconr3.png */,
 				E31767611898BED100923E35 /* edit.png */,
 				FC85D53C1897F9E3006AD7E0 /* save.png */,
 				FC85D53A1897F6D6006AD7E0 /* profile.png */,
 				FC35A891189BDFFD006DDDFC /* splash320x480.png */,
 				E174AC131898C09B001B5278 /* edit.png */,
-				E174AC111898C096001B5278 /* iconr3.png */,
 				FCC76CAA1896A93C00F4B41A /* arrow.png */,
 				FCC76CA81896A64000F4B41A /* bg.png */,
 				FC35A88F189BDF96006DDDFC /* splash640x1136.png */,
@@ -1184,7 +1182,6 @@
 				E31A557B18A502E800B0015B /* cog-item.png in Resources */,
 				E17222E018928DE700F28748 /* cancel_red.png in Resources */,
 				E16F392018914D4A00064806 /* back.png in Resources */,
-				E31B9E10189A1D7F00722761 /* iconr3_uncheck.png in Resources */,
 				E108F14618AE2DD000B574F6 /* SearchPhotoViewController_iPad.xib in Resources */,
 				E386F29218AF2F320043B071 /* LoginViewControlleriPadMini.xib in Resources */,
 				E16F390518912C9C00064806 /* earnings-icon.png in Resources */,
@@ -1205,7 +1202,6 @@
 				E108F12C18AE2C0C00B574F6 /* financeCalculator3VC_iPad.xib in Resources */,
 				FC35A88A189BDE1B006DDDFC /* Icon@2x-80.png in Resources */,
 				FCC76CA91896A64000F4B41A /* bg.png in Resources */,
-				E174AC121898C096001B5278 /* iconr3.png in Resources */,
 				E322BB0018A3AD7700CAC9E5 /* logo_29x29.png in Resources */,
 				E17222CD189281C000F28748 /* login2_new.png in Resources */,
 				E31A558518A502E800B0015B /* photo-icon.png in Resources */,
@@ -1265,6 +1261,7 @@
 				FCC76CA71896A39C00F4B41A /* line.png in Resources */,
 				FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */,
 				E108F13418AE2CAE00B574F6 /* MyReferralViewController_iPad.xib in Resources */,
+				E10C09ED18C0BA68007A88D9 /* iconr3_uncheck.png in Resources */,
 				E16F390718912C9C00064806 /* folder-icon-bottomX30.png in Resources */,
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
 				E172F53218A271EE006799B9 /* homepage.jpg in Resources */,
@@ -1321,6 +1318,7 @@
 				E386F29D18AFA36F0043B071 /* EditMessageVCiPad.xib in Resources */,
 				E17222DE18928DE700F28748 /* arrows_blue.png in Resources */,
 				E31A558018A502E800B0015B /* earnings-icon@2x.png in Resources */,
+				E10C09EB18C0B7F6007A88D9 /* tick_circle.png in Resources */,
 				E1067DE0189A97AD00F08A5F /* edit_btn.png in Resources */,
 				E31C57AD18AA37F4003ED684 /* Olmack Investments iOS White Label Permissions File.avyPermission in Resources */,
 				E108F14E18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib in Resources */,
