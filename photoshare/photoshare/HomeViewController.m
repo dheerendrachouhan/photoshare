@@ -247,6 +247,7 @@
     }
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

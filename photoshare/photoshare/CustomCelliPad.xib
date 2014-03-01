@@ -37,13 +37,6 @@
                         <color key="textColor" red="0.060034193110000002" green="0.55776014969999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="£0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8sf-lp-oXl">
-                        <rect key="frame" x="646" y="48" width="114" height="44"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                        <color key="textColor" red="0.070859437159999997" green="0.6299059494" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
             </tableViewCellContentView>
             <connections>
@@ -51,7 +44,6 @@
                 <outlet property="joinStatus" destination="A72-Tk-ma5" id="hGd-jn-CKe"/>
                 <outlet property="joinedDate" destination="8l9-4L-vlS" id="yo0-4X-8GA"/>
                 <outlet property="name" destination="8Ze-QJ-fpI" id="R9m-bW-bbj"/>
-                <outlet property="userAmmount" destination="8sf-lp-oXl" id="5Iw-DB-CZ0"/>
             </connections>
         </tableViewCell>
     </objects>
