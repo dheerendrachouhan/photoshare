@@ -41,7 +41,7 @@
     }
     return self;
 }
-
+#pragma mark - ViewController method
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -98,6 +98,13 @@
     }
     
 }
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - text feild method
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return  [textField resignFirstResponder];
@@ -112,7 +119,7 @@
     return YES;
 }
 
-//Open Refer friend View Controller
+#pragma mark - IBAction method
 -(IBAction)takePhoto:(id)sender
 {
     
@@ -151,7 +158,25 @@
     photoGallery.collectionOwnerId=colOwnerId;
     [self.navigationController pushViewController:photoGallery animated:YES];
 }
-
+-(IBAction)goToCommunity:(id)sender
+{
+    
+    //CommunityViewController *comm=[[CommunityViewController alloc] init];
+    CommunityViewController *comm;
+    if([manager isiPad])
+    {
+        comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]];
+    }
+    //AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    comm.isInNavigation=YES;
+    [self.navigationController pushViewController:comm animated:YES];
+    self.navigationController.navigationBarHidden = NO;
+}
+#pragma mark - get The value from NSUser Default Method
 //Get the collection info from nsuser Default
 -(void)getCollectionInfoFromUserDefault
 {
@@ -178,24 +203,7 @@
     }
 }
 
--(IBAction)goToCommunity:(id)sender
-{
-    
-    //CommunityViewController *comm=[[CommunityViewController alloc] init];
-    CommunityViewController *comm;
-    if([manager isiPad])
-    {
-        comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]];
-    }
-    else
-    {
-        comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]];
-    }
-    //AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-    comm.isInNavigation=YES;
-    [self.navigationController pushViewController:comm animated:YES];
-    self.navigationController.navigationBarHidden = NO;
-}
+#pragma mark - webservice call back method
 //Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
@@ -213,6 +221,7 @@
     }
 }
 
+#pragma mark - Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -250,6 +259,7 @@
     
     [[self view] addSubview:navnBar];
 }
+#pragma mark - Device Orientatiom method
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -261,11 +271,6 @@
     [self addCustomNavigationBar];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end
 

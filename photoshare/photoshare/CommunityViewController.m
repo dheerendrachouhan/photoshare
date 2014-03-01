@@ -661,6 +661,7 @@
         [self.tabBarController setSelectedIndex:0];
     }
 }
+#pragma mark - SearchViewController
 -(void)searchViewOpen
 {
     SearchPhotoViewController *searchController;

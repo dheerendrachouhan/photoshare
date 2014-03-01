@@ -36,7 +36,7 @@
     }
     return self;
 }
-
+#pragma mark - View Controller Methods
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -49,6 +49,9 @@
     //initialize the assets Library
     library=[[ALAssetsLibrary alloc] init];    
     
+    
+    //save the original frame of share buuton
+    frame = sharePhotoBtn.frame;
    
     //set the design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
@@ -191,6 +194,17 @@
 
     
 }
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if(!isGoToViewPhoto&&!isCameraMode&&!isCameraEditMode&&!isMailSendMode)
+    {
+        isPopFromPhotos=YES;
+    }
+    
+}
+
+#pragma mark - Text Feild Delegate Methods
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return [textField resignFirstResponder];
@@ -209,15 +223,6 @@
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
     
 }
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    if(!isGoToViewPhoto&&!isCameraMode&&!isCameraEditMode&&!isMailSendMode)
-    {
-        isPopFromPhotos=YES;
-    }
-    
-}
 
 -(void)removeProgressBar
 {
@@ -229,13 +234,170 @@
     [SVProgressHUD showWithStatus:message maskType:SVProgressHUDMaskTypeBlack];
     
 }
-
+#pragma mark - IBAction Methods
 -(IBAction)addPhoto:(id)sender
 {
     isAddPhotoMode=YES;
     UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ",@"From Camera Roll", nil];
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
+-(IBAction)deletePhoto:(id)sender
+{
+    [editBtn removeFromSuperview];
+    UIButton *btn=(UIButton *)sender;
+    if(photoArray.count>0)
+    {
+        if(btn.selected==NO)
+        {
+            btn.selected=!btn.selected;
+            NSLog(@"Not selected");
+            addPhotoBtn.hidden=YES;
+            sharePhotoBtn.hidden=YES;
+            frame = sharePhotoBtn.frame;
+            isDeleteMode=YES;
+        }
+        else
+        {
+            [collectionview reloadData];
+            //sort the index array in descending order
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            
+            sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
+            if(sortedArray.count>0)
+            {
+                deleteImageCount=0;
+                @try {
+                    for(int i=0;i<sortedArray.count;i++)
+                    {
+                        [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
+                        [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                        [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                        [photoInfoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
+                    }
+                    NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
+                    [manager storeData:dat:@"photoInfoArray"];
+                    if(self.isPublicFolder)
+                    {
+                        //public img count for home page
+                        NSNumber *imgCout=[NSNumber numberWithInteger:photoArray.count];
+                        [manager storeData:imgCout :@"publicImgIdArray"];
+                    }
+                    
+                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[NSString stringWithFormat:@"%d Photo deleted",sortedArray.count] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                    [alert show];
+                    
+                    sortedArray=nil;
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@",exception.description);
+                    
+                }
+                @finally {
+                    
+                }
+                
+            }
+            else
+            {
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                [alert show];
+            }
+            [self resetButton];
+        }
+        
+       
+        NSLog(@"Selected");
+    }
+    else
+    {
+        if(photoIdsArray.count>0)
+        {
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alert show];
+        }
+        else
+        {
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alert show];
+        }
+        
+    }
+    
+}
+
+
+-(IBAction)sharePhoto:(id)sender
+{
+    
+    [editBtn removeFromSuperview];
+    //UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Sharing is Available for Single Photo" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+    //[alert show];
+    if(!isPublicFolder)
+    {
+        UIButton *btn=(UIButton *)sender;
+        if(btn.selected==NO)
+        {
+            NSLog(@"Not selected");
+             btn.selected=!btn.selected;
+            addPhotoBtn.hidden=YES;
+            deletePhotoBtn.hidden=YES;
+            frame = sharePhotoBtn.frame;
+            sharePhotoBtn.frame=deletePhotoBtn.frame;
+            isShareMode=YES;
+        }
+        else
+        {
+            [collectionview reloadData];
+            //sort the index array in descending order
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            
+            shareSortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
+            NSLog(@"Selected");
+            
+            if(shareSortedArray.count > 0)
+            {
+                NSMutableArray *photoIdList = [[NSMutableArray alloc] init];
+                [photoIdList removeAllObjects];
+                for(int i=0;i<shareSortedArray.count;i++)
+                {
+                    [photoIdList addObject:[photoIdsArray objectAtIndex:[[shareSortedArray objectAtIndex:i] integerValue]]];
+                }
+                NSArray *userDetail = [[NSArray alloc] initWithObjects:userid,collectionId,@1, nil];
+                
+                PhotoShareController *photoShare;
+                if([manager isiPad])
+                {
+                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController_iPad" bundle:nil];
+                }
+                else{
+                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController" bundle:nil];
+                }
+                
+                photoShare.otherDetailArray = userDetail;
+                photoShare.sharedImagesArray = photoIdList;
+                
+                [self.navigationController pushViewController:photoShare animated:YES];
+            }
+            else
+            {
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+                [alert show];
+            }
+            
+            [self resetButton];
+            sharePhotoBtn.frame =frame;
+            
+            
+        }
+       
+    }
+}
+
+#pragma mark - ActionSheet Delegate method
 //action sheet delegate Method
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -607,163 +769,11 @@
         }
 }
 
--(IBAction)deletePhoto:(id)sender
-{
-   [editBtn removeFromSuperview];
-    UIButton *btn=(UIButton *)sender;
-    if(photoArray.count>0)
-    {
-        if(btn.selected==NO)
-        {
-            NSLog(@"Not selected");
-            addPhotoBtn.hidden=YES;
-            sharePhotoBtn.hidden=YES;
-            frame = sharePhotoBtn.frame;
-            isDeleteMode=YES;
-        }
-        else
-        {
-            [collectionview reloadData];
-            //sort the index array in descending order
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            
-            sortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
-            if(sortedArray.count>0)
-            {
-                deleteImageCount=0;
-                @try {
-                    for(int i=0;i<sortedArray.count;i++)
-                    {
-                        [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
-                        [photoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-                        [photoIdsArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-                        [photoInfoArray removeObjectAtIndex:[[sortedArray objectAtIndex:i] integerValue]];
-                    }
-                    NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
-                    [manager storeData:dat:@"photoInfoArray"];
-                    if(self.isPublicFolder)
-                    {
-                        //public img count for home page
-                        NSNumber *imgCout=[NSNumber numberWithInteger:photoArray.count];
-                        [manager storeData:imgCout :@"publicImgIdArray"];
-                    }
-                    
-                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[NSString stringWithFormat:@"%d Photo deleted",sortedArray.count] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-                    [alert show];
-                
-                    sortedArray=nil;
-                }
-                @catch (NSException *exception) {
-                    NSLog(@"%@",exception.description);
-                    
-                }
-                @finally {
-                    
-                }
-                
-            }
-            else
-            {
-                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-                [alert show];
-            }
-            [self resetButton];
-        }
-        
-        btn.selected=!btn.selected;
-        NSLog(@"Selected");
-    }
-    else
-    {
-        if(photoIdsArray.count>0)
-        {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-            [alert show];
-        }
-        else
-        {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-            [alert show];
-        }
-        
-    }
-    
-}
 
-
--(IBAction)sharePhoto:(id)sender
-{
-    
-    [editBtn removeFromSuperview];
-    //UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Sharing is Available for Single Photo" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-    //[alert show];
-    if(!isPublicFolder)
-    {
-        UIButton *btn=(UIButton *)sender;
-        if(btn.selected==NO)
-        {
-            NSLog(@"Not selected");
-            addPhotoBtn.hidden=YES;
-            deletePhotoBtn.hidden=YES;
-            frame = sharePhotoBtn.frame;
-            sharePhotoBtn.frame=deletePhotoBtn.frame;
-            isShareMode=YES;
-        }
-        else
-        {
-            [collectionview reloadData];
-            //sort the index array in descending order
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            
-            shareSortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
-            NSLog(@"Selected");
-            
-            if(shareSortedArray.count > 0)
-            {
-                NSMutableArray *photoIdList = [[NSMutableArray alloc] init];
-                [photoIdList removeAllObjects];
-                for(int i=0;i<shareSortedArray.count;i++)
-                {
-                    [photoIdList addObject:[photoIdsArray objectAtIndex:[[shareSortedArray objectAtIndex:i] integerValue]]];
-                }
-                NSArray *userDetail = [[NSArray alloc] initWithObjects:userid,collectionId,@1, nil];
-                
-                PhotoShareController *photoShare;
-                if([manager isiPad])
-                {
-                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController_iPad" bundle:nil];
-                }
-                else{
-                    photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController" bundle:nil];
-                }
-                
-                photoShare.otherDetailArray = userDetail;
-                photoShare.sharedImagesArray = photoIdList;
-                
-                [self.navigationController pushViewController:photoShare animated:YES];
-            }
-            else
-            {
-                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-                [alert show];
-            }
-
-            [self resetButton];
-            sharePhotoBtn.frame =frame;
-            
-            
-        }
-        
-        btn.selected=!btn.selected;
-    }
-}
 //reset the button hidden no and previous frame
 -(void)resetButton
 {
+   
     if(collectionOwnerId.integerValue==userid.integerValue)
     {
         addPhotoBtn.hidden=NO;
@@ -804,6 +814,11 @@
         }
     }
         [selectedImagesIndex removeAllObjects];
+    
+    //unselect the delete and the share button and the collection view selected cell
+    deletePhotoBtn.selected=NO;
+    sharePhotoBtn.selected=NO;
+    [collectionview reloadData];
 }
 
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
@@ -897,6 +912,10 @@
 
         }
         cell.selected=!cell.selected;
+    }
+    else
+    {
+        [self resetButton];
     }
 }
 -(void)longPressHandle:(UILongPressGestureRecognizer *)gestureRecognizer
@@ -1647,8 +1666,8 @@
 }
 
 
-#pragma Mark
-#pragma Add Custom Navigation Bar
+
+#pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -1773,8 +1792,7 @@
 }
 
 
-
-
+#pragma mark - Current Location Methods
 //get the user location
 -(void)callGetLocation
 {
@@ -1825,6 +1843,7 @@
     [locationManager stopUpdatingLocation];
 }
 
+#pragma mark - Device Orientation Method
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
