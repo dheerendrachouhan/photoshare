@@ -12,13 +12,11 @@
 #import "CommunityViewController.h"
 #import "PhotoGalleryViewController.h"
 #import "EarningViewController.h"
-#import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "ReferFriendViewController.h"
-
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "NavigationBar.h"
-#import "AppDelegate.h"
+
 #import "SVProgressHUD.h"
 #import "ReferFriendViewController.h"
 #import "LaunchCameraViewController.h"
@@ -258,6 +256,7 @@
     }
     
     [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 #pragma mark - Device Orientatiom method
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

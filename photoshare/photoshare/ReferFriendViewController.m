@@ -142,7 +142,7 @@
     /*
     for(int i=1;i<=toolkitIDArr.count;i++)
     {
-        NSString *toolName = [NSString stringWithFormat:@"Upgrade %d",i];
+        NSString *toolName = [NSString stringWithFormat:@"Video %d",i];
         [toolKitNameArray addObject:toolName];
     }
     

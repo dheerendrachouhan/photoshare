@@ -80,8 +80,11 @@
         for(NSDictionary *dict in outPutData)
         {
             NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-            [f setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSNumber * myNumber = [f numberFromString:[dict valueForKey:@"amount"]];
+            [f setNumberStyle:NSNumberFormatterNoStyle];
+            NSString *str = [dict valueForKey:@"amount"];
+            
+            NSNumber * myNumber = [NSNumber numberWithInteger:[str integerValue]];
+            
             
             [values addObject:myNumber];
             NSString *dateString = [dict valueForKey:@"when"];
@@ -97,16 +100,17 @@
         }
         // Do any additional setup after loading the view from its nib.*/
                 //find highest no from array
-        NSNumber *highestNumber;
+        int highestNumber = 0;
         NSInteger numberIndex;
         for (NSNumber *theNumber in values)
         {
-            if (theNumber > highestNumber) {
-                highestNumber = theNumber;
+            int theno = [theNumber intValue];
+            if (theno > highestNumber) {
+                highestNumber = theno;
                 numberIndex = [values indexOfObject:theNumber];
             }
         }
-        int maximumArrayValue = highestNumber.intValue;
+        int maximumArrayValue = highestNumber;
     
         CGRect frame;
         int point = 0;
@@ -137,20 +141,7 @@
         
         
         JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:bMaxWidth gradient:nil];
-        /*
-        [self.view addSubview:barChartView];
-         
-       
-        NSMutableArray *textIndicatorsz = [[NSMutableArray alloc] initWithObjects:@"Date 1", @"Date 2", @"Date 3", @"Date 4", @"Date 5",@"Date 6",@"Date 7",@"Date 8", nil];
-        NSMutableArray *valuesz = [[NSMutableArray alloc] initWithObjects:@0, @5, @10, @3, @7, @4, @2, @6, nil];
-        JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame
-                                                                  startPoint:CGPointMake(point, point)
-                                                                      values:valuesz maxValue:10
-                                                              textIndicators:textIndicatorsz
-                                                                   textColor:[UIColor orangeColor]
-                                                                   barHeight:bHeight
-                                                                 barMaxWidth:bMaxWidth
-                                                                    gradient:nil];*/
+        
         
         [scrollView addSubview:barChartView];
         [SVProgressHUD dismissWithSuccess:@"Loaded"];
