@@ -831,7 +831,7 @@
                     {
                         UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
                         checkBoxImg.layer.masksToBounds=YES;
-                        checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                        checkBoxImg.image=[UIImage imageNamed:@"tick_circle.png"];
                         checkBoxImg.tag=1001;
                         [cell.contentView addSubview:checkBoxImg];
                         
@@ -864,7 +864,7 @@
                 {
                     UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
                     checkBoxImg.layer.masksToBounds=YES;
-                    checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                    checkBoxImg.image=[UIImage imageNamed:@"tick_circle.png"];
                     checkBoxImg.tag=1001;
                     [cell.contentView addSubview:checkBoxImg];
                     
@@ -1273,7 +1273,7 @@
             {
                 UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-25,15, 20, 20)];
                 checkBoxImg.layer.masksToBounds=YES;
-                checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                checkBoxImg.image=[UIImage imageNamed:@"tick_circle.png"];
                 checkBoxImg.tag=1001;
                 [cell.contentView addSubview:checkBoxImg];
 

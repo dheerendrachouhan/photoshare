@@ -10,9 +10,9 @@
 #import <CoreLocation/CoreLocation.h>
 
 
-@protocol LocationManagerDelegate <NSObject>
+@protocol GetUserLocationDelegate<NSObject>
 
--(void)getLocation :(NSString *)currentLocation;
+-(void)CallBackLocation :(NSString *)currentLocation;
 
 @end
 @interface GetUserLocation : UIViewController<CLLocationManagerDelegate>
@@ -22,5 +22,5 @@
     CLPlacemark *placemark;
 }
 -(void)callGetLocation;
-@property(nonatomic,retain) id<LocationManagerDelegate> delegate;
+@property(nonatomic,retain) id<GetUserLocationDelegate> delegate;
 @end

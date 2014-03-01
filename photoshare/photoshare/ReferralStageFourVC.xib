@@ -9,9 +9,6 @@
                 <outlet property="customImage" destination="X11-8v-LvB" id="E0v-50-Cjp"/>
                 <outlet property="editMessageBtn" destination="Y92-Jp-8pC" id="sTf-Cj-X0V"/>
                 <outlet property="emailBt" destination="UX0-B3-gSg" id="wfz-gM-spY"/>
-                <outlet property="emailContacts" destination="8we-hQ-cDi" id="Dx7-lE-tgG"/>
-                <outlet property="emailMessageBody" destination="SQN-DY-R3O" id="AKR-yo-zyh"/>
-                <outlet property="emailView" destination="9Ek-bT-Wkq" id="3Vl-v5-2q3"/>
                 <outlet property="scrollView" destination="JqX-gk-c8K" id="cLs-5d-xDo"/>
                 <outlet property="sendSMSBtn" destination="EiL-cQ-dWV" id="Yqb-6M-cyl"/>
                 <outlet property="userMessage" destination="I6K-Cc-WgR" id="vX0-6x-yej"/>
@@ -163,76 +160,6 @@
                                 <action selector="editMsg_Btn:" destination="-1" eventType="touchUpInside" id="C3Y-DO-p5G"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" id="9Ek-bT-Wkq">
-                            <rect key="frame" x="0.0" y="81" width="320" height="390"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GkH-k4-P0s">
-                                    <rect key="frame" x="1" y="2" width="60" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <state key="normal" title="Cancel">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="cancelEmailView:" destination="-1" eventType="touchUpInside" id="Psw-AR-yBJ"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FUX-ap-gK7">
-                                    <rect key="frame" x="268" y="2" width="51" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <state key="normal" title="Send">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="sendEmailView:" destination="-1" eventType="touchUpInside" id="QFT-9b-OWw"/>
-                                    </connections>
-                                </button>
-                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" id="8QK-25-EAT">
-                                    <rect key="frame" x="13" y="103" width="296" height="2"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                </progressView>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="8we-hQ-cDi">
-                                    <rect key="frame" x="36" y="57" width="242" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                </textView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yhQ-f3-PAq">
-                                    <rect key="frame" x="9" y="69" width="42" height="26"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.64477040819999998" green="0.64477040819999998" blue="0.64477040819999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="SQN-DY-R3O">
-                                    <rect key="frame" x="13" y="141" width="296" height="131"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                </textView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="KTa-xg-XO7">
-                                    <rect key="frame" x="280" y="63" width="29" height="32"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <state key="normal" image="plus_blue.png">
-                                        <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="addmoreBtn:" destination="-1" eventType="touchUpInside" id="1eb-5g-zmd"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                        </view>
                     </subviews>
                 </scrollView>
             </subviews>
@@ -242,7 +169,6 @@
         </view>
     </objects>
     <resources>
-        <image name="plus_blue.png" width="128" height="128"/>
         <image name="share-email.png" width="95" height="95"/>
         <image name="share-facebook.png" width="95" height="95"/>
         <image name="share-sms.png" width="95" height="95"/>

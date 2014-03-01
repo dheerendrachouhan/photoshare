@@ -12,7 +12,7 @@
 #import <EventKitUI/EventKitUI.h>
 
 @class ContentManager;
-@interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIWebViewDelegate>
+@interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate,UIWebViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 {
     IBOutlet UIWebView *webViewReferral;
     ContentManager *objManager;
@@ -22,5 +22,6 @@
 @property (nonatomic, retain) IBOutlet UIWebView *webViewReferral;
 @property (nonatomic, retain) NSString *toolKitReferralStr;
 @property (nonatomic, retain) UICollectionView *collectionView;
+@property (nonatomic, retain) IBOutlet UIPickerView *mypicker;
 
 @end

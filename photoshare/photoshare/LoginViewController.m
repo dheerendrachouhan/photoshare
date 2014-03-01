@@ -97,9 +97,6 @@
         nameTextField.text = [dict valueForKey:@"username"];
         passwordTextField.text = [dict valueForKey:@"password"];
     }
-    
-    
-    
 }
 
 
@@ -214,7 +211,7 @@
 -(void) webserviceCallback:(NSDictionary *)data
 {
    
-         //validate the user
+    //validate the user
     
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
      NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
@@ -369,10 +366,6 @@
     }
     else
     {
-        
-        
-        
-        
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
@@ -487,8 +480,6 @@
     @finally {
         
     }
-    
-    
 }
 //---------------------------
 //---------------------------
@@ -731,7 +722,6 @@
     
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
    // delegate.navControllerhome.navigationBar.translucent=NO;
-    
     
     delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
    // delegate.navControllerearning.navigationBar.translucent=NO;

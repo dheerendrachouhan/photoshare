@@ -65,7 +65,7 @@
             NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,placemark.postalCode, placemark.locality,
              placemark.administrativeArea,placemark.country];
             
-            [self.delegate getLocation:location];
+            [self.delegate CallBackLocation:location];
             
             NSLog(@"Current location is %@",location);
         } else {

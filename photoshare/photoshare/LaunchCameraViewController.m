@@ -12,6 +12,7 @@
 #import "SVProgressHUD.h"
 #import "EditPhotoDetailViewController.h"
 
+
 @interface NoStatusBarImagePickerController : UIImagePickerController
 @end
 
@@ -44,6 +45,8 @@
     
     return self;
 }
+
+#pragma mark - view method
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -60,6 +63,8 @@
     userid=[dic objectForKey:@"user_id"];
     
     imgView.contentMode=UIViewContentModeScaleAspectFit;
+    
+    
     
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -90,9 +95,6 @@
         if(!isCameraMode)
         {
             photoLocationStr=@"";
-            [self callGetLocation];
-            
-            
             //remove the add Folder View when appear
             [backView2 removeFromSuperview];
             [addFolderView removeFromSuperview];
@@ -102,11 +104,8 @@
             picker.delegate=self;
             if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
             {
-                
                 picker.sourceType=UIImagePickerControllerSourceTypeCamera;
                 isCameraMode=YES;
-                
-                
             }
             else
             {
@@ -126,6 +125,13 @@
     isCameraMode=NO;
     
 }
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - TextFeild Method
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return  [textField resignFirstResponder];
@@ -140,11 +146,10 @@
     return YES;
 }
 
-
+#pragma mark - cameraLaunch Method
 -(void)openeditorcontrol
 {
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
-    
 }
 
 
@@ -189,13 +194,8 @@
     }
     
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-
+#pragma mark - ImagePicker Method
 //imagePicker DelegateMethod
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
@@ -371,7 +371,7 @@
     return YES;
 }
 
-//webservice call back method
+#pragma mark - webservice delegate method
 -(void)webserviceCallback:(NSDictionary *)data
 {
     [SVProgressHUD dismiss];
@@ -428,13 +428,9 @@
 }
 
 
--(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-    NSLog(@"select tabbar");
-}
 
-//Picker view for select folder option
-//Picker view for select folder option
+
+#pragma mark - Show Select Folder Option
 -(void)showSelectFolderOption
 {
     @try {
@@ -509,6 +505,31 @@
     
     [self goToPhotoDetailViewControoler];
 }
+
+-(void)categoryDoneButtonPressed{
+    NSLog(@"selected index is %@",selectedCollectionId);
+    if(selectedCollectionId==nil)
+    {
+        selectedCollectionId=[collectionIdArray objectAtIndex:0];
+    }
+    
+    [self savePhotosOnServer:userid filepath:imgData];
+    
+}
+-(void)removePickerView
+{
+    [categoryPickerView removeFromSuperview];
+    [pickerToolbar removeFromSuperview];
+    [backView1 removeFromSuperview];
+    [backView2 removeFromSuperview];
+    [addNewFolder removeFromSuperview];
+    [self goToHomePage];
+}
+-(void)categoryCancelButtonPressed{
+    [self removePickerView];
+}
+
+#pragma mark GoToPhotoDetailViewController
 -(void)goToPhotoDetailViewControoler
 {
     EditPhotoDetailViewController *editDetail;
@@ -526,12 +547,13 @@
     
     [self.navigationController pushViewController:editDetail animated:NO];
 }
+#pragma mark - Picker view Delegate Method
 - (void)pickerViewTapGestureRecognized:(UITapGestureRecognizer*)gestureRecognizer
 {
     //CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view.superview];
-    
     //CGRect frame = categoryPickerView.frame;
     //CGRect selectorFrame = CGRectInset( frame, 0.0, categoryPickerView.bounds.size.height * 0.85 / 2.0 );
+    
     
     NSLog( @"Selected Row: %i", [categoryPickerView selectedRowInComponent:0] );
     if([categoryPickerView selectedRowInComponent:0]==0)
@@ -539,115 +561,49 @@
         [self addNewFolderView];
     }
 }
--(void)addPhotoDescriptionView
-{
-    float textFieldBorderWidth=0.3;
-    if([manager isiPad])
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
+    // Handle the selection
+    
+    NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
+    if(row!=0)
     {
-        textFieldBorderWidth=0.8f;
+        selectedCollectionId=[collectionIdArray objectAtIndex:row];
     }
-    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-    UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
-    UIColor *lblTextColor=[UIColor blackColor];
-    backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
-    backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
-    
-    UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-130, self.view.center.y-210, 260, 300)];
-    addPhotoDescriptionView.layer.borderWidth=1;
-    addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
-    addPhotoDescriptionView.layer.cornerRadius=8;
-    addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
-    //tap getsure on view for dismiss the keyboard
-    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    tapper.cancelsTouchesInView = NO;
-    [addPhotoDescriptionView addGestureRecognizer:tapper];
-    
-    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(40, 10, addPhotoDescriptionView.frame.size.width-80, 30)];
-    headLbl.text=@"Add Photo Details";
-    headLbl.layer.cornerRadius=5;
-    headLbl.textAlignment=NSTextAlignmentCenter;
-    headLbl.textColor=lblTextColor;
-    //headLbl.backgroundColor=[UIColor darkGrayColor];
-    
-    
-    //add label for photo title and photo description
-    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(20, 60, 80, 30)];
-    title.text=@"Title";
-    title.textColor=lblTextColor;
-    title.font=[UIFont fontWithName:@"Verdana" size:13];
-    
-    photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 60, 140, 30)];
-    photoTitleTF.layer.borderWidth=textFieldBorderWidth;
-    photoTitleTF.backgroundColor=[UIColor whiteColor];
-    [photoTitleTF setDelegate:self];
-    
-    UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(20, 110, 80, 30)];
-    description.text=@"Description";
-    description.textColor=lblTextColor;
-    description.font=[UIFont fontWithName:@"Verdana" size:13];
-    
-    photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(100, 110, 140, 70)];
-    photoDescriptionTF.layer.borderWidth=textFieldBorderWidth;
-    photoDescriptionTF.backgroundColor=[UIColor whiteColor];
-    [photoDescriptionTF setDelegate:self];
-    
-    
-    UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(20, 200, 80, 30)];
-    tag.text=@"Tag";
-    tag.textColor=lblTextColor;
-    tag.font=[UIFont fontWithName:@"Verdana" size:13];
-    
-    phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 200, 140, 30)];
-    phototagTF.layer.borderWidth=textFieldBorderWidth;
-    phototagTF.backgroundColor=[UIColor whiteColor];
-    [phototagTF setDelegate:self];
-    
-    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 65, 30)];
-    
-    //cancelButton.backgroundColor=btnBorderColor;
-    cancelButton.layer.cornerRadius=5;
-    cancelButton.layer.borderColor=btnBorderColor.CGColor;
-    cancelButton.layer.borderWidth=1;
-    
-    cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
-    [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
-    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(170, 250, 70, 30)];
-    
-    //addButton.backgroundColor=btnBorderColor;
-    save.layer.cornerRadius=5;
-    save.layer.borderColor=btnBorderColor.CGColor;
-    save.layer.borderWidth=1;
-    
-    save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
-    [save setTitleColor:btnTextColor forState:UIControlStateNormal];
-    
-    
-    [save setTitle:@"Save" forState:UIControlStateNormal];
-    [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
-    [addPhotoDescriptionView addSubview:headLbl];
-    [addPhotoDescriptionView addSubview:title];
-    [addPhotoDescriptionView addSubview:description];
-    [addPhotoDescriptionView addSubview:tag];
-    [addPhotoDescriptionView addSubview:photoTitleTF];
-    [addPhotoDescriptionView addSubview:photoDescriptionTF];
-    [addPhotoDescriptionView addSubview:phototagTF];
-    [addPhotoDescriptionView addSubview:cancelButton];
-    [addPhotoDescriptionView addSubview:save];
-    
-    [backViewPhotDetail addSubview:addPhotoDescriptionView];
-    [self.view addSubview:backViewPhotDetail];
     
     
 }
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
-    [self.view endEditing:YES];
+
+// tell the picker how many rows are available for a given component
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [collectionIdArray count];
 }
+
+// tell the picker how many components it will have
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+// tell the picker the title for a given component
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
+    return [collectionNameArray objectAtIndex: row];
+    
+}
+
+// tell the picker the width of each row for a given component
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    int sectionWidth = 320;
+    
+    return sectionWidth;
+}
+
+
+
+#pragma mark - Create NewFolder
 -(void)addNewFolderView
 {
+    
+    isAddNewFolderMode=YES;
     float textFieldBorderWidth=0.3;
     if([manager isiPad])
     {
@@ -726,6 +682,7 @@
 -(void)removeBackView2
 {
     [backView2 removeFromSuperview];
+    isAddNewFolderMode=NO;
 }
 -(void)savePhotoDetail
 {
@@ -759,6 +716,7 @@
 
 -(void)createNewFolder
 {
+    isAddNewFolderMode=NO;
     if(folderName.text.length>0)
     {
         [self addCollectionInfoInServer:folderName.text  writeUserIds:@"" readUserIds:@""];
@@ -805,68 +763,22 @@
     // [webServices call:data controller:@"photo" method:@"store"];
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
 }
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
-    // Handle the selection
-    
-    NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
-    if(row!=0)
-    {
-        selectedCollectionId=[collectionIdArray objectAtIndex:row];
-    }
-    
 
-}
-// tell the picker how many rows are available for a given component
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [collectionIdArray count];
-}
 
-// tell the picker how many components it will have
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-// tell the picker the title for a given component
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    return [collectionNameArray objectAtIndex: row];
-    
-}
-
-// tell the picker the width of each row for a given component
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    int sectionWidth = 320;
-    
-    return sectionWidth;
-}
-
--(void)categoryDoneButtonPressed{
-    NSLog(@"selected index is %@",selectedCollectionId);
-    if(selectedCollectionId==nil)
-    {
-        selectedCollectionId=[collectionIdArray objectAtIndex:0];
-    }
-    
-    [self savePhotosOnServer:userid filepath:imgData];
-    
-    
-}
--(void)removePickerView
+#pragma mark - Check Device Orientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    [categoryPickerView removeFromSuperview];
-    [pickerToolbar removeFromSuperview];
-    [backView1 removeFromSuperview];
-    [backView2 removeFromSuperview];
-    [addNewFolder removeFromSuperview];
-    [self goToHomePage];
+    // Return YES for supported orientations
+    return YES;
 }
--(void)categoryCancelButtonPressed{
-    
-    [self removePickerView];
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
     
 }
-#pragma Mark
-#pragma Add Custom Navigation Bar
+
+#pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -896,8 +808,11 @@
             [navnBar loadNav:CGRectNull :true];
         }
     }
+    if(!isAddNewFolderMode)
+    {
+        [[self view] addSubview:navnBar];
+    }
     
-    [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 
@@ -921,7 +836,7 @@
 }
 
 
-
+#pragma mark - Get The Current Location of user
 //get the user location
 -(void)callGetLocation
 {
@@ -936,12 +851,11 @@
     
     [locationManager startUpdatingLocation];
 }
-#pragma mark - CLLocationManagerDelegate
 
+//CLLocation manager Delegate
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError: %@", error);
-    
 }
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
@@ -973,16 +887,113 @@
     [locationManager stopUpdatingLocation];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-    
-}
 
 @end
+/*-(void)addPhotoDescriptionView
+ {
+ float textFieldBorderWidth=0.3;
+ if([manager isiPad])
+ {
+ textFieldBorderWidth=0.8f;
+ }
+ UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
+ UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
+ UIColor *lblTextColor=[UIColor blackColor];
+ backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
+ backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+ 
+ UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-130, self.view.center.y-210, 260, 300)];
+ addPhotoDescriptionView.layer.borderWidth=1;
+ addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
+ addPhotoDescriptionView.layer.cornerRadius=8;
+ addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
+ //tap getsure on view for dismiss the keyboard
+ UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+ tapper.cancelsTouchesInView = NO;
+ [addPhotoDescriptionView addGestureRecognizer:tapper];
+ 
+ UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(40, 10, addPhotoDescriptionView.frame.size.width-80, 30)];
+ headLbl.text=@"Add Photo Details";
+ headLbl.layer.cornerRadius=5;
+ headLbl.textAlignment=NSTextAlignmentCenter;
+ headLbl.textColor=lblTextColor;
+ //headLbl.backgroundColor=[UIColor darkGrayColor];
+ 
+ 
+ //add label for photo title and photo description
+ UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(20, 60, 80, 30)];
+ title.text=@"Title";
+ title.textColor=lblTextColor;
+ title.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 60, 140, 30)];
+ photoTitleTF.layer.borderWidth=textFieldBorderWidth;
+ photoTitleTF.backgroundColor=[UIColor whiteColor];
+ [photoTitleTF setDelegate:self];
+ 
+ UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(20, 110, 80, 30)];
+ description.text=@"Description";
+ description.textColor=lblTextColor;
+ description.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(100, 110, 140, 70)];
+ photoDescriptionTF.layer.borderWidth=textFieldBorderWidth;
+ photoDescriptionTF.backgroundColor=[UIColor whiteColor];
+ [photoDescriptionTF setDelegate:self];
+ 
+ 
+ UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(20, 200, 80, 30)];
+ tag.text=@"Tag";
+ tag.textColor=lblTextColor;
+ tag.font=[UIFont fontWithName:@"Verdana" size:13];
+ 
+ phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 200, 140, 30)];
+ phototagTF.layer.borderWidth=textFieldBorderWidth;
+ phototagTF.backgroundColor=[UIColor whiteColor];
+ [phototagTF setDelegate:self];
+ 
+ UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 65, 30)];
+ 
+ //cancelButton.backgroundColor=btnBorderColor;
+ cancelButton.layer.cornerRadius=5;
+ cancelButton.layer.borderColor=btnBorderColor.CGColor;
+ cancelButton.layer.borderWidth=1;
+ 
+ cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+ [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
+ [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+ [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
+ 
+ UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(170, 250, 70, 30)];
+ 
+ //addButton.backgroundColor=btnBorderColor;
+ save.layer.cornerRadius=5;
+ save.layer.borderColor=btnBorderColor.CGColor;
+ save.layer.borderWidth=1;
+ 
+ save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
+ [save setTitleColor:btnTextColor forState:UIControlStateNormal];
+ 
+ 
+ [save setTitle:@"Save" forState:UIControlStateNormal];
+ [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
+ [addPhotoDescriptionView addSubview:headLbl];
+ [addPhotoDescriptionView addSubview:title];
+ [addPhotoDescriptionView addSubview:description];
+ [addPhotoDescriptionView addSubview:tag];
+ [addPhotoDescriptionView addSubview:photoTitleTF];
+ [addPhotoDescriptionView addSubview:photoDescriptionTF];
+ [addPhotoDescriptionView addSubview:phototagTF];
+ [addPhotoDescriptionView addSubview:cancelButton];
+ [addPhotoDescriptionView addSubview:save];
+ 
+ [backViewPhotDetail addSubview:addPhotoDescriptionView];
+ [self.view addSubview:backViewPhotDetail];
+ 
+ 
+ }
+ - (void)handleSingleTap:(UITapGestureRecognizer *) sender
+ {
+ [self.view endEditing:YES];
+ }
+ */

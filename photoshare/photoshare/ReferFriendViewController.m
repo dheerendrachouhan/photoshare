@@ -30,8 +30,9 @@
     NSString *segmentControllerIndexStr;
     NSMutableArray *toolKitNameArray;
     UICollectionViewFlowLayout *layout;
+    CGRect pickerFrame;
 }
-@synthesize webViewReferral,toolKitReferralStr;
+@synthesize webViewReferral,toolKitReferralStr, mypicker;
 @synthesize collectionView = _collectionView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -84,9 +85,14 @@
         {
             //custumizing frame of webview for 3.5 inch
             CGRect frame = webViewReferral.frame;
-            frame.origin.y = 105;
-            frame.size.height = 220;
+            frame.origin.y = 55;
+            frame.size.height = 180;
             webViewReferral.frame = frame;
+            
+            //cutomizing frame of uipicker
+            CGRect framePick = mypicker.frame;
+            framePick.origin.y = 210;
+            mypicker.frame = framePick;
         }
     }
     
@@ -120,6 +126,7 @@
         toolkitEarningArr = [outPutData valueForKey:@"toolkit_earnings"];
         toolkitreferralsArr = [outPutData valueForKey:@"toolkit_referrals"];
         [self loadData];
+        [mypicker reloadAllComponents];
     }
 }
 
@@ -128,12 +135,17 @@
     webViewReferral.delegate = self;
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
+    mypicker.layer.borderWidth = 1.0;
+    mypicker.layer.borderColor = [UIColor blackColor].CGColor;
     
+    
+    /*
     for(int i=1;i<=toolkitIDArr.count;i++)
     {
         NSString *toolName = [NSString stringWithFormat:@"Video %d",i];
         [toolKitNameArray addObject:toolName];
     }
+    
     
     layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -205,10 +217,101 @@
     [scrollView addSubview:_collectionView];
     
     [_collectionView registerClass:[CustomCells class] forCellWithReuseIdentifier:@"CustomCells"];
-    
+    */
     
 }
 
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    if (component ==  0)
+    {
+        if(toolkitTitleArr.count > 0)
+        {
+            return toolkitTitleArr.count;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    if (component==0)
+    {
+        return [toolkitTitleArr objectAtIndex:row];
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"Video name: %@",[toolkitTitleArr objectAtIndex:row]);
+    NSLog(@"%d",row);
+    
+    [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:row]]]]];
+    toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
+}
+
+-(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel *label;
+    
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
+    {
+        label= [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 568, 50)];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
+    }
+    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        
+        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1024, 80)];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:25];
+    }
+    // your frame, so picker gets "colored"
+    label.backgroundColor = [UIColor lightGrayColor];
+    label.textColor = [UIColor blackColor];
+    
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = [NSString stringWithFormat:@"%@",[toolkitTitleArr objectAtIndex:row]];
+    
+    return label;
+}
+
+#pragma mark - UIPickerView Delegate
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+    
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
+    {
+        return 50.0;
+    }
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        
+        return 80.0;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/*
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
@@ -230,7 +333,7 @@
     return cell;
     
 }
-
+*/
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%d",indexPath.row);
@@ -240,7 +343,7 @@
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:indexPath.row],[objManager getData:@"user_username"]];
 }
 
-
+/*
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     CGPoint point = scrollView.center;
@@ -251,7 +354,7 @@
     
     NSLog(@"%i",index);
     
-}
+}*/
 
 //push to referral stage 4 view controller
 -(void)chooseView
@@ -369,21 +472,22 @@
             scrollView.frame = CGRectMake(0, 72, 480, 300);
             scrollView.contentSize = CGSizeMake(480, 380);
             scrollView.bounces = NO;
-            [self CollectionLayoutRotation];
+            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 568, 300);
             scrollView.contentSize = CGSizeMake(568, 440);
             scrollView.bounces = NO;
-            [self CollectionLayoutRotation];
+            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
+            
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             scrollView.frame = CGRectMake(0, 161, 1024, 700);
             scrollView.contentSize = CGSizeMake(1024, 770);
             scrollView.bounces = NO;
-            [self CollectionLayoutRotation];
+            
         }
     }
     else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
@@ -392,20 +496,21 @@
         {
             scrollView.frame = CGRectMake(0, 72, 320, 370);
             scrollView.contentSize = CGSizeMake(320, 300);
-            [self CollectionLayoutRotation];
+            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 320, 423);
             scrollView.contentSize = CGSizeMake(320, 300);
-            [self CollectionLayoutRotation];
+            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
+            
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             scrollView.frame = CGRectMake(0, 161, 768, 780);
             scrollView.contentSize = CGSizeMake(768, 600);
             scrollView.bounces = NO;
-            [self CollectionLayoutRotation];
+            
         }
     }
 }
@@ -428,21 +533,21 @@
             scrollView.frame = CGRectMake(0, 72, 480, 300);
             scrollView.contentSize = CGSizeMake(480, 380);
             scrollView.bounces = NO;
-            [self CollectionLayoutRotation];
+            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 568, 300);
             scrollView.contentSize = CGSizeMake(568, 440);
             scrollView.bounces = NO;
-            [self CollectionLayoutRotation];
+            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             scrollView.frame = CGRectMake(0, 161, 1024, 700);
             scrollView.contentSize = CGSizeMake(1024, 770);
             scrollView.bounces = NO;
-            [self CollectionLayoutRotation];
+            
         }
     }
     else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
@@ -451,94 +556,24 @@
         {
             scrollView.frame = CGRectMake(0, 72, 320, 370);
             scrollView.contentSize = CGSizeMake(320, 300);
-            [self CollectionLayoutRotation];
+            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 320, 423);
             scrollView.contentSize = CGSizeMake(320, 300);
-           [self CollectionLayoutRotation];
+           mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             scrollView.frame = CGRectMake(0, 161, 768, 780);
             scrollView.contentSize = CGSizeMake(768, 600);
             scrollView.bounces = NO;
-            [self CollectionLayoutRotation];
+            
         }
     }
 }
 
--(void)CollectionLayoutRotation
-{
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            layout.itemSize = CGSizeMake(250.0f, 80.0f);
-            _collectionView.frame = CGRectMake(0.0f, 100.0f, 768.0f, 100.0f);
-            _collectionView.backgroundColor = [UIColor whiteColor];
-            _collectionView.dataSource = self;
-            _collectionView.delegate = self;
-            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-            _collectionView.layer.borderWidth = 0.5;
-            _collectionView.layer.cornerRadius = 5;
-        }
-        else
-        {
-            layout.itemSize = CGSizeMake(250.0f, 80.0f);
-            _collectionView.frame = CGRectMake(0.0f, 100.0f, 1024.0f, 100.0f);
-            _collectionView.backgroundColor = [UIColor whiteColor];
-            _collectionView.dataSource = self;
-            _collectionView.delegate = self;
-            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-            _collectionView.layer.borderWidth = 0.5;
-            _collectionView.layer.cornerRadius = 5;
-        }
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            layout.itemSize = CGSizeMake(100.0f, 40.0f);
-            _collectionView.frame = CGRectMake(0.0f, 50.0f, 320.0f, 50.0f);
-            _collectionView.backgroundColor = [UIColor whiteColor];
-            _collectionView.dataSource = self;
-            _collectionView.delegate = self;
-            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-            _collectionView.layer.borderWidth = 0.5;
-            _collectionView.layer.cornerRadius = 5;
-        }else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-            {
-                layout.itemSize = CGSizeMake(100.0f, 40.0f);
-                _collectionView.frame = CGRectMake(0.0f, 50.0f, 480.0f, 50.0f);
-                
-                _collectionView.backgroundColor = [UIColor whiteColor];
-                _collectionView.dataSource = self;
-                _collectionView.delegate = self;
-                _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-                _collectionView.layer.borderWidth = 0.5;
-                _collectionView.layer.cornerRadius = 5;
-            }
-            else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-            {
-                layout.itemSize = CGSizeMake(100.0f, 40.0f);
-                _collectionView.frame = CGRectMake(0.0f, 50.0f, 568.0f, 50.0f);
-                _collectionView.backgroundColor = [UIColor whiteColor];
-                _collectionView.dataSource = self;
-                _collectionView.delegate = self;
-                _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-                _collectionView.layer.borderWidth = 0.5;
-                _collectionView.layer.cornerRadius = 5;
-            }
-            
-        }
-        
-    }
-   
-}
 
 - (void)didReceiveMemoryWarning
 {

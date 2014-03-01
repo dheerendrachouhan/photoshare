@@ -51,6 +51,7 @@
     
     BOOL isPhotoSavingMode;
     BOOL isColletionCreateMode;
+    BOOL isAddNewFolderMode;
     
     IBOutlet UIImageView *imgView;
     //fore new folder create when pick image

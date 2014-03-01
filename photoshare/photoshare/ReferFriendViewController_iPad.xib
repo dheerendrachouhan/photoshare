@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReferFriendViewController">
             <connections>
+                <outlet property="mypicker" destination="GSZ-3T-RNe" id="gGr-pG-Qv5"/>
                 <outlet property="scrollView" destination="4lS-PH-vVi" id="dZ6-Ns-A3N"/>
                 <outlet property="view" destination="1" id="kl4-2z-8DB"/>
                 <outlet property="webViewReferral" destination="ZPD-AV-MtR" id="QdZ-KL-bXO"/>
@@ -29,12 +30,20 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <webView clipsSubviews="YES" contentMode="scaleToFill" scalesPageToFit="YES" id="ZPD-AV-MtR">
-                            <rect key="frame" x="0.0" y="228" width="768" height="480"/>
+                            <rect key="frame" x="0.0" y="113" width="768" height="459"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="Nfx-V9-Ya7"/>
                             </connections>
                         </webView>
+                        <pickerView contentMode="scaleToFill" id="GSZ-3T-RNe">
+                            <rect key="frame" x="0.0" y="575" width="768" height="216"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="oBK-3b-aWO"/>
+                                <outlet property="delegate" destination="-1" id="F5k-QR-KKN"/>
+                            </connections>
+                        </pickerView>
                     </subviews>
                 </scrollView>
             </subviews>

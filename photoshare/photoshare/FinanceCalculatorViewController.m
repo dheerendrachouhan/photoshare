@@ -61,7 +61,6 @@
     {
         [[NSBundle mainBundle] loadNibNamed:@"financeCalculator3VC_iPad" owner:self options:nil];
         myPickerView.transform = CGAffineTransformMakeScale(0.75f, 0.75f);
-        
 
     }
     
@@ -258,8 +257,6 @@
         return 0;
     }
 }
-
-
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
