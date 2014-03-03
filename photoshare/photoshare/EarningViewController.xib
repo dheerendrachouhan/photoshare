@@ -55,7 +55,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="992-bC-Jnr">
-                            <rect key="frame" x="15" y="357.00000057617814" width="295" height="36"/>
+                            <rect key="frame" x="15" y="357.00000004910612" width="295" height="36"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <inset key="imageEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <state key="normal" image="arrow.png">

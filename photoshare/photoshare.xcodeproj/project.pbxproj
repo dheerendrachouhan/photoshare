@@ -137,6 +137,7 @@
 		E302861218AE4FB800574650 /* libAviarySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3DDA757189A6B1700144C43 /* libAviarySDK.a */; };
 		E30D92B618B2046700E2F072 /* CustomCelliPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E30D92B518B2046700E2F072 /* CustomCelliPad.xib */; };
 		E30DF42F18B47E7E00FE6CB3 /* referr-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E30DF42E18B47E7E00FE6CB3 /* referr-icon.png */; };
+		E3130D3418C4C7B7006E0850 /* login-logo-log.png in Resources */ = {isa = PBXBuildFile; fileRef = E3130D3318C4C7B7006E0850 /* login-logo-log.png */; };
 		E31649B218AB55B900083C7F /* MailMessageTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E31649B018AB55B900083C7F /* MailMessageTable.m */; };
 		E31649B318AB55B900083C7F /* MailMessageTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31649B118AB55B900083C7F /* MailMessageTable.xib */; };
 		E317675D1898BE0A00923E35 /* FBTWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E317675B1898BE0A00923E35 /* FBTWViewController.m */; };
@@ -420,6 +421,7 @@
 		E1B0742F189952DB00589867 /* PhotoGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoGalleryViewController.xib; sourceTree = "<group>"; };
 		E30D92B518B2046700E2F072 /* CustomCelliPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCelliPad.xib; sourceTree = "<group>"; };
 		E30DF42E18B47E7E00FE6CB3 /* referr-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "referr-icon.png"; sourceTree = "<group>"; };
+		E3130D3318C4C7B7006E0850 /* login-logo-log.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-logo-log.png"; sourceTree = "<group>"; };
 		E31649AF18AB55B900083C7F /* MailMessageTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailMessageTable.h; sourceTree = "<group>"; };
 		E31649B018AB55B900083C7F /* MailMessageTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailMessageTable.m; sourceTree = "<group>"; };
 		E31649B118AB55B900083C7F /* MailMessageTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MailMessageTable.xib; sourceTree = "<group>"; };
@@ -951,6 +953,7 @@
 		FC9763D2188FFC2D008DF1F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E3130D3318C4C7B7006E0850 /* login-logo-log.png */,
 				E1179A6818C1ABEA003B8526 /* iconr3.png */,
 				E10C09EC18C0BA68007A88D9 /* iconr3_uncheck.png */,
 				E10C09EA18C0B7F6007A88D9 /* tick_circle.png */,
@@ -1259,6 +1262,7 @@
 				E30D92B618B2046700E2F072 /* CustomCelliPad.xib in Resources */,
 				E170E91618A55280002D3D17 /* Icon-120.png in Resources */,
 				FCC76CAB1896A93C00F4B41A /* arrow.png in Resources */,
+				E3130D3418C4C7B7006E0850 /* login-logo-log.png in Resources */,
 				E108F13018AE2C7100B574F6 /* LaunchCameraViewController_iPad.xib in Resources */,
 				E317676A1899031200923E35 /* financeCalculator3VC.xib in Resources */,
 				FCC76CA71896A39C00F4B41A /* line.png in Resources */,

@@ -210,7 +210,7 @@
         
         [controller setInitialText:[NSString stringWithFormat:@"Take a look 123 Friday %@",toolkitLink]];
         
-        [controller addImage:[UIImage imageNamed:@"123-mobile-logo.png"]];
+        [controller addImage:[UIImage imageNamed:@"login-logo-log.png"]];
         
         [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
             
@@ -706,6 +706,7 @@
         {
             SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
             [tweetSheet setInitialText:[NSString  stringWithFormat:@"%@ Join 123 Friday %@",twitterTweet,toolkitLink]];
+            [tweetSheet addImage:[UIImage imageNamed:@"login-logo-log.png"]];
             [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
                 
                 FBTWViewController *tw = [[FBTWViewController alloc] init];
