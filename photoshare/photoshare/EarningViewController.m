@@ -75,14 +75,14 @@
     {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 480.0f, 320.0f);
+            scrollView.frame = CGRectMake(0.0f, 90.0f, 480.0f, 320.0f);
             
             scrollView.contentSize = CGSizeMake(480,400);
             scrollView.bounces = NO;
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 568.0f, 320.0f);
+            scrollView.frame = CGRectMake(0.0f, 90.0f, 568.0f, 320.0f);
             
             scrollView.contentSize = CGSizeMake(568,400);
         }
@@ -97,12 +97,12 @@
     {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 320.0f, 327.0f);
+            scrollView.frame = CGRectMake(0.0f, 90.0f, 320.0f, 327.0f);
             scrollView.contentSize = CGSizeMake(320,257);
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 320.0f, 415.0f);
+            scrollView.frame = CGRectMake(0.0f, 90.0f, 320.0f, 415.0f);
             scrollView.contentSize = CGSizeMake(320,320);
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -263,14 +263,14 @@
     {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 480.0f, 320.0f);
+            scrollView.frame = CGRectMake(0.0f, 90.0f, 480.0f, 320.0f);
             
             scrollView.contentSize = CGSizeMake(480,400);
             scrollView.bounces = NO;
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 568.0f, 320.0f);
+            scrollView.frame = CGRectMake(0.0f, 90.0f, 568.0f, 320.0f);
             
             scrollView.contentSize = CGSizeMake(568,400);
         }
@@ -285,12 +285,12 @@
     {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 320.0f, 327.0f);
+            scrollView.frame = CGRectMake(0.0f, 90.0f, 320.0f, 327.0f);
             scrollView.contentSize = CGSizeMake(320,257);
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 320.0f, 415.0f);
+            scrollView.frame = CGRectMake(0.0f, 90.0f, 320.0f, 415.0f);
             scrollView.contentSize = CGSizeMake(320,320);
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
