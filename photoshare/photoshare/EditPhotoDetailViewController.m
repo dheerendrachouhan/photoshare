@@ -19,6 +19,15 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"EditPhotoDetailViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"EditPhotoDetailViewController";
+    }
+
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -275,9 +284,7 @@
         }
         @finally {
             
-        }
-
-        
+        }        
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

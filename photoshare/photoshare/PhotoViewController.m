@@ -22,6 +22,15 @@
 @synthesize  isOnlyReadPermission;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"PhotoViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"PhotoViewController";
+    }
+
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -91,6 +100,58 @@
         photoViewBtn.hidden=NO;
     }
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"yes"])
+    {
+        
+        [self callGetLocation];
+        
+        imageView.image=Nil;
+        
+        photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
+        photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
+        photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
+        
+        imgData=[manager getData:@"photo_data"];
+        
+        
+        [self savePhotosOnServer:userid filepath:imgData];
+        
+        [manager storeData:@"no" :@"isfromphotodetailcontroller"];
+        [manager storeData:@"" :@"takephotodetail"];
+        [manager storeData:@"" :@"photo_data"];
+        
+    }
+    else
+    {
+        [self getCollectionInfoFromUserDefault];
+        //get photo info from nsuser default
+        NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
+        photoTitleStr=[[photoDetail objectAtIndex:self.selectedIndex ] objectForKey:@"collection_photo_title"];
+        
+        if (isCameraEditMode) {
+            isCameraEditMode = false ;
+            [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self
+                                           selector:@selector(openeditorcontrol)  userInfo:nil
+                                            repeats:NO];
+        }
+        if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
+        {
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+    }
+    [self addCustomNavigationBar];
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Save and get images from Document Directory
 -(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -110,6 +171,8 @@
     return img;
     
 }
+
+#pragma mark - IBAction methods
 - (IBAction)viewPhoto:(id)sender
 {
     if(isoriginalImageGet)
@@ -121,136 +184,6 @@
         [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
     }
 }
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    return [textField resignFirstResponder];
-}
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    
-    if([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-    }
-    
-    return YES;
-}
--(void)getImageFromServer
-{
-    NSNumber *num = [NSNumber numberWithInt:1] ;
-    webservices.delegate=self;
-    NSString *imageReSize=@"640";
-    if([manager isiPad])
-    {
-        imageReSize=@"1500";
-    }
-    
-    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
-    
-    [webservices call:dicData controller:@"photo" method:@"get"];
-}
--(void) webserviceCallbackImage:(UIImage *)image
-{
-    UIActivityIndicatorView *indeicator=(UIActivityIndicatorView *)[imageView viewWithTag:1100];
-    [indeicator removeFromSuperview];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.image=image;
-    originalImage=image;
-    isoriginalImageGet=YES;
-    
-    [self saveImageInDocumentDirectry:image index:self.photoId.integerValue];
-}
--(void)getCollectionInfoFromUserDefault
-{
-    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
-    
-    [collectionIdArray removeAllObjects];
-    [collectionNameArray removeAllObjects];
-    
-    for (int i=1;i<collection.count; i++)
-    {
-        [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
-        [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
-        
-    }
-    
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"yes"])
-    {
-        
-        [self callGetLocation];
-        
-        photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
-        photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
-        photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
-        
-        imgData=[manager getData:@"photo_data"];
-        
-        
-        [self savePhotosOnServer:userid filepath:imgData];
-        
-        [manager storeData:@"no" :@"isfromphotodetailcontroller"];
-        [manager storeData:@"" :@"takephotodetail"];
-        [manager storeData:@"" :@"photo_data"];
-    }
-    else
-    {
-        [self getCollectionInfoFromUserDefault];
-        [self addCustomNavigationBar];
-        if (isCameraEditMode) {
-            isCameraEditMode = false ;
-            [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self
-                                           selector:@selector(openeditorcontrol)  userInfo:nil
-                                            repeats:NO];
-        }
-        if([[manager getData:@"istabcamera"] isEqualToString:@"YES"])
-        {
-            [self.navigationController popViewControllerAnimated:NO];
-        }
-    }
-}
--(void)openeditorcontrol
-{
-    [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
-}
--(void)viewImage
-{
-    //UIImageView for view image in full screen
-    imgV=[[UIImageView alloc] initWithFrame:self.view.frame];
-    imgV.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    imgV.contentMode=UIViewContentModeScaleAspectFit;
-    imgV.backgroundColor=[UIColor blackColor];
-    imgV.userInteractionEnabled=YES;
-
-    imgV.image=originalImage;
-    NSLog(@"Image Size %f,%f",originalImage.size.width,originalImage.size.height);
-    UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removveimageView)];
-    doubleTap.numberOfTapsRequired=2;
-    [imgV addGestureRecognizer:doubleTap];
-    [self.view addSubview:imgV];
-    
-    self.tabBarController.tabBar.hidden=YES;
-    isViewLargeImageMode=YES;
-    
-    /*//zoomViewcontroller
-    ZoomPhotoViewController *zoomView;
-    if([manager isiPad])
-
-    {
-        zoomView=[[ZoomPhotoViewController alloc] initWithNibName:@"ZoomPhotoViewController_iPad" bundle:[NSBundle mainBundle]];
-        
-    }
-    else
-    {
-        zoomView=[[ZoomPhotoViewController alloc] initWithNibName:@"ZoomPhotoViewController" bundle:[NSBundle mainBundle]];
-    }
-    zoomView.image=originalImage;
-    [self.navigationController pushViewController:zoomView animated:NO];*/
-}
-
 - (IBAction)segmentSwitch:(id)sender
 {
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
@@ -302,12 +235,166 @@
         else
         {
             [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
+        }        
+    }
+    segmentedControl.selectedSegmentIndex = -1;
+}
+
+#pragma mark - Text Feild delegate methods
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    return [textField resignFirstResponder];
+}
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
+
+#pragma mark - Fetch the photo from server
+-(void)getImageFromServer
+{
+    NSNumber *num = [NSNumber numberWithInt:1] ;
+    webservices.delegate=self;
+    NSString *imageReSize=@"640";
+    if([manager isiPad])
+    {
+        imageReSize=@"1500";
+    }
+    
+    NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
+    
+    [webservices call:dicData controller:@"photo" method:@"get"];
+}
+#pragma mark - Webservice Call Back Methods
+-(void) webserviceCallbackImage:(UIImage *)image
+{
+    UIActivityIndicatorView *indeicator=(UIActivityIndicatorView *)[imageView viewWithTag:1100];
+    [indeicator removeFromSuperview];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.image=image;
+    originalImage=image;
+    isoriginalImageGet=YES;
+    
+    [self saveImageInDocumentDirectry:image index:self.photoId.integerValue];
+}
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    NSLog(@"Data %@",data);
+    NSDictionary *outputData=[data objectForKey:@"output_data"];
+    if(isSavePhotoOnServer)
+    {
+        [SVProgressHUD dismiss];
+        int exitcode=[[data objectForKey:@"exit_code"] integerValue];
+        if(exitcode==1)
+        {
+            //update the photo info  in nsuser default
+            NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
+            
+            NSDictionary *photoDetail=[photoinfoarray lastObject];
+            
+            NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
+            [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
+            [dic setObject:photoDescriptionStr forKey:@"collection_photo_description"];
+            [dic setObject:photoTitleStr forKey:@"collection_photo_title"];
+            [dic setObject:[outputData objectForKey:@"image_id"] forKey:@"collection_photo_id"];
+            [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
+            [dic setObject:userid forKey:@"collection_photo_user_id"];
+            //update photo info array in nsuser default
+            [photoinfoarray addObject:dic];
+            
+            NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
+            [manager storeData:data :@"photoInfoArray"];
+            [manager storeData:@"YES" :@"isEditPhotoInViewPhoto"];
+            [manager storeData:imgData :@"photo"];
+            [manager storeData:[outputData objectForKey:@"image_id"] :@"photoId"];
+            if(self.isPublicFolder)
+            {
+                //public img count for home page
+                NSNumber *imgCout=[NSNumber numberWithInteger:photoinfoarray.count];
+                [manager storeData:imgCout :@"publicImgIdArray"];
+            }
+            imageView.image=pickImage;
+            originalImage=pickImage;
+            
         }
+        else
+        {
+            NSLog(@"Photo saving failed");
+            [manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        isSavePhotoOnServer=NO;
         
     }
-     segmentedControl.selectedSegmentIndex = -1;
+    
 }
+
+#pragma mark - fetch the data from nsuser default
+-(void)getCollectionInfoFromUserDefault
+{
+    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
+    
+    [collectionIdArray removeAllObjects];
+    [collectionNameArray removeAllObjects];
+    
+    for (int i=1;i<collection.count; i++)
+    {
+        [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
+        [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
+        
+    }
+    
+}
+
+#pragma mark - open the aviary editor
+-(void)openeditorcontrol
+{
+    [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
+}
+
+#pragma mark - View Image in full screen
+-(void)viewImage
+{
+    //UIImageView for view image in full screen
+    imgV=[[UIImageView alloc] initWithFrame:self.view.frame];
+    imgV.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    imgV.contentMode=UIViewContentModeScaleAspectFit;
+    imgV.backgroundColor=[UIColor blackColor];
+    imgV.userInteractionEnabled=YES;
+
+    imgV.image=originalImage;
+    NSLog(@"Image Size %f,%f",originalImage.size.width,originalImage.size.height);
+    UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removveimageView)];
+    doubleTap.numberOfTapsRequired=2;
+    [imgV addGestureRecognizer:doubleTap];
+    [self.view addSubview:imgV];
+    
+    self.tabBarController.tabBar.hidden=YES;
+    isViewLargeImageMode=YES;
+    
+    /*//zoomViewcontroller
+    ZoomPhotoViewController *zoomView;
+    if([manager isiPad])
+
+    {
+        zoomView=[[ZoomPhotoViewController alloc] initWithNibName:@"ZoomPhotoViewController_iPad" bundle:[NSBundle mainBundle]];
+        
+    }
+    else
+    {
+        zoomView=[[ZoomPhotoViewController alloc] initWithNibName:@"ZoomPhotoViewController" bundle:[NSBundle mainBundle]];
+    }
+    zoomView.image=originalImage;
+    [self.navigationController pushViewController:zoomView animated:NO];*/
+}
+
 //Action sheet delegate Method
+
+#pragma mark - Action Sheet delegate Methods
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex==0)//Edit Photo
@@ -370,9 +457,26 @@
      PhotoShareView
      */
 }
+-(void)goToPhotoDetailViewControler
+{
+    EditPhotoDetailViewController *editDetail;
+    if([manager isiPad])
+    {
+        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
+    }
+    editDetail.isFromLaunchCamera=YES;
+    
+    [manager storeData:imgData :@"photo_data"];
+    
+    [self.navigationController pushViewController:editDetail animated:NO];
+}
 
 //For Aviary Edit Photo
-
+#pragma mark - Aviary methods
 #pragma mark - Photo Editor Launch Methods
 
 - (void) launchEditorWithAsset:(ALAsset *)asset
@@ -449,23 +553,6 @@
     [self goToPhotoDetailViewControler];
     //[manager showAlert:@"Message" msg:@"Photo Edit success" cancelBtnTitle:@"Ok" otherBtn:nil];
 }
--(void)goToPhotoDetailViewControler
-{
-    EditPhotoDetailViewController *editDetail;
-    if([manager isiPad])
-    {
-        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
-    }
-    else
-    {
-        editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
-    }
-    editDetail.isFromLaunchCamera=YES;
-    
-    [manager storeData:imgData :@"photo_data"];
-    
-    [self.navigationController pushViewController:editDetail animated:NO];
-}
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
@@ -515,9 +602,6 @@
     return [UIImage imageWithCGImage:image scale:scale orientation:orientation];
 }
 
-
-#pragma mark - Private Helper Methods
-
 - (BOOL) hasValidAPIKey
 {
     NSString * key = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Aviary-API-Key"];
@@ -528,7 +612,7 @@
     return YES;
 }
 
-
+#pragma mark - save image on server
 //save Photo on Server Photo With Detaill
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData
 {
@@ -540,208 +624,74 @@
     // [webServices call:data controller:@"photo" method:@"store"];
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
 }
--(void)webserviceCallback:(NSDictionary *)data
+
+
+#pragma mark - Device Orientation'
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    NSLog(@"Data %@",data);
-    NSDictionary *outputData=[data objectForKey:@"output_data"];
-    if(isSavePhotoOnServer)
-    {
-        [SVProgressHUD dismiss];
-        int exitcode=[[data objectForKey:@"exit_code"] integerValue];
-        if(exitcode==1)
-        {
-            //update the photo info  in nsuser default
-            NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+    
+}
+
+#pragma mark - Get the user current location
+//get the user location
+-(void)callGetLocation
+{
+    locationManager = [[CLLocationManager alloc] init];
+    geocoder = [[CLGeocoder alloc] init];
+    [self getLocation];
+}
+-(void)getLocation
+{
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [locationManager startUpdatingLocation];
+}
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    // Reverse Geocoding
+    NSLog(@"Resolving the Address");
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
+        if (error == nil && [placemarks count] > 0) {
+            placemark = [placemarks lastObject];
+            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
+             placemark.postalCode, placemark.locality,
+             placemark.administrativeArea,
+             placemark.country];*/
+            NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
             
-            NSDictionary *photoDetail=[photoinfoarray lastObject];
+            photoLocationStr=location;
             
-            NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-            [dic setObject:[photoDetail objectForKey:@"collection_photo_added_date"] forKey:@"collection_photo_added_date"];
-            [dic setObject:photoDescriptionStr forKey:@"collection_photo_description"];
-            [dic setObject:photoTitleStr forKey:@"collection_photo_title"];
-            [dic setObject:[outputData objectForKey:@"image_id"] forKey:@"collection_photo_id"];
-            [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
-            [dic setObject:userid forKey:@"collection_photo_user_id"];
-            //update photo info array in nsuser default
-            [photoinfoarray addObject:dic];
             
-            NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
-            [manager storeData:data :@"photoInfoArray"];
-            [manager storeData:@"YES" :@"isEditPhotoInViewPhoto"];
-            [manager storeData:imgData :@"photo"];
-            [manager storeData:[outputData objectForKey:@"image_id"] :@"photoId"];
-            if(self.isPublicFolder)
-            {
-                //public img count for home page
-                NSNumber *imgCout=[NSNumber numberWithInteger:photoinfoarray.count];
-                [manager storeData:imgCout :@"publicImgIdArray"];
-            }
-            imageView.image=pickImage;
-            originalImage=pickImage;
-            
+            NSLog(@"Current location is %@",location);
+        } else {
+            NSLog(@"%@", error.debugDescription);
         }
-        else
-        {
-            NSLog(@"Photo saving failed");
-            [manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
-        }
-        isSavePhotoOnServer=NO;
-        
-    }
-
+    } ];
+    
+    
+    [locationManager stopUpdatingLocation];
 }
 
-//fro add photo details
--(void)addPhotoDescriptionView
-{
-    float textFieldBorderWidth=0.3;
-    if([manager isiPad])
-    {
-        textFieldBorderWidth=0.8f;
-    }
-    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-    UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
-    UIColor *lblTextColor=[UIColor blackColor];
-    backViewPhotDetail=[[UIView alloc] initWithFrame:self.view.frame];
-    backViewPhotDetail.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
-    
-    UIView *addPhotoDescriptionView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-130, self.view.center.y-210, 260, 300)];
-    addPhotoDescriptionView.layer.borderWidth=1;
-    addPhotoDescriptionView.layer.borderColor=[UIColor blackColor].CGColor;
-    addPhotoDescriptionView.layer.cornerRadius=8;
-    addPhotoDescriptionView.backgroundColor=[UIColor whiteColor];
-    //tap getsure on view for dismiss the keyboard
-    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    tapper.cancelsTouchesInView = NO;
-    [addPhotoDescriptionView addGestureRecognizer:tapper];
-    
-    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(40, 10, addPhotoDescriptionView.frame.size.width-80, 30)];
-    headLbl.text=@"Add Photo Details";
-    headLbl.layer.cornerRadius=5;
-    headLbl.textAlignment=NSTextAlignmentCenter;
-    headLbl.textColor=lblTextColor;
-    //headLbl.backgroundColor=[UIColor darkGrayColor];
-    
-    
-    //add label for photo title and photo description
-    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(20, 60, 80, 30)];
-    title.text=@"Title";
-    title.textColor=lblTextColor;
-    title.font=[UIFont fontWithName:@"Verdana" size:13];
-    
-    photoTitleTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 60, 140, 30)];
-    photoTitleTF.layer.borderWidth=textFieldBorderWidth;
-    photoTitleTF.backgroundColor=[UIColor whiteColor];
-    [photoTitleTF setDelegate:self];
-    
-    UILabel *description=[[UILabel alloc] initWithFrame:CGRectMake(20, 110, 80, 30)];
-    description.text=@"Description";
-    description.textColor=lblTextColor;
-    description.font=[UIFont fontWithName:@"Verdana" size:13];
-    
-    photoDescriptionTF=[[UITextView alloc] initWithFrame:CGRectMake(100, 110, 140, 70)];
-    photoDescriptionTF.layer.borderWidth=textFieldBorderWidth;
-    photoDescriptionTF.backgroundColor=[UIColor whiteColor];
-    [photoDescriptionTF setDelegate:self];
-    
-    
-    UILabel *tag=[[UILabel alloc] initWithFrame:CGRectMake(20, 200, 80, 30)];
-    tag.text=@"Tag";
-    tag.textColor=lblTextColor;
-    tag.font=[UIFont fontWithName:@"Verdana" size:13];
-    
-    phototagTF=[[UITextField alloc] initWithFrame:CGRectMake(100, 200, 140, 30)];
-    phototagTF.layer.borderWidth=textFieldBorderWidth;
-    phototagTF.backgroundColor=[UIColor whiteColor];
-    [phototagTF setDelegate:self];
-    
-    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(100, 250, 65, 30)];
-    
-    //cancelButton.backgroundColor=btnBorderColor;
-    cancelButton.layer.cornerRadius=5;
-    cancelButton.layer.borderColor=btnBorderColor.CGColor;
-    cancelButton.layer.borderWidth=1;
-    
-    cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
-    [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
-    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(removebackViewPhotDetail) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *save=[[UIButton alloc] initWithFrame:CGRectMake(170, 250, 70, 30)];
-    
-    //addButton.backgroundColor=btnBorderColor;
-    save.layer.cornerRadius=5;
-    save.layer.borderColor=btnBorderColor.CGColor;
-    save.layer.borderWidth=1;
-    
-    save.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
-    [save setTitleColor:btnTextColor forState:UIControlStateNormal];
-    
-    
-    [save setTitle:@"Save" forState:UIControlStateNormal];
-    [save addTarget:self action:@selector(savePhotoDetail) forControlEvents:UIControlEventTouchUpInside];
-    [addPhotoDescriptionView addSubview:headLbl];
-    [addPhotoDescriptionView addSubview:title];
-    [addPhotoDescriptionView addSubview:description];
-    [addPhotoDescriptionView addSubview:tag];
-    [addPhotoDescriptionView addSubview:photoTitleTF];
-    [addPhotoDescriptionView addSubview:photoDescriptionTF];
-    [addPhotoDescriptionView addSubview:phototagTF];
-    [addPhotoDescriptionView addSubview:cancelButton];
-    [addPhotoDescriptionView addSubview:save];
-    
-    [backViewPhotDetail addSubview:addPhotoDescriptionView];
-    [self.view addSubview:backViewPhotDetail];
-    
-    
-}
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
-    //[self.view endEditing:YES];
-}
--(void)removebackViewPhotDetail
-{
-    photoTitleStr=@"Untitle";
-    photoDescriptionStr=@"";
-    photoTagStr=@"";
-    [self savePhotosOnServer:userid filepath:imgData];
-    [backViewPhotDetail removeFromSuperview];
-}
-
--(void)savePhotoDetail
-{
-    if(photoTitleTF.text.length>0)
-    {
-        photoTitleStr=photoTitleTF.text;
-    }
-    else
-    {
-        photoTitleStr=@"Untitle";
-    }
-    if(photoDescriptionTF.text.length>0)
-    {
-        photoDescriptionStr=photoDescriptionTF.text;
-    }
-    else
-    {
-        photoDescriptionStr=@"";
-    }
-    if(phototagTF.text.length>0)
-    {
-        photoTagStr=phototagTF.text;
-    }
-    else
-    {
-        photoTagStr=@"";
-    }
-    
-    [self savePhotosOnServer:userid filepath:imgData];
-    [backViewPhotDetail removeFromSuperview];
-}
-
-
-#pragma Mark
-#pragma Add Custom Navigation Bar
+#pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -752,12 +702,11 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
-   
+    
     
     UILabel *photoTitleLBL=[[UILabel alloc] init];
-    //get photo info from nsuser default
-    NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
-    photoTitleLBL.text=[[photoDetail objectAtIndex:self.selectedIndex ] objectForKey:@"collection_photo_title"];
+   
+    photoTitleLBL.text=photoTitleStr;
     photoTitleLBL.textAlignment=NSTextAlignmentCenter;
     
     if([manager isiPad])
@@ -820,73 +769,6 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-//get the user location
--(void)callGetLocation
-{
-    locationManager = [[CLLocationManager alloc] init];
-    geocoder = [[CLGeocoder alloc] init];
-    [self getLocation];
-}
--(void)getLocation
-{
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    [locationManager startUpdatingLocation];
-}
-#pragma mark - CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    NSLog(@"didFailWithError: %@", error);
-    
-}
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    NSLog(@"didUpdateToLocation: %@", newLocation);
-    CLLocation *currentLocation = newLocation;
-    
-    // Reverse Geocoding
-    NSLog(@"Resolving the Address");
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
-        if (error == nil && [placemarks count] > 0) {
-            placemark = [placemarks lastObject];
-            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
-             placemark.postalCode, placemark.locality,
-             placemark.administrativeArea,
-             placemark.country];*/
-            NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
-            
-            photoLocationStr=location;
-            
-            
-            NSLog(@"Current location is %@",location);
-        } else {
-            NSLog(@"%@", error.debugDescription);
-        }
-    } ];
-    
-    
-    [locationManager stopUpdatingLocation];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-    
-}
 
 @end

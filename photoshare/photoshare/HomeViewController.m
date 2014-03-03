@@ -33,6 +33,14 @@
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"HomeViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"HomeViewController";
+    }
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -86,7 +94,7 @@
     self.navigationController.navigationBarHidden=YES;
     
     //Set the number of images in Public Folder
-    NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
+    /*NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
     if(publicImgCount.integerValue==0)
     {
         photoCountLbl.hidden=YES;
@@ -95,7 +103,8 @@
     {
         photoCountLbl.hidden=NO;
         photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)publicImgCount.integerValue];
-    }
+    }*/
+    photoCountLbl.hidden=YES;
     
 }
 - (void)didReceiveMemoryWarning
@@ -139,15 +148,7 @@
 //Go to the Public folder
 -(IBAction)goToPublicFolder:(id)sender
 {
-    PhotoGalleryViewController *photoGallery;
-    if([manager isiPad])
-    {
-        photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController_iPad" bundle:[NSBundle mainBundle]];
-    }
-    else
-    {
-        photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
-    }
+    PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] init];
     //get the collection  info from NSUser Default default
     [self getCollectionInfoFromUserDefault];
     
@@ -162,15 +163,8 @@
 {
     
     //CommunityViewController *comm=[[CommunityViewController alloc] init];
-    CommunityViewController *comm;
-    if([manager isiPad])
-    {
-        comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]];
-    }
-    else
-    {
-        comm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]];
-    }
+    CommunityViewController *comm=[[CommunityViewController alloc] init];
+    
     //AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     comm.isInNavigation=YES;
     [self.navigationController pushViewController:comm animated:YES];

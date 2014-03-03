@@ -17,6 +17,15 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"SearchPhotoViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"SearchPhotoViewController";
+    }
+
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -31,8 +40,6 @@
     
     //set the search bar become first responder
     [searchBarForPhoto becomeFirstResponder];
-    
-    
     manager =[ContentManager sharedManager];
     webservice =[[WebserviceController alloc] init];
     userid=[manager getData:@"user_id"];
@@ -47,17 +54,11 @@
     //add tap Gesture on Collection View
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionViewForPhoto addGestureRecognizer:tapGesture];
-    
-    
-    
-    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
-    
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -65,6 +66,13 @@
     isPopFromSearchPhoto=YES;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Device Orientation
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -76,6 +84,7 @@
     [self addCustomNavigationBar];
 }
 
+#pragma mark - Search bar delegate Methods
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     isStartGetPhoto=NO;
@@ -96,6 +105,8 @@
     searchString=searchBar.text;
     
 }
+
+#pragma mark - Fetch data on server
 -(void)searchPhotoOnServer
 {
     isSearchPhoto=YES;
@@ -104,7 +115,36 @@
     NSDictionary *dicData=@{@"user_id":userid,@"search_term":searchString};
     [webservice call:dicData controller:@"photo" method:@"search"];
 }
-//call back method of webservice
+//get Photo From Server
+-(void)getPhotoFromServer :(int)photoIdIndex imageResize:(NSString *)resize
+{
+    
+    NSDictionary *dicData;
+    
+    @try {
+        if(photDetailArray.count>0)
+        {
+            isStartGetPhoto=YES;
+            NSNumber *colId=[[photDetailArray objectAtIndex:photoIdIndex] objectForKey:@"photo_collection_id"];
+            
+            NSNumber *photoId=[[photDetailArray objectAtIndex:photoIdIndex] objectForKey:@"photo_id"];
+            
+            webservice.delegate=self;
+            NSNumber *num = [NSNumber numberWithInt:1] ;
+            
+            dicData = @{@"user_id":userid,@"photo_id":photoId,@"get_image":num,@"collection_id":colId,@"image_resize":resize};
+            [webservice call:dicData controller:@"photo" method:@"get"];
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception is found :%@",exception.description);
+    }
+    @finally {
+        
+    }
+}
+
+#pragma mark - webservice call back methods
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Call bAck Data %@",data);
@@ -146,34 +186,7 @@
         }
     }
 }
-//get Photo From Server
--(void)getPhotoFromServer :(int)photoIdIndex imageResize:(NSString *)resize
-{
-    
-       NSDictionary *dicData;
-    
-    @try {
-        if(photDetailArray.count>0)
-        {
-            isStartGetPhoto=YES;
-            NSNumber *colId=[[photDetailArray objectAtIndex:photoIdIndex] objectForKey:@"photo_collection_id"];
-            
-            NSNumber *photoId=[[photDetailArray objectAtIndex:photoIdIndex] objectForKey:@"photo_id"];
-            
-            webservice.delegate=self;
-            NSNumber *num = [NSNumber numberWithInt:1] ;
-           
-            dicData = @{@"user_id":userid,@"photo_id":photoId,@"get_image":num,@"collection_id":colId,@"image_resize":resize};
-            [webservice call:dicData controller:@"photo" method:@"get"];
-        }
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Exception is found :%@",exception.description);
-    }
-    @finally {
-        
-    }
-}
+
 -(void)webserviceCallbackImage:(UIImage *)image
 {
     //dismiss the progress bar
@@ -239,6 +252,8 @@
         isGetOriginalPhotoFromServer=NO;
     }
 }
+
+#pragma mark - remove the imageview
 -(void)removeImgView :(UITapGestureRecognizer *)gesture
 {
     [imgView1 removeFromSuperview];
@@ -246,7 +261,7 @@
     self.tabBarController.tabBar.hidden=NO;
     [self addCustomNavigationBar];
 }
-//collection view method
+#pragma mark - UICollection view delegate methods
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return photDetailArray.count ;
@@ -272,8 +287,6 @@
     photoTitleLbl.numberOfLines=0;
     photoTitleLbl.textAlignment=NSTextAlignmentCenter;
     photoTitleLbl.text=[[photDetailArray objectAtIndex:row] objectForKey:@"photo_title"];
-    
-    
     
     @try {
         
@@ -311,7 +324,7 @@
     return cell;
 }
 
-
+#pragma mark - Gesture method
 -(void)tapHandle :(UITapGestureRecognizer *)gesture
 {
     [searchBarForPhoto resignFirstResponder];
@@ -338,7 +351,9 @@
     }
 }
 
-//add custom navigation bar
+
+
+#pragma mark - Add custom navigation bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -414,11 +429,6 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 
 @end

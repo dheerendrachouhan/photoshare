@@ -19,6 +19,15 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"UserSecurityViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"UserSecurityViewController";
+    }
+
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization

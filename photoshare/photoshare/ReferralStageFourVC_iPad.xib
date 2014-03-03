@@ -11,7 +11,6 @@
                 <outlet property="emailBt" destination="JXl-r2-p3I" id="CO6-Bo-zew"/>
                 <outlet property="scrollView" destination="blv-wM-Lxf" id="Uc9-X0-d1u"/>
                 <outlet property="sendSMSBtn" destination="E0T-rv-Mz6" id="k1U-XD-YuE"/>
-                <outlet property="userMessage" destination="9GO-9p-gPx" id="CzU-xa-K7F"/>
                 <outlet property="view" destination="1" id="SSI-W2-QV0"/>
             </connections>
         </placeholder>
@@ -141,27 +140,24 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.80614237879999995" green="0.80614237879999995" blue="0.80614237879999995" alpha="1" colorSpace="calibratedRGB"/>
                         </imageView>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hey, I've been using 123 Friday to share photos and earn money, want to join me?" id="9GO-9p-gPx">
-                            <rect key="frame" x="41" y="348" width="683" height="252"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="46"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="alphabet"/>
-                        </textView>
-                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" id="lbt-Ei-ZPY">
-                            <rect key="frame" x="20" y="624" width="728" height="2"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        </progressView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="uDV-mk-aQI">
-                            <rect key="frame" x="20" y="624" width="728" height="65"/>
+                            <rect key="frame" x="113" y="404" width="543" height="222"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="42"/>
-                            <state key="normal" title="Edit Message">
+                            <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="editMsg_Btn:" destination="-1" eventType="touchUpInside" id="6zs-H5-d7o"/>
                             </connections>
                         </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click here to personalise your message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YKu-Qk-5zl">
+                            <rect key="frame" x="113" y="379" width="543" height="247"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="60"/>
+                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                 </scrollView>
             </subviews>

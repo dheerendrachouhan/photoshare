@@ -115,8 +115,6 @@
     float width= self.view.frame.size.width;
     float height= self.view.frame.size.height;
     
-    
-    
     if (ott == UIInterfaceOrientationLandscapeLeft ||
         ott == UIInterfaceOrientationLandscapeRight)
     {
@@ -387,7 +385,6 @@
     [dataFetchView removeFromSuperview];
     [SVProgressHUD dismiss];
 }
-
 
 //Fetch collection info From Server
 -(void)getSharingusersId
@@ -676,15 +673,7 @@
         ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
     }
     
-    CommunityViewController *com ;
-    if([manager isiPad])
-    {
-        com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]] ;
-    }
-    else
-    {
-        com = [[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]] ;
-    }
+    CommunityViewController *com =[[CommunityViewController alloc] init];
     
     AccountViewController *acc;
     if([manager isiPad])
@@ -696,28 +685,9 @@
         acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:[NSBundle mainBundle]] ;
     }
     
-    LaunchCameraViewController *lcam;
+    LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];
     
-    if([manager isiPad])
-    {
-        lcam=[[LaunchCameraViewController alloc] initWithNibName:@"LaunchCameraViewController_iPad" bundle:[NSBundle mainBundle]];
-        
-    }
-    else
-    {
-        lcam=[[LaunchCameraViewController alloc] initWithNibName:@"LaunchCameraViewController" bundle:[NSBundle mainBundle]];
-    }
-    //HomeViewController *hm=[[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    
-    HomeViewController *hm;
-    if([manager isiPad])
-    {
-        hm= [[HomeViewController alloc] initWithNibName:@"HomeViewController_iPad" bundle:nil] ;
-    }
-    else
-    {
-        hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil] ;
-    }
+    HomeViewController *hm=[[HomeViewController alloc] init];
     
     
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];

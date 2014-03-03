@@ -18,10 +18,19 @@
 {
     NavigationBar *navnBar;
 }
-@synthesize isEditFolder,isWriteUser,collectionId,collectionOwnerId;
+@synthesize isEditFolder,isWriteUser,collectionId,collectionOwnerId, collectionUserDetails;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"ShareWithUserViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"ShareWithUserViewController";
+    }
+
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -115,13 +124,6 @@
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
 }
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
-   
-    [self.view endEditing:YES];
-    //[searchView removeFromSuperview];
-}
-
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -134,18 +136,36 @@
 
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - End View Editing
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+{
+    
+    [self.view endEditing:YES];
+    //[searchView removeFromSuperview];
+}
 
 
+#pragma mark - Search Bar Delegate Method
 //search bar Delegate Method
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     NSString *str=searchBar.text;
-    if(str.length>0)
+    if(str.length>2)
     {
         webservices.delegate=self;
         isSearchUserList=YES;
         NSDictionary *dicData=@{@"user_id":userid,@"target_username":str,@"target_user_emailaddress":@""};
         [webservices call:dicData controller:@"user" method:@"search"];
+    }
+    else
+    {
+        [searchView removeFromSuperview];
     }
 }
 
@@ -158,7 +178,7 @@
         [searchView removeFromSuperview];
     }
 }
-
+#pragma mark - Device Orientation
 -(void)checkOrientation
 {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -216,71 +236,43 @@
     [self addCustomNavigationBar];
     [self checkOrientation];
 }
+
+#pragma mark - Set the data in Array for UICollectionView
 -(void)getWriteSharingUserList
 {
-    writeuseridarray=[[manager getData:@"writeUserId"] componentsSeparatedByString:@","];
+    NSArray *writeuseridarray=[[manager getData:@"writeUserId"] componentsSeparatedByString:@","];
     
     if(![[writeuseridarray objectAtIndex:0] isEqualToString:@""])
     {
-        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
-        isGetSharingWriteUserName=YES;
-        webservices.delegate=self;
         for (int i=0; i<writeuseridarray.count; i++) {
-            NSDictionary *dicdata=@{@"user_id":userid,@"target_user_id":[writeuseridarray objectAtIndex:i]};
-            [webservices call:dicdata controller:@"user" method:@"get"];
+            NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[writeuseridarray objectAtIndex:i]];
+            [sharingUserNameArray addObject:[userDetail objectForKey:@"user_username"]];
+            [sharingUserIdArray addObject:[userDetail objectForKey:@"user_id"]];
+            
         }
     }
-    
 }
 -(void)getReadSharingUserList
 {
-    readuseridarray=[[manager getData:@"readUserId"] componentsSeparatedByString:@","];
+    NSArray *readuseridarray=[[manager getData:@"readUserId"] componentsSeparatedByString:@","];
     
    if(![[readuseridarray objectAtIndex:0] isEqualToString:@""])
     {
-        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
-        isGetSharingReadUserName=YES;
-        webservices.delegate=self;
         for (int i=0; i<readuseridarray.count; i++) {
-            NSDictionary *dicdata=@{@"user_id":userid,@"target_user_id":[readuseridarray objectAtIndex:i]};
-            [webservices call:dicdata controller:@"user" method:@"get"];
+            NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[readuseridarray objectAtIndex:i]];
+            [sharingUserNameArray addObject:[userDetail objectForKey:@"user_username"]];
+            [sharingUserIdArray addObject:[userDetail objectForKey:@"user_id"]];
+            
         }
     }
 }
-//webservices call back
+#pragma mark - Webservices call back Methods
 -(void)webserviceCallback:(NSDictionary *)data
 {
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     [SVProgressHUD dismiss];
-    if (isGetSharingWriteUserName)
-    {
-        if(exitCode==1)
-        {
-            NSArray *outPutData=[data objectForKey:@"output_data"];
-            [sharingUserNameArray addObject:[[outPutData objectAtIndex:0] objectForKey:@"user_username"]];
-            [sharingUserIdArray addObject:[[outPutData objectAtIndex:0] objectForKey:@"user_id"]];
-            if(sharingUserNameArray.count==writeuseridarray.count)
-            {
-                isGetSharingWriteUserName=NO;
-                [sharingUserListCollView reloadData];
-            }
-        }
-    }
-    else if (isGetSharingReadUserName)
-    {
-        if(exitCode==1)
-        {
-            NSArray *outPutData=[data objectForKey:@"output_data"];
-            [sharingUserNameArray addObject:[[outPutData objectAtIndex:0] objectForKey:@"user_username"]];
-            [sharingUserIdArray addObject:[[outPutData objectAtIndex:0] objectForKey:@"user_id"]];
-            if(sharingUserNameArray.count==readuseridarray.count)
-            {
-                isGetSharingReadUserName=NO;
-                [sharingUserListCollView reloadData];
-            }
-        }
-    }
-    else if (isSearchUserList)
+    
+    if (isSearchUserList)
     {        
         if(exitCode ==1)
         {
@@ -338,6 +330,8 @@
     }
 
 }
+
+#pragma mark - set the search user
 -(void)shareWithUserBtnPress: (id)sender
 {
     
@@ -350,8 +344,78 @@
     
     [searchView removeFromSuperview];
 }
+#pragma mark - IBAction methods
+-(IBAction)saveSharingUser:(id)sender
+{
+    NSString *useridstr=[sharingUserIdArray componentsJoinedByString:@","];;
+    if(isWriteUser)
+    {
+        [manager storeData:useridstr :@"writeUserId"];
+    }
+    else
+    {
+        [manager storeData:useridstr :@"readUserId"];
+    }
+    
+    NSString *useridstr2=[manager getData:@"readUserId"];
+    useridstr2=[manager getData:@"writeUserId"];
+    
+    
+    [self.navigationController popViewControllerAnimated:NO];
+}
 
-//colllection view delgate method
+-(IBAction)addUserInSharing:(id)sender
+{
+    if(searchBarForUserSearch.text.length>0)
+    {
+        if([searchUserListResult containsObject:searchBarForUserSearch.text])
+        {
+            int index=[searchUserListResult indexOfObject:searchBarForUserSearch.text];
+            if(index!=-1)
+            {
+                selectedUserId=[searchUserIdResult objectAtIndex:index];
+                selecteduserName=[searchUserListResult objectAtIndex:index];
+            }
+        }
+        
+        if([searchBarForUserSearch.text isEqualToString:selecteduserName])
+        {
+            if(selectedUserId.integerValue==userid.integerValue)
+            {
+                [manager showAlert:@"Message" msg:@"You can not share to yourself!" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                searchBarForUserSearch.text=@"";
+            }
+            else
+            {
+                if([sharingUserIdArray containsObject:selectedUserId])
+                {
+                    [manager showAlert:@"Message" msg:@"Already Share this User" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                    searchBarForUserSearch.text=@"";
+                }
+                else
+                {
+                    [sharingUserIdArray addObject:selectedUserId];
+                    [sharingUserNameArray addObject:selecteduserName];
+                    [sharingUserListCollView reloadData];
+                    searchBarForUserSearch.text=@"";
+                }
+            }
+            
+        }
+        else
+        {
+            [manager showAlert:@"Message" msg:@"Enter correct User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+    }
+    else
+    {
+        [manager showAlert:@"Message" msg:@"Enter User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
+    }
+    
+    [searchView removeFromSuperview];
+}
+
+#pragma mark - UICollectionView delegate Method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return sharingUserNameArray.count;
@@ -400,75 +464,8 @@
     }
     return cell;
 }
--(IBAction)addUserInSharing:(id)sender
-{
-    if(searchBarForUserSearch.text.length>0)
-    {
-        if([searchUserListResult containsObject:searchBarForUserSearch.text])
-        {
-            int index=[searchUserListResult indexOfObject:searchBarForUserSearch.text];
-            if(index!=-1)
-            {
-                selectedUserId=[searchUserIdResult objectAtIndex:index];
-                selecteduserName=[searchUserListResult objectAtIndex:index];
-            }
-        }
-        
-        if([searchBarForUserSearch.text isEqualToString:selecteduserName])
-        {
-            if(selectedUserId.integerValue==userid.integerValue)
-            {
-                [manager showAlert:@"Message" msg:@"You can not share to yourself!" cancelBtnTitle:@"Ok" otherBtn:Nil];
-                searchBarForUserSearch.text=@"";
-            }
-            else
-            {
-                if([sharingUserIdArray containsObject:selectedUserId])
-                {
-                    [manager showAlert:@"Message" msg:@"Already Share this User" cancelBtnTitle:@"Ok" otherBtn:Nil];
-                    searchBarForUserSearch.text=@"";
-                }
-                else
-                {
-                    [sharingUserIdArray addObject:selectedUserId];
-                    [sharingUserNameArray addObject:selecteduserName];
-                    [sharingUserListCollView reloadData];
-                    searchBarForUserSearch.text=@"";
-                }
-            }
-           
-        }
-        else
-        {
-            [manager showAlert:@"Message" msg:@"Enter correct User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
-        }
-    }
-    else
-    {
-        [manager showAlert:@"Message" msg:@"Enter User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
-    }
-    
-    [searchView removeFromSuperview];
-}
--(IBAction)saveSharingUser:(id)sender
-{
-    NSString *useridstr=[sharingUserIdArray componentsJoinedByString:@","];;
-    if(isWriteUser)
-    {
-        [manager storeData:useridstr :@"writeUserId"];
-    }
-    else
-    {
-        [manager storeData:useridstr :@"readUserId"];
-    }
 
-    NSString *useridstr2=[manager getData:@"readUserId"];
-    useridstr2=[manager getData:@"writeUserId"];
-    
-    
-    [self.navigationController popViewControllerAnimated:NO];
-}
-
+#pragma mark - Remove the share user
 -(void)removeShareUser :(id)sender
 {
     UIButton *btn=(UIButton *)sender;
@@ -486,8 +483,7 @@
     }
     
 }
-#pragma Mark
-#pragma Add Custom Navigation Bar
+#pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -556,11 +552,5 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

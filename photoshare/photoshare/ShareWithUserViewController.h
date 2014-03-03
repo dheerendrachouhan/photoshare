@@ -23,9 +23,7 @@
     WebserviceController *webservices;
     
     NSNumber *userid;
-    
-    BOOL isGetSharingWriteUserName;
-    BOOL isGetSharingReadUserName;
+        
     BOOL isGetCollectionDetails;
     BOOL isSearchUserList;
     BOOL isShareForWritingWith;
@@ -38,13 +36,9 @@
     NSMutableArray *searchUserListResult;
     NSMutableArray *searchUserIdResult;
     UIButton *searchList;
-    NSNumber *shareWith;
     
-    NSMutableDictionary *collectionDetail;
-    NSMutableArray *searchUserList;
-    
-    NSArray *writeuseridarray;
-    NSArray *readuseridarray;
+    NSMutableArray *searchUserList;    
+   
     NSMutableArray *sharingUserNameArray;
     NSMutableArray *sharingUserIdArray;
     
@@ -58,7 +52,7 @@
 @property(nonatomic,assign)BOOL isWriteUser;
 @property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,assign)NSNumber *collectionOwnerId;
-
+@property(nonatomic,retain)NSDictionary *collectionUserDetails;
 -(IBAction)addUserInSharing:(id)sender;
 -(IBAction)saveSharingUser:(id)sender;
 @end
