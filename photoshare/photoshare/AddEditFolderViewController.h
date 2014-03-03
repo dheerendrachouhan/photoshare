@@ -55,7 +55,7 @@
     BOOL isGetSharingUserId;
     NSMutableArray *sharingIdArray;
     
-    
+    NSDictionary *collectionUsersDetail;
     //orientation
     UIInterfaceOrientation orientation;
     

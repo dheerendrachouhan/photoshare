@@ -30,6 +30,14 @@
 @synthesize library,collectionId,collectionOwnerId;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"PhotoGalleryViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"PhotoGalleryViewController";
+    }
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -645,7 +653,6 @@
             //update the photo info  in nsuser default
             NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
             
-            
             size_t imageSize = CGImageGetBytesPerRow(pickImage.CGImage) * CGImageGetHeight(pickImage.CGImage);
             
             NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
@@ -673,7 +680,8 @@
         else
         {
             NSLog(@"Photo saving failed");
-            [manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
+            //[manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
+            [SVProgressHUD showSuccessWithStatus:@"Photo Saving Failed"];
         }
         isSaveDataOnServer=NO;
         
@@ -710,7 +718,6 @@
                 NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
                 [manager storeData:dat:@"photoInfoArray"];
                 
-                
                 [collectionview reloadData];
                 NSString *checkNotFirstTime=[manager getData:[NSString stringWithFormat:@"isNotFirstTimeIn%@",folderName]];
                 if([checkNotFirstTime isEqualToString:@"YES"])
@@ -739,8 +746,10 @@
             {
                 NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
                 [manager storeData:dat:@"photoInfoArray"];
-                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-                [alert show];
+//                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+//                [alert show];
+                
+                [SVProgressHUD showSuccessWithStatus:@"No Photos Available"];
             }
             
         }
@@ -1196,7 +1205,6 @@
             UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo", nil];
             [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
         }
-        
         
         selectedEditImageIndex=indexPath.row;
         

@@ -29,7 +29,7 @@
         lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
     }
     
-    // Register for Push Notifications Types
+    // Register for Push Notifications
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
@@ -40,13 +40,11 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.window.rootViewController = lg;
     [self.window makeKeyAndVisible];
-    
-
     return YES;
 }
 
-#pragma Mark
-#pragma UIApplication Notifications
+
+#pragma mark - UIApplication Push-Notifications
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
 	NSLog(@"My token is: %@", deviceToken);
@@ -59,9 +57,8 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"userInfo-- %@",userInfo);
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Notification" message:@"Recieve Nitification" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:Nil, nil];
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Notification Alert" message:@"Notification is Received" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:Nil, nil];
     [alert show];
-    
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

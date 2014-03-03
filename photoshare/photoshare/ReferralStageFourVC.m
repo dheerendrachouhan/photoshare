@@ -125,7 +125,7 @@
 
 - (IBAction)editMsg_Btn:(id)sender {
     EditMessageVC *edMSG = [[EditMessageVC alloc] init];
-    edMSG.edittedMessage = userMessage.text;
+    edMSG.edittedMessage = self.stringStr;
     [self.navigationController pushViewController:edMSG animated:YES];
     
 }
@@ -423,7 +423,7 @@
     // Email Subject
     NSString *emailTitle = @"Join 123 Friday";
     // Email Content
-    NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=\"%@\">Join Now</a>",userMessage.text,toolkitLink]; // Change the message body to HTML
+    NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=\"%@\">Join Now</a>",self.stringStr,toolkitLink]; // Change the message body to HTML
     // To address
     NSArray *toRecipents = [NSArray arrayWithArray:contactSelectedArray];
         
@@ -480,7 +480,7 @@
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
-		controller.body = [NSString stringWithFormat:@"%@ %@",userMessage.text,toolkitLink];
+		controller.body = [NSString stringWithFormat:@"%@ %@",self.stringStr,toolkitLink];
         controller.recipients = contactNoSelectedArray;
         controller.messageComposeDelegate = self;
         [[self navigationController] presentViewController:controller animated:NO completion:nil];
@@ -810,7 +810,7 @@
     NSArray *arr = [toolkitLink componentsSeparatedByString:@"/"];
     for(int sm=0;sm<contactSelectedArray.count;sm++)
     {
-        NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:sm] ,@"message_title":userMessage.text,@"toolkit_id":[arr objectAtIndex:6]};
+        NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:sm] ,@"message_title":self.stringStr,@"toolkit_id":[arr objectAtIndex:6]};
         [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
     }
 }

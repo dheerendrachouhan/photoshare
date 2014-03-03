@@ -76,7 +76,6 @@
 
 -(NSDictionary *) getUserDetails
 {
-
     NSDictionary *user_details = [objManager getData:@"user_details"];
     return user_details;
 }

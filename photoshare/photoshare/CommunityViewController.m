@@ -24,6 +24,15 @@
 @synthesize isInNavigation;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"CommunityViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"CommunityViewController";
+    }
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -92,6 +101,14 @@
     [self getCollectionInfoFromUserDefault];
     
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Get Data from (NSUser Default)
 -(void)getCollectionInfoFromUserDefault
 {
     NSMutableArray *collection=[dmc getCollectionDataList];
@@ -128,6 +145,7 @@
     //[self getSharingusersId];
 }
 
+#pragma mark - Fetch and store the data on the server
 -(void)getStorageFromServer
 {
     @try {
@@ -200,6 +218,8 @@
         
     }
 }
+
+#pragma mark - Webservice call Back Methods
 -(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
@@ -319,7 +339,7 @@
     }
 }
 
-//collection view delegate method
+#pragma mark - UICollectionView delegate Methods
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //return [folderNameArray count]+noOfPagesInCollectionView;
@@ -384,7 +404,8 @@
     }
         return obj_Cell;
 }
-//tap gesture method
+
+#pragma mark - Gesture Methods
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
     //if editBtnIs in view
@@ -405,15 +426,7 @@
         {
             @try {
                 int index=indexPath.row-1;
-                PhotoGalleryViewController *photoGallery;
-                if([manager isiPad])
-                {
-                    photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController_iPad" bundle:[NSBundle mainBundle]];
-                }
-                else
-                {
-                    photoGallery=[[PhotoGalleryViewController alloc] initWithNibName:@"PhotoGalleryViewController" bundle:[NSBundle mainBundle]];
-                }
+                PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] init];
                 photoGallery.isPublicFolder=NO;
                 photoGallery.selectedFolderIndex=index;
                 photoGallery.folderName=[collectionNameArray objectAtIndex:index];
@@ -458,19 +471,13 @@
     }
 }
 
+
+#pragma mark - Folder action perform methods
 -(void)addFolder
 {
-    AddEditFolderViewController *aec1;
-    if([manager isiPad])
-    {
-        aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController_iPad" bundle:[NSBundle mainBundle]] ;
-    }
-    else
-    {
-        aec1 = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:[NSBundle mainBundle]] ;
-    }
+    AddEditFolderViewController *aec1=[[AddEditFolderViewController alloc] init];
     
-       aec1.isAddFolder=YES;
+    aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
     [self.navigationController pushViewController:aec1 animated:NO];
    
@@ -484,16 +491,7 @@
     //if editBtnIs in view
     [editBtn removeFromSuperview];
     @try {
-        AddEditFolderViewController *aec;
-        if([manager isiPad])
-        {
-            aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController_iPad" bundle:[NSBundle mainBundle]] ;
-        }
-        else
-        {
-            aec = [[AddEditFolderViewController alloc] initWithNibName:@"AddEditFolderViewController" bundle:[NSBundle mainBundle]] ;
-        }
-
+       AddEditFolderViewController *aec=[[AddEditFolderViewController alloc] init];
         
         aec.isAddFolder=NO;
         aec.isEditFolder=YES;
@@ -502,18 +500,8 @@
         aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
         aec.collectionOwnerId=[collectionUserIdArray objectAtIndex:index];
         
-        CommunityViewController *cm ;
-        HomeViewController *hm;
-        if([manager isiPad])
-        {
-            cm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController_iPad" bundle:[NSBundle mainBundle]];
-            hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController_iPad" bundle:[NSBundle mainBundle]] ;
-        }
-        else
-        {
-            cm=[[CommunityViewController alloc] initWithNibName:@"CommunityViewController" bundle:[NSBundle mainBundle]];
-            hm = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:[NSBundle mainBundle]] ;
-        }
+        CommunityViewController *cm =[[CommunityViewController alloc] init];
+        HomeViewController *hm=[[HomeViewController alloc] init];
         
         [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
         
@@ -528,15 +516,27 @@
     
 }
 
-
-- (void)didReceiveMemoryWarning
+#pragma mark - SearchViewController
+-(void)searchViewOpen
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    SearchPhotoViewController *searchController=[[SearchPhotoViewController alloc] init];
+    
+    [self.navigationController pushViewController:searchController animated:NO];
 }
 
-#pragma Mark
-#pragma Add Custom Navigation Bar
+#pragma mark - Device Orientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+}
+
+#pragma mark - Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -629,30 +629,6 @@
         [self.tabBarController setSelectedIndex:0];
     }
 }
-#pragma mark - SearchViewController
--(void)searchViewOpen
-{
-    SearchPhotoViewController *searchController;
-    if([manager isiPad])
-    {
-        searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController_iPad" bundle:[NSBundle mainBundle]];
-    }
-    else{
-        searchController=[[SearchPhotoViewController alloc] initWithNibName:@"SearchPhotoViewController" bundle:[NSBundle mainBundle]];
-    }
-    [self.navigationController pushViewController:searchController animated:NO];
-}
 
-#pragma mark - Device Orientation
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-}
 
 @end

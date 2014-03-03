@@ -47,6 +47,15 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"PhotoShareController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"PhotoShareController";
+    }
+
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -278,9 +287,6 @@
         [alert show];
     }
 }
-
-
-
 
 //Twitter SDK Implemetation
 - (void)postToTwitter {

@@ -326,7 +326,6 @@
 		E10F8E3218B89DA400321843 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		E10F8E3418B89DEB00321843 /* CollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		E10FCB2818BF5D5D0011B93E /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PhotoGalleryViewController.h; path = AviarySDK/PhotoGalleryViewController.h; sourceTree = "<group>"; };
-		E10FCB2918BF5DEF0011B93E /* PhotoGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoGalleryViewController.h; path = AviarySDK/PhotoGalleryViewController.h; sourceTree = "<group>"; };
 		E112391218AF3319002D6318 /* CommunityCollectionCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunityCollectionCell_iPad.xib; sourceTree = "<group>"; };
 		E1179A6818C1ABEA003B8526 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
 		E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPhotoViewController.h; sourceTree = "<group>"; };
@@ -857,7 +856,6 @@
 				FCB3774A189C345B00FDE547 /* DataMapperController.h */,
 				FCB3774B189C345B00FDE547 /* DataMapperController.m */,
 				E17222B81892817800F28748 /* EarningViewController.h */,
-				E10FCB2818BF5D5D0011B93E /* PhotoGalleryViewController.h */,
 				E17222B91892817800F28748 /* EarningViewController.m */,
 				E31AA48D189662C00065F8E2 /* EditMessageVC.h */,
 				E31AA48E189662C00065F8E2 /* EditMessageVC.m */,
@@ -885,7 +883,7 @@
 				E31AEDAA18A0B8EA006AA40E /* NavigationBar.m */,
 				E17222C21892819A00F28748 /* PastPayementViewController.h */,
 				E17222C31892819A00F28748 /* PastPayementViewController.m */,
-				E10FCB2918BF5DEF0011B93E /* PhotoGalleryViewController.h */,
+				E10FCB2818BF5D5D0011B93E /* PhotoGalleryViewController.h */,
 				E1B0742B1899529900589867 /* PhotoGalleryViewController.m */,
 				E170E90918A526EA002D3D17 /* PhotoShareController.h */,
 				E170E90E18A5275A002D3D17 /* PhotoShareController.m */,
