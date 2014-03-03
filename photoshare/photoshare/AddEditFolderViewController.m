@@ -495,8 +495,7 @@
         if(exitCode ==1)
         {
             if(isAdd)
-            {
-                
+            {               
                 
                 newCollectionId=[[[data objectForKey:@"output_data"] objectAtIndex:0] objectForKey:@"collection_id"];
             }

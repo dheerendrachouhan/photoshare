@@ -18,14 +18,14 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Disk space used (0%)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="77F-Pw-fbN">
-                    <rect key="frame" x="15" y="402" width="173" height="13"/>
+                    <rect key="frame" x="15" y="399" width="173" height="13"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="COT-tN-cZJ">
-                    <rect key="frame" x="20" y="116" width="280" height="283"/>
+                    <rect key="frame" x="20" y="106" width="280" height="281"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="11" minimumInteritemSpacing="5" id="jFZ-ce-rQc">
@@ -41,7 +41,7 @@
                     </connections>
                 </collectionView>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" id="AaW-ek-iAI">
-                    <rect key="frame" x="15" y="423" width="285" height="2"/>
+                    <rect key="frame" x="15" y="420" width="285" height="2"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </progressView>
             </subviews>

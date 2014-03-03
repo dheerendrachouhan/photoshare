@@ -38,19 +38,14 @@
      manager=[ContentManager sharedManager];
     [manager storeData:@"" :@"writeUserId"];
     [manager storeData:@"" :@"readUserId"];
-    
     //webservice
     webservices=[[WebserviceController alloc] init];
     dmc=[[DataMapperController alloc] init];
     //get the user ID from NSUSER Default
     userid=[manager getData:@"user_id"];
-    
-    
-    
     self.navigationItem.title = @"Community folders";
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     //UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
-    
     UINib *nib;
     if([manager isiPad])
     {
@@ -71,16 +66,6 @@
     longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
     
-    /*if([UIScreen mainScreen].bounds.size.height == 568)
-    {
-         collectionview.frame=CGRectMake(20, 100, 280, collectionview.frame.size.height);
-    }
-    else if([UIScreen mainScreen].bounds.size.height == 480)
-    {
-        collectionview.frame=CGRectMake(20, 110, 280, collectionview.frame.size.height-76);
-    }*/
-    
-    
     //editBtn When Longpress on folder
     editBtn=[[UIButton alloc] init];
     
@@ -100,15 +85,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    
     //get DiskSpace from server
     [self getStorageFromServer];
-    
-    
     //set title for navigation controller
     [self addCustomNavigationBar];
-  
     [self getCollectionInfoFromUserDefault];
     
 }
@@ -266,15 +246,12 @@
             @finally {
                 
             }
-            
         }
         else
         {
             [SVProgressHUD dismiss];
         }
-        
     }
-
     else if(isGetSharingUserId)
     {
         if(exitCode.integerValue==1)
@@ -325,10 +302,8 @@
         }
         else
         {
-            
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
         }
-        
     }
     else if (isGetTheSharingCollectionListData)
     {
@@ -343,7 +318,6 @@
         }
     }
 }
-
 
 //collection view delegate method
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -370,7 +344,6 @@
         }
         else
         {
-           
             int shared=[[collectionSharedArray objectAtIndex:index] intValue];
                         
             int colOwnerId=[[collectionUserIdArray objectAtIndex:index] integerValue];
@@ -390,7 +363,6 @@
                     obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                     obj_Cell.icon_img.hidden=YES;
                 }
-                
             }
             else
             {
@@ -457,9 +429,7 @@
             @finally {
                 
             }
-            
         }
-        
     }
 }
 
@@ -484,8 +454,6 @@
             [editBtn addTarget:self action:@selector(editFolder:) forControlEvents:UIControlEventTouchUpInside];
             
             [collectionview addSubview:editBtn];
-            
-          //[self editFolder:indexPath];
         }
     }
 }

@@ -122,6 +122,7 @@
 		E172672418A0BFE20059F6AD /* AddEditFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B074251899518600589867 /* AddEditFolderViewController.m */; };
 		E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */; };
 		E172F53218A271EE006799B9 /* homepage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E172F53118A271EE006799B9 /* homepage.jpg */; };
+		E17BFBDE18C448230036811F /* term.html in Resources */ = {isa = PBXBuildFile; fileRef = E17BFBDD18C448230036811F /* term.html */; };
 		E17C8F95189FA5000079E0FE /* LaunchCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */; };
 		E18262821897F6DC00C1C799 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262811897F6DC00C1C799 /* facebook.png */; };
 		E18262841897F71700C1C799 /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = E18262831897F71700C1C799 /* twitter.png */; };
@@ -164,7 +165,6 @@
 		E31A558418A502E800B0015B /* homelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E31A557818A502E800B0015B /* homelogo@2x.png */; };
 		E31A558518A502E800B0015B /* photo-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E31A557918A502E800B0015B /* photo-icon.png */; };
 		E31A558618A502E800B0015B /* photo-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E31A557A18A502E800B0015B /* photo-icon@2x.png */; };
-		E31A558A18A5088600B0015B /* term.html in Resources */ = {isa = PBXBuildFile; fileRef = E31A558918A5088600B0015B /* term.html */; };
 		E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AA48E189662C00065F8E2 /* EditMessageVC.m */; };
 		E31AA49318969D730065F8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E31AA49218969D730065F8E2 /* MessageUI.framework */; };
 		E31AEDAB18A0B8EA006AA40E /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E31AEDAA18A0B8EA006AA40E /* NavigationBar.m */; };
@@ -398,6 +398,7 @@
 		E172672518A0FDA50059F6AD /* LaunchCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchCameraViewController.xib; sourceTree = "<group>"; };
 		E172F53118A271EE006799B9 /* homepage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = homepage.jpg; sourceTree = "<group>"; };
 		E174AC131898C09B001B5278 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		E17BFBDD18C448230036811F /* term.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = term.html; sourceTree = "<group>"; };
 		E17C8F93189FA5000079E0FE /* LaunchCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCameraViewController.h; sourceTree = "<group>"; };
 		E17C8F94189FA5000079E0FE /* LaunchCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCameraViewController.m; sourceTree = "<group>"; };
 		E18262781897AEA400C1C799 /* JSONDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONDictionary.h; sourceTree = "<group>"; };
@@ -453,7 +454,6 @@
 		E31A557818A502E800B0015B /* homelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "homelogo@2x.png"; sourceTree = "<group>"; };
 		E31A557918A502E800B0015B /* photo-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-icon.png"; sourceTree = "<group>"; };
 		E31A557A18A502E800B0015B /* photo-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-icon@2x.png"; sourceTree = "<group>"; };
-		E31A558918A5088600B0015B /* term.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = term.html; sourceTree = "<group>"; };
 		E31AA48D189662C00065F8E2 /* EditMessageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMessageVC.h; sourceTree = "<group>"; };
 		E31AA48E189662C00065F8E2 /* EditMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMessageVC.m; sourceTree = "<group>"; };
 		E31AA49218969D730065F8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -917,7 +917,7 @@
 		FC976396188FEB89008DF1F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E31A558918A5088600B0015B /* term.html */,
+				E17BFBDD18C448230036811F /* term.html */,
 				E31A556E18A502E800B0015B /* icons */,
 				E322BAF518A3A1F700CAC9E5 /* appicon */,
 				FC9763D2188FFC2D008DF1F8 /* images */,
@@ -1234,6 +1234,7 @@
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
 				E30DF42F18B47E7E00FE6CB3 /* referr-icon.png in Resources */,
 				E322BAF118A36B7600CAC9E5 /* photo-30x30.png in Resources */,
+				E17BFBDE18C448230036811F /* term.html in Resources */,
 				E112391318AF3319002D6318 /* CommunityCollectionCell_iPad.xib in Resources */,
 				E108F12E18AE2C5700B574F6 /* HomeViewController_iPad.xib in Resources */,
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
@@ -1310,7 +1311,6 @@
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E17222B41892518B00F28748 /* AddEditFolderViewController.xib in Resources */,
 				FC97640C18900505008DF1F8 /* AccountViewController.xib in Resources */,
-				E31A558A18A5088600B0015B /* term.html in Resources */,
 				E17222DA189285A100F28748 /* LoginViewController.xib in Resources */,
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
 				E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */,
@@ -1551,7 +1551,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B9CF6D21-DF1D-4DF6-A4A0-1DCDA8B1214C";
+				PROVISIONING_PROFILE = "956B4CB2-55AE-41F5-A1B0-7A9A14575436";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1594,7 +1594,7 @@
 					"-fobjc-arc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B9CF6D21-DF1D-4DF6-A4A0-1DCDA8B1214C";
+				PROVISIONING_PROFILE = "956B4CB2-55AE-41F5-A1B0-7A9A14575436";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

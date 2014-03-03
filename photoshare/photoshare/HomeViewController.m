@@ -86,7 +86,7 @@
     self.navigationController.navigationBarHidden=YES;
     
     //Set the number of images in Public Folder
-    NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
+    /*NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
     if(publicImgCount.integerValue==0)
     {
         photoCountLbl.hidden=YES;
@@ -95,7 +95,8 @@
     {
         photoCountLbl.hidden=NO;
         photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)publicImgCount.integerValue];
-    }
+    }*/
+    photoCountLbl.hidden=YES;
     
 }
 - (void)didReceiveMemoryWarning
