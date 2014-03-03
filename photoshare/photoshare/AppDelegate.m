@@ -93,11 +93,11 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    /*UILocalNotification *notification = [[UILocalNotification alloc] init];
     notification.fireDate = [[NSDate date] dateByAddingTimeInterval:10];
     notification.alertBody = @"Yoy have Notifications ";
     
-    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];*/
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
