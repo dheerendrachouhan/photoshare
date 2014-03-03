@@ -807,6 +807,7 @@
     
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
     
     if(!isViewLargeImageMode)
     {

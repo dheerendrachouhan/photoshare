@@ -57,7 +57,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="takePhoto:" destination="-1" eventType="touchUpInside" id="gPx-SY-OC0"/>
+                                <action selector="goToReferFriend:" destination="-1" eventType="touchUpInside" id="tOJ-PZ-obX"/>
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="folder-icon.png" id="ceH-8B-Wss">

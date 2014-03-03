@@ -59,6 +59,8 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"userInfo-- %@",userInfo);
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Notification" message:@"Recieve Nitification" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:Nil, nil];
+    [alert show];
     
 }
 

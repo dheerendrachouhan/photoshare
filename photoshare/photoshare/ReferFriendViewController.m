@@ -139,85 +139,6 @@
     mypicker.layer.borderColor = [UIColor blackColor].CGColor;
     
     
-    /*
-    for(int i=1;i<=toolkitIDArr.count;i++)
-    {
-        NSString *toolName = [NSString stringWithFormat:@"Video %d",i];
-        [toolKitNameArray addObject:toolName];
-    }
-    
-    
-    layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-        layout.itemSize = CGSizeMake(250.0f, 80.0f);
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 100.0f, 768.0f, 100.0f) collectionViewLayout:layout];
-        _collectionView.backgroundColor = [UIColor whiteColor];
-        _collectionView.dataSource = self;
-        _collectionView.delegate = self;
-        _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-        _collectionView.layer.borderWidth = 0.5;
-        _collectionView.layer.cornerRadius = 5;
-        }
-        else
-        {
-            layout.itemSize = CGSizeMake(250.0f, 80.0f);
-            _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 100.0f, 1024.0f, 100.0f) collectionViewLayout:layout];
-            _collectionView.backgroundColor = [UIColor whiteColor];
-            _collectionView.dataSource = self;
-            _collectionView.delegate = self;
-            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-            _collectionView.layer.borderWidth = 0.5;
-            _collectionView.layer.cornerRadius = 5;
-        }
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            layout.itemSize = CGSizeMake(100.0f, 40.0f);
-            _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 320.0f, 50.0f) collectionViewLayout:layout];
-            _collectionView.backgroundColor = [UIColor whiteColor];
-            _collectionView.dataSource = self;
-            _collectionView.delegate = self;
-            _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-            _collectionView.layer.borderWidth = 0.5;
-            _collectionView.layer.cornerRadius = 5;
-        }else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-            {
-                layout.itemSize = CGSizeMake(100.0f, 40.0f);
-                _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 480.0f, 50.0f) collectionViewLayout:layout];
-                _collectionView.backgroundColor = [UIColor whiteColor];
-                _collectionView.dataSource = self;
-                _collectionView.delegate = self;
-                _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-                _collectionView.layer.borderWidth = 0.5;
-                _collectionView.layer.cornerRadius = 5;
-            }
-            else
-            {
-                layout.itemSize = CGSizeMake(100.0f, 40.0f);
-                _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 568.0f, 50.0f) collectionViewLayout:layout];
-                _collectionView.backgroundColor = [UIColor whiteColor];
-                _collectionView.dataSource = self;
-                _collectionView.delegate = self;
-                _collectionView.layer.borderColor = [UIColor blackColor].CGColor;
-                _collectionView.layer.borderWidth = 0.5;
-                _collectionView.layer.cornerRadius = 5;
-            }
-        }
-        
-    }
-    
-    [scrollView addSubview:_collectionView];
-    
-    [_collectionView registerClass:[CustomCells class] forCellWithReuseIdentifier:@"CustomCells"];
-    */
     
 }
 
@@ -311,29 +232,7 @@
     }
 }
 
-/*
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return [toolKitNameArray count];
-}
-
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *identifier = @"CustomCells";
-    
-    CustomCells *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    
-    cell.mylabel.text = [toolKitNameArray objectAtIndex:indexPath.row];
-    
-    return cell;
-    
-}
-*/
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%d",indexPath.row);
@@ -342,19 +241,6 @@
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:indexPath.row]]]]];
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:indexPath.row],[objManager getData:@"user_username"]];
 }
-
-/*
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    CGPoint point = scrollView.center;
-    NSLog(@"%@",NSStringFromCGPoint(point));
-    
-    NSIndexPath *inde = [self.collectionView indexPathForItemAtPoint:point];
-    int index = inde.row;
-    
-    NSLog(@"%i",index);
-    
-}*/
 
 //push to referral stage 4 view controller
 -(void)chooseView

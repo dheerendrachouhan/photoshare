@@ -35,7 +35,7 @@
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 
--(IBAction)takePhoto:(id)sender;
+-(IBAction)goToReferFriend:(id)sender;
 -(IBAction)goToCommunity:(id)sender;
 -(IBAction)goToPublicFolder:(id)sender;
 
