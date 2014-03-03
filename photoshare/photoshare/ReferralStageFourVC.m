@@ -905,7 +905,6 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"WebService Data -- %@",data);
-    NSNumber *numb = [data objectForKey:@"exit_code"];
     mailSent++;
 }
 - (IBAction)addmoreBtn:(id)sender
