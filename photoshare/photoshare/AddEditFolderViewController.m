@@ -269,16 +269,8 @@
 }
 -(IBAction)shareForReadingWith:(id)sender
 {
-    ShareWithUserViewController *sharewith;
-    if([manager isiPad])
-    {
-        sharewith=[[ShareWithUserViewController alloc] initWithNibName:@"ShareWithUserViewController_iPad" bundle:[NSBundle mainBundle]];
-    }
-    else
-    {
-        sharewith=[[ShareWithUserViewController alloc] initWithNibName:@"ShareWithUserViewController" bundle:[NSBundle mainBundle]];
-    }
-    sharewith.isWriteUser=NO;
+    ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
+        sharewith.isWriteUser=NO;
     sharewith.collectionId=self.collectionId;
     sharewith.isEditFolder=self.isEditFolder;
     sharewith.collectionOwnerId=self.collectionOwnerId;
