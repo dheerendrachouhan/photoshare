@@ -175,16 +175,13 @@
     self.navigationController.navigationBarHidden = TRUE;
     
     NavigationBar *navnBar=[[NavigationBar alloc] init];
-    
     UILabel *navTitle = [[UILabel alloc] init];
-    
     if([objManager isiPad])
     {
         if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
         {
             [navnBar loadNav:CGRectNull :false];
             navTitle.frame = CGRectMake(310, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-            
             navTitle.font = [UIFont systemFontOfSize:36.0f];
         }
         else
@@ -215,18 +212,13 @@
                 [navnBar loadNav:CGRectNull :true];
             }
         }
-        
-        
         navTitle.font = [UIFont systemFontOfSize:18.0f];
-
     }
-    
     navTitle.text = @"My Money";
     [navnBar addSubview:navTitle];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
-
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -249,6 +241,12 @@
     }
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+#pragma mark - Device Orientation
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -264,14 +262,12 @@
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0.0f, 90.0f, 480.0f, 320.0f);
-            
             scrollView.contentSize = CGSizeMake(480,400);
             scrollView.bounces = NO;
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             scrollView.frame = CGRectMake(0.0f, 90.0f, 568.0f, 320.0f);
-            
             scrollView.contentSize = CGSizeMake(568,400);
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -300,13 +296,6 @@
             scrollView.bounces = NO;
         }
     }
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -13,5 +13,6 @@
    
 }
 @property (nonatomic,retain) IBOutlet UIImageView *imgView;
+@property (nonatomic,retain) IBOutlet UIScrollView *scrollViewForImage;
 @property(nonatomic,retain)UIImage *image;
 @end

@@ -27,9 +27,9 @@
     //apiUrl=@"api.123friday.com/index.php";
     //apiUrl=@"dev-iis.com/project/123fridaydebug/index.php";     //--
     //apiUrl=@"54.194.160.22/api/index.php";
-    apiUrl=@"54.229.193.111/api/index.php";
+    //apiUrl=@"54.229.193.111/api/index.php";
     //apiUrl=@"54.72.11.106/api/index.php";
-    //apiUrl=@"54.229.255.47/api/index.php";    //--
+    apiUrl=@"54.229.255.47/api/index.php";    //--
     return self;
 }
 

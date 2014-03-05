@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "WebserviceController.h"
+#import "DataMapperController.h"
 @class ContentManager;
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate,WebserviceDelegate>
 {
     ContentManager *objManager;
+    WebserviceController *webservices;
+    DataMapperController *dmc;
 }
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic)UITabBarController *tbc;
@@ -24,5 +27,6 @@
 
 //Device token for Push notification
 @property (strong, nonatomic) NSString *token;
-
+@property(nonatomic,assign)BOOL isGoToReferFriendController;
+-(void)setDevieTokenOnServer:(NSString *)devToken userid:(NSString *)user_id;
 @end

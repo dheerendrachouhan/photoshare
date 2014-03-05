@@ -38,6 +38,7 @@
     BOOL isGetLoginDetail;
     BOOL isGetStorage;
     BOOL isGetIcomeDetail;
+   
     DataMapperController *dmc;
     ContentManager *objManager;
     //get collection info from server
@@ -49,6 +50,7 @@
     NSMutableArray *sharingIdArray;
     NSMutableArray *collectionArrayWithSharing;
     int countSharing;
+
     
 }
 @property(nonatomic,retain)ALAssetsLibrary *library;

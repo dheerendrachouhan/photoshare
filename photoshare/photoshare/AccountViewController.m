@@ -40,6 +40,40 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self addCustomNavigationBar];
+    /*
+     if([dmc gethomeIndex])
+     {
+     HomeViewController *hm =[[HomeViewController alloc] init];
+     [self presentViewController:hm animated:NO completion:nil];
+     [dmc resetHomeIndex];
+     }*/
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Device Orientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self addCustomNavigationBar];
+    
+}
+
+
+#pragma mark - IBAction Methods
 -(IBAction)editProfile:(id)sender
 {
     self.navigationController.navigationBarHidden = NO;
@@ -98,6 +132,26 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     
     [self goToLoginPageAfterLogout];
 }
+
+-(IBAction)termCondition:(id)sender
+{
+    self.navigationController.navigationBarHidden = NO;
+
+    TermConditionViewController *tc;
+    if([objManager isiPad])
+    {
+        tc = [[TermConditionViewController alloc] initWithNibName:@"TermConditionViewController_iPad" bundle:[NSBundle mainBundle]] ;
+    }
+    else
+    {
+        tc = [[TermConditionViewController alloc] initWithNibName:@"TermConditionViewController" bundle:[NSBundle mainBundle]] ;
+    }
+    
+    [self.navigationController pushViewController:tc animated:YES] ;
+tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+}
+
+#pragma mark - Logout methods
 //logout from server
 -(void)logOutFromServer
 {
@@ -122,26 +176,7 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     
 }
 
--(IBAction)termCondition:(id)sender
-{
-    self.navigationController.navigationBarHidden = NO;
-
-    TermConditionViewController *tc;
-    if([objManager isiPad])
-    {
-        tc = [[TermConditionViewController alloc] initWithNibName:@"TermConditionViewController_iPad" bundle:[NSBundle mainBundle]] ;
-    }
-    else
-    {
-        tc = [[TermConditionViewController alloc] initWithNibName:@"TermConditionViewController" bundle:[NSBundle mainBundle]] ;
-    }
-    
-    [self.navigationController pushViewController:tc animated:YES] ;
-tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-}
-
-#pragma Mark
-#pragma Add Custom Navigation Bar
+#pragma mark -  Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -183,36 +218,5 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
-
--(void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
-   /* 
-    if([dmc gethomeIndex])
-    {
-        HomeViewController *hm =[[HomeViewController alloc] init];
-        [self presentViewController:hm animated:NO completion:nil];
-        [dmc resetHomeIndex];
-    }*/
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-    
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

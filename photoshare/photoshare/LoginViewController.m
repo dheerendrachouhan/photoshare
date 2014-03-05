@@ -52,7 +52,7 @@
     [passwordTextField setDelegate:self];
     rememberFltr = NO;
     //add the border color in username and password textfield
-    //temp Hidden
+   
    // loginBackgroundImage.hidden=YES;
     
     //initialize the sharing IdArray
@@ -97,6 +97,8 @@
         nameTextField.text = [dict valueForKey:@"username"];
         passwordTextField.text = [dict valueForKey:@"password"];
     }
+    
+    //[self directLogin];
 }
 
 
@@ -173,6 +175,36 @@
     [alert show];
     
 }
+-(void)directLogin
+{
+    [dmc removeAllData];//remove data from nsuser default
+    
+    
+    //Without Validation
+    [self tapHideKeyboard];
+    //[self dismissViewControllerAnimated:YES completion:nil] ;
+    
+    NSString *username = @"ottf-user-4";
+    NSString *password = @"spaceman99";
+    if(nameTextField.text.length==0||passwordTextField.text.length==0)
+    {
+        
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter UserName and Password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    
+    else if([nameTextField.text length] > 0 || [passwordTextField.text length] > 0)
+    {
+        isGetLoginDetail=YES;
+        webservices.delegate = self;
+        
+        [SVProgressHUD showWithStatus:@"Login" maskType:SVProgressHUDMaskTypeBlack];
+        
+        NSDictionary *postdic = @{@"username":username, @"password":password} ;
+        [webservices call:postdic controller:@"authentication" method:@"login"];
+    }
+
+}
 //user sign in function
 - (IBAction)userSignInBtn:(id)sender {
     
@@ -213,6 +245,7 @@
     
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
      NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+   
     if(isGetLoginDetail)
     {
         [SVProgressHUD dismiss];
@@ -232,8 +265,24 @@
             isGetLoginDetail=NO;
             //display the DataFetchingProgress
             [self displayTheDataFetchingView];
-            //call the get collection detail method
+            
             [self getSharingusersId];
+            //set the device token on the server
+            delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            NSString *devToken=delegate.token;
+            
+            //set device token for testing
+            //IPhone Device Token
+            //_token=@"786f9657d1743c08ea7c3151e3d5309d25f8d1dd85aa02977920345054711a55";
+            //IPAD Device Token
+            if(devToken==NULL || devToken.length==0)
+            {
+                devToken=@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5";
+            }
+
+            
+            
+            [delegate setDevieTokenOnServer:devToken userid:[NSString stringWithFormat:@"%@",userid]];
         }
         else
         {
@@ -352,6 +401,7 @@
         }
     }
 }
+
 
 //Is First Time Login Check if Yes Than Fetch Data From Server
 
@@ -689,7 +739,6 @@
     
     HomeViewController *hm=[[HomeViewController alloc] init];
     
-    
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
    // delegate.navControllerhome.navigationBar.translucent=NO;
     
@@ -709,7 +758,7 @@
     
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"Home" image:[UIImage imageNamed:@"homelogo.png"] tag:1];
     [tabBarItem setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-
+    
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Money" image:[UIImage imageNamed:@"earnings-icon.png"] tag:2];
     [tabBarItem2 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
 
@@ -741,6 +790,7 @@
    // [self.view addSubview:delegate.tbc.view];
 }
 
+#pragma mark - Device Orientation
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations

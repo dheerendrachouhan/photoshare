@@ -58,7 +58,7 @@
     library=[[ALAssetsLibrary alloc] init];    
     
     
-    //save the original frame of share buuton
+    //Save the original frame of the Share Button
     frame = sharePhotoBtn.frame;
    
     //set the design of the button
@@ -77,10 +77,10 @@
     sharePhotoBtn.layer.borderWidth=btnBorderWidth;
     sharePhotoBtn.layer.borderColor=btnBorderColor.CGColor;
     
-    //collection view
+    //Register the UICollection View class
     [collectionview registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CVCell"];
     
-    //tapGesture
+    //Add The Tap gesture on the collection view
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
     

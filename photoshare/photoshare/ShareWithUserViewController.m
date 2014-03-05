@@ -48,8 +48,6 @@
      userid=[manager getData:@"user_id"];
     [self addCustomNavigationBar];
     
-    
-    
     //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
     float tfBackViewBorderWidth=2;
@@ -113,7 +111,7 @@
             }
         }
     
-    //search bar
+    //UISearch bar background color
     UIColor *searchBarColor = [UIColor whiteColor];
     [[UISearchBar appearance] setBackgroundColor:searchBarColor];
     
@@ -149,7 +147,6 @@
     [self.view endEditing:YES];
     //[searchView removeFromSuperview];
 }
-
 
 #pragma mark - Search Bar Delegate Method
 //search bar Delegate Method
@@ -481,7 +478,6 @@
     @finally {
         
     }
-    
 }
 #pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar

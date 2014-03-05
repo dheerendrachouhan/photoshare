@@ -28,7 +28,6 @@
 @implementation HomeViewController
 {
     NSString *servicesStr;
-    NSNumber *userID;
     NavigationBar *navnBar;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -47,18 +46,31 @@
     }
     return self;
 }
-#pragma mark - ViewController method
+#pragma mark - ViewController methods
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //LoginViewController *loginv = [[LoginViewController alloc] init] ;
-    //[self.navigationController presentViewController:loginv animated:NO completion:nil];
-    webservices=[[WebserviceController alloc] init];
-    manager=[ContentManager sharedManager];
-    
+    [self initializeTheGlobalObject];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+     photoCountLbl.hidden=YES;
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self addCustomNavigationBar];
     
-    //Rounded the Count label of the show no of images is Public folder
+    //for launch camera
+    [manager storeData:@"NO" :@"istabcamera"];
+    [self setTheUSerDetails];  
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+//Rounded the Count label of the show no of images is Public folder
+-(void)setTheUIForCountLabel
+{
     photoCountLbl.layer.cornerRadius=12;
     photoCountLbl.layer.borderWidth=2;
     if([manager isiPad])
@@ -67,52 +79,38 @@
     }
     
     photoCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
-    
-    dmc = [[DataMapperController alloc] init];
-    userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
-    
 }
-
-
--(void)viewWillAppear:(BOOL)animated
+-(void)initializeTheGlobalObject
 {
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
-    
-    //for launch camera
-    [manager storeData:@"NO" :@"istabcamera"];
-    
+    webservices=[[WebserviceController alloc] init];
+    manager=[ContentManager sharedManager];
+    dmc = [[DataMapperController alloc] init];
+    userid = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
+}
+-(void)setTheUSerDetails
+{
     UIView *vi = [self.tabBarController.view viewWithTag:11];
-    
     UILabel *lbl = (UILabel *)[vi viewWithTag:1] ;
-    
     NSDictionary *dic = [dmc getUserDetails] ;
     NSNumber *total = [dic objectForKey:@"total_earnings"] ;
     lbl.text = [NSString  stringWithFormat:@"£%@", total];
-    userid=[dic objectForKey:@"user_id"];
     welcomeName.text=[dic objectForKey:@"user_realname"];
     self.navigationController.navigationBarHidden=YES;
-    
-    //Set the number of images in Public Folder
-    /*NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
-    if(publicImgCount.integerValue==0)
-    {
-        photoCountLbl.hidden=YES;
-    }
-    else
-    {
-        photoCountLbl.hidden=NO;
-        photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)publicImgCount.integerValue];
-    }*/
-    photoCountLbl.hidden=YES;
-    
 }
-- (void)didReceiveMemoryWarning
+-(void)setTheNoOfPhotoCountOnPublicFolder
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    //Set the number of images in Public Folder
+    NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
+     if(publicImgCount.integerValue==0)
+     {
+     photoCountLbl.hidden=YES;
+     }
+     else
+     {
+     photoCountLbl.hidden=NO;
+     photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)publicImgCount.integerValue];
+     }
 }
-
 #pragma mark - text feild method
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -131,27 +129,16 @@
 #pragma mark - IBAction method
 -(IBAction)goToReferFriend:(id)sender
 {
-    
-    ReferFriendViewController *lcam;
-    if([manager isiPad])
-    {
-        lcam=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController_iPad" bundle:[NSBundle mainBundle]];
-    }
-    else
-    {
-        lcam=[[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:[NSBundle mainBundle]];
-
-    }
-        [self.navigationController pushViewController:lcam animated:YES];
-
+    ReferFriendViewController *lcam=[[ReferFriendViewController alloc] init];
+    [self.navigationController pushViewController:lcam animated:YES];
 }
+
 //Go to the Public folder
 -(IBAction)goToPublicFolder:(id)sender
 {
-    PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] init];
     //get the collection  info from NSUser Default default
     [self getCollectionInfoFromUserDefault];
-    
+    PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] init];
     photoGallery.isPublicFolder=YES;
     photoGallery.collectionId=publicCollectionId;
     photoGallery.folderName=@"Public";
@@ -161,11 +148,7 @@
 }
 -(IBAction)goToCommunity:(id)sender
 {
-    
-    //CommunityViewController *comm=[[CommunityViewController alloc] init];
     CommunityViewController *comm=[[CommunityViewController alloc] init];
-    
-    //AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     comm.isInNavigation=YES;
     [self.navigationController pushViewController:comm animated:YES];
     self.navigationController.navigationBarHidden = NO;
@@ -201,7 +184,6 @@
 //Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"Data %@",data);
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
     if([servicesStr isEqualToString:@"two"])
     {

@@ -423,7 +423,13 @@
     // Email Subject
     NSString *emailTitle = @"Join 123 Friday";
     // Email Content
-    NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=\"%@\">Join Now</a>",self.stringStr,toolkitLink]; // Change the message body to HTML
+    NSString *message=self.stringStr;
+    if(message==NULL)
+    {
+        message=@"123Friday";
+    }
+    
+    NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=\"%@\">Join Now</a>",message,toolkitLink]; // Change the message body to HTML
     // To address
     NSArray *toRecipents = [NSArray arrayWithArray:contactSelectedArray];
         
@@ -478,9 +484,14 @@
     referredValue = @"";
     
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+    NSString *message=self.stringStr;
+    if(message==NULL)
+    {
+        message=@"123Friday";
+    }
 	if([MFMessageComposeViewController canSendText])
 	{
-		controller.body = [NSString stringWithFormat:@"%@ %@",self.stringStr,toolkitLink];
+		controller.body = [NSString stringWithFormat:@"%@ %@",message,toolkitLink];
         controller.recipients = contactNoSelectedArray;
         controller.messageComposeDelegate = self;
         [[self navigationController] presentViewController:controller animated:NO completion:nil];
@@ -809,9 +820,15 @@
     WebserviceController *wbh = [[WebserviceController alloc] init];
     wbh.delegate = self;
     NSArray *arr = [toolkitLink componentsSeparatedByString:@"/"];
+    NSString *message=self.stringStr;
+    if(message==NULL)
+    {
+        message=@"123Friday";
+    }
+    
     for(int sm=0;sm<contactSelectedArray.count;sm++)
     {
-        NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:sm] ,@"message_title":self.stringStr,@"toolkit_id":[arr objectAtIndex:6]};
+        NSDictionary *dictData = @{@"user_id":userID, @"email_addresses":[contactSelectedArray objectAtIndex:sm] ,@"message_title":message,@"toolkit_id":[arr objectAtIndex:6]};
         [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
     }
 }
@@ -885,7 +902,7 @@
 }
 
 - (IBAction)sendEmailView:(id)sender {
-     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
     [alert show];
     
     [self mailToServer];

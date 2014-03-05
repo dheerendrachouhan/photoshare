@@ -320,7 +320,6 @@
             }
             imageView.image=pickImage;
             originalImage=pickImage;
-            
         }
         else
         {
@@ -328,9 +327,7 @@
             [manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
         }
         isSavePhotoOnServer=NO;
-        
     }
-    
 }
 
 #pragma mark - fetch the data from nsuser default

@@ -44,17 +44,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     manager=[ContentManager sharedManager];
-    [manager storeData:@"" :@"writeUserId"];
-    [manager storeData:@"" :@"readUserId"];
-    //webservice
-    webservices=[[WebserviceController alloc] init];
-    dmc=[[DataMapperController alloc] init];
-    //get the user ID from NSUSER Default
-    userid=[manager getData:@"user_id"];
+    [self initializeTheGlobalObject];
     self.navigationItem.title = @"Community folders";
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
-    //UINib *nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
+    
     UINib *nib;
     if([manager isiPad])
     {
@@ -107,7 +100,17 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)initializeTheGlobalObject
+{
+    manager=[ContentManager sharedManager];
+    [manager storeData:@"" :@"writeUserId"];
+    [manager storeData:@"" :@"readUserId"];
+    //webservice
+    webservices=[[WebserviceController alloc] init];
+    dmc=[[DataMapperController alloc] init];
+    //get the user ID from NSUSER Default
+    userid=[manager getData:@"user_id"];
+}
 #pragma mark - Get Data from (NSUser Default)
 -(void)getCollectionInfoFromUserDefault
 {
@@ -149,7 +152,6 @@
 -(void)getStorageFromServer
 {
     @try {
-       
         isGetStorage=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};
@@ -161,7 +163,6 @@
     @finally {
         
     }
-    
 }
 -(void)getSharingusersId
 {
@@ -226,7 +227,6 @@
     
     //validate the user
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    
     
     if(isGetStorage)
     {
@@ -341,8 +341,7 @@
 
 #pragma mark - UICollectionView delegate Methods
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    //return [folderNameArray count]+noOfPagesInCollectionView;
+{   
     return [collectionNameArray count]+1;
 }
 -(CollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath

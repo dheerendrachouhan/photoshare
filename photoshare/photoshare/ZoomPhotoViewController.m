@@ -13,7 +13,7 @@
 @end
 
 @implementation ZoomPhotoViewController
-@synthesize imgView,image;
+@synthesize imgView,image,scrollViewForImage;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,6 +32,13 @@
     UITapGestureRecognizer *doubleTapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToBack:)];
     doubleTapGesture.numberOfTapsRequired=2;
     [self.view addGestureRecognizer:doubleTapGesture];
+    
+    imgView.frame = scrollViewForImage.bounds;
+    [imgView setContentMode:UIViewContentModeScaleAspectFit];
+    scrollViewForImage.contentSize = CGSizeMake(imgView.frame.size.width, imgView.frame.size.height);
+    scrollViewForImage.maximumZoomScale = 4.0;
+    scrollViewForImage.minimumZoomScale = 1.0;
+    scrollViewForImage.delegate = self;
 }
 -(void)goToBack: (UITapGestureRecognizer *)gesture
 {

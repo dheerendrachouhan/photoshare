@@ -28,11 +28,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
    
-   
-    
-
 }
-
 -(id)init
 {
      objManager=[ContentManager sharedManager];
