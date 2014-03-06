@@ -124,6 +124,16 @@
 //remove all the data on Logout from nsuser default except Remember fields
 -(void)removeAllData
 {
+    // Get the Documents directory path
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
+    // Delete the file using NSFileManager
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if([fileManager removeItemAtPath:[documentsDirectoryPath stringByAppendingPathComponent:@"/123FridayImages"] error:nil])
+    {
+        NSLog(@"123FridayImagesClearFrom Cache");
+    }
+    
     NSString *rememberMe=[self getRemeberMe];
     NSDictionary *remeberFeild=[self getRememberFields];
     //remove all of the data from nsuser default

@@ -283,7 +283,6 @@
             searchView.backgroundColor=[UIColor whiteColor];
             searchView.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
             
-            
             //remove all objects
             [searchUserIdResult removeAllObjects];
             [searchUserListResult removeAllObjects];
@@ -325,7 +324,6 @@
         isShareForReadingWith=NO;
         isSearchUserList=NO;
     }
-
 }
 
 #pragma mark - set the search user
@@ -386,7 +384,7 @@
             {
                 if([sharingUserIdArray containsObject:selectedUserId])
                 {
-                    [manager showAlert:@"Message" msg:@"Already Share this User" cancelBtnTitle:@"Ok" otherBtn:Nil];
+                [manager showAlert:@"Message" msg:@"Already Share this User" cancelBtnTitle:@"Ok" otherBtn:Nil];
                     searchBarForUserSearch.text=@"";
                 }
                 else
@@ -435,8 +433,8 @@
     username.textAlignment=NSTextAlignmentCenter;
     username.font=[UIFont fontWithName:@"verdana" size:13];
     username.text=[sharingUserNameArray objectAtIndex:indexPath.row];
-
-   
+    
+    
      [cell.contentView addSubview:username];
 
     //user remove button (cross button)

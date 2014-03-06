@@ -92,12 +92,8 @@
             webSwevice.delegate = self;
             imageCount = sharedImagesArray.count;
             imageLoaded = 0;
-            for(int u=0;u<sharedImagesArray.count;u++)
-            {
-                NSDictionary *dicData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"photo_id":[sharedImagesArray objectAtIndex:u],@"get_image":[otherDetailArray objectAtIndex:2],@"collection_id":[otherDetailArray objectAtIndex:1],@"image_resize":@"500"};
-        
-                [webSwevice call:dicData controller:@"photo" method:@"get"];
-            }
+            
+            [self getImageFromServer:0];
             webServiceStart = YES;
             
         }
@@ -157,7 +153,11 @@
     }
 
 }
-
+-(void)getImageFromServer:(NSInteger)index
+{
+    NSDictionary *dicData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"photo_id":[sharedImagesArray objectAtIndex:index],@"get_image":@"1",@"collection_id":[otherDetailArray objectAtIndex:1],@"image_resize":@"500"};
+    [webSwevice call:dicData controller:@"photo" method:@"get"];
+}
 //Protocol for getting images....
 -(void)webserviceCallbackImage:(UIImage *)image
 {
@@ -170,6 +170,10 @@
     {
         [SVProgressHUD dismissWithSuccess:@"Photos Attached"];
         webServiceStart = NO;
+    }
+    else
+    {
+        [self getImageFromServer:imageLoaded];
     }
 }
 
@@ -315,7 +319,7 @@
             
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
-                    [manager showAlert:@"Tweet Cancelled" msg:@"Share photo on facebook cancelled." cancelBtnTitle:@"Ok" otherBtn:Nil];
+                    [manager showAlert:@"Tweet Cancelled" msg:@"Share photo on Twitter cancelled." cancelBtnTitle:@"Ok" otherBtn:Nil];
                     [self dismissModals];
                     break;
                 case SLComposeViewControllerResultDone:
@@ -327,11 +331,10 @@
             }
         }];
         [self presentViewController:tweetsheet animated:YES completion:Nil];
-        
     }
     else{
         [SVProgressHUD dismissWithError:@"No Twitter Account Found"];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twitter not Found" message:@"Your Twitter account in not configured. Please Configure your twitter account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twitter not Found" message:@"Your Twitter account is not configured. Please Configure your twitter account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
         [alert show];
     }
 }

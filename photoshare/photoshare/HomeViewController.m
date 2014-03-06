@@ -61,7 +61,15 @@
     
     //for launch camera
     [manager storeData:@"NO" :@"istabcamera"];
-    [self setTheUSerDetails];  
+    [self setTheUSerDetails];
+    //set the
+    [self.tabBarController setSelectedIndex:0];
+    
+    AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+   // [delegate.navControllercommunity popToRootViewControllerAnimated:NO];
+    CommunityViewController *comm=[[CommunityViewController alloc] init];
+    //comm.isInNavigation=YES;
+    delegate.navControllercommunity.viewControllers =[[NSArray alloc] initWithObjects:comm, nil];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -150,7 +158,8 @@
 {
     CommunityViewController *comm=[[CommunityViewController alloc] init];
     comm.isInNavigation=YES;
-    [self.navigationController pushViewController:comm animated:YES];
+    [self.tabBarController setSelectedIndex:3];
+    //[self.navigationController pushViewController:comm animated:YES];
     self.navigationController.navigationBarHidden = NO;
 }
 #pragma mark - get The value from NSUser Default Method
@@ -203,7 +212,7 @@
     self.navigationController.navigationBarHidden = TRUE;
     
     navnBar = [[NavigationBar alloc] init];
-    //for home page view controller navBar
+    //For Home page Navigaigation bar
     if([manager isiPad])
     {
         if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){

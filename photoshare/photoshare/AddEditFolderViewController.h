@@ -53,6 +53,8 @@
     BOOL isGetTheSharingCollectionListData;
     int countSharing;
     BOOL isGetSharingUserId;
+    BOOL isDeleteAllPhoto;
+    
     NSMutableArray *sharingIdArray;
     
     NSDictionary *collectionUsersDetail;

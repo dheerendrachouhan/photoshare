@@ -84,7 +84,7 @@
 @property(nonatomic,assign)NSNumber *photoOwnerId;
 @property(nonatomic,assign)int selectedIndex;
 @property(nonatomic,retain)UIImage *smallImage;
-@property(nonatomic,retain)NSString *folderNameLocation;
+@property(nonatomic,retain)NSString *folderName;
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;
 @property(nonatomic,assign)BOOL isViewPhoto;

@@ -280,30 +280,43 @@
 //Btn Action
 -(IBAction)addFolder:(id)sender
 {
-    
-    @try {
-        [self addCollectionInfoInServer:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readUserId"]];
+    if(folderName.text.length==0)
+    {
+        [self alertForFolderNameText];
     }
-    @catch (NSException *exception) {
-        NSLog(@"Exception is %@",exception.description);
-    }
-    @finally {
+    else
+    {
+        @try {
+            [self addCollectionInfoInServer:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readUserId"]];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception is %@",exception.description);
+        }
+        @finally {
+        }
     }
 }
 
 -(IBAction)saveFolder:(id)sender
 {
-    @try {
+    if(folderName.text.length==0)
+    {
+        [self alertForFolderNameText];
+    }
+    else
+    {
+        @try {
             [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readUserId"]];
-        
+            
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception is %@",exception.description);
+        }
+        @finally {
+            
+        }
+
     }
-    @catch (NSException *exception) {
-         NSLog(@"Exception is %@",exception.description);
-    }
-    @finally {
-        
-    }
-    
 }
 -(IBAction)deleteFolder:(id)sender
 {
@@ -313,7 +326,11 @@
     
 }
 
-
+-(void)alertForFolderNameText
+{
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Folder name cannot be blank" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
+}
 #pragma mark - Fetch and store the data on the server
 //get the collection detail from server
 -(void)getCollectionDetail
@@ -421,6 +438,23 @@
 }
 -(void)deletePhotoFromServer
 {
+    // Get the Documents directory path
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
+    
+    // Delete the file using NSFileManager
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if([fileManager removeItemAtPath:[documentsDirectoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/123FridayImages/YourFolder/%@",self.setFolderName]] error:nil])
+    {
+        NSLog(@"Delete Success");
+    }
+    else
+    {
+        NSLog(@"Delete Fail");
+    }
+    
+    
+    
     @try {
         for (int i=0; i<photoIdArray.count; i++) {
             
@@ -572,7 +606,10 @@
                 
                 newCollectionId=[[[data objectForKey:@"output_data"] objectAtIndex:0] objectForKey:@"collection_id"];
             }
-           
+            if(isDelete)
+            {
+                isDeleteAllPhoto=YES;
+            }
             //[self updateCollectionDetailInNsUserDefault];
             [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
             user_message=[data objectForKey:@"user_message"];
@@ -632,7 +669,12 @@
             [SVProgressHUD dismiss];
             if(collectionArrayWithSharing.count>0)
             {
-                [self deletePhotoFromServer];
+                if(isDeleteAllPhoto)
+                {
+                    [self deletePhotoFromServer];
+                    isDeleteAllPhoto=NO;
+                }
+                
                  [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
             }
             else
@@ -657,7 +699,11 @@
              [SVProgressHUD dismiss];
             if(collectionArrayWithSharing.count>0)
             {
-                [self deletePhotoFromServer];
+                if(isDeleteAllPhoto)
+                {
+                    [self deletePhotoFromServer];
+                    isDeleteAllPhoto=NO;
+                }
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
             }
             else

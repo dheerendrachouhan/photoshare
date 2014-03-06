@@ -86,12 +86,15 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewWillAppear:YES];
     //get DiskSpace from server
     [self getStorageFromServer];
     //set title for navigation controller
     [self addCustomNavigationBar];
     [self getCollectionInfoFromUserDefault];
+    
+    //set the tabbar icon selected
+    [self.tabBarController setSelectedIndex:3];
     
 }
 
@@ -455,7 +458,6 @@
        
         if(indexPath.row!=0)
         {
-            
             UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
             editBtn.frame=CGRectMake(cell.frame.origin.x+12, cell.frame.origin.y-10, 60, 50);
             if([manager isiPad])
@@ -550,9 +552,8 @@
    // button.backgroundColor = [UIColor redColor];
     
     UILabel *titleLabel = [[UILabel alloc] init ];
-    titleLabel.text=@"Your folders";
+    titleLabel.text=@"Your Folders";
     titleLabel.textAlignment=NSTextAlignmentCenter;
-   
     
     //add photo search button
     UIButton *searchBtn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -623,10 +624,11 @@
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 -(void)navBackButtonClick{
-    if(![[self navigationController] popViewControllerAnimated:YES])
+    /*if(![[self navigationController] popViewControllerAnimated:YES])
     {
         [self.tabBarController setSelectedIndex:0];
-    }
+    }    */
+    [self.tabBarController setSelectedIndex:0];
 }
 
 

@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  photoshare
 //
-//  Created by Dhiru on 22/01/14.
+//  Created by Dhiru on 22/01/14.  22.67
 //  Copyright (c) 2014 ignis. All rights reserved.
 //
 
@@ -15,17 +15,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.fireDate = [[NSDate date] dateByAddingTimeInterval:20];
-    notification.alertBody = @"Video upgrade";
-    [[UIApplication sharedApplication]
-     scheduleLocalNotification:notification];
-
-    
     objManager = [ContentManager sharedManager];
     dmc=[[DataMapperController alloc] init];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds] ] ;
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     LoginViewController *lg = [[LoginViewController alloc] init];
     if([objManager isiPad])
@@ -44,7 +36,6 @@
      UIRemoteNotificationTypeSound];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     //----------
-    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.window.rootViewController = lg;
     [self.window makeKeyAndVisible];
@@ -63,7 +54,7 @@
     NSLog(@"My token is: %@", _token);
     
 }
-
+//When Remote Notification is Received
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     //NSLog(@"userInfo-- %@",userInfo);
@@ -74,26 +65,28 @@
         {
             [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
             if (application.applicationState==UIApplicationStateActive) {
-                UIAlertView * notiAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
-                [notiAlert setTag:101];
-                [notiAlert setDelegate:self];
-                [notiAlert show];
+                UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
+                [notificationAlert setTag:101];
+                [notificationAlert setDelegate:self];
+                [notificationAlert show];
             }
-            
-            if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
-                
-                [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
+            else if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
+                //Open the invite Friend view controller
                 ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
                 [self.navControllerhome pushViewController:rvc animated:YES];
             }
         }
         else
         {
-            UIAlertView * notiAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [notiAlert show];
+            [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
+            if (application.applicationState==UIApplicationStateActive) {
+                UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [notificationAlert show];
+            }
         }
     }
 }
+#pragma mark - UIAlert view delgate method
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 101) {
         if (buttonIndex == 1) {
@@ -118,9 +111,10 @@
     NSString *method=@"registerDevice";
     [webservices call:dic controller:controller method:method];
 }
+//Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"Push Notification device register %@",data);
+    NSLog(@"Push Notification Device Token is Register On Server%@",data);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -143,8 +137,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    /*UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"applicationDidBecomeActive" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-    [alert show];*/
+   
 }
 - (void)applicationWillTerminate:(UIApplication *)application
 {

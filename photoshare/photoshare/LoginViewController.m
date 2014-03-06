@@ -271,18 +271,11 @@
             delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
             NSString *devToken=delegate.token;
             
-            //set device token for testing
-            //IPhone Device Token
-            //_token=@"786f9657d1743c08ea7c3151e3d5309d25f8d1dd85aa02977920345054711a55";
-            //IPAD Device Token
-            if(devToken==NULL || devToken.length==0)
+            if(devToken!=NULL)
             {
-                devToken=@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5";
+                [delegate setDevieTokenOnServer:devToken userid:[NSString stringWithFormat:@"%@",userid]];
             }
-
             
-            
-            [delegate setDevieTokenOnServer:devToken userid:[NSString stringWithFormat:@"%@",userid]];
         }
         else
         {

@@ -244,6 +244,7 @@
 #pragma mark - IBAction Methods
 -(IBAction)addPhoto:(id)sender
 {
+    [editBtn removeFromSuperview];
     isAddPhotoMode=YES;
     UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"From Camera" otherButtonTitles:@"From Gallery ",@"From Camera Roll", nil];
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
@@ -341,11 +342,13 @@
     [editBtn removeFromSuperview];
     //UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Sharing is Available for Single Photo" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
     //[alert show];
-           UIButton *btn=(UIButton *)sender;
+    if(photoArray.count>0)
+    {
+        UIButton *btn=(UIButton *)sender;
         if(btn.selected==NO)
         {
             NSLog(@"Not selected");
-             btn.selected=!btn.selected;
+            btn.selected=!btn.selected;
             addPhotoBtn.hidden=YES;
             deletePhotoBtn.hidden=YES;
             frame = sharePhotoBtn.frame;
@@ -398,6 +401,23 @@
             
             
         }
+
+    }
+    else
+    {
+        if(photoIdsArray.count>0)
+        {
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alert show];
+        }
+        else
+        {
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            [alert show];
+        }
+        
+    }
+
 }
 
 #pragma mark - ActionSheet Delegate method
@@ -566,6 +586,8 @@
 //deletePhotoFromServer
 -(void)deletePhotoFromServer :(NSNumber *)usrId photoId:(NSNumber *)photoId
 {
+    [self deletePhotoFromDocumentDirectory:photoId];
+    
     isDeleteMode=YES;
      webServices.delegate=self;
     NSDictionary *dicData=@{@"user_id":userid,@"photo_id":photoId};
@@ -622,7 +644,15 @@
         {
             if(!isPopFromPhotos)
             {
-                [self getPhotoFromServer:photoArray.count];
+                if([self getImageFromDocumentDirectory:photoArray.count])
+                {
+                    [photoArray addObject:[self getImageFromDocumentDirectory:photoArray.count]];
+                    [self getPhotoFromServer:photoArray.count+1];
+                }
+                else
+                {
+                     [self getPhotoFromServer:photoArray.count];
+                }
             }
         }
         else
@@ -649,6 +679,10 @@
         {
             [photoArray addObject:editedImage];
             [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
+            //save image in document directory
+            NSData *dta = UIImageJPEGRepresentation(editedImage, 0.1);
+            UIImage *newImage = [UIImage imageWithData:dta];
+            [self saveImageInDocumentDirectry:newImage index:photoIdsArray.count-1];
             
             //update the photo info  in nsuser default
             NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
@@ -758,12 +792,40 @@
 }
 
 
-#pragma mark - save and get image from Document directry
+#pragma mark - save,delete and get image from Document directry
 -(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
 {
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@%@photoID_%@.png",userid,folderName,[photoIdsArray objectAtIndex:index]]];
+    //Create Folder
+    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"/123FridayImages"];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+    }
+    if(self.isPublicFolder)
+    {
+        dataPath = [dataPath stringByAppendingPathComponent:@"/PublicFolder"];
+    }
+    else
+    {
+        dataPath = [dataPath stringByAppendingPathComponent:@"/YourFolder"];
+    }
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+    }
+    if(!self.isPublicFolder)
+    {
+        dataPath = [dataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",folderName]];
+    }
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+    }
+    NSString *savedImagePath = [dataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_Photo_%@.png",userid,[photoIdsArray objectAtIndex:index]]];
     UIImage *image = img; // imageView is my image from camera
     NSData *imgData = UIImagePNGRepresentation(image);
     [imgData writeToFile:savedImagePath atomically:NO];
@@ -773,12 +835,49 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,    NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@%@photoID_%@.png",userid,folderName,[photoIdsArray objectAtIndex:index]]];
+    NSString *getImagePath;
+    if(self.isPublicFolder)
+    {
+        getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/123FridayImages/PublicFolder/%@_Photo_%@.png",userid,[photoIdsArray objectAtIndex:index]]];
+    }
+    else
+    {
+        getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/123FridayImages/YourFolder/%@/%@_Photo_%@.png",folderName,userid,[photoIdsArray objectAtIndex:index]]];
+    }
     UIImage *img = [UIImage imageWithContentsOfFile:getImagePath];
     return img;
    
 }
-
+-(void)deletePhotoFromDocumentDirectory:(NSNumber *)photoId
+{
+    // Get the Documents directory path
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
+    
+    NSString *smallImagePath;
+    NSString *largeImagePath;
+    if(self.isPublicFolder)
+    {
+        smallImagePath=[NSString stringWithFormat:@"/123FridayImages/PublicFolder/%@_Photo_%@.png",userid,photoId];
+        largeImagePath=[NSString stringWithFormat:@"/123FridayImages/PublicFolder/%@_LargePhoto_%@.png",userid,photoId];
+    }
+    else
+    {
+        smallImagePath=[NSString stringWithFormat:@"/123FridayImages/YourFolder/%@/%@_Photo_%@.png",self.folderName,userid,photoId];
+        largeImagePath=[NSString stringWithFormat:@"/123FridayImages/YourFolder/%@/%@_LargePhoto_%@.png",self.folderName,userid,photoId];
+    }
+    
+    // Delete the file using NSFileManager
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if([fileManager removeItemAtPath:[documentsDirectoryPath stringByAppendingPathComponent:smallImagePath] error:nil])
+    {
+        
+    }
+    if([fileManager removeItemAtPath:[documentsDirectoryPath stringByAppendingPathComponent:largeImagePath] error:nil])
+    {
+        
+    }
+}
 //reset the button hidden no and previous frame
 -(void)resetButton
 {
@@ -1069,7 +1168,7 @@
     }
    	NSLog(@"Photo Edit");
 }
-// How much?' underneath the icon. Of you cannot find a suitable graphic then please use a calculator graphic.
+
 
 //send mail.
 - (void)reportAbuse:(id)sender {
@@ -1163,11 +1262,11 @@
         isGoToViewPhoto=YES;
         if(self.isPublicFolder)
         {
-            viewPhoto.folderNameLocation=@"Public";
+            viewPhoto.folderName=@"Public";
         }
         else
         {
-            viewPhoto.folderNameLocation=[NSString stringWithFormat:@"Your folders, %@",self.folderName];
+            viewPhoto.folderName=self.folderName;
         }
         
         [self.navigationController pushViewController:viewPhoto animated:YES];

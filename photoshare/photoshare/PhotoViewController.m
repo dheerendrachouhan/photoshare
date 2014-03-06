@@ -18,7 +18,7 @@
 @end
 
 @implementation PhotoViewController
-@synthesize smallImage,photoId,isViewPhoto,folderNameLocation,collectionId,selectedIndex,collectionOwnerId,isPublicFolder,photoOwnerId;
+@synthesize smallImage,photoId,isViewPhoto,folderName,collectionId,selectedIndex,collectionOwnerId,isPublicFolder,photoOwnerId;
 @synthesize  isOnlyReadPermission;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -55,7 +55,15 @@
     imageView.backgroundColor=[UIColor blackColor];
     if(self.isViewPhoto)
     {
-        folderLocationShowLabel.text=self.folderNameLocation;
+        if(self.isPublicFolder)
+        {
+            folderLocationShowLabel.text=@"Public";
+        }
+        else
+        {
+            folderLocationShowLabel.text=[NSString stringWithFormat:@"Your Folders,%@",self.folderName];
+        }
+        
         //imageView.image=self.smallImage;
         
         UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -151,26 +159,63 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Save and get images from Document Directory
+#pragma mark - save and get image from Document directry
 -(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
 {
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@OriginalImage%@photoID_%@.png",userid,self.folderNameLocation,[NSNumber numberWithInteger:index]]];
+    //Create Folder
+    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"/123FridayImages"];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+    }
+    if(self.isPublicFolder)
+    {
+        dataPath = [dataPath stringByAppendingPathComponent:@"/PublicFolder"];
+    }
+    else
+    {
+        dataPath = [dataPath stringByAppendingPathComponent:@"/YourFolder"];
+    }
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+    }
+    if(!self.isPublicFolder)
+    {
+        dataPath = [dataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",self.folderName]];
+    }
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+    }
+    NSString *savedImagePath = [dataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_LargePhoto_%@.png",userid,self.photoId]];
     UIImage *image = img; // imageView is my image from camera
-    NSData *imgData1 = UIImagePNGRepresentation(image);
-    [imgData1 writeToFile:savedImagePath atomically:NO];
+    NSData *imgD = UIImagePNGRepresentation(image);
+    [imgD writeToFile:savedImagePath atomically:NO];
     
 }
 -(UIImage *)getImageFromDocumentDirectory :(NSInteger)index
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,    NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"yourFolder%@OriginalImage%@photoID_%@.png",userid,self.folderNameLocation,[NSNumber numberWithInteger:index]]];
+    NSString *getImagePath;
+    if(self.isPublicFolder)
+    {
+        getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/123FridayImages/PublicFolder/%@_LargePhoto_%@.png",userid,self.photoId]];
+    }
+    else
+    {
+        getImagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/123FridayImages/YourFolder/%@/%@_LargePhoto_%@.png",self.folderName,userid,self.photoId]];
+    }
     UIImage *img = [UIImage imageWithContentsOfFile:getImagePath];
     return img;
     
 }
+
 
 #pragma mark - IBAction methods
 - (IBAction)viewPhoto:(id)sender

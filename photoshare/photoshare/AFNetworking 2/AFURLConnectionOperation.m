@@ -605,7 +605,6 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)connection:(NSURLConnection __unused *)connection
     didReceiveData:(NSData *)data
 {
-    
     NSUInteger length = [data length];
     while (YES) {
         NSInteger totalNumberOfBytesWritten = 0;
@@ -643,11 +642,8 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void)connectionDidFinishLoading:(NSURLConnection __unused *)connection {
     self.responseData = [self.outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-    
     [self.outputStream close];
-    
     [self finish];
-    
     self.connection = nil;
 }
 
