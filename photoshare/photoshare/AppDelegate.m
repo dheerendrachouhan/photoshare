@@ -39,8 +39,6 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.window.rootViewController = lg;
     [self.window makeKeyAndVisible];
-    
-    
     return YES;
 }
 
@@ -114,7 +112,7 @@
 //Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"Push Notification Device Token is Register On Server%@",data);
+    NSLog(@"Device Token is Register On Server%@",data);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -125,7 +123,8 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    }
+    
+}
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {

@@ -126,6 +126,7 @@
 rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     
 }
+
 -(IBAction)logout:(id)sender
 {
     [self logOutFromServer];
@@ -209,14 +210,9 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
             {
                 [navnBar loadNav:CGRectMake(0, 20, 568, 48) :true];
             }
-            
         }
-        
     }
-    
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
-
-
 @end
