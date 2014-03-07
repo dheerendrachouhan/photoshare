@@ -65,8 +65,8 @@
 {
     //NSLog(@"userInfo-- %@",userInfo);
     NSString *message=[[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-    /*if([dmc getUserId])
-    {*/
+    if([dmc getUserId])
+    {
         if(([message rangeOfString:@"Video"].location != NSNotFound) || ([message rangeOfString:@"Upgrade"].location != NSNotFound))
         {
             [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
@@ -90,14 +90,14 @@
                 [notificationAlert show];
             }
         }
-    
+    }
 }
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     //NSLog(@"userInfo-- %@",userInfo);
     NSString *message=[[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-    /*if([dmc getUserId])
-     {*/
+    if([dmc getUserId])
+     {
     if(([message rangeOfString:@"Video"].location != NSNotFound) || ([message rangeOfString:@"Upgrade"].location != NSNotFound))
     {
         [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
@@ -121,7 +121,7 @@
             [notificationAlert show];
         }
     }
-    
+    }
 
 }
 
