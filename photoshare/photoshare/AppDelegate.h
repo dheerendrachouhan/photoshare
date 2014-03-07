@@ -29,4 +29,6 @@
 @property (strong, nonatomic) NSString *token;
 @property(nonatomic,assign)BOOL isGoToReferFriendController;
 -(void)setDevieTokenOnServer:(NSString *)devToken userid:(NSString *)user_id;
+
+-(void)deregisterThepushNotification;
 @end

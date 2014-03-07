@@ -154,12 +154,8 @@
     
     //contant manager Object
     manager = [ContentManager sharedManager];
-    
-    
-    
     [self addCustomNavigationBar];
-    
-    //get the user id from nsuserDefaults
+   
 }
 - (void)didReceiveMemoryWarning
 {
@@ -195,14 +191,12 @@
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f,100.0f,320.0f, 326.0f);
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,323);
             scrollView.scrollEnabled=NO;
             
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f,320.0f, 420.0f);
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,323);
             scrollView.scrollEnabled=NO;
         }
@@ -210,13 +204,11 @@
     else {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f, 480.0f, 200.0f);
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
             scrollView.scrollEnabled=YES;
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f, 568.0f, 200.0f);
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,300);
             scrollView.scrollEnabled=YES;
         }
@@ -807,7 +799,6 @@
         {
              isDeletePhotoMode=NO;
         }
-
     }
     else
     {
@@ -880,7 +871,6 @@
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
     }
-    
     [navnBar addSubview:titleLbl];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];

@@ -402,8 +402,6 @@
     }];
 }
 
-
-
 //Twitter SDK Implemetation
 - (IBAction)postToTwitter:(id)sender {
     [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
@@ -674,7 +672,7 @@
         mmVC.filterType = @"Refer Text";
         
         [self.navigationController pushViewController:mmVC animated:YES];
-        //[contactData removeAllObjects];
+       
     }
 }
 
@@ -760,21 +758,7 @@
         }
         else
         {
-            /*
-            emailView.hidden = NO;
             
-            if(_emailContacts.text.length == 0)
-            {
-                _emailContacts.text = referEmailStr;
-            }
-            else
-            {
-                NSString *appStr = [_emailContacts.text stringByAppendingString:@", "];
-                NSString *addStr = [appStr stringByAppendingString:referEmailStr];
-                _emailContacts.text = addStr;
-                
-            }
-            _emailMessageBody.text = userMessage.text;*/
             [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
             [self performSelector:@selector(mailToFun) withObject:self afterDelay:0.0f];
         }

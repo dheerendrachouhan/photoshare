@@ -58,7 +58,7 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
-    
+   
     //for launch camera
     [manager storeData:@"NO" :@"istabcamera"];
     [self setTheUSerDetails];
@@ -66,9 +66,9 @@
     [self.tabBarController setSelectedIndex:0];
     
     AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-   // [delegate.navControllercommunity popToRootViewControllerAnimated:NO];
+  
     CommunityViewController *comm=[[CommunityViewController alloc] init];
-    //comm.isInNavigation=YES;
+   
     delegate.navControllercommunity.viewControllers =[[NSArray alloc] initWithObjects:comm, nil];
 }
 - (void)didReceiveMemoryWarning
@@ -105,20 +105,7 @@
     welcomeName.text=[dic objectForKey:@"user_realname"];
     self.navigationController.navigationBarHidden=YES;
 }
--(void)setTheNoOfPhotoCountOnPublicFolder
-{
-    //Set the number of images in Public Folder
-    NSNumber *publicImgCount=[manager getData:@"publicImgIdArray"];
-     if(publicImgCount.integerValue==0)
-     {
-     photoCountLbl.hidden=YES;
-     }
-     else
-     {
-     photoCountLbl.hidden=NO;
-     photoCountLbl.text=[NSString stringWithFormat:@"%lu",(unsigned long)publicImgCount.integerValue];
-     }
-}
+
 #pragma mark - text feild method
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -159,7 +146,7 @@
     CommunityViewController *comm=[[CommunityViewController alloc] init];
     comm.isInNavigation=YES;
     [self.tabBarController setSelectedIndex:3];
-    //[self.navigationController pushViewController:comm animated:YES];
+    
     self.navigationController.navigationBarHidden = NO;
 }
 #pragma mark - get The value from NSUser Default Method
@@ -221,7 +208,6 @@
         }else{
             [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :true];
         }
-        
     }
     else
     {

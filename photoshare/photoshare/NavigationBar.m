@@ -24,7 +24,7 @@
     return self;
 }
 
--(void)loadNav:(CGRect)navFrame:(BOOL)orient
+-(void)loadNav:(CGRect)navFrame :(BOOL)orient
 {
     if([objManager isiPad])
     {
@@ -87,7 +87,7 @@
     }
     UITapGestureRecognizer *tapGesture;
     UITapGestureRecognizer *tapGestureHome;
-    //self.frame=CGRectMake(0, 20, 320, 80);
+    
     self.backgroundColor=[UIColor whiteColor];
     if([objManager isiPad])
     {
@@ -104,7 +104,7 @@
             homeController.layer.cornerRadius = 3;
             
             totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(780,30, 200, 60)];
-            //totalEarningView.backgroundColor=[UIColor grayColor];
+            
             totalEarningView.layer.cornerRadius=10;
             
             totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(780, 30, 230, 31)];
@@ -142,7 +142,7 @@
             homeController.layer.cornerRadius = 3;
             
             totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(530,30, 200, 60)];
-            //totalEarningView.backgroundColor=[UIColor grayColor];
+           
             totalEarningView.layer.cornerRadius=10;
             
             totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(530, 30, 230, 31)];
@@ -186,7 +186,7 @@
                 homeController.layer.cornerRadius = 3;
                 
                 totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(365,20, 100, 50)];
-                //totalEarningView.backgroundColor=[UIColor grayColor];
+                
                 totalEarningView.layer.cornerRadius=10;
                 
                 totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(368, 10, 100, 21)];
@@ -224,7 +224,7 @@
                 homeController.layer.cornerRadius = 3;
                 
                 totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(460,20, 100, 50)];
-                //totalEarningView.backgroundColor=[UIColor grayColor];
+                
                 totalEarningView.layer.cornerRadius=10;
                 
                 totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(460, 10, 100, 21)];
@@ -263,7 +263,7 @@
             homeController.layer.cornerRadius = 3;
         
             totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(215,20, 100, 50)];
-            //totalEarningView.backgroundColor=[UIColor grayColor];
+            
             totalEarningView.layer.cornerRadius=10;
         
             totalEarningHeading=[[UILabel alloc] initWithFrame:CGRectMake(218, 10, 100, 21)];
@@ -316,17 +316,12 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
 
     [delegate.tbc setSelectedIndex:0];
-    /*
-    ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
-    [delegate.tbc setSelectedIndex:0 openHomeController];*/
-    /*
-    [dmc sethomeIndex];*/
+    
 }
 -(void)setTheTotalEarning:(NSString *)earners
 {
     totalEarning.text= [@"£" stringByAppendingString:earners];
-    //UILabel *lb = (UILabel *) [self viewWithTag:1];
-    //  [lb removeFromSuperview] ;
+    
 }
 
 @end

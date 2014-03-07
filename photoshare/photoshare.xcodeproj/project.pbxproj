@@ -56,9 +56,6 @@
 		E108F14A18AE2DFD00B574F6 /* TwitterTable_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */; };
 		E108F14C18AE2E1100B574F6 /* TermConditionViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14B18AE2E1100B574F6 /* TermConditionViewController_iPad.xib */; };
 		E108F14E18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E108F14D18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib */; };
-		E10C09E618C07459007A88D9 /* ZoomPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E10C09E418C07459007A88D9 /* ZoomPhotoViewController.m */; };
-		E10C09E718C07459007A88D9 /* ZoomPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10C09E518C07459007A88D9 /* ZoomPhotoViewController.xib */; };
-		E10C09E918C07D7B007A88D9 /* ZoomPhotoViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10C09E818C07D7B007A88D9 /* ZoomPhotoViewController_iPad.xib */; };
 		E10C09EB18C0B7F6007A88D9 /* tick_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = E10C09EA18C0B7F6007A88D9 /* tick_circle.png */; };
 		E10C09ED18C0BA68007A88D9 /* iconr3_uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = E10C09EC18C0BA68007A88D9 /* iconr3_uncheck.png */; };
 		E10F8E3318B89DA400321843 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E10F8E3218B89DA400321843 /* CollectionViewCell.m */; };
@@ -96,7 +93,6 @@
 		E16F3918189131C600064806 /* wall.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E16F3917189131C600064806 /* wall.jpg */; };
 		E16F392018914D4A00064806 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = E16F391F18914D4A00064806 /* back.png */; };
 		E170E90218A4EE0E002D3D17 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E170E90118A4EE0E002D3D17 /* CoreLocation.framework */; };
-		E170E90818A4F10E002D3D17 /* GetUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = E170E90718A4F10E002D3D17 /* GetUserLocation.m */; };
 		E170E90D18A526EA002D3D17 /* PhotoShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E170E90B18A526EA002D3D17 /* PhotoShareController.xib */; };
 		E170E90F18A5275A002D3D17 /* PhotoShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = E170E90E18A5275A002D3D17 /* PhotoShareController.m */; };
 		E170E91418A55280002D3D17 /* logo_58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = E170E91118A55280002D3D17 /* logo_58x58.png */; };
@@ -318,10 +314,6 @@
 		E108F14918AE2DFD00B574F6 /* TwitterTable_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTable_iPad.xib; sourceTree = "<group>"; };
 		E108F14B18AE2E1100B574F6 /* TermConditionViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermConditionViewController_iPad.xib; sourceTree = "<group>"; };
 		E108F14D18AE2E2800B574F6 /* UserSecurityViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSecurityViewController_iPad.xib; sourceTree = "<group>"; };
-		E10C09E318C07459007A88D9 /* ZoomPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomPhotoViewController.h; sourceTree = "<group>"; };
-		E10C09E418C07459007A88D9 /* ZoomPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomPhotoViewController.m; sourceTree = "<group>"; };
-		E10C09E518C07459007A88D9 /* ZoomPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZoomPhotoViewController.xib; sourceTree = "<group>"; };
-		E10C09E818C07D7B007A88D9 /* ZoomPhotoViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZoomPhotoViewController_iPad.xib; sourceTree = "<group>"; };
 		E10C09EA18C0B7F6007A88D9 /* tick_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick_circle.png; sourceTree = "<group>"; };
 		E10C09EC18C0BA68007A88D9 /* iconr3_uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3_uncheck.png; sourceTree = "<group>"; };
 		E10F8E3218B89DA400321843 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
@@ -366,8 +358,6 @@
 		E16F3917189131C600064806 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
 		E16F391F18914D4A00064806 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		E170E90118A4EE0E002D3D17 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		E170E90618A4F10E002D3D17 /* GetUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetUserLocation.h; sourceTree = "<group>"; };
-		E170E90718A4F10E002D3D17 /* GetUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetUserLocation.m; sourceTree = "<group>"; };
 		E170E90918A526EA002D3D17 /* PhotoShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoShareController.h; sourceTree = "<group>"; };
 		E170E90B18A526EA002D3D17 /* PhotoShareController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoShareController.xib; sourceTree = "<group>"; };
 		E170E90E18A5275A002D3D17 /* PhotoShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoShareController.m; sourceTree = "<group>"; };
@@ -869,8 +859,6 @@
 				E317675B1898BE0A00923E35 /* FBTWViewController.m */,
 				E3188DA01893968A004ACF77 /* FinanceCalculatorViewController.h */,
 				E3188DA11893968A004ACF77 /* FinanceCalculatorViewController.m */,
-				E170E90618A4F10E002D3D17 /* GetUserLocation.h */,
-				E170E90718A4F10E002D3D17 /* GetUserLocation.m */,
 				FC97641418900B00008DF1F8 /* HomeViewController.h */,
 				FC97641518900B00008DF1F8 /* HomeViewController.m */,
 				E17C8F93189FA5000079E0FE /* LaunchCameraViewController.h */,
@@ -906,10 +894,6 @@
 				FC85D5301896F01F006AD7E0 /* UserSecurityViewController.h */,
 				FC85D5311896F01F006AD7E0 /* UserSecurityViewController.m */,
 				FC9763AA188FEB89008DF1F8 /* Images.xcassets */,
-				E10C09E318C07459007A88D9 /* ZoomPhotoViewController.h */,
-				E10C09E418C07459007A88D9 /* ZoomPhotoViewController.m */,
-				E10C09E518C07459007A88D9 /* ZoomPhotoViewController.xib */,
-				E10C09E818C07D7B007A88D9 /* ZoomPhotoViewController_iPad.xib */,
 			);
 			path = photoshare;
 			sourceTree = "<group>";
@@ -1220,7 +1204,6 @@
 				E322BAF218A36B7600CAC9E5 /* refer-30x30.png in Resources */,
 				E16F390B18912C9C00064806 /* login-logo.png in Resources */,
 				E3C2FD6D18BB11BC002430F0 /* plus_blue.png in Resources */,
-				E10C09E718C07459007A88D9 /* ZoomPhotoViewController.xib in Resources */,
 				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
 				E18262841897F71700C1C799 /* twitter.png in Resources */,
 				E16F391318912C9C00064806 /* share-twitter.png in Resources */,
@@ -1258,7 +1241,6 @@
 				E108F13C18AE2D3800B574F6 /* PastPayementViewController_iPad.xib in Resources */,
 				FC97641818900B00008DF1F8 /* HomeViewController.xib in Resources */,
 				E108F11C18AE2AD600B574F6 /* AddEditFolderViewController_iPad.xib in Resources */,
-				E10C09E918C07D7B007A88D9 /* ZoomPhotoViewController_iPad.xib in Resources */,
 				E30D92B618B2046700E2F072 /* CustomCelliPad.xib in Resources */,
 				E170E91618A55280002D3D17 /* Icon-120.png in Resources */,
 				FCC76CAB1896A93C00F4B41A /* arrow.png in Resources */,
@@ -1350,7 +1332,6 @@
 				E17222B7189280FE00F28748 /* JXBarChartView.m in Sources */,
 				E1067DF6189AA7D600F08A5F /* AFHTTPRequestOperation.m in Sources */,
 				FC97641218900734008DF1F8 /* PhotoViewController.m in Sources */,
-				E170E90818A4F10E002D3D17 /* GetUserLocation.m in Sources */,
 				E1067E01189AA7F400F08A5F /* WebserviceController.m in Sources */,
 				E3C2FD7018BB11EB002430F0 /* ReferralStageFourVC.m in Sources */,
 				FC97640B18900505008DF1F8 /* AccountViewController.m in Sources */,
@@ -1376,7 +1357,6 @@
 				FC97641718900B00008DF1F8 /* HomeViewController.m in Sources */,
 				E11C55DF18A8ECC700C67B6D /* ShareWithUserViewController.m in Sources */,
 				E31AA490189662C00065F8E2 /* EditMessageVC.m in Sources */,
-				E10C09E618C07459007A88D9 /* ZoomPhotoViewController.m in Sources */,
 				E1067DF7189AA7D600F08A5F /* AFHTTPRequestOperationManager.m in Sources */,
 				FC976406189004E0008DF1F8 /* ReferFriendViewController.m in Sources */,
 				FC9763A0188FEB89008DF1F8 /* AppDelegate.m in Sources */,

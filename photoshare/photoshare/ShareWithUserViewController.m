@@ -184,14 +184,14 @@
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f,100.0f,320.0f, 326.0f);
+
             scrollView.contentSize = CGSizeMake(self.view.frame.size.width,300);
             scrollView.scrollEnabled=NO;
             
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f,320.0f, 420.0f);
+    
             scrollView.contentSize = CGSizeMake(self.view.frame.size.width,300);
             scrollView.scrollEnabled=NO;
         }
@@ -204,13 +204,11 @@
     else {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f, 480.0f, 200.0f);
             scrollView.contentSize = CGSizeMake(self.view.frame.size.width,270);
             scrollView.scrollEnabled=YES;
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f, 568.0f, 200.0f);
             scrollView.contentSize = CGSizeMake(self.view.frame.size.width,270);
             scrollView.scrollEnabled=YES;
         }
@@ -242,9 +240,12 @@
     if(![[writeuseridarray objectAtIndex:0] isEqualToString:@""])
     {
         for (int i=0; i<writeuseridarray.count; i++) {
+            if(![[writeuseridarray objectAtIndex:i] isEqualToString:@"0"])
+            {
             NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[writeuseridarray objectAtIndex:i]];
             [sharingUserNameArray addObject:[userDetail objectForKey:@"user_username"]];
             [sharingUserIdArray addObject:[userDetail objectForKey:@"user_id"]];
+            }
             
         }
     }
@@ -256,9 +257,13 @@
    if(![[readuseridarray objectAtIndex:0] isEqualToString:@""])
     {
         for (int i=0; i<readuseridarray.count; i++) {
-            NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[readuseridarray objectAtIndex:i]];
-            [sharingUserNameArray addObject:[userDetail objectForKey:@"user_username"]];
-            [sharingUserIdArray addObject:[userDetail objectForKey:@"user_id"]];
+            if(![[readuseridarray objectAtIndex:i] isEqualToString:@"0"])
+            {
+                NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[readuseridarray objectAtIndex:i]];
+                [sharingUserNameArray addObject:[userDetail objectForKey:@"user_username"]];
+                [sharingUserIdArray addObject:[userDetail objectForKey:@"user_id"]];
+            }
+            
             
         }
     }

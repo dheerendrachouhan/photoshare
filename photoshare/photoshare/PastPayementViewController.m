@@ -98,8 +98,7 @@
             NSString *nowDaye = [dateFormatter stringFromDate:dates];
             [textIndicators addObject:nowDaye];
         }
-        // Do any additional setup after loading the view from its nib.*/
-                //find highest no from array
+      
         int highestNumber = 0;
         NSInteger numberIndex;
         for (NSNumber *theNumber in values)
@@ -146,7 +145,7 @@
         [scrollView addSubview:barChartView];
         [SVProgressHUD dismissWithSuccess:@"Loaded"];
     }
-    NSTimer *timerGo = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
+   [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
     
 }
 

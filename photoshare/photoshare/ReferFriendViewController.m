@@ -194,12 +194,7 @@
     @try {
         [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:row]]]]];
         toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
-        
-       /* WebserviceController *wb = [[WebserviceController alloc] init];
-        wb.delegate = self;
-        NSDictionary *dictData = @{@"toolkit_id":[toolkitIDArr objectAtIndex:row]};
-        [wb call:dictData controller:@"toolkit" method:@"get"] ;
-        [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];*/
+       
     }
     @catch (NSException *exception) {
         

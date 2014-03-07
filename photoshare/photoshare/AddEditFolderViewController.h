@@ -47,7 +47,6 @@
     NSString *user_message;
     
     //for sharing detail get
-
     NSMutableArray *collectionArrayWithSharing;
     BOOL isGetTheOwnCollectionListData;
     BOOL isGetTheSharingCollectionListData;
@@ -60,7 +59,6 @@
     NSDictionary *collectionUsersDetail;
     //orientation
     UIInterfaceOrientation orientation;
-    
 }
 
 @property(nonatomic,assign)BOOL isAddFolder;

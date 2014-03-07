@@ -55,7 +55,7 @@
     finalSelectArr = [[NSMutableArray alloc] init];
 }
 
-- (IBAction)doneBtnPressed:(id)sender {
+- (void)doneBtnPressed:(id)sender {
     ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
     rf.twitterTweet = [NSString stringWithFormat:@"%@",StringTweet];
     [self.navigationController popToViewController:rf animated:YES];

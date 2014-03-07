@@ -44,13 +44,6 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
-    /*
-     if([dmc gethomeIndex])
-     {
-     HomeViewController *hm =[[HomeViewController alloc] init];
-     [self presentViewController:hm animated:NO completion:nil];
-     [dmc resetHomeIndex];
-     }*/
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,7 +64,6 @@
     [self addCustomNavigationBar];
     
 }
-
 
 #pragma mark - IBAction Methods
 -(IBAction)editProfile:(id)sender
@@ -174,7 +166,6 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
         login= [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]] ;
     }
     [self presentViewController:login animated:NO completion:nil] ;
-    
 }
 
 #pragma mark -  Add Custom Navigation Bar

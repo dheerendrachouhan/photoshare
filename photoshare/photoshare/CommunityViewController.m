@@ -80,7 +80,6 @@
     collectionSharedArray=[[NSMutableArray alloc] init];
     collectionSharingArray=[[NSMutableArray alloc] init];
     collectionUserIdArray=[[NSMutableArray alloc] init];
-    //update the collection info in nsuser default from server
     
 }
 
@@ -624,11 +623,9 @@
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 -(void)navBackButtonClick{
-    /*if(![[self navigationController] popViewControllerAnimated:YES])
-    {
-        [self.tabBarController setSelectedIndex:0];
-    }    */
+    
     [self.tabBarController setSelectedIndex:0];
+    [self performSelector:@selector(getSharingusersId) withObject:nil];
 }
 
 

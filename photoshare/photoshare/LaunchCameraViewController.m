@@ -64,7 +64,6 @@
     collectionIdArray=[[NSMutableArray alloc] init];
     collectionNameArray=[[NSMutableArray alloc] init];
     webservices=[[WebserviceController alloc] init];
-
     
     manager=[ContentManager sharedManager];
     dmc=[[DataMapperController alloc] init];
@@ -72,8 +71,6 @@
     userid=[dic objectForKey:@"user_id"];
     
     imgView.contentMode=UIViewContentModeScaleAspectFit;
-    
-    
     
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -444,7 +441,6 @@
 {
     @try {
         backView1=[[UIView alloc] initWithFrame:self.view.frame];
-        //categoryPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-180, self.view.frame.size.width,120)];
         categoryPickerView.backgroundColor=[UIColor whiteColor];
         [categoryPickerView setDataSource: self];
         [categoryPickerView setDelegate: self];
@@ -480,30 +476,19 @@
         UIBarButtonItem *toolBarTitle=[[UIBarButtonItem alloc]  initWithCustomView:titleLabe];
         [barItems addObject:flexSpace];
         [barItems addObject:toolBarTitle];
-        //add folder button
-        //UIBarButtonItem *addFolder=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewFolderView)];
+       
         
         [barItems addObject:flexSpace];
-        //[barItems addObject:addFolder];
+       
         UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(categoryDoneButtonPressed)];
         [barItems addObject:doneBtn];
         
         [pickerToolbar setItems:barItems animated:YES];
-        /* //add new folder buton on picker ivew
-         addNewFolder=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-         [addNewFolder setTitle:@"Add New Folder" forState:UIControlStateNormal];
-         addNewFolder.frame=CGRectMake(10, categoryPickerView.frame.origin.y, 150, 30);
-         addNewFolder.layer.borderWidth=1;
-         addNewFolder.layer.borderColor=[UIColor blueColor].CGColor;
-         [addNewFolder addTarget:self action:@selector(addNewFolderView) forControlEvents:UIControlEventTouchUpInside];
-         
-         */
         
         [self.view addSubview:backView1];
         [self.view addSubview:pickerToolbar];
         [self.view addSubview:categoryPickerView];
-        
-         //[self addPhotoDescriptionView];
+       
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
@@ -559,11 +544,6 @@
 #pragma mark - Picker view Delegate Method
 - (void)pickerViewTapGestureRecognized:(UITapGestureRecognizer*)gestureRecognizer
 {
-    //CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view.superview];
-    //CGRect frame = categoryPickerView.frame;
-    //CGRect selectorFrame = CGRectInset( frame, 0.0, categoryPickerView.bounds.size.height * 0.85 / 2.0 );
-    
-    
     NSLog( @"Selected Row: %i", [categoryPickerView selectedRowInComponent:0] );
     if([categoryPickerView selectedRowInComponent:0]==0)
     {
@@ -640,7 +620,7 @@
     headLbl.layer.cornerRadius=5;
     headLbl.textAlignment=NSTextAlignmentCenter;
     headLbl.textColor=btnTextColor;
-    //headLbl.backgroundColor=[UIColor darkGrayColor];
+   
     folderName=[[UITextField alloc] initWithFrame:CGRectMake(15, 60, 170, 30)];
     folderName.layer.borderColor=[UIColor grayColor].CGColor;
     folderName.layer.borderWidth=textFieldBorderWidth;
@@ -650,7 +630,7 @@
     
     UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(15, 100, 65, 30)];
     
-    //cancelButton.backgroundColor=btnBorderColor;
+   
     cancelButton.layer.cornerRadius=5;
     cancelButton.layer.borderColor=btnBorderColor.CGColor;
     cancelButton.layer.borderWidth=1;
@@ -662,7 +642,7 @@
     
     UIButton *addButton=[[UIButton alloc] initWithFrame:CGRectMake(90, 100, 95, 30)];
     
-    //addButton.backgroundColor=btnBorderColor;
+   
     addButton.layer.cornerRadius=5;
     addButton.layer.borderColor=btnBorderColor.CGColor;
     addButton.layer.borderWidth=1;
@@ -768,8 +748,7 @@
     webservices.delegate=self;
     
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":selectedCollectionId};
-    //store data
-    // [webServices call:data controller:@"photo" method:@"store"];
+   
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
 }
 
@@ -877,10 +856,7 @@
         NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
-             placemark.postalCode, placemark.locality,
-             placemark.administrativeArea,
-             placemark.country];*/
+            
             NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
             
             photoLocationStr=location;

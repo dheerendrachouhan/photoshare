@@ -68,8 +68,6 @@
     NSString *oldpassval = oldpass.text ;
     NSString *newpassval = newpass.text;
     
-   // NSString *poststring = [NSString stringWithFormat:@"user_id=%@&user_password=%@&user_newpassword=%@", @"2", oldpassval, newpassval];
-    
     NSString *userid = [dmc getUserId] ;
     NSDictionary *postdic = @{@"user_id":userid,@"user_password":oldpassval,@"user_newpassword":newpassval} ;
 

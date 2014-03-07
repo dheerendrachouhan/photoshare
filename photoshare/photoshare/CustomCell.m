@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 ignis2. All rights reserved.
 //
 
-#import "CustomCell.h"CustomCell.h
+#import "CustomCell.h"
 
 @implementation CustomCell
 @synthesize name,joinStatus,joinedDate,userAmmount,imageView;

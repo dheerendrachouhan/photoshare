@@ -51,17 +51,15 @@
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
     rememberFltr = NO;
-    //add the border color in username and password textfield
+    usrFlt = NO;
+    pwsFlt = NO;
    
-   // loginBackgroundImage.hidden=YES;
-    
     //initialize the sharing IdArray
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing =[[NSMutableArray alloc] init];
 
     signinBtn.layer.cornerRadius = 6.0;
-    usrFlt = NO;
-    pwsFlt = NO;
+    
     
     UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     [nameTextField setLeftViewMode:UITextFieldViewModeAlways];
@@ -97,10 +95,16 @@
         nameTextField.text = [dict valueForKey:@"username"];
         passwordTextField.text = [dict valueForKey:@"password"];
     }
-    
-    //[self directLogin];
+   
+    if([[manager getData:@"login"] isEqualToString:@"YES"])
+    {
+        userid=(NSNumber *)[dmc getUserId];
+        //display the DataFetchingProgress
+        [self displayTheDataFetchingView];
+        
+        [self getSharingusersId];
+    }
 }
-
 
 -(void)deviceOrientDetect
 {
@@ -175,36 +179,6 @@
     [alert show];
     
 }
--(void)directLogin
-{
-    [dmc removeAllData];//remove data from nsuser default
-    
-    
-    //Without Validation
-    [self tapHideKeyboard];
-    //[self dismissViewControllerAnimated:YES completion:nil] ;
-    
-    NSString *username = @"ottf-user-4";
-    NSString *password = @"spaceman99";
-    if(nameTextField.text.length==0||passwordTextField.text.length==0)
-    {
-        
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter UserName and Password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-    
-    else if([nameTextField.text length] > 0 || [passwordTextField.text length] > 0)
-    {
-        isGetLoginDetail=YES;
-        webservices.delegate = self;
-        
-        [SVProgressHUD showWithStatus:@"Login" maskType:SVProgressHUDMaskTypeBlack];
-        
-        NSDictionary *postdic = @{@"username":username, @"password":password} ;
-        [webservices call:postdic controller:@"authentication" method:@"login"];
-    }
-
-}
 //user sign in function
 - (IBAction)userSignInBtn:(id)sender {
     
@@ -214,7 +188,6 @@
     
     //Without Validation
     [self tapHideKeyboard];
-    //[self dismissViewControllerAnimated:YES completion:nil] ;
     
     NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];
@@ -235,12 +208,10 @@
         NSDictionary *postdic = @{@"username":username, @"password":password} ;
         [webservices call:postdic controller:@"authentication" method:@"login"];
     }
-    
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
 {
-   
     //validate the user
     
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
@@ -372,21 +343,11 @@
                 manager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
                 
                 isGetIcomeDetail=NO;
-                [self getTheNoOfImagesInPublicFolderFromServer];
-            }
-            else if (isGetTheNoOfImagesInPublicFolder)
-            {
-                NSDictionary *outputData=[data objectForKey:@"output_data"];
-                NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
-                NSNumber *imgCout=[NSNumber numberWithInteger:collectionContent.count];
-                [manager storeData:imgCout :@"publicImgIdArray"];
-                
-                
-                isGetTheNoOfImagesInPublicFolder=NO;
                 [self removeDataFetchView];
                 
                 [self loadData];
-            }
+                
+            }           
         }
         else
         {
@@ -396,23 +357,7 @@
 }
 
 
-//Is First Time Login Check if Yes Than Fetch Data From Server
 
--(void)ifFirstTimeLogin
-{
-    //check is Application is First Launch
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
-    {
-        //[self dismissViewControllerAnimated:YES completion:nil] ;
-    }
-    else
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }
-    
-}
 //for fetching data from server add Loading view
 -(void)displayTheDataFetchingView
 {
@@ -424,12 +369,12 @@
 }
 -(void)removeDataFetchView
 {
-    //remove fetchView and status bar
+  
     [dataFetchView removeFromSuperview];
     [SVProgressHUD dismiss];
 }
 
-//Fetch collection info From Server
+#pragma mark - Fetch collection info from server
 -(void)getSharingusersId
 {
     @try {
@@ -486,41 +431,7 @@
     }
 }
 
--(void)getStorageFromServer
-{
-    [self resetAllBoolValue];
-    isGetStorage=YES;
-    webservices.delegate=self;
-    NSDictionary *dicData=@{@"user_id":userid};
-    [webservices call:dicData controller:@"storage" method:@"get"];
-}
--(void)getTheNoOfImagesInPublicFolderFromServer
-{
-    @try {
-        NSNumber *publicCollectionId;
-        NSMutableArray *collection=[dmc getCollectionDataList];
-        for (int i=0;i<collection.count; i++)
-        {
-            if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
-            {
-                publicCollectionId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
-                break;
-            }
-        }
-        
-        
-        isGetTheNoOfImagesInPublicFolder=YES;
-        webservices.delegate=self;
-        NSDictionary *dicData=@{@"user_id":userid,@"collection_id":publicCollectionId};
-        [webservices call:dicData controller:@"collection" method:@"get"];
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
-    }
-}
+
 //---------------------------
 //---------------------------
 -(void)getIncomeFromServer
@@ -686,7 +597,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSTimer *timerGo = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
     
     [self registerForKeyboardNotifications];
 }
@@ -733,19 +644,16 @@
     HomeViewController *hm=[[HomeViewController alloc] init];
     
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
-   // delegate.navControllerhome.navigationBar.translucent=NO;
     
     delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
-   // delegate.navControllerearning.navigationBar.translucent=NO;
+  
     
     delegate.navControllerphoto = [[UINavigationController alloc] initWithRootViewController:lcam];
     
     delegate.navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
-   // delegate.navControllercommunity.navigationBar.translucent=NO;
+   
     
     delegate.navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
-    //delegate.navControlleraccount.navigationBar.translucent=NO;
-    
     
     NSDictionary *textAttr=[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor], UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0,0)], UITextAttributeTextShadowOffset,[UIFont fontWithName:@"Verdana-Bold" size:10.0], UITextAttributeFont, nil];
     
@@ -778,9 +686,7 @@
     delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
     
     [delegate.window setRootViewController:delegate.tbc];
-    
-  //  [delegate.tbc.view addSubview:topView];
-   // [self.view addSubview:delegate.tbc.view];
+ 
 }
 
 #pragma mark - Device Orientation

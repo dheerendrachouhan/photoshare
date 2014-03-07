@@ -714,8 +714,13 @@
         else
         {
             NSLog(@"Photo saving failed");
-            //[manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
-            [SVProgressHUD showSuccessWithStatus:@"Photo Saving Failed"];
+            NSString *errorMessage=[data objectForKey:@"user_message"];
+            if(errorMessage.length==0 ||& errorMessage==NULL)
+            {
+                errorMessage=@"Photo Saving Failed";
+            }
+            [manager showAlert:@"Error !" msg:errorMessage cancelBtnTitle:@"Ok" otherBtn:Nil];
+            
         }
         isSaveDataOnServer=NO;
         
@@ -743,7 +748,6 @@
             
             if(collectionContent.count>0)
             {
-                
                 //set the photo id
                 [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
                 
@@ -780,8 +784,6 @@
             {
                 NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
                 [manager storeData:dat:@"photoInfoArray"];
-//                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photos Available" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-//                [alert show];
                 
                 [SVProgressHUD showSuccessWithStatus:@"No Photos Available"];
             }
@@ -892,8 +894,6 @@
         addPhotoBtn.hidden=NO;
         deletePhotoBtn.hidden=NO;
         sharePhotoBtn.hidden=NO;
-        
-        //sharePhotoBtn.frame=frameForShareBtn;
         isDeleteMode=NO;
         isShareMode=NO;
         sharePhotoBtn.frame =frame;
@@ -905,8 +905,7 @@
             addPhotoBtn.hidden=NO;
             deletePhotoBtn.hidden=YES;
             sharePhotoBtn.hidden=NO;
-            
-            //sharePhotoBtn.frame=frameForShareBtn;
+           
             isDeleteMode=NO;
             isShareMode=NO;
             sharePhotoBtn.frame =frame;
@@ -918,7 +917,6 @@
             deletePhotoBtn.hidden=YES;
             sharePhotoBtn.hidden=NO;
             
-            //sharePhotoBtn.frame=frameForShareBtn;
             isDeleteMode=NO;
             isShareMode=NO;
             sharePhotoBtn.frame =frame;
@@ -1183,13 +1181,7 @@
     NSString *body=[NSString stringWithFormat:@"Collection Owner Id :%@\nCollection Name:%@\nCollection Id:%@\nPhoto Id:%@",self.collectionOwnerId,self.folderName,self.collectionId,[photoIdsArray objectAtIndex:selectedEditImageIndex]];
     
     [controller setMessageBody:body isHTML:NO];
-    /*
-     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-     UIImage *ui = resultimg.image;
-     pasteboard.image = ui;
-     NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(ui)];
-     [controller addAttachmentData:imageData mimeType:@"image/png" fileName:@" "];
-     */
+    
     if (controller)
     {
         [self presentViewController:controller animated:YES completion:nil];
@@ -1315,7 +1307,7 @@
     @finally {
         
     }
-      //[self getImageFromServerForEdit:indexPath.row];
+    
     //if editBtnIs in view
     [editBtn removeFromSuperview];
 }
@@ -1347,7 +1339,6 @@
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    //[self dismissViewControllerAnimated:YES completion:nil];
     NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
     //set the asset url in String
     assetUrlOfImage=[NSString stringWithFormat:@"%@",assetURL];
@@ -1401,18 +1392,7 @@
     imgView.tag=101+indexPath.row;
     imgView.layer.masksToBounds=YES;
     
-    /*UIActivityIndicatorView *indeicator=[[UIActivityIndicatorView alloc] init];
-    [indeicator startAnimating];
-    indeicator.backgroundColor=[UIColor blackColor];
-    */
-    
-    //indicatorV.image=[UIImage imageNamed:@"ajaxloader.gif"];
-    /*for (UIView *view in [cell.contentView subviews]) {
-        [view removeFromSuperview];
-    }*/
-   
     @try {
-        
         
         if(photoArray.count>indexPath.row)
         {
@@ -1443,14 +1423,7 @@
             activityIndicator.center = CGPointMake(CGRectGetWidth(cell.bounds)/2, CGRectGetHeight(cell.bounds)/2);
             [cell.contentView addSubview:activityIndicator];
             
-           /* UILabel *loading=[[UILabel alloc] initWithFrame:CGRectMake(20, 20, 100, 20)];
-            UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-            loading.textColor=btnBorderColor;
-            loading.tag=1101+indexPath.row;
-            loading.font=[UIFont fontWithName:@"verdana" size:9];
-            loading.text=@"Loading....";
-            [cell.contentView addSubview:loading];
-            */
+           
             [cell.contentView addSubview:imgView];
 
         }
@@ -1460,10 +1433,6 @@
         NSLog(@"Exception Name : %@",exception.name);
         NSLog(@"Exception Description : %@",exception.description);
     }
-    @finally {
-        
-            }
-    
     
     return cell;
 }
@@ -1538,24 +1507,14 @@
 // This is called when the user taps "Done" in the photo editor.
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
-    //[[self imagePreviewView] setImage:image];
-    //[[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
-    //[self.assetLibrary saveImage:image toAlbum:@"Public" withCompletionBlock:^(NSError *error) {
-       // if (error!=nil) {
-           // NSLog(@"Big error: %@", [error description]);
-       // }
-   // }];
+   
     imageData = UIImagePNGRepresentation(image);
     editedImage=image;
    
     [self dismissViewControllerAnimated:NO completion:nil];
     [self dismissModals];
-    
-    //add image in collection Array
-    
-    //[self addPhotoDescriptionView];
+  
     [self goToPhotoDetailViewControler];
-   //[self savePhotosOnServer:userid filepath:imageData];
     
 }
 // This is called when the user taps "Cancel" in the photo editor.
@@ -1659,10 +1618,7 @@
         NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
-             placemark.postalCode, placemark.locality,
-             placemark.administrativeArea,
-             placemark.country];*/
+            
             NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
             
             photoLocationStr=location;

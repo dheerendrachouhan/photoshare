@@ -50,7 +50,7 @@
     
     WebserviceController *wc = [[WebserviceController alloc] init] ;
     wc.delegate = self;
-    //NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
+   
     NSDictionary *dictData = @{@"user_id":userID};
     [wc call:dictData controller:@"user" method:@"getearningsdetails"];
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
@@ -128,12 +128,12 @@
     {
         NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
         NSString *peopleRefStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_referrals"]];
-        //NSString *projectedEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"projected_earnings"]];
+        
         NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
     
         totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
         peopleReferredLabel.text = peopleRefStr;
-       // projectedEarninglabel.text = [@"£" stringByAppendingString:projectedEarnStr];
+       
         [SVProgressHUD dismissWithSuccess:@"Success"];
     }
 }
@@ -228,7 +228,7 @@
     {
         WebserviceController *wc = [[WebserviceController alloc] init] ;
         wc.delegate = self;
-        //NSString *postStr = [NSString stringWithFormat:@"user_id=%@", userID];
+        
         NSDictionary *dictData = @{@"user_id":userID};
         [wc call:dictData controller:@"user" method:@"getearningsdetails"];
         [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];

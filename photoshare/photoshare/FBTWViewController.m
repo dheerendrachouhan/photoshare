@@ -38,34 +38,6 @@
         [[NSBundle mainBundle] loadNibNamed:@"FBTWViewController_iPad" owner:self options:nil];
     }
     
-    // Do any additional setup after loading the view from its nib.
-    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-    {
-        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-           // scocialType.frame = CGRectMake(120, 179, 80, 80);
-           // success.frame = CGRectMake(124, 273, 77, 21);
-        }
-        else
-        {
-           // scocialType.frame = CGRectMake(250, 293, 248, 295);
-          //  success.frame = CGRectMake(250, 588, 248, 34);
-        }
-    }
-    else
-    {
-        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-            //scocialType.frame = CGRectMake(226, 94, 111, 116);
-           // success.frame = CGRectMake(246, 218, 77, 21);
-        }
-        else
-        {
-          //  scocialType.frame = CGRectMake(383, 243, 248, 238);
-           // success.frame = CGRectMake(420, 526, 248, 34);
-        }
-    }
-    
     if([successType isEqualToString:@"fb"])
     {
         scocialType.image = [UIImage imageNamed:@"facebook.png"];
@@ -153,33 +125,6 @@
 {
     [self addCustomNavigationBar];
     
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-            toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-           // scocialType.frame = CGRectMake(226, 94, 111, 116);
-           // success.frame = CGRectMake(246, 218, 77, 21);
-        }
-        else
-        {
-         //   scocialType.frame = CGRectMake(383, 243, 248, 238);
-         //   success.frame = CGRectMake(420, 526, 248, 34);
-        }
-    }
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-           // scocialType.frame = CGRectMake(120, 179, 80, 80);
-           // success.frame = CGRectMake(124, 273, 77, 21);
-        }
-        else
-        {
-          //  scocialType.frame = CGRectMake(250, 293, 248, 295);
-           // success.frame = CGRectMake(250, 588, 248, 34);
-        }
-    }
 }
 
 @end

@@ -91,8 +91,7 @@
     
    
     //tap getsure on view for dismiss the keyboard
-    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
-                                      initWithTarget:self action:@selector(handleSingleTap:)];
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
 }
@@ -182,14 +181,12 @@
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f,100.0f,320.0f, 326.0f);
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
             scrollView.scrollEnabled=NO;
             
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f,320.0f, 420.0f);
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,270);
             scrollView.scrollEnabled=NO;
         }
@@ -197,13 +194,11 @@
     else {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f, 480.0f, 200.0f);
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,240);
             scrollView.scrollEnabled=YES;
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
-            //scrollView.frame = CGRectMake(0.0f, 100.0f, 568.0f, 200.0f);
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,240);
             scrollView.scrollEnabled=YES;
         }
@@ -243,10 +238,7 @@
     {
         NSDictionary *photoDetail=@{@"photo_title":photoTitle,@"photo_description":photodes,@"photo_tags":photoTag.text};
         
-        //launch camera viewController
-        LaunchCameraViewController *launchCamera=[[LaunchCameraViewController alloc] init];
-       
-        [manager storeData:@"yes" :@"isfromphotodetailcontroller"];
+       [manager storeData:@"yes" :@"isfromphotodetailcontroller"];
         [manager storeData:photoDetail :@"takephotodetail"];
     }
     else
@@ -277,7 +269,6 @@
             webservices=[[WebserviceController alloc] init];
             webservices.delegate=self;
             [webservices call:dicData controller:@"photo" method:@"change"];
-            
         }
         @catch (NSException *exception) {
             
@@ -290,13 +281,11 @@
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    //NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    //NSString *user_message=[data objectForKey:@"user_message"];
+    
 }
 -(IBAction)savePhotoDetail:(id)sender
 {
     [self savePhotoDetailOnServer];
-    
 }
 #pragma Mark
 #pragma Add Custom Navigation Bar
@@ -310,6 +299,11 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"< Back" forState:UIControlStateNormal];
+    
+    //set the title of the navigation bar
+    UILabel *titleLabel=[[UILabel alloc] init];
+    titleLabel.text=@"Photo Details";
+    titleLabel.textAlignment=NSTextAlignmentCenter;
     if([manager isiPad])
     {
         if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
@@ -322,6 +316,9 @@
         }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
         button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
+        
+        titleLabel.frame=CGRectMake(self.view.center.x-(self.view.frame.size.width/4), NavBtnYPosForiPad, self.view.frame.size.width/2, NavBtnHeightForiPad);
+        titleLabel.font=[UIFont systemFontOfSize:23.0f];
         
     }
     else
@@ -336,13 +333,15 @@
         }
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+        titleLabel.frame=CGRectMake(self.view.center.x-(self.view.frame.size.width/4), NavBtnYPosForiPhone, self.view.frame.size.width/2, NavBtnHeightForiPhone);
+        titleLabel.font=[UIFont systemFontOfSize:17.0f];
     }
 
     if(!self.isFromLaunchCamera)
     {
          [navnBar addSubview:button];
     }
-   
+    [navnBar addSubview:titleLabel];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
@@ -389,10 +388,7 @@
         NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
-             placemark.postalCode, placemark.locality,
-             placemark.administrativeArea,
-             placemark.country];*/
+            
             NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
             
             photoLocationString=location;

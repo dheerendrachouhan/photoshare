@@ -25,12 +25,8 @@
     DataMapperController *dmc;
     IBOutlet UIScrollView *scrollView;
 }
-
-
-
-
 -(IBAction)saveProfile:(id)sender ;
-- (IBAction)userCancelButton:(id)sender;
+-(IBAction)userCancelButton:(id)sender;
 
 
 @end

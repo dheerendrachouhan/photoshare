@@ -28,18 +28,25 @@
     {
         lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
     }
-    
     // Register for Push Notifications
+    [self registerThepushNotification:application];    
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    self.window.rootViewController = lg;
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+-(void)registerThepushNotification:(UIApplication *)application
+{
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    //----------
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    self.window.rootViewController = lg;
-    [self.window makeKeyAndVisible];
-    return YES;
+}
+-(void)deregisterThepushNotification
+{
+    [[UIApplication sharedApplication] unregisterForRemoteNotifications];
 }
 
 
@@ -52,6 +59,7 @@
     NSLog(@"My token is: %@", _token);
     
 }
+
 //When Remote Notification is Received
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
@@ -104,7 +112,7 @@
 -(void)setDevieTokenOnServer:(NSString *)devToken userid:(NSString *)user_id{
     webservices=[[WebserviceController alloc] init];
     webservices.delegate=self;
-    NSDictionary *dic=@{@"user_id":user_id,@"device_token":devToken,@"platform":@"4"};
+    NSDictionary *dic=@{@"user_id":user_id,@"device_token":devToken,@"platform":@"3"};    //Platfom 3-IOS and 4-Android
     NSString *controller=@"PushController";
     NSString *method=@"registerDevice";
     [webservices call:dic controller:controller method:method];
@@ -117,8 +125,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -128,18 +135,17 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+   
    
 }
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:
+   
 }
 @end

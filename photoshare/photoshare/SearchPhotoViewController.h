@@ -33,9 +33,6 @@
     BOOL isViewLargeImageMode;
 
     UIImageView *imgView1;
-    
-    
-    
 }
 
 @end

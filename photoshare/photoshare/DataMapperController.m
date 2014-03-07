@@ -8,6 +8,7 @@
 
 #import "DataMapperController.h"
 #import "ContentManager.h"
+#import "AppDelegate.h"
 @interface DataMapperController ()
 
 @end
@@ -51,6 +52,7 @@
 -(void) setUserDetails:(NSDictionary *) dic
 {
     [objManager storeData:dic :@"user_details"];
+    [objManager storeData:@"YES" :@"login"];
 
 }
 
@@ -124,6 +126,11 @@
 //remove all the data on Logout from nsuser default except Remember fields
 -(void)removeAllData
 {
+    [objManager storeData:@"NO" :@"login"];
+    //degister the remote notification
+    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    [delgate deregisterThepushNotification];
+    
     // Get the Documents directory path
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectoryPath = [paths objectAtIndex:0];

@@ -70,7 +70,7 @@
     webServiceHlpr = [[WebserviceController alloc] init];
     webServiceHlpr.delegate = self;
     
-    //NSString *postStr = [NSString stringWithFormat:@"user_id=%@",userID] ;
+    
     NSDictionary *dictData = @{@"user_id":userID};
     [webServiceHlpr call:dictData controller:@"user" method:@"getearningsdetails"];
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];

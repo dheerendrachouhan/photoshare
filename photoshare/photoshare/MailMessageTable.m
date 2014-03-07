@@ -126,15 +126,7 @@
     [filteredList removeAllObjects];
     [filteredContact removeAllObjects];
     [filteredPhone removeAllObjects];
-    //clears the array from all the string objects it might contain from the previous searches
     
-   /* for (NSString *title in contactName)
-    {
-        NSRange nameRange = [title rangeOfString:searchText options:NSCaseInsensitiveSearch];
-        if (nameRange.location != NSNotFound) {
-            [filteredList addObject:title];
-        }
-    }*/
     for (int i=0; i<contactName.count; i++) {
         NSString *title=[contactName objectAtIndex:i];
         NSRange nameRange = [title rangeOfString:searchText options:NSCaseInsensitiveSearch];

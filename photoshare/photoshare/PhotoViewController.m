@@ -11,8 +11,6 @@
 #import "PhotoShareController.h"
 #import "EditPhotoDetailViewController.h"
 #import "SVProgressHUD.h"
-
-#import "ZoomPhotoViewController.h"
 @interface PhotoViewController ()
 
 @end
@@ -62,9 +60,7 @@
         else
         {
             folderLocationShowLabel.text=[NSString stringWithFormat:@"Your Folders,%@",self.folderName];
-        }
-        
-        //imageView.image=self.smallImage;
+        }   
         
         UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [activityIndicator startAnimating];
@@ -418,23 +414,8 @@
     self.tabBarController.tabBar.hidden=YES;
     isViewLargeImageMode=YES;
     
-    /*//zoomViewcontroller
-    ZoomPhotoViewController *zoomView;
-    if([manager isiPad])
-
-    {
-        zoomView=[[ZoomPhotoViewController alloc] initWithNibName:@"ZoomPhotoViewController_iPad" bundle:[NSBundle mainBundle]];
-        
-    }
-    else
-    {
-        zoomView=[[ZoomPhotoViewController alloc] initWithNibName:@"ZoomPhotoViewController" bundle:[NSBundle mainBundle]];
-    }
-    zoomView.image=originalImage;
-    [self.navigationController pushViewController:zoomView animated:NO];*/
 }
 
-//Action sheet delegate Method
 
 #pragma mark - Action Sheet delegate Methods
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -482,7 +463,7 @@
 
 -(void)shareImage:(UIImage *)imageToShare
 {
-    //UIImage *shareImg = imageToShare;
+    
     PhotoShareController *photoShare;
     if([manager isiPad])
     {
@@ -495,9 +476,6 @@
     photoShare.sharedImage = imageToShare;
     
     [self.navigationController pushViewController:photoShare animated:YES];
-    /*
-     PhotoShareView
-     */
 }
 -(void)goToPhotoDetailViewControler
 {
@@ -591,9 +569,9 @@
     
      imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
-    //[self addPhotoDescriptionView];
+   
     [self goToPhotoDetailViewControler];
-    //[manager showAlert:@"Message" msg:@"Photo Edit success" cancelBtnTitle:@"Ok" otherBtn:nil];
+    
 }
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
@@ -662,8 +640,8 @@
     webservices.delegate=self;
     isSavePhotoOnServer=YES;
     [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
-    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":self.collectionId};    //store data
-    // [webServices call:data controller:@"photo" method:@"store"];
+    NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":self.collectionId};
+  
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
 }
 
@@ -714,10 +692,7 @@
         NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            /*NSString *location = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@", placemark.subThoroughfare, placemark.thoroughfare,
-             placemark.postalCode, placemark.locality,
-             placemark.administrativeArea,
-             placemark.country];*/
+            
             NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
             
             photoLocationStr=location;
