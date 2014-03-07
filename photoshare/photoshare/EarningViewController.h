@@ -20,6 +20,9 @@
     IBOutlet UIScrollView *scrollView;
     DataMapperController *dmc;
     ContentManager *objManager;
+    WebserviceController *webservice;
+    BOOL isGetIcomeDetail;
+    BOOL isGetEarning;
 }
-
+-(void)getIncomeFromServer;
 @end

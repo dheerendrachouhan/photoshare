@@ -249,7 +249,7 @@
             else
             {
                 
-                [delegate setDevieTokenOnServer:@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5" userid:[NSString stringWithFormat:@"%@",userid]];
+                //[delegate setDevieTokenOnServer:@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5" userid:[NSString stringWithFormat:@"%@",userid]];
             }
         }
         else

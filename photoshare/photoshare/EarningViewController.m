@@ -48,17 +48,28 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
     self.navigationItem.backBarButtonItem = backButton;
     
-    WebserviceController *wc = [[WebserviceController alloc] init] ;
-    wc.delegate = self;
-   
-    NSDictionary *dictData = @{@"user_id":userID};
-    [wc call:dictData controller:@"user" method:@"getearningsdetails"];
-    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-    checkAgain = YES;
+     webservice = [[WebserviceController alloc] init] ;
+    [self getEarning];
+     checkAgain = YES;
     NSTimer *timerGo = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
     
 }
-
+-(void)getEarning
+{
+    webservice.delegate = self;
+    isGetEarning=YES;
+    NSDictionary *dictData = @{@"user_id":userID};
+    [webservice call:dictData controller:@"user" method:@"getearningsdetails"];
+    [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+   
+}
+-(void)getIncomeFromServer
+{
+    isGetIcomeDetail=YES;
+    webservice.delegate=self;
+    NSDictionary *dicData=@{@"user_id":userID};
+    [webservice call:dicData controller:@"referral" method:@"calculateincome"];
+}
 -(void)deviceOrientDetect
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -119,23 +130,45 @@
     NSLog(@"login callback%@",data);
     
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
+    NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
     //get the userId
-    if([data count] == 0 || exitCode == 0)
+   if(isGetEarning)
+   {
+       if([data count] == 0 || exitCode == 0)
+       {
+           [SVProgressHUD dismissWithError:@"Failed To load Data"];
+       }
+       else
+       {
+           NSString *peopleRefStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_referrals"]];
+           
+           NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
+           
+           totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
+           peopleReferredLabel.text = peopleRefStr;
+           
+       }
+       isGetEarning=NO;
+       [self getIncomeFromServer];
+   }
+    else if(isGetIcomeDetail)
     {
-        [SVProgressHUD dismissWithError:@"Failed To load Data"];
-    }
-    else
-    {
-        NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-        NSString *peopleRefStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_referrals"]];
+        if([data count] == 0 || exitCode == 0)
+        {
+            [SVProgressHUD dismissWithError:@"Failed To load Data"];
+        }
+        else
+        {
+            NSNumber *dict = [outPutData valueForKey:@"total_expected_income"];
+            
+            objManager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
+            [self addCustomNavigationBar];
+            [SVProgressHUD dismissWithSuccess:@"Success"];
+        }
+        isGetIcomeDetail=NO;
         
-        NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
-    
-        totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
-        peopleReferredLabel.text = peopleRefStr;
-       
-        [SVProgressHUD dismissWithSuccess:@"Success"];
     }
+        
 }
 
 - (IBAction)viewPastPaymentsBtn:(id)sender {

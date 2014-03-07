@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "ReferFriendViewController.h"
+#import "EarningViewController.h"
 @implementation AppDelegate
 @synthesize window,tbc,photoGalNav;
 @synthesize navControlleraccount,navControllercommunity,navControllerearning,navControllerhome,navControllerphoto;
@@ -63,11 +64,21 @@
 //When Remote Notification is Received
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    //NSLog(@"userInfo-- %@",userInfo);
+    [self receiveNotification:application userInfo:userInfo];}
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [self receiveNotification:application userInfo:userInfo];
+}
+
+-(void)receiveNotification :(UIApplication *)application userInfo:(NSDictionary *)userInfo
+{
     NSString *message=[[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
+    NSString *type=[userInfo objectForKey:@"type"];
+    
     if([dmc getUserId])
     {
-        if(([message rangeOfString:@"Video"].location != NSNotFound) || ([message rangeOfString:@"Upgrade"].location != NSNotFound))
+        if([type isEqualToString:@"video"])
         {
             [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
             if (application.applicationState==UIApplicationStateActive) {
@@ -82,6 +93,20 @@
                 [self.navControllerhome pushViewController:rvc animated:YES];
             }
         }
+        else if ([type isEqualToString:@"earn"])
+        {
+            if (application.applicationState==UIApplicationStateActive) {
+                UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
+                [notificationAlert setTag:102];
+                [notificationAlert setDelegate:self];
+                [notificationAlert show];
+            }
+            else if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
+                //Open the invite Friend view controller
+                [self.tbc setSelectedIndex:1];
+            }
+            
+        }
         else
         {
             [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
@@ -92,39 +117,6 @@
         }
     }
 }
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    //NSLog(@"userInfo-- %@",userInfo);
-    NSString *message=[[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-    if([dmc getUserId])
-     {
-    if(([message rangeOfString:@"Video"].location != NSNotFound) || ([message rangeOfString:@"Upgrade"].location != NSNotFound))
-    {
-        [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
-        if (application.applicationState==UIApplicationStateActive) {
-            UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
-            [notificationAlert setTag:101];
-            [notificationAlert setDelegate:self];
-            [notificationAlert show];
-        }
-        else if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
-            //Open the invite Friend view controller
-            ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
-            [self.navControllerhome pushViewController:rvc animated:YES];
-        }
-    }
-    else
-    {
-        [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
-        if (application.applicationState==UIApplicationStateActive) {
-            UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [notificationAlert show];
-        }
-    }
-    }
-
-}
-
 #pragma mark - UIAlert view delgate method
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 101) {
@@ -132,6 +124,14 @@
             [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
             ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
             [self.navControllerhome pushViewController:rvc animated:YES];
+        }
+    }
+    else if (alertView.tag == 102) {
+        if (buttonIndex == 1) {
+            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+            EarningViewController *earnView=[[EarningViewController alloc] init];
+            [earnView getIncomeFromServer];
+            [self.tbc setSelectedIndex:1];
         }
     }
 }
