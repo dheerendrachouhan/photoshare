@@ -65,8 +65,8 @@
 {
     //NSLog(@"userInfo-- %@",userInfo);
     NSString *message=[[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-    if([dmc getUserId])
-    {
+    /*if([dmc getUserId])
+    {*/
         if(([message rangeOfString:@"Video"].location != NSNotFound) || ([message rangeOfString:@"Upgrade"].location != NSNotFound))
         {
             [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
@@ -90,8 +90,41 @@
                 [notificationAlert show];
             }
         }
-    }
+    
 }
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    //NSLog(@"userInfo-- %@",userInfo);
+    NSString *message=[[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
+    /*if([dmc getUserId])
+     {*/
+    if(([message rangeOfString:@"Video"].location != NSNotFound) || ([message rangeOfString:@"Upgrade"].location != NSNotFound))
+    {
+        [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
+        if (application.applicationState==UIApplicationStateActive) {
+            UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
+            [notificationAlert setTag:101];
+            [notificationAlert setDelegate:self];
+            [notificationAlert show];
+        }
+        else if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
+            //Open the invite Friend view controller
+            ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
+            [self.navControllerhome pushViewController:rvc animated:YES];
+        }
+    }
+    else
+    {
+        [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
+        if (application.applicationState==UIApplicationStateActive) {
+            UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [notificationAlert show];
+        }
+    }
+    
+
+}
+
 #pragma mark - UIAlert view delgate method
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 101) {

@@ -33,13 +33,10 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if([[ContentManager sharedManager] isiPad])
-    {
         nibNameOrNil=@"HomeViewController_iPad";
-    }
     else
-    {
         nibNameOrNil=@"HomeViewController";
-    }
+    
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -59,35 +56,23 @@
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
    
-    //for launch camera
+    //For Launch Camera View
     [manager storeData:@"NO" :@"istabcamera"];
     [self setTheUSerDetails];
-    //set the
+    //Set the tabbar index of Home Page
     [self.tabBarController setSelectedIndex:0];
     
+    //Reset the Community View Controller
     AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-  
     CommunityViewController *comm=[[CommunityViewController alloc] init];
-   
     delegate.navControllercommunity.viewControllers =[[NSArray alloc] initWithObjects:comm, nil];
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+   
 }
-//Rounded the Count label of the show no of images is Public folder
--(void)setTheUIForCountLabel
-{
-    photoCountLbl.layer.cornerRadius=12;
-    photoCountLbl.layer.borderWidth=2;
-    if([manager isiPad])
-    {
-        photoCountLbl.layer.cornerRadius=18;
-    }
-    
-    photoCountLbl.layer.borderColor=[[UIColor whiteColor] CGColor];
-}
+//Initialize the AllGlobal Objects
 -(void)initializeTheGlobalObject
 {
     webservices=[[WebserviceController alloc] init];
@@ -95,6 +80,7 @@
     dmc = [[DataMapperController alloc] init];
     userid = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
 }
+//Set the User Details
 -(void)setTheUSerDetails
 {
     UIView *vi = [self.tabBarController.view viewWithTag:11];
@@ -132,7 +118,7 @@
 -(IBAction)goToPublicFolder:(id)sender
 {
     //get the collection  info from NSUser Default default
-    [self getCollectionInfoFromUserDefault];
+    [self setThePublicCollectionInfo];
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] init];
     photoGallery.isPublicFolder=YES;
     photoGallery.collectionId=publicCollectionId;
@@ -141,6 +127,7 @@
     photoGallery.collectionOwnerId=colOwnerId;
     [self.navigationController pushViewController:photoGallery animated:YES];
 }
+//Go to  the Community View Controller
 -(IBAction)goToCommunity:(id)sender
 {
     CommunityViewController *comm=[[CommunityViewController alloc] init];
@@ -151,31 +138,28 @@
 }
 #pragma mark - get The value from NSUser Default Method
 //Get the collection info from nsuser Default
--(void)getCollectionInfoFromUserDefault
+-(void)setThePublicCollectionInfo
 {
     NSMutableArray *collection=[dmc getCollectionDataList];
     @try {
-        for (int i=0;i<collection.count; i++)
-        {
-                NSNumber *coluserId=[[collection objectAtIndex:i] objectForKey:@"collection_user_id"];
-                
-                if([[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i] objectForKey:@"collection_name"] isEqualToString:@"public"])
-                {
-                    publicCollectionId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];
-                    colOwnerId=coluserId;
-                    folderIndex=i;
-                    break;
-                }
+        __block NSDictionary *dict=nil;
+        [collection enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            dict=(NSDictionary *)obj;
+            NSString *colName=[dict objectForKey:@"collection_name"];
+            if([colName isEqualToString:@"public"] || [colName isEqualToString:@"Public"])
+            {
+                *stop=YES;
             }
+        }];
+        //Set the global variable values
+        colOwnerId=[dict objectForKey:@"collection_user_id"];
+        publicCollectionId=[dict objectForKey:@"collection_id"];
+        folderIndex=[collection indexOfObject:dict];
     }
     @catch (NSException *exception) {
-        NSLog(@"Exec is %@",exception.description);
-    }
-    @finally {
-        
+        NSLog(@"Exec in HomeView Controller%@",exception.description);
     }
 }
-
 #pragma mark - webservice call back method
 //Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
@@ -197,7 +181,6 @@
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
-    
     navnBar = [[NavigationBar alloc] init];
     //For Home page Navigaigation bar
     if([manager isiPad])
@@ -234,7 +217,6 @@
 #pragma mark - Device Orientatiom method
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 

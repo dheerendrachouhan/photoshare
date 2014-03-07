@@ -123,7 +123,8 @@
 }
 
 
-//remove all the data on Logout from nsuser default except Remember fields
+//Remove all Data From cache when user press Logout Button
+//Delete the 123FridayImages folder from the document directory when user press Logout button
 -(void)removeAllData
 {
     [objManager storeData:@"NO" :@"login"];
@@ -131,7 +132,7 @@
     AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     [delgate deregisterThepushNotification];
     
-    // Get the Documents directory path
+    //Get the document directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectoryPath = [paths objectAtIndex:0];
     // Delete the file using NSFileManager

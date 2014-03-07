@@ -246,7 +246,11 @@
             {
                 [delegate setDevieTokenOnServer:devToken userid:[NSString stringWithFormat:@"%@",userid]];
             }
-            
+            else
+            {
+                
+                [delegate setDevieTokenOnServer:@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5" userid:[NSString stringWithFormat:@"%@",userid]];
+            }
         }
         else
         {
@@ -277,7 +281,8 @@
                 NSDictionary *loginFields = @{@"username":@"",@"password":@""};
                 [dmc setRememberFields:loginFields];
             }
-            ////////////////////////get the collection sharing user id
+            ////////////////////////
+            //get the collection sharing user id
             if(isGetSharingUserId)
             {
                     NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
@@ -324,8 +329,6 @@
                 countSharing++;
                 if(countSharing==sharingIdArray.count)
                 {
-                    
-                    //save collectioon detail in nsuser default
                     [dmc setCollectionDataList:collectionArrayWithSharing];
                     
                     isGetTheSharingCollectionListData=NO;
@@ -482,8 +485,6 @@
         nameTextField.text = @"";
         usrFlt = NO;
         [namecancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
-
-    
 }
 
 - (IBAction)passwordCancelBtn:(id)sender {

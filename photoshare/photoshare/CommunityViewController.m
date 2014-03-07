@@ -48,16 +48,17 @@
     self.navigationItem.title = @"Community folders";
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     
-    UINib *nib;
+    NSString *nibName;
+    
     if([manager isiPad])
     {
-        nib=[UINib nibWithNibName:@"CommunityCollectionCell_iPad" bundle:[NSBundle mainBundle]];
+        nibName=@"CommunityCollectionCell_iPad";
     }
     else
     {
-        nib=[UINib nibWithNibName:@"CommunityCollectionCell" bundle:[NSBundle mainBundle]];
+        nibName=@"CommunityCollectionCell";
     }
-    
+    UINib *nib=[UINib nibWithNibName:nibName bundle:[NSBundle mainBundle]];
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
        //add the Tap gesture for collection view
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc ]initWithTarget:self action:@selector(tapHandle:)];

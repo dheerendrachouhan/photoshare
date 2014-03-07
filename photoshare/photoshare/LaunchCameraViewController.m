@@ -850,7 +850,7 @@
     NSLog(@"didUpdateToLocation: %@", newLocation);
     CLLocation *currentLocation = newLocation;
     
-    // Reverse Geocoding
+    // Reverse Geocoding for current user address
     NSLog(@"Resolving the Address");
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
@@ -858,10 +858,7 @@
             placemark = [placemarks lastObject];
             
             NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
-            
             photoLocationStr=location;
-            
-            
             NSLog(@"Current location is %@",location);
         } else {
             NSLog(@"%@", error.debugDescription);
