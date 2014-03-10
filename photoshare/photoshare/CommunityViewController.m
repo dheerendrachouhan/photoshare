@@ -521,7 +521,7 @@
 -(void)searchViewOpen
 {
     SearchPhotoViewController *searchController=[[SearchPhotoViewController alloc] init];
-    
+    searchController.searchType=@"myfolders";
     [self.navigationController pushViewController:searchController animated:NO];
 }
 

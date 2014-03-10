@@ -185,7 +185,7 @@
                 homeController = [[UIView alloc] initWithFrame:CGRectMake(7, 13, 55, 35)];
                 homeController.layer.cornerRadius = 3;
                 
-                totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(365,20, 100, 50)];
+                totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(365,20, 100, 30)];
                 
                 totalEarningView.layer.cornerRadius=10;
                 
@@ -223,7 +223,7 @@
                 homeController = [[UIView alloc] initWithFrame:CGRectMake(7, 13, 55, 35)];
                 homeController.layer.cornerRadius = 3;
                 
-                totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(460,20, 100, 50)];
+                totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(460,20, 100, 30)];
                 
                 totalEarningView.layer.cornerRadius=10;
                 
@@ -262,7 +262,7 @@
             homeController = [[UIView alloc] initWithFrame:CGRectMake(7, 13, 55, 35)];
             homeController.layer.cornerRadius = 3;
         
-            totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(215,20, 100, 50)];
+            totalEarningView=[[UIView alloc] initWithFrame:CGRectMake(215,20, 100, 30)];
             
             totalEarningView.layer.cornerRadius=10;
         

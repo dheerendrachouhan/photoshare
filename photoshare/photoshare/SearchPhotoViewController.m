@@ -14,7 +14,7 @@
 @end
 
 @implementation SearchPhotoViewController
-
+@synthesize searchType;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if([[ContentManager sharedManager] isiPad])
@@ -42,6 +42,7 @@
     [searchBarForPhoto becomeFirstResponder];
     manager =[ContentManager sharedManager];
     webservice =[[WebserviceController alloc] init];
+    dmc = [[DataMapperController alloc] init];
     userid=[manager getData:@"user_id"];
     
     searchResultArray = [[NSArray alloc] init];
@@ -109,6 +110,7 @@
 #pragma mark - Fetch data on server
 -(void)searchPhotoOnServer
 {
+   
     isSearchPhoto=YES;
     webservice=[[WebserviceController alloc] init];
     webservice.delegate=self;
@@ -153,24 +155,55 @@
     {
         [photDetailArray removeAllObjects];
         [photoArray removeAllObjects];
-    
+        
         searchResultArray=[data objectForKey:@"output_data"];
-        for (int i=0; i<searchResultArray.count; i++) {
-            
-            NSNumber *colId=[[searchResultArray objectAtIndex:i] objectForKey:@"photo_collection_id"];
-            
-            @try {
-                NSLog(@"col is **%d",colId.integerValue);
-                    [photDetailArray addObject:[searchResultArray objectAtIndex:i]];
-                
-            }
-            @catch (NSException *exception) {
-                
-            }
-            @finally {
-                
+         NSString *publicColId=[manager getData:@"public_collection_id"];
+        NSMutableArray *collection=[dmc getCollectionDataList];
+        NSMutableArray *colidsArray=[[NSMutableArray alloc] init];
+        for (NSDictionary *dic in collection) {
+            [colidsArray addObject:[dic objectForKey:@"collection_id"]];
+        }
+        [colidsArray removeObject:publicColId];
+        @try {
+                //Search for 123Public folders
+                if([self.searchType isEqualToString:@"public"])
+                {
+                    for (int i=0; i<searchResultArray.count; i++)
+                    {
+                        @try {
+                            NSString *seacrhColId=[[searchResultArray objectAtIndex:i] objectForKey:@"photo_collection_id"];
+                            if(![colidsArray containsObject:seacrhColId])
+                            {
+                                [photDetailArray addObject:[searchResultArray objectAtIndex:i]];
+                            }
+                            
+                        }
+                        @catch (NSException *exception) {
+                            
+                        }
+                    }
+                }
+                else if ([self.searchType isEqualToString:@"myfolders"])
+                {
+                    for (int i=0; i<searchResultArray.count; i++)
+                    {
+                        @try {
+                            NSString *seacrhColId=[[searchResultArray objectAtIndex:i] objectForKey:@"photo_collection_id"];
+                            if([colidsArray containsObject:seacrhColId] )
+                            {
+                                [photDetailArray addObject:[searchResultArray objectAtIndex:i]];
+                            }
+                    }
+                    @catch (NSException *exception) {
+                        
+                    }
+                }
             }
         }
+        @catch (NSException *exception) {
+            NSLog(@"Exception in search %@",exception.description);
+        }
+        
         isSearchPhoto=NO;
         if(photDetailArray.count>0)
         {
@@ -178,7 +211,6 @@
             isGetPhotoFromServer=YES;
             [collectionViewForPhoto reloadData];
             [self getPhotoFromServer:0 imageResize:@"80"];
-
         }
         else
         {
@@ -193,7 +225,6 @@
      [SVProgressHUD dismiss];
     if(isGetPhotoFromServer)
     {
-
         [photoArray addObject:image];
         photoCount++;
         int count=photoArray.count;
@@ -204,7 +235,6 @@
         imgView.backgroundColor=[UIColor clearColor];
         imgView.image=image;
         [collectionViewForPhoto reloadData];
-        
         
         if(photoCount<photDetailArray.count)
         {
@@ -219,16 +249,13 @@
                 if(isStartGetPhoto)
                 {
                     [self getPhotoFromServer:photoCount imageResize:@"80"];
-
                 }
             }
-            
         }
         else
         {
             isGetPhotoFromServer=NO;
         }
-
     }
     else if(isGetOriginalPhotoFromServer)
     {
@@ -294,7 +321,6 @@
         {
             UIImage *image=[photoArray objectAtIndex:indexPath.row];
             imgView.image=image;
-            
         }
         else
         {
@@ -305,7 +331,6 @@
             activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |                                        UIViewAutoresizingFlexibleRightMargin |                                        UIViewAutoresizingFlexibleTopMargin |                                        UIViewAutoresizingFlexibleBottomMargin);
             activityIndicator.center = CGPointMake(CGRectGetWidth(imgView.bounds)/2, CGRectGetHeight(imgView.bounds)/2);
             [cell.contentView addSubview:activityIndicator];
-            
             
         }
         
@@ -350,8 +375,6 @@
         }
     }
 }
-
-
 
 #pragma mark - Add custom navigation bar
 -(void)addCustomNavigationBar

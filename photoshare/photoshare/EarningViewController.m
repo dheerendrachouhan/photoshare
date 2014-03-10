@@ -28,6 +28,14 @@
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"EarningViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"EarningViewController";
+    }
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -65,6 +73,7 @@
 }
 -(void)getIncomeFromServer
 {
+    userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     isGetIcomeDetail=YES;
     webservice.delegate=self;
     NSDictionary *dicData=@{@"user_id":userID};
@@ -259,12 +268,7 @@
     [self addCustomNavigationBar];
     if(!checkAgain)
     {
-        WebserviceController *wc = [[WebserviceController alloc] init] ;
-        wc.delegate = self;
-        
-        NSDictionary *dictData = @{@"user_id":userID};
-        [wc call:dictData controller:@"user" method:@"getearningsdetails"];
-        [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+        [self getEarning];
     }
     checkAgain = NO;
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){

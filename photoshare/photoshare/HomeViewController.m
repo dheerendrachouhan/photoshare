@@ -55,7 +55,7 @@
 {
     [super viewWillAppear:animated];
     [self addCustomNavigationBar];
-   
+     [self setThePublicCollectionInfo];
     //For Launch Camera View
     [manager storeData:@"NO" :@"istabcamera"];
     [self setTheUSerDetails];
@@ -118,7 +118,6 @@
 -(IBAction)goToPublicFolder:(id)sender
 {
     //get the collection  info from NSUser Default default
-    [self setThePublicCollectionInfo];
     PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] init];
     photoGallery.isPublicFolder=YES;
     photoGallery.collectionId=publicCollectionId;
@@ -155,6 +154,7 @@
         colOwnerId=[dict objectForKey:@"collection_user_id"];
         publicCollectionId=[dict objectForKey:@"collection_id"];
         folderIndex=[collection indexOfObject:dict];
+        [manager storeData:publicCollectionId :@"public_collection_id"];
     }
     @catch (NSException *exception) {
         NSLog(@"Exec in HomeView Controller%@",exception.description);

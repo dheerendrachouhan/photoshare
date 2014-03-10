@@ -95,17 +95,17 @@
         nameTextField.text = [dict valueForKey:@"username"];
         passwordTextField.text = [dict valueForKey:@"password"];
     }
+    
+  
    
-    if([[manager getData:@"login"] isEqualToString:@"YES"])
-    {
-        userid=(NSNumber *)[dmc getUserId];
-        //display the DataFetchingProgress
-        [self displayTheDataFetchingView];
-        
-        [self getSharingusersId];
-    }
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self checkAutoLogin];
+    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
+    
+    [self registerForKeyboardNotifications];
+}
 -(void)deviceOrientDetect
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -114,7 +114,42 @@
         [self orient:self.interfaceOrientation];
     }
 }
+-(void)checkAutoLogin
+{
+    if([[manager getData:@"login"] isEqualToString:@"YES"])
+    {
+        [self setDeviceTokenOnServerIfUserLogin];
+    }
 
+}
+-(void)setDeviceTokenOnServerIfUserLogin
+{
+    userid=(NSNumber *)[dmc getUserId];
+    //set the device token on the server
+    delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *devToken=delegate.token;
+    
+    if(devToken==NULL)
+    {
+        /*if([manager isiPad])
+        {
+            devToken=@"786f9657d1743c08ea7c3151e3d5309d25f8d1dd85aa02977920345054711a55";
+        }
+        else
+        {
+            devToken=@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5";
+        } */
+    }
+    if(devToken!=NULL)
+    {
+        [delegate setDevieTokenOnServer:devToken userid:[NSString stringWithFormat:@"%@",userid]];
+    }
+    
+    //display the DataFetchingProgress
+    [self displayTheDataFetchingView];
+    
+    [self getSharingusersId];
+}
 -(void)orient:(UIInterfaceOrientation)ott
 {
     //set the fetchview frame
@@ -234,23 +269,7 @@
             NSLog(@"Successful Login");
             
             isGetLoginDetail=NO;
-            //display the DataFetchingProgress
-            [self displayTheDataFetchingView];
-            
-            [self getSharingusersId];
-            //set the device token on the server
-            delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            NSString *devToken=delegate.token;
-            
-            if(devToken!=NULL)
-            {
-                [delegate setDevieTokenOnServer:devToken userid:[NSString stringWithFormat:@"%@",userid]];
-            }
-            else
-            {
-                
-                //[delegate setDevieTokenOnServer:@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5" userid:[NSString stringWithFormat:@"%@",userid]];
-            }
+            [self setDeviceTokenOnServerIfUserLogin];
         }
         else
         {
@@ -596,12 +615,7 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
-    
-    [self registerForKeyboardNotifications];
-}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [self deregisterFromKeyboardNotifications];
     [super viewWillDisappear:animated];
@@ -618,15 +632,7 @@
 {
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    EarningViewController *ea;
-    if([manager isiPad])
-    {
-        ea= [[EarningViewController alloc] initWithNibName:@"EarningViewController_iPad" bundle:nil] ;
-    }
-    else
-    {
-        ea = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil] ;
-    }
+    EarningViewController *ea=[[EarningViewController alloc] init];
     
     CommunityViewController *com =[[CommunityViewController alloc] init];
     

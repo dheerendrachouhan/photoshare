@@ -16,7 +16,7 @@
 #import "EditPhotoDetailViewController.h"
 #import "PhotoViewController.h"
 #import "PhotoShareController.h"
-
+#import "SearchPhotoViewController.h"
 @interface PhotoGalleryViewController ()
 {
     SVProgressHUD *pro;
@@ -1377,6 +1377,14 @@
 
 
 }
+#pragma mark - SearchViewController
+-(void)searchViewOpen
+{
+    SearchPhotoViewController *searchController=[[SearchPhotoViewController alloc] init];
+    searchController.searchType=@"public";
+    [self.navigationController pushViewController:searchController animated:NO];
+}
+
 #pragma mark - Collection view methods
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -1660,37 +1668,51 @@
     button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
     button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     [navnBar addSubview:button];
+    //add photo search button
+    UIButton *searchBtn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [searchBtn addTarget:self action:@selector(searchViewOpen) forControlEvents:UIControlEventTouchUpInside];
+    [searchBtn setTitle:@"Search" forState:UIControlStateNormal];
+    
+
     if(self.isPublicFolder==YES)
     {
         UILabel *titleLabel = [[UILabel alloc] init ];
         titleLabel.text=@"Public Folder";
         titleLabel.textAlignment=NSTextAlignmentCenter;
+        
         if([manager isiPad])
         {
             titleLabel.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 150.0, NavBtnHeightForiPad);
             titleLabel.font = [UIFont systemFontOfSize:23.0f];
+            searchBtn.frame=CGRectMake(self.view.frame.size.width-100, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
+            searchBtn.titleLabel.font = [UIFont systemFontOfSize:30.0f];
         }
         else
         {
              if(UIDeviceOrientationIsPortrait(self.interfaceOrientation))
              {
                  titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+                 searchBtn.frame=CGRectMake(250.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
              }
             else
             {
                 if([[UIScreen mainScreen] bounds].size.height == 480)
                 {
                     titleLabel.frame = CGRectMake(180.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+                    searchBtn.frame=CGRectMake(410.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
                 }
                 else
                 {
                     titleLabel.frame = CGRectMake(220.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
+                    searchBtn.frame=CGRectMake(498.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
                 }
             }
             titleLabel.font = [UIFont systemFontOfSize:17.0f];
+             searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         }
         
         [navnBar addSubview:titleLabel];
+       
 
     }
     else
@@ -1756,7 +1778,10 @@
         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     }
-
+    if(self.isPublicFolder)
+    {
+         [navnBar addSubview:searchBtn];
+    }
     [[self view] bringSubviewToFront:navnBar];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];

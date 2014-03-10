@@ -125,7 +125,6 @@
         {
             [ObjManager showAlert:@"Message" msg:@"Zero referrals" cancelBtnTitle:@"Ok" otherBtn:Nil];
         }
-            
     }
 }
 

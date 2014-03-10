@@ -10,7 +10,7 @@
 #import "ContentManager.h"
 #import "WebserviceController.h"
 #import "NavigationBar.h"
-
+#import "DataMapperController.h"
 @interface SearchPhotoViewController : UIViewController<UISearchBarDelegate,WebserviceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate>
 {
     IBOutlet UISearchBar *searchBarForPhoto;
@@ -18,6 +18,7 @@
        
     WebserviceController *webservice;
     ContentManager *manager;
+    DataMapperController *dmc;
     NSNumber *userid;
     NSString *searchString;
     
@@ -34,5 +35,5 @@
 
     UIImageView *imgView1;
 }
-
+@property(nonatomic,retain)NSString *searchType;
 @end

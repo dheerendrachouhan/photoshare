@@ -29,8 +29,9 @@
     {
         lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
     }
-    // Register for Push Notifications
-    [self registerThepushNotification:application];    
+    
+    //Register for Push Notifications
+    [self registerThepushNotification:application];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.window.rootViewController = lg;
@@ -43,14 +44,8 @@
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [UIApplication sharedApplication].applicationIconBadgeNumber =0;
 }
--(void)deregisterThepushNotification
-{
-    [[UIApplication sharedApplication] unregisterForRemoteNotifications];
-}
-
-
 #pragma mark - UIApplication Push-Notifications
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
@@ -59,15 +54,19 @@
     _token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString: @" " withString: @""];
     NSLog(@"My token is: %@", _token);
     
+    //[self setDevieTokenOnServer:_token userid:[dmc getUserId]];
 }
 
 //When Remote Notification is Received
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [self receiveNotification:application userInfo:userInfo];}
+   
+    [self receiveNotification:application userInfo:userInfo];
+}
 
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+ -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+   
     [self receiveNotification:application userInfo:userInfo];
 }
 
@@ -75,14 +74,14 @@
 {
     NSString *message=[[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
     NSString *type=[userInfo objectForKey:@"type"];
+    NSInteger numberOfBadges = [UIApplication sharedApplication].applicationIconBadgeNumber;
+    numberOfBadges -=1;
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:numberOfBadges];
     
-    if([dmc getUserId])
-    {
         if([type isEqualToString:@"video"])
         {
-            [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
             if (application.applicationState==UIApplicationStateActive) {
-                UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
+                UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Notification !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
                 [notificationAlert setTag:101];
                 [notificationAlert setDelegate:self];
                 [notificationAlert show];
@@ -96,42 +95,66 @@
         else if ([type isEqualToString:@"earn"])
         {
             if (application.applicationState==UIApplicationStateActive) {
-                UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
+                UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Notification !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
                 [notificationAlert setTag:102];
                 [notificationAlert setDelegate:self];
                 [notificationAlert show];
             }
             else if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
                 //Open the invite Friend view controller
-                [self.tbc setSelectedIndex:1];
+                @try {
+                    [self.tbc setSelectedIndex:1];
+                }
+                @catch (NSException *exception) {
+                    
+                }
             }
-            
         }
         else
         {
-            [UIApplication sharedApplication].applicationIconBadgeNumber += 1;
             if (application.applicationState==UIApplicationStateActive) {
                 UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 [notificationAlert show];
             }
         }
-    }
 }
 #pragma mark - UIAlert view delgate method
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 101) {
+        NSInteger numberOfBadges = [UIApplication sharedApplication].applicationIconBadgeNumber;
+        numberOfBadges -=1;
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:numberOfBadges];
         if (buttonIndex == 1) {
-            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-            ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
-            [self.navControllerhome pushViewController:rvc animated:YES];
+            @try {
+                ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
+                [self.navControllerhome pushViewController:rvc animated:YES];
+            }
+            @catch (NSException *exception) {
+                
+            }
         }
     }
     else if (alertView.tag == 102) {
+        EarningViewController *earnView=[[EarningViewController alloc] init];
         if (buttonIndex == 1) {
-            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-            EarningViewController *earnView=[[EarningViewController alloc] init];
-            [earnView getIncomeFromServer];
-            [self.tbc setSelectedIndex:1];
+            
+            @try {
+                self.navControllerearning.viewControllers=[[NSArray alloc] initWithObjects:earnView, nil];
+                [self.tbc setSelectedIndex:1];
+                
+            }
+            @catch (NSException *exception) {
+                
+            }
+        }
+        else if (buttonIndex==0)
+        {
+            @try {
+                [earnView getIncomeFromServer];
+            }
+            @catch (NSException *exception) {
+                
+            }
         }
     }
 }
@@ -141,7 +164,7 @@
 	NSLog(@"Failed to get token, error: %@", error.description);
 }
 
-//Set device  token on the server
+//Set Device token on the Server
 -(void)setDevieTokenOnServer:(NSString *)devToken userid:(NSString *)user_id{
     webservices=[[WebserviceController alloc] init];
     webservices.delegate=self;
@@ -154,6 +177,10 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Device Token is Register On Server%@",data);
+}
+-(void)deregisterThepushNotification
+{
+    //[[UIApplication sharedApplication] unregisterForRemoteNotifications];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -179,6 +206,7 @@
 }
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-   
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Crash" message:@"Your application is crash" delegate:Nil cancelButtonTitle:@"ok" otherButtonTitles:Nil, nil];
+    [alert show];
 }
 @end
