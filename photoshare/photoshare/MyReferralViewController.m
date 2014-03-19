@@ -9,7 +9,6 @@
 #import "MyReferralViewController.h"
 #import "CustomCell.h"
 #import "SVProgressHUD.h"
-#import "NavigationBar.h"
 #import "ContentManager.h"
 #import "CustomCelliPad.h"
 
@@ -43,7 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self addCustomNavigationBar];
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         [[NSBundle mainBundle] loadNibNamed:@"MyReferralViewController_iPad" owner:self options:Nil];
@@ -75,6 +74,12 @@
     [webServiceHlpr call:dictData controller:@"user" method:@"getearningsdetails"];
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
     tableView.autoresizesSubviews = UIViewAutoresizingFlexibleWidth;
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [navnBar setTheTotalEarning:ObjManager.weeklyearningStr];
+    [self detectDeviceOrientation];
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
@@ -184,56 +189,12 @@
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UILabel *navTitle = [[UILabel alloc] init];
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    UIButton *button = [navnBar navBarLeftButton:@"<Back"];
     [button addTarget:self action:@selector(navBackButtonClick) forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    
-    if([ObjManager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(290, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            navTitle.frame = CGRectMake(410, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-        }
-        
-        navTitle.font = [UIFont systemFontOfSize:36.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height ==480)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(190, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-            }
-            else if ([[UIScreen mainScreen] bounds].size.height ==568)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(230, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-            }
-        }
-        
-        navTitle.font = [UIFont systemFontOfSize:18.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
-    navTitle.text = @"My Referrals";
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"My Referrals"];
+  
     [navnBar addSubview:navTitle];
     [navnBar addSubview:button];
     
@@ -245,18 +206,15 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
+#pragma mark - Device Orientation
+-(void)detectDeviceOrientation
 {
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
         [self orient:self.interfaceOrientation];
     }else{
         [self orient:self.interfaceOrientation];
     }
 }
-
-
 -(void)orient:(UIInterfaceOrientation)ott
 {
     frame = tableView.frame;
@@ -307,46 +265,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
-    frame = tableView.frame;
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            frame.size.width = 480;
-            tableView.frame = frame;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            frame.size.width = 568;
-            tableView.frame = frame;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            frame.size.width = 1024;
-            tableView.frame = frame;
-        }
-    }
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            frame.size.width = 320;
-            tableView.frame = frame;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            frame.size.width = 320;
-            tableView.frame = frame;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            frame.size.width = 768;
-            tableView.frame = frame;
-        }
-    }
+    [self orient:toInterfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning

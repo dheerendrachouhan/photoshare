@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface FinanceCalculatorViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 {
@@ -28,6 +28,7 @@
     IBOutlet UIButton *thirdGemDown_btn;
     IBOutlet UIView *cutomView;
     ContentManager *objManager;
+    NavigationBar *navnBar;
     IBOutlet UIScrollView *scrollView;
 }
 @property (nonatomic, strong) IBOutlet UIPickerView *myPickerView;

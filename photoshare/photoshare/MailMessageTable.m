@@ -10,7 +10,6 @@
 #import "SVProgressHUD.h"
 #import "ReferralStageFourVC.h" //for text and mail composition
 #import "PhotoShareController.h" //for text and mail composition
-#import "NavigationBar.h"
 #import "ContentManager.h"
 #import "SVProgressHUD.h"
 
@@ -27,6 +26,7 @@
     NSMutableArray *finalSelectArr;
     NSMutableString *StringTweet;
     NSMutableArray *arSelectedRows;
+    NSMutableArray *searchSelectedIndexArr;
     NSTimer *timer;
     BOOL check;
     
@@ -56,7 +56,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    [self setUIForIOS6];
     check = YES;
     isSearching = NO;
     filteredList = [[NSMutableArray alloc] init];
@@ -69,10 +69,13 @@
     contactPhone = [[NSMutableArray alloc] init];
     selectedUserArr = [[NSMutableArray alloc] init];
     finalSelectArr = [[NSMutableArray alloc] init];
+    searchSelectedIndexArr=[[NSMutableArray alloc] init];
     [SVProgressHUD showWithStatus:@"Loading Contacts" maskType:SVProgressHUDMaskTypeBlack];
     //This function is for Referral Portion
     if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
     {
+        [select_deseletBtn setHidden:NO];
+        [showTheSelectBtnDisableLbl setHidden:YES];
         if(contactDictionary.count >0)
         {
             for(int i=0;i<contactDictionary.count;i++)
@@ -96,6 +99,7 @@
     else if([filterType isEqualToString:@"Refer Text"] || [filterType isEqualToString:@"Share Text"])
     {
         [select_deseletBtn setHidden:YES];
+        [showTheSelectBtnDisableLbl setHidden:NO];
         if(contactDictionary.count >0)
         {
             for(int i=0;i<contactDictionary.count;i++)
@@ -118,9 +122,28 @@
         }
     }
     [SVProgressHUD dismissWithSuccess:@"Contacts Loaded"];
-
+    [SVProgressHUD dismiss];
+    [self addCustomNavigationBar];
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+    [self detectDeviceOrientation];
+}
+-(void)setUIForIOS6
+{
+    //Set for ios 6
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+    
+        searchbar.frame=CGRectMake(searchbar.frame.origin.x, searchbar.frame.origin.y-20,searchbar.frame.size.width, searchbar.frame.size.height);
+        select_deseletBtn.frame=CGRectMake(select_deseletBtn.frame.origin.x, select_deseletBtn.frame.origin.y-20,select_deseletBtn.frame.size.width, select_deseletBtn.frame.size.height);
+        showTheSelectBtnDisableLbl.frame=CGRectMake(showTheSelectBtnDisableLbl.frame.origin.x, showTheSelectBtnDisableLbl.frame.origin.y-20,showTheSelectBtnDisableLbl.frame.size.width, showTheSelectBtnDisableLbl.frame.size.height);
+        table.frame=CGRectMake(table.frame.origin.x, table.frame.origin.y-20,table.frame.size.width, table.frame.size.height);
+    }
+    
+}
 - (void)filterListForSearchText:(NSString *)searchText
 {
     [filteredList removeAllObjects];
@@ -266,12 +289,19 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identitifier = @"demoTableViewIdentifier";
-    UITableViewCell * cell = [table dequeueReusableCellWithIdentifier:identitifier];
+    UITableViewCell * cell = [self.table dequeueReusableCellWithIdentifier:identitifier];
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identitifier];
+        UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-40,5, 20,20)];
+        checkBoxImg.tag=1001;
+        checkBoxImg.layer.masksToBounds=YES;
+        checkBoxImg.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
+        checkBoxImg.layer.borderWidth=1;
+        checkBoxImg.layer.borderColor=BTN_BORDER_COLOR.CGColor;
+        [cell.contentView addSubview:checkBoxImg];
     }
     
-    
+   
     if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
     {
         NSString *title;
@@ -302,11 +332,11 @@
         if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
             if (isSearching && [filteredList count]) {
-                cell.accessoryType = UITableViewCellAccessoryNone;
+                //cell.accessoryType = UITableViewCellAccessoryNone;
             }
             else
             {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                //cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
             
         }
@@ -343,43 +373,134 @@
         if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
         {
             if (isSearching && [filteredList count]) {
-                cell.accessoryType = UITableViewCellAccessoryNone;
+                //cell.accessoryType = UITableViewCellAccessoryNone;
             }
             else
             {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                //cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
             
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-
+    }
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+   //Add Check Box
+    UIImageView *checkBoxImg=(UIImageView *)[cell viewWithTag:1001];
+    if(isSearching)
+    {
+        @try {
+            
+            if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
+            {
+                if([selectedUserArr containsObject:[filteredContact objectAtIndex:indexPath.row]])
+                {
+                    checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                    NSLog(@"Index Path %d",indexPath.row);
+                    
+                }
+                else
+                {
+                    checkBoxImg.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
+                }
+            }
+            else
+            {
+                if([selectedUserArr containsObject:[filteredPhone objectAtIndex:indexPath.row]])
+                {
+                    checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+                    NSLog(@"Index Path %d",indexPath.row);
+                    
+                }
+                else
+                {
+                    checkBoxImg.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
+                }
+            }
+            
+        }
+        @catch (NSException *exception) {
+            
+        }
+        
+    }
+    else
+    {
+        if([arSelectedRows containsObject:[NSNumber numberWithInt:[indexPath row]]])
+        {
+            checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
+            NSLog(@"Index Path %d",indexPath.row);
+            
+        }
+        else
+        {
+            checkBoxImg.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
+        }
     }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    BOOL isSelect;
+    UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
+    if(isSearching)
+    {
+        if(![searchSelectedIndexArr containsObject:[NSNumber numberWithInt:indexPath.row]])
+        {
+            isSelect=YES;
+        }
+        else
+        {
+            isSelect=NO;
+        }
+    }
+    else
+    {
+        if(![arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
+        {
+            isSelect=YES;
+        }
+        else
+        {
+            isSelect=NO;
+        }
+    }
+    
+    
     if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
     {
-        UITableViewCell *cell = [table cellForRowAtIndexPath:indexPath];
         NSMutableString *tweetString = [[NSMutableString alloc] init];
     
-        if(cell.accessoryType == UITableViewCellAccessoryNone)
+        if(isSelect)
         {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            imgView.image=[UIImage imageNamed:@"iconr3.png"];
+            //cell.accessoryType = UITableViewCellAccessoryCheckmark;
             NSLog(@"Index path is %d",indexPath.row);
             int index;
             if(isSearching)
             {
                index =[contactEmail indexOfObject:[filteredContact objectAtIndex:indexPath.row]];
                 [selectedUserArr addObject:[filteredContact objectAtIndex:indexPath.row]];
+                [searchSelectedIndexArr addObject:[NSNumber numberWithInt:indexPath.row]];
+                
             }
             else
             {
                 index = indexPath.row;
                 [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
+            }
+            @try {
+                //Remove Duplicates From Array
+                NSMutableArray *uniqueArray = [NSMutableArray array];
+                
+                [uniqueArray addObjectsFromArray:[[NSSet setWithArray:selectedUserArr] allObjects]];
+                selectedUserArr=[uniqueArray mutableCopy];
+            }
+            @catch (NSException *exception) {
+                
             }
             for(int i=0;i<[selectedUserArr count];i++)
             {
@@ -391,57 +512,95 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            
             [arSelectedRows addObject:[NSNumber numberWithInt:index]];
+            
         }
         else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        
+            imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
+            //cell.accessoryType = UITableViewCellAccessoryNone;
+            int index=indexPath.row;
             tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
             for(NSString *match in selectedUserArr)
             {
                 NSLog(@"%@",match);
-                if([match isEqualToString:[contactEmail objectAtIndex:indexPath.row]])
+                if(isSearching)
                 {
-                    NSLog(@"Match Found");
+                    if([match isEqualToString:[filteredContact objectAtIndex:indexPath.row]])
+                    {
+                        index=[contactEmail indexOfObject:match];
+                        NSLog(@"Match Found");
+                    }
+                    else
+                    {
+                        if([tweetString length])
+                        {
+                            [tweetString appendString:@", "];
+                        }
+                        [tweetString appendFormat:@"%@",match];
+                        [finalSelectArr addObject:match];
+                    }
                 }
                 else
                 {
-                    if([tweetString length])
+                    if([match isEqualToString:[contactEmail objectAtIndex:indexPath.row]])
                     {
-                        [tweetString appendString:@", "];
+                        NSLog(@"Match Found");
                     }
-                    [tweetString appendFormat:@"%@",match];
-                    [finalSelectArr addObject:match];
+                    else
+                    {
+                        if([tweetString length])
+                        {
+                            [tweetString appendString:@", "];
+                        }
+                        [tweetString appendFormat:@"%@",match];
+                        [finalSelectArr addObject:match];
+                    }
                 }
             
             }
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows removeObject:[NSNumber numberWithInt:indexPath.row]];
+            if(isSearching)
+            {
+                [searchSelectedIndexArr removeObject:[NSNumber numberWithInt:indexPath.row]];
+            }
+            [arSelectedRows removeObject:[NSNumber numberWithInt:index]];
+        
         }
     }
     else if([filterType isEqualToString:@"Refer Text"] || [filterType isEqualToString:@"Share Text"])
     {
-        UITableViewCell *cell = [table cellForRowAtIndexPath:indexPath];
+        UITableViewCell *cell = [self.table cellForRowAtIndexPath:indexPath];
         NSMutableString *tweetString = [[NSMutableString alloc] init];
         
-        if(cell.accessoryType == UITableViewCellAccessoryNone)
+        if(isSelect)
         {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            imgView.image=[UIImage imageNamed:@"iconr3.png"];
+            //cell.accessoryType = UITableViewCellAccessoryCheckmark;
             NSLog(@"Index path is %d",indexPath.row);
             int index = 0;
             if(isSearching)
             {
                 index =[contactPhone indexOfObject:[filteredPhone objectAtIndex:indexPath.row]];
                 [selectedUserArr addObject:[filteredPhone objectAtIndex:indexPath.row]];
+                [searchSelectedIndexArr addObject:[NSNumber numberWithInt:indexPath.row]];
             }
             else
             {
                 index = indexPath.row;
                 [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
+            }
+            @try {
+                //Remove Duplicates From Array
+                NSMutableArray *uniqueArray = [NSMutableArray array];
+                
+                [uniqueArray addObjectsFromArray:[[NSSet setWithArray:selectedUserArr] allObjects]];
+                selectedUserArr=[uniqueArray mutableCopy];
+            }
+            @catch (NSException *exception) {
+                
             }
             for(int i=0;i<[selectedUserArr count];i++)
             {
@@ -459,43 +618,69 @@
                 [alert show];
                 [arSelectedRows removeLastObject];
                 cell.accessoryType = UITableViewCellAccessoryNone;
+                imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
             }
             else
             {
                 StringTweet = [NSMutableString stringWithString:tweetString];
             }
-            
         }
         else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            
+            imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
+            //cell.accessoryType = UITableViewCellAccessoryNone;
+            int index=indexPath.row;
             tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
             for(NSString *match in selectedUserArr)
             {
+                
                 NSLog(@"%@",match);
-                if([match isEqualToString:[contactPhone objectAtIndex:indexPath.row]])
+                if(isSearching)
                 {
-                    NSLog(@"Match Found");
+                    if([match isEqualToString:[filteredPhone objectAtIndex:indexPath.row]])
+                    {
+                        NSLog(@"Match Found");
+                        index=[contactPhone indexOfObject:match];
+                    }
+                    else
+                    {
+                        if([tweetString length])
+                        {
+                            [tweetString appendString:@", "];
+                        }
+                        [tweetString appendFormat:@"%@",match];
+                        [finalSelectArr addObject:match];
+                    }
                 }
                 else
                 {
-                    if([tweetString length])
+                    if([match isEqualToString:[contactPhone objectAtIndex:indexPath.row]])
                     {
-                        [tweetString appendString:@", "];
+                        NSLog(@"Match Found");
                     }
-                    [tweetString appendFormat:@"%@",match];
-                    [finalSelectArr addObject:match];
+                    else
+                    {
+                        if([tweetString length])
+                        {
+                            [tweetString appendString:@", "];
+                        }
+                        [tweetString appendFormat:@"%@",match];
+                        [finalSelectArr addObject:match];
+                    }
                 }
                 
             }
             [selectedUserArr removeAllObjects];
             selectedUserArr = [NSMutableArray arrayWithArray:finalSelectArr];
             StringTweet = [NSMutableString stringWithString:tweetString];
-            [arSelectedRows removeObject:[NSNumber numberWithInt:indexPath.row]];
+            if(isSearching)
+            {
+                [searchSelectedIndexArr removeObject:[NSNumber numberWithInt:indexPath.row]];
+            }
+            [arSelectedRows removeObject:[NSNumber numberWithInt:index]];
         }
-        
     }
+    
 }
 
 
@@ -589,15 +774,17 @@
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
     //When the user taps the search bar, this means that the controller will begin searching.
     isSearching = YES;
+    [searchSelectedIndexArr removeAllObjects];
 }
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
     //When the user taps the Cancel Button, or anywhere aside from the view.
-    
+    [searchSelectedIndexArr removeAllObjects];
     isSearching = NO;
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
+    [searchSelectedIndexArr removeAllObjects];
     isSearching=NO;
     [table reloadData];
 }
@@ -623,70 +810,18 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    UILabel *navTitle = [[UILabel alloc] init];
-    navTitle.text = @"Contacts";
+
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Contacts"];
     
-    //Button for Next
-    UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *buttonLeft = [navnBar navBarRightButton:@"Done >"];
     [buttonLeft addTarget:self action:@selector(doneBtnPressed:) forControlEvents:UIControlEventTouchDown];
-    [buttonLeft setTitle:@"Done >" forState:UIControlStateNormal];
-    if([objManager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(310, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-            buttonLeft.frame = CGRectMake(670, NavBtnYPosForiPad, 100, NavBtnHeightForiPad);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            navTitle.frame = CGRectMake(440, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-            buttonLeft.frame = CGRectMake(920, NavBtnYPosForiPad, 100, NavBtnHeightForiPad);
-        }
-        
-        navTitle.font = [UIFont systemFontOfSize:36.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-        
-        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(120, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-            buttonLeft.frame = CGRectMake(260, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(205, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-                buttonLeft.frame = CGRectMake(420, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
-            }
-            else if([[UIScreen mainScreen] bounds].size.height ==568)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(250, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-                buttonLeft.frame = CGRectMake(510, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
-            }
-        }
-        
-        navTitle.font = [UIFont systemFontOfSize:18.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
     
     [navnBar addSubview:buttonLeft];
     [navnBar addSubview:navTitle];
@@ -699,17 +834,16 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
+
+#pragma mark - Device Orientation
+-(void)detectDeviceOrientation
 {
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
         [self orient:self.interfaceOrientation];
     }else{
         [self orient:self.interfaceOrientation];
     }
 }
-
 -(void)orient:(UIInterfaceOrientation)ott
 {
     frame = table.frame;
@@ -750,6 +884,7 @@
             table.frame = frame;
         }
     }
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -760,46 +895,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
-    frame = table.frame;
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            frame.size.width = 480;
-            table.frame = frame;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            frame.size.width = 568;
-            table.frame = frame;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            frame.size.width = 1024;
-            table.frame = frame;
-        }
-    }
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            frame.size.width = 320;
-            table.frame = frame;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            frame.size.width = 320;
-            table.frame = frame;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            frame.size.width = 768;
-            table.frame = frame;
-        }
-    }
+    [self orient:toInterfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning

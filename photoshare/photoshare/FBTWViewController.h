@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface FBTWViewController : UIViewController
 {
     IBOutlet UIImageView *scocialType;
     ContentManager *objManager;
+    NavigationBar *navnBar ;
 }
 @property (nonatomic, strong) NSString *successType;
 @property (nonatomic, strong) IBOutlet UILabel *success;

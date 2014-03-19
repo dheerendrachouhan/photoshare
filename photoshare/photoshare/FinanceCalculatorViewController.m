@@ -7,7 +7,6 @@
 //
 
 #import "FinanceCalculatorViewController.h"
-#import "NavigationBar.h"
 #import "ContentManager.h"
 
 @interface FinanceCalculatorViewController ()
@@ -39,6 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+   
     
     cutomView.layer.borderWidth = 2;
     cutomView.layer.borderColor = [UIColor blackColor].CGColor;
@@ -56,6 +56,7 @@
         {
             [[NSBundle mainBundle] loadNibNamed:@"financeCalculator3VC" owner:self options:nil];
         }
+        
     }
     else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
@@ -96,54 +97,16 @@
     myPickerView.delegate = self;
     myPickerView.dataSource = self;
     myPickerView.layer.borderColor = [UIColor blackColor].CGColor;
-}
-
--(void)orient:(UIInterfaceOrientation)ott
-{
     
-    if (ott == UIInterfaceOrientationLandscapeLeft ||
-        ott == UIInterfaceOrientationLandscapeRight)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0, 72, 480, 300);
-            scrollView.contentSize = CGSizeMake(480, 400);
-            scrollView.bounces = NO;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0, 72, 568, 400);
-            scrollView.contentSize = CGSizeMake(568, 560);
-            scrollView.bounces = NO;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            scrollView.frame = CGRectMake(0, 173, 1024, 710);
-            scrollView.contentSize = CGSizeMake(1024, 720);
-            scrollView.bounces = NO;
-        }
-    }
-    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0, 72, 320, 345);
-            scrollView.contentSize = CGSizeMake(320, 260);
-            scrollView.bounces = NO;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0, 72, 320, 433);
-            scrollView.contentSize = CGSizeMake(320, 360);
-            scrollView.bounces = NO;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            scrollView.frame = CGRectMake(0, 173, 768, 710);
-            scrollView.contentSize = CGSizeMake(768, 600);
-            scrollView.bounces = NO;
-        }
-    }
+    //Add Custom Navigation bar
+    [self addCustomNavigationBar];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+    [self deviceOrientationDetect];
+    
 }
 
 //Segment Controll
@@ -333,66 +296,21 @@
     [self.cutomView setHidden:NO];
 }
 
-//Custom Navigation
+#pragma  mark - Add Custom Navigation bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UILabel *navTitle = [[UILabel alloc] init];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
     
-     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
     
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Money Calculator"];
     
-    if([objManager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(240, NavBtnYPosForiPad, 300, NavBtnHeightForiPad);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            navTitle.frame = CGRectMake(370, NavBtnYPosForiPad, 300, NavBtnHeightForiPad);
-        }
-        
-        
-        navTitle.font = [UIFont systemFontOfSize:36.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(90, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(170, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-            }
-            else if([[UIScreen mainScreen] bounds].size.height == 568)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(220, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-            }
-        }
-        
-        navTitle.font = [UIFont systemFontOfSize:18.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
-   
-    navTitle.text = @"Money Calculator";
     [navnBar addSubview:navTitle];
     [navnBar addSubview:button];
     
@@ -404,17 +322,16 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
+
+#pragma mark - Device Orientation
+-(void)deviceOrientationDetect
 {
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
         [self orient:self.interfaceOrientation];
     }else{
         [self orient:self.interfaceOrientation];
     }
 }
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -423,11 +340,14 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    [self orient:toInterfaceOrientation];
+}
+-(void)orient:(UIInterfaceOrientation)ott
+{
+    
+    if (ott == UIInterfaceOrientationLandscapeLeft ||
+        ott == UIInterfaceOrientationLandscapeRight)
     {
-        
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 480, 300);
@@ -443,17 +363,18 @@
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             scrollView.frame = CGRectMake(0, 173, 1024, 710);
-            scrollView.contentSize = CGSizeMake(1024, 720);
+            scrollView.contentSize = CGSizeMake(1024, 800);
             scrollView.bounces = NO;
         }
     }
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
     {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 320, 345);
             scrollView.contentSize = CGSizeMake(320, 260);
             scrollView.bounces = NO;
+            
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
@@ -467,6 +388,14 @@
             scrollView.contentSize = CGSizeMake(768, 600);
             scrollView.bounces = NO;
         }
+    }
+    [self setUIForIOS6];
+}
+-(void)setUIForIOS6
+{
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+90);
     }
 }
 

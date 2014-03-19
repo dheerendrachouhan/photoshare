@@ -11,9 +11,9 @@
 #import "HomeViewController.h"
 #import "SVProgressHUD.h"
 #import "EditPhotoDetailViewController.h"
+#import "AddEditFolderViewController.h"
 
-
-@interface NoStatusBarImagePickerController : UIImagePickerController
+/*@interface NoStatusBarImagePickerController : UIImagePickerController
 @end
 
 @implementation NoStatusBarImagePickerController
@@ -26,7 +26,7 @@
     return nil;
 }
 
-@end
+@end*/
 
 @interface LaunchCameraViewController ()
 
@@ -60,70 +60,95 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    collectionIdArray=[[NSMutableArray alloc] init];
-    collectionNameArray=[[NSMutableArray alloc] init];
-    webservices=[[WebserviceController alloc] init];
-    
-    manager=[ContentManager sharedManager];
-    dmc=[[DataMapperController alloc] init];
-    NSDictionary *dic = [dmc getUserDetails] ;
-    userid=[dic objectForKey:@"user_id"];
-    
-    imgView.contentMode=UIViewContentModeScaleAspectFit;
+    [self setUIForIOS6];
+    @try {
+        collectionIdArray=[[NSMutableArray alloc] init];
+        collectionNameArray=[[NSMutableArray alloc] init];
+        webservices=[[WebserviceController alloc] init];
+        
+        manager=[ContentManager sharedManager];
+        dmc=[[DataMapperController alloc] init];
+        NSDictionary *dic = [[dmc getUserDetails] mutableCopy];
+        userid=[dic objectForKey:@"user_id"];
+        
+        imgView.contentMode=UIViewContentModeScaleAspectFit;
+        imgView.backgroundColor=[UIColor blackColor];
+        
+        //hidden picker view and toolbar
+        imgView.hidden=YES;
+        pickerToolbar.hidden=YES;
+        categoryPickerView.hidden=YES;
+        pickerToolbar=[[UIToolbar alloc] init];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception in Launch Camera: %@",exception.description);
+    }
+    @finally {
+        
+    }
+    [self addCustomNavigationBar];
     
 }
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
     
-    if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"yes"])
+    if([[manager getData:@"reset_camera"] isEqualToString:@"YES"])
     {
-        selectedCollectionId=@0;
-        [self callGetLocation];
-        
-        photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
-        photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
-        photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
-        
-        imgData=[manager getData:@"photo_data"];
-        
-        [manager storeData:@"no" :@"isfromphotodetailcontroller"];
-       [manager storeData:@"" :@"takephotodetail"];
-        [manager storeData:@"" :@"photo_data"];
+        [self launchCamera];
+        [manager removeData:@"reset_camera"];
     }
     else
     {
-        
-        [self getCollectionInfoFromUserDefault];
-        [self addCustomNavigationBar];
-        
-        if(!isCameraMode)
+        if([[manager getData:@"is_add_folder"] isEqualToString:@"YES"])
         {
-            photoLocationStr=@"";
-            //remove the add Folder View when appear
-            [backView2 removeFromSuperview];
-            [addFolderView removeFromSuperview];
-            
-            //imagePicker
-            UIImagePickerController *picker=[[UIImagePickerController alloc] init];
-            picker.delegate=self;
-            if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-            {
-                picker.sourceType=UIImagePickerControllerSourceTypeCamera;
-                isCameraMode=YES;
+            [manager storeData:@"NO" :@"is_add_folder"];
+            @try {
+                NSNumber *newcolid=[manager getData:@"new_col_id"];
+                if(newcolid!=nil)
+                {
+                    [self getCollectionInfoFromUserDefault];
+                    NSInteger index=[collectionIdArray indexOfObject:[NSString stringWithFormat:@"%@",newcolid]];
+                    [categoryPickerView reloadAllComponents];
+                    [categoryPickerView selectRow:index inComponent:0 animated:NO];
+                    titleLabe.text=[collectionNameArray objectAtIndex:index];
+                    selectedCollectionId=[collectionIdArray objectAtIndex:index];
+                    NSLog(@"new col id is %@",newcolid);
+                }
+                //Remove temp key from NSUserDefault
+                [manager removeData:@"is_add_folder,new_col_id"];
             }
-            else
-            {
-                picker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            @catch (NSException *exception) {
+                
             }
             
-            [picker childViewControllerForStatusBarHidden];
-            [self presentViewController:picker animated:NO completion:nil];
+        }
+        else
+        {
+            if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
+            {
+                //Show Catagory picker view and picker toolbar
+                categoryPickerView.hidden=NO;
+                pickerToolbar.hidden=NO;
+                
+                selectedCollectionId=@-1;
+                [self callGetLocation];
+                
+                photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
+                photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
+                photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
+                
+                imgData=[manager getData:@"photo_data"];
+                imgView.image=[UIImage imageWithData:imgData];
+                //Remove temp key
+                [manager removeData:@"isfromphotodetailcontroller,photo_data,takephotodetail"];
+            }
         }
 
     }
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -136,7 +161,57 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)setUIForIOS6
+{
+    //Set for ios 6
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        categoryPickerView.frame=CGRectMake(categoryPickerView.frame.origin.x, categoryPickerView.frame.origin.y+50, categoryPickerView.frame.size.width, categoryPickerView.frame.size.height);
+    }
+    
+}
+#pragma mark - Launch CAmera
+-(void)launchCamera
+{
+    if(!isCameraEditMode)
+    {
+        pickerToolbar.hidden=YES;
+        categoryPickerView.hidden=YES;
+        view=[[UIView alloc] initWithFrame:self.view.frame];
+        view.autoresizingMask=UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        view.backgroundColor=[UIColor blackColor];
+        [self.view addSubview:view];
+        [self getCollectionInfoFromUserDefault];
+        imgView.image=nil;
+        
+        photoLocationStr=@"";
+        //remove the add Folder View when appear
+        [backView2 removeFromSuperview];
+        [addFolderView removeFromSuperview];
+                //imagePicker
+        UIImagePickerController *picker=[[UIImagePickerController alloc] init];
+        picker.delegate=self;
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+        {
+            picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+            isCameraMode=YES;
+        }
+        else
+        {
+            picker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        }
+        @try {
+            //[picker childViewControllerForStatusBarHidden];
+            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+            [self presentViewController:picker animated:YES completion:nil];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        
+    }
 
+}
 #pragma mark - TextFeild Method
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -164,12 +239,14 @@
     NSMutableArray *collection=[dmc getCollectionDataList];
     [collectionIdArray removeAllObjects];
     [collectionNameArray removeAllObjects];
+     [categoryPickerView reloadAllComponents];
+    selectedCollectionId=@-1;
     @try {
         for (int i=0;i<collection.count+1; i++)
         {
             if(i==0)
             {
-                [collectionIdArray addObject:@0];
+                [collectionIdArray addObject:@-1];
                 [collectionNameArray addObject:@"Add New Folder"];
                 
             }
@@ -182,9 +259,15 @@
                     if([[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"Public"]||[[[collection objectAtIndex:i-1] objectForKey:@"collection_name"] isEqualToString:@"public"])
                     {
                         publicCollectionId=[[collection objectAtIndex:i-1] objectForKey:@"collection_id"];
+                        
+                        [collectionIdArray addObject:publicCollectionId];
+                        [collectionNameArray addObject:@"123 Public"];
                     }
-                    [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
-                    [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
+                    else
+                    {
+                        [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
+                        [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
+                    }
                     
                 }
                 
@@ -208,21 +291,32 @@
     isCameraMode=NO;
     [self dismissViewControllerAnimated:YES completion:nil];
      [self goToHomePage];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    
+    [view removeFromSuperview];
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
+    @try {
+        if(picker.cameraDevice == UIImagePickerControllerCameraDeviceFront)
+        {
+            image = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationLeftMirrored];
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    
+    imgView.hidden=NO;
     imgView.image=image;
     pickImage=image;
     isCameraEditMode=YES;
     @try {
-        if (isCameraEditMode) {
-            isCameraEditMode = false ;
+      
             [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self selector:@selector(openeditorcontrol) userInfo:nil  repeats:NO];
             
-        }
+        
             [self dismissViewControllerAnimated:NO completion:Nil];
         
         [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
@@ -233,7 +327,9 @@
     }
     @finally {
         
-    }    
+    }
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
 
@@ -308,10 +404,11 @@
     imgView.image=image;
     imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-    
-    
+    isCameraMode=NO;
+    isCameraEditMode=NO;
     [self showSelectFolderOption];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 // This is called when the user taps "Cancel" in the photo editor.
@@ -319,6 +416,8 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     [self goToHomePage];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 #pragma mark - Photo Editor Customization
@@ -390,6 +489,9 @@
         {
             NSMutableArray *outPutData=[data objectForKey:@"output_data"];
             selectedCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];//New created collection id
+            [collectionIdArray addObject:selectedCollectionId];
+            [collectionNameArray addObject:folderName.text];
+            
             isColletionCreateMode=NO;
             //upade collection info in  nsUser Default
             NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
@@ -411,15 +513,7 @@
     {
         if(exitCode.integerValue==1)
         {
-            if(selectedCollectionId.integerValue==publicCollectionId.integerValue)
-            {
-                //for public imgarray count lbl for home page
-                NSNumber *imgCout=[manager getData:@"publicImgIdArray"];
-                int i=imgCout.integerValue+1;
-                [manager storeData:[NSNumber numberWithInt:i] :@"publicImgIdArray"];
-            }
             NSLog(@"Photo saving Suucees ");
-            
         }
         else
         {
@@ -432,10 +526,6 @@
     }
     
 }
-
-
-
-
 #pragma mark - Show Select Folder Option
 -(void)showSelectFolderOption
 {
@@ -450,13 +540,21 @@
         
         [categoryPickerView addGestureRecognizer:gestureRecognizer];
         
-        if([manager isiPad])
+        
+        if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
         {
-            pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-260, 320, 40)];
+            pickerToolbar.frame=CGRectMake(0,self.view.frame.size.height-180, 320, 40);
         }
         else
         {
-            pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-218, 320, 40)];
+            if([manager isiPad])
+            {
+                pickerToolbar.frame=CGRectMake(0,self.view.frame.size.height-260, 320, 40);
+            }
+            else
+            {
+                pickerToolbar.frame=CGRectMake(0,self.view.frame.size.height-222, 320, 40);
+            }
         }
         
         pickerToolbar.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleWidth;
@@ -465,10 +563,11 @@
         [pickerToolbar sizeToFit];
         
         NSMutableArray *barItems = [[NSMutableArray alloc] init];
-        UILabel *titleLabe=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 20)];
+        titleLabe=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 20)];
         titleLabe.text=@"Select Folder";
         titleLabe.textAlignment =NSTextAlignmentCenter;
         titleLabe.textColor=[UIColor whiteColor];
+        titleLabe.backgroundColor=[UIColor clearColor];
         UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
         UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(categoryCancelButtonPressed)];
         [barItems addObject:cancelBtn];
@@ -488,13 +587,9 @@
         [self.view addSubview:backView1];
         [self.view addSubview:pickerToolbar];
         [self.view addSubview:categoryPickerView];
-       
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
-    }
-    @finally {
-        
     }
     
     [self goToPhotoDetailViewControoler];
@@ -502,12 +597,16 @@
 
 -(void)categoryDoneButtonPressed{
     NSLog(@"selected index is %@",selectedCollectionId);
-    if(selectedCollectionId==nil)
+    if(selectedCollectionId.integerValue!=-1)
     {
-        selectedCollectionId=[collectionIdArray objectAtIndex:0];
+         [self savePhotosOnServer:userid filepath:imgData];
     }
-    
-    [self savePhotosOnServer:userid filepath:imgData];
+    else
+    {
+        //selectedCollectionId=[collectionIdArray objectAtIndex:0];
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"No Folder Selected" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        [alert show];
+    }
     
 }
 -(void)removePickerView
@@ -518,6 +617,7 @@
     [backView2 removeFromSuperview];
     [addNewFolder removeFromSuperview];
     [self goToHomePage];
+   
 }
 -(void)categoryCancelButtonPressed{
     [self removePickerView];
@@ -535,7 +635,7 @@
     {
         editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
     }
-    editDetail.isFromLaunchCamera=YES;
+    editDetail.isLaunchCamera=YES;
     
     [manager storeData:imgData :@"photo_data"];
     
@@ -547,19 +647,28 @@
     NSLog( @"Selected Row: %i", [categoryPickerView selectedRowInComponent:0] );
     if([categoryPickerView selectedRowInComponent:0]==0)
     {
-        [self addNewFolderView];
+        //[self addNewFolderView];
+        
+        AddEditFolderViewController *addeditvc=[[AddEditFolderViewController alloc] init];
+        addeditvc.isAddFolder=YES;
+        addeditvc.isFromLaunchCamera=YES;
+         [self.navigationController pushViewController:addeditvc animated:YES];
     }
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     // Handle the selection
     
     NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
-    if(row!=0)
+    if(row==0)
+    {
+        selectedCollectionId=@-1;
+        titleLabe.text=@"Select Folder";
+    }
+    else
     {
         selectedCollectionId=[collectionIdArray objectAtIndex:row];
+        titleLabe.text=[collectionNameArray objectAtIndex:row];
     }
-    
-    
 }
 
 // tell the picker how many rows are available for a given component
@@ -578,7 +687,14 @@
     return [collectionNameArray objectAtIndex: row];
     
 }
-
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    NSString *text = [collectionNameArray objectAtIndex: row];
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:text];
+    NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
+    mutParaStyle.alignment = NSTextAlignmentCenter;
+    [as addAttribute:NSParagraphStyleAttributeName value:mutParaStyle range:NSMakeRange(0,[text length])];
+    return as;
+}
 // tell the picker the width of each row for a given component
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
     int sectionWidth = 320;
@@ -735,7 +851,6 @@
     @finally {
         
     }
-    
 }
 
 //save Photo on Server Photo With Detaill
@@ -753,54 +868,17 @@
 }
 
 
-#pragma mark - Check Device Orientation
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-    
-}
 
 #pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
     
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-    }
-    else
-    {
-        //code for iphone navigation
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-    }
-    if(!isAddNewFolderMode)
-    {
-        [[self view] addSubview:navnBar];
-    }
-    
+    [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 
@@ -810,6 +888,8 @@
 
 -(void)goToHomePage
 {
+    isCameraEditMode=NO;
+    isCameraMode=NO;
     if(isFromHomePage)
     {
         [self.navigationController popViewControllerAnimated:YES];
@@ -817,6 +897,7 @@
     else
     {
         AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+        
         [manager storeData:@"YES" :@"istabcamera"];
         [delgate.tbc setSelectedIndex:0];
     }

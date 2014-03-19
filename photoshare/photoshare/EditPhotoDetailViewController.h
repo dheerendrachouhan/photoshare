@@ -10,7 +10,7 @@
 #import "WebserviceController.h"
 #import "ContentManager.h"
 #import <CoreLocation/CoreLocation.h>
-
+#import "NavigationBar.h"
 @interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate,WebserviceDelegate,UIScrollViewDelegate>
 {
     //get the userf location
@@ -25,11 +25,13 @@
     
     IBOutlet UILabel *headingLabel;
     IBOutlet UIButton *saveButton;
+    IBOutlet UIButton *cancelButton;
     IBOutlet UIScrollView *scrollView;
     
     NSNumber *userid;
     ContentManager *manager;
     WebserviceController *webservices;
+    NavigationBar *navnBar;
     BOOL isPhotoDetailSaveOnServer;
     
     NSString *photoLocationString;
@@ -38,9 +40,10 @@
     UIInterfaceOrientation orientation;
 }
 -(IBAction)savePhotoDetail:(id)sender;
+-(IBAction)cancelPhotoDetail:(id)sender;
 
-
-@property(nonatomic,assign)BOOL isFromLaunchCamera;
+@property(nonatomic,assign)BOOL isPhotoAdd;
+@property(nonatomic,assign)BOOL isLaunchCamera;
 @property(nonatomic,retain)NSNumber *photoId;
 @property(nonatomic,retain)NSNumber *collectionId;
 @property(nonatomic,assign)int selectedIndex;

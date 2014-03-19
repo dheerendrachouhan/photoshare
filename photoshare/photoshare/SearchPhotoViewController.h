@@ -19,6 +19,7 @@
     WebserviceController *webservice;
     ContentManager *manager;
     DataMapperController *dmc;
+    NavigationBar *navnBar;
     NSNumber *userid;
     NSString *searchString;
     
@@ -34,6 +35,7 @@
     BOOL isViewLargeImageMode;
 
     UIImageView *imgView1;
+    UIView *backBtnContainerView;
 }
 @property(nonatomic,retain)NSString *searchType;
 @end

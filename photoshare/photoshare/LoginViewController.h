@@ -50,8 +50,8 @@
     NSMutableArray *sharingIdArray;
     NSMutableArray *collectionArrayWithSharing;
     int countSharing;
-
     
+        
 }
 @property(nonatomic,retain)ALAssetsLibrary *library;
 - (IBAction)rememberBtnTapped;

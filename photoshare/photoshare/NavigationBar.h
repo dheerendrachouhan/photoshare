@@ -20,10 +20,35 @@
     UILabel *totalEarning;
     DataMapperController *dmc;
     ContentManager *objManager;
+    
+    CGFloat navBarYPos;
+    CGFloat navBarHeight;
+    //Top Blue Label
+    CGFloat topBlueLblHeight;
+    CGFloat topBlueLblYpos;
+    
+    //For Home Logo
+    CGFloat homeLogoWidth;
+    CGFloat homeLogoHeight;
+    CGFloat homeLogoYpos;
+    //For Total Earning view
+    CGFloat EarningLblYpos;
+    CGFloat EarningLblWidth;
+    CGFloat EarningLblHeight;
+    
+    //FonHeight
+    CGFloat EarningHeadingFontSize;
+    CGFloat EarningFontSize;
 }
 
--(void)loadNav:(CGRect)naviFrame:(BOOL)orient;
+-(void)loadNav;
+//-(void)loadNav:(CGRect)navFrame :(BOOL)orient;
 -(void)goToEarningViewController;
 -(void)setTheTotalEarning:(NSString *)earners;
 -(void)goToHomeViewController;
+
+//Nav Button
+-(UIButton *)navBarLeftButton :(NSString *)title;
+-(UILabel *)navBarTitleLabel :(NSString *)title;
+-(UIButton *)navBarRightButton :(NSString *)title;
 @end

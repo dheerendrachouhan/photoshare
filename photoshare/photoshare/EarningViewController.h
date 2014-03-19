@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 #import "DataMapperController.h"
-
+#import "NavigationBar.h"
 @class ContentManager;
 
 @interface EarningViewController : UIViewController<WebserviceDelegate>
@@ -21,6 +21,7 @@
     DataMapperController *dmc;
     ContentManager *objManager;
     WebserviceController *webservice;
+    NavigationBar *navnBar;
     BOOL isGetIcomeDetail;
     BOOL isGetEarning;
 }

@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface TwitterTable : UIViewController <UITableViewDataSource,UITableViewDelegate>
 {
     ContentManager *objManager;
+    NavigationBar *navnBar;
+    
 }
 @property (nonatomic, strong) IBOutlet UITableView *table;
 @property (nonatomic, strong) NSArray *tweetUserName;

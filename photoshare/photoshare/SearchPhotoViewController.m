@@ -8,7 +8,7 @@
 
 #import "SearchPhotoViewController.h"
 #import "SVProgressHUD.h"
-
+#import "LargePhotoViewController.h"
 @interface SearchPhotoViewController ()
 
 @end
@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    [self setUIForIOS6];
     //set the search bar become first responder
     [searchBarForPhoto becomeFirstResponder];
     manager =[ContentManager sharedManager];
@@ -55,16 +55,14 @@
     //add tap Gesture on Collection View
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     [collectionViewForPhoto addGestureRecognizer:tapGesture];
+    
+    [self addCustomNavigationBar];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    isPopFromSearchPhoto=YES;
+    self.tabBarController.tabBar.hidden=NO;
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,18 +71,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Device Orientation
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(void)setUIForIOS6
 {
-    // Return YES for supported orientations
-    return YES;
+    //Set for ios 6
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        searchBarForPhoto.frame=CGRectMake(searchBarForPhoto.frame.origin.x, searchBarForPhoto.frame.origin.y-20, searchBarForPhoto.frame.size.width, searchBarForPhoto.frame.size.height);
+        collectionViewForPhoto.frame=CGRectMake(collectionViewForPhoto.frame.origin.x, collectionViewForPhoto.frame.origin.y-20, collectionViewForPhoto.frame.size.width, collectionViewForPhoto.frame.size.height+65);
+    }
 }
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-}
-
 #pragma mark - Search bar delegate Methods
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -171,12 +166,13 @@
                     for (int i=0; i<searchResultArray.count; i++)
                     {
                         @try {
-                            NSString *seacrhColId=[[searchResultArray objectAtIndex:i] objectForKey:@"photo_collection_id"];
-                            if(![colidsArray containsObject:seacrhColId])
+                            NSNumber *seacrhSharingId=[[searchResultArray objectAtIndex:i] objectForKey:@"collection_sharing"];
+                            
+                            
+                            if(seacrhSharingId.integerValue==1)
                             {
                                 [photDetailArray addObject:[searchResultArray objectAtIndex:i]];
                             }
-                            
                         }
                         @catch (NSException *exception) {
                             
@@ -188,8 +184,9 @@
                     for (int i=0; i<searchResultArray.count; i++)
                     {
                         @try {
-                            NSString *seacrhColId=[[searchResultArray objectAtIndex:i] objectForKey:@"photo_collection_id"];
-                            if([colidsArray containsObject:seacrhColId] )
+                            NSNumber *seacrhSharingId=[[searchResultArray objectAtIndex:i] objectForKey:@"collection_sharing"];
+                            
+                            if(seacrhSharingId.integerValue==0)
                             {
                                 [photDetailArray addObject:[searchResultArray objectAtIndex:i]];
                             }
@@ -199,6 +196,7 @@
                     }
                 }
             }
+           
         }
         @catch (NSException *exception) {
             NSLog(@"Exception in search %@",exception.description);
@@ -225,6 +223,10 @@
      [SVProgressHUD dismiss];
     if(isGetPhotoFromServer)
     {
+        if(image==NULL)
+        {
+            image=[UIImage imageNamed:@"photo-warning.png"];
+        }
         [photoArray addObject:image];
         photoCount++;
         int count=photoArray.count;
@@ -233,6 +235,8 @@
         UIActivityIndicatorView *indicator=(UIActivityIndicatorView *)[collectionViewForPhoto viewWithTag:1100+count];
         [indicator removeFromSuperview];
         imgView.backgroundColor=[UIColor clearColor];
+        imgView.contentMode=UIViewContentModeScaleAspectFit;
+        imgView.layer.masksToBounds=YES;
         imgView.image=image;
         [collectionViewForPhoto reloadData];
         
@@ -259,9 +263,17 @@
     }
     else if(isGetOriginalPhotoFromServer)
     {
-       
         //UIImageView for view the large image (imgView1)
-        imgView1=[[UIImageView alloc] initWithFrame:self.view.frame];
+        
+       /* CGFloat backbtnViewHeight=50;
+        backBtnContainerView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, backbtnViewHeight)];
+        backBtnContainerView.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth;
+        backBtnContainerView.backgroundColor=[UIColor redColor];
+        UIButton *backBtn=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 100, 25)];
+        [backBtn addTarget:self action:@selector(removeImgView:) forControlEvents:UIControlEventTouchUpInside];
+        [backBtn setTitle:@"< Back" forState:UIControlStateNormal];
+        [backBtnContainerView addSubview:backBtn];
+        imgView1=[[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y+backbtnViewHeight, self.view.frame.size.width, self.view.frame.size.height-backbtnViewHeight)];
         imgView1.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         imgView1.contentMode=UIViewContentModeScaleAspectFit;
         
@@ -275,7 +287,9 @@
         imgView1.image=image;
         isViewLargeImageMode=YES;
         self.tabBarController.tabBar.hidden=YES;
+        //[self.view addSubview:backBtnContainerView];
         [self.view addSubview:imgView1];
+        */
         isGetOriginalPhotoFromServer=NO;
     }
 }
@@ -286,7 +300,6 @@
     [imgView1 removeFromSuperview];
     isViewLargeImageMode=NO;
     self.tabBarController.tabBar.hidden=NO;
-    [self addCustomNavigationBar];
 }
 #pragma mark - UICollection view delegate methods
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -308,7 +321,6 @@
     imgView.tag=101+row;
     imgView.layer.masksToBounds=YES;
     
-    
     UILabel *photoTitleLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, cell.frame.size.height-25, cell.frame.size.width, 25)];
     photoTitleLbl.font=[UIFont fontWithName:@"Verdana" size:10];
     photoTitleLbl.numberOfLines=0;
@@ -324,16 +336,13 @@
         }
         else
         {
-            
             UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [activityIndicator startAnimating];
             activityIndicator.tag=1101+indexPath.row;
             activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |                                        UIViewAutoresizingFlexibleRightMargin |                                        UIViewAutoresizingFlexibleTopMargin |                                        UIViewAutoresizingFlexibleBottomMargin);
             activityIndicator.center = CGPointMake(CGRectGetWidth(imgView.bounds)/2, CGRectGetHeight(imgView.bounds)/2);
             [cell.contentView addSubview:activityIndicator];
-            
         }
-        
     }
     @catch (NSException *exception) {
         NSLog(@"Exception Name : %@",exception.name);
@@ -345,7 +354,6 @@
     
     [cell.contentView addSubview:imgView];
     [cell.contentView addSubview:photoTitleLbl];
-
     return cell;
 }
 
@@ -358,20 +366,27 @@
     NSIndexPath *indexPath = [collectionViewForPhoto indexPathForItemAtPoint:p];
     if(indexPath!=Nil)
     {
-        if(photoArray.count!=photDetailArray.count)
+        if(photoArray.count<=indexPath.row)
         {
             [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:Nil];
         }
         else
         {
-            [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+           /* [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
             isGetOriginalPhotoFromServer=YES;
             NSString *resize=@"320";
             if ([manager isiPad])
             {
                 resize=@"768";
             }
-            [self getPhotoFromServer:indexPath.row imageResize:resize];
+            [self getPhotoFromServer:indexPath.row imageResize:resize];*/
+            NSNumber *colId=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_collection_id"];
+            
+            NSNumber *photoId=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_id"];
+            LargePhotoViewController *largePhoto=[[LargePhotoViewController alloc] init];
+            largePhoto.photoId=photoId;
+            largePhoto.colId=colId;
+            [self.navigationController pushViewController:largePhoto animated:YES];
         }
     }
 }
@@ -381,74 +396,22 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 47.0, 70.0, 30.0);
-    button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    // button.backgroundColor = [UIColor redColor];
     
-    UILabel *titleLabel = [[UILabel alloc] init ];
-    titleLabel.text=@"Search Photos";
-    titleLabel.textAlignment=NSTextAlignmentCenter;
-    
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
-        
-        titleLabel.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 150.0, NavBtnHeightForiPad);
-        titleLabel.font =[UIFont systemFontOfSize:23.0f];
-        
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                titleLabel.frame = CGRectMake(180.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
-            }
-            else if([[UIScreen mainScreen] bounds].size.height == 568)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                titleLabel.frame = CGRectMake(220.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
-            }
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        
-        titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
+    UILabel *titleLabel =[navnBar navBarTitleLabel:@"Search Photos"];
     
     [navnBar addSubview:titleLabel];
     [navnBar addSubview:button];
-    if(!isViewLargeImageMode)
-    {
-        [[self view] addSubview:navnBar];
-    }
-    
+    [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 -(void)navBackButtonClick{
+    isPopFromSearchPhoto=YES;
     [[self navigationController] popViewControllerAnimated:YES];
 }
 

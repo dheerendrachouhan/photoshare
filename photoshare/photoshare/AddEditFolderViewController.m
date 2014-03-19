@@ -8,7 +8,6 @@
 
 #import "AddEditFolderViewController.h"
 #import "CommunityViewController.h"
-#import "NavigationBar.h"
 #import "SVProgressHUD.h"
 #import "ShareWithUserViewController.h"
 @interface AddEditFolderViewController ()
@@ -16,11 +15,9 @@
 @end
 
 @implementation AddEditFolderViewController
-{
-    NavigationBar *navnBar;
-}
 
-@synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionShareWith,collectionOwnerId;
+
+@synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionOwnerId,isFromLaunchCamera;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if([[ContentManager sharedManager] isiPad])
@@ -52,7 +49,8 @@
     //contant manager Object
      manager = [ContentManager sharedManager];
     webservices=[[WebserviceController alloc] init];
-    
+    [self addCustomNavigationBar];
+    [self setUIForIOS6];
     //set the write user
     [manager storeData:@"" :@"writeUserId"];
     [manager storeData:@"" :@"readUserId"];
@@ -100,7 +98,7 @@
         deleteButton.hidden=NO;
         folderName.enabled=YES;
         folderNameView.userInteractionEnabled=YES;
-        NSLog(@"Share With %@",self.collectionShareWith);
+
         folderName.text=self.setFolderName;
         collectionOwnerNameLbl.text=@"";
         [self getCollectionDetail];
@@ -154,15 +152,20 @@
     
     //contant manager Object
     manager = [ContentManager sharedManager];
-    [self addCustomNavigationBar];
-   
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)setUIForIOS6
+{
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        scrollView.frame=CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height+60);
+    }
+}
 #pragma mark - End View Editing
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
@@ -180,7 +183,6 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
     [self checkOrientation];
 }
 -(void)checkOrientation
@@ -464,6 +466,7 @@
 -(void)getSharingusersId
 {
     @try {
+        
         isGetSharingUserId=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};
@@ -650,7 +653,10 @@
             //nsuser default
             
         }
-        
+        else
+        {
+            [SVProgressHUD dismiss];
+        }
         isGetTheOwnCollectionListData=NO;
         if(sharingIdArray.count>0)
         {
@@ -684,6 +690,10 @@
         if(exitCode==1)
         {
             [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
+        }
+        else
+        {
+            [SVProgressHUD dismiss];
         }
         countSharing++;
         if(countSharing==sharingIdArray.count)
@@ -804,9 +814,19 @@
     {
         if(buttonIndex==0)
         {
-            [self.navigationController popViewControllerAnimated:YES];
+            
+            [self navBackButtonClick];
         }
 
+    }
+}
+#pragma mark - LaunchCamera SetDetection
+-(void)checkIfIsFromLaunchCamera
+{
+    if(self.isFromLaunchCamera)
+    {
+        [manager storeData:@"YES" :@"is_add_folder"];
+        [manager storeData:newCollectionId :@"new_col_id"];
     }
 }
 #pragma mark -Add Custom Navigation Bar
@@ -814,63 +834,26 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [navnBar loadNav];
+    
+    UIButton *button =[navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
     
-    // navnBar.backgroundColor = [UIColor redColor];
-    UILabel *titleLbl=[[UILabel alloc] init];
+    UILabel *titleLbl;
     titleLbl.textAlignment=NSTextAlignmentCenter;
     
     if(self.isEditFolder)
     {
-        titleLbl.text=@"Edit Folder";
+        titleLbl=[navnBar navBarTitleLabel:@"Edit Folder"];
     }
     else if (self.isAddFolder)
     {
-        titleLbl.text=@"New Folder";
+        titleLbl=[navnBar navBarTitleLabel:@"New Folder"];
     }
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
-        
-        titleLbl.frame=CGRectMake(self.view.center.x-70, NavBtnYPosForiPad, 140, NavBtnHeightForiPad);
-        titleLbl.font=[UIFont fontWithName:@"Verdana" size:23];
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            titleLbl.frame=CGRectMake(100, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                titleLbl.frame=CGRectMake(170, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-            }
-            else
-            {
-                titleLbl.frame=CGRectMake(210, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-            }
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        titleLbl.font=[UIFont fontWithName:@"Verdana" size:15];
-    }
+    
+    
     [navnBar addSubview:titleLbl];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
@@ -878,6 +861,7 @@
 }
 
 -(void)navBackButtonClick{
+    [self checkIfIsFromLaunchCamera];
     [[self navigationController] popViewControllerAnimated:YES];
 }
 

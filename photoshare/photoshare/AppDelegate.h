@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 #import "DataMapperController.h"
+#import <FacebookSDK/FacebookSDK.h>
 @class ContentManager;
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate,WebserviceDelegate>
 {

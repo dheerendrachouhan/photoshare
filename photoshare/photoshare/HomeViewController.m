@@ -48,29 +48,39 @@
 {
     [super viewDidLoad];
     [self initializeTheGlobalObject];
+    [self addCustomNavigationBar];
+     [self setUIForIOS6];
+    
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-     photoCountLbl.hidden=YES;
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
-     [self setThePublicCollectionInfo];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    //Update the Total Earning
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
+    [self setThePublicCollectionInfo];
     //For Launch Camera View
     [manager storeData:@"NO" :@"istabcamera"];
     [self setTheUSerDetails];
     //Set the tabbar index of Home Page
     [self.tabBarController setSelectedIndex:0];
-    
-    //Reset the Community View Controller
-    AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-    CommunityViewController *comm=[[CommunityViewController alloc] init];
-    delegate.navControllercommunity.viewControllers =[[NSArray alloc] initWithObjects:comm, nil];
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
    
+}
+-(void)setUIForIOS6
+{
+    //Set for ios 6
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        profilePicImgView.frame=CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height);
+        folderIconViewContainer.frame=CGRectMake(0, folderIconViewContainer.frame.origin.y+40,self.view.frame.size.width, folderIconViewContainer.frame.size.height);
+    }
 }
 //Initialize the AllGlobal Objects
 -(void)initializeTheGlobalObject
@@ -181,50 +191,21 @@
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
-    navnBar = [[NavigationBar alloc] init];
-    //For Home page Navigaigation bar
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
-            [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :false];
-        
-        }else{
-            [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :true];
-        }
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectMake(0, 20, 320, 60) :false];
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectMake(0, 20, 480, 60) :true];
-            }
-            else if([[UIScreen mainScreen] bounds].size.height == 568)
-            {
-                [navnBar loadNav:CGRectMake(0, 20, 568, 60) :true];
-            }
-        }
-    }
     
+    //For Home page Navigaigation bar
+    
+    CGFloat navBarYPos;
+    CGFloat navBarHeight;
+    if(IS_OS_7_OR_LATER) navBarYPos=20;
+    else navBarYPos=0;
+    if([manager isiPad]) navBarHeight=110;
+    else navBarHeight=60;
+    
+    navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, navBarYPos, [UIScreen mainScreen].bounds.size.width, navBarHeight)];
+    
+    [navnBar loadNav];
     [[self view] addSubview:navnBar];
-    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
-#pragma mark - Device Orientatiom method
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-}
-
 
 @end
 

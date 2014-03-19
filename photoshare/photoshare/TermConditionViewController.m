@@ -7,7 +7,6 @@
 //
 
 #import "TermConditionViewController.h"
-#import "NavigationBar.h"
 #import "ContentManager.h"
 
 @interface TermConditionViewController ()
@@ -43,13 +42,14 @@
     // Do any additional setup after loading the view from its nib.
     
   [webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"term" ofType:@"html"]isDirectory:NO]]];
-    
+    [self addCustomNavigationBar];
+    [self setUIForIOS6];
     
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,61 +57,29 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - Device Orientation
-
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(void)setUIForIOS6
 {
-    // Return YES for supported orientations
-    return YES;
+    //Set for ios 6
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        webview.frame=CGRectMake(webview.frame.origin.x, webview.frame.origin.y-20,webview.frame.size.width, webview.frame.size.height+90);
+        headingLabel.frame=CGRectMake(headingLabel.frame.origin.x, headingLabel.frame.origin.y-20,headingLabel.frame.size.width, headingLabel.frame.size.height);
+    }
 }
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-}
-
 
 #pragma mark - ADD Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    if([objManager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
-        
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-    }
-    [navnBar addSubview:button];
     
+    [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }

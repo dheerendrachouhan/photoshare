@@ -13,7 +13,6 @@
 #import "PhotoGalleryViewController.h"
 #import "JSONDictionary.h"
 #import "SVProgressHUD.h"
-#import "NavigationBar.h"
 #import "SearchPhotoViewController.h"
 
 @interface CommunityViewController ()
@@ -45,6 +44,11 @@
 {
     [super viewDidLoad];
     [self initializeTheGlobalObject];
+    //Add Custom Navigation Bar
+    [self addCustomNavigationBar];
+    //Set UI for IOS6
+    [self setUIForIOS6];
+    
     self.navigationItem.title = @"Community folders";
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     
@@ -81,27 +85,35 @@
     collectionSharedArray=[[NSMutableArray alloc] init];
     collectionSharingArray=[[NSMutableArray alloc] init];
     collectionUserIdArray=[[NSMutableArray alloc] init];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     //get DiskSpace from server
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
+    
     [self getStorageFromServer];
-    //set title for navigation controller
-    [self addCustomNavigationBar];
+   
     [self getCollectionInfoFromUserDefault];
     
     //set the tabbar icon selected
     [self.tabBarController setSelectedIndex:3];
-    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)setUIForIOS6
+{
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y-20, collectionview.frame.size.width, collectionview.frame.size.height+70);
+        progressView.frame=CGRectMake(progressView.frame.origin.x, progressView.frame.origin.y+45, progressView.frame.size.width, progressView.frame.size.height);
+        diskSpaceTitle.frame=CGRectMake(diskSpaceTitle.frame.origin.x, diskSpaceTitle.frame.origin.y+45, diskSpaceTitle.frame.size.width, diskSpaceTitle.frame.size.height);
+    }
 }
 -(void)initializeTheGlobalObject
 {
@@ -170,6 +182,7 @@
 -(void)getSharingusersId
 {
     @try {
+         [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
         isGetSharingUserId=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};
@@ -318,6 +331,10 @@
             //nsuser default
             
         }
+        else
+        {
+            [SVProgressHUD dismiss];
+        }
         isGetTheOwnCollectionListData=NO;
         if(sharingIdArray.count>0)
         {
@@ -325,6 +342,7 @@
         }
         else
         {
+            [SVProgressHUD dismiss];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
         }
     }
@@ -334,9 +352,14 @@
         {
             [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
         }
+        else
+        {
+            [SVProgressHUD dismiss];
+        }
         countSharing++;
         if(countSharing==sharingIdArray.count)
         {
+            [SVProgressHUD dismiss];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
         }
     }
@@ -394,9 +417,7 @@
             }
 
             obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:index];
-            
         }
-
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
@@ -458,21 +479,34 @@
        
         if(indexPath.row!=0)
         {
+            selectedFolderIndex=indexPath.row;
             UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-            editBtn.frame=CGRectMake(cell.frame.origin.x+12, cell.frame.origin.y-10, 60, 50);
-            if([manager isiPad])
-            {
-                 editBtn.frame=CGRectMake(cell.center.x-30, cell.frame.origin.y-10, 60, 50);
-            }
-            [editBtn setImage:[UIImage imageNamed:@"edit_btn.png"] forState:UIControlStateNormal];
-            [editBtn addTarget:self action:@selector(editFolder:) forControlEvents:UIControlEventTouchUpInside];
+           
+            UIMenuItem *editPhoto = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editFolder:)];
             
-            [collectionview addSubview:editBtn];
+            UIMenuController *menu = [UIMenuController sharedMenuController];
+            [menu setMenuItems:[NSArray arrayWithObjects:editPhoto,nil]];
+            [menu setTargetRect:CGRectMake(10, 50, cell.frame.size.width, cell.frame.size.height) inView:cell];
+            [menu setMenuVisible:YES animated:YES];
+            NSLog(@"Edit Photo");
+
         }
     }
 }
 
-
+#pragma mark - UIMenu Controller Delegate Methods
+-(BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    if(action==@selector(editFolder:))
+    {
+        return YES;
+    }
+    return NO;
+}
+//for UIMenu controller
+- (BOOL)canBecomeFirstResponder {
+	return YES;
+}
 #pragma mark - Folder action perform methods
 -(void)addFolder
 {
@@ -485,10 +519,7 @@
 }
 -(void)editFolder:(id)sender
 {
-    UIButton *btn=(UIButton *)sender;
-    CGPoint p=CGPointMake(btn.frame.origin.x, btn.frame.origin.y+20);
-    NSIndexPath *indexPath=[collectionview indexPathForItemAtPoint:p];
-    int index=indexPath.row-1;
+    int index=selectedFolderIndex-1;
     //if editBtnIs in view
     [editBtn removeFromSuperview];
     @try {
@@ -498,7 +529,7 @@
         aec.isEditFolder=YES;
         aec.setFolderName=[collectionNameArray objectAtIndex:index];
         aec.collectionId=[collectionIdArray objectAtIndex:index] ;
-        aec.collectionShareWith=[collectionSharingArray objectAtIndex:index] ;
+    
         aec.collectionOwnerId=[collectionUserIdArray objectAtIndex:index];
         
         CommunityViewController *cm =[[CommunityViewController alloc] init];
@@ -525,107 +556,36 @@
     [self.navigationController pushViewController:searchController animated:NO];
 }
 
-#pragma mark - Device Orientation
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-}
 
 #pragma mark - Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
    
-   // button.backgroundColor = [UIColor redColor];
     
-    UILabel *titleLabel = [[UILabel alloc] init ];
-    titleLabel.text=@"Your Folders";
-    titleLabel.textAlignment=NSTextAlignmentCenter;
+    UILabel *titleLabel = [navnBar navBarTitleLabel:@"Your Folders"];
     
-    //add photo search button
-    UIButton *searchBtn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *searchBtn=[navnBar navBarRightButton:@"Search"];
     [searchBtn addTarget:self action:@selector(searchViewOpen) forControlEvents:UIControlEventTouchUpInside];
-    [searchBtn setTitle:@"Search" forState:UIControlStateNormal];
-    searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            titleLabel.frame = CGRectMake(self.view.center.x-100, NavBtnYPosForiPad, 200, NavBtnHeightForiPad);
-            searchBtn.frame=CGRectMake(self.view.frame.size.width-100, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            titleLabel.frame = CGRectMake(self.view.center.x-100, NavBtnYPosForiPad, 200, NavBtnHeightForiPad);
-            searchBtn.frame=CGRectMake(self.view.frame.size.width-100, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        }
-        
-        button.titleLabel.font = [UIFont systemFontOfSize:30.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 110.0, NavBtnHeightForiPad);
-        
-        titleLabel.font = [UIFont systemFontOfSize:30.0f];
-        
-        
-        searchBtn.titleLabel.font = [UIFont systemFontOfSize:30.0f];
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
-            searchBtn.frame=CGRectMake(250.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                titleLabel.frame = CGRectMake(180.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
-                searchBtn.frame=CGRectMake(410.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-            }
-            else if ([[UIScreen mainScreen] bounds].size.height == 568)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                titleLabel.frame = CGRectMake(220.0, NavBtnYPosForiPhone, 120.0, NavBtnHeightForiPhone);
-                searchBtn.frame=CGRectMake(498.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-            }
-        }
-         button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-         button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        
-        titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        searchBtn.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
-    [navnBar addSubview:searchBtn];
-    [navnBar addSubview:titleLabel];
-    NSLog(@"tab index %d",self.tabBarController.selectedIndex);
-   
-    [navnBar addSubview:button];
     
+    
+    [navnBar addSubview:searchBtn];
+    [navnBar addSubview:button];
+    [navnBar addSubview:titleLabel];
     [[self view] addSubview:navnBar];
-    [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
 -(void)navBackButtonClick{
     
     [self.tabBarController setSelectedIndex:0];
+    //For update the collection info in nsuser default
     [self performSelector:@selector(getSharingusersId) withObject:nil];
 }
 

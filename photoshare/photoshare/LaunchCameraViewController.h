@@ -21,14 +21,14 @@
 #import "DataMapperController.h"
 #import "NavigationBar.h"
 #import <CoreLocation/CoreLocation.h>
-@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UITabBarDelegate,CLLocationManagerDelegate,UITextViewDelegate,UIPopoverControllerDelegate>
+@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate,UITextViewDelegate,UIPopoverControllerDelegate>
 {
     //get the userf location
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
     
-    
+    UIView *view;
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
     
@@ -38,13 +38,13 @@
     IBOutlet UIPickerView *categoryPickerView;
     UIToolbar *pickerToolbar;
     
-     NSNumber *userid;
+    NSNumber *userid;
     DataMapperController *dmc;
     
     ContentManager *manager;
     
     WebserviceController *webservices;
-    
+    NavigationBar *navnBar;
     UIImage *pickImage;
     BOOL isCameraMode;
     BOOL isCameraEditMode;
@@ -75,6 +75,7 @@
     
     UIView *addFolderView;
     
+    UILabel *titleLabe;
 }
 
 //for Aviary

@@ -1,3 +1,4 @@
+
 //
 //  WebserviceController.m
 //  photoshare
@@ -11,7 +12,9 @@
 #import "AFURLSessionManager.h"
 
 @interface WebserviceController ()
-
+{
+    BOOL isGetPhoto;
+}
 @end
 
 @implementation WebserviceController
@@ -33,13 +36,13 @@
     return self;
 }
 
-
 -(void) call:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method
 {
     NSDictionary *parameters = postData;
   
    if([controller isEqualToString:@"photo"] && [method isEqualToString:@"get"])
     {
+        isGetPhoto=YES;
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"image/png"];
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
@@ -50,7 +53,7 @@
        if( [responseObject isKindOfClass:[UIImage class]] )
        {
            NSLog(@"check ") ;
-          
+           isGetPhoto=NO;
             [self.delegate webserviceCallbackImage:responseObject];
        }
         else
@@ -61,7 +64,17 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", [error localizedDescription]);
-        [self.delegate webserviceCallback:[NSDictionary dictionaryWithObject:@0 forKey:@"exit_code"]];
+        if(isGetPhoto)
+        {
+            UIImage *img=NULL;
+             isGetPhoto=NO;
+             [self.delegate webserviceCallbackImage:img];
+           
+        }
+        else
+        {
+            [self.delegate webserviceCallback:[NSDictionary dictionaryWithObject:@0 forKey:@"exit_code"]];
+        }
     }];
 }
 

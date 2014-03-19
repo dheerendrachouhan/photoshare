@@ -15,7 +15,7 @@
 @end
 
 @implementation EditPhotoDetailViewController
-@synthesize photoId,collectionId,selectedIndex,isFromLaunchCamera;
+@synthesize photoId,collectionId,selectedIndex,isPhotoAdd,isLaunchCamera;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,22 +38,15 @@
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self checkOrientation];
-    
-    photoLocationString=@"";
-    [self addCustomNavigationBar];
-    [self callGetLocation];
-    
-}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //initialize the WebService Object
     userid =[manager getData:@"user_id"];
-    
+    //Add Custom NAvigation bar
+    [self addCustomNavigationBar];
     //set text fielddelegate
     [photoTitletxt setDelegate:self];
     [photoDescriptionTxt setDelegate:self];
@@ -64,6 +57,7 @@
     {
         photoDescriptionTxt.layer.borderWidth=0.8;
     }
+    [self setUIForIOS6];
     photoDescriptionTxt.layer.borderColor=[UIColor lightGrayColor].CGColor;
     
     
@@ -71,8 +65,11 @@
     saveButton.layer.cornerRadius=4;
     saveButton.layer.borderColor=btnBorderColor.CGColor;
     saveButton.layer.borderWidth=1;
-    
-    if(!self.isFromLaunchCamera)
+    cancelButton.layer.cornerRadius=4;
+    cancelButton.layer.borderColor=btnBorderColor.CGColor;
+    cancelButton.layer.borderWidth=1;
+    cancelButton.hidden=YES;
+    if(!self.isPhotoAdd && !self.isLaunchCamera)
     {
         NSArray *photoInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
         @try {
@@ -88,12 +85,33 @@
         }
 
     }
+    if(isLaunchCamera)
+    {
+        cancelButton.hidden=NO;
+    }
     
    
     //tap getsure on view for dismiss the keyboard
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self checkOrientation];
+    
+    photoLocationString=@"";
+     [navnBar setTheTotalEarning:manager.weeklyearningStr];
+    [self callGetLocation];
+    
+}
+
+-(void)setUIForIOS6
+{
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        photoDescriptionTxt.layer.borderWidth=1;
+    }
 }
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
@@ -152,7 +170,6 @@
             [scrollView setContentOffset:CGPointMake(0,textView.center.y-30) animated:NO];
         }
     }
-
 }
 
 // called when click on the retun button.
@@ -217,29 +234,34 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
     [self checkOrientation];
 }
 -(void)savePhotoDetailOnServer
 {
-    NSString *photodes=photoDescriptionTxt.text;
-    
-    NSString *photoTitle=photoTitletxt.text;
-    if(photodes.length==0)
-    {
-        photodes=@"";
-    }
-    if(photoTitle.length==0)
-    {
-        photoTitle=@"Untitle";
-    }
-
-    if(self.isFromLaunchCamera)
-    {
-        NSDictionary *photoDetail=@{@"photo_title":photoTitle,@"photo_description":photodes,@"photo_tags":photoTag.text};
+    NSString *photodes;
+    NSString *photoTitle;
+    NSString *photoTagstr;;
+    @try {
+        photodes=photoDescriptionTxt.text;
         
-       [manager storeData:@"yes" :@"isfromphotodetailcontroller"];
+        photoTitle=photoTitletxt.text;
+        photoTagstr=photoTag.text;
+    }
+    @catch (NSException *exception) {
+        
+    }
+    
+    if(photodes.length==0) photodes=@"";
+    if(photoTitle.length==0) photoTitle=@"Untitle";
+    if(photoTagstr.length==0) photoTagstr=@"";
+    
+    if(self.isPhotoAdd || isLaunchCamera)
+    {
+        NSDictionary *photoDetail=@{@"photo_title":photoTitle,@"photo_description":photodes,@"photo_tags":photoTagstr};
+        manager=[ContentManager sharedManager];
+       [manager storeData:@"YES" :@"isfromphotodetailcontroller"];
         [manager storeData:photoDetail :@"takephotodetail"];
+        
     }
     else
     {
@@ -278,6 +300,7 @@
         }        
     }
     [self.navigationController popViewControllerAnimated:YES];
+
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
@@ -285,59 +308,37 @@
 }
 -(IBAction)savePhotoDetail:(id)sender
 {
-    [self savePhotoDetailOnServer];
+    @try {
+        [self savePhotoDetailOnServer];
+    }
+    @catch (NSException *exception) {
+        
+    }
 }
-#pragma Mark
-#pragma Add Custom Navigation Bar
+-(IBAction)cancelPhotoDetail:(id)sender
+{
+    @try {
+        photoTitletxt.text=@"";
+        photoDescriptionTxt.text=@"";
+        photoTag.text=@"";
+        [self savePhotoDetailOnServer];
+    }
+    @catch (NSException *exception) {
+    }
+}
+#pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
-    
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
     
-    //set the title of the navigation bar
-    UILabel *titleLabel=[[UILabel alloc] init];
-    titleLabel.text=@"Photo Details";
-    titleLabel.textAlignment=NSTextAlignmentCenter;
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
-        
-        titleLabel.frame=CGRectMake(self.view.center.x-(self.view.frame.size.width/4), NavBtnYPosForiPad, self.view.frame.size.width/2, NavBtnHeightForiPad);
-        titleLabel.font=[UIFont systemFontOfSize:23.0f];
-        
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        titleLabel.frame=CGRectMake(self.view.center.x-(self.view.frame.size.width/4), NavBtnYPosForiPhone, self.view.frame.size.width/2, NavBtnHeightForiPhone);
-        titleLabel.font=[UIFont systemFontOfSize:17.0f];
-    }
-
-    if(!self.isFromLaunchCamera)
+    UILabel *titleLabel=[navnBar navBarTitleLabel:@"Photo Details"];
+    if(!self.isLaunchCamera && !self.isPhotoAdd)
     {
          [navnBar addSubview:button];
     }

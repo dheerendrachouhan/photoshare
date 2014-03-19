@@ -68,6 +68,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self addCustomNavigationBar];
+    [self setUIForIOS6];
     imageView.layer.masksToBounds=YES;
     imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.image = sharedImage;
@@ -80,8 +82,8 @@
     contactSelectedArray = [[NSMutableArray alloc] init];
     contactNoSelectedArray = [[NSMutableArray alloc] init];
     
-    messageStr= [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
-    
+    messageStr= [NSString stringWithFormat:@"I’ve just joined 123friday this is my video', http://www.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
+    messageStrforMail=[NSString stringWithFormat:@"<a href=http://www.123friday.com/my123/live/toolkit/1/%@>I’ve just joined 123friday this is my video.</a>",[manager getData:@"user_username"]];
     ImageCollection = [[NSMutableArray alloc] init];
     
     if(sharedImage== nil || sharedImage == NULL)
@@ -114,8 +116,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
-    
+
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
     if([shareValue isEqualToString:@"Share Mail"])
     {
         userSelectedEmail = shareEmailStr;
@@ -152,6 +154,16 @@
         }
     }
 
+}
+-(void)setUIForIOS6
+{
+    //Set for ios 6
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y-20, imageView.frame.size.width, imageView.frame.size.height+70);
+        shareBtnContainerView.frame=CGRectMake(shareBtnContainerView.frame.origin.x, shareBtnContainerView.frame.origin.y+50, shareBtnContainerView.frame.size.width, shareBtnContainerView.frame.size.height);
+    }
+    
 }
 -(void)getImageFromServer:(NSInteger)index
 {
@@ -201,8 +213,7 @@
     smsFilter = NO;
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select Email-Id from Contacts", @"Manually input Email", nil];
     
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.view];
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
 
 - (IBAction)smsFilter_Btn:(id)sender {
@@ -212,8 +223,7 @@
     mailFilter = NO;
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Select from Contacts", @"Manually enter contact", nil];
     
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.view];
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -227,6 +237,7 @@
             [self actionsheetCheeker];
             break;
         case 2:
+            [actionSheet setHidden:YES];
             NSLog(@"Cancelled");
             break;
     }
@@ -254,8 +265,8 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
-        [controller setInitialText:[NSString stringWithFormat:@"Take a look 123 Friday %@",messageStr]];
-        
+        [controller setInitialText:@"I’ve just joined 123friday this is my video"];
+        [controller addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]]]];
         if(sharedImage != NULL || sharedImage != nil)
         {
             [controller addImage:sharedImage];
@@ -283,7 +294,6 @@
             }
         }];
         [self presentViewController:controller animated:YES completion:Nil];
-        
     }
     else{
         [SVProgressHUD dismissWithError:@"No Facebook Account Found"];
@@ -302,7 +312,7 @@
         
         SLComposeViewController *tweetsheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         
-        [tweetsheet setInitialText:[NSString stringWithFormat:@"Join 123 Friday %@",messageStr]];
+        [tweetsheet setInitialText:[NSString stringWithFormat:@"%@",messageStr]];
         
         if(sharedImage != NULL || sharedImage != nil)
         {
@@ -325,14 +335,14 @@
                 case SLComposeViewControllerResultDone:
                     [manager showAlert:@"Tweet Succuessfully" msg:@"Your photo has been shared successfully." cancelBtnTitle:@"Ok" otherBtn:Nil];
                     break;
-                    
                 default:
                     break;
             }
         }];
         [self presentViewController:tweetsheet animated:YES completion:Nil];
     }
-    else{
+    else
+    {
         [SVProgressHUD dismissWithError:@"No Twitter Account Found"];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twitter not Found" message:@"Your Twitter account is not configured. Please Configure your twitter account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
         [alert show];
@@ -347,9 +357,9 @@
     shareValue = @"";
     
     // Email Subject
-    NSString *emailTitle = @"Join 123 Friday";
+    NSString *emailTitle = @"Check This Out!";
     // Email Content
-    NSString *messageBody = [NSString stringWithFormat:@"<a href=\"%@\">Join Now</a>",messageStr]; // Change the message body to HTML
+    NSString *messageBody = [NSString stringWithFormat:@"%@",messageStrforMail]; // Change the message body to HTML
     // To address
     NSArray *toRecipents = [NSArray arrayWithArray:contactSelectedArray];
     
@@ -419,7 +429,7 @@
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
-		controller.body = [@"Join 123 Friday, " stringByAppendingString:messageStr];
+		controller.body = messageStr;
         
 		controller.recipients = [NSArray arrayWithArray:contactNoSelectedArray];
         
@@ -644,60 +654,16 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
     
-    // navnBar.backgroundColor = [UIColor redColor];
+    UILabel *photoTitleLBL=[navnBar navBarTitleLabel:@"Share Your Photo"];    
     
-    UILabel *photoTitleLBL=[[UILabel alloc] init];
-    photoTitleLBL.text=@"Share Your Photo";
-    photoTitleLBL.textAlignment=NSTextAlignmentCenter;
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
-        
-        photoTitleLBL.frame=CGRectMake(self.view.center.x-75, NavBtnYPosForiPad, 200.0, NavBtnHeightForiPad);
-        photoTitleLBL.font = [UIFont systemFontOfSize:23.0f];
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            photoTitleLBL.frame=CGRectMake(85, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                photoTitleLBL.frame=CGRectMake(170, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-            }
-            else
-            {
-                photoTitleLBL.frame=CGRectMake(210, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-            }
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        
-        photoTitleLBL.font= [UIFont systemFontOfSize:17.0f];
-    }
-
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
@@ -736,16 +702,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-    
-}
 
 @end

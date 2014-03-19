@@ -15,7 +15,7 @@
 #import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
 #import "DataMapperController.h"
-
+#import "NavigationBar.h"
 
 @class ContentManager;
 @interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, WebserviceDelegate, UITabBarControllerDelegate, UIActionSheetDelegate,UITextViewDelegate>
@@ -25,19 +25,25 @@
     IBOutlet UIButton *emailBt;
     IBOutlet UIButton *sendSMSBtn;
     IBOutlet UIImageView *customImage;
+    
+    //For Edit User MEssage
+    IBOutlet UILabel *editMessageTitleLbl;
     IBOutlet UITextView *userMessage;
     IBOutlet UIButton *editMessageBtn;
     IBOutlet UIScrollView *scrollView;
     BOOL setterEdit;
     BOOL fbFilter,twFilter,mailFilter,smsFilter;
+    
+    BOOL isUserMessageEditing;
     DataMapperController *dmc;
     ContentManager *objManager;
+    NavigationBar *navnBar ;
     IBOutlet UIView *emailView;
 }
 
 @property (weak, nonatomic) IBOutlet UITextView *emailContacts;
 @property (weak, nonatomic) IBOutlet UITextView *emailMessageBody;
-
+@property (strong, nonatomic) IBOutlet UIButton *FacebookShareLinkWithAPICallsButton;
 @property (nonatomic, strong) NSString *stringStr;
 @property (nonatomic, strong) NSString *twitterTweet;
 @property (nonatomic, strong) NSString *toolkitLink;

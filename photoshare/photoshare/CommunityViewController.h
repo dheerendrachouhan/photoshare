@@ -10,6 +10,7 @@
 #import "ContentManager.h"
 #import "WebserviceController.h"
 #import "DataMapperController.h"
+#import "NavigationBar.h"
 @class CollectionViewCell;
 @interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate,WebserviceDelegate>
 {
@@ -28,10 +29,12 @@
     NSMutableArray *collectionSharedArray;
     NSMutableArray *collectionUserIdArray;
     
+    NSInteger selectedFolderIndex;
     WebserviceController *webservices;
         
     ContentManager *manager;
     DataMapperController *dmc;
+    NavigationBar *navnBar;
     UIButton *editBtn;
     NSNumber *userid;
 

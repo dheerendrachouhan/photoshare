@@ -9,7 +9,6 @@
 #import "PastPayementViewController.h"
 #import "JXBarChartView.h"
 #import "SVProgressHUD.h"
-#import "NavigationBar.h"
 #import "ContentManager.h"
 
 @interface PastPayementViewController ()
@@ -43,7 +42,8 @@
     }
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     NSLog(@"Userid : %@",userID);
-    
+    //Add Navigation bar
+    [self addCustomNavigationBar];
     textIndicators = [[NSMutableArray alloc] init];
     values = [[NSMutableArray alloc] init];
     
@@ -60,6 +60,11 @@
     {
         scrollView.frame = CGRectMake(0, 103, 320, 360);
     }
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 -(void) webserviceCallback:(NSDictionary *)data
@@ -149,6 +154,30 @@
     
 }
 
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    navnBar= [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Past Payment"];
+    
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+#pragma mark - Device Orientation
 -(void)deviceOrientDetect
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -203,82 +232,20 @@
             scrollView.bounces = NO;
         }
     }
-}
-
--(void)addCustomNavigationBar
-{
-    self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar= [[NavigationBar alloc] init];
-    UILabel *navTitle = [[UILabel alloc] init];
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self
-               action:@selector(navBackButtonClick)
-     forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    
-    
-    if([objManager isiPad])
+    if(![objManager isiPad])
     {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(280, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            navTitle.frame = CGRectMake(390, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-        }
-        
-        navTitle.font = [UIFont systemFontOfSize:36.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
+        [self setUIForIOS6];
     }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(190, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-                
-            }
-            else if ([[UIScreen mainScreen] bounds].size.height == 568)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(230, NavBtnYPosForiPhone, 150, NavBtnHeightForiPhone);
-            }
-        }
-        
-        navTitle.font = [UIFont systemFontOfSize:18.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
-    
-    navTitle.text = @"Past Payment";
-    [navnBar addSubview:navTitle];
-    [navnBar addSubview:button];
-    
-    [[self view] addSubview:navnBar];
-    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
-
--(void)navBackButtonClick{
-    [[self navigationController] popViewControllerAnimated:YES];
-}
-
--(void)viewWillAppear:(BOOL)animated
+-(void)setUIForIOS6
 {
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+50);
+    }
 }
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -288,50 +255,8 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0.0f, 105.0f, 480.0f, 300.0f);
-            scrollView.contentSize = CGSizeMake(480,400);
-            scrollView.bounces = NO;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 568.0f, 320.0f);
-            scrollView.contentSize = CGSizeMake(568,480);
-            scrollView.bounces = NO;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            scrollView.frame = CGRectMake(0.0f, 180.0f, 1024.0f, 768.0f);
-            scrollView.contentSize = CGSizeMake(1024,900);
-            scrollView.bounces = NO;
-        }
-    }
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0, 105, 320, 360);
-            scrollView.contentSize = CGSizeMake(320,290);
-            scrollView.bounces = NO;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0.0f, 101.0f, 320.0f, 415.0f);
-            scrollView.contentSize = CGSizeMake(320,340);
-            scrollView.bounces = NO;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            scrollView.frame = CGRectMake(0.0f, 185.0f, 768.0f, 800.0f);
-            scrollView.contentSize = CGSizeMake(768,700);
-            scrollView.bounces = NO;
-        }
-    }
+    [self orient:toInterfaceOrientation];
+    
 }
 
 - (void)didReceiveMemoryWarning

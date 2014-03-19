@@ -8,14 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "DataMapperController.h"
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface AccountViewController : UIViewController
 {
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UIImageView *settingBackgroundImage;
+    IBOutlet UIView *settingMenuContainerView;
     DataMapperController *dmc;
     ContentManager *objManager;
+    NavigationBar *navnBar;
 }
 
 -(IBAction)editProfile:(id)sender;

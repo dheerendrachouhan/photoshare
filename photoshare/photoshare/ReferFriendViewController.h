@@ -10,13 +10,15 @@
 #import "WebserviceController.h"
 #import <EventKit/EventKit.h>
 #import <EventKitUI/EventKitUI.h>
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate,UIWebViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 {
     IBOutlet UIWebView *webViewReferral;
     ContentManager *objManager;
+    NavigationBar *navnBar;
     IBOutlet UIScrollView *scrollView;
+    int activeIndex;
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *webViewReferral;

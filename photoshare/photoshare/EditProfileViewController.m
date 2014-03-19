@@ -8,7 +8,6 @@
 
 #import "EditProfileViewController.h"
 #import "WebserviceController.h"
-#import "NavigationBar.h"
 #import "ContentManager.h"
 
 @interface EditProfileViewController ()
@@ -45,8 +44,14 @@
     
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapGesture];
-    
+    [self addCustomNavigationBar];
 
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+    [self detectDeviceOrientation];
 }
 -(void)hideKeyboard :(UITapGestureRecognizer *)gesture
 {
@@ -117,44 +122,18 @@
     [textField resignFirstResponder];
     return YES;
 }
-
+#pragma mark - Add Custom Navigation bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    
-    if([objManager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
-        
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
     
     [navnBar addSubview:button];
     
@@ -166,17 +145,15 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
+#pragma mark - Device Orientation
+-(void)detectDeviceOrientation
 {
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
         [self orient:self.interfaceOrientation];
     }else{
         [self orient:self.interfaceOrientation];
     }
 }
-
 -(void)orient:(UIInterfaceOrientation)ott
 {
     if (ott == UIInterfaceOrientationLandscapeLeft ||
@@ -222,6 +199,17 @@
             scrollView.bounces = NO;
         }
     }
+    if(![objManager isiPad])
+    {
+        [self setUIForIOS6];
+    }
+}
+-(void)setUIForIOS6
+{
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+50);
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -232,51 +220,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0, 60, 480, 300);
-            scrollView.contentSize = CGSizeMake(480, 330);
-            scrollView.bounces = NO;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0, 60, 568, 300);
-            scrollView.contentSize = CGSizeMake(568, 330);
-            scrollView.bounces = NO;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            scrollView.frame = CGRectMake(0, 150, 1024, 500);
-            scrollView.contentSize = CGSizeMake(1024, 500);
-            scrollView.bounces = NO;
-        }
-    }
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0, 88, 320, 297);
-            scrollView.contentSize = CGSizeMake(320, 250);
-            scrollView.bounces = NO;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0, 88, 320, 297);
-            scrollView.contentSize = CGSizeMake(320, 250);
-            scrollView.bounces = NO;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            scrollView.frame = CGRectMake(0, 150, 768, 477);
-            scrollView.contentSize = CGSizeMake(768, 250);
-            scrollView.bounces = NO;
-        }
-    }
+    [self orient:toInterfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning

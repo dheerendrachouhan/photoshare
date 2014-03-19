@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface TermConditionViewController : UIViewController
 {
     IBOutlet UIWebView *webview ;
+    IBOutlet UILabel *headingLabel;
     ContentManager *objManager;
+    NavigationBar *navnBar ;
 }
 
 @end

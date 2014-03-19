@@ -12,7 +12,6 @@
 #import "TermConditionViewController.h"
 #import "ReferFriendViewController.h"
 #import "LoginViewController.h"
-#import "NavigationBar.h"
 #import "HomeViewController.h"
 #import "ContentManager.h"
 #import "WebserviceController.h"
@@ -38,12 +37,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self addCustomNavigationBar];
+    [self setUIForIOS6];
 }
 
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,16 +53,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Device Orientation
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(void)setUIForIOS6
 {
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
+    //Set for ios 6
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        profilePicImgView.frame=CGRectMake(0, 40, profilePicImgView.frame.size.width, profilePicImgView.frame.size.height+40);
+        settingMenuContainerView.frame=CGRectMake(0, settingMenuContainerView.frame.origin.y+50,settingMenuContainerView.frame.size.width, settingMenuContainerView.frame.size.height);
+    }
     
 }
 
@@ -148,9 +147,20 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 //logout from server
 -(void)logOutFromServer
 {
-    WebserviceController *ws=[[WebserviceController alloc] init];
-    NSDictionary *dicData=@{@"user_id":[objManager getData:@"user_id"]};
-    [ws call:dicData controller:@"authentication" method:@"logout"];
+    @try {
+        WebserviceController *ws=[[WebserviceController alloc] init];
+        NSDictionary *dicData=@{@"user_id":[objManager getData:@"user_id"]};
+        [ws call:dicData controller:@"authentication" method:@"logout"];
+        
+        //logout_device -- 'user_id','device_token'
+        AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+        NSDictionary *dicData2=@{@"user_id":[objManager getData:@"user_id"],@"device_token":delgate.token};
+        [ws call:dicData2 controller:@"PushController" method:@"logout_device"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    
 }
 -(void)goToLoginPageAfterLogout
 {
@@ -172,37 +182,17 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
+    CGFloat navBarYPos;
+    CGFloat navBarHeight;
+    if(IS_OS_7_OR_LATER) navBarYPos=20;
+    else navBarYPos=0;
+    if([objManager isiPad]) navBarHeight=110;
+    else navBarHeight=60;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    if([objManager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectMake(0, 20, self.view.frame.size.width, 110) :true];
-        }
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectMake(0, 20, 320, 48) :false];
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectMake(0, 20, 480, 48) :true];
-            }
-            else
-            {
-                [navnBar loadNav:CGRectMake(0, 20, 568, 48) :true];
-            }
-        }
-    }
+    navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, navBarYPos, [UIScreen mainScreen].bounds.size.width, navBarHeight)];
+
+    [navnBar loadNav];
+    
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }

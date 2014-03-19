@@ -21,7 +21,8 @@
 {
     IBOutlet UIImageView *profilePicImgView;
     IBOutlet UILabel *welcomeName;
-    IBOutlet UILabel *photoCountLbl;
+    IBOutlet UIView *folderIconViewContainer;
+    
     UINavigationController *navController;
     NSNumber *publicCollectionId;
     NSNumber *colOwnerId;

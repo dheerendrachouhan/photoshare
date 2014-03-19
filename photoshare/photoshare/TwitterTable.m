@@ -9,7 +9,6 @@
 #import "TwitterTable.h"
 #import "SVProgressHUD.h"
 #import "ReferralStageFourVC.h"
-#import "NavigationBar.h"
 #import "ContentManager.h"
 
 @interface TwitterTable ()
@@ -53,8 +52,16 @@
     // Do any additional setup after loading the view from its nib.
     selectedUserArr = [[NSMutableArray alloc] init];
     finalSelectArr = [[NSMutableArray alloc] init];
+    
+    [self addCustomNavigationBar];
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+    [self detectDeviceOrientation];
+    
+}
 - (void)doneBtnPressed:(id)sender {
     ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
     rf.twitterTweet = [NSString stringWithFormat:@"%@",StringTweet];
@@ -80,28 +87,29 @@
     UITableViewCell * cell = [table dequeueReusableCellWithIdentifier:identitifier];
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identitifier];
+        UIButton *checkBoxBtn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        checkBoxBtn.frame=CGRectMake(cell.frame.size.width-40,5, 20,20);
+        checkBoxBtn.tag=1001;
+        checkBoxBtn.layer.masksToBounds=YES;
+        checkBoxBtn.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
+        checkBoxBtn.layer.borderWidth=1;
+        checkBoxBtn.layer.borderColor=BTN_BORDER_COLOR.CGColor;
+        [checkBoxBtn setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
+        
+        [checkBoxBtn setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateSelected];
+        [checkBoxBtn addTarget:self action:@selector(sameB:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:checkBoxBtn];
     }
     cell.textLabel.text = [tweetUserName objectAtIndex:indexPath.row];
-    
-    UIButton *checkBox = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    
-    
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    UIButton *checkBox = (UIButton *)[cell.contentView viewWithTag:1001];
+    if([selectedUserArr containsObject:[tweetUserName objectAtIndex:indexPath.row]])
     {
-        checkBox.Frame = CGRectMake(250.0f, 10.0f, 25.0f, 25.0f);
+        checkBox.selected=YES;
     }
-    else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    else
     {
-        checkBox.Frame = CGRectMake(700.0f, 10.0f, 25.0f, 25.0f);
+        checkBox.selected=NO;
     }
-    
-    [checkBox setImage:[UIImage imageNamed:@"iconr3_uncheck.png"] forState:UIControlStateNormal];
-    
-    [checkBox setImage:[UIImage imageNamed:@"iconr3.png"] forState:UIControlStateSelected];
-    
-    [cell addSubview:checkBox];
-    
-    [checkBox addTarget:self action:@selector(sameB:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -166,74 +174,21 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    UIButton *button =[navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    UILabel *navTitle = [[UILabel alloc] init];
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Pick Twitter Firends"];
     
     //Button for Next
-    UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [buttonLeft addTarget:self action:@selector(doneBtnPressed:) forControlEvents:UIControlEventTouchDown];
-    [buttonLeft setTitle:@"Done >" forState:UIControlStateNormal];
-    if([objManager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-             navTitle.frame = CGRectMake(220, NavBtnYPosForiPad, 320, NavBtnHeightForiPad);
-            buttonLeft.frame = CGRectMake(620, NavBtnYPosForiPad, 140, NavBtnHeightForiPad);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            navTitle.frame = CGRectMake(360, NavBtnYPosForiPad, 320, NavBtnHeightForiPad);
-            buttonLeft.frame = CGRectMake(900, NavBtnYPosForiPad, 140, NavBtnHeightForiPad);
-        }
-       
-        navTitle.font = [UIFont systemFontOfSize:36.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-        
-        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-             navTitle.frame = CGRectMake(80, NavBtnYPosForiPhone, 170, NavBtnHeightForiPhone);
-            buttonLeft.frame = CGRectMake(240, NavBtnYPosForiPhone, 80, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            if([[UIScreen mainScreen] bounds].size.height ==480)
-            {
-                 navTitle.frame = CGRectMake(160, NavBtnYPosForiPhone, 170, NavBtnHeightForiPhone);
-                buttonLeft.frame = CGRectMake(400, NavBtnYPosForiPhone, 80, NavBtnHeightForiPhone);
-            }
-            else
-            {
-                 navTitle.frame = CGRectMake(200, NavBtnYPosForiPhone, 170, NavBtnHeightForiPhone);
-                buttonLeft.frame = CGRectMake(490, NavBtnYPosForiPhone, 80, NavBtnHeightForiPhone);
-            }
-        }
-        
-       
-        navTitle.font = [UIFont systemFontOfSize:18.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
+    UIButton *doneBtn =[navnBar navBarRightButton:@"Done >"];
+    [doneBtn addTarget:self action:@selector(doneBtnPressed:) forControlEvents:UIControlEventTouchDown];
     
-    navTitle.text = @"Pick Twitter Firends";
     [navnBar addSubview:navTitle];
     [navnBar addSubview:button];
-    [navnBar addSubview:buttonLeft];
+    [navnBar addSubview:doneBtn];
     
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
@@ -243,17 +198,26 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
+
+#pragma mark - Device Orientation
+-(void)detectDeviceOrientation
 {
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
         [self orient:self.interfaceOrientation];
     }else{
         [self orient:self.interfaceOrientation];
     }
 }
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self orient:toInterfaceOrientation];
+}
 -(void)orient:(UIInterfaceOrientation)ott
 {
     frame = table.frame;
@@ -302,54 +266,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-    frame = table.frame;
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            frame.size.width = 480;
-            table.frame = frame;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            frame.size.width = 568;
-            table.frame = frame;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            frame.size.width = 1024;
-            table.frame = frame;
-        }
-    }
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            frame.size.width = 320;
-            table.frame = frame;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            frame.size.width = 320;
-            table.frame = frame;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            frame.size.width = 768;
-            table.frame = frame;
-        }
-    }
-}
 
 @end

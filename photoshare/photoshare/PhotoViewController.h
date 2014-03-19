@@ -10,6 +10,7 @@
 #import "ContentManager.h"
 #import "DataMapperController.h"
 #import "WebserviceController.h"
+#import "NavigationBar.h"
 //for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <QuartzCore/QuartzCore.h>
@@ -43,7 +44,7 @@
     ContentManager *manager;
     
     WebserviceController *webservices;
-    
+    NavigationBar *navnBar;
     BOOL isSavePhotoOnServer;
     
     UIImage *pickImage;
@@ -59,8 +60,9 @@
     IBOutlet UIImageView *imageView;
     IBOutlet UISegmentedControl *segmentControl;
     IBOutlet UILabel *folderLocationShowLabel;
+    IBOutlet UILabel *folderLocationIndicator;
     IBOutlet UIButton *photoViewBtn;
-    
+    UILabel *photoTitleLBL;
     UIImageView *imgV;//for view image in full screen
     
     //for add photo Detail

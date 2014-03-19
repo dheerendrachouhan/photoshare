@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 #import "DataMapperController.h"
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface MyReferralViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,WebserviceDelegate>
 {
     IBOutlet UITableView *tableView;
     DataMapperController *dmc;
     ContentManager *ObjManager;
+    NavigationBar *navnBar;
 }
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 

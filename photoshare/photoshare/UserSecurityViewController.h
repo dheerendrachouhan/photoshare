@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 #import "DataMapperController.h"
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface UserSecurityViewController : UIViewController <WebserviceDelegate, UITextFieldDelegate>
 {
@@ -18,6 +18,7 @@
     WebserviceController *wc ;
     DataMapperController *dmc ;
     ContentManager *objManager;
+    NavigationBar *navnBar;
     IBOutlet UIScrollView *scrollView;
 }
 

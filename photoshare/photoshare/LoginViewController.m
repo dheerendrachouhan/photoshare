@@ -28,6 +28,12 @@
 @implementation LoginViewController
 {
     AppDelegate *delegate;
+    HomeViewController *hm;
+    EarningViewController *ea;
+    LaunchCameraViewController *lcam;
+    CommunityViewController *com;
+    AccountViewController *acc;
+
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -400,7 +406,8 @@
 -(void)getSharingusersId
 {
     @try {
-        
+        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+        webservices=[[WebserviceController alloc] init];
         isGetSharingUserId=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};
@@ -588,24 +595,24 @@
         {
             if([[UIScreen mainScreen] bounds].size.height == 480)
             {
-                scrollPoint = CGPointMake(0.0, 300.0);
+                scrollPoint = CGPointMake(0.0, 250.0);
             }
             else
             {
                 if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
                 {
-                    scrollPoint = CGPointMake(0.0, 200.0);
+                    scrollPoint = CGPointMake(0.0, 150.0);
                 }
                 else
                 {
-                    scrollPoint = CGPointMake(0.0, 260.0);
+                    scrollPoint = CGPointMake(0.0, 200.0);
                 }
                 
             }
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
-            scrollPoint = CGPointMake(0.0, 300.0);
+            scrollPoint = CGPointMake(0.0, 250.0);
         }
         [scrollView setContentOffset:scrollPoint animated:YES];
     }
@@ -631,12 +638,12 @@
 -(void)loadData
 {
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    hm=[[HomeViewController alloc] init];
+    ea=[[EarningViewController alloc] init];
+    lcam=[[LaunchCameraViewController alloc] init];
+    com =[[CommunityViewController alloc] init];
     
-    EarningViewController *ea=[[EarningViewController alloc] init];
     
-    CommunityViewController *com =[[CommunityViewController alloc] init];
-    
-    AccountViewController *acc;
     if([manager isiPad])
     {
         acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController_iPad" bundle:[NSBundle mainBundle]] ;
@@ -646,9 +653,9 @@
         acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:[NSBundle mainBundle]] ;
     }
     
-    LaunchCameraViewController *lcam=[[LaunchCameraViewController alloc] init];
     
-    HomeViewController *hm=[[HomeViewController alloc] init];
+    
+    
     
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
     
@@ -690,12 +697,47 @@
     [delegate.navControlleraccount setTabBarItem:tabBarItem5];
     
     [delegate.tbc setDelegate:self];
+    
     delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
     
     [delegate.window setRootViewController:delegate.tbc];
  
 }
 
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    UITabBarItem *item = [tabBarController.tabBar selectedItem];
+    NSLog(@"Selected item title : %d",item.tag);
+    switch (item.tag) {
+        case 1:
+            hm=[[HomeViewController alloc] init];
+            delegate.navControllerhome.viewControllers=[[NSArray alloc] initWithObjects:hm,nil];
+            break;
+        case 2:
+            ea=[[EarningViewController alloc] init];
+            
+            delegate.navControllerearning.viewControllers=[[NSArray alloc] initWithObjects:ea,nil];
+            break;
+            
+        case 3:
+            lcam=[[LaunchCameraViewController alloc] init];
+            
+            delegate.navControllerphoto.viewControllers=[[NSArray alloc] initWithObjects:lcam,nil];
+            [manager storeData:@"YES" :@"reset_camera"];
+            [manager removeData:@"isfromphotodetailcontroller,istabcamera"];
+            break;
+        case 4:
+            com =[[CommunityViewController alloc] init];
+            delegate.navControllercommunity.viewControllers=[[NSArray alloc] initWithObjects:com,nil];
+            break;
+        case 5:
+            delegate.navControlleraccount.viewControllers=[[NSArray alloc] initWithObjects:acc,nil];
+            break;
+            
+        default:
+            break;
+    }
+}
 #pragma mark - Device Orientation
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

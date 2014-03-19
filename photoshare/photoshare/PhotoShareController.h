@@ -13,13 +13,16 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 #import "WebserviceController.h"
-
+#import "NavigationBar.h"
 @class ContentManager;
 @interface PhotoShareController : UIViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,WebserviceDelegate, UIActionSheetDelegate>
 {
     ContentManager *manager;
     IBOutlet UIImageView *imageView;
+    IBOutlet UIView *shareBtnContainerView;
     BOOL fbFilter, twFilter, mailFilter, smsFilter;
+    NavigationBar *navnBar;
+    NSString *messageStrforMail;
 }
 
 @property (nonatomic, strong) UIImage *sharedImage;

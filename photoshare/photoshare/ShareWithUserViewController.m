@@ -47,19 +47,16 @@
     
      userid=[manager getData:@"user_id"];
     [self addCustomNavigationBar];
-    
+    [self setUIForIOS6];
     //set the disign of the button , View and Label
-    UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
+    /*UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
     float tfBackViewBorderWidth=2;
     float tfBackViewCornerRadius=5;
     
     shareSearchView.layer.borderWidth=tfBackViewBorderWidth;
     shareSearchView.layer.cornerRadius=tfBackViewCornerRadius;
-    shareSearchView.layer.borderColor=tfBackViewBorderColor.CGColor;
-    shareSearchView.layer.borderWidth=tfBackViewBorderWidth;
-    shareSearchView.layer.cornerRadius=tfBackViewCornerRadius;
-    shareSearchView.layer.borderColor=tfBackViewBorderColor.CGColor;
-    
+   shareSearchView.layer.borderColor=tfBackViewBorderColor.CGColor;
+    */
     sharingUserListCollView.layer.borderColor=[UIColor darkGrayColor].CGColor;
     sharingUserListCollView.layer.borderWidth=1;
     
@@ -110,10 +107,7 @@
                 [self getReadSharingUserList];
             }
         }
-    
-    //UISearch bar background color
-    UIColor *searchBarColor = [UIColor whiteColor];
-    [[UISearchBar appearance] setBackgroundColor:searchBarColor];
+   
     
     
     //tap getsure on view for dismiss the keyboard
@@ -128,10 +122,9 @@
     [super viewWillAppear:YES];
     //set the contentsize
     [self checkOrientation];
-    
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
     //contant manager Object
     manager = [ContentManager sharedManager];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -139,7 +132,17 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)setUIForIOS6
+{
+    
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        [[searchBarForUserSearch.subviews objectAtIndex:0] removeFromSuperview];
+        scrollView.frame=CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height+60);
+    }
+    
+    
+}
 #pragma mark - End View Editing
 - (void)handleSingleTap:(UITapGestureRecognizer *) sender
 {
@@ -194,11 +197,13 @@
     
             scrollView.contentSize = CGSizeMake(self.view.frame.size.width,300);
             scrollView.scrollEnabled=NO;
+            
         }
         else if ([manager isiPad])
         {
             scrollView.contentSize = CGSizeMake(self.view.frame.size.width,500);
             scrollView.scrollEnabled=NO;
+           
         }
     }
     else {
@@ -228,8 +233,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
-    [self checkOrientation];
+       [self checkOrientation];
 }
 
 #pragma mark - Set the data in Array for UICollectionView
@@ -488,58 +492,14 @@
     self.navigationController.navigationBarHidden = TRUE;
     
     navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [navnBar loadNav];
+    
+    UIButton *button =[navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
     
-    UILabel *titleLabel = [[UILabel alloc] init ];
-    titleLabel.text=@"Share with User";
-    titleLabel.textAlignment=NSTextAlignmentCenter;
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
-        
-        titleLabel.frame=CGRectMake(navnBar.center.x-100, NavBtnYPosForiPad, 200.0, NavBtnHeightForiPad);
-        titleLabel.font =[UIFont systemFontOfSize:23.0f];
-        
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            titleLabel.frame = CGRectMake(100.0, NavBtnYPosForiPhone, 150.0, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                titleLabel.frame = CGRectMake(170.0, NavBtnYPosForiPhone, 150.0, NavBtnHeightForiPhone);
-            }
-            else
-            {
-                titleLabel.frame = CGRectMake(210.0, NavBtnYPosForiPhone, 150.0, NavBtnHeightForiPhone);
-            }
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        
-        titleLabel.font = [UIFont systemFontOfSize:17.0f];
-       
-    }
+    UILabel *titleLabel =[navnBar navBarTitleLabel:@"Share with User"];
     
     [navnBar addSubview:button];
     [navnBar addSubview:titleLabel];

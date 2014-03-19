@@ -10,6 +10,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "WebserviceController.h"
 #import "ContentManager.h"
+#import "NavigationBar.h"
 //for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <QuartzCore/QuartzCore.h>
@@ -22,7 +23,7 @@
 //for mail send
 #import <MessageUI/MFMailComposeViewController.h>
 
-@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate,CLLocationManagerDelegate,UITextViewDelegate,MFMailComposeViewControllerDelegate>
+@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate,CLLocationManagerDelegate,UITextViewDelegate,MFMailComposeViewControllerDelegate,UIPopoverControllerDelegate>
 {
     //get the userf location
     CLLocationManager *locationManager;
@@ -84,7 +85,7 @@
     UIView *progressBarGestureView;
     
     ContentManager *manager;
-    
+    NavigationBar *navnBar;
     NSMutableArray *photoAssetUrlArray;
     
     
@@ -114,7 +115,7 @@
 //for Aviary
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;
-
+@property(nonatomic,retain)UIPopoverController *popover;
 -(IBAction)addPhoto:(id)sender;
 -(IBAction)deletePhoto:(id)sender;
 -(IBAction)sharePhoto:(id)sender;

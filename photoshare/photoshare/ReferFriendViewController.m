@@ -11,7 +11,6 @@
 #import "SVProgressHUD.h"
 #import "ContentManager.h"
 #import "AppDelegate.h"
-#import "NavigationBar.h"
 #import "HomeViewController.h"
 #import "CustomCells.h"
 
@@ -27,6 +26,7 @@
     NSMutableArray *toolkitVimeoIDArr;
     NSMutableArray *toolkitEarningArr;
     NSMutableArray *toolkitreferralsArr;
+    NSMutableArray *toolKitVisiblityArr;
     NSString *segmentControllerIndexStr;
     NSMutableArray *toolKitNameArray;
     UICollectionViewFlowLayout *layout;
@@ -58,12 +58,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    if([UIScreen mainScreen].bounds.size.height==568)
+    {
+        mypicker.frame=CGRectMake(mypicker.frame.origin.x, mypicker.frame.origin.y+20, mypicker.frame.size.width, mypicker.frame.size.height);
+    }
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         [[NSBundle mainBundle] loadNibNamed:@"ReferFriendViewController_iPad" owner:self options:nil];
     }
-    
+    [self addCustomNavigationBar];
     //allocate & initializing Array
     toolkitIDArr = [[NSMutableArray alloc] init];
     toolkitTitleArr = [[NSMutableArray alloc] init];
@@ -71,6 +74,7 @@
     toolkitEarningArr = [[NSMutableArray alloc] init];
     toolkitreferralsArr = [[NSMutableArray alloc] init];
     toolKitNameArray = [[NSMutableArray alloc] init];
+    toolKitVisiblityArr=[[NSMutableArray alloc] init];
     //
     segmentControllerIndexStr = @"";
     
@@ -109,7 +113,13 @@
     webViewReferral.autoresizesSubviews = YES;
 }
 
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    activeIndex=0;
+    [super viewWillAppear:animated];
+    [self detectDeviceOrientation];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+}
 -(void) webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"login callback%@",data);
@@ -133,6 +143,7 @@
         toolkitVimeoIDArr = [outPutData valueForKey:@"toolkit_vimeo_id"];
         toolkitEarningArr = [outPutData valueForKey:@"toolkit_earnings"];
         toolkitreferralsArr = [outPutData valueForKey:@"toolkit_referrals"];
+        toolKitVisiblityArr=[outPutData valueForKey:@"visible"];
         [self loadData];
         [mypicker reloadAllComponents];
     }
@@ -145,8 +156,6 @@
     toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
     mypicker.layer.borderWidth = 1.0;
     mypicker.layer.borderColor = [UIColor blackColor].CGColor;
-    
-    
     
 }
 
@@ -192,9 +201,19 @@
     NSLog(@"Video name: %@",[toolkitTitleArr objectAtIndex:row]);
     NSLog(@"%d",row);
     @try {
-        [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:row]]]]];
-        toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
-       
+        NSNumber  *visible=[toolKitVisiblityArr objectAtIndex:row];
+      if(activeIndex!=row)
+      {
+          if(visible.integerValue==1)
+          {
+          activeIndex=row;
+          [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:row]]]]];
+          toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
+          }
+          
+      }
+        
+
     }
     @catch (NSException *exception) {
         
@@ -222,8 +241,19 @@
         label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:25];
     }
     // your frame, so picker gets "colored"
-    label.backgroundColor = [UIColor lightGrayColor];
+    /*NSNumber  *visible=[toolKitVisiblityArr objectAtIndex:row];
+    if(visible.integerValue==1)
+    {
+        label.textColor = [UIColor blackColor];
+    }
+    else
+    {
+        label.textColor = [UIColor grayColor];
+    }
+    */
     label.textColor = [UIColor blackColor];
+    label.backgroundColor = [UIColor whiteColor];
+    
     
     label.textAlignment = NSTextAlignmentCenter;
     label.text = [NSString stringWithFormat:@"%@",[toolkitTitleArr objectAtIndex:row]];
@@ -265,76 +295,18 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
     
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
-    UILabel *navTitle = [[UILabel alloc] init];
-
-    
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Refer Friends"];
     //Button for Next
-    UIButton *buttonLeft = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *buttonLeft = [navnBar navBarRightButton:@"Next >"];
     [buttonLeft addTarget:self action:@selector(chooseView) forControlEvents:UIControlEventTouchDown];
-    [buttonLeft setTitle:@"Next >" forState:UIControlStateNormal];
     
-    if([objManager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(280, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-            buttonLeft.frame = CGRectMake(670, NavBtnYPosForiPad, 100, NavBtnHeightForiPad);
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-            navTitle.frame = CGRectMake(410, NavBtnYPosForiPad, 250, NavBtnHeightForiPad);
-            buttonLeft.frame = CGRectMake(910, NavBtnYPosForiPad, 100, NavBtnHeightForiPad);
-        }
-        
-        
-        navTitle.font = [UIFont systemFontOfSize:36.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 100.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-        
-        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:29.0f];
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            navTitle.frame = CGRectMake(110, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-            buttonLeft.frame = CGRectMake(260, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(190, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-                buttonLeft.frame = CGRectMake(420, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
-            }
-            else if ([[UIScreen mainScreen] bounds].size.height == 568)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                navTitle.frame = CGRectMake(230, NavBtnYPosForiPhone, 120, NavBtnHeightForiPhone);
-                buttonLeft.frame = CGRectMake(510, NavBtnYPosForiPhone, 60, NavBtnHeightForiPhone);
-            }
-        }
-        
-        
-        navTitle.font = [UIFont systemFontOfSize:18.0f];
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        buttonLeft.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-    }
-    
-    navTitle.text = @"Refer Friends";
     [navnBar addSubview:button];
     [navnBar addSubview:navTitle];
     [navnBar addSubview:buttonLeft];
@@ -350,26 +322,26 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
+
+#pragma mark - Device Orientation
+-(void)detectDeviceOrientation
 {
-    [super viewWillAppear:animated];
-    [self addCustomNavigationBar];
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
         [self orient:self.interfaceOrientation];
     }else{
         [self orient:self.interfaceOrientation];
     }
 }
-
 -(void)orient:(UIInterfaceOrientation)ott
 {
     if (ott == UIInterfaceOrientationLandscapeLeft ||
         ott == UIInterfaceOrientationLandscapeRight)
     {
+        scrollView.scrollEnabled=YES;
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 480, 300);
-            scrollView.contentSize = CGSizeMake(480, 380);
+            scrollView.contentSize = CGSizeMake(480, 400);
             scrollView.bounces = NO;
             mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
         }
@@ -386,16 +358,17 @@
             scrollView.frame = CGRectMake(0, 161, 1024, 700);
             scrollView.contentSize = CGSizeMake(1024, 770);
             scrollView.bounces = NO;
-            
         }
     }
     else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
     {
+        scrollView.scrollEnabled=NO;
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 320, 370);
-            scrollView.contentSize = CGSizeMake(320, 300);
+            scrollView.contentSize = CGSizeMake(320, 350);
             mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
+            
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
@@ -412,8 +385,18 @@
             
         }
     }
+    if(![objManager isiPad])
+    {
+        [self setUIForIOS6];
+    }
 }
-
+-(void)setUIForIOS6
+{
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+90);
+    }
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -422,55 +405,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self addCustomNavigationBar];
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0, 72, 480, 300);
-            scrollView.contentSize = CGSizeMake(480, 380);
-            scrollView.bounces = NO;
-            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0, 72, 568, 300);
-            scrollView.contentSize = CGSizeMake(568, 440);
-            scrollView.bounces = NO;
-            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            scrollView.frame = CGRectMake(0, 161, 1024, 700);
-            scrollView.contentSize = CGSizeMake(1024, 770);
-            scrollView.bounces = NO;
-            
-        }
-    }
-    else if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            scrollView.frame = CGRectMake(0, 72, 320, 370);
-            scrollView.contentSize = CGSizeMake(320, 300);
-            mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            scrollView.frame = CGRectMake(0, 72, 320, 423);
-            scrollView.contentSize = CGSizeMake(320, 300);
-           mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            scrollView.frame = CGRectMake(0, 161, 768, 780);
-            scrollView.contentSize = CGSizeMake(768, 600);
-            scrollView.bounces = NO;
-            
-        }
-    }
+    [self orient:toInterfaceOrientation];
 }
 
 

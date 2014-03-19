@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 #import "ContentManager.h"
-
+#import "NavigationBar.h"
 @interface AddEditFolderViewController : UIViewController<UITextFieldDelegate,UINavigationBarDelegate, UINavigationControllerDelegate,WebserviceDelegate,UIAlertViewDelegate>
 {
     IBOutlet UIView *folderNameView;
@@ -25,6 +25,8 @@
     NSNumber *userid;
     ContentManager *manager;
     WebserviceController *webservices;
+    NavigationBar *navnBar;
+
     NSNumber *newCollectionId;
     
     BOOL isAdd;
@@ -63,9 +65,9 @@
 
 @property(nonatomic,assign)BOOL isAddFolder;
 @property(nonatomic,assign)BOOL isEditFolder;
+@property(nonatomic,assign)BOOL isFromLaunchCamera;
 @property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,retain)NSString *setFolderName;
-@property(nonatomic,assign)NSNumber *collectionShareWith;
 @property(nonatomic,assign)NSNumber *collectionOwnerId;
 
 -(IBAction)clearTextField:(id)sender;

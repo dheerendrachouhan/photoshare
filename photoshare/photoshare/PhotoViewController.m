@@ -7,10 +7,10 @@
 //
 
 #import "PhotoViewController.h"
-#import "NavigationBar.h"
 #import "PhotoShareController.h"
 #import "EditPhotoDetailViewController.h"
 #import "SVProgressHUD.h"
+#import "LargePhotoViewController.h"
 @interface PhotoViewController ()
 
 @end
@@ -47,6 +47,10 @@
     dmc=[[DataMapperController alloc] init];
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
+    //set UI for IOS 6
+    [self setUIForIOS6];
+    //Add Custom Navigation bar
+    [self addCustomNavigationBar];
     
     imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.layer.masksToBounds=YES;
@@ -108,7 +112,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"yes"])
+    [navnBar setTheTotalEarning:manager.weeklyearningStr];
+    
+    if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
     {
         
         [self callGetLocation];
@@ -124,10 +130,8 @@
         
         [self savePhotosOnServer:userid filepath:imgData];
         
-        [manager storeData:@"no" :@"isfromphotodetailcontroller"];
-        [manager storeData:@"" :@"takephotodetail"];
-        [manager storeData:@"" :@"photo_data"];
-        
+
+        [manager removeData:@"isfromphotodetailcontroller,takephotodetail,photo_data"];
     }
     else
     {
@@ -147,14 +151,25 @@
             [self.navigationController popViewControllerAnimated:NO];
         }
     }
-    [self addCustomNavigationBar];
+   //set the phototitle on navTitleLabel
+    photoTitleLBL.text=photoTitleStr;
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)setUIForIOS6
+{
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height+50);
+        segmentControl.frame=CGRectMake(segmentControl.frame.origin.x, segmentControl.frame.origin.y+40, segmentControl.frame.size.width, segmentControl.frame.size.height);
+        photoViewBtn.frame=CGRectMake(photoViewBtn.frame.origin.x, photoViewBtn.frame.origin.y+40, photoViewBtn.frame.size.width, photoViewBtn.frame.size.height);
+        folderLocationShowLabel.frame=CGRectMake(folderLocationShowLabel.frame.origin.x, folderLocationShowLabel.frame.origin.y+45, folderLocationShowLabel.frame.size.width, folderLocationShowLabel.frame.size.height);
+        folderLocationIndicator.frame=CGRectMake(folderLocationIndicator.frame.origin.x, folderLocationIndicator.frame.origin.y+45, folderLocationIndicator.frame.size.width, folderLocationIndicator.frame.size.height);
+    }
+}
 #pragma mark - save and get image from Document directry
 -(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
 {
@@ -250,7 +265,7 @@
             if(self.photoOwnerId.integerValue==userid.integerValue)
             {
                 isPhotoOwner=YES;
-                UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
+                UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Edit Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
                 [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
             }
             else
@@ -397,7 +412,7 @@
 #pragma mark - View Image in full screen
 -(void)viewImage
 {
-    //UIImageView for view image in full screen
+    /*//UIImageView for view image in full screen
     imgV=[[UIImageView alloc] initWithFrame:self.view.frame];
     imgV.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     imgV.contentMode=UIViewContentModeScaleAspectFit;
@@ -412,7 +427,12 @@
     [self.view addSubview:imgV];
     
     self.tabBarController.tabBar.hidden=YES;
-    isViewLargeImageMode=YES;
+    isViewLargeImageMode=YES;*/
+    
+    LargePhotoViewController *largeImage=[[LargePhotoViewController alloc] init];
+    largeImage.imageLoaded=originalImage;
+    largeImage.isFromPhotoViewC=YES;
+    [self.navigationController pushViewController:largeImage animated:YES];
     
 }
 
@@ -458,7 +478,7 @@
     [imgV removeFromSuperview];
     isViewLargeImageMode=NO;
     self.tabBarController.tabBar.hidden=NO;
-    [self addCustomNavigationBar];
+    
 }
 
 -(void)shareImage:(UIImage *)imageToShare
@@ -488,7 +508,7 @@
     {
         editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
     }
-    editDetail.isFromLaunchCamera=YES;
+    editDetail.isPhotoAdd=YES;
     
     [manager storeData:imgData :@"photo_data"];
     
@@ -511,6 +531,8 @@
 #pragma mark - Photo Editor Creation and Presentation
 - (void) launchPhotoEditorWithImage:(UIImage *)editingResImage highResolutionImage:(UIImage *)highResImage
 {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     [SVProgressHUD dismiss];
     // Customize the editor's apperance. The customization options really only need to be set once in this case since they are never changing, so we used dispatch once here.
     static dispatch_once_t onceToken;
@@ -571,12 +593,16 @@
     [self dismissViewControllerAnimated:YES completion:nil];
    
     [self goToPhotoDetailViewControler];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
 }
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 #pragma mark - Photo Editor Customization
@@ -639,6 +665,10 @@
     webservices=[[WebserviceController alloc] init];
     webservices.delegate=self;
     isSavePhotoOnServer=YES;
+    if(photoLocationStr==nil)
+    {
+        photoLocationStr=@"";
+    }
     [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":self.collectionId};
   
@@ -646,18 +676,6 @@
 }
 
 
-#pragma mark - Device Orientation'
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self addCustomNavigationBar];
-    
-}
 
 #pragma mark - Get the user current location
 //get the user location
@@ -713,72 +731,19 @@
 {
     self.navigationController.navigationBarHidden = TRUE;
     
-    NavigationBar *navnBar = [[NavigationBar alloc] init];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"< Back" forState:UIControlStateNormal];
     
-    
-    UILabel *photoTitleLBL=[[UILabel alloc] init];
-   
-    photoTitleLBL.text=photoTitleStr;
-    photoTitleLBL.textAlignment=NSTextAlignmentCenter;
-    
-    if([manager isiPad])
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-        }
-        else
-        {
-            [navnBar loadNav:CGRectNull :true];
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPad, 90.0, NavBtnHeightForiPad);
-        button.titleLabel.font = [UIFont systemFontOfSize:23.0f];
-        
-        photoTitleLBL.frame=CGRectMake(self.view.center.x-150, NavBtnYPosForiPad, 300.0f, NavBtnHeightForiPad);
-        photoTitleLBL.font = [UIFont systemFontOfSize:23.0f];
-        
-    }
-    else
-    {
-        if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            [navnBar loadNav:CGRectNull :false];
-            photoTitleLBL.frame=CGRectMake(60, NavBtnYPosForiPhone, 200, NavBtnHeightForiPhone);
-        }
-        else
-        {
-            if([[UIScreen mainScreen] bounds].size.height == 480)
-            {
-                [navnBar loadNav:CGRectNull :true];
-                photoTitleLBL.frame=CGRectMake(140, NavBtnYPosForiPhone, 200, NavBtnHeightForiPhone);
-            }
-            else
-            {
-                [navnBar loadNav:CGRectNull :true];
-                photoTitleLBL.frame=CGRectMake(180, NavBtnYPosForiPhone, 200, NavBtnHeightForiPhone);
-            }
-            
-        }
-        button.frame = CGRectMake(0.0, NavBtnYPosForiPhone, 70.0, NavBtnHeightForiPhone);
-        button.titleLabel.font = [UIFont systemFontOfSize:17.0f];
-        
-        photoTitleLBL.font = [UIFont systemFontOfSize:17.0f];
-    }
-    
-    
+    photoTitleLBL=[navnBar navBarTitleLabel:photoTitleStr];
     [navnBar addSubview:photoTitleLBL];
     [navnBar addSubview:button];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
     
-    if(!isViewLargeImageMode)
-    {
-        [[self view] addSubview:navnBar];
-    }
+    [[self view] addSubview:navnBar];
     
 }
 
