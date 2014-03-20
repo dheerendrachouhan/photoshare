@@ -637,59 +637,67 @@
 
 -(void)loadData
 {
+    //Initialize view controller for tabbar items
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     hm=[[HomeViewController alloc] init];
     ea=[[EarningViewController alloc] init];
     lcam=[[LaunchCameraViewController alloc] init];
     com =[[CommunityViewController alloc] init];
+    acc=[[AccountViewController alloc] init];
     
+    delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
+    delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
+    delegate.navControllerphoto = [[UINavigationController alloc] initWithRootViewController:lcam];
+    delegate.navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
+    delegate.navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
+    
+    UIImage *image1;
+    UIImage *image2;
+    UIImage *image3;
+    UIImage *image4;
+    UIImage *image5;
     
     if([manager isiPad])
     {
-        acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController_iPad" bundle:[NSBundle mainBundle]] ;
+        image1=[UIImage imageNamed:@"home_icon@2x.png"];
+        image2=[UIImage imageNamed:@"earnings_icon@2x.png"];
+        image3=[UIImage imageNamed:@"photo_icon@2x.png"];
+        image4=[UIImage imageNamed:@"folder_icon@2x.png"];
+        image5=[UIImage imageNamed:@"cog_icon@2x.png"];
     }
     else
     {
-        acc = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:[NSBundle mainBundle]] ;
+        image1=[UIImage imageNamed:@"home_icon.png"];
+        image2=[UIImage imageNamed:@"earnings_icon.png"];
+        image3=[UIImage imageNamed:@"photo_icon.png"];
+        image4=[UIImage imageNamed:@"folder_icon.png"];
+        image5=[UIImage imageNamed:@"cog_icon.png"];
     }
-    
-    
-    
-    
-    
-    delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
-    
-    delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
-  
-    
-    delegate.navControllerphoto = [[UINavigationController alloc] initWithRootViewController:lcam];
-    
-    delegate.navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
-   
-    
-    delegate.navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
     
     NSDictionary *textAttr=[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor], UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0,0)], UITextAttributeTextShadowOffset,[UIFont fontWithName:@"Verdana-Bold" size:10.0], UITextAttributeFont, nil];
     
-    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"Home" image:[UIImage imageNamed:@"homelogo.png"] tag:1];
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"Home" image:image1 tag:1];
     [tabBarItem setTitleTextAttributes:textAttr forState:UIControlStateNormal];
+    //[tabBarItem setFinishedSelectedImage:image1 withFinishedUnselectedImage:image1];
     
-    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Money" image:[UIImage imageNamed:@"earnings-icon.png"] tag:2];
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Money" image:image2 tag:2];
     [tabBarItem2 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-
-    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Camera" image:[UIImage imageNamed:@"photo-icon.png"] tag:3];
+    //[tabBarItem2 setFinishedSelectedImage:image2 withFinishedUnselectedImage:image2];
+    
+    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Camera" image:image3 tag:3];
     [tabBarItem3 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
+    //[tabBarItem3 setFinishedSelectedImage:image3 withFinishedUnselectedImage:image3];
     
-    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"Folders" image:[UIImage imageNamed:@"folder-icon-bottom.png"] tag:4];
+    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"Folders" image:image4 tag:4];
     [tabBarItem4 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
+    //[tabBarItem4 setFinishedSelectedImage:image4 withFinishedUnselectedImage:image4];
     
-    UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"cog-item.png"] tag:5];
+    UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:image5 tag:5];
     [tabBarItem5 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    
+    //[tabBarItem5 setFinishedSelectedImage:image5 withFinishedUnselectedImage:image5];
     delegate.tbc = [[UITabBarController alloc] init] ;
   
-    //navigation controllers
-    
+    //Set Navigation Controller on tabar items
     [delegate.navControllerhome setTabBarItem:tabBarItem];
     [delegate.navControllerearning setTabBarItem:tabBarItem2];
     [delegate.navControllerphoto setTabBarItem:tabBarItem3];
@@ -697,11 +705,8 @@
     [delegate.navControlleraccount setTabBarItem:tabBarItem5];
     
     [delegate.tbc setDelegate:self];
-    
     delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
-    
     [delegate.window setRootViewController:delegate.tbc];
- 
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
@@ -710,30 +715,27 @@
     NSLog(@"Selected item title : %d",item.tag);
     switch (item.tag) {
         case 1:
-            hm=[[HomeViewController alloc] init];
+            
             delegate.navControllerhome.viewControllers=[[NSArray alloc] initWithObjects:hm,nil];
             break;
         case 2:
-            ea=[[EarningViewController alloc] init];
-            
             delegate.navControllerearning.viewControllers=[[NSArray alloc] initWithObjects:ea,nil];
             break;
-            
         case 3:
             lcam=[[LaunchCameraViewController alloc] init];
-            
             delegate.navControllerphoto.viewControllers=[[NSArray alloc] initWithObjects:lcam,nil];
+            delegate.tbc.selectedIndex=0;
+            
             [manager storeData:@"YES" :@"reset_camera"];
             [manager removeData:@"isfromphotodetailcontroller,istabcamera"];
+            delegate.tbc.selectedIndex=2;
             break;
         case 4:
-            com =[[CommunityViewController alloc] init];
             delegate.navControllercommunity.viewControllers=[[NSArray alloc] initWithObjects:com,nil];
             break;
         case 5:
             delegate.navControlleraccount.viewControllers=[[NSArray alloc] initWithObjects:acc,nil];
             break;
-            
         default:
             break;
     }
@@ -751,7 +753,6 @@
     [passwordTextField resignFirstResponder];
     float width= self.view.frame.size.width;
     float height= self.view.frame.size.height;
-    
     if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
         toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
     {
@@ -798,7 +799,6 @@
         }
     }
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

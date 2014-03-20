@@ -100,6 +100,8 @@
         [checkBoxBtn addTarget:self action:@selector(sameB:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:checkBoxBtn];
     }
+    cell.textLabel.frame=CGRectMake(cell.textLabel.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width-45, cell.textLabel.frame.size.height);
+    
     cell.textLabel.text = [tweetUserName objectAtIndex:indexPath.row];
     UIButton *checkBox = (UIButton *)[cell.contentView viewWithTag:1001];
     if([selectedUserArr containsObject:[tweetUserName objectAtIndex:indexPath.row]])

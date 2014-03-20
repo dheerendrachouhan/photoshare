@@ -485,8 +485,17 @@
             UIMenuItem *editPhoto = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editFolder:)];
             
             UIMenuController *menu = [UIMenuController sharedMenuController];
+            CGRect menucontrollerFrame;
+            if([manager isiPad])
+            {
+                menucontrollerFrame=CGRectMake(cell.frame.origin.x+50,cell.frame.origin.y+50, 50, 50);
+            }
+            else
+            {
+                menucontrollerFrame=CGRectMake(cell.frame.origin.x+15,cell.frame.origin.y+40, 50, 50);
+            }
             [menu setMenuItems:[NSArray arrayWithObjects:editPhoto,nil]];
-            [menu setTargetRect:CGRectMake(10, 50, cell.frame.size.width, cell.frame.size.height) inView:cell];
+            [menu setTargetRect:menucontrollerFrame inView:cell.superview];
             [menu setMenuVisible:YES animated:YES];
             NSLog(@"Edit Photo");
 

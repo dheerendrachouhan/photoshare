@@ -436,7 +436,51 @@
 
     // If the Facebook app is installed and we can present the share dialog
     if ([FBDialogs canPresentShareDialogWithParams:params]) {
+        // Put together the dialog parameters
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       @"I’ve just joined 123friday this is my video", @"name",
+                                       @"123Friday", @"caption",
+                                       @"", @"description",
+                                       toolkitLink, @"link",
+                                       @"", @"picture",
+                                       nil];
         
+        
+        // Show the feed dialog
+        [FBWebDialogs presentFeedDialogModallyWithSession:nil
+                                               parameters:params
+                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                      if (error) {
+                                                          // An error occurred, we need to handle the error
+                                                          // See: https://developers.facebook.com/docs/ios/errors
+                                                          NSLog(@"Error publishing story: %@", error.description);
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                              // User canceled.
+                                                              NSLog(@"User cancelled.");
+                                                          } else {
+                                                              // Handle the publish feed callback
+                                                              NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
+                                                              
+                                                              if (![urlParams valueForKey:@"post_id"]) {
+                                                                  // User canceled.
+                                                                  UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                                                                  
+                                                                  [alC show];                    NSLog(@"User cancelled.");
+                                                                  
+                                                              } else {
+                                                                  // User clicked the Share button
+                                                                  NSString *result = [NSString stringWithFormat: @"Posted story, id: %@", [urlParams valueForKey:@"post_id"]];
+                                                                  FBTWViewController *fb = [[FBTWViewController alloc] init];
+                                                                  fb.successType = @"fb";
+                                                                  
+                                                                  [self.navigationController pushViewController:fb animated:YES];                    NSLog(@"result %@", result);
+                                                              }
+                                                          }
+                                                      }
+                                                  }];
+
+       /*
         // Present share dialog
         [FBDialogs presentShareDialogWithLink:params.link
                                          name:params.name
@@ -454,12 +498,12 @@
                                               NSLog(@"result %@", results);
                                           }
                                       }];
+        */
+        
+        
         
         // If the Facebook app is NOT installed and we can't present the share dialog
     } else {
-       
-        
-        
         // Put together the dialog parameters
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        @"I’ve just joined 123friday this is my video", @"name",
@@ -504,42 +548,6 @@
                                                       }
                                                   }];
     }
-   /*self.stringStr=userMessage.text;
-     NSLog(@"User Message : %@",self.stringStr);
-    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-        
-        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        
-        UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        
-        FBTWViewController *fb = [[FBTWViewController alloc] init];
-        fb.successType = @"fb";
-        
-        [controller setInitialText:[NSString stringWithFormat:@"I’ve just joined 123friday this is my video"]];
-        [controller addURL:[NSURL URLWithString:toolkitLink]];
-        [controller addImage:[UIImage imageNamed:@"login-logo-log.png"]];
-        
-        [controller setCompletionHandler:^(SLComposeViewControllerResult result) {
-            
-            switch (result) {
-                case SLComposeViewControllerResultCancelled:
-                    [alC show];
-                    [self dismissModals];
-                    break;
-                case SLComposeViewControllerResultDone:
-                    [self.navigationController pushViewController:fb animated:YES];
-                    break;
-                default:
-                    break;
-            }
-        }];
-        [self presentViewController:controller animated:YES completion:Nil];
-        
-    }
-    else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Facebook not Found" message:@"Your Facebook account in not configured. Please Configure your facebook account from settings." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
-        [alert show];
-    }*/
 }
 
 -(void)getTwitterAccounts {
@@ -577,7 +585,6 @@
         UIAlertView *twAl = [[UIAlertView alloc] initWithTitle:@"Twitter Account Not Found/ Twitter Account not Granted" message:@"Please sign-in your twitter account from your ios setting and run the app again. Grant permission to access this app. If twitter table loaded ignore this message." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [twAl show];
     }
-
 }
 
 -(void) getFollowerNameFromID:(NSString *)ID{
@@ -729,7 +736,7 @@
     NSString *emailTitle = @"Check This Out!";
     // Email Content
     NSString *message=self.stringStr;
-    if(message==NULL)
+    if(message==NULL || message.length==0)
     {
         message=@"";
     }
@@ -794,7 +801,7 @@
     
 	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
     NSString *message=self.stringStr;
-    if(message==NULL)
+    if(message==NULL || message.length==0)
     {
         message=@"";
     }

@@ -65,8 +65,13 @@
     //For Launch Camera View
     [manager storeData:@"NO" :@"istabcamera"];
     [self setTheUSerDetails];
+    AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    CommunityViewController *com =[[CommunityViewController alloc] init];
+    delegate.navControllercommunity.viewControllers=[[NSArray alloc] initWithObjects:com,nil];
     //Set the tabbar index of Home Page
     [self.tabBarController setSelectedIndex:0];
+    
+    
 }
 - (void)didReceiveMemoryWarning
 {

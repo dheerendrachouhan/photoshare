@@ -292,7 +292,7 @@
     UITableViewCell * cell = [self.table dequeueReusableCellWithIdentifier:identitifier];
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identitifier];
-        UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-40,5, 20,20)];
+        UIImageView *checkBoxImg=[[UIImageView alloc] initWithFrame:CGRectMake(cell.frame.size.width-40,2, 20,20)];
         checkBoxImg.tag=1001;
         checkBoxImg.layer.masksToBounds=YES;
         checkBoxImg.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
@@ -300,8 +300,10 @@
         checkBoxImg.layer.borderColor=BTN_BORDER_COLOR.CGColor;
         [cell.contentView addSubview:checkBoxImg];
     }
-    
+    cell.textLabel.frame=CGRectMake(cell.textLabel.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width-45, cell.textLabel.frame.size.height);
+    cell.detailTextLabel.frame=CGRectMake(cell.detailTextLabel.frame.origin.x, cell.detailTextLabel.frame.origin.y, cell.detailTextLabel.frame.size.width-50, cell.detailTextLabel.frame.size.height);
    
+    
     if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
     {
         NSString *title;
@@ -329,22 +331,6 @@
         cell.textLabel.text = title;
         cell.detailTextLabel.text = contacts;
         
-        if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
-        {
-            if (isSearching && [filteredList count]) {
-                //cell.accessoryType = UITableViewCellAccessoryNone;
-            }
-            else
-            {
-                //cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            }
-            
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-        
-        
     }
     else if([filterType isEqualToString:@"Refer Text"] || [filterType isEqualToString:@"Share Text"])
     {
@@ -370,20 +356,6 @@
         cell.textLabel.text = title;
         cell.detailTextLabel.text = contacts;
         
-        if([arSelectedRows containsObject:[NSNumber numberWithInt:indexPath.row]])
-        {
-            if (isSearching && [filteredList count]) {
-                //cell.accessoryType = UITableViewCellAccessoryNone;
-            }
-            else
-            {
-                //cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            }
-            
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
    //Add Check Box
@@ -477,7 +449,7 @@
         if(isSelect)
         {
             imgView.image=[UIImage imageNamed:@"iconr3.png"];
-            //cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            
             NSLog(@"Index path is %d",indexPath.row);
             int index;
             if(isSearching)
@@ -517,7 +489,7 @@
         }
         else {
             imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
-            //cell.accessoryType = UITableViewCellAccessoryNone;
+           
             int index=indexPath.row;
             tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
@@ -578,7 +550,7 @@
         if(isSelect)
         {
             imgView.image=[UIImage imageNamed:@"iconr3.png"];
-            //cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            
             NSLog(@"Index path is %d",indexPath.row);
             int index = 0;
             if(isSearching)
@@ -627,7 +599,7 @@
         }
         else {
             imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
-            //cell.accessoryType = UITableViewCellAccessoryNone;
+           
             int index=indexPath.row;
             tweetString = [NSMutableString stringWithString:@""];
             [finalSelectArr removeAllObjects];
@@ -698,7 +670,12 @@
             {
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
-                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    UITableViewCell *cell=[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]];
+                    
+                    UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
+                    imgView.image=[UIImage imageNamed:@"iconr3.png"];
+                    
+                    //[[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
                     [arSelectedRows addObject:[NSNumber numberWithInteger:r]];
                     if([tweetString length])
                     {
@@ -719,7 +696,11 @@
             {
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
-                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
+                    UITableViewCell *cell=[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]];
+                    
+                    UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
+                    imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
+                    //[[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
                     [arSelectedRows removeObject:[NSNumber numberWithInteger:r]];
                 }
             }
@@ -738,7 +719,11 @@
             {
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
-                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    UITableViewCell *cell=[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]];
+                    
+                    UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
+                    imgView.image=[UIImage imageNamed:@"iconr3.png"];
+                    //[[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
                     [arSelectedRows addObject:[NSNumber numberWithInteger:r]];
                     if([tweetString length])
                     {
@@ -758,7 +743,11 @@
             {
                 for (NSInteger r = 0; r < [self.table numberOfRowsInSection:s]; r++)
                 {
-                    [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
+                    UITableViewCell *cell=[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]];
+                    
+                    UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
+                    imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
+                   // [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
                     [arSelectedRows removeObject:[NSNumber numberWithInteger:r]];
                 }
             }

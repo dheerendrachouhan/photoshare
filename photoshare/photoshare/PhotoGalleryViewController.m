@@ -286,11 +286,6 @@
             deletePhotoBtn.backgroundColor=[UIColor blueColor];
             [deletePhotoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             btn.selected=!btn.selected;
-            NSLog(@"Not selected");
-            //addPhotoBtn.hidden=YES;
-            //sharePhotoBtn.hidden=YES;
-            
-            //frame = sharePhotoBtn.frame;
             isDeleteMode=YES;
         }
         else
@@ -344,8 +339,6 @@
             [self resetButton];
         }
         
-       
-        NSLog(@"Selected");
     }
     else
     {
@@ -369,8 +362,7 @@
 {
    
     [editBtn removeFromSuperview];
-    //UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Sharing is Available for Single Photo" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-    //[alert show];
+    
     if(photoArray.count>0)
     {
         UIButton *btn=(UIButton *)sender;
@@ -381,12 +373,9 @@
             [alert show];
             sharePhotoBtn.backgroundColor=[UIColor blueColor];
             [sharePhotoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            NSLog(@"Not selected");
+            
             btn.selected=!btn.selected;
-            //addPhotoBtn.hidden=YES;
-            //deletePhotoBtn.hidden=YES;
-            //frame = sharePhotoBtn.frame;
-            //sharePhotoBtn.frame=deletePhotoBtn.frame;
+            
             isShareMode=YES;
         }
         else
@@ -398,7 +387,6 @@
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             
             shareSortedArray = [selectedImagesIndex sortedArrayUsingDescriptors:sortDescriptors];
-            NSLog(@"Selected");
             
             if(shareSortedArray.count > 0)
             {
@@ -431,9 +419,6 @@
             }
             
             [self resetButton];
-            //sharePhotoBtn.frame =frame;
-            
-            
         }
 
     }
@@ -940,49 +925,24 @@
     
    
     if(collectionOwnerId.integerValue==userid.integerValue)
-    {
-        deletePhotoBtn.backgroundColor=[UIColor whiteColor];
-        [deletePhotoBtn setTitleColor:BTN_FONT_COLOR forState:UIControlStateNormal];
-        
-        sharePhotoBtn.backgroundColor=[UIColor whiteColor];
-        [sharePhotoBtn setTitleColor:BTN_FONT_COLOR forState:UIControlStateNormal];
-        /*addPhotoBtn.hidden=NO;
-        deletePhotoBtn.hidden=NO;
-        sharePhotoBtn.hidden=NO;*/
-        isDeleteMode=NO;
-        isShareMode=NO;
-        //sharePhotoBtn.frame =frame;
-    }
+    {addPhotoBtn.hidden=NO;deletePhotoBtn.hidden=NO;sharePhotoBtn.hidden=NO;}
     else
     {
         if(isWritePermission)
-        {
-            addPhotoBtn.hidden=NO;
-            deletePhotoBtn.hidden=YES;
-            sharePhotoBtn.hidden=NO;
-           
-            isDeleteMode=NO;
-            isShareMode=NO;
-            sharePhotoBtn.frame =frame;
-
-        }
+        {addPhotoBtn.hidden=NO;deletePhotoBtn.hidden=YES;sharePhotoBtn.hidden=NO;}
         else
-        {
-            addPhotoBtn.hidden=YES;
-            deletePhotoBtn.hidden=YES;
-            sharePhotoBtn.hidden=NO;
-            
-            isDeleteMode=NO;
-            isShareMode=NO;
-            sharePhotoBtn.frame =frame;
-
-        }
+        {addPhotoBtn.hidden=YES;deletePhotoBtn.hidden=YES;sharePhotoBtn.hidden=NO;}
     }
-        [selectedImagesIndex removeAllObjects];
     
-    //unselect the delete and the share button and the collection view selected cell
-    deletePhotoBtn.selected=NO;
-    sharePhotoBtn.selected=NO;    
+    isDeleteMode=NO;isShareMode=NO;deletePhotoBtn.selected=NO;sharePhotoBtn.selected=NO;
+    deletePhotoBtn.backgroundColor=[UIColor whiteColor];
+    [deletePhotoBtn setTitleColor:BTN_FONT_COLOR forState:UIControlStateNormal];
+    sharePhotoBtn.backgroundColor=[UIColor whiteColor];
+    [sharePhotoBtn setTitleColor:BTN_FONT_COLOR forState:UIControlStateNormal];
+    
+    
+    [selectedImagesIndex removeAllObjects];
+    [collectionview reloadData];
 }
 
 #pragma mark - gesture methods
@@ -997,10 +957,9 @@
     if (indexPath != nil){
         
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
+        NSLog(@"cell selected %hhd",cell.selected);
         if(isDeleteMode)
         {
-            NSLog(@"%hhd",cell.selected);
-            
             if(cell.selected==NO)
             {
                 if(photoArray.count>indexPath.row)
@@ -1089,6 +1048,16 @@
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
+    
+    CGRect frameForMenuController;
+    if([manager isiPad])
+    {
+        frameForMenuController=CGRectMake(50,40, 50, 50);
+    }
+    else
+    {
+        frameForMenuController=CGRectMake(25,40, 50, 50);
+    }
     if (indexPath != nil){
 
          selectedEditImageIndex=indexPath.row;
@@ -1101,7 +1070,7 @@
             
             UIMenuController *menu = [UIMenuController sharedMenuController];
             [menu setMenuItems:[NSArray arrayWithObjects:editPhoto,nil]];
-            [menu setTargetRect:CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+50, cell.frame.size.width, cell.frame.size.height) inView:cell.superview];
+            [menu setTargetRect:frameForMenuController inView:cell];
             [menu setMenuVisible:YES animated:YES];
             NSLog(@"Edit Photo");
         }
@@ -1117,7 +1086,7 @@
                     UIMenuItem *delete = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteSelectedPhoto:)];
                     UIMenuController *menu = [UIMenuController sharedMenuController];
                     [menu setMenuItems:[NSArray arrayWithObjects:edit,delete, nil]];
-                    [menu setTargetRect:CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+50, cell.frame.size.width, cell.frame.size.height) inView:cell.superview];
+                    [menu setTargetRect:frameForMenuController inView:cell];
                     [menu setMenuVisible:YES animated:YES];
                 }
                 else
@@ -1129,7 +1098,7 @@
                     UIMenuController *menu = [UIMenuController sharedMenuController];
                     
                     [menu setMenuItems:[NSArray arrayWithObjects:edit, reportAbuse,nil]];
-                    [menu setTargetRect:CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+50, cell.frame.size.width, cell.frame.size.height) inView:cell.superview];
+                    [menu setTargetRect:frameForMenuController inView:cell];
                     [menu setMenuVisible:YES animated:YES];
                 }
                 
@@ -1141,7 +1110,7 @@
                 
                 UIMenuController *menu = [UIMenuController sharedMenuController];
                 [menu setMenuItems:[NSArray arrayWithObjects:reportAbuse,nil]];
-                [menu setTargetRect:CGRectMake(cell.frame.origin.x+20, cell.frame.origin.y+50, cell.frame.size.width, cell.frame.size.height) inView:cell.superview];
+                [menu setTargetRect:frameForMenuController inView:cell];
                 [menu setMenuVisible:YES animated:YES];
                 NSLog(@"Read Permission");
             }
@@ -1332,9 +1301,7 @@
 #pragma mark - Open Edit option
 -(void)editImage:(id)sender
 {
-   
     @try {
-        
         isEditPhotoMode=YES;
         NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
         if(photoUserId.integerValue==userid.integerValue)
@@ -1349,10 +1316,6 @@
             UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:Nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo", nil];
             [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
         }
-        
-        //selectedEditImageIndex=indexPath.row;
-        
-        //[self getImageFromServerForEdit:indexPath.row];
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception.description);
@@ -1360,7 +1323,6 @@
     @finally {
         
     }
-    
     //if editBtnIs in view
     [editBtn removeFromSuperview];
 }
@@ -1391,7 +1353,6 @@
     {
         [self.popover dismissPopoverAnimated:YES];
     }
-    
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -1413,7 +1374,6 @@
     @catch (NSException *exception) {
         
     }
-    
     if(isCameraMode)
     {
         isCameraEditMode=YES;
@@ -1422,9 +1382,7 @@
         [self dismissViewControllerAnimated:NO completion:Nil];
         if (isCameraEditMode) {
             isCameraEditMode = false ;
-            [NSTimer scheduledTimerWithTimeInterval:1.0f                                       target:self selector:@selector(openeditorcontrol)
-                                           userInfo:nil repeats:NO];
-            
+            [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(openeditorcontrol) userInfo:nil repeats:NO];
         }
     }
     else
@@ -1480,8 +1438,6 @@
             imgView.image=image;
             
             [cell.contentView addSubview:imgView];
-            int i=[indexPath row];
-            NSLog(@"index %d",i);
             
             if([selectedImagesIndex containsObject:[NSNumber numberWithInteger:[indexPath row]]])
             {

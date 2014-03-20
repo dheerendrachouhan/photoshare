@@ -164,7 +164,7 @@
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    UILabel *navTitle = [navnBar navBarTitleLabel:@"Past Payment"];
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Past Earnings"];
     
     [navnBar addSubview:navTitle];
     [navnBar addSubview:button];

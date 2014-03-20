@@ -16,6 +16,31 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>logo_29x29</string>
+				<string>logo_114x114</string>
+				<string>logo_57x57</string>
+				<string>Icon-120</string>
+				<string>logo_58x58</string>
+				<string>logo_80x80</string>
+			</array>
+		</dict>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>logo_40x40</string>
+				<string>logo_100x100</string>
+				<string>logo_50x50</string>
+				<string>logo_152x152</string>
+				<string>logo_76x76</string>
+				<string>logo_29x29</string>
+				<string>logo_144x144</string>
+				<string>logo_72x72</string>
+				<string>logo_114x114</string>
+				<string>logo_57x57</string>
 				<string>Icon-120</string>
 				<string>logo_58x58</string>
 				<string>logo_80x80</string>
@@ -59,6 +84,8 @@
 	<array>
 		<string>audio</string>
 	</array>
+	<key>UILaunchImageFile</key>
+	<string>Default</string>
 	<key>UILaunchImages</key>
 	<array>
 		<dict>
@@ -88,8 +115,6 @@
 	</array>
 	<key>UIStatusBarHidden</key>
 	<false/>
-	<key>UIStatusBarHidden~ipad</key>
-	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -95,60 +95,67 @@
 {
     [super viewWillAppear:NO];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
-    
-    if([[manager getData:@"reset_camera"] isEqualToString:@"YES"])
-    {
-        [self launchCamera];
-        [manager removeData:@"reset_camera"];
-    }
-    else
-    {
-        if([[manager getData:@"is_add_folder"] isEqualToString:@"YES"])
+    @try {
+        if([[manager getData:@"reset_camera"] isEqualToString:@"YES"])
         {
-            [manager storeData:@"NO" :@"is_add_folder"];
-            @try {
-                NSNumber *newcolid=[manager getData:@"new_col_id"];
-                if(newcolid!=nil)
-                {
-                    [self getCollectionInfoFromUserDefault];
-                    NSInteger index=[collectionIdArray indexOfObject:[NSString stringWithFormat:@"%@",newcolid]];
-                    [categoryPickerView reloadAllComponents];
-                    [categoryPickerView selectRow:index inComponent:0 animated:NO];
-                    titleLabe.text=[collectionNameArray objectAtIndex:index];
-                    selectedCollectionId=[collectionIdArray objectAtIndex:index];
-                    NSLog(@"new col id is %@",newcolid);
-                }
-                //Remove temp key from NSUserDefault
-                [manager removeData:@"is_add_folder,new_col_id"];
-            }
-            @catch (NSException *exception) {
-                
-            }
-            
+            [self launchCamera];
+            [manager removeData:@"reset_camera"];
         }
         else
         {
-            if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
+            if([[manager getData:@"is_add_folder"] isEqualToString:@"YES"])
             {
-                //Show Catagory picker view and picker toolbar
-                categoryPickerView.hidden=NO;
-                pickerToolbar.hidden=NO;
+                [manager storeData:@"NO" :@"is_add_folder"];
+                @try {
+                    NSNumber *newcolid=[manager getData:@"new_col_id"];
+                    if(newcolid!=nil)
+                    {
+                        [self getCollectionInfoFromUserDefault];
+                        NSInteger index=[collectionIdArray indexOfObject:[NSString stringWithFormat:@"%@",newcolid]];
+                        [categoryPickerView reloadAllComponents];
+                        [categoryPickerView selectRow:index inComponent:0 animated:NO];
+                        titleLabe.text=[collectionNameArray objectAtIndex:index];
+                        selectedCollectionId=[collectionIdArray objectAtIndex:index];
+                        NSLog(@"new col id is %@",newcolid);
+                    }
+                    //Remove temp key from NSUserDefault
+                    [manager removeData:@"is_add_folder,new_col_id"];
+                }
+                @catch (NSException *exception) {
+                    
+                }
                 
-                selectedCollectionId=@-1;
-                [self callGetLocation];
-                
-                photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
-                photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
-                photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
-                
-                imgData=[manager getData:@"photo_data"];
-                imgView.image=[UIImage imageWithData:imgData];
-                //Remove temp key
-                [manager removeData:@"isfromphotodetailcontroller,photo_data,takephotodetail"];
             }
+            else
+            {
+                if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
+                {
+                    //Show Catagory picker view and picker toolbar
+                    categoryPickerView.hidden=NO;
+                    pickerToolbar.hidden=NO;
+                    
+                    selectedCollectionId=@-1;
+                    [self callGetLocation];
+                    
+                    photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
+                    photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
+                    photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
+                    
+                    imgData=[manager getData:@"photo_data"];
+                    imgView.image=[UIImage imageWithData:imgData];
+                    //Remove temp key
+                    [manager removeData:@"isfromphotodetailcontroller,photo_data,takephotodetail"];
+                }
+            }
+            
         }
 
     }
+    @catch (NSException *exception) {
+        
+    }
+    
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -177,10 +184,7 @@
     {
         pickerToolbar.hidden=YES;
         categoryPickerView.hidden=YES;
-        view=[[UIView alloc] initWithFrame:self.view.frame];
-        view.autoresizingMask=UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        view.backgroundColor=[UIColor blackColor];
-        [self.view addSubview:view];
+        
         [self getCollectionInfoFromUserDefault];
         imgView.image=nil;
         
@@ -537,7 +541,7 @@
         categoryPickerView.showsSelectionIndicator = YES;
         UITapGestureRecognizer* gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickerViewTapGestureRecognized:)];
         gestureRecognizer.cancelsTouchesInView = NO;
-        
+    
         [categoryPickerView addGestureRecognizer:gestureRecognizer];
         
         
@@ -663,6 +667,10 @@
     {
         selectedCollectionId=@-1;
         titleLabe.text=@"Select Folder";
+        AddEditFolderViewController *addeditvc=[[AddEditFolderViewController alloc] init];
+        addeditvc.isAddFolder=YES;
+        addeditvc.isFromLaunchCamera=YES;
+        [self.navigationController pushViewController:addeditvc animated:YES];
     }
     else
     {

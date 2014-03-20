@@ -401,7 +401,6 @@
     
     @try {
         [webservices call:dicData controller:@"collection" method:@"change"];
-
     }
     @catch (NSException *exception) {
         
@@ -413,14 +412,11 @@
 }
 -(void)deleteCollectionInfoInServer
 {
-    
     isDelete=YES;
-    
     webservices.delegate=self;
     //delete data
     NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
     [webservices call:dicData controller:@"collection" method:@"delete"];
-    
 }
 -(void)getTheCollectionOwnerName
 {

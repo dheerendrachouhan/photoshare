@@ -159,7 +159,7 @@
             @try {
                 [earnView getIncomeFromServer];
             }
-            @catch (NSException *exception) {
+             @catch (NSException *exception) {
                 
             }
         }
@@ -192,7 +192,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    
+   
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
