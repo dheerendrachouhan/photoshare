@@ -319,9 +319,6 @@
                         @catch (NSException *exception) {
                             
                         }
-                        @finally {
-                            
-                        }
                     }
                 
                 isGetSharingUserId=NO;
@@ -416,9 +413,6 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
 }
 //Fetch data From Server
 -(void)fetchOwnCollectionInfoFromServer
@@ -433,10 +427,6 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
-    
 }
 -(void)fetchSharingCollectionInfoFromServer
 {
@@ -455,12 +445,7 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
 }
-
-
 //---------------------------
 //---------------------------
 -(void)getIncomeFromServer
@@ -479,8 +464,6 @@
     isGetTheCollectionListData=NO;
     isGetStorage=NO;
 }
-
-
 //forgot password function
 - (IBAction)forgotPasswordBtn:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.123friday.com/my123/account/forgotpassword"]];
@@ -563,9 +546,6 @@
         rememberFltr = NO;
     }
 }
-
-
-
 //keyboard hide and show on textfields
 - (void)registerForKeyboardNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
@@ -620,9 +600,6 @@
 - (void)keyboardWillBeHidden:(NSNotification *)notification {
     [scrollView setContentOffset:CGPointZero animated:YES];
 }
-
-
-
 - (void)viewWillDisappear:(BOOL)animated {
     [self deregisterFromKeyboardNotifications];
     [super viewWillDisappear:animated];
@@ -659,42 +636,37 @@
     
     if([manager isiPad])
     {
-        image1=[UIImage imageNamed:@"home_icon@2x.png"];
-        image2=[UIImage imageNamed:@"earnings_icon@2x.png"];
-        image3=[UIImage imageNamed:@"photo_icon@2x.png"];
-        image4=[UIImage imageNamed:@"folder_icon@2x.png"];
-        image5=[UIImage imageNamed:@"cog_icon@2x.png"];
+        image1=[UIImage imageNamed:@"home_tab_icon@2x.png"];
+        image2=[UIImage imageNamed:@"earnings_tab_icon@2x.png"];
+        image3=[UIImage imageNamed:@"photo_tab_icon@2x.png"];
+        image4=[UIImage imageNamed:@"folder_tab_icon@2x.png"];
+        image5=[UIImage imageNamed:@"cog_tab_icon@2x.png"];
     }
     else
     {
-        image1=[UIImage imageNamed:@"home_icon.png"];
-        image2=[UIImage imageNamed:@"earnings_icon.png"];
-        image3=[UIImage imageNamed:@"photo_icon.png"];
-        image4=[UIImage imageNamed:@"folder_icon.png"];
-        image5=[UIImage imageNamed:@"cog_icon.png"];
+        image1=[UIImage imageNamed:@"home_tab.png"];
+        image2=[UIImage imageNamed:@"earnings_tab.png"];
+        image3=[UIImage imageNamed:@"photo_tab.png"];
+        image4=[UIImage imageNamed:@"folder_tab.png"];
+        image5=[UIImage imageNamed:@"cog_tab.png"];
     }
     
     NSDictionary *textAttr=[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor], UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0,0)], UITextAttributeTextShadowOffset,[UIFont fontWithName:@"Verdana-Bold" size:10.0], UITextAttributeFont, nil];
     
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]  initWithTitle:@"Home" image:image1 tag:1];
     [tabBarItem setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    //[tabBarItem setFinishedSelectedImage:image1 withFinishedUnselectedImage:image1];
     
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Money" image:image2 tag:2];
     [tabBarItem2 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    //[tabBarItem2 setFinishedSelectedImage:image2 withFinishedUnselectedImage:image2];
     
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Camera" image:image3 tag:3];
     [tabBarItem3 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    //[tabBarItem3 setFinishedSelectedImage:image3 withFinishedUnselectedImage:image3];
     
     UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"Folders" image:image4 tag:4];
     [tabBarItem4 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    //[tabBarItem4 setFinishedSelectedImage:image4 withFinishedUnselectedImage:image4];
     
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:image5 tag:5];
     [tabBarItem5 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    //[tabBarItem5 setFinishedSelectedImage:image5 withFinishedUnselectedImage:image5];
     delegate.tbc = [[UITabBarController alloc] init] ;
   
     //Set Navigation Controller on tabar items
@@ -713,6 +685,11 @@
 {
     UITabBarItem *item = [tabBarController.tabBar selectedItem];
     NSLog(@"Selected item title : %d",item.tag);
+    if(item.tag!=4)
+    {
+        delegate.navControllercommunity.viewControllers=[NSArray arrayWithObjects:com, nil];
+        com.updateCollectionDetails=YES;
+    }
     switch (item.tag) {
         case 1:
             
@@ -731,7 +708,7 @@
             delegate.tbc.selectedIndex=2;
             break;
         case 4:
-            delegate.navControllercommunity.viewControllers=[[NSArray alloc] initWithObjects:com,nil];
+           
             break;
         case 5:
             delegate.navControlleraccount.viewControllers=[[NSArray alloc] initWithObjects:acc,nil];

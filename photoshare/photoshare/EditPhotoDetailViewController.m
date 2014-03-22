@@ -80,10 +80,6 @@
         @catch (NSException *exception) {
             
         }
-        @finally {
-            
-        }
-
     }
     if(isLaunchCamera)
     {
@@ -174,8 +170,7 @@
 
 // called when click on the retun button.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
-{    
-    
+{
         [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
         [textField resignFirstResponder];
         return YES;
@@ -294,10 +289,7 @@
         }
         @catch (NSException *exception) {
             
-        }
-        @finally {
-            
-        }        
+        }      
     }
     [self.navigationController popViewControllerAnimated:YES];
 

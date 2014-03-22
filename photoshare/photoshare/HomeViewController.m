@@ -29,6 +29,9 @@
 {
     NSString *servicesStr;
     NavigationBar *navnBar;
+    CommunityViewController *com;
+    PhotoGalleryViewController *photoGallery;
+    ReferFriendViewController *lcam;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,7 +42,7 @@
     
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+       
     }
     return self;
 }
@@ -49,7 +52,7 @@
     [super viewDidLoad];
     [self initializeTheGlobalObject];
     [self addCustomNavigationBar];
-     [self setUIForIOS6];
+    [self setUIForIOS6];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
@@ -66,7 +69,7 @@
     [manager storeData:@"NO" :@"istabcamera"];
     [self setTheUSerDetails];
     AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-    CommunityViewController *com =[[CommunityViewController alloc] init];
+    
     delegate.navControllercommunity.viewControllers=[[NSArray alloc] initWithObjects:com,nil];
     //Set the tabbar index of Home Page
     [self.tabBarController setSelectedIndex:0];
@@ -92,6 +95,9 @@
 {
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
+    com =[[CommunityViewController alloc] init];
+    lcam=[[ReferFriendViewController alloc] init];
+    photoGallery=[[PhotoGalleryViewController alloc] init];
     dmc = [[DataMapperController alloc] init];
     userid = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
 }
@@ -125,7 +131,6 @@
 #pragma mark - IBAction method
 -(IBAction)goToReferFriend:(id)sender
 {
-    ReferFriendViewController *lcam=[[ReferFriendViewController alloc] init];
     [self.navigationController pushViewController:lcam animated:YES];
 }
 
@@ -133,7 +138,6 @@
 -(IBAction)goToPublicFolder:(id)sender
 {
     //get the collection  info from NSUser Default default
-    PhotoGalleryViewController *photoGallery=[[PhotoGalleryViewController alloc] init];
     photoGallery.isPublicFolder=YES;
     photoGallery.collectionId=publicCollectionId;
     photoGallery.folderName=@"Public";
@@ -147,8 +151,6 @@
     CommunityViewController *comm=[[CommunityViewController alloc] init];
     comm.isInNavigation=YES;
     [self.tabBarController setSelectedIndex:3];
-    
-    self.navigationController.navigationBarHidden = NO;
 }
 #pragma mark - get The value from NSUser Default Method
 //Get the collection info from nsuser Default

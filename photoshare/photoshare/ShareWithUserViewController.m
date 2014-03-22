@@ -482,9 +482,6 @@
     @catch (NSException *exception) {
         NSLog(@"Execption is %@",exception.description);
     }
-    @finally {
-        
-    }
 }
 #pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar

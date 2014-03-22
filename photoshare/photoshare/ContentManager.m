@@ -38,8 +38,6 @@ static ContentManager *objContantManager = nil;
     @catch (NSException *exception) {
        // NSLog(@"%@",exception.description);
     }
-    @finally {
-    }
 }
 
 -(id)getData:(NSString *)getKey{
@@ -61,10 +59,6 @@ static ContentManager *objContantManager = nil;
     @catch (NSException *exception) {
         NSLog(@"Execption in Remove Data from nsuser default is %@",exception.description);
     }
-    @finally {
-        
-    }
-    
 }
 -(void)showAlert:(NSString *)alrttittle msg:(NSString *)msg cancelBtnTitle:(NSString *)btnTittle otherBtn:(NSString *)otherBtn{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alrttittle message:msg delegate:nil cancelButtonTitle:btnTittle otherButtonTitles:otherBtn, nil];

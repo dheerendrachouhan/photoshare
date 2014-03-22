@@ -20,26 +20,19 @@
 @end
 
 @implementation CommunityViewController
-@synthesize isInNavigation;
+@synthesize isInNavigation,updateCollectionDetails;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"CommunityViewController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"CommunityViewController";
-    }
+    if([[ContentManager sharedManager] isiPad])       nibNameOrNil=@"CommunityViewController_iPad";
+    else nibNameOrNil=@"CommunityViewController";
+    
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
-    
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -48,12 +41,10 @@
     [self addCustomNavigationBar];
     //Set UI for IOS6
     [self setUIForIOS6];
-    
     self.navigationItem.title = @"Community folders";
     self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     
     NSString *nibName;
-    
     if([manager isiPad])
     {
         nibName=@"CommunityCollectionCell_iPad";
@@ -85,6 +76,8 @@
     collectionSharedArray=[[NSMutableArray alloc] init];
     collectionSharingArray=[[NSMutableArray alloc] init];
     collectionUserIdArray=[[NSMutableArray alloc] init];
+    
+    updateCollectionDetails=YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -154,10 +147,6 @@
         @catch (NSException *exception) {
             NSLog(@"Execption is %@",exception.description);
         }
-        @finally {
-            
-        }
-        
     }
     [collectionview reloadData];
     //[self getSharingusersId];
@@ -167,6 +156,10 @@
 -(void)getStorageFromServer
 {
     @try {
+        if(updateCollectionDetails)
+        {
+            [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+        }
         isGetStorage=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};
@@ -175,23 +168,17 @@
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
     }
-    @finally {
-        
-    }
 }
 -(void)getSharingusersId
 {
     @try {
-         [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+        
         isGetSharingUserId=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};
         [webservices call:dicData controller:@"collection" method:@"sharing"];
     }
     @catch (NSException *exception) {
-        
-    }
-    @finally {
         
     }
 }
@@ -208,10 +195,6 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
-    
 }
 //fetch shareing collection info from server
 -(void)fetchSharingCollectionInfoFromServer
@@ -229,9 +212,6 @@
         }
     }
     @catch (NSException *exception) {
-        
-    }
-    @finally {
         
     }
 }
@@ -279,44 +259,30 @@
             @catch (NSException *exception) {
                 
             }
-            @finally {
-                
-            }
+            
         }
         else
         {
             [SVProgressHUD dismiss];
+        }
+        if (updateCollectionDetails)
+        {
+            //For update the collection info in nsuser default
+            [self performSelector:@selector(getSharingusersId) withObject:nil];
+            updateCollectionDetails=NO;
         }
     }
     else if(isGetSharingUserId)
     {
         if(exitCode.integerValue==1)
         {
-            NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-            [sharingIdArray removeAllObjects];
-            for (int i=0; i<outPutData.count; i++)
-            {
-                @try {
-                    [sharingIdArray addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
-                       if([collectionUserIdArray containsObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]])
-                        {
-                            NSLog(@"Contain");
-                        }
-                        else
-                        {
-                            NSLog(@"Not Contain");
-                        }
-                        
-                    }
-                @catch (NSException *exception) {
-                    
-                }
-                @finally {
-                    
-                }
+            @try {
+                NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+                sharingIdArray=[outPutData valueForKey:@"user_id"];
+            }
+            @catch (NSException *exception) {
                 
             }
-            
         }
         isGetSharingUserId=NO;
         [self fetchOwnCollectionInfoFromServer];
@@ -328,8 +294,6 @@
         if(exitCode.integerValue==1)
         {
             [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
-            //nsuser default
-            
         }
         else
         {
@@ -344,6 +308,7 @@
         {
             [SVProgressHUD dismiss];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+            [self getCollectionInfoFromUserDefault];
         }
     }
     else if (isGetTheSharingCollectionListData)
@@ -361,6 +326,7 @@
         {
             [SVProgressHUD dismiss];
             [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+            [self getCollectionInfoFromUserDefault];
         }
     }
 }
@@ -415,16 +381,13 @@
                 obj_Cell.icon_img.hidden=NO;
                 obj_Cell.icon_img.image=[UIImage imageNamed:@"sharedIcon.png"];
             }
-
             obj_Cell.folder_name.text=[collectionNameArray objectAtIndex:index];
         }
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
     }
-    @finally {
-        
-    }
+   
         return obj_Cell;
 }
 
@@ -462,9 +425,7 @@
             @catch (NSException *exception) {
                 NSLog(@"Exception is %@",exception.description);
             }
-            @finally {
-                
-            }
+            
         }
     }
 }
@@ -523,7 +484,7 @@
     
     aec1.isAddFolder=YES;
     aec1.isEditFolder=NO;
-    [self.navigationController pushViewController:aec1 animated:NO];
+    [self.navigationController pushViewController:aec1 animated:YES];
    
 }
 -(void)editFolder:(id)sender
@@ -538,23 +499,18 @@
         aec.isEditFolder=YES;
         aec.setFolderName=[collectionNameArray objectAtIndex:index];
         aec.collectionId=[collectionIdArray objectAtIndex:index] ;
-    
         aec.collectionOwnerId=[collectionUserIdArray objectAtIndex:index];
         
-        CommunityViewController *cm =[[CommunityViewController alloc] init];
-        HomeViewController *hm=[[HomeViewController alloc] init];
+        //CommunityViewController *cm =[[CommunityViewController alloc] init];
+        //HomeViewController *hm=[[HomeViewController alloc] init];
         
-        [self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
+        //[self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
         
         [self.navigationController pushViewController:aec animated:NO];
     }
     @catch (NSException *exception) {
         NSLog(@"Execption is %@",exception.description);
     }
-    @finally {
-        
-    }
-    
 }
 
 #pragma mark - SearchViewController
@@ -564,8 +520,6 @@
     searchController.searchType=@"myfolders";
     [self.navigationController pushViewController:searchController animated:NO];
 }
-
-
 
 #pragma mark - Custom Navigation Bar
 -(void)addCustomNavigationBar
@@ -594,8 +548,7 @@
 -(void)navBackButtonClick{
     
     [self.tabBarController setSelectedIndex:0];
-    //For update the collection info in nsuser default
-    [self performSelector:@selector(getSharingusersId) withObject:nil];
+    updateCollectionDetails=YES;
 }
 
 

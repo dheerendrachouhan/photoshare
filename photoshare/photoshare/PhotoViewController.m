@@ -316,10 +316,10 @@
 {
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webservices.delegate=self;
-    NSString *imageReSize=@"640";
+    NSString *imageReSize=@"1000";
     if([manager isiPad])
     {
-        imageReSize=@"1500";
+        imageReSize=@"2000";
     }
     
     NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
@@ -412,22 +412,6 @@
 #pragma mark - View Image in full screen
 -(void)viewImage
 {
-    /*//UIImageView for view image in full screen
-    imgV=[[UIImageView alloc] initWithFrame:self.view.frame];
-    imgV.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    imgV.contentMode=UIViewContentModeScaleAspectFit;
-    imgV.backgroundColor=[UIColor blackColor];
-    imgV.userInteractionEnabled=YES;
-
-    imgV.image=originalImage;
-    NSLog(@"Image Size %f,%f",originalImage.size.width,originalImage.size.height);
-    UITapGestureRecognizer *doubleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removveimageView)];
-    doubleTap.numberOfTapsRequired=2;
-    [imgV addGestureRecognizer:doubleTap];
-    [self.view addSubview:imgV];
-    
-    self.tabBarController.tabBar.hidden=YES;
-    isViewLargeImageMode=YES;*/
     
     LargePhotoViewController *largeImage=[[LargePhotoViewController alloc] init];
     largeImage.imageLoaded=originalImage;
@@ -465,9 +449,6 @@
                 [self.navigationController pushViewController:editPhotoDetail animated:YES];
             }
             @catch (NSException *exception) {
-                
-            }
-            @finally {
                 
             }
         }

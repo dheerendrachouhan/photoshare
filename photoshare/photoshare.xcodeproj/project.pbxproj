@@ -79,20 +79,28 @@
 		E113665A18D1C5AE00226312 /* LargePhotoViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E113665918D1C5AE00226312 /* LargePhotoViewController_iPad.xib */; };
 		E113665C18D1CA4A00226312 /* back_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = E113665B18D1CA4A00226312 /* back_btn.png */; };
 		E1179A6918C1ABEA003B8526 /* iconr3.png in Resources */ = {isa = PBXBuildFile; fileRef = E1179A6818C1ABEA003B8526 /* iconr3.png */; };
+		E119708018DD884A0042253F /* Default~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E119707C18DD884A0042253F /* Default~ipad.png */; };
+		E119708118DD884A0042253F /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E119707D18DD884A0042253F /* Default-Portrait@2x~ipad.png */; };
+		E119708218DD884A0042253F /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E119707E18DD884A0042253F /* Default-Landscape~ipad.png */; };
+		E119708318DD884A0042253F /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E119707F18DD884A0042253F /* Default-Landscape@2x~ipad.png */; };
+		E119708818DD89E80042253F /* splash 1024x768.png in Resources */ = {isa = PBXBuildFile; fileRef = E119708418DD89E80042253F /* splash 1024x768.png */; };
+		E119708918DD89E80042253F /* splash 2048x1536.png in Resources */ = {isa = PBXBuildFile; fileRef = E119708518DD89E80042253F /* splash 2048x1536.png */; };
+		E119708A18DD89E80042253F /* splash 1536x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = E119708618DD89E80042253F /* splash 1536x2048.png */; };
+		E119708B18DD89E80042253F /* splash 768x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = E119708718DD89E80042253F /* splash 768x1024.png */; };
 		E11AD1B018ACC4F600C6185E /* SearchPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */; };
 		E11AD1B118ACC4F600C6185E /* SearchPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */; };
 		E11C55DF18A8ECC700C67B6D /* ShareWithUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E11C55DD18A8ECC700C67B6D /* ShareWithUserViewController.m */; };
 		E11C55E018A8ECC700C67B6D /* ShareWithUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E11C55DE18A8ECC700C67B6D /* ShareWithUserViewController.xib */; };
-		E13DFB9E18DACFD2003E9CB6 /* cog_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9418DACFD2003E9CB6 /* cog_icon.png */; };
-		E13DFB9F18DACFD2003E9CB6 /* cog_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9518DACFD2003E9CB6 /* cog_icon@2x.png */; };
-		E13DFBA018DACFD2003E9CB6 /* earnings_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9618DACFD2003E9CB6 /* earnings_icon.png */; };
-		E13DFBA118DACFD2003E9CB6 /* earnings_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9718DACFD2003E9CB6 /* earnings_icon@2x.png */; };
-		E13DFBA218DACFD2003E9CB6 /* folder_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9818DACFD2003E9CB6 /* folder_icon.png */; };
-		E13DFBA318DACFD2003E9CB6 /* folder_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9918DACFD2003E9CB6 /* folder_icon@2x.png */; };
-		E13DFBA418DACFD2003E9CB6 /* home_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9A18DACFD2003E9CB6 /* home_icon.png */; };
-		E13DFBA518DACFD2003E9CB6 /* home_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9B18DACFD2003E9CB6 /* home_icon@2x.png */; };
-		E13DFBA618DACFD2003E9CB6 /* photo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9C18DACFD2003E9CB6 /* photo_icon.png */; };
-		E13DFBA718DACFD2003E9CB6 /* photo_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFB9D18DACFD2003E9CB6 /* photo_icon@2x.png */; };
+		E13DFBB618DB09E5003E9CB6 /* photo_tab_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBAC18DB09E5003E9CB6 /* photo_tab_icon@2x.png */; };
+		E13DFBB718DB09E5003E9CB6 /* home_tab_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBAD18DB09E5003E9CB6 /* home_tab_icon@2x.png */; };
+		E13DFBB818DB09E5003E9CB6 /* folder_tab_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBAE18DB09E5003E9CB6 /* folder_tab_icon@2x.png */; };
+		E13DFBB918DB09E5003E9CB6 /* earnings_tab_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBAF18DB09E5003E9CB6 /* earnings_tab_icon@2x.png */; };
+		E13DFBBA18DB09E5003E9CB6 /* cog_tab_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBB018DB09E5003E9CB6 /* cog_tab_icon@2x.png */; };
+		E13DFBC118DB1367003E9CB6 /* home_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBBC18DB1367003E9CB6 /* home_tab.png */; };
+		E13DFBC218DB1367003E9CB6 /* cog_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBBD18DB1367003E9CB6 /* cog_tab.png */; };
+		E13DFBC318DB1367003E9CB6 /* earnings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBBE18DB1367003E9CB6 /* earnings_tab.png */; };
+		E13DFBC418DB1367003E9CB6 /* folder_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBBF18DB1367003E9CB6 /* folder_tab.png */; };
+		E13DFBC518DB1367003E9CB6 /* photo_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = E13DFBC018DB1367003E9CB6 /* photo_tab.png */; };
 		E165CF3B18A3B8950030099C /* EditPhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */; };
 		E165CF3C18A3B8950030099C /* EditPhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */; };
 		E165CF3E18A3EC4C0030099C /* shared-icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = E165CF3D18A3EC4C0030099C /* shared-icon3.png */; };
@@ -346,22 +354,30 @@
 		E113665918D1C5AE00226312 /* LargePhotoViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LargePhotoViewController_iPad.xib; sourceTree = "<group>"; };
 		E113665B18D1CA4A00226312 /* back_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_btn.png; sourceTree = "<group>"; };
 		E1179A6818C1ABEA003B8526 /* iconr3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconr3.png; sourceTree = "<group>"; };
+		E119707C18DD884A0042253F /* Default~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~ipad.png"; sourceTree = "<group>"; };
+		E119707D18DD884A0042253F /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		E119707E18DD884A0042253F /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		E119707F18DD884A0042253F /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		E119708418DD89E80042253F /* splash 1024x768.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash 1024x768.png"; sourceTree = "<group>"; };
+		E119708518DD89E80042253F /* splash 2048x1536.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash 2048x1536.png"; sourceTree = "<group>"; };
+		E119708618DD89E80042253F /* splash 1536x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash 1536x2048.png"; sourceTree = "<group>"; };
+		E119708718DD89E80042253F /* splash 768x1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash 768x1024.png"; sourceTree = "<group>"; };
 		E11AD1AD18ACC4F500C6185E /* SearchPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPhotoViewController.h; sourceTree = "<group>"; };
 		E11AD1AE18ACC4F500C6185E /* SearchPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPhotoViewController.m; sourceTree = "<group>"; };
 		E11AD1AF18ACC4F500C6185E /* SearchPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchPhotoViewController.xib; sourceTree = "<group>"; };
 		E11C55DC18A8ECC700C67B6D /* ShareWithUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareWithUserViewController.h; sourceTree = "<group>"; };
 		E11C55DD18A8ECC700C67B6D /* ShareWithUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareWithUserViewController.m; sourceTree = "<group>"; };
 		E11C55DE18A8ECC700C67B6D /* ShareWithUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareWithUserViewController.xib; sourceTree = "<group>"; };
-		E13DFB9418DACFD2003E9CB6 /* cog_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cog_icon.png; sourceTree = "<group>"; };
-		E13DFB9518DACFD2003E9CB6 /* cog_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog_icon@2x.png"; sourceTree = "<group>"; };
-		E13DFB9618DACFD2003E9CB6 /* earnings_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earnings_icon.png; sourceTree = "<group>"; };
-		E13DFB9718DACFD2003E9CB6 /* earnings_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earnings_icon@2x.png"; sourceTree = "<group>"; };
-		E13DFB9818DACFD2003E9CB6 /* folder_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder_icon.png; sourceTree = "<group>"; };
-		E13DFB9918DACFD2003E9CB6 /* folder_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder_icon@2x.png"; sourceTree = "<group>"; };
-		E13DFB9A18DACFD2003E9CB6 /* home_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_icon.png; sourceTree = "<group>"; };
-		E13DFB9B18DACFD2003E9CB6 /* home_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_icon@2x.png"; sourceTree = "<group>"; };
-		E13DFB9C18DACFD2003E9CB6 /* photo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_icon.png; sourceTree = "<group>"; };
-		E13DFB9D18DACFD2003E9CB6 /* photo_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_icon@2x.png"; sourceTree = "<group>"; };
+		E13DFBAC18DB09E5003E9CB6 /* photo_tab_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_tab_icon@2x.png"; sourceTree = "<group>"; };
+		E13DFBAD18DB09E5003E9CB6 /* home_tab_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_tab_icon@2x.png"; sourceTree = "<group>"; };
+		E13DFBAE18DB09E5003E9CB6 /* folder_tab_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder_tab_icon@2x.png"; sourceTree = "<group>"; };
+		E13DFBAF18DB09E5003E9CB6 /* earnings_tab_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earnings_tab_icon@2x.png"; sourceTree = "<group>"; };
+		E13DFBB018DB09E5003E9CB6 /* cog_tab_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog_tab_icon@2x.png"; sourceTree = "<group>"; };
+		E13DFBBC18DB1367003E9CB6 /* home_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_tab.png; sourceTree = "<group>"; };
+		E13DFBBD18DB1367003E9CB6 /* cog_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cog_tab.png; sourceTree = "<group>"; };
+		E13DFBBE18DB1367003E9CB6 /* earnings_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earnings_tab.png; sourceTree = "<group>"; };
+		E13DFBBF18DB1367003E9CB6 /* folder_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder_tab.png; sourceTree = "<group>"; };
+		E13DFBC018DB1367003E9CB6 /* photo_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_tab.png; sourceTree = "<group>"; };
 		E165CF3818A3B8950030099C /* EditPhotoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditPhotoDetailViewController.h; sourceTree = "<group>"; };
 		E165CF3918A3B8950030099C /* EditPhotoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditPhotoDetailViewController.m; sourceTree = "<group>"; };
 		E165CF3A18A3B8950030099C /* EditPhotoDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPhotoDetailViewController.xib; sourceTree = "<group>"; };
@@ -670,6 +686,14 @@
 				FC35A893189BE02D006DDDFC /* splash640x960.png */,
 				E110709618D9C66A00F39FD6 /* Default~iphone.png */,
 				E110709718D9C66A00F39FD6 /* Default.png */,
+				E119707C18DD884A0042253F /* Default~ipad.png */,
+				E119707D18DD884A0042253F /* Default-Portrait@2x~ipad.png */,
+				E119707E18DD884A0042253F /* Default-Landscape~ipad.png */,
+				E119707F18DD884A0042253F /* Default-Landscape@2x~ipad.png */,
+				E119708418DD89E80042253F /* splash 1024x768.png */,
+				E119708518DD89E80042253F /* splash 2048x1536.png */,
+				E119708618DD89E80042253F /* splash 1536x2048.png */,
+				E119708718DD89E80042253F /* splash 768x1024.png */,
 			);
 			path = "splash images";
 			sourceTree = "<group>";
@@ -677,16 +701,16 @@
 		E13DFB9318DACFD2003E9CB6 /* TabBarIcons */ = {
 			isa = PBXGroup;
 			children = (
-				E13DFB9418DACFD2003E9CB6 /* cog_icon.png */,
-				E13DFB9518DACFD2003E9CB6 /* cog_icon@2x.png */,
-				E13DFB9618DACFD2003E9CB6 /* earnings_icon.png */,
-				E13DFB9718DACFD2003E9CB6 /* earnings_icon@2x.png */,
-				E13DFB9818DACFD2003E9CB6 /* folder_icon.png */,
-				E13DFB9918DACFD2003E9CB6 /* folder_icon@2x.png */,
-				E13DFB9A18DACFD2003E9CB6 /* home_icon.png */,
-				E13DFB9B18DACFD2003E9CB6 /* home_icon@2x.png */,
-				E13DFB9C18DACFD2003E9CB6 /* photo_icon.png */,
-				E13DFB9D18DACFD2003E9CB6 /* photo_icon@2x.png */,
+				E13DFBBC18DB1367003E9CB6 /* home_tab.png */,
+				E13DFBBD18DB1367003E9CB6 /* cog_tab.png */,
+				E13DFBBE18DB1367003E9CB6 /* earnings_tab.png */,
+				E13DFBBF18DB1367003E9CB6 /* folder_tab.png */,
+				E13DFBC018DB1367003E9CB6 /* photo_tab.png */,
+				E13DFBAC18DB09E5003E9CB6 /* photo_tab_icon@2x.png */,
+				E13DFBAD18DB09E5003E9CB6 /* home_tab_icon@2x.png */,
+				E13DFBAE18DB09E5003E9CB6 /* folder_tab_icon@2x.png */,
+				E13DFBAF18DB09E5003E9CB6 /* earnings_tab_icon@2x.png */,
+				E13DFBB018DB09E5003E9CB6 /* cog_tab_icon@2x.png */,
 			);
 			path = TabBarIcons;
 			sourceTree = "<group>";
@@ -1196,6 +1220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E108F13618AE2CC700B574F6 /* PhotoShareController_iPad.xib in Resources */,
+				E119708918DD89E80042253F /* splash 2048x1536.png in Resources */,
 				E170E90D18A526EA002D3D17 /* PhotoShareController.xib in Resources */,
 				FC35A85E189AFCCD006DDDFC /* folder_lock.png in Resources */,
 				E110709C18D9C66A00F39FD6 /* logo_29x29.png in Resources */,
@@ -1212,6 +1237,7 @@
 				E16F390518912C9C00064806 /* earnings-icon.png in Resources */,
 				E108F12018AE2B0E00B574F6 /* CommunityViewController_iPad.xib in Resources */,
 				E16F390E18912C9C00064806 /* private-icon.png in Resources */,
+				E13DFBC118DB1367003E9CB6 /* home_tab.png in Resources */,
 				E172672618A0FDA50059F6AD /* LaunchCameraViewController.xib in Resources */,
 				E322BB0218A3AD7700CAC9E5 /* logo_57x57.png in Resources */,
 				E3C2FD6A18BB1191002430F0 /* ReferralStageFourVC.xib in Resources */,
@@ -1221,15 +1247,20 @@
 				E322BB0318A3AD7700CAC9E5 /* logo_60x60.png in Resources */,
 				E16F390D18912C9C00064806 /* previous.png in Resources */,
 				E108F11E18AE2AF300B574F6 /* AccountViewController_iPad.xib in Resources */,
+				E13DFBBA18DB09E5003E9CB6 /* cog_tab_icon@2x.png in Resources */,
 				E16F391218912C9C00064806 /* share-to-folder.png in Resources */,
 				E31649B318AB55B900083C7F /* MailMessageTable.xib in Resources */,
 				E108F12C18AE2C0C00B574F6 /* financeCalculator3VC_iPad.xib in Resources */,
+				E13DFBB718DB09E5003E9CB6 /* home_tab_icon@2x.png in Resources */,
 				FC35A88A189BDE1B006DDDFC /* Icon@2x-80.png in Resources */,
+				E13DFBC418DB1367003E9CB6 /* folder_tab.png in Resources */,
 				FCC76CA91896A64000F4B41A /* bg.png in Resources */,
+				E119708218DD884A0042253F /* Default-Landscape~ipad.png in Resources */,
 				E322BB0018A3AD7700CAC9E5 /* logo_29x29.png in Resources */,
 				E17222CD189281C000F28748 /* login2_new.png in Resources */,
 				E16F391418912C9C00064806 /* shared-icon.png in Resources */,
 				E1179A6918C1ABEA003B8526 /* iconr3.png in Resources */,
+				E13DFBB818DB09E5003E9CB6 /* folder_tab_icon@2x.png in Resources */,
 				E317675E1898BE0A00923E35 /* FBTWViewController.xib in Resources */,
 				E16F391018912C9C00064806 /* share-facebook.png in Resources */,
 				E3A5B90218A8F22F00CED95F /* CustomCells.xib in Resources */,
@@ -1241,27 +1272,30 @@
 				E3C2FD6D18BB11BC002430F0 /* plus_blue.png in Resources */,
 				E3188D981893829C004ACF77 /* MyReferralViewController.xib in Resources */,
 				E18262841897F71700C1C799 /* twitter.png in Resources */,
+				E119708018DD884A0042253F /* Default~ipad.png in Resources */,
 				E16F391318912C9C00064806 /* share-twitter.png in Resources */,
 				E110709E18D9C66A00F39FD6 /* logo_50x50.png in Resources */,
 				E16F390818912C9C00064806 /* home-photo-quicklink.png in Resources */,
 				E3C2FD6918BB1191002430F0 /* ReferralStageFourVC_iPad.xib in Resources */,
+				E13DFBC518DB1367003E9CB6 /* photo_tab.png in Resources */,
 				E110709818D9C66A00F39FD6 /* logo_100x100.png in Resources */,
 				E16F38E618910DB000064806 /* CommunityCollectionCell.xib in Resources */,
+				E13DFBB618DB09E5003E9CB6 /* photo_tab_icon@2x.png in Resources */,
 				E165CF3C18A3B8950030099C /* EditPhotoDetailViewController.xib in Resources */,
-				E13DFB9F18DACFD2003E9CB6 /* cog_icon@2x.png in Resources */,
 				E16F390318912C9C00064806 /* community-icon.png in Resources */,
 				E113665A18D1C5AE00226312 /* LargePhotoViewController_iPad.xib in Resources */,
 				E317677A1899134700923E35 /* TermConditionViewController.xib in Resources */,
+				E119708B18DD89E80042253F /* splash 768x1024.png in Resources */,
 				E322BB0118A3AD7700CAC9E5 /* logo_40x40.png in Resources */,
 				FC9763AB188FEB89008DF1F8 /* Images.xcassets in Resources */,
 				E30DF42F18B47E7E00FE6CB3 /* referr-icon.png in Resources */,
-				E13DFB9E18DACFD2003E9CB6 /* cog_icon.png in Resources */,
 				E17BFBDE18C448230036811F /* term.html in Resources */,
 				E112391318AF3319002D6318 /* CommunityCollectionCell_iPad.xib in Resources */,
+				E119708A18DD89E80042253F /* splash 1536x2048.png in Resources */,
 				E108F12E18AE2C5700B574F6 /* HomeViewController_iPad.xib in Resources */,
-				E13DFBA618DACFD2003E9CB6 /* photo_icon.png in Resources */,
 				E16F390118912C9C00064806 /* cog-item.png in Resources */,
 				E18262821897F6DC00C1C799 /* facebook.png in Resources */,
+				E119708118DD884A0042253F /* Default-Portrait@2x~ipad.png in Resources */,
 				E16F391118912C9C00064806 /* share-sms.png in Resources */,
 				E108F12618AE2BC000B574F6 /* EarningViewController_iPad.xib in Resources */,
 				E108F14018AE2D6F00B574F6 /* ReferFriendViewController_iPad.xib in Resources */,
@@ -1269,7 +1303,6 @@
 				E1717A7C189CF624008899EC /* ajaxloader.gif in Resources */,
 				E1B07430189952DB00589867 /* PhotoGalleryViewController.xib in Resources */,
 				E16F390918912C9C00064806 /* icon-takephoto.png in Resources */,
-				E13DFBA018DACFD2003E9CB6 /* earnings_icon.png in Resources */,
 				E10624AD18B63A110068FD01 /* play-button.png in Resources */,
 				E16F3916189130A800064806 /* folder-icon.png in Resources */,
 				E31767621898BED100923E35 /* edit.png in Resources */,
@@ -1280,19 +1313,18 @@
 				E30D92B618B2046700E2F072 /* CustomCelliPad.xib in Resources */,
 				E170E91618A55280002D3D17 /* Icon-120.png in Resources */,
 				FCC76CAB1896A93C00F4B41A /* arrow.png in Resources */,
+				E13DFBC318DB1367003E9CB6 /* earnings_tab.png in Resources */,
 				E3130D3418C4C7B7006E0850 /* login-logo-log.png in Resources */,
 				E108F13018AE2C7100B574F6 /* LaunchCameraViewController_iPad.xib in Resources */,
 				E317676A1899031200923E35 /* financeCalculator3VC.xib in Resources */,
 				FCC76CA71896A39C00F4B41A /* line.png in Resources */,
 				FC9763FD189003E9008DF1F8 /* CommunityViewController.xib in Resources */,
 				E108F13418AE2CAE00B574F6 /* MyReferralViewController_iPad.xib in Resources */,
-				E13DFBA518DACFD2003E9CB6 /* home_icon@2x.png in Resources */,
 				E10C09ED18C0BA68007A88D9 /* iconr3_uncheck.png in Resources */,
 				E10AF79D18CDCBEA00085AC1 /* home3.jpg in Resources */,
 				E11070A218D9C66A00F39FD6 /* Default~iphone.png in Resources */,
 				E110709A18D9C66A00F39FD6 /* logo_144x144.png in Resources */,
 				E16F390418912C9C00064806 /* community-iconX30.png in Resources */,
-				E13DFBA118DACFD2003E9CB6 /* earnings_icon@2x.png in Resources */,
 				E17222DF18928DE700F28748 /* cancel_btn.png in Resources */,
 				FC976407189004E0008DF1F8 /* ReferFriendViewController.xib in Resources */,
 				FC35A892189BDFFD006DDDFC /* splash320x480.png in Resources */,
@@ -1301,13 +1333,13 @@
 				E11070A018D9C66A00F39FD6 /* logo_72x72.png in Resources */,
 				E16F390018912C9C00064806 /* 123-mobile-logo.png in Resources */,
 				E108F12818AE2BD500B574F6 /* FBTWViewController_iPad.xib in Resources */,
-				E13DFBA318DACFD2003E9CB6 /* folder_icon@2x.png in Resources */,
+				E119708318DD884A0042253F /* Default-Landscape@2x~ipad.png in Resources */,
 				E11AD1B118ACC4F600C6185E /* SearchPhotoViewController.xib in Resources */,
 				E31767601898BE4100923E35 /* FinanceCalculatorViewController.xib in Resources */,
 				E108F13218AE2C9300B574F6 /* MailMessageTable_iPad.xib in Resources */,
-				E13DFBA418DACFD2003E9CB6 /* home_icon.png in Resources */,
 				E110709B18D9C66A00F39FD6 /* logo_152x152.png in Resources */,
 				E170E91418A55280002D3D17 /* logo_58x58.png in Resources */,
+				E119708818DD89E80042253F /* splash 1024x768.png in Resources */,
 				FC85D5341896F01F006AD7E0 /* UserSecurityViewController.xib in Resources */,
 				FC85D53B1897F6D6006AD7E0 /* profile.png in Resources */,
 				FCC76CA51896A24500F4B41A /* backimg.png in Resources */,
@@ -1323,13 +1355,12 @@
 				E18A726E18AE421500C96B38 /* EditProfileViewController.xib in Resources */,
 				E17222AF1892470600F28748 /* add_folder.png in Resources */,
 				E113665C18D1CA4A00226312 /* back_btn.png in Resources */,
-				E13DFBA718DACFD2003E9CB6 /* photo_icon@2x.png in Resources */,
+				E13DFBC218DB1367003E9CB6 /* cog_tab.png in Resources */,
 				E1717A88189D2A8E008899EC /* radio.png in Resources */,
 				E170E91518A55280002D3D17 /* logo_80x80.png in Resources */,
 				E11070A118D9C66A00F39FD6 /* logo_76x76.png in Resources */,
 				FC35A88C189BDE5F006DDDFC /* icon@2x-58.png in Resources */,
 				E108F14C18AE2E1100B574F6 /* TermConditionViewController_iPad.xib in Resources */,
-				E13DFBA218DACFD2003E9CB6 /* folder_icon.png in Resources */,
 				E3188D9D18938888004ACF77 /* CustomCell.xib in Resources */,
 				E17222C61892819A00F28748 /* PastPayementViewController.xib in Resources */,
 				E110709F18D9C66A00F39FD6 /* logo_57x57.png in Resources */,
@@ -1339,6 +1370,7 @@
 				E17222DA189285A100F28748 /* LoginViewController.xib in Resources */,
 				E10AF79B18CDB7B600085AC1 /* photo-warning.png in Resources */,
 				E110709D18D9C66A00F39FD6 /* logo_40x40.png in Resources */,
+				E13DFBB918DB09E5003E9CB6 /* earnings_tab_icon@2x.png in Resources */,
 				E16F390F18912C9C00064806 /* share-email.png in Resources */,
 				E3BAA8F518993F9600ED2CA2 /* TwitterTable.xib in Resources */,
 				E11C55E018A8ECC700C67B6D /* ShareWithUserViewController.xib in Resources */,
@@ -1541,7 +1573,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: John Platt (9FP4B96V72)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,
@@ -1587,7 +1619,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: John Platt (9FP4B96V72)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/ignis3/Desktop/project/photoshare,

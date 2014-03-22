@@ -136,9 +136,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exception is found :%@",exception.description);
     }
-    @finally {
-        
-    }
 }
 
 #pragma mark - webservice call back methods
@@ -347,9 +344,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exception Name : %@",exception.name);
         NSLog(@"Exception Description : %@",exception.description);
-    }
-    @finally {
-        
     }
     
     [cell.contentView addSubview:imgView];

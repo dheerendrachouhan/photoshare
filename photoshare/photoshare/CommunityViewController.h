@@ -50,5 +50,6 @@
     
 }
 @property (nonatomic,assign)BOOL isInNavigation;
+@property (nonatomic,assign)BOOL updateCollectionDetails;
 
 @end

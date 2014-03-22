@@ -36,10 +36,8 @@
     IBOutlet UIButton *sharePhotoBtn;
     IBOutlet UICollectionView *collectionview;
     WebserviceController *webServices;
-    UIButton *editBtn;
     
-    BOOL isAddPhotoMode;
-    BOOL isEditPhotoMode;
+    
    
     NSMutableArray *selectedImagesIndex;
     NSString *refrenceUrlofImg;
@@ -55,6 +53,9 @@
     int selectedEditImageIndex;
     BOOL isDeleteMode;
     BOOL isShareMode;
+    
+    BOOL isAddPhotoMode;
+    BOOL isEditPhotoMode;
     
     BOOL isGetPhotoIdFromServer;
     BOOL isGetPhotoFromServer;
@@ -109,7 +110,6 @@
 @property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,assign)NSNumber *collectionOwnerId;
 
-@property(nonatomic,retain)ALAssetsLibrary *library;
 @property(nonatomic,retain)NSString *folderName;
 
 //for Aviary

@@ -95,9 +95,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exception is found :%@",exception.description);
     }
-    @finally {
-        
-    }
 }
 -(void)webserviceCallbackImage:(UIImage *)image
 {

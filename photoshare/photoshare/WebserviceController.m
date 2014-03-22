@@ -33,6 +33,7 @@
     //apiUrl=@"54.229.193.111/api/index.php";
     //apiUrl=@"54.72.11.106/api/index.php";
     apiUrl=@"54.229.255.47/api/index.php";    //--
+    //apiUrl=@"api.123friday.com/v/1/";
     return self;
 }
 

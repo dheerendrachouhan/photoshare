@@ -26,17 +26,14 @@
 
 @implementation PhotoGalleryViewController
 @synthesize isPublicFolder,selectedFolderIndex,folderName;
-@synthesize library,collectionId,collectionOwnerId,popover;
+@synthesize collectionId,collectionOwnerId,popover;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"PhotoGalleryViewController_iPad";
-    }
+    nibNameOrNil=@"PhotoGalleryViewController_iPad";
     else
-    {
-        nibNameOrNil=@"PhotoGalleryViewController";
-    }
+    nibNameOrNil=@"PhotoGalleryViewController";
+   
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -50,31 +47,26 @@
    
     //initialize the WebService Object
     webServices=[[WebserviceController alloc] init];
-     manager=[ContentManager sharedManager];
+    manager=[ContentManager sharedManager];
     [manager storeData:@"NO" :@"isEditPhoto"];
     selectedImagesIndex=[[NSMutableArray alloc] init];
+    photoArray=[[NSMutableArray alloc] init];
+    photoIdsArray=[[NSMutableArray alloc] init];
+    photoInfoArray = [[NSMutableArray alloc] init];
     //set UIFor ios6
     [self setUIForIOS6];
     [self addCustomNavigationBar];
-    //initialize the assets Library
-    library=[[ALAssetsLibrary alloc] init];    
     
-    
-    //Save the original frame of the Share Button
-    frame = sharePhotoBtn.frame;
-   
-    //set the design of the button
+    //Set the Design of the Button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
     float btnCornerRadius=8;
     addPhotoBtn.layer.cornerRadius=btnCornerRadius;
     addPhotoBtn.layer.borderWidth=btnBorderWidth;
     addPhotoBtn.layer.borderColor=btnBorderColor.CGColor;
-    
     deletePhotoBtn.layer.cornerRadius=btnCornerRadius;
     deletePhotoBtn.layer.borderWidth=btnBorderWidth;
     deletePhotoBtn.layer.borderColor=btnBorderColor.CGColor;
-    
     sharePhotoBtn.layer.cornerRadius=btnCornerRadius;
     sharePhotoBtn.layer.borderWidth=btnBorderWidth;
     sharePhotoBtn.layer.borderColor=btnBorderColor.CGColor;
@@ -82,36 +74,24 @@
     //Register the UICollection View class
     [collectionview registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CVCell"];
     
-    //Add The Tap gesture on the collection view
+    //Add the Tap Gesture and Longgesture On the CollectionView
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
-    [collectionview addGestureRecognizer:tapGesture];
-    
-    //add the LongPress gesture to the collection view
     UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
-    longPressGesture.minimumPressDuration=0.6;
+    [collectionview addGestureRecognizer:tapGesture];
+        longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
     
-    
-    //for Aviary
+    //For Aviary Photo Editor
     // Allocate Asset Library
     ALAssetsLibrary * assetLibrary = [[ALAssetsLibrary alloc] init];
     [self setAssetLibrary:assetLibrary];
-    
     // Allocate Sessions Array
     NSMutableArray * sessions = [NSMutableArray new];
     [self setSessions:sessions];
-    
     // Start the Aviary Editor OpenGL Load
     [AFOpenGLManager beginOpenGLLoad];
     
-    //aviary End
-    
-    photoArray=[[NSMutableArray alloc] init];
-     photoIdsArray=[[NSMutableArray alloc] init];
-     photoInfoArray = [[NSMutableArray alloc] init];
-    //editBtn
-    editBtn = [[UIButton alloc] init];
-    //get the user id from nsuserDefaults
+    //Set the User Id From Nsuser Default
     userid=[manager getData:@"user_id"];
     
     isPopFromPhotos=NO;
@@ -121,11 +101,7 @@
     [self getPhotoIdFromServer];
     
     //set the add ,delete photo btn visibility
-    if([self.folderName isEqualToString:@"Public"] || [self.folderName isEqualToString:@"public"])
-    {
-        
-    }
-    else
+    if(![self.folderName isEqualToString:@"Public"] && ![self.folderName isEqualToString:@"public"])
     {
         if(self.collectionOwnerId.integerValue==userid.integerValue)
         {
@@ -140,8 +116,6 @@
         }
     }
 }
-    
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -166,7 +140,6 @@
         @catch (NSException *exception) {
             
         }
-       
     }
     else
     {
@@ -192,9 +165,7 @@
                 [manager storeData:@"NO" :@"isEditPhotoInViewPhoto"];
                 //remove data from nsuser default
                 [manager removeData:@"photo,photoId,isEditPhotoInViewPhoto"];//photo info array is use later
-                
-
-        }
+            }
         }
         @catch (NSException *exception) {
             
@@ -265,18 +236,24 @@
 #pragma mark - IBAction Methods
 -(IBAction)addPhoto:(id)sender
 {
-     [self resetButton];
-    [editBtn removeFromSuperview];
-    isAddPhotoMode=YES;
-    UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"From Camera",@"From Phone", nil];
-    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+    if(photoArray.count==photoIdsArray.count)
+    {
+        [self resetButton];
+        isAddPhotoMode=YES;
+        UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"From Camera",@"From Phone", nil];
+        [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+    }
+    else
+    {
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photos are Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        [alert show];
+    }
+    
 }
 -(IBAction)deletePhoto:(id)sender
 {
-    
-    [editBtn removeFromSuperview];
     UIButton *btn=(UIButton *)sender;
-    if(photoArray.count>0)
+    if(photoArray.count==photoIdsArray.count)
     {
         if(btn.selected==NO)
         {
@@ -326,10 +303,6 @@
                     NSLog(@"%@",exception.description);
                     
                 }
-                @finally {
-                    
-                }
-                
             }
             else
             {
@@ -344,7 +317,7 @@
     {
         if(photoIdsArray.count>0)
         {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photos are Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alert show];
         }
         else
@@ -361,9 +334,7 @@
 -(IBAction)sharePhoto:(id)sender
 {
    
-    [editBtn removeFromSuperview];
-    
-    if(photoArray.count>0)
+    if(photoArray.count==photoIdsArray.count)
     {
         UIButton *btn=(UIButton *)sender;
         if(btn.selected==NO)
@@ -426,7 +397,7 @@
     {
         if(photoIdsArray.count>0)
         {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo is Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photos are Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alert show];
         }
         else
@@ -455,7 +426,6 @@
             isCameraMode=YES;
             if(buttonIndex==0)  //From Camera
             {
-                
                 if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
                 {
                     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
@@ -463,7 +433,6 @@
                     imagePicker.sourceType=UIImagePickerControllerSourceTypeCamera;
                     
                         [self presentViewController:imagePicker animated:YES completion:nil];
-
                 }
                 else
                 {
@@ -488,14 +457,12 @@
                     [self presentViewController:imagePicker animated:YES completion:nil];
                 }
             }
-           
             else if(buttonIndex==2)//Cancel Button
             {
                 NSLog(@"Cancel Button Click");
             }
             isPickerMode=YES;
             isAddPhotoMode=NO;
-
         }
         else
         {
@@ -528,13 +495,10 @@
                 editPhotoDetail.selectedIndex=selectedEditImageIndex;
                 [self.navigationController pushViewController:editPhotoDetail animated:NO];
             }
-            
         }
         isEditPhotoMode=NO;
     }
-    
 }
-
 #pragma mark - Methods for Fetch and Save Data on server
 //get PhotoId From Server
 -(void)getPhotoIdFromServer
@@ -582,11 +546,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exception is found :%@",exception.description);
     }
-    @finally {
-        
-    }
-
-    
 }
 
 //save Photo on Server Photo With Detaill
@@ -683,7 +642,7 @@
             {
                 isGetPhotoFromServer=NO;
             }
-            //[collectionview reloadData];
+            
         }
 
     }
@@ -948,8 +907,6 @@
 #pragma mark - gesture methods
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
-    //if editBtnIs in view
-    [editBtn removeFromSuperview];
     
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
@@ -1044,7 +1001,6 @@
 }
 -(void)longPressHandle:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-    [editBtn removeFromSuperview];
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
@@ -1058,64 +1014,67 @@
     {
         frameForMenuController=CGRectMake(25,40, 50, 50);
     }
-    if (indexPath != nil){
-
-         selectedEditImageIndex=indexPath.row;
-        NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
-        
-        UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
-        if(collectionOwnerId.integerValue==userid.integerValue)
-        {
-            UIMenuItem *editPhoto = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editImage:)];
+    if(!isDeleteMode && !isShareMode)
+    {
+        if (indexPath != nil){
             
-            UIMenuController *menu = [UIMenuController sharedMenuController];
-            [menu setMenuItems:[NSArray arrayWithObjects:editPhoto,nil]];
-            [menu setTargetRect:frameForMenuController inView:cell];
-            [menu setMenuVisible:YES animated:YES];
-            NSLog(@"Edit Photo");
-        }
-        else
-        {
-           
-            if(isWritePermission)
+            selectedEditImageIndex=indexPath.row;
+            NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
+            
+            UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
+            if(collectionOwnerId.integerValue==userid.integerValue)
             {
-                if(photoUserId.integerValue==userid.integerValue)
+                UIMenuItem *editPhoto = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editImage:)];
+                
+                UIMenuController *menu = [UIMenuController sharedMenuController];
+                [menu setMenuItems:[NSArray arrayWithObjects:editPhoto,nil]];
+                [menu setTargetRect:frameForMenuController inView:cell];
+                [menu setMenuVisible:YES animated:YES];
+                NSLog(@"Edit Photo");
+            }
+            else
+            {
+                if(isWritePermission)
                 {
-                    isPhotoOwner=YES;
-                    UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
-                    UIMenuItem *delete = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteSelectedPhoto:)];
-                    UIMenuController *menu = [UIMenuController sharedMenuController];
-                    [menu setMenuItems:[NSArray arrayWithObjects:edit,delete, nil]];
-                    [menu setTargetRect:frameForMenuController inView:cell];
-                    [menu setMenuVisible:YES animated:YES];
+                    if(photoUserId.integerValue==userid.integerValue)
+                    {
+                        isPhotoOwner=YES;
+                        UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
+                        UIMenuItem *delete = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteSelectedPhoto:)];
+                        UIMenuController *menu = [UIMenuController sharedMenuController];
+                        [menu setMenuItems:[NSArray arrayWithObjects:edit,delete, nil]];
+                        [menu setTargetRect:frameForMenuController inView:cell];
+                        [menu setMenuVisible:YES animated:YES];
+                    }
+                    else
+                    {
+                        isPhotoOwner=NO;
+                        UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
+                        UIMenuItem *reportAbuse = [[UIMenuItem alloc] initWithTitle:@"Report Abuse" action:@selector(reportAbuse:)];
+                        
+                        UIMenuController *menu = [UIMenuController sharedMenuController];
+                        
+                        [menu setMenuItems:[NSArray arrayWithObjects:edit, reportAbuse,nil]];
+                        [menu setTargetRect:frameForMenuController inView:cell];
+                        [menu setMenuVisible:YES animated:YES];
+                    }
+                    
+                    NSLog(@"Write Permission");
                 }
-                else
+                else if (isReadPermission)
                 {
-                    isPhotoOwner=NO;
-                    UIMenuItem *edit = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)];
                     UIMenuItem *reportAbuse = [[UIMenuItem alloc] initWithTitle:@"Report Abuse" action:@selector(reportAbuse:)];
                     
                     UIMenuController *menu = [UIMenuController sharedMenuController];
-                    
-                    [menu setMenuItems:[NSArray arrayWithObjects:edit, reportAbuse,nil]];
+                    [menu setMenuItems:[NSArray arrayWithObjects:reportAbuse,nil]];
                     [menu setTargetRect:frameForMenuController inView:cell];
                     [menu setMenuVisible:YES animated:YES];
+                    NSLog(@"Read Permission");
                 }
-                
-                NSLog(@"Write Permission");
             }
-            else if (isReadPermission)
-            {
-               UIMenuItem *reportAbuse = [[UIMenuItem alloc] initWithTitle:@"Report Abuse" action:@selector(reportAbuse:)];
-                
-                UIMenuController *menu = [UIMenuController sharedMenuController];
-                [menu setMenuItems:[NSArray arrayWithObjects:reportAbuse,nil]];
-                [menu setTargetRect:frameForMenuController inView:cell];
-                [menu setMenuVisible:YES animated:YES];
-                NSLog(@"Read Permission");
-            }
+            
         }
-       
+
     }
 }
 #pragma mark - UIMenuController delegate methods
@@ -1124,45 +1083,29 @@
     if(isWritePermission)
     {
         NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
-        
+        if (action == @selector(edit:))
+        return YES;
         if(photoUserId.integerValue==userid.integerValue)
         {
-            if (action == @selector(edit:))
-            {
-                return YES;
-            }
             if (action == @selector(deleteSelectedPhoto:))
-            {
-                return YES;
-            }
+            return YES;
         }
         else
         {
             if (action == @selector(reportAbuse:))
-            {
-                return YES;
-            }
-            if (action == @selector(edit:))
-            {
-                return YES;
-            }
+            return YES;
         }
     }
     else if (isReadPermission)
     {
         if (action == @selector(reportAbuse:))
-        {
-            return YES;
-        }
+        return YES;
     }
     else
     {
         if (action == @selector(editImage:))
-        {
-            return YES;
-        }
+        return YES;
     }
-    
     return NO;
    
 }
@@ -1182,7 +1125,6 @@
         isEditPhotoMode=YES;
         UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:Nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
         [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
-        
     }
     else
     {
@@ -1197,7 +1139,6 @@
 - (void)reportAbuse:(id)sender {
     
     isMailSendMode=YES;//for photo loading
-    
     MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
     controller.mailComposeDelegate = self;
     [controller setToRecipients:[NSArray arrayWithObject:@"reportabuse@123friday.com"]];
@@ -1244,16 +1185,7 @@
 -(void)viewPhoto :(NSIndexPath *)indexPath
 {
     @try {
-        PhotoViewController *viewPhoto;
-        if([manager isiPad])
-        {
-            viewPhoto=[[PhotoViewController alloc] initWithNibName:@"PhotoViewController_iPad" bundle:[NSBundle mainBundle]];
-
-        }
-        else
-        {
-            viewPhoto=[[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:[NSBundle mainBundle]];
-        }
+        PhotoViewController *viewPhoto=[[PhotoViewController alloc] init];
         
         NSLog(@"isWritePermission:%hhd",isWritePermission);
          NSLog(@"isReadPermission:%hhd",isReadPermission);
@@ -1292,10 +1224,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exception in View Photo :%@",exception.description);
     }
-    @finally {
-        
-    }
-    
 }
 
 #pragma mark - Open Edit option
@@ -1320,11 +1248,6 @@
     @catch (NSException *exception) {
         NSLog(@"%@",exception.description);
     }
-    @finally {
-        
-    }
-    //if editBtnIs in view
-    [editBtn removeFromSuperview];
 }
 
 -(void)goToPhotoDetailViewControler
@@ -1397,15 +1320,9 @@
                 [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enable access to your device's photos." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             }];
         };
-        
-        
             [self dismissViewControllerAnimated:NO completion:completion];
-        
     }
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-
-    
-
 }
 #pragma mark - SearchViewController
 -(void)searchViewOpen
@@ -1446,30 +1363,23 @@
                 checkBoxImg.image=[UIImage imageNamed:@"tick_circle.png"];
                 checkBoxImg.tag=1001;
                 [cell.contentView addSubview:checkBoxImg];
-
             }
         }
         else
         {
-            
             UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [activityIndicator startAnimating];
             activityIndicator.tag=1101+indexPath.row;
             activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |                                        UIViewAutoresizingFlexibleRightMargin |                                        UIViewAutoresizingFlexibleTopMargin |                                        UIViewAutoresizingFlexibleBottomMargin);
             activityIndicator.center = CGPointMake(CGRectGetWidth(cell.bounds)/2, CGRectGetHeight(cell.bounds)/2);
             [cell.contentView addSubview:activityIndicator];
-            
-           
             [cell.contentView addSubview:imgView];
-
         }
-        
     }
     @catch (NSException *exception) {
         NSLog(@"Exception Name : %@",exception.name);
         NSLog(@"Exception Description : %@",exception.description);
     }
-    
     return cell;
 }
 

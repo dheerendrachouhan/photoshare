@@ -83,9 +83,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exception in Launch Camera: %@",exception.description);
     }
-    @finally {
-        
-    }
     [self addCustomNavigationBar];
     
 }
@@ -282,10 +279,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exec is %@",exception.description);
     }
-    @finally {
-        
-    }
-    
 }
 
 #pragma mark - ImagePicker Method
@@ -327,9 +320,6 @@
         
     }
     @catch (NSException *exception) {
-        
-    }
-    @finally {
         
     }
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
@@ -854,9 +844,6 @@
         
     }
     @catch (NSException *exception) {
-        
-    }
-    @finally {
         
     }
 }

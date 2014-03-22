@@ -286,8 +286,7 @@
         @catch (NSException *exception) {
             NSLog(@"Exception is %@",exception.description);
         }
-        @finally {
-        }
+        
     }
 }
 
@@ -306,9 +305,7 @@
         @catch (NSException *exception) {
             NSLog(@"Exception is %@",exception.description);
         }
-        @finally {
-            
-        }
+       
 
     }
 }
@@ -342,10 +339,6 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
-    
 }
 //store collection info in server
 -(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserI readUserIds:(NSString *)readUserI
@@ -370,10 +363,6 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
-    
 }
 -(void)editCollectionInfoInServer:(NSNumber *)collecId collectionName:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
 {
@@ -405,10 +394,6 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
-    
 }
 -(void)deleteCollectionInfoInServer
 {
@@ -455,9 +440,6 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
 }
 -(void)getSharingusersId
 {
@@ -469,9 +451,6 @@
         [webservices call:dicData controller:@"collection" method:@"sharing"];
     }
     @catch (NSException *exception) {
-        
-    }
-    @finally {
         
     }
 }
@@ -488,10 +467,6 @@
     @catch (NSException *exception) {
         
     }
-    @finally {
-        
-    }
-    
 }
 -(void)fetchSharingCollectionInfoFromServer
 {
@@ -508,9 +483,6 @@
         }
     }
     @catch (NSException *exception) {
-        
-    }
-    @finally {
         
     }
 }
@@ -551,16 +523,9 @@
                     @catch (NSException *exception) {
                         
                     }
-                    @finally {
-                        
-                    }
-                
                 }
                 @catch (NSException *exception) {
                 
-                }
-                @finally {
-                    
                 }
                 isGetCollectionDetails=NO;
                 [self getTheCollectionOwnerName];
@@ -629,11 +594,7 @@
                 }
                 @catch (NSException *exception) {
                     
-                }
-                @finally {
-                    
-                }
-                
+                }                
             }
         }
         isGetSharingUserId=NO;
@@ -797,9 +758,7 @@
             @catch (NSException *exception) {
                 NSLog(@"Exception is %@",exception.description);
             }
-            @finally {
-                
-            }
+            
         }
         else
         {
