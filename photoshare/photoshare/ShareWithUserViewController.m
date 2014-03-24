@@ -97,18 +97,18 @@
                 sharingUserListCollView.userInteractionEnabled=NO;
             }
             
-            //check the type of sharing permission "Write Permission" or "Read Permission"
-            if(self.isWriteUser)
-            {
-                [self getWriteSharingUserList];
-            }
-            else
-            {
-                [self getReadSharingUserList];
-            }
+            
         }
    
-    
+    //check the type of sharing permission "Write Permission" or "Read Permission"
+    if(self.isWriteUser)
+    {
+        [self getWriteSharingUserList];
+    }
+    else
+    {
+        [self getReadSharingUserList];
+    }
     
     //tap getsure on view for dismiss the keyboard
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
@@ -246,11 +246,15 @@
         for (int i=0; i<writeuseridarray.count; i++) {
             if(![[writeuseridarray objectAtIndex:i] isEqualToString:@"0"])
             {
+                NSLog(@"Collection user details %@",self.collectionUserDetails);
             NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[writeuseridarray objectAtIndex:i]];
+                if(userDetail==nil)
+                {
+                    userDetail=[[manager getData:@"temp_user_details"] objectForKey:[writeuseridarray objectAtIndex:i]];
+                }
             [sharingUserNameArray addObject:[userDetail objectForKey:@"user_username"]];
             [sharingUserIdArray addObject:[userDetail objectForKey:@"user_id"]];
             }
-            
         }
     }
 }
@@ -264,6 +268,10 @@
             if(![[readuseridarray objectAtIndex:i] isEqualToString:@"0"])
             {
                 NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[readuseridarray objectAtIndex:i]];
+                if(userDetail==nil)
+                {
+                    userDetail=[[manager getData:@"temp_user_details"] objectForKey:[readuseridarray objectAtIndex:i]];
+                }
                 [sharingUserNameArray addObject:[userDetail objectForKey:@"user_username"]];
                 [sharingUserIdArray addObject:[userDetail objectForKey:@"user_id"]];
             }
@@ -351,7 +359,14 @@
 #pragma mark - IBAction methods
 -(IBAction)saveSharingUser:(id)sender
 {
-    NSString *useridstr=[sharingUserIdArray componentsJoinedByString:@","];;
+    NSString *useridstr=[sharingUserIdArray componentsJoinedByString:@","];
+    NSMutableDictionary *tempuserDetails=[[NSMutableDictionary alloc] init];
+    for (int i=0; i<sharingUserIdArray.count;i++) {
+       
+        [tempuserDetails setObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharingUserIdArray objectAtIndex:i],@"user_id",[sharingUserNameArray objectAtIndex:i],@"user_username", nil] forKey:[sharingUserIdArray objectAtIndex:i]];
+         
+    }
+    [manager storeData:tempuserDetails :@"temp_user_details"];
     if(isWriteUser)
     {
         [manager storeData:useridstr :@"writeUserId"];

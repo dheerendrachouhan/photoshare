@@ -91,8 +91,6 @@
 -(void)initializeTheGlobalObject
 {
     manager=[ContentManager sharedManager];
-    [manager storeData:@"" :@"writeUserId"];
-    [manager storeData:@"" :@"readUserId"];
     //webservice
     webservices=[[WebserviceController alloc] init];
     dmc=[[DataMapperController alloc] init];

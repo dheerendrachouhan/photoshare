@@ -38,6 +38,9 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    nibNameOrNil=@"LoginViewControlleriPadMini";
+    else  nibNameOrNil=@"LoginViewController";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -701,11 +704,8 @@
         case 3:
             lcam=[[LaunchCameraViewController alloc] init];
             delegate.navControllerphoto.viewControllers=[[NSArray alloc] initWithObjects:lcam,nil];
-            delegate.tbc.selectedIndex=0;
-            
             [manager storeData:@"YES" :@"reset_camera"];
             [manager removeData:@"isfromphotodetailcontroller,istabcamera"];
-            delegate.tbc.selectedIndex=2;
             break;
         case 4:
            

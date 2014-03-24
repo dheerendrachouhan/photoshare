@@ -204,7 +204,7 @@
     [self addSubview:homeController];
     
     NSDictionary *dic =objManager.loginDetailsDict ;
-    NSLog(@"Dictionary : %@",dic);
+   
 }
 -(void)goToEarningViewController
 {

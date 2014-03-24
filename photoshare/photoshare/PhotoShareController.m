@@ -82,8 +82,8 @@
     contactSelectedArray = [[NSMutableArray alloc] init];
     contactNoSelectedArray = [[NSMutableArray alloc] init];
     
-    messageStr= [NSString stringWithFormat:@"I’ve just joined 123friday this is my video', http://www.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
-    messageStrforMail=[NSString stringWithFormat:@"<a href=http://www.123friday.com/my123/live/toolkit/1/%@>I’ve just joined 123friday this is my video.</a>",[manager getData:@"user_username"]];
+    messageStr= [NSString stringWithFormat:@"I’ve just joined 123friday this is my video', http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
+    messageStrforMail=[NSString stringWithFormat:@"<a href=http://my.123friday.com/my123/live/toolkit/1/%@>I’ve just joined 123friday this is my video.</a>",[manager getData:@"user_username"]];
     ImageCollection = [[NSMutableArray alloc] init];
     
     if(sharedImage== nil || sharedImage == NULL)
@@ -266,7 +266,7 @@
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
         [controller setInitialText:@"I’ve just joined 123friday this is my video"];
-        [controller addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]]]];
+        [controller addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]]]];
         if(sharedImage != NULL || sharedImage != nil)
         {
             [controller addImage:sharedImage];

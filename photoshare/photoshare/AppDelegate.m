@@ -27,14 +27,6 @@
     [[UITabBar appearance]setTintColor:[UIColor whiteColor]];
     [self.tbc.tabBar setTranslucent:YES];*/
     LoginViewController *lg = [[LoginViewController alloc] init];
-    if([objManager isiPad])
-    {
-        lg= [[LoginViewController alloc] initWithNibName:@"LoginViewControlleriPadMini" bundle:nil] ;
-    }
-    else
-    {
-        lg = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] ;
-    }
     //FBLogin View Class
     [FBLoginView class];
     //Register for Push Notifications
@@ -95,6 +87,8 @@
             }
             else if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
                 //Open the invite Friend view controller
+                
+               // [self.tbc setSelectedIndex:0];
                 ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
                 [self.navControllerhome pushViewController:rvc animated:YES];
             }
@@ -133,6 +127,7 @@
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:numberOfBadges];
         if (buttonIndex == 1) {
             @try {
+                //[self.tbc setSelectedIndex:0];
                 ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
                 [self.navControllerhome pushViewController:rvc animated:YES];
             }

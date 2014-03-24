@@ -88,7 +88,7 @@
     
     //drop down setting
     userid=[manager getData:@"user_id"];
-    shareForReadingWithBtn.hidden=YES;
+    shareForReadingWithBtn.hidden=NO;
     shareForWritingWithBtn.hidden=NO;
     if(self.isEditFolder)
     {
@@ -101,8 +101,8 @@
 
         folderName.text=self.setFolderName;
         collectionOwnerNameLbl.text=@"";
-        [self getCollectionDetail];
-       
+        
+      
         if(self.collectionOwnerId.integerValue != userid.integerValue)
         {
             crossBtnForTF.hidden=YES;
@@ -123,7 +123,7 @@
             shareForReadingWithBtn.hidden=YES;
             shareForWritingWithBtn.hidden=YES;
         }
-     
+     [self getCollectionDetail];
     }
     else if(self.isAddFolder)
     {
@@ -137,19 +137,18 @@
         collectionOwnerNameLbl.text=[dic objectForKey:@"user_realname"];
     }
     
-
-    
     //tap getsure on view for dismiss the keyboard
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
                                       initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
     [self checkOrientation];
-    
+   
     //contant manager Object
     manager = [ContentManager sharedManager];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
@@ -252,6 +251,8 @@
 
 -(IBAction)shareForWritingWith:(id)sender
 {
+    //set the write user
+    
     ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
     
     sharewith.isWriteUser=YES;
@@ -263,6 +264,7 @@
 }
 -(IBAction)shareForReadingWith:(id)sender
 {
+    
     ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
         sharewith.isWriteUser=NO;
     sharewith.collectionId=self.collectionId;
@@ -418,9 +420,6 @@
     {
         NSLog(@"Delete Fail");
     }
-    
-    
-    
     @try {
         for (int i=0; i<photoIdArray.count; i++) {
             
@@ -506,8 +505,9 @@
                         
                         NSString *writeUserIdStr=[[collectionDetail objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
                         NSString *readUserIdStr=[[collectionDetail objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
-                        //store in nsuserDefault
-                        [manager storeData:writeUserIdStr :@"writeUserId"];
+                        
+                       [manager storeData:writeUserIdStr :@"writeUserId"];
+                       
                         [manager storeData:readUserIdStr :@"readUserId"];
                         
                     }
@@ -767,6 +767,7 @@
 #pragma mark - LaunchCamera SetDetection
 -(void)checkIfIsFromLaunchCamera
 {
+    [manager removeData:@"temp_user_details,writeUserId,readUserId"];
     if(self.isFromLaunchCamera)
     {
         [manager storeData:@"YES" :@"is_add_folder"];

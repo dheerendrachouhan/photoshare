@@ -169,19 +169,12 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     }
     
 }
+
 -(void)goToLoginPageAfterLogout
 {
     [dmc removeAllData];//remove data from nsuser default
     
-    LoginViewController *login;
-    if([objManager isiPad])
-    {
-        login= [[LoginViewController alloc] initWithNibName:@"LoginViewControlleriPadMini" bundle:[NSBundle mainBundle]] ;
-    }
-    else
-    {
-        login= [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]] ;
-    }
+    LoginViewController *login=[[LoginViewController alloc] init];
     [self presentViewController:login animated:NO completion:nil] ;
 }
 

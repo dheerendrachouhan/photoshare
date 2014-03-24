@@ -113,6 +113,7 @@
         {
             deletePhotoBtn.hidden=YES;
             addPhotoBtn.hidden=YES;
+            sharePhotoBtn.hidden=YES;
         }
     }
 }
@@ -168,13 +169,8 @@
             }
         }
         @catch (NSException *exception) {
-            
         }
-        
-        
     }
-
-    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -183,7 +179,6 @@
     {
         isPopFromPhotos=YES;
     }
-    
 }
 - (void)didReceiveMemoryWarning
 {
@@ -736,6 +731,7 @@
             if(isWritePermission)
             {
                 addPhotoBtn.hidden=NO;
+                sharePhotoBtn.hidden=NO;
             }
             [manager storeData:writeUserIdStr :@"writeUserId"];
             [manager storeData:readUserIdStr :@"readUserId"];
@@ -890,7 +886,7 @@
         if(isWritePermission)
         {addPhotoBtn.hidden=NO;deletePhotoBtn.hidden=YES;sharePhotoBtn.hidden=NO;}
         else
-        {addPhotoBtn.hidden=YES;deletePhotoBtn.hidden=YES;sharePhotoBtn.hidden=NO;}
+        {addPhotoBtn.hidden=YES;deletePhotoBtn.hidden=YES;sharePhotoBtn.hidden=YES;}
     }
     
     isDeleteMode=NO;isShareMode=NO;deletePhotoBtn.selected=NO;sharePhotoBtn.selected=NO;

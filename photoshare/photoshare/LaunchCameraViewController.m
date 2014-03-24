@@ -33,7 +33,7 @@
 @end
 
 @implementation LaunchCameraViewController
-@synthesize isFromHomePage,sessions,assetLibrary;
+@synthesize sessions,assetLibrary;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -151,15 +151,8 @@
     @catch (NSException *exception) {
         
     }
-    
-   
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    isCameraMode=NO;
-    
-}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -186,32 +179,43 @@
         imgView.image=nil;
         
         photoLocationStr=@"";
-        //remove the add Folder View when appear
-        [backView2 removeFromSuperview];
-        [addFolderView removeFromSuperview];
-                //imagePicker
+        //imagePicker
         UIImagePickerController *picker=[[UIImagePickerController alloc] init];
         picker.delegate=self;
         if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
         {
             picker.sourceType=UIImagePickerControllerSourceTypeCamera;
-            isCameraMode=YES;
+            @try {
+                //[picker childViewControllerForStatusBarHidden];
+                [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+                [self presentViewController:picker animated:YES completion:nil];
+            }
+            @catch (NSException *exception) {
+                
+            }
         }
         else
         {
-            picker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            if([manager isiPad])
+            {
+                UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Camera not Available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alertView show];
+                [self goToHomePage];
+            }
+            else
+            {
+                picker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                @try {
+                    //[picker childViewControllerForStatusBarHidden];
+                    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+                    [self presentViewController:picker animated:YES completion:nil];
+                }
+                @catch (NSException *exception) {
+                    
+                }
+            }
         }
-        @try {
-            //[picker childViewControllerForStatusBarHidden];
-            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-            [self presentViewController:picker animated:YES completion:nil];
-        }
-        @catch (NSException *exception) {
-            
-        }
-        
     }
-
 }
 #pragma mark - TextFeild Method
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -233,8 +237,6 @@
 {
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
 }
-
-
 -(void)getCollectionInfoFromUserDefault
 {
     NSMutableArray *collection=[dmc getCollectionDataList];
@@ -285,7 +287,6 @@
 //imagePicker DelegateMethod
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    isCameraMode=NO;
     [self dismissViewControllerAnimated:YES completion:nil];
      [self goToHomePage];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
@@ -293,7 +294,6 @@
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [view removeFromSuperview];
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     @try {
         if(picker.cameraDevice == UIImagePickerControllerCameraDeviceFront)
@@ -398,7 +398,6 @@
     imgView.image=image;
     imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
-    isCameraMode=NO;
     isCameraEditMode=NO;
     [self showSelectFolderOption];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
@@ -477,33 +476,7 @@
     
     NSLog(@"Data %@",data);
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-    if(isColletionCreateMode)
-    {
-        if(exitCode.integerValue==1)
-        {
-            NSMutableArray *outPutData=[data objectForKey:@"output_data"];
-            selectedCollectionId= [[outPutData objectAtIndex:0] objectForKey:@"collection_id"];//New created collection id
-            [collectionIdArray addObject:selectedCollectionId];
-            [collectionNameArray addObject:folderName.text];
-            
-            isColletionCreateMode=NO;
-            //upade collection info in  nsUser Default
-            NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
-            NSMutableDictionary *newCol=[[NSMutableDictionary alloc] init];
-            [newCol setObject:@0 forKey:@"collection_default"];
-            [newCol setObject:selectedCollectionId forKey:@"collection_id"];
-            [newCol setObject:folderName.text forKey:@"collection_name"];
-            [newCol setObject:@0 forKey:@"collection_shared"];
-            [newCol setObject:@0 forKey:@"collection_sharing"];
-            [newCol setObject:userid forKey:@"collection_user_id"];
-            
-            [collection addObject:newCol];
-            [manager storeData:collection :@"collection_data_list"];
-
-            [self categoryDoneButtonPressed];//For save the photo
-        }
-    }
-    else if (isPhotoSavingMode)
+    if (isPhotoSavingMode)
     {
         if(exitCode.integerValue==1)
         {
@@ -601,22 +574,17 @@
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"No Folder Selected" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
         [alert show];
     }
-    
 }
 -(void)removePickerView
 {
     [categoryPickerView removeFromSuperview];
     [pickerToolbar removeFromSuperview];
     [backView1 removeFromSuperview];
-    [backView2 removeFromSuperview];
-    [addNewFolder removeFromSuperview];
     [self goToHomePage];
-   
 }
 -(void)categoryCancelButtonPressed{
     [self removePickerView];
 }
-
 #pragma mark GoToPhotoDetailViewController
 -(void)goToPhotoDetailViewControoler
 {
@@ -630,9 +598,7 @@
         editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController" bundle:[NSBundle mainBundle]];
     }
     editDetail.isLaunchCamera=YES;
-    
     [manager storeData:imgData :@"photo_data"];
-    
     [self.navigationController pushViewController:editDetail animated:NO];
 }
 #pragma mark - Picker view Delegate Method
@@ -641,8 +607,6 @@
     NSLog( @"Selected Row: %i", [categoryPickerView selectedRowInComponent:0] );
     if([categoryPickerView selectedRowInComponent:0]==0)
     {
-        //[self addNewFolderView];
-        
         AddEditFolderViewController *addeditvc=[[AddEditFolderViewController alloc] init];
         addeditvc.isAddFolder=YES;
         addeditvc.isFromLaunchCamera=YES;
@@ -699,172 +663,15 @@
     
     return sectionWidth;
 }
-
-
-
-#pragma mark - Create NewFolder
--(void)addNewFolderView
-{
-    
-    isAddNewFolderMode=YES;
-    float textFieldBorderWidth=0.3;
-    if([manager isiPad])
-    {
-        textFieldBorderWidth=0.8f;
-    }
-    UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
-    UIColor *btnTextColor=[UIColor colorWithRed:0.094 green:0.427 blue:0.933 alpha:1];
-    backView2=[[UIView alloc] initWithFrame:self.view.frame];
-    
-    backView2.autoresizingMask=UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
-    
-    backView2.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
-    
-    addFolderView=[[UIView alloc] initWithFrame:CGRectMake(self.view.center.x-100, self.view.center.y-120, 200, 160)];
-    addFolderView.layer.borderWidth=1;
-    addFolderView.layer.borderColor=[UIColor blackColor].CGColor;
-    addFolderView.layer.cornerRadius=8;
-    addFolderView.backgroundColor=[UIColor whiteColor];
-    
-    
-    addFolderView.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    
-    UILabel *headLbl=[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 150, 30)];
-    headLbl.text=@"Add New Folder";
-    headLbl.layer.cornerRadius=5;
-    headLbl.textAlignment=NSTextAlignmentCenter;
-    headLbl.textColor=btnTextColor;
-   
-    folderName=[[UITextField alloc] initWithFrame:CGRectMake(15, 60, 170, 30)];
-    folderName.layer.borderColor=[UIColor grayColor].CGColor;
-    folderName.layer.borderWidth=textFieldBorderWidth;
-    
-    folderName.backgroundColor=[UIColor whiteColor];
-    [folderName setDelegate:self];
-    
-    UIButton *cancelButton=[[UIButton alloc] initWithFrame:CGRectMake(15, 100, 65, 30)];
-    
-   
-    cancelButton.layer.cornerRadius=5;
-    cancelButton.layer.borderColor=btnBorderColor.CGColor;
-    cancelButton.layer.borderWidth=1;
-    
-    cancelButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
-    [cancelButton setTitleColor:btnTextColor forState:UIControlStateNormal];
-    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(removeBackView2) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *addButton=[[UIButton alloc] initWithFrame:CGRectMake(90, 100, 95, 30)];
-    
-   
-    addButton.layer.cornerRadius=5;
-    addButton.layer.borderColor=btnBorderColor.CGColor;
-    addButton.layer.borderWidth=1;
-    
-    addButton.titleLabel.font=[UIFont fontWithName:@"Verdana" size:13];
-    [addButton setTitleColor:btnTextColor forState:UIControlStateNormal];
-    
-    
-    [addButton setTitle:@"Add Folder" forState:UIControlStateNormal];
-    [addButton addTarget:self action:@selector(createNewFolder) forControlEvents:UIControlEventTouchUpInside];
-    [addFolderView addSubview:headLbl];
-    [addFolderView addSubview:folderName];
-    [addFolderView addSubview:cancelButton];
-    [addFolderView addSubview:addButton];
-    
-    [backView2 addSubview:addFolderView];
-    [self.view addSubview:backView2];
-}
--(void)removebackViewPhotDetail
-{
-    photoTitleStr=@"Untitle";
-    photoDescriptionStr=@"";
-    photoTagStr=@"";
-    [backViewPhotDetail removeFromSuperview];
-}
--(void)removeBackView2
-{
-    [backView2 removeFromSuperview];
-    isAddNewFolderMode=NO;
-}
--(void)savePhotoDetail
-{
-    if(photoTitleTF.text.length>0)
-    {
-        photoTitleStr=photoTitleTF.text;
-    }
-    else
-    {
-        photoTitleStr=@"Untitle";
-    }
-    if(photoDescriptionTF.text.length>0)
-    {
-        photoDescriptionStr=photoDescriptionTF.text;
-    }
-    else
-    {
-        photoDescriptionStr=@"";
-    }
-    if(phototagTF.text.length>0)
-    {
-        photoTagStr=phototagTF.text;
-    }
-    else
-    {
-        photoTagStr=@"";
-    }
-    [backViewPhotDetail removeFromSuperview];
-}
-
-
--(void)createNewFolder
-{
-    isAddNewFolderMode=NO;
-    if(folderName.text.length>0)
-    {
-        [self addCollectionInfoInServer:folderName.text  writeUserIds:@"" readUserIds:@""];
-    }
-    else
-    {
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Enter Folder Name" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-        
-    }
-}
-//store collection info in server
--(void)addCollectionInfoInServer:(NSString *)collectionName writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
-{
-    isColletionCreateMode=YES;
-    
-    webservices.delegate=self;
-    
-    NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
-    @try {
-        [webservices call:dicData controller:@"collection" method:@"store"];
-        
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
-
 //save Photo on Server Photo With Detaill
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData
 {
-    
     [SVProgressHUD showWithStatus:@"Photo is saving" maskType:SVProgressHUDMaskTypeBlack];
     isPhotoSavingMode=YES;
-    
     webservices.delegate=self;
-    
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":selectedCollectionId};
-   
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
 }
-
-
-
-
 #pragma mark - Add Custom Navigation Bar
 -(void)addCustomNavigationBar
 {
@@ -884,19 +691,12 @@
 -(void)goToHomePage
 {
     isCameraEditMode=NO;
-    isCameraMode=NO;
-    if(isFromHomePage)
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else
-    {
-        AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
         
         [manager storeData:@"YES" :@"istabcamera"];
         [delgate.tbc setSelectedIndex:0];
-    }
-   
+    
+   [manager removeData:@"isfromphotodetailcontroller,istabcamera"];
 }
 
 
@@ -940,8 +740,6 @@
             NSLog(@"%@", error.debugDescription);
         }
     } ];
-    
-    
     [locationManager stopUpdatingLocation];
 }
 

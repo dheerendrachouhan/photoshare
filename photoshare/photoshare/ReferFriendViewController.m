@@ -153,7 +153,7 @@
 {
     webViewReferral.delegate = self;
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
-    toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
+    toolKitReferralStr = [NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
     mypicker.layer.borderWidth = 1.0;
     mypicker.layer.borderColor = [UIColor blackColor].CGColor;
     
@@ -208,7 +208,7 @@
           {
           activeIndex=row;
           [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:row]]]]];
-          toolKitReferralStr = [NSString stringWithFormat:@"http://www.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
+          toolKitReferralStr = [NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
           }
           
       }
@@ -235,17 +235,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1024, 80)];
         label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:25];
     }
-    // your frame, so picker gets "colored"
-    /*NSNumber  *visible=[toolKitVisiblityArr objectAtIndex:row];
-    if(visible.integerValue==1)
-    {
-        label.textColor = [UIColor blackColor];
-    }
-    else
-    {
-        label.textColor = [UIColor grayColor];
-    }
-    */
+    
     label.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor whiteColor];
     

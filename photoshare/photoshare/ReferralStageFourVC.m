@@ -255,9 +255,7 @@
     isUserMessageEditing=NO;
 }
 - (IBAction)editMsg_Btn:(id)sender {
-    /*EditMessageVC *edMSG = [[EditMessageVC alloc] init];
-    edMSG.edittedMessage = self.stringStr;
-    [self.navigationController pushViewController:edMSG animated:YES];*/
+    
     [self showTheUserMessageEditTextView];
     
 }
@@ -427,127 +425,56 @@
 - (IBAction)postTofacebook:(id)sender {
 
     // FALLBACK: publish just a link using the Feed dialog
-    FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
-    params.link = [NSURL URLWithString:toolkitLink];
-    params.name = @"I’ve just joined 123friday this is my video";
-    params.caption = @"123Friday";
+    FBShareDialogParams *param = [[FBShareDialogParams alloc] init];
+    param.link = [NSURL URLWithString:toolkitLink];
+    param.name = @"I’ve just joined 123friday this is my video";
+    param.caption = @"123Friday";
     //params.picture = imgPath;
-    params.description = @"";
-
-    // If the Facebook app is installed and we can present the share dialog
-    if ([FBDialogs canPresentShareDialogWithParams:params]) {
-        // Put together the dialog parameters
-        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       @"I’ve just joined 123friday this is my video", @"name",
-                                       @"123Friday", @"caption",
-                                       @"", @"description",
-                                       toolkitLink, @"link",
-                                       @"", @"picture",
-                                       nil];
-        
-        
-        // Show the feed dialog
-        [FBWebDialogs presentFeedDialogModallyWithSession:nil
-                                               parameters:params
-                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-                                                      if (error) {
-                                                          // An error occurred, we need to handle the error
-                                                          // See: https://developers.facebook.com/docs/ios/errors
-                                                          NSLog(@"Error publishing story: %@", error.description);
+    param.description = @" ";
+   // param.picture=@"";
+    // Put together the dialog parameters
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   @"I’ve just joined 123friday this is my video", @"name",
+                                   @"123Friday", @"caption",
+                                   @" ", @"description",
+                                   toolkitLink, @"link",
+                                   
+                                   nil];
+    
+    
+    // Show the feed dialog
+    [FBWebDialogs presentFeedDialogModallyWithSession:nil
+                                           parameters:params
+                                              handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                  if (error) {
+                                                      // An error occurred, we need to handle the error
+                                                      // See: https://developers.facebook.com/docs/ios/errors
+                                                      NSLog(@"Error publishing story: %@", error.description);
+                                                  } else {
+                                                      if (result == FBWebDialogResultDialogNotCompleted) {
+                                                          // User canceled.
+                                                          NSLog(@"User cancelled.");
                                                       } else {
-                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                          // Handle the publish feed callback
+                                                          NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
+                                                          
+                                                          if (![urlParams valueForKey:@"post_id"]) {
                                                               // User canceled.
-                                                              NSLog(@"User cancelled.");
-                                                          } else {
-                                                              // Handle the publish feed callback
-                                                              NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
+                                                              UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                                                               
-                                                              if (![urlParams valueForKey:@"post_id"]) {
-                                                                  // User canceled.
-                                                                  UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-                                                                  
-                                                                  [alC show];                    NSLog(@"User cancelled.");
-                                                                  
-                                                              } else {
-                                                                  // User clicked the Share button
-                                                                  NSString *result = [NSString stringWithFormat: @"Posted story, id: %@", [urlParams valueForKey:@"post_id"]];
-                                                                  FBTWViewController *fb = [[FBTWViewController alloc] init];
-                                                                  fb.successType = @"fb";
-                                                                  
-                                                                  [self.navigationController pushViewController:fb animated:YES];                    NSLog(@"result %@", result);
-                                                              }
+                                                              [alC show];                    NSLog(@"User cancelled.");
+                                                              
+                                                          } else {
+                                                              // User clicked the Share button
+                                                              NSString *result = [NSString stringWithFormat: @"Posted story, id: %@", [urlParams valueForKey:@"post_id"]];
+                                                              FBTWViewController *fb = [[FBTWViewController alloc] init];
+                                                              fb.successType = @"fb";
+                                                              
+                                                              [self.navigationController pushViewController:fb animated:YES];                    NSLog(@"result %@", result);
                                                           }
                                                       }
-                                                  }];
-
-       /*
-        // Present share dialog
-        [FBDialogs presentShareDialogWithLink:params.link
-                                         name:params.name
-                                      caption:params.caption
-                                  description:params.description
-                                      picture:params.picture
-                                  clientState:nil
-                                      handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-                                          if(error) {
-                                              // An error occurred, we need to handle the error
-                                              // See: https://developers.facebook.com/docs/ios/errors
-                                              NSLog(@"Error publishing story: %@", error.description);
-                                          } else {
-                                              // Success
-                                              NSLog(@"result %@", results);
-                                          }
-                                      }];
-        */
-        
-        
-        
-        // If the Facebook app is NOT installed and we can't present the share dialog
-    } else {
-        // Put together the dialog parameters
-        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       @"I’ve just joined 123friday this is my video", @"name",
-                                       @"123Friday", @"caption",
-                                       @"", @"description",
-                                       toolkitLink, @"link",
-                                       @"", @"picture",
-                                       nil];
-        
-        
-        // Show the feed dialog
-        [FBWebDialogs presentFeedDialogModallyWithSession:nil
-                                               parameters:params
-                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-                                                      if (error) {
-                                                          // An error occurred, we need to handle the error
-                                                          // See: https://developers.facebook.com/docs/ios/errors
-                                                          NSLog(@"Error publishing story: %@", error.description);
-                                                      } else {
-                                                          if (result == FBWebDialogResultDialogNotCompleted) {
-                                                              // User canceled.
-                                                              NSLog(@"User cancelled.");
-                                                          } else {
-                                                              // Handle the publish feed callback
-                                                              NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
-                                                              
-                                                              if (![urlParams valueForKey:@"post_id"]) {
-                                                                  // User canceled.
-                                                                  UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-
-                                              [alC show];                    NSLog(@"User cancelled.");
-                                                                  
-                                                              } else {
-                                                                  // User clicked the Share button
-                                                                  NSString *result = [NSString stringWithFormat: @"Posted story, id: %@", [urlParams valueForKey:@"post_id"]];
-                                                                  FBTWViewController *fb = [[FBTWViewController alloc] init];
-                                                                  fb.successType = @"fb";
-
-                                              [self.navigationController pushViewController:fb animated:YES];                    NSLog(@"result %@", result);
-                                                              }
-                                                          }
-                                                      }
-                                                  }];
-    }
+                                                  }
+                                              }];
 }
 
 -(void)getTwitterAccounts {

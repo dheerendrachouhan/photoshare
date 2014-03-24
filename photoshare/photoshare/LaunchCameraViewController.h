@@ -21,68 +21,49 @@
 #import "DataMapperController.h"
 #import "NavigationBar.h"
 #import <CoreLocation/CoreLocation.h>
-@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate,UITextViewDelegate,UIPopoverControllerDelegate>
+@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate,UITextViewDelegate,UIPopoverControllerDelegate,UITabBarControllerDelegate>
 {
+    IBOutlet UIPickerView *categoryPickerView;
+    IBOutlet UIImageView *imgView;
+
     //get the userf location
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
     
-    UIView *view;
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionIdArray;
     
     NSNumber *publicCollectionId;
     NSNumber *selectedCollectionId;
     NSData *imgData;
-    IBOutlet UIPickerView *categoryPickerView;
     UIToolbar *pickerToolbar;
     
     NSNumber *userid;
     DataMapperController *dmc;
-    
     ContentManager *manager;
-    
     WebserviceController *webservices;
     NavigationBar *navnBar;
     UIImage *pickImage;
-    BOOL isCameraMode;
+
     BOOL isCameraEditMode;
-    
     BOOL isPhotoSavingMode;
-    BOOL isColletionCreateMode;
-    BOOL isAddNewFolderMode;
     
-    IBOutlet UIImageView *imgView;
+    
     //fore new folder create when pick image
     UIView *backView1;
-    UIView *backView2;
-    UITextField *folderName;
-    UIButton *addNewFolder;
-    
-    //for add photo Detail
-    UIView *backViewPhotDetail;
-    UITextField *photoTitleTF;
-    UITextView *photoDescriptionTF;
-    UITextField *phototagTF;
-    
     NSString *photoTitleStr;
     NSString *photoDescriptionStr;
     NSString *photoTagStr;
     NSString *photoLocationStr; //userLoaction is save
     
     UIInterfaceOrientation orientation;
-    
-    UIView *addFolderView;
-    
     UILabel *titleLabe;
 }
 
 //for Aviary
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;
-
-@property (nonatomic,assign)BOOL isFromHomePage;
 
 //for popover
 @property (nonatomic, strong) UIPopoverController * popover;
