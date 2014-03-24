@@ -12,6 +12,19 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ContentManager.h"
 #import "DataMapperController.h"
+#import "HomeViewController.h"
+#import "CommunityViewController.h"
+#import "EarningViewController.h"
+#import "ReferFriendViewController.h"
+#import "AccountViewController.h"
+#import "PhotoViewController.h"
+#import "WebserviceController.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "SVProgressHUD.h"
+#import "AppDelegate.h"
+#import "LaunchCameraViewController.h"
+#import "ContentManager.h"
+
 
 @class ContentManager;
 @interface LoginViewController : UIViewController <UITextFieldDelegate, WebserviceDelegate,UITabBarControllerDelegate>
@@ -22,35 +35,37 @@
     IBOutlet UITextField *passwordTextField;
     IBOutlet UIButton *signinBtn;
     IBOutlet UIScrollView *scrollView;
-    BOOL usrFlt, pwsFlt;
     IBOutlet UIButton *namecancelBtn;
     IBOutlet UIButton *passwordcancelBtn;
     IBOutlet UIButton *rememberMeBtn;
-    BOOL rememberFltr;
     IBOutlet UIButton *forgetPwd;
-    NSNumber *userid;
     
-    UIView *dataFetchView;
-    WebserviceController *webservices;
-    ContentManager *manager;
-    
+    BOOL usrFlt, pwsFlt;
+    BOOL rememberFltr;
     BOOL isGetTheCollectionListData;
     BOOL isGetLoginDetail;
     BOOL isGetStorage;
     BOOL isGetIcomeDetail;
-   
-    DataMapperController *dmc;
-    ContentManager *objManager;
-    //get collection info from server
     BOOL isGetSharingUserId;
     BOOL isGetTheOwnCollectionListData;
     BOOL isGetTheSharingCollectionListData;
-
     
+    WebserviceController *webservices;
+    ContentManager *manager;
+    DataMapperController *dmc;
+    ContentManager *objManager;
+    AppDelegate *delegate;
+    HomeViewController *hm;
+    EarningViewController *ea;
+    LaunchCameraViewController *lcam;
+    CommunityViewController *com;
+    AccountViewController *acc;
+
     NSMutableArray *sharingIdArray;
     NSMutableArray *collectionArrayWithSharing;
     int countSharing;
-    
+    NSNumber *userid;
+    UIView *dataFetchView;
         
 }
 @property(nonatomic,retain)ALAssetsLibrary *library;

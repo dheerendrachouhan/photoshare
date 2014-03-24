@@ -798,7 +798,6 @@
         titleLbl=[navnBar navBarTitleLabel:@"New Folder"];
     }
     
-    
     [navnBar addSubview:titleLbl];
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];

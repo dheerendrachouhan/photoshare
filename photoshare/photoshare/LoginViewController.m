@@ -7,34 +7,13 @@
 //
 
 #import "LoginViewController.h"
-#import "HomeViewController.h"
-#import "CommunityViewController.h"
-#import "EarningViewController.h"
-#import "ReferFriendViewController.h"
-#import "AccountViewController.h"
-#import "PhotoViewController.h"
-#import "WebserviceController.h"
-#import "ALAssetsLibrary+CustomPhotoAlbum.h"
-#import "SVProgressHUD.h"
-#import "AppDelegate.h"
-#import "LaunchCameraViewController.h"
-#import "ContentManager.h"
-
 
 @interface LoginViewController ()
 
 @end
 
 @implementation LoginViewController
-{
-    AppDelegate *delegate;
-    HomeViewController *hm;
-    EarningViewController *ea;
-    LaunchCameraViewController *lcam;
-    CommunityViewController *com;
-    AccountViewController *acc;
 
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,8 +24,6 @@
     if (self) {
         // Custom initialization
     }
-    
-    manager=[ContentManager sharedManager];
     return self;
 }
 
@@ -62,49 +39,34 @@
     rememberFltr = NO;
     usrFlt = NO;
     pwsFlt = NO;
-   
-    //initialize the sharing IdArray
+    webservices=[[WebserviceController alloc] init];
+    manager=[ContentManager sharedManager];
+    dmc = [[DataMapperController alloc] init] ;
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing =[[NSMutableArray alloc] init];
-
+    
+    
+    //Set Layout of the Login Page
     signinBtn.layer.cornerRadius = 6.0;
-    
-    
     UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     [nameTextField setLeftViewMode:UITextFieldViewModeAlways];
     [nameTextField setLeftView:spacerView];
     UIView *spacerViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     [passwordTextField setLeftViewMode:UITextFieldViewModeAlways];
     [passwordTextField setLeftView:spacerViews];
-    
     loginBackgroundImage.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHideKeyboard)];
     [loginBackgroundImage addGestureRecognizer:singleFingerTap];
-    //initialize webservices Object
-    webservices=[[WebserviceController alloc] init];
     
-    
-    dmc = [[DataMapperController alloc] init] ;
-    
+    //Check remember Feild
     NSString *rememberStr = [dmc getRemeberMe];
-    if([rememberStr isEqualToString:@"YES"])
-    {
-        rememberFltr = NO;
-        [self rememberBtnTapped];
-        NSDictionary *dict = [dmc getRememberFields];
-        nameTextField.text = [dict valueForKey:@"username"];
-        passwordTextField.text = [dict valueForKey:@"password"];
-    }
-    else
-    {
-        rememberFltr = YES;
-        [self rememberBtnTapped];
-        NSDictionary *dict = [dmc getRememberFields];
-        nameTextField.text = [dict valueForKey:@"username"];
-        passwordTextField.text = [dict valueForKey:@"password"];
-    }
-    
+    if([rememberStr isEqualToString:@"YES"])rememberFltr = NO;
+    else  rememberFltr = YES;
+    [self rememberBtnTapped];
+    NSDictionary *dict = [dmc getRememberFields];
+    nameTextField.text = [dict valueForKey:@"username"];
+    passwordTextField.text = [dict valueForKey:@"password"];
   
    
 }
@@ -117,11 +79,7 @@
 }
 -(void)deviceOrientDetect
 {
-    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
-        [self orient:self.interfaceOrientation];
-    }else{
-        [self orient:self.interfaceOrientation];
-    }
+    [self orient:self.interfaceOrientation];
 }
 -(void)checkAutoLogin
 {
@@ -140,6 +98,7 @@
     
     if(devToken==NULL)
     {
+        //for testing only
         /*if([manager isiPad])
         {
             devToken=@"786f9657d1743c08ea7c3151e3d5309d25f8d1dd85aa02977920345054711a55";
@@ -695,7 +654,6 @@
     }
     switch (item.tag) {
         case 1:
-            
             delegate.navControllerhome.viewControllers=[[NSArray alloc] initWithObjects:hm,nil];
             break;
         case 2:
@@ -708,7 +666,6 @@
             [manager removeData:@"isfromphotodetailcontroller,istabcamera"];
             break;
         case 4:
-           
             break;
         case 5:
             delegate.navControlleraccount.viewControllers=[[NSArray alloc] initWithObjects:acc,nil];
@@ -737,7 +694,6 @@
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0.0f, 0.0f, 480.0f, 320.0f);
-            
             scrollView.contentSize = CGSizeMake(480,480);
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
