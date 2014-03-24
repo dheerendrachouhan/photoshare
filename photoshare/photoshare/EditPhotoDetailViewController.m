@@ -256,14 +256,11 @@
         manager=[ContentManager sharedManager];
        [manager storeData:@"YES" :@"isfromphotodetailcontroller"];
         [manager storeData:photoDetail :@"takephotodetail"];
-        
     }
     else
     {
         isPhotoDetailSaveOnServer=YES;
-        
         @try {
-            
             NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
             
             NSDictionary *photoDetail=[photoinfoarray objectAtIndex:self.selectedIndex];
@@ -385,8 +382,6 @@
             NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
             
             photoLocationString=location;
-            
-            
             NSLog(@"Current location is %@",location);
         } else {
             NSLog(@"%@", error.debugDescription);

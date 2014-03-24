@@ -15,38 +15,30 @@
 @interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate,WebserviceDelegate>
 {
     IBOutlet UICollectionView *collectionview;
-    UIButton *addFolderBtn;
     IBOutlet UIProgressView *progressView;
     IBOutlet UILabel *diskSpaceTitle;
-    CollectionViewCell *obj_Cell;
-  
     NSMutableArray *collectionArrayWithSharing;
-    //collection Info Array
     NSMutableArray *collectionDefaultArray;
     NSMutableArray *collectionIdArray;
     NSMutableArray *collectionNameArray;
     NSMutableArray *collectionSharingArray;
     NSMutableArray *collectionSharedArray;
     NSMutableArray *collectionUserIdArray;
-    
+    NSMutableArray *sharingIdArray;
     NSInteger selectedFolderIndex;
     WebserviceController *webservices;
-        
     ContentManager *manager;
     DataMapperController *dmc;
     NavigationBar *navnBar;
-    UIButton *editBtn;
+    CollectionViewCell *obj_Cell;
     NSNumber *userid;
-
     UIActivityIndicatorView *indicator;
     BOOL isGetStorage;
     BOOL isGetCollectionInfo;
     BOOL isGetTheOwnCollectionListData;
     BOOL isGetTheSharingCollectionListData;
-    int countSharing;
-    //for sharing detail get
     BOOL isGetSharingUserId;
-    NSMutableArray *sharingIdArray;
+    int countSharing;
     
 }
 @property (nonatomic,assign)BOOL isInNavigation;

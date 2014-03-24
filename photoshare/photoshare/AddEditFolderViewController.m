@@ -88,7 +88,7 @@
     
     //drop down setting
     userid=[manager getData:@"user_id"];
-    shareForReadingWithBtn.hidden=NO;
+    shareForReadingWithBtn.hidden=YES;
     shareForWritingWithBtn.hidden=NO;
     if(self.isEditFolder)
     {
@@ -300,13 +300,10 @@
     {
         @try {
             [self editCollectionInfoInServer:self.collectionId collectionName:folderName.text sharing:@0 writeUserIds:[manager getData:@"writeUserId"] readUserIds:[manager getData:@"readUserId"]];
-            
         }
         @catch (NSException *exception) {
             NSLog(@"Exception is %@",exception.description);
         }
-       
-
     }
 }
 -(IBAction)deleteFolder:(id)sender
@@ -314,7 +311,6 @@
     isDeletePhotoMode=YES;
     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Are you sure you want to delete this folder and all of its contents?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
     [alert show];
-    
 }
 
 -(void)alertForFolderNameText
@@ -327,7 +323,6 @@
 -(void)getCollectionDetail
 {
     @try {
-        
         isGetCollectionDetails=YES;
         webservices.delegate=self;
         [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
@@ -343,9 +338,7 @@
 //store collection info in server
 -(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserI readUserIds:(NSString *)readUserI
 {
-   
     isAdd=YES;
-    
     webservices.delegate=self;
    if(writeUserI==Nil)
    {
@@ -374,9 +367,7 @@
     
     if(readUserIds == nil)
     readUserIds=@"";
-  
     webservices.delegate=self;
-    
     //edit data
     NSDictionary *dicData;
     if([folderName.text isEqualToString:self.setFolderName])
@@ -608,7 +599,6 @@
         {
             [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
             //nsuser default
-            
         }
         else
         {
@@ -724,7 +714,6 @@
     }
     else if (isDelete)
     {
-        
         for (int i=0; i<collection.count; i++) {
             
             NSNumber *colId=[[collection objectAtIndex:i] objectForKey:@"collection_id"];

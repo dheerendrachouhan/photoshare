@@ -37,37 +37,21 @@
 {
     [super viewDidLoad];
     [self initializeTheGlobalObject];
-    //Add Custom Navigation Bar
     [self addCustomNavigationBar];
-    //Set UI for IOS6
     [self setUIForIOS6];
-    self.navigationItem.title = @"Community folders";
-    self.navigationController.navigationBar.frame=CGRectMake(0, 70, 320,30);
     
     NSString *nibName;
-    if([manager isiPad])
-    {
-        nibName=@"CommunityCollectionCell_iPad";
-    }
-    else
-    {
-        nibName=@"CommunityCollectionCell";
-    }
+    if([manager isiPad]) nibName=@"CommunityCollectionCell_iPad";
+    else nibName=@"CommunityCollectionCell";
     UINib *nib=[UINib nibWithNibName:nibName bundle:[NSBundle mainBundle]];
     [collectionview registerNib:nib forCellWithReuseIdentifier:@"CVCell"];
-       //add the Tap gesture for collection view
+    //Add The Tap and Longpress Gesture to the Collection view
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc ]initWithTarget:self action:@selector(tapHandle:)];
-    [collectionview addGestureRecognizer:tapGesture];
-    
-    //add the LongPress gesture to the collection view
     UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
     longPressGesture.minimumPressDuration=0.6;
-    [collectionview addGestureRecognizer:longPressGesture];
+    [collectionview addGestureRecognizer:tapGesture];
+    [collectionview addGestureRecognizer:longPressGesture];   
     
-    //editBtn When Longpress on folder
-    editBtn=[[UIButton alloc] init];
-    
-    //initialize the array
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing=[[NSMutableArray alloc] init];
     collectionDefaultArray=[[NSMutableArray alloc] init];
@@ -83,14 +67,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    //get DiskSpace from server
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
-    
-    [self getStorageFromServer];
-   
     [self getCollectionInfoFromUserDefault];
-    
-    //set the tabbar icon selected
+    [self getStorageFromServer];
+    //Set Tabbar item Selected
     [self.tabBarController setSelectedIndex:3];
 }
 
@@ -149,7 +129,6 @@
         }
     }
     [collectionview reloadData];
-    //[self getSharingusersId];
 }
 
 #pragma mark - Fetch and store the data on the server
@@ -356,9 +335,7 @@
         else
         {
             int shared=[[collectionSharedArray objectAtIndex:index] intValue];
-                        
             int colOwnerId=[[collectionUserIdArray objectAtIndex:index] integerValue];
-            
             if(userid.integerValue==colOwnerId)
             {
                 if(shared==1)
@@ -366,11 +343,9 @@
                     obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                     obj_Cell.icon_img.hidden=NO;
                     obj_Cell.icon_img.image=[UIImage imageNamed:@"shared-icon3.png"];
-                    
                 }
                 else
                 {
-                    
                     obj_Cell.folder_imgV.image=[UIImage imageNamed:@"folder-icon.png"];
                     obj_Cell.icon_img.hidden=YES;
                 }
@@ -394,10 +369,6 @@
 #pragma mark - Gesture Methods
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
-    //if editBtnIs in view
-    [editBtn removeFromSuperview];
-
-    
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
@@ -434,7 +405,6 @@
 -(void)longPressHandle:(UILongPressGestureRecognizer *)gestureRecognizer
 {
     CGPoint p = [gestureRecognizer locationInView:collectionview];
-    
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
     if (indexPath != nil){
        
@@ -490,8 +460,7 @@
 -(void)editFolder:(id)sender
 {
     int index=selectedFolderIndex-1;
-    //if editBtnIs in view
-    [editBtn removeFromSuperview];
+    
     @try {
        AddEditFolderViewController *aec=[[AddEditFolderViewController alloc] init];
         
@@ -505,7 +474,7 @@
         //HomeViewController *hm=[[HomeViewController alloc] init];
         
         //[self.navigationController setViewControllers:[[NSArray alloc] initWithObjects:hm,cm,aec, nil]];
-        
+    
         [self.navigationController pushViewController:aec animated:NO];
     }
     @catch (NSException *exception) {

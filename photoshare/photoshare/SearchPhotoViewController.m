@@ -258,37 +258,6 @@
             isGetPhotoFromServer=NO;
         }
     }
-    else if(isGetOriginalPhotoFromServer)
-    {
-        //UIImageView for view the large image (imgView1)
-        
-       /* CGFloat backbtnViewHeight=50;
-        backBtnContainerView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, backbtnViewHeight)];
-        backBtnContainerView.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth;
-        backBtnContainerView.backgroundColor=[UIColor redColor];
-        UIButton *backBtn=[[UIButton alloc] initWithFrame:CGRectMake(0, 10, 100, 25)];
-        [backBtn addTarget:self action:@selector(removeImgView:) forControlEvents:UIControlEventTouchUpInside];
-        [backBtn setTitle:@"< Back" forState:UIControlStateNormal];
-        [backBtnContainerView addSubview:backBtn];
-        imgView1=[[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y+backbtnViewHeight, self.view.frame.size.width, self.view.frame.size.height-backbtnViewHeight)];
-        imgView1.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        imgView1.contentMode=UIViewContentModeScaleAspectFit;
-        
-        UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeImgView:)];
-        tap.numberOfTapsRequired=2;
-        imgView1.backgroundColor=[UIColor blackColor];
-        imgView1.userInteractionEnabled=YES;
-        imgView1.layer.masksToBounds=YES;
-        [imgView1 addGestureRecognizer:tap];
-        
-        imgView1.image=image;
-        isViewLargeImageMode=YES;
-        self.tabBarController.tabBar.hidden=YES;
-        //[self.view addSubview:backBtnContainerView];
-        [self.view addSubview:imgView1];
-        */
-        isGetOriginalPhotoFromServer=NO;
-    }
 }
 
 #pragma mark - remove the imageview
@@ -366,14 +335,6 @@
         }
         else
         {
-           /* [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-            isGetOriginalPhotoFromServer=YES;
-            NSString *resize=@"320";
-            if ([manager isiPad])
-            {
-                resize=@"768";
-            }
-            [self getPhotoFromServer:indexPath.row imageResize:resize];*/
             NSNumber *colId=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_collection_id"];
             
             NSNumber *photoId=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_id"];

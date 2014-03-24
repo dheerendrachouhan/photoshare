@@ -29,7 +29,6 @@
     NSMutableArray *photDetailArray;
     BOOL isSearchPhoto;
     BOOL isGetPhotoFromServer;
-    BOOL isGetOriginalPhotoFromServer;
     BOOL isPopFromSearchPhoto;
     BOOL isStartGetPhoto;
     BOOL isViewLargeImageMode;
