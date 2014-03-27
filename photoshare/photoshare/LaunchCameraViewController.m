@@ -568,7 +568,7 @@
     else
     {
         //selectedCollectionId=[collectionIdArray objectAtIndex:0];
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"No Folder Selected" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Select Folder" message:@"No Folder Selected" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
         [alert show];
     }
 }
@@ -582,6 +582,7 @@
 -(void)categoryCancelButtonPressed{
     [self removePickerView];
 }
+
 #pragma mark GoToPhotoDetailViewController
 -(void)goToPhotoDetailViewControoler
 {

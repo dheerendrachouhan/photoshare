@@ -20,12 +20,6 @@
     objManager = [ContentManager sharedManager];
     dmc=[[DataMapperController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    //set the tabbar background color
-    /**self.tbc.tabBar.tintColor=[UIColor whiteColor];
-    self.tbc.tabBar.backgroundColor=[UIColor whiteColor];
-    [[UITabBar appearance]setTintColor:[UIColor whiteColor]];
-    [self.tbc.tabBar setTranslucent:YES];*/
     LoginViewController *lg = [[LoginViewController alloc] init];
     //FBLogin View Class
     [FBLoginView class];
@@ -59,16 +53,12 @@
 //When Remote Notification is Received
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-   
     [self receiveNotification:application userInfo:userInfo];
 }
-
  -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-   
     [self receiveNotification:application userInfo:userInfo];
 }
-
 -(void)receiveNotification :(UIApplication *)application userInfo:(NSDictionary *)userInfo
 {
     NSString *message=[[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
@@ -143,7 +133,6 @@
             @try {
                 self.navControllerearning.viewControllers=[[NSArray alloc] initWithObjects:earnView, nil];
                 [self.tbc setSelectedIndex:1];
-                
             }
             @catch (NSException *exception) {
                 
@@ -178,7 +167,7 @@
 //Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"Device Token is Register On Server%@",data);
+    NSLog(@"Device_Token is Register On Server%@",data);
 }
 -(void)deregisterThepushNotification
 {
@@ -232,11 +221,7 @@
                                       if (targetURLString) {
                                           // Show the incoming link in an alert
                                           // Your code to direct the user to the appropriate flow within your app goes here
-                                          [[[UIAlertView alloc] initWithTitle:@"Received link:"
-                                                                      message:targetURLString
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"OK"
-                                                            otherButtonTitles:nil] show];
+                                          [[[UIAlertView alloc] initWithTitle:@"Received link:"                                                                      message:targetURLString                                                                     delegate:self                                                            cancelButtonTitle:@"OK"                                                            otherButtonTitles:nil] show];
                                       }
                                   }];
     

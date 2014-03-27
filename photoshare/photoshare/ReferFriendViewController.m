@@ -249,7 +249,6 @@
 #pragma mark - UIPickerView Delegate
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
-    
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
         return 50.0;
@@ -306,8 +305,6 @@
     
     [[self navigationController] popViewControllerAnimated:YES];
 }
-
-
 #pragma mark - Device Orientation
 -(void)detectDeviceOrientation
 {

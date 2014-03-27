@@ -57,7 +57,7 @@
     
     [self getEarning];
      checkAgain = YES;
-    NSTimer *timerGo = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
 }
 
 -(void)getEarning

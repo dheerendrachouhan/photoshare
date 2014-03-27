@@ -32,8 +32,7 @@
 }
 -(id)init
 {
-     objManager=[ContentManager sharedManager];
-   
+    objManager=[ContentManager sharedManager];
     return self;
 }
 

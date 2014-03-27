@@ -70,7 +70,6 @@
     cancelButton.hidden=YES;
     if(!self.isPhotoAdd && !self.isLaunchCamera)
     {
-        NSArray *photoInfo=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
         @try {
             NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
             photoTitletxt.text=[[photoDetail  objectAtIndex:self.selectedIndex] objectForKey:@"collection_photo_title"];

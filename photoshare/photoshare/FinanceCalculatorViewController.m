@@ -177,8 +177,6 @@
     
     amountCalculated.text =[setCurrenyStr stringByAppendingString:countedStr];
 }
-
-
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 3;
@@ -204,7 +202,6 @@
 #pragma mark - UIPickerView Delegate
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
-
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
         return 30.0;

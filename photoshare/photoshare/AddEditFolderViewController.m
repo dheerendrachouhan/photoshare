@@ -723,7 +723,7 @@
             }
         }
     }
-    //reset
+    //Reset Bool Value
     isAdd=NO;
     isSave=NO;
     isDelete=NO;

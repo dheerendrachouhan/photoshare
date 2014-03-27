@@ -167,23 +167,19 @@
     }
 }
 //if network error found
--(void)networkError
+-(void)networkError:(NSString *)alertmessage
 {
     [collectionArrayWithSharing removeAllObjects];
     [sharingIdArray removeAllObjects];
     countSharing=0;
     [self removeDataFetchView];
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Network Error" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:alertmessage delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [alert show];
     
 }
 //user sign in function
 - (IBAction)userSignInBtn:(id)sender {
-    
-    
-    [dmc removeAllData];//remove data from nsuser default
-    
-    
+    [dmc removeAllData];
     //Without Validation
     [self tapHideKeyboard];
     
@@ -200,9 +196,7 @@
     {
         isGetLoginDetail=YES;
         webservices.delegate = self;
-        
         [SVProgressHUD showWithStatus:@"Login" maskType:SVProgressHUDMaskTypeBlack];
-        
         NSDictionary *postdic = @{@"username":username, @"password":password} ;
         [webservices call:postdic controller:@"authentication" method:@"login"];
     }
@@ -211,7 +205,6 @@
 -(void) webserviceCallback:(NSDictionary *)data
 {
     //validate the user
-    
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
      NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
    
@@ -223,7 +216,6 @@
             //get the userId
             NSDictionary *dic=[outPutData objectAtIndex:0];
             userid =[dic objectForKey:@"user_id"];
-            
             //store user details in nsuser default
             [dmc setUserId:[NSString stringWithFormat:@"%@",userid]] ;
             [dmc setUserName:[NSString stringWithFormat:@"%@",[dic objectForKey:@"user_username"]]];
@@ -333,14 +325,16 @@
         }
         else
         {
-            [self networkError];
+            NSString *errorMessage=[data objectForKey:@"user_message"];
+            if(errorMessage.length==0)
+            {
+                errorMessage=@"Network Error";
+            }
+            [self networkError:errorMessage];
         }
     }
 }
 
-
-
-//for fetching data from server add Loading view
 -(void)displayTheDataFetchingView
 {
     //set Fetching View
@@ -371,7 +365,6 @@
         
     }
 }
-//Fetch data From Server
 -(void)fetchOwnCollectionInfoFromServer
 {
     @try {
@@ -403,8 +396,7 @@
         
     }
 }
-//---------------------------
-//---------------------------
+
 -(void)getIncomeFromServer
 {
     [self resetAllBoolValue];
@@ -414,19 +406,16 @@
     [webservices call:dicData controller:@"referral" method:@"calculateincome"];
 }
 
-//Reset all BooL Value
 -(void)resetAllBoolValue
 {
     isGetLoginDetail=NO;
     isGetTheCollectionListData=NO;
     isGetStorage=NO;
 }
-//forgot password function
 - (IBAction)forgotPasswordBtn:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://my.123friday.com/my123/account/forgotpassword"]];
 }
 
-//Textfields functions
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -521,7 +510,6 @@
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
     CGPoint buttonOrigin = signinBtn.frame.origin;
-    //CGFloat buttonHeight = signinBtn.frame.size.height;
     CGRect visibleRect = self.view.frame;
     visibleRect.size.height -= keyboardSize.height;
     
@@ -571,7 +559,6 @@
 
 -(void)loadData
 {
-    //Initialize view controller for tabbar items
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     hm=[[HomeViewController alloc] init];
     ea=[[EarningViewController alloc] init];
@@ -614,8 +601,7 @@
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:image5 tag:5];
     [tabBarItem5 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
     delegate.tbc = [[UITabBarController alloc] init] ;
-  
-    //Set Navigation Controller on tabar items
+ 
     [delegate.navControllerhome setTabBarItem:tabBarItem];
     [delegate.navControllerearning setTabBarItem:tabBarItem2];
     [delegate.navControllerphoto setTabBarItem:tabBarItem3];
@@ -662,7 +648,6 @@
 #pragma mark - Device Orientation
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 
@@ -720,7 +705,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
