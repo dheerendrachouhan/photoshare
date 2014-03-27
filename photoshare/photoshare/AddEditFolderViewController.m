@@ -434,7 +434,6 @@
 -(void)getSharingusersId
 {
     @try {
-        
         isGetSharingUserId=YES;
         webservices.delegate=self;
         NSDictionary *dicData=@{@"user_id":userid};
@@ -526,7 +525,6 @@
                 [SVProgressHUD dismiss];
                 [manager showAlert:@"Error" msg:@"Network Error" cancelBtnTitle:@"Ok" otherBtn:Nil];
             }
-
         }
     else if (isGetCollectionOwnername)
     {
@@ -742,12 +740,10 @@
             
             @try {
                 [self deleteCollectionInfoInServer];
-               
             }
             @catch (NSException *exception) {
                 NSLog(@"Exception is %@",exception.description);
             }
-            
         }
         else
         {
@@ -758,10 +754,8 @@
     {
         if(buttonIndex==0)
         {
-            
             [self navBackButtonClick];
         }
-
     }
 }
 #pragma mark - LaunchCamera SetDetection
@@ -780,7 +774,6 @@
     self.navigationController.navigationBarHidden = TRUE;
     navnBar = [[NavigationBar alloc] init];
     [navnBar loadNav];
-    
     UIButton *button =[navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)

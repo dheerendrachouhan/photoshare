@@ -30,9 +30,7 @@
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
     
-    NSMutableArray *collectionNameArray;
-    NSMutableArray *collectionIdArray;
-    
+       
     NSNumber *selectedCollectionId;
     NSData *imgData;
     UIPickerView *categoryPickerView;

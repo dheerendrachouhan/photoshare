@@ -30,10 +30,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     dataFetchView=[[UIView alloc] initWithFrame:self.view.frame];
-    // Do any additional setup after loading the view from its nib.
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
     rememberFltr = NO;
@@ -44,7 +42,6 @@
     dmc = [[DataMapperController alloc] init] ;
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing =[[NSMutableArray alloc] init];
-    
     
     //Set Layout of the Login Page
     signinBtn.layer.cornerRadius = 6.0;
@@ -67,15 +64,12 @@
     NSDictionary *dict = [dmc getRememberFields];
     nameTextField.text = [dict valueForKey:@"username"];
     passwordTextField.text = [dict valueForKey:@"password"];
-  
-   
+    [self registerForKeyboardNotifications];
+    [self checkAutoLogin];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self checkAutoLogin];
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
-    
-    [self registerForKeyboardNotifications];
 }
 -(void)deviceOrientDetect
 {
@@ -92,6 +86,7 @@
 -(void)setDeviceTokenOnServerIfUserLogin
 {
     userid=(NSNumber *)[dmc getUserId];
+    NSLog(@"User Id If User Login %@",userid);
     //set the device token on the server
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *devToken=delegate.token;
@@ -428,7 +423,7 @@
 }
 //forgot password function
 - (IBAction)forgotPasswordBtn:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.123friday.com/my123/account/forgotpassword"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://my.123friday.com/my123/account/forgotpassword"]];
 }
 
 //Textfields functions
@@ -596,22 +591,11 @@
     UIImage *image4;
     UIImage *image5;
     
-    if([manager isiPad])
-    {
-        image1=[UIImage imageNamed:@"home_tab_icon@2x.png"];
-        image2=[UIImage imageNamed:@"earnings_tab_icon@2x.png"];
-        image3=[UIImage imageNamed:@"photo_tab_icon@2x.png"];
-        image4=[UIImage imageNamed:@"folder_tab_icon@2x.png"];
-        image5=[UIImage imageNamed:@"cog_tab_icon@2x.png"];
-    }
-    else
-    {
-        image1=[UIImage imageNamed:@"home_tab.png"];
-        image2=[UIImage imageNamed:@"earnings_tab.png"];
-        image3=[UIImage imageNamed:@"photo_tab.png"];
-        image4=[UIImage imageNamed:@"folder_tab.png"];
-        image5=[UIImage imageNamed:@"cog_tab.png"];
-    }
+    image1=[UIImage imageNamed:@"home_tab.png"];
+    image2=[UIImage imageNamed:@"earnings_tab.png"];
+    image3=[UIImage imageNamed:@"photo_tab.png"];
+    image4=[UIImage imageNamed:@"folder_tab.png"];
+    image5=[UIImage imageNamed:@"cog_tab.png"];
     
     NSDictionary *textAttr=[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor], UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0,0)], UITextAttributeTextShadowOffset,[UIFont fontWithName:@"Verdana-Bold" size:10.0], UITextAttributeFont, nil];
     
@@ -660,10 +644,11 @@
             delegate.navControllerearning.viewControllers=[[NSArray alloc] initWithObjects:ea,nil];
             break;
         case 3:
+            lcam=nil;
             lcam=[[LaunchCameraViewController alloc] init];
             delegate.navControllerphoto.viewControllers=[[NSArray alloc] initWithObjects:lcam,nil];
             [manager storeData:@"YES" :@"reset_camera"];
-            [manager removeData:@"isfromphotodetailcontroller,istabcamera"];
+            [manager removeData:@"is_add_folder,isfromphotodetailcontroller,istabcamera"];
             break;
         case 4:
             break;

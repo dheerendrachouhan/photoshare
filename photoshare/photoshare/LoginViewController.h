@@ -17,7 +17,6 @@
 #import "EarningViewController.h"
 #import "ReferFriendViewController.h"
 #import "AccountViewController.h"
-#import "PhotoViewController.h"
 #import "WebserviceController.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "SVProgressHUD.h"

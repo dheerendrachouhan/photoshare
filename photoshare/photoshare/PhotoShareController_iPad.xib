@@ -20,6 +20,7 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Xpj-7X-V5d">
                     <rect key="frame" x="0.0" y="199" width="768" height="517"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="9sP-mp-UeD">
                     <rect key="frame" x="0.0" y="714" width="768" height="172"/>

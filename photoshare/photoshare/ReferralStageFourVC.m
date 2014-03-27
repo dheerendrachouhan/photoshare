@@ -16,7 +16,6 @@
 #import <FacebookSDK/FacebookSDK.h>
 @interface ReferralStageFourVC ()
 
-@property (nonatomic) ACAccountStore *accountStore;
 
 @end
 
@@ -27,17 +26,20 @@
     NSMutableDictionary *firendDictionary;
     NSMutableArray *FBEmailID;
     NSMutableArray *twiiterListArr;
-    int totalCount;
-    int countVar;
     NSArray *sttt;
     NSString *tweetFail;
-    BOOL grant;
     NSNumber *userID;
     NSMutableArray *contactSelectedArray;  //need to be removed
     NSMutableArray *contactNoSelectedArray; // need to be removed
     NSMutableDictionary *contactData;
+    int totalCount;
+    int countVar;
     int messagecount;
     int mailSent;
+    BOOL grant;
+    //For Twitter Account
+    ACAccountStore *accountStore;
+    ACAccountType *accountType;
 }
 @synthesize stringStr,twitterTweet,toolkitLink;
 @synthesize referEmailStr,referPhoneStr,referredValue;
@@ -83,8 +85,10 @@
     messagecount = 0;
     grant = NO;
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
+    //For twitter Accounts
     tweetFail =@"";
-    _accountStore = [[ACAccountStore alloc] init];
+    accountStore = [[ACAccountStore alloc] init];
+    accountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     twiiterListArr = [[NSMutableArray alloc] init];
     firendDictionary = [[NSMutableDictionary alloc] init]; //fabfriendDictionary
     FBEmailID = [[NSMutableArray alloc] init]; //storing email id of fb selected user
@@ -131,6 +135,10 @@
     
     if(twitterTweet.length != 0)
     {
+        if([twitterTweet isEqualToString:@"(null)"])
+        {
+            twitterTweet=@"";
+        }
         [SVProgressHUD dismissWithSuccess:@"Done"];
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
         {
@@ -210,7 +218,6 @@
 {
     isUserMessageEditing=YES;
     [self setScrollviewContentForTextView];
-    
 }
 
 -(void)setScrollviewContentForTextView
@@ -319,8 +326,6 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
-  
     switch (buttonIndex)
     {
         case 0:
@@ -425,82 +430,94 @@
 - (IBAction)postTofacebook:(id)sender {
 
     // FALLBACK: publish just a link using the Feed dialog
-    FBShareDialogParams *param = [[FBShareDialogParams alloc] init];
-    param.link = [NSURL URLWithString:toolkitLink];
-    param.name = @"I’ve just joined 123friday this is my video";
-    param.caption = @"123Friday";
-    //params.picture = imgPath;
-    param.description = @" ";
-   // param.picture=@"";
-    // Put together the dialog parameters
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   @"I’ve just joined 123friday this is my video", @"name",
-                                   @"123Friday", @"caption",
-                                   @" ", @"description",
-                                   toolkitLink, @"link",
-                                   
-                                   nil];
-    
-    
-    // Show the feed dialog
-    [FBWebDialogs presentFeedDialogModallyWithSession:nil
-                                           parameters:params
-                                              handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-                                                  if (error) {
-                                                      // An error occurred, we need to handle the error
-                                                      // See: https://developers.facebook.com/docs/ios/errors
-                                                      NSLog(@"Error publishing story: %@", error.description);
-                                                  } else {
-                                                      if (result == FBWebDialogResultDialogNotCompleted) {
-                                                          // User canceled.
-                                                          NSLog(@"User cancelled.");
-                                                      } else {
-                                                          // Handle the publish feed callback
-                                                          NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
-                                                          
-                                                          if (![urlParams valueForKey:@"post_id"]) {
-                                                              // User canceled.
-                                                              UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-                                                              
-                                                              [alC show];                    NSLog(@"User cancelled.");
-                                                              
-                                                          } else {
-                                                              // User clicked the Share button
-                                                              NSString *result = [NSString stringWithFormat: @"Posted story, id: %@", [urlParams valueForKey:@"post_id"]];
-                                                              FBTWViewController *fb = [[FBTWViewController alloc] init];
-                                                              fb.successType = @"fb";
-                                                              
-                                                              [self.navigationController pushViewController:fb animated:YES];                    NSLog(@"result %@", result);
-                                                          }
-                                                      }
-                                                  }
-                                              }];
-}
-
--(void)getTwitterAccounts {
-    self.stringStr=userMessage.text;
-     NSLog(@"User Message : %@",self.stringStr);
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    
-    //Check if user Exists
-    NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
-    
-    for (ACAccount *account in accountsArray ) {
-        NSLog(@"Account name: %@", account.username);
+    FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
+    params.link = [NSURL URLWithString:toolkitLink];
+    params.name = @"I’ve just joined 123friday this is my video";
+    params.caption = @"123Friday";
+    params.description = @" ";
+    // If the Facebook app is installed and we can present the share dialog
+    if ([FBDialogs canPresentShareDialogWithParams:params])
+    {
+        // Present share dialog
+        [FBDialogs presentShareDialogWithLink:params.link name:params.name
+         caption:params.caption description:params.description picture:params.picture clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error)
+        {
+         if(error)
+         {
+             // An error occurred, we need to handle the error
+            // See: https://developers.facebook.com/docs/ios/errors
+            NSLog(@"Error publishing story: %@", error.description);
+         }
+         else
+         {
+             // Success
+             NSLog(@"result %@", results);
+         }
+        }];
     }
-    NSLog(@"Accounts array: %d", accountsArray.count);
+    else
+    {
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"I’ve just joined 123friday this is my video", @"name",@"123Friday", @"caption",@" ", @"description",toolkitLink, @"link",nil];
+    // Show the feed dialog
+    [FBWebDialogs presentFeedDialogModallyWithSession:nil parameters:params
+    handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error)
+    {
+        if (error)
+        {
+            // An error occurred, we need to handle the error
+            // See: https://developers.facebook.com/docs/ios/errors NSLog(@"Error publishing story: %@", error.description);
+        }
+        else
+        {
+            if (result == FBWebDialogResultDialogNotCompleted)
+            {  // User canceled.
+                NSLog(@"User cancelled.");
+            }
+            else
+            {
+                // Handle the publish feed callback
+                NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
+                if (![urlParams valueForKey:@"post_id"])
+                {
+                    // User canceled.
+                    UIAlertView *alC = [[UIAlertView alloc] initWithTitle:@"Facebook" message:@"Post Cancelled" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                    [alC show];
+                    NSLog(@"User cancelled.");
+                }
+                else
+                {
+                    // User clicked the Share button
+                    NSString *result = [NSString stringWithFormat: @"Posted story, id: %@", [urlParams valueForKey:@"post_id"]];
+                    FBTWViewController *fb = [[FBTWViewController alloc] init];
+                    fb.successType = @"fb";
+                    [self.navigationController pushViewController:fb animated:YES];                    NSLog(@"result %@", result);
+                }
+            }
+        }
+    }];
+    }
+}
+#pragma mark - Twitter Account Methods
+
+//Twitter SDK Implemetation
+- (IBAction)postToTwitter:(id)sender {
+    self.stringStr=userMessage.text;
+    [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
+    //Get Twitter Accounts
+    [self getTwitterAccounts];
+}
+-(void)getTwitterAccounts {
+    NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
     
     [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
         grant = granted;
         if(granted) {
             NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
-            
             if ([accountsArray count] > 0) {
                 ACAccount *twitterAccount = [accountsArray objectAtIndex:0];
                 NSLog(@"%@",twitterAccount.username);
                 NSLog(@"%@",twitterAccount.identifier);
-                [self getTwitterFriendsIDListForThisAccount:twitterAccount.username];
+                [self performSelectorInBackground:@selector(getTwitterFriendsIDListForThisAccount:) withObject:twitterAccount.username];
                 [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
             }
         }
@@ -513,81 +530,8 @@
         [twAl show];
     }
 }
-
--(void) getFollowerNameFromID:(NSString *)ID{
-    
-    // Request access to the Twitter accounts
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error){
-        if (granted) {
-            
-            NSArray *accounts = [accountStore accountsWithAccountType:accountType];
-            // Check if the users has setup at least one Twitter account
-            if (accounts.count > 0)
-            {
-                ACAccount *twitterAccount = [accounts objectAtIndex:0];
-                // Creating a request to get the info about a user on Twitter
-                SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/users/show.json"] parameters:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@",ID] forKey:@"user_id"]];
-                
-                [twitterInfoRequest setAccount:twitterAccount];
-                // Making the request
-                [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        // Check if we reached the reate limit
-                        if ([urlResponse statusCode] == 429) {
-                            NSLog(@"Rate limit reached");
-                            return;
-                        }
-                        // Check if there was an error
-                        if (error) {
-                            NSLog(@"Error: %@", error.localizedDescription);
-                            return;
-                        }
-                        // Check if there is some response data
-                        if (responseData) {
-                            
-                            NSError *error = nil;
-                            
-                            NSDictionary *friendsdata = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
-                            NSLog(@"friendsdata value is %@", friendsdata);
-                            
-                            NSString *stt= [@"@" stringByAppendingString:[friendsdata objectForKey:@"screen_name"]];
-                            
-                            [twiiterListArr addObject:stt];
-                            
-                           
-                            if(totalCount > countVar)
-                            {
-                                countVar++;
-                            }
-                        }
-                        
-                        if(totalCount == countVar)
-                        {
-                            [self disMissProgress];
-                            TwitterTable *tw = [[TwitterTable alloc] init];
-                            tw.tweetUserName = [NSMutableArray arrayWithArray:twiiterListArr];
-                            [self.navigationController pushViewController:tw animated:NO];
-                            tw.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-                            totalCount = 0;
-                            countVar = 0;
-                        }
-                    });
-                }];
-            }
-        } else {
-            NSLog(@"No access granted");
-        }
-    }];
-}
-
 -(void) getTwitterFriendsIDListForThisAccount:(NSString *)myAccount{
-    // Request access to the Twitter accounts
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error){
-        if (granted) {
+           if (grant) {
             NSArray *accounts = [accountStore accountsWithAccountType:accountType];
             // Check if the users has setup at least one Twitter account
             if (accounts.count > 0)
@@ -620,17 +564,84 @@
                             
                             sttt = [(NSDictionary *)TWData objectForKey:@"ids"];
                             totalCount =[sttt count];
-                            
-                            for(int i=0;i<[sttt count];i++)
+                            [twiiterListArr removeAllObjects];
+                            /*for(int i=0;i<[sttt count];i++)
                             {
                                 NSLog(@"data== %@ ID = %@",TWData, [sttt objectAtIndex:i]);
                                 [self getFollowerNameFromID:[sttt objectAtIndex:i]];
-                            }
+                            }*/
+                            
                             if(totalCount == 0)
                             {
                                 [SVProgressHUD dismissWithError:@"No Twitter ID's Found"];
                                 [objManager showAlert:@"Alert" msg:@"No Twitter ID Found or There are zero Follower in your Twitter account" cancelBtnTitle:@"Ok" otherBtn:nil];
                             }
+                            [self goToTwittertable];
+                        }
+                    });
+                }];
+            }
+        } else {
+            NSLog(@"No access granted");
+        }
+}
+
+-(void)getFollowerNameFromID:(NSString *)ID{
+    
+    // Request access to the Twitter account
+    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error){
+        if (granted) {
+            
+            NSArray *accounts = [accountStore accountsWithAccountType:accountType];
+            // Check if the users has setup at least one Twitter account
+            if (accounts.count > 0)
+            {
+                ACAccount *twitterAccount = [accounts objectAtIndex:0];
+                // Creating a request to get the info about a user on Twitter
+                SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/users/show.json"] parameters:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@",ID] forKey:@"user_id"]];
+                
+                [twitterInfoRequest setAccount:twitterAccount];
+                // Making the request
+                [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // Check if we reached the reate limit
+                        if ([urlResponse statusCode] == 429) {
+                            NSLog(@"Rate limit reached");
+                            [SVProgressHUD dismissWithError:@"Rate limit reached"];
+                            return;
+                        }
+                        // Check if there was an error
+                        if (error) {
+                            NSLog(@"Error: %@", error.localizedDescription);
+                            return;
+                        }
+                        // Check if there is some response data
+                        if (responseData) {
+                            
+                            NSError *error = nil;
+                            
+                            NSDictionary *friendsdata = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
+                            NSLog(@"friendsdata value is %@", friendsdata);
+                            
+                            NSString *stt= [@"@" stringByAppendingString:[friendsdata objectForKey:@"screen_name"]];
+                            
+                            [twiiterListArr addObject:stt];
+                            
+                            if(totalCount > countVar)
+                            {
+                                countVar++;
+                            }
+                        }
+                        
+                        if(totalCount == countVar)
+                        {
+                            [self disMissProgress];
+                            TwitterTable *tw = [[TwitterTable alloc] init];
+                            tw.tweetUserName = [NSMutableArray arrayWithArray:twiiterListArr];
+                            [self.navigationController pushViewController:tw animated:NO];
+                            tw.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+                            totalCount = 0;
+                            countVar = 0;
                         }
                     });
                 }];
@@ -640,14 +651,19 @@
         }
     }];
 }
-
-//Twitter SDK Implemetation
-- (IBAction)postToTwitter:(id)sender {
-    self.stringStr=userMessage.text;
-    [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
-    [self getTwitterAccounts];
+-(void)goToTwittertable
+{
+    TwitterTable *tw = [[TwitterTable alloc] init];
+    tw.tweetUserIDsArray = [NSMutableArray arrayWithArray:sttt];
+    tw.accountStore=accountStore;
+    tw.accountType=accountType;
+    [self.navigationController pushViewController:tw animated:NO];
+    tw.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
+    totalCount = 0;
+    countVar = 0;
 }
 
+#pragma mark - Mail Functions
 -(void)disMissProgress
 {
     [SVProgressHUD dismissWithSuccess:@"Done"];
@@ -683,17 +699,12 @@
     [mfMail setMessageBody:messageBody isHTML:YES];
     [mfMail setToRecipients:toRecipents];
     
-     //stop loader
-    
     // Present mail view controller on screen
     [[self navigationController] presentViewController:mfMail animated:YES completion:nil];
-    
 }
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
-    
-    
     switch (result)
     {
         case MFMailComposeResultCancelled:

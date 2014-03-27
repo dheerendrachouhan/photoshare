@@ -107,7 +107,6 @@
         {
             addPhotoBtn.hidden=NO;
             deletePhotoBtn.hidden=NO;
-            
         }
         else
         {
@@ -124,10 +123,8 @@
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
     if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
     {
-        
         @try {
             [self callGetLocation];
-            
             photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
             photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
             photoTagStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_tags"];
@@ -153,7 +150,7 @@
                 [manager storeData:@"NO" :@"istabcamera"];
                 [self.navigationController popViewControllerAnimated:NO];
             }
-            frameForShareBtn=sharePhotoBtn.frame;
+        
             if([[manager getData:@"isEditPhotoInViewPhoto"] isEqualToString:@"YES"])
             {
                 NSData *photo=[manager getData:@"photo"];
@@ -166,6 +163,8 @@
                 [manager storeData:@"NO" :@"isEditPhotoInViewPhoto"];
                 //remove data from nsuser default
                 [manager removeData:@"photo,photoId,isEditPhotoInViewPhoto"];//photo info array is use later
+                
+                [self saveImageInDocumentDirectry:image index:photoArray.count-1];
             }
         }
         @catch (NSException *exception) {
@@ -201,12 +200,10 @@
     return [textField resignFirstResponder];
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    
     if([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         return NO;
     }
-    
     return YES;
 }
 
@@ -622,24 +619,14 @@
             {
                 if(!isPopFromPhotos)
                 {
-                    if([self getImageFromDocumentDirectory:photoArray.count])
-                    {
-                        [photoArray addObject:[self getImageFromDocumentDirectory:photoArray.count]];
-                        [self getPhotoFromServer:photoArray.count+1];
-                    }
-                    else
-                    {
-                        [self getPhotoFromServer:photoArray.count];
-                    }
+                    [self getPhotoFromServer:photoArray.count];                   
                 }
             }
             else
             {
                 isGetPhotoFromServer=NO;
             }
-            
         }
-
     }
     @catch (NSException *exception) {
         
@@ -698,7 +685,6 @@
             @catch (NSException *exception) {
                 
             }
-            
         }
         else
         {
@@ -709,10 +695,8 @@
                 errorMessage=@"Photo Saving Failed";
             }
             [manager showAlert:@"Error !" msg:errorMessage cancelBtnTitle:@"Ok" otherBtn:Nil];
-            
         }
         isSaveDataOnServer=NO;
-        
     }
     else if(isGetPhotoIdFromServer)
     {
@@ -894,7 +878,6 @@
     [deletePhotoBtn setTitleColor:BTN_FONT_COLOR forState:UIControlStateNormal];
     sharePhotoBtn.backgroundColor=[UIColor whiteColor];
     [sharePhotoBtn setTitleColor:BTN_FONT_COLOR forState:UIControlStateNormal];
-    
     
     [selectedImagesIndex removeAllObjects];
     [collectionview reloadData];

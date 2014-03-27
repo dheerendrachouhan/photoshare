@@ -87,7 +87,6 @@
     
 }
 
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
@@ -121,7 +120,6 @@
                 @catch (NSException *exception) {
                     
                 }
-                
             }
             else
             {
@@ -228,7 +226,6 @@
         [textView resignFirstResponder];
         return NO;
     }
-    
     return YES;
 }
 

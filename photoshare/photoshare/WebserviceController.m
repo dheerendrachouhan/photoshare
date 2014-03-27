@@ -23,16 +23,14 @@
 
 -(id)init
 {
-    
     manager = [AFHTTPRequestOperationManager manager];
-    
     //apiUrl=@"www.burningwindmill.com/api/index.php";
-    //apiUrl=@"api.123friday.com/index.php";
+    apiUrl=@"api.123friday.com/index.php";
     //apiUrl=@"dev-iis.com/project/123fridaydebug/index.php";     //--
     //apiUrl=@"54.194.160.22/api/index.php";
     //apiUrl=@"54.229.193.111/api/index.php";
     //apiUrl=@"54.72.11.106/api/index.php";
-    apiUrl=@"54.229.255.47/api/index.php";    //--
+    //apiUrl=@"54.229.255.47/api/index.php";    //--
     //apiUrl=@"api.123friday.com/v/1/";
     return self;
 }
@@ -64,7 +62,7 @@
         [self.delegate webserviceCallback:JSON];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", [error localizedDescription]);
+        NSLog(@"Photo Error: %@", [error localizedDescription]);
         if(isGetPhoto)
         {
             UIImage *img=NULL;
@@ -95,8 +93,6 @@
     NSURL *filePath = [NSURL fileURLWithPath:path];
     //NSError* error = nil ;
    */
-    
-    
    [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         //[formData appendPartWithFileURL:filePath name:@"file" error: nil];
          [formData appendPartWithFileData:imageData name:@"file" fileName:@"photo.png" mimeType:@"image/png"];

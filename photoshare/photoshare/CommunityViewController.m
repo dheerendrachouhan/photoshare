@@ -220,6 +220,17 @@
                 {
                     usedStorage=@0;
                 }
+                @try {
+                    if(usedStorage.integerValue==0)
+                    {
+                        
+                    }
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"Exception is %@",exception.description);
+                    usedStorage=@0;
+                }
+                
                 //NSNumber *totalPhoto=[dic objectForKey:@"photo_total"];
                 float availableSpaceInMB=(float)([availableStorage doubleValue]/(double)(1024*1024)) ;
                 float usedSpaceInMB=(float)([usedStorage doubleValue]/(double)(1024*1024));
@@ -229,8 +240,6 @@
                 NSString *diskTitle=[NSString stringWithFormat:@"Disk spaced used (%.2f%@)",(progressPercent*100),@"%"];
                 diskSpaceTitle.text=diskTitle;
                 progressView.progress=progressPercent;
-                
-                isGetStorage=NO;
                 
             }
             @catch (NSException *exception) {
@@ -242,11 +251,12 @@
         {
             [SVProgressHUD dismiss];
         }
+        isGetStorage=NO;
         if (updateCollectionDetails)
         {
             //For update the collection info in nsuser default
-            [self performSelector:@selector(getSharingusersId) withObject:nil];
             updateCollectionDetails=NO;
+            [self getSharingusersId];
         }
     }
     else if(isGetSharingUserId)

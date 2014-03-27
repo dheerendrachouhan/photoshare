@@ -39,8 +39,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    collectionIdArray=[[NSMutableArray alloc] init];
-    collectionNameArray=[[NSMutableArray alloc] init];
+    
     webservices=[[WebserviceController alloc] init];
     
     manager=[ContentManager sharedManager];
@@ -107,6 +106,9 @@
         segmentControl.hidden=YES;
         photoViewBtn.hidden=NO;
     }
+    //get photo info from nsuser default
+    NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
+    photoTitleStr=[[photoDetail objectAtIndex:self.selectedIndex ] objectForKey:@"collection_photo_title"];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -116,10 +118,7 @@
     
     if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
     {
-        
         [self callGetLocation];
-        
-        imageView.image=Nil;
         
         photoTitleStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_title"];
         photoDescriptionStr=[[manager getData:@"takephotodetail"] objectForKey:@"photo_description"];
@@ -127,19 +126,11 @@
         
         imgData=[manager getData:@"photo_data"];
         
-        
         [self savePhotosOnServer:userid filepath:imgData];
-        
-
         [manager removeData:@"isfromphotodetailcontroller,takephotodetail,photo_data"];
     }
     else
     {
-        [self getCollectionInfoFromUserDefault];
-        //get photo info from nsuser default
-        NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
-        photoTitleStr=[[photoDetail objectAtIndex:self.selectedIndex ] objectForKey:@"collection_photo_title"];
-        
         if (isCameraEditMode) {
             isCameraEditMode = false ;
             [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self
@@ -150,9 +141,10 @@
         {
             [self.navigationController popViewControllerAnimated:NO];
         }
+        photoTitleLBL.text=photoTitleStr;
     }
    //set the phototitle on navTitleLabel
-    photoTitleLBL.text=photoTitleStr;
+    
 }
 - (void)didReceiveMemoryWarning
 {
@@ -173,7 +165,6 @@
 #pragma mark - save and get image from Document directry
 -(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
 {
-    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     //Create Folder
@@ -204,6 +195,7 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
     }
     NSString *savedImagePath = [dataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_LargePhoto_%@.png",userid,self.photoId]];
+    
     UIImage *image = img; // imageView is my image from camera
     NSData *imgD = UIImagePNGRepresentation(image);
     [imgD writeToFile:savedImagePath atomically:NO];
@@ -224,9 +216,7 @@
     }
     UIImage *img = [UIImage imageWithContentsOfFile:getImagePath];
     return img;
-    
 }
-
 
 #pragma mark - IBAction methods
 - (IBAction)viewPhoto:(id)sender
@@ -374,6 +364,7 @@
                 NSNumber *imgCout=[NSNumber numberWithInteger:photoinfoarray.count];
                 [manager storeData:imgCout :@"publicImgIdArray"];
             }
+            photoTitleLBL.text=photoTitleStr;
             imageView.image=pickImage;
             originalImage=pickImage;
         }
@@ -381,27 +372,13 @@
         {
             NSLog(@"Photo saving failed");
             [manager showAlert:@"Message" msg:@"Photo Saving Failed" cancelBtnTitle:@"Ok" otherBtn:Nil];
+
         }
         isSavePhotoOnServer=NO;
     }
 }
 
-#pragma mark - fetch the data from nsuser default
--(void)getCollectionInfoFromUserDefault
-{
-    NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
-    
-    [collectionIdArray removeAllObjects];
-    [collectionNameArray removeAllObjects];
-    
-    for (int i=1;i<collection.count; i++)
-    {
-        [collectionIdArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_id"]];
-        [collectionNameArray addObject:[[collection objectAtIndex:i] objectForKey:@"collection_name"]];
-        
-    }
-    
-}
+
 
 #pragma mark - open the aviary editor
 -(void)openeditorcontrol

@@ -8,7 +8,6 @@
 
 #import "EditPhotoDetailViewController.h"
 #import "NavigationBar.h"
-#import "PhotoViewController.h"
 #import "LaunchCameraViewController.h"
 @interface EditPhotoDetailViewController ()
 

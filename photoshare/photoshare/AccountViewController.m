@@ -68,14 +68,11 @@
         profilePicImgView.frame=CGRectMake(0, 40, profilePicImgView.frame.size.width, profilePicImgView.frame.size.height+40);
         settingMenuContainerView.frame=CGRectMake(0, settingMenuContainerView.frame.origin.y+50,settingMenuContainerView.frame.size.width, settingMenuContainerView.frame.size.height);
     }
-    
 }
-
 #pragma mark - IBAction Methods
 -(IBAction)editProfile:(id)sender
 {
     self.navigationController.navigationBarHidden = NO;
-
     EditProfileViewController *ep;
     if([objManager isiPad])
     {
@@ -85,14 +82,12 @@
     {
         ep = [[EditProfileViewController alloc] initWithNibName:@"EditProfileViewController" bundle:[NSBundle mainBundle]] ;
     }
-    
     [self.navigationController pushViewController:ep animated:YES] ;
     ep.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 -(IBAction)userSecurity:(id)sender
 {
     self.navigationController.navigationBarHidden = NO;
-
     UserSecurityViewController *us;
     if([objManager isiPad])
     {
@@ -101,20 +96,16 @@
     else{
         us = [[UserSecurityViewController alloc] initWithNibName:@"UserSecurityViewController" bundle:[NSBundle mainBundle]] ;
     }
-    
     [self.navigationController pushViewController:us animated:YES] ;
     us.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-
 }
 -(IBAction)referFriend:(id)sender
 {
     self.navigationController.navigationBarHidden = NO;
-
     ReferFriendViewController *rf;
     if([objManager isiPad])
     {
         rf = [[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController_iPad" bundle:[NSBundle mainBundle]] ;
-
     }
     else
     {
@@ -122,20 +113,16 @@
     }
     [self.navigationController pushViewController:rf animated:YES] ;
 rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
-    
 }
-
 -(IBAction)logout:(id)sender
 {
     [self logOutFromServer];
-    
     [self goToLoginPageAfterLogout];
 }
 
 -(IBAction)termCondition:(id)sender
 {
     self.navigationController.navigationBarHidden = NO;
-
     TermConditionViewController *tc;
     if([objManager isiPad])
     {
@@ -158,7 +145,6 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
         WebserviceController *ws=[[WebserviceController alloc] init];
         NSDictionary *dicData=@{@"user_id":[objManager getData:@"user_id"]};
         [ws call:dicData controller:@"authentication" method:@"logout"];
-        
         //logout_device -- 'user_id','device_token'
         AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
         NSDictionary *dicData2=@{@"user_id":[objManager getData:@"user_id"],@"device_token":delgate.token};
@@ -167,7 +153,6 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     @catch (NSException *exception) {
         
     }
-    
 }
 
 -(void)goToLoginPageAfterLogout
@@ -190,9 +175,7 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     else navBarHeight=60;
     
     navnBar = [[NavigationBar alloc] initWithFrame:CGRectMake(0, navBarYPos, [UIScreen mainScreen].bounds.size.width, navBarHeight)];
-
     [navnBar loadNav];
-    
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }

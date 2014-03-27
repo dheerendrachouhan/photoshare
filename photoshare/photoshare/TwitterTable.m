@@ -23,7 +23,7 @@
     CGRect frame;
 }
 @synthesize table;
-@synthesize tweetUserName;
+@synthesize tweetUserName,tweetUserIDsArray,accountType,accountStore;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -40,6 +40,7 @@
 {
     [super viewDidLoad];
     
+    twiiterListArr=[[NSMutableArray alloc] init];
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         [[NSBundle mainBundle] loadNibNamed:@"TwitterTable" owner:self options:nil];
@@ -60,7 +61,16 @@
     [super viewWillAppear:animated];
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
     [self detectDeviceOrientation];
+    [self performSelectorInBackground:@selector(getUserNameFromTwitter) withObject:nil];
     
+}
+-(void)getUserNameFromTwitter
+{
+    if(tweetUserIDsArray.count>0)
+    {
+        isPopFromSelf=NO;
+        [self getFollowerNameFromID:[tweetUserIDsArray objectAtIndex:0]];
+    }
 }
 - (void)doneBtnPressed:(id)sender {
     ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
@@ -112,7 +122,7 @@
     {
         checkBox.selected=NO;
     }
-    
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -182,7 +192,7 @@
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    UILabel *navTitle = [navnBar navBarTitleLabel:@"Pick Twitter Firends"];
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Pick Twitter Friends"];
     
     //Button for Next
     UIButton *doneBtn =[navnBar navBarRightButton:@"Done >"];
@@ -267,7 +277,90 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma  mark - Twitter Get UserName
 
+-(void)getFollowerNameFromID:(NSString *)ID{
+    
+    // Request access to the Twitter account
+    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error){
+        
+            NSArray *accounts = [accountStore accountsWithAccountType:accountType];
+            // Check if the users has setup at least one Twitter account
+            if (accounts.count > 0)
+            {
+                ACAccount *twitterAccount = [accounts objectAtIndex:0];
+                // Creating a request to get the info about a user on Twitter
+                SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/users/show.json"] parameters:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@",ID] forKey:@"user_id"]];
+                
+                [twitterInfoRequest setAccount:twitterAccount];
+                // Making the request
+                [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // Check if we reached the reate limit
+                        if ([urlResponse statusCode] == 429) {
+                            isPopFromSelf=YES;
+                            NSLog(@"Rate limit reached");
+                            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Rate limit reached" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                            [alert show];
+                            return;
+                        }
+                        // Check if there was an error
+                        if (error) {
+                            NSLog(@"Error: %@", error.localizedDescription);
+                            return;
+                        }
+                        // Check if there is some response data
+                        if (responseData) {
+                            
+                            NSError *error = nil;
+                            
+                            NSDictionary *friendsdata = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
+                            NSLog(@"friendsdata value is %@", friendsdata);
+                            
+                            NSString *stt= [@"@" stringByAppendingString:[friendsdata objectForKey:@"screen_name"]];
+                            
+                            @try {
+                                [twiiterListArr addObject:stt];
+                                if(tweetUserIDsArray.count!=twiiterListArr.count)
+                                {
+                                    if(!isPopFromSelf)
+                                    {
+                                        tweetUserName=[twiiterListArr mutableCopy];
+                                        // First figure out how many sections there are
+                                        NSInteger lastSectionIndex = [table numberOfSections] - 1;
+                                        
+                                        // Then grab the number of rows in the last section
+                                        NSInteger lastRowIndex =tweetUserName.count-1;
+                                        
+                                        // Now just construct the index path
+                                        NSIndexPath *pathToLastRow = [NSIndexPath indexPathForRow:lastRowIndex inSection:lastSectionIndex];
+                                        [table beginUpdates];
+                                        [table insertRowsAtIndexPaths:[NSArray arrayWithObjects:pathToLastRow, nil] withRowAnimation:UITableViewRowAnimationNone];
+                                        [table endUpdates];
+                                        
+                                        [self getFollowerNameFromID:[tweetUserIDsArray objectAtIndex:twiiterListArr.count]];
+                                    }
+                                    
+                                }
+                                
+                                //[table reloadData];
+                            }
+                            @catch (NSException *exception) {
+                                NSLog(@"Exception is %@",exception.description);
+                            }
+                            @finally {
+                                
+                            }
+                        }
+                    });
+                }];
+            }
+    }];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    isPopFromSelf=YES;
+}
 
 
 @end

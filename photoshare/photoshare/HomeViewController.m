@@ -73,8 +73,6 @@
     delegate.navControllercommunity.viewControllers=[[NSArray alloc] initWithObjects:com,nil];
     //Set the tabbar index of Home Page
     [self.tabBarController setSelectedIndex:0];
-    
-    
 }
 - (void)didReceiveMemoryWarning
 {
@@ -97,7 +95,6 @@
     manager=[ContentManager sharedManager];
     com =[[CommunityViewController alloc] init];
     lcam=[[ReferFriendViewController alloc] init];
-    photoGallery=[[PhotoGalleryViewController alloc] init];
     dmc = [[DataMapperController alloc] init];
     userid = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
 }
@@ -124,7 +121,6 @@
         [textView resignFirstResponder];
         return NO;
     }
-    
     return YES;
 }
 
@@ -137,6 +133,8 @@
 //Go to the Public folder
 -(IBAction)goToPublicFolder:(id)sender
 {
+    photoGallery=nil;
+    photoGallery=[[PhotoGalleryViewController alloc] init];
     //get the collection  info from NSUser Default default
     photoGallery.isPublicFolder=YES;
     photoGallery.collectionId=publicCollectionId;
@@ -200,7 +198,6 @@
     self.navigationController.navigationBarHidden = TRUE;
     
     //For Home page Navigaigation bar
-    
     CGFloat navBarYPos;
     CGFloat navBarHeight;
     if(IS_OS_7_OR_LATER) navBarYPos=20;

@@ -31,12 +31,10 @@
 {
     [super viewDidLoad];
     
-    
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         [[NSBundle mainBundle] loadNibNamed:@"FBTWViewController_iPad" owner:self options:nil];
     }
-    
     if([successType isEqualToString:@"fb"])
     {
         scocialType.image = [UIImage imageNamed:@"facebook.png"];
@@ -71,15 +69,9 @@
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
 }
-
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
 @end

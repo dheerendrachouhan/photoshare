@@ -8,13 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import "NavigationBar.h"
+
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+#import <Twitter/Twitter.h>
 @class ContentManager;
 @interface TwitterTable : UIViewController <UITableViewDataSource,UITableViewDelegate>
 {
     ContentManager *objManager;
     NavigationBar *navnBar;
     
+    NSMutableArray *twiiterListArr;
+    BOOL isPopFromSelf;
 }
 @property (nonatomic, strong) IBOutlet UITableView *table;
 @property (nonatomic, strong) NSArray *tweetUserName;
+
+//
+@property (nonatomic, strong) NSArray *tweetUserIDsArray;
+@property (nonatomic, strong)ACAccountStore *accountStore;
+@property (nonatomic, strong)ACAccountType *accountType;
 @end

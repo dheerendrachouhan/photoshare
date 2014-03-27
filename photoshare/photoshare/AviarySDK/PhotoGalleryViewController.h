@@ -40,9 +40,7 @@
     
    
     NSMutableArray *selectedImagesIndex;
-    NSString *refrenceUrlofImg;
-    CGRect frameForShareBtn;
-    
+    NSString *refrenceUrlofImg;    
     NSNumber *userid;
     NSArray *sortedArray;
     NSArray *shareSortedArray;
