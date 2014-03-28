@@ -31,46 +31,43 @@
     //apiUrl=@"54.229.193.111/api/index.php";
     //apiUrl=@"54.72.11.106/api/index.php";
     //apiUrl=@"54.229.255.47/api/index.php";    //--
-    //apiUrl=@"api.123friday.com/v/1/";
+    //apiUrl=@"api.123friday.com/v/1";
     apiUrl=@"stage.123friday.com/index.php";
     //apiUrl=@"54.72.41.141/index.php";
     return self;
 }
-
 -(void) call:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method
 {
     NSDictionary *parameters = postData;
-  
    if([controller isEqualToString:@"photo"] && [method isEqualToString:@"get"])
     {
         isGetPhoto=YES;
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"image/png"];
         [manager setResponseSerializer:[AFImageResponseSerializer new]];
     }
-    
-    [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
-        
-       if( [responseObject isKindOfClass:[UIImage class]] )
-       {
+    [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
+        //NSLog(@"JSON: %@", responseObject);
+        if( [responseObject isKindOfClass:[UIImage class]] )
+        {
            NSLog(@"check ") ;
            isGetPhoto=NO;
             [self.delegate webserviceCallbackImage:responseObject];
-       }
+        }
         else
         {
         NSDictionary *JSON = (NSDictionary *) responseObject;
-        
         [self.delegate webserviceCallback:JSON];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }
+    failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
         NSLog(@"Photo Error: %@", [error localizedDescription]);
         if(isGetPhoto)
         {
             UIImage *img=NULL;
              isGetPhoto=NO;
              [self.delegate webserviceCallbackImage:img];
-           
         }
         else
         {
@@ -83,8 +80,7 @@
 -(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSData *)imageData{
     
     //manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = postData;
-    
+    NSDictionary *parameters = postData;    
   /*
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
             NSUserDomainMask, YES);

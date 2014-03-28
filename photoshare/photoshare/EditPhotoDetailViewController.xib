@@ -94,7 +94,6 @@
                             </state>
                             <connections>
                                 <action selector="cancelPhotoDetail:" destination="-1" eventType="touchUpInside" id="Uzb-pH-bSi"/>
-                                <action selector="savePhotoDetail:" destination="-1" eventType="touchUpInside" id="rMe-cJ-S3U"/>
                             </connections>
                         </button>
                     </subviews>

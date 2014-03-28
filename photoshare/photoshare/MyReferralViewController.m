@@ -161,17 +161,15 @@
             NSArray *nib=[[NSBundle mainBundle] loadNibNamed:nib_name owner:self options:nil];
             cell_obj=[nib objectAtIndex:0];
         }
-    
-    
         cell_obj.name.text = [userNameArr objectAtIndex:indexPath.row];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
             cell_obj.name.font = [UIFont systemFontOfSize:12.0f];
         }
-            
         cell_obj.joinStatus.text = [userActiveArr objectAtIndex:indexPath.row];
         cell_obj.joinedDate.text = [userDateArr objectAtIndex:indexPath.row];
         cell_obj.imageView.image = [UIImage imageNamed:@"icon-person.png"];
+    cell_obj.selectionStyle=UITableViewCellSelectionStyleNone;
     return cell_obj;
 }
 
@@ -232,10 +230,7 @@
             frame.size.width = 568;
             tableView.frame = frame;
         }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            
-        }
+        
     }
     else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
     {

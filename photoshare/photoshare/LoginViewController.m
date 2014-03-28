@@ -42,7 +42,7 @@
     dmc = [[DataMapperController alloc] init] ;
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing =[[NSMutableArray alloc] init];
-    
+    cameravc=[[CameraViewController alloc] init];
     //Set Layout of the Login Page
     signinBtn.layer.cornerRadius = 6.0;
     UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
@@ -81,12 +81,10 @@
     {
         [self setDeviceTokenOnServerIfUserLogin];
     }
-
 }
 -(void)setDeviceTokenOnServerIfUserLogin
 {
     userid=(NSNumber *)[dmc getUserId];
-    NSLog(@"User Id If User Login %@",userid);
     //set the device token on the server
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *devToken=delegate.token;
@@ -101,7 +99,7 @@
         else
         {
             devToken=@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5";
-        } */
+        }*/
     }
     if(devToken!=NULL)
     {
@@ -222,7 +220,6 @@
             [dmc setUserDetails:dic] ;
             
             NSLog(@"Successful Login");
-            
             isGetLoginDetail=NO;
             [self setDeviceTokenOnServerIfUserLogin];
         }
@@ -568,7 +565,7 @@
     
     delegate.navControllerhome = [[UINavigationController alloc] initWithRootViewController:hm];
     delegate.navControllerearning = [[UINavigationController alloc] initWithRootViewController:ea];
-    delegate.navControllerphoto = [[UINavigationController alloc] initWithRootViewController:lcam];
+    delegate.navControllercamera = [[UINavigationController alloc] initWithRootViewController:cameravc];
     delegate.navControllercommunity = [[UINavigationController alloc] initWithRootViewController:com];
     delegate.navControlleraccount = [[UINavigationController alloc] initWithRootViewController:acc];
     
@@ -601,15 +598,15 @@
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:image5 tag:5];
     [tabBarItem5 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
     delegate.tbc = [[UITabBarController alloc] init] ;
- 
+    
     [delegate.navControllerhome setTabBarItem:tabBarItem];
     [delegate.navControllerearning setTabBarItem:tabBarItem2];
-    [delegate.navControllerphoto setTabBarItem:tabBarItem3];
+    [delegate.navControllercamera setTabBarItem:tabBarItem3];
     [delegate.navControllercommunity setTabBarItem:tabBarItem4];
     [delegate.navControlleraccount setTabBarItem:tabBarItem5];
     
     [delegate.tbc setDelegate:self];
-    delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllerphoto, delegate.navControllercommunity, delegate.navControlleraccount, nil];
+    delegate.tbc.viewControllers = [[NSArray alloc] initWithObjects:delegate.navControllerhome,delegate.navControllerearning,delegate.navControllercamera, delegate.navControllercommunity, delegate.navControlleraccount, nil];
     [delegate.window setRootViewController:delegate.tbc];
 }
 
@@ -630,11 +627,7 @@
             delegate.navControllerearning.viewControllers=[[NSArray alloc] initWithObjects:ea,nil];
             break;
         case 3:
-            lcam=nil;
-            lcam=[[LaunchCameraViewController alloc] init];
-            delegate.navControllerphoto.viewControllers=[[NSArray alloc] initWithObjects:lcam,nil];
-            [manager storeData:@"YES" :@"reset_camera"];
-            [manager removeData:@"is_add_folder,isfromphotodetailcontroller,istabcamera"];
+           delegate.navControllercamera.viewControllers=[NSArray arrayWithObjects:cameravc, nil];
             break;
         case 4:
             break;

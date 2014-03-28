@@ -50,10 +50,7 @@
     [self addCustomNavigationBar];
     
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
-    NSLog(@"Userid : %@",userID);
-    
-    
-     webservice = [[WebserviceController alloc] init] ;
+    webservice = [[WebserviceController alloc] init] ;
     
     [self getEarning];
      checkAgain = YES;
@@ -79,9 +76,7 @@
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
-{
-    NSLog(@"login callback%@",data);
-    
+{ 
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
     //get the userId

@@ -79,7 +79,7 @@
             
         }
     }
-    if(isLaunchCamera)
+    if(isLaunchCamera || isPhotoAdd)
     {
         cancelButton.hidden=NO;
     }

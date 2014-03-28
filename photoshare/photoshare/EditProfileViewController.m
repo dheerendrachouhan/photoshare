@@ -81,12 +81,10 @@
     
     [wc call:dic controller:@"user" method:@"change"];
     
-    NSLog(@"save profile clicked");
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"data--%@ ",data) ;
    if([calltype isEqualToString:@"getdetails"] )
    {
     name.text = [[[data valueForKey:@"output_data"] objectAtIndex:0] valueForKey:@"user_realname"] ;

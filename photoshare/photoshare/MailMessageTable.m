@@ -203,7 +203,6 @@
             psVC.shareEmailStr = StringTweet;
             psVC.shareValue = @"Share Mail";
             [self.navigationController popToViewController:psVC animated:YES];
-
         }
         @catch (NSException *exception) {
             NSLog( @"NSException caught" );
@@ -222,7 +221,6 @@
             NSLog( @"Name: %@", exception.name);
             NSLog( @"Reason: %@", exception.reason );
         }
-        
     }
     else if([filterType isEqualToString:@"Share Text"])
     {
@@ -237,20 +235,17 @@
             NSLog( @"Name: %@", exception.name);
             NSLog( @"Reason: %@", exception.reason );
         }
-        
         @try {
             PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:2];
             psVC.sharePhoneStr = StringTweet;
             psVC.shareValue = @"Share Text";
             [self.navigationController popToViewController:psVC animated:YES];
-            
         }
         @catch (NSException *exception) {
             NSLog( @"NSException caught" );
             NSLog( @"Name: %@", exception.name);
             NSLog( @"Reason: %@", exception.reason );
         }
-        
         @try {
             PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:4];
             psVC.sharePhoneStr = StringTweet;
@@ -263,7 +258,6 @@
             NSLog( @"Reason: %@", exception.reason );
         }
     }
-    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -302,7 +296,6 @@
     }
     cell.textLabel.frame=CGRectMake(cell.textLabel.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width-45, cell.textLabel.frame.size.height);
     cell.detailTextLabel.frame=CGRectMake(cell.detailTextLabel.frame.origin.x, cell.detailTextLabel.frame.origin.y, cell.detailTextLabel.frame.size.width-50, cell.detailTextLabel.frame.size.height);
-   
     
     if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
     {
@@ -355,7 +348,6 @@
         }
         cell.textLabel.text = title;
         cell.detailTextLabel.text = contacts;
-        
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
    //Add Check Box
@@ -390,12 +382,10 @@
                     checkBoxImg.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
                 }
             }
-            
         }
         @catch (NSException *exception) {
             
         }
-        
     }
     else
     {

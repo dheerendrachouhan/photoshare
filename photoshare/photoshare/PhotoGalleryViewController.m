@@ -15,7 +15,7 @@
 #import "EditPhotoDetailViewController.h"
 #import "PhotoViewController.h"
 #import "PhotoShareController.h"
-#import "SearchPhotoViewController.h"
+
 @interface PhotoGalleryViewController ()
 {
     SVProgressHUD *pro;
@@ -48,6 +48,7 @@
     //initialize the WebService Object
     webServices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
+    searchController=[[SearchPhotoViewController alloc] init];
     [manager storeData:@"NO" :@"isEditPhoto"];
     selectedImagesIndex=[[NSMutableArray alloc] init];
     photoArray=[[NSMutableArray alloc] init];
@@ -594,8 +595,6 @@
 {
    
     [self removeProgressBar];
-    //UIImageView *img = [[UIImageView alloc] initWithImage:image] ;
-    //[self.view addSubview:img] ;
     @try {
         if(isEditImageFromServer)
         {
@@ -637,11 +636,8 @@
 {
     NSDictionary *outputData=[data objectForKey:@"output_data"];
     
-    NSLog(@"outPutData is %@",outputData);
-    
     int exitcode=[[data objectForKey:@"exit_code"] integerValue];
     
-    // photoInfoArray = [[NSMutableArray alloc] init];
     if(isSaveDataOnServer)
     {
         [self removeProgressBar];
@@ -1186,7 +1182,7 @@
         viewPhoto.collectionOwnerId=self.collectionOwnerId;
         viewPhoto.selectedIndex=indexPath.row;
         viewPhoto.isPublicFolder=self.isPublicFolder;
-        NSLog(@"Selected index is %d",indexPath.row);
+       
         isGoToViewPhoto=YES;
         if(self.isPublicFolder)
         {
@@ -1306,7 +1302,8 @@
 #pragma mark - SearchViewController
 -(void)searchViewOpen
 {
-    SearchPhotoViewController *searchController=[[SearchPhotoViewController alloc] init];
+    searchController=nil;
+    searchController=[[SearchPhotoViewController alloc] init];
     searchController.searchType=@"public";
     [self.navigationController pushViewController:searchController animated:NO];
 }
@@ -1322,7 +1319,6 @@
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
-    
     imgView.tag=101+indexPath.row;
     imgView.layer.masksToBounds=YES;
     
@@ -1381,9 +1377,8 @@
 - (void) launchPhotoEditorWithImage:(UIImage *)editingResImage highResolutionImage:(UIImage *)highResImage
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
     [SVProgressHUD dismiss];
-    // Customize the editor's apperance. The customization options really only need to be set once in this case since they are never changing, so we used dispatch once here.
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self setPhotoEditorCustomizationOptions];
@@ -1400,7 +1395,7 @@
     }
     
     // Present the photo editor.
-    [self presentViewController:photoEditor animated:YES completion:nil];
+    [self presentViewController:photoEditor animated:NO completion:nil];
 }
 
 - (void) setupHighResContextForPhotoEditor:(AFPhotoEditorController *)photoEditor withImage:(UIImage *)highResImage

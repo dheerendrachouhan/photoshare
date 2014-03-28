@@ -132,7 +132,6 @@ rf.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
     {
         tc = [[TermConditionViewController alloc] initWithNibName:@"TermConditionViewController" bundle:[NSBundle mainBundle]] ;
     }
-    
     [self.navigationController pushViewController:tc animated:YES] ;
 tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
@@ -145,7 +144,6 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
         WebserviceController *ws=[[WebserviceController alloc] init];
         NSDictionary *dicData=@{@"user_id":[objManager getData:@"user_id"]};
         [ws call:dicData controller:@"authentication" method:@"logout"];
-        //logout_device -- 'user_id','device_token'
         AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
         NSDictionary *dicData2=@{@"user_id":[objManager getData:@"user_id"],@"device_token":delgate.token};
         [ws call:dicData2 controller:@"PushController" method:@"logout_device"];

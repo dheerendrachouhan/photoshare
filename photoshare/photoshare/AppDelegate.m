@@ -12,11 +12,10 @@
 #import "EarningViewController.h"
 @implementation AppDelegate
 @synthesize window,tbc,photoGalNav;
-@synthesize navControlleraccount,navControllercommunity,navControllerearning,navControllerhome,navControllerphoto;
+@synthesize navControlleraccount,navControllercommunity,navControllerearning,navControllerhome,navControllercamera;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     objManager = [ContentManager sharedManager];
     dmc=[[DataMapperController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -43,11 +42,8 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
 	NSLog(@"My token is: %@", deviceToken);
-    
     _token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString: @" " withString: @""];
     NSLog(@"My token is: %@", _token);
-    
-    //[self setDevieTokenOnServer:_token userid:[dmc getUserId]];
 }
 
 //When Remote Notification is Received
@@ -66,7 +62,6 @@
     NSInteger numberOfBadges = [UIApplication sharedApplication].applicationIconBadgeNumber;
     numberOfBadges -=1;
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:numberOfBadges];
-    
         if([type isEqualToString:@"video"])
         {
             if (application.applicationState==UIApplicationStateActive) {
@@ -76,34 +71,34 @@
                 [notificationAlert show];
             }
             else if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
-                //Open the invite Friend view controller
-                
-               // [self.tbc setSelectedIndex:0];
+                //[self.tbc setSelectedIndex:0];
                 ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
                 [self.navControllerhome pushViewController:rvc animated:YES];
             }
         }
         else if ([type isEqualToString:@"earn"])
         {
-            if (application.applicationState==UIApplicationStateActive) {
+            if (application.applicationState==UIApplicationStateActive)
+            {
                 UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Notification !" message:message delegate:self cancelButtonTitle:@"Close" otherButtonTitles:@"View", nil];
                 [notificationAlert setTag:102];
                 [notificationAlert setDelegate:self];
                 [notificationAlert show];
             }
             else if (application.applicationState==UIApplicationStateInactive || application.applicationState==UIApplicationStateBackground) {
-                //Open the invite Friend view controller
-                @try {
+                @try
+                {
                     [self.tbc setSelectedIndex:1];
                 }
-                @catch (NSException *exception) {
-                    
+                @catch (NSException *exception)
+                {
                 }
             }
         }
         else
         {
-            if (application.applicationState==UIApplicationStateActive) {
+            if (application.applicationState==UIApplicationStateActive)
+            {
                 UIAlertView * notificationAlert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 [notificationAlert show];
             }
@@ -115,35 +110,41 @@
         NSInteger numberOfBadges = [UIApplication sharedApplication].applicationIconBadgeNumber;
         numberOfBadges -=1;
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:numberOfBadges];
-        if (buttonIndex == 1) {
-            @try {
+        if (buttonIndex == 1)
+        {
+            @try
+            {
                 //[self.tbc setSelectedIndex:0];
                 ReferFriendViewController *rvc=[[ReferFriendViewController alloc] init];
                 [self.navControllerhome pushViewController:rvc animated:YES];
             }
-            @catch (NSException *exception) {
+            @catch (NSException *exception)
+            {
                 
             }
         }
     }
     else if (alertView.tag == 102) {
         EarningViewController *earnView=[[EarningViewController alloc] init];
-        if (buttonIndex == 1) {
-            
-            @try {
+        if (buttonIndex == 1)
+        {
+            @try
+            {
                 self.navControllerearning.viewControllers=[[NSArray alloc] initWithObjects:earnView, nil];
                 [self.tbc setSelectedIndex:1];
             }
-            @catch (NSException *exception) {
-                
+            @catch (NSException *exception)
+            {
             }
         }
         else if (buttonIndex==0)
         {
-            @try {
+            @try
+            {
                 [earnView getIncomeFromServer];
             }
-             @catch (NSException *exception) {
+             @catch (NSException *exception)
+            {
                 
             }
         }
@@ -168,10 +169,6 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"Device_Token is Register On Server%@",data);
-}
--(void)deregisterThepushNotification
-{
-    //[[UIApplication sharedApplication] unregisterForRemoteNotifications];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

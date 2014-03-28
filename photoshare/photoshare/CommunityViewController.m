@@ -13,7 +13,6 @@
 #import "PhotoGalleryViewController.h"
 #import "JSONDictionary.h"
 #import "SVProgressHUD.h"
-#import "SearchPhotoViewController.h"
 
 @interface CommunityViewController ()
 
@@ -90,6 +89,7 @@
 }
 -(void)initializeTheGlobalObject
 {
+    searchController=[[SearchPhotoViewController alloc] init];
     manager=[ContentManager sharedManager];
     //webservice
     webservices=[[WebserviceController alloc] init];
@@ -195,9 +195,7 @@
 
 #pragma mark - Webservice call Back Methods
 -(void) webserviceCallback:(NSDictionary *)data
-{
-    NSLog(@"login callback%@",data);
-    
+{   
     //validate the user
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
     
@@ -208,7 +206,6 @@
             @try {
                 NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
                 
-                NSLog(@"Get Storage %@",data);
                 NSDictionary *dic=[outPutData objectAtIndex:0];
                 NSNumber *availableStorage=[dic objectForKey:@"storage_available"];
                 NSNumber *usedStorage=[dic objectForKey:@"storage_used"];
@@ -245,7 +242,6 @@
             @catch (NSException *exception) {
                 
             }
-            
         }
         else
         {
@@ -385,7 +381,6 @@
         if(indexPath.row==0)
         {
             [self addFolder];
-            NSLog(@"Add Folder selected index is %ld",(long)[indexPath row]);
         }
         else
         {
@@ -436,7 +431,6 @@
             [menu setMenuItems:[NSArray arrayWithObjects:editPhoto,nil]];
             [menu setTargetRect:menucontrollerFrame inView:cell.superview];
             [menu setMenuVisible:YES animated:YES];
-            NSLog(@"Edit Photo");
 
         }
     }
@@ -493,7 +487,8 @@
 #pragma mark - SearchViewController
 -(void)searchViewOpen
 {
-    SearchPhotoViewController *searchController=[[SearchPhotoViewController alloc] init];
+    searchController=nil;
+    searchController=[[SearchPhotoViewController alloc] init];
     searchController.searchType=@"myfolders";
     [self.navigationController pushViewController:searchController animated:NO];
 }

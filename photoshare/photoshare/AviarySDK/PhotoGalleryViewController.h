@@ -11,6 +11,7 @@
 #import "WebserviceController.h"
 #import "ContentManager.h"
 #import "NavigationBar.h"
+#import "SearchPhotoViewController.h"
 //for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <QuartzCore/QuartzCore.h>
@@ -36,7 +37,7 @@
     IBOutlet UIButton *sharePhotoBtn;
     IBOutlet UICollectionView *collectionview;
     WebserviceController *webServices;
-    
+    SearchPhotoViewController *searchController;
     
    
     NSMutableArray *selectedImagesIndex;

@@ -11,6 +11,7 @@
 #import "WebserviceController.h"
 #import "DataMapperController.h"
 #import "NavigationBar.h"
+#import "SearchPhotoViewController.h"
 @class CollectionViewCell;
 @interface CommunityViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate,WebserviceDelegate>
 {
@@ -31,6 +32,7 @@
     DataMapperController *dmc;
     NavigationBar *navnBar;
     CollectionViewCell *obj_Cell;
+    SearchPhotoViewController *searchController;
     NSNumber *userid;
     UIActivityIndicatorView *indicator;
     BOOL isGetStorage;

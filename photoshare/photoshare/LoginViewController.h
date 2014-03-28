@@ -23,8 +23,7 @@
 #import "AppDelegate.h"
 #import "LaunchCameraViewController.h"
 #import "ContentManager.h"
-
-
+#import "CameraViewController.h"
 @class ContentManager;
 @interface LoginViewController : UIViewController <UITextFieldDelegate, WebserviceDelegate,UITabBarControllerDelegate>
 {
@@ -59,7 +58,7 @@
     LaunchCameraViewController *lcam;
     CommunityViewController *com;
     AccountViewController *acc;
-
+    CameraViewController *cameravc;
     NSMutableArray *sharingIdArray;
     NSMutableArray *collectionArrayWithSharing;
     int countSharing;

@@ -10,6 +10,7 @@
 #import "ContentManager.h"
 #import "DataMapperController.h"
 #import "WebserviceController.h"
+#import "LargePhotoViewController.h"
 #import "NavigationBar.h"
 //for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -40,7 +41,7 @@
     DataMapperController *dmc;
     
     ContentManager *manager;
-    
+    LargePhotoViewController *largeImage;
     WebserviceController *webservices;
     NavigationBar *navnBar;
     BOOL isSavePhotoOnServer;

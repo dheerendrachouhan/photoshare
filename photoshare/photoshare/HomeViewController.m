@@ -67,6 +67,7 @@
     [self setThePublicCollectionInfo];
     //For Launch Camera View
     [manager storeData:@"NO" :@"istabcamera"];
+    [manager removeData:@"isfromphotodetailcontroller,is_add_folder,reset_camera"];
     [self setTheUSerDetails];
     AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
     

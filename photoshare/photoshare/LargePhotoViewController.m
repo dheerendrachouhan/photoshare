@@ -49,6 +49,7 @@
     }
     else
     {
+        imgView.image=nil;
         activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [activityIndicator startAnimating];
         activityIndicator.tag=1100;

@@ -480,8 +480,6 @@
 //call back Method
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"Collection return %@",data);
-    NSLog(@"exit  %@",[data objectForKey:@"exit_code"]);
     
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     

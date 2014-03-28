@@ -11,6 +11,7 @@
 #import "WebserviceController.h"
 #import "NavigationBar.h"
 #import "DataMapperController.h"
+#import "LargePhotoViewController.h"
 @interface SearchPhotoViewController : UIViewController<UISearchBarDelegate,WebserviceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate>
 {
     IBOutlet UISearchBar *searchBarForPhoto;
@@ -20,6 +21,7 @@
     ContentManager *manager;
     DataMapperController *dmc;
     NavigationBar *navnBar;
+    LargePhotoViewController *largePhoto;
     NSNumber *userid;
     NSString *searchString;
     

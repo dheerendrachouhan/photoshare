@@ -239,19 +239,16 @@
     //Let's print in the console what the user had chosen;
     if(component == 0)
     {
-        NSLog(@"Row 1 Chosen item: %@", [rowFirstArr objectAtIndex:row]);
         first  = [[rowFirstArr objectAtIndex:row] integerValue];
         [self calculateUserGem];
     }
     else if (component == 1)
     {
-        NSLog(@"Row 2 Chosen item: %@", [rowSecondArr objectAtIndex:row]);
         second = [[rowSecondArr objectAtIndex:row] integerValue];
         [self calculateUserGem];
     }
     else if (component == 2)
-    {
-        NSLog(@"Row 3 Chosen item: %@", [rowThirdArr objectAtIndex:row]);
+    {       
         third = [[rowThirdArr objectAtIndex:row] integerValue];
         [self calculateUserGem];
     }

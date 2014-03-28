@@ -201,10 +201,7 @@
     [self addSubview:totalEarningView];
     [self addSubview:totalEarningHeading];
     [self addSubview:totalEarning];
-    [self addSubview:homeController];
-    
-    NSDictionary *dic =objManager.loginDetailsDict ;
-   
+    [self addSubview:homeController]; 
 }
 -(void)goToEarningViewController
 {

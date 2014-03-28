@@ -8,7 +8,7 @@
 
 #import "SearchPhotoViewController.h"
 #import "SVProgressHUD.h"
-#import "LargePhotoViewController.h"
+
 @interface SearchPhotoViewController ()
 
 @end
@@ -42,6 +42,8 @@
     [searchBarForPhoto becomeFirstResponder];
     manager =[ContentManager sharedManager];
     webservice =[[WebserviceController alloc] init];
+    largePhoto=[[LargePhotoViewController alloc] init];
+
     dmc = [[DataMapperController alloc] init];
     userid=[manager getData:@"user_id"];
     
@@ -63,6 +65,7 @@
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden=NO;
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -338,9 +341,9 @@
             NSNumber *colId=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_collection_id"];
             
             NSNumber *photoId=[[photDetailArray objectAtIndex:indexPath.row] objectForKey:@"photo_id"];
-            LargePhotoViewController *largePhoto=[[LargePhotoViewController alloc] init];
             largePhoto.photoId=photoId;
             largePhoto.colId=colId;
+            largePhoto.isFromPhotoViewC=NO;
             [self.navigationController pushViewController:largePhoto animated:YES];
         }
     }

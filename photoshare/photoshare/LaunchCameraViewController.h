@@ -17,11 +17,11 @@
 #import "AFPhotoEditorCustomization.h"
 #import "AFOpenGLManager.h"
 
-
+#import "HomeViewController.h"
 #import "DataMapperController.h"
 #import "NavigationBar.h"
 #import <CoreLocation/CoreLocation.h>
-@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate,UITextViewDelegate,UIPopoverControllerDelegate,UITabBarControllerDelegate>
+@interface LaunchCameraViewController : UIViewController<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate,UITextViewDelegate,UIPopoverControllerDelegate,UITabBarControllerDelegate>
 {
     IBOutlet UIPickerView *categoryPickerView;
     IBOutlet UIImageView *imgView;
@@ -44,6 +44,7 @@
     ContentManager *manager;
     WebserviceController *webservices;
     NavigationBar *navnBar;
+    HomeViewController *home;
     UIImage *pickImage;
 
     BOOL isCameraEditMode;
@@ -51,7 +52,6 @@
     
     
     //fore new folder create when pick image
-    UIView *backView1;
     NSString *photoTitleStr;
     NSString *photoDescriptionStr;
     NSString *photoTagStr;
@@ -60,7 +60,7 @@
     UIInterfaceOrientation orientation;
     UILabel *titleLabe;
 }
-
+@property(nonatomic,retain)UIImage *pickerimage;
 //for Aviary
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;

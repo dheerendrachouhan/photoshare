@@ -70,7 +70,6 @@
 -(void) webserviceCallback:(NSDictionary *)data
 {
     [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
-    NSLog(@"login callback%@",data);
     
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     //get the userId

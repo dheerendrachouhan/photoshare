@@ -127,10 +127,7 @@
 -(void)removeAllData
 {
     [objManager storeData:@"NO" :@"login"];
-    //degister the remote notification
-    AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-    [delgate deregisterThepushNotification];
-    
+       
     //Get the document directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectoryPath = [paths objectAtIndex:0];

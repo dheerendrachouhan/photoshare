@@ -10,7 +10,6 @@
 #import "PhotoShareController.h"
 #import "EditPhotoDetailViewController.h"
 #import "SVProgressHUD.h"
-#import "LargePhotoViewController.h"
 @interface PhotoViewController ()
 
 @end
@@ -44,6 +43,7 @@
     
     manager=[ContentManager sharedManager];
     dmc=[[DataMapperController alloc] init];
+    largeImage=[[LargePhotoViewController alloc] init];
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
     //set UI for IOS 6
@@ -389,12 +389,9 @@
 #pragma mark - View Image in full screen
 -(void)viewImage
 {
-    
-    LargePhotoViewController *largeImage=[[LargePhotoViewController alloc] init];
     largeImage.imageLoaded=originalImage;
     largeImage.isFromPhotoViewC=YES;
-    [self.navigationController pushViewController:largeImage animated:YES];
-    
+    [self.navigationController pushViewController:largeImage animated:YES];    
 }
 
 

@@ -8,7 +8,7 @@
 
 #import "LaunchCameraViewController.h"
 #import "AppDelegate.h"
-#import "HomeViewController.h"
+
 #import "SVProgressHUD.h"
 #import "EditPhotoDetailViewController.h"
 #import "AddEditFolderViewController.h"
@@ -33,7 +33,7 @@
 @end
 
 @implementation LaunchCameraViewController
-@synthesize sessions,assetLibrary;
+@synthesize sessions,assetLibrary,pickerimage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,7 +51,6 @@
         // Custom initialization
         
     }
-    
     return self;
 }
 
@@ -65,20 +64,14 @@
         collectionIdArray=[[NSMutableArray alloc] init];
         collectionNameArray=[[NSMutableArray alloc] init];
         webservices=[[WebserviceController alloc] init];
+        home=[[HomeViewController alloc] init];
         
         manager=[ContentManager sharedManager];
         dmc=[[DataMapperController alloc] init];
         NSDictionary *dic = [[dmc getUserDetails] mutableCopy];
         userid=[dic objectForKey:@"user_id"];
-        
-        imgView.contentMode=UIViewContentModeScaleAspectFit;
-        imgView.backgroundColor=[UIColor blackColor];
-        
-        //hidden picker view and toolbar
-        imgView.hidden=YES;
-        pickerToolbar.hidden=YES;
-        categoryPickerView.hidden=YES;
-        pickerToolbar=[[UIToolbar alloc] init];
+        [self showSelectFolderOption];
+
     }
     @catch (NSException *exception) {
         NSLog(@"Exception in Launch Camera: %@",exception.description);
@@ -94,7 +87,7 @@
     @try {
         if([[manager getData:@"reset_camera"] isEqualToString:@"YES"])
         {
-            [self launchCamera];
+            [self openAviaryEditor:self.pickerimage];
             [manager removeData:@"reset_camera"];
         }
         else
@@ -112,7 +105,6 @@
                         [categoryPickerView selectRow:index inComponent:0 animated:NO];
                         titleLabe.text=[collectionNameArray objectAtIndex:index];
                         selectedCollectionId=[collectionIdArray objectAtIndex:index];
-                        NSLog(@"new col id is %@",newcolid);
                     }
                     //Remove temp key from NSUserDefault
                     [manager removeData:@"is_add_folder,new_col_id"];
@@ -125,10 +117,6 @@
             {
                 if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
                 {
-                    //Show Catagory picker view and picker toolbar
-                    categoryPickerView.hidden=NO;
-                    pickerToolbar.hidden=NO;
-                    
                     selectedCollectionId=@-1;
                     [self callGetLocation];
                     
@@ -144,7 +132,6 @@
             }
             
         }
-
     }
     @catch (NSException *exception) {
         
@@ -164,56 +151,6 @@
         categoryPickerView.frame=CGRectMake(categoryPickerView.frame.origin.x, categoryPickerView.frame.origin.y+50, categoryPickerView.frame.size.width, categoryPickerView.frame.size.height);
     }
     
-}
-#pragma mark - Launch CAmera
--(void)launchCamera
-{
-    if(!isCameraEditMode)
-    {
-        pickerToolbar.hidden=YES;
-        categoryPickerView.hidden=YES;
-        
-        [self getCollectionInfoFromUserDefault];
-        imgView.image=nil;
-        
-        photoLocationStr=@"";
-        //imagePicker
-        UIImagePickerController *picker=[[UIImagePickerController alloc] init];
-        picker.delegate=self;
-        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-        {
-            picker.sourceType=UIImagePickerControllerSourceTypeCamera;
-            @try {
-                //[picker childViewControllerForStatusBarHidden];
-                [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-                [self presentViewController:picker animated:YES completion:nil];
-            }
-            @catch (NSException *exception) {
-                
-            }
-        }
-        else
-        {
-            if([manager isiPad])
-            {
-                UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Camera not Available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-                [alertView show];
-                [self goToHomePage];
-            }
-            else
-            {
-                picker.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-                @try {
-                    //[picker childViewControllerForStatusBarHidden];
-                    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-                    [self presentViewController:picker animated:YES completion:nil];
-                }
-                @catch (NSException *exception) {
-                    
-                }
-            }
-        }
-    }
 }
 #pragma mark - TextFeild Method
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -278,43 +215,21 @@
     @catch (NSException *exception) {
         NSLog(@"Exec is %@",exception.description);
     }
+    [categoryPickerView reloadAllComponents];
+    [categoryPickerView selectRow:0 inComponent:0 animated:NO];
 }
-
-#pragma mark - ImagePicker Method
-//imagePicker DelegateMethod
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+-(void)openAviaryEditor:(UIImage *)image
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-     [self goToHomePage];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-    
-}
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     @try {
-        if(picker.cameraDevice == UIImagePickerControllerCameraDeviceFront)
-        {
-            image = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationLeftMirrored];
-        }
-    }
-    @catch (NSException *exception) {
-        
-    }
-    
-    imgView.hidden=NO;
-    imgView.image=image;
-    pickImage=image;
-    isCameraEditMode=YES;
-    @try {
-      
-            [NSTimer scheduledTimerWithTimeInterval:1.0f   target:self selector:@selector(openeditorcontrol) userInfo:nil  repeats:NO];
-            
-        
-            [self dismissViewControllerAnimated:NO completion:Nil];
-        
+        [self getCollectionInfoFromUserDefault];
+        imgView.image=nil;
+        photoLocationStr=@"";
+        imgView.image=image;
+        pickImage=image;
+        isCameraEditMode=YES;
         [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-        
+        [NSTimer scheduledTimerWithTimeInterval:0.0f   target:self selector:@selector(openeditorcontrol) userInfo:nil  repeats:NO];
+        [self dismissViewControllerAnimated:NO completion:Nil];
     }
     @catch (NSException *exception) {
         
@@ -396,7 +311,7 @@
     imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
     isCameraEditMode=NO;
-    [self showSelectFolderOption];
+    [self goToPhotoDetailViewController];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
@@ -470,8 +385,7 @@
 -(void)webserviceCallback:(NSDictionary *)data
 {
     [SVProgressHUD dismiss];
-    
-    NSLog(@"Data %@",data);
+   
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
     if (isPhotoSavingMode)
     {
@@ -494,31 +408,28 @@
 -(void)showSelectFolderOption
 {
     @try {
-        backView1=[[UIView alloc] initWithFrame:self.view.frame];
+        imgView.contentMode=UIViewContentModeScaleAspectFit;
+        imgView.backgroundColor=[UIColor blackColor];
+        
+        pickerToolbar=[[UIToolbar alloc] init];
+        [self.view addSubview:pickerToolbar];
+        //Add Gesture on Catagory Picker View
+        UITapGestureRecognizer* gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickerViewTapGestureRecognized:)];
+        gestureRecognizer.cancelsTouchesInView = NO;
+        [categoryPickerView addGestureRecognizer:gestureRecognizer];
+        
         categoryPickerView.backgroundColor=[UIColor whiteColor];
         [categoryPickerView setDataSource: self];
         [categoryPickerView setDelegate: self];
         categoryPickerView.showsSelectionIndicator = YES;
-        UITapGestureRecognizer* gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickerViewTapGestureRecognized:)];
-        gestureRecognizer.cancelsTouchesInView = NO;
-    
-        [categoryPickerView addGestureRecognizer:gestureRecognizer];
         
-        
-        if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
-        {
-            pickerToolbar.frame=CGRectMake(0,self.view.frame.size.height-180, 320, 40);
-        }
+        if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)          pickerToolbar.frame=CGRectMake(0,self.view.frame.size.height-180, 320, 40);
         else
         {
             if([manager isiPad])
-            {
                 pickerToolbar.frame=CGRectMake(0,self.view.frame.size.height-260, 320, 40);
-            }
             else
-            {
                 pickerToolbar.frame=CGRectMake(0,self.view.frame.size.height-222, 320, 40);
-            }
         }
         
         pickerToolbar.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleWidth;
@@ -547,20 +458,14 @@
         [barItems addObject:doneBtn];
         
         [pickerToolbar setItems:barItems animated:YES];
-        
-        [self.view addSubview:backView1];
-        [self.view addSubview:pickerToolbar];
-        [self.view addSubview:categoryPickerView];
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
     }
-    
-    [self goToPhotoDetailViewControoler];
+
 }
 
 -(void)categoryDoneButtonPressed{
-    NSLog(@"selected index is %@",selectedCollectionId);
     if(selectedCollectionId.integerValue!=-1)
     {
          [self savePhotosOnServer:userid filepath:imgData];
@@ -568,23 +473,20 @@
     else
     {
         //selectedCollectionId=[collectionIdArray objectAtIndex:0];
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Select Folder" message:@"No Folder Selected" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"No Folder Selected" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
         [alert show];
     }
+    
 }
 -(void)removePickerView
 {
-    [categoryPickerView removeFromSuperview];
-    [pickerToolbar removeFromSuperview];
-    [backView1 removeFromSuperview];
     [self goToHomePage];
 }
 -(void)categoryCancelButtonPressed{
     [self removePickerView];
 }
-
 #pragma mark GoToPhotoDetailViewController
--(void)goToPhotoDetailViewControoler
+-(void)goToPhotoDetailViewController
 {
     EditPhotoDetailViewController *editDetail;
     if([manager isiPad])
@@ -602,7 +504,6 @@
 #pragma mark - Picker view Delegate Method
 - (void)pickerViewTapGestureRecognized:(UITapGestureRecognizer*)gestureRecognizer
 {
-    NSLog( @"Selected Row: %i", [categoryPickerView selectedRowInComponent:0] );
     if([categoryPickerView selectedRowInComponent:0]==0)
     {
         AddEditFolderViewController *addeditvc=[[AddEditFolderViewController alloc] init];
@@ -613,8 +514,6 @@
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     // Handle the selection
-    
-    NSLog(@"%@",[collectionIdArray objectAtIndex:row]);
     if(row==0)
     {
         selectedCollectionId=@-1;
@@ -690,14 +589,10 @@
 {
     isCameraEditMode=NO;
     AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-        
-        [manager storeData:@"YES" :@"istabcamera"];
+    [manager storeData:@"YES" :@"istabcamera"];
+    delgate.navControllerhome.viewControllers=[NSArray arrayWithObjects:home, nil];
         [delgate.tbc setSelectedIndex:0];
-    
-   [manager removeData:@"isfromphotodetailcontroller,istabcamera"];
 }
-
-
 #pragma mark - Get The Current Location of user
 //get the user location
 -(void)callGetLocation

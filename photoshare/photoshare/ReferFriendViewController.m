@@ -122,7 +122,6 @@
 }
 -(void) webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"login callback%@",data);
     int exitCode = [[data valueForKey:@"exit_code"] intValue];
     
     if(exitCode == 0)

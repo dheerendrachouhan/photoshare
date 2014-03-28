@@ -21,7 +21,7 @@
 @property (strong, nonatomic)UITabBarController *tbc;
 @property (strong, nonatomic) UINavigationController *navControllerhome;
 @property (strong, nonatomic) UINavigationController *navControllerearning;
-@property (strong, nonatomic) UINavigationController *navControllerphoto;
+@property (strong, nonatomic) UINavigationController *navControllercamera;
 @property (strong, nonatomic) UINavigationController *navControllercommunity;
 @property (strong, nonatomic) UINavigationController *navControlleraccount;
 @property (strong, nonatomic) UINavigationController *photoGalNav;
@@ -30,5 +30,4 @@
 @property (strong, nonatomic) NSString *token;
 @property(nonatomic,assign)BOOL isGoToReferFriendController;
 -(void)setDevieTokenOnServer:(NSString *)devToken userid:(NSString *)user_id;
--(void)deregisterThepushNotification;
 @end

@@ -36,7 +36,7 @@ static ContentManager *objContantManager = nil;
        
     }
     @catch (NSException *exception) {
-       // NSLog(@"%@",exception.description);
+       
     }
 }
 
