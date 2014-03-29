@@ -101,8 +101,6 @@
 
         folderName.text=self.setFolderName;
         collectionOwnerNameLbl.text=@"";
-        
-      
         if(self.collectionOwnerId.integerValue != userid.integerValue)
         {
             crossBtnForTF.hidden=YES;
@@ -142,13 +140,11 @@
                                       initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
-    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
     [self checkOrientation];
-   
     //contant manager Object
     manager = [ContentManager sharedManager];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
@@ -176,7 +172,6 @@
 #pragma mark - Device Orientation
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 
@@ -586,7 +581,6 @@
         }
         isGetSharingUserId=NO;
         [self fetchOwnCollectionInfoFromServer];
-        
     }
     else if(isGetTheOwnCollectionListData)
     {
@@ -626,7 +620,6 @@
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alertView show];
         }
-        
     }
     else if (isGetTheSharingCollectionListData)
     {
@@ -666,7 +659,6 @@
 -(void)updateCollectionDetailInNsUserDefault
 {
     NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
-    
     NSString *writeUserIds=[manager getData:@"writeUserId"];
     NSString *readUserIds=[manager getData:@"readUserId"];
     NSNumber *shared=@0;
@@ -674,7 +666,6 @@
     {
         shared=@1;
     }
-    
     if(isAdd)
     {
         NSMutableDictionary *newCol=[[NSMutableDictionary alloc] init];

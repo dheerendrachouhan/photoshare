@@ -58,7 +58,7 @@
     {
         if(self.isPublicFolder)
         {
-            folderLocationShowLabel.text=@"Public";
+            folderLocationShowLabel.text=@"123 Public";
         }
         else
         {
@@ -583,6 +583,7 @@
         [AFPhotoEditorCustomization setSupportedIpadOrientations:supportedOrientations];
     }
 }
+
 #pragma mark - ALAssets Helper Methods
 
 - (UIImage *)editingResImageForAsset:(ALAsset*)asset

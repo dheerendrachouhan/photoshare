@@ -146,7 +146,7 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
         [ws call:dicData controller:@"authentication" method:@"logout"];
         AppDelegate *delgate=(AppDelegate *)[UIApplication sharedApplication].delegate;
         NSDictionary *dicData2=@{@"user_id":[objManager getData:@"user_id"],@"device_token":delgate.token};
-        [ws call:dicData2 controller:@"PushController" method:@"logout_device"];
+        [ws call:dicData2 controller:@"push" method:@"unregister_device"];
     }
     @catch (NSException *exception) {
         

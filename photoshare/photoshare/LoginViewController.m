@@ -92,14 +92,14 @@
     if(devToken==NULL)
     {
         //for testing only
-        /*if([manager isiPad])
+        if([manager isiPad])
         {
-            devToken=@"786f9657d1743c08ea7c3151e3d5309d25f8d1dd85aa02977920345054711a55";
+            devToken=@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5";
         }
         else
         {
-            devToken=@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5";
-        }*/
+            devToken=@"786f9657d1743c08ea7c3151e3d5309d25f8d1dd85aa02977920345054711a55";
+        }
     }
     if(devToken!=NULL)
     {

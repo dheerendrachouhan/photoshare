@@ -161,8 +161,8 @@
     webservices=[[WebserviceController alloc] init];
     webservices.delegate=self;
     NSDictionary *dic=@{@"user_id":user_id,@"device_token":devToken,@"platform":@"3"};    //Platfom 3-IOS and 4-Android
-    NSString *controller=@"PushController";
-    NSString *method=@"registerDevice";
+    NSString *controller=@"push";
+    NSString *method=@"register_device";
     [webservices call:dic controller:controller method:method];
 }
 //Web service call back method
@@ -173,24 +173,18 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-   
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    
-   
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-   
-   
 }
 - (void)applicationWillTerminate:(UIApplication *)application
 {
@@ -202,7 +196,6 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    
     BOOL urlWasHandled = [FBAppCall handleOpenURL:url
                                 sourceApplication:sourceApplication
                                   fallbackHandler:^(FBAppCall *call) {

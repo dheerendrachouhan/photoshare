@@ -856,9 +856,11 @@
     for (int i=0; i<photoArray.count; i++) {
         UIImageView *chechBoxImf=(UIImageView *)[collectionview viewWithTag:1001];
         [chechBoxImf removeFromSuperview];
+        //Reset the collection view
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:i inSection:0];
+        UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
+        cell.selected=NO;
     }
-    
-   
     if(collectionOwnerId.integerValue==userid.integerValue)
     {addPhotoBtn.hidden=NO;deletePhotoBtn.hidden=NO;sharePhotoBtn.hidden=NO;}
     else
@@ -876,17 +878,16 @@
     [sharePhotoBtn setTitleColor:BTN_FONT_COLOR forState:UIControlStateNormal];
     
     [selectedImagesIndex removeAllObjects];
-    [collectionview reloadData];
 }
 
 #pragma mark - gesture methods
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
-    
     CGPoint p = [gestureRecognizer locationInView:collectionview];
     
     NSIndexPath *indexPath = [collectionview indexPathForItemAtPoint:p];
-    if (indexPath != nil){
+    if (indexPath != nil)
+    {
         
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
         NSLog(@"cell selected %hhd",cell.selected);
@@ -1577,7 +1578,7 @@
     UIButton *searchBtn=[navnBar navBarRightButton:@"Search"];
     [searchBtn addTarget:self action:@selector(searchViewOpen) forControlEvents:UIControlEventTouchUpInside];
     
-    UILabel *titleLabel=[navnBar navBarTitleLabel:@"Public Folder"];
+    UILabel *titleLabel=[navnBar navBarTitleLabel:@"123 Public"];
     if(self.isPublicFolder==YES)
     {
         [navnBar addSubview:titleLabel];

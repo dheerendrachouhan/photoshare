@@ -13,21 +13,6 @@
 #import "EditPhotoDetailViewController.h"
 #import "AddEditFolderViewController.h"
 
-/*@interface NoStatusBarImagePickerController : UIImagePickerController
-@end
-
-@implementation NoStatusBarImagePickerController
-
-- (BOOL)prefersStatusBarHidden {
-    return YES;
-}
-
-- (UIViewController *)childViewControllerForStatusBarHidden {
-    return nil;
-}
-
-@end*/
-
 @interface LaunchCameraViewController ()
 
 @end
@@ -49,7 +34,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        
     }
     return self;
 }
@@ -61,6 +45,13 @@
 	// Do any additional setup after loading the view.
     [self setUIForIOS6];
     @try {
+        
+        //Set BlackView
+        blackView=[[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+        blackView.autoresizingMask=UIViewAutoresizingFlexibleWidth |UIViewAutoresizingFlexibleHeight;
+        
+        blackView.backgroundColor=[UIColor blackColor];
+        
         collectionIdArray=[[NSMutableArray alloc] init];
         collectionNameArray=[[NSMutableArray alloc] init];
         webservices=[[WebserviceController alloc] init];
@@ -71,7 +62,6 @@
         NSDictionary *dic = [[dmc getUserDetails] mutableCopy];
         userid=[dic objectForKey:@"user_id"];
         [self showSelectFolderOption];
-
     }
     @catch (NSException *exception) {
         NSLog(@"Exception in Launch Camera: %@",exception.description);
@@ -87,6 +77,7 @@
     @try {
         if([[manager getData:@"reset_camera"] isEqualToString:@"YES"])
         {
+            [self.view addSubview:blackView];
             [self openAviaryEditor:self.pickerimage];
             [manager removeData:@"reset_camera"];
         }
@@ -130,11 +121,9 @@
                     [manager removeData:@"isfromphotodetailcontroller,photo_data,takephotodetail"];
                 }
             }
-            
         }
     }
     @catch (NSException *exception) {
-        
     }
 }
 
@@ -309,22 +298,24 @@
 {
     imgView.image=image;
     imgData=UIImagePNGRepresentation(image);
-    [self dismissViewControllerAnimated:YES completion:nil];
     isCameraEditMode=NO;
+    [self resetTheView];
     [self goToPhotoDetailViewController];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self resetTheView];
     [self goToHomePage];
+}
+-(void)resetTheView
+{
+    [blackView removeFromSuperview];
+    [self dismissViewControllerAnimated:YES completion:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
-
 #pragma mark - Photo Editor Customization
 
 
@@ -635,6 +626,18 @@
     } ];
     [locationManager stopUpdatingLocation];
 }
+#pragma mark - Device Orientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
 
-
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    //blackView.frame=self.view.frame;
+}
+-(void)orienSetUi
+{
+    
+}
 @end

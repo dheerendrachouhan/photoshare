@@ -31,8 +31,8 @@
     //apiUrl=@"54.229.193.111/api/index.php";
     //apiUrl=@"54.72.11.106/api/index.php";
     //apiUrl=@"54.229.255.47/api/index.php";    //--
-    //apiUrl=@"api.123friday.com/v/1";
-    apiUrl=@"stage.123friday.com/index.php";
+    apiUrl=@"api.123friday.com/v/1";
+    //apiUrl=@"stage.123friday.com/index.php";
     //apiUrl=@"54.72.41.141/index.php";
     return self;
 }
@@ -50,8 +50,7 @@
         //NSLog(@"JSON: %@", responseObject);
         if( [responseObject isKindOfClass:[UIImage class]] )
         {
-           NSLog(@"check ") ;
-           isGetPhoto=NO;
+            isGetPhoto=NO;
             [self.delegate webserviceCallbackImage:responseObject];
         }
         else
@@ -79,19 +78,8 @@
 //save image
 -(void)saveFileData:(NSDictionary *)postData controller:(NSString *)controller method:(NSString *)method filePath:(NSData *)imageData{
     
-    //manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = postData;    
-  /*
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-            NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString* path = [documentsDirectory stringByAppendingPathComponent:
-                      @"123-mobile-logo.png" ];
-    
-    NSURL *filePath = [NSURL fileURLWithPath:path];
-    //NSError* error = nil ;
-   */
-   [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+   NSDictionary *parameters = postData;
+    [manager POST:[NSString stringWithFormat:@"http://%@/%@/%@",apiUrl,controller,method ] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         //[formData appendPartWithFileURL:filePath name:@"file" error: nil];
          [formData appendPartWithFileData:imageData name:@"file" fileName:@"photo.png" mimeType:@"image/png"];
         
@@ -104,5 +92,4 @@
         [self.delegate webserviceCallback:[NSDictionary dictionaryWithObject:@0 forKey:@"exit_code"]];
             }];
 }
-
 @end

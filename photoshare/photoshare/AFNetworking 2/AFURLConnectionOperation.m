@@ -344,7 +344,6 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
         self.responseStringEncoding = stringEncoding;
     }
     [self.lock unlock];
-    
     return _responseStringEncoding;
 }
 
@@ -605,11 +604,11 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)connection:(NSURLConnection __unused *)connection
     didReceiveData:(NSData *)data
 {
-    /*NSString* dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSString* dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if(dataStr!=nil)
     {
         NSLog(@"Original Data Recieve From Server %@",dataStr);
-    }*/
+    }
     
     NSUInteger length = [data length];
     while (YES) {

@@ -136,6 +136,7 @@
         if(updateCollectionDetails)
         {
             [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+            
         }
         isGetStorage=YES;
         webservices.delegate=self;
@@ -334,7 +335,6 @@
             obj_Cell.folder_imgV.image=[UIImage imageNamed:@"add_folder.png"];
             obj_Cell.icon_img.hidden=YES;
             obj_Cell.folder_name.text=@"Add Folder";
-            
         }
         else
         {
