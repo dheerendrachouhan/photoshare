@@ -45,13 +45,6 @@
 	// Do any additional setup after loading the view.
     [self setUIForIOS6];
     @try {
-        
-        //Set BlackView
-        blackView=[[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-        blackView.autoresizingMask=UIViewAutoresizingFlexibleWidth |UIViewAutoresizingFlexibleHeight;
-        
-        blackView.backgroundColor=[UIColor blackColor];
-        
         collectionIdArray=[[NSMutableArray alloc] init];
         collectionNameArray=[[NSMutableArray alloc] init];
         webservices=[[WebserviceController alloc] init];
@@ -77,7 +70,6 @@
     @try {
         if([[manager getData:@"reset_camera"] isEqualToString:@"YES"])
         {
-            [self.view addSubview:blackView];
             [self openAviaryEditor:self.pickerimage];
             [manager removeData:@"reset_camera"];
         }
@@ -311,7 +303,6 @@
 }
 -(void)resetTheView
 {
-    [blackView removeFromSuperview];
     [self dismissViewControllerAnimated:YES completion:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
@@ -626,18 +617,5 @@
     } ];
     [locationManager stopUpdatingLocation];
 }
-#pragma mark - Device Orientation
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
-}
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    //blackView.frame=self.view.frame;
-}
--(void)orienSetUi
-{
-    
-}
 @end

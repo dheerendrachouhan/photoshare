@@ -76,7 +76,10 @@
     ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
     rf.twitterTweet = [NSString stringWithFormat:@"%@",StringTweet];
     [self.navigationController popToViewController:rf animated:YES];
-    [SVProgressHUD showWithStatus:@"Composing" maskType:SVProgressHUDMaskTypeBlack];
+    if(IS_OS_7_OR_LATER)
+    {
+        [SVProgressHUD showWithStatus:@"Composing" maskType:SVProgressHUDMaskTypeBlack];
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -96,11 +99,11 @@
     static NSString *identitifier = @"demoTableViewIdentifier";
     UITableViewCell * cell = [table dequeueReusableCellWithIdentifier:identitifier];
     if(cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identitifier];
-        UIButton *checkBoxBtn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identitifier];
+        UIButton *checkBoxBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    
         checkBoxBtn.frame=CGRectMake(cell.frame.size.width-40,5, 20,20);
         checkBoxBtn.tag=1001;
-        checkBoxBtn.layer.masksToBounds=YES;
         checkBoxBtn.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
         checkBoxBtn.layer.borderWidth=1;
         checkBoxBtn.layer.borderColor=BTN_BORDER_COLOR.CGColor;

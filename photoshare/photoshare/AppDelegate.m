@@ -12,12 +12,13 @@
 #import "EarningViewController.h"
 @implementation AppDelegate
 @synthesize window,tbc,photoGalNav;
-@synthesize navControlleraccount,navControllercommunity,navControllerearning,navControllerhome,navControllercamera;
+@synthesize navControlleraccount,navControllercommunity,navControllerearning,navControllerhome,navControllercamera,isSetDeviceTokenOnServer,useridforsetdevicetoken;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     objManager = [ContentManager sharedManager];
     dmc=[[DataMapperController alloc] init];
+    self.isSetDeviceTokenOnServer=NO;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     LoginViewController *lg = [[LoginViewController alloc] init];
     //FBLogin View Class
@@ -44,6 +45,16 @@
 	NSLog(@"My token is: %@", deviceToken);
     _token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString: @" " withString: @""];
     NSLog(@"My token is: %@", _token);
+    @try {
+        if(self.isSetDeviceTokenOnServer)
+        {
+            self.isSetDeviceTokenOnServer=NO;
+            [self setDevieTokenOnServer:_token userid:self.useridforsetdevicetoken];
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
 }
 
 //When Remote Notification is Received

@@ -607,7 +607,7 @@ didReceiveResponse:(NSURLResponse *)response
     NSString* dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if(dataStr!=nil)
     {
-        NSLog(@"Original Data Recieve From Server %@",dataStr);
+        NSLog(@"Original Data Recieved From Server -: %@",dataStr);
     }
     
     NSUInteger length = [data length];

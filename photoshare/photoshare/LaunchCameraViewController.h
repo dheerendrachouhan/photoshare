@@ -25,7 +25,7 @@
 {
     IBOutlet UIPickerView *categoryPickerView;
     IBOutlet UIImageView *imgView;
-    UIView *blackView;
+    
     //get the userf location
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;

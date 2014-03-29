@@ -129,9 +129,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
-    
-   
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];   
     
     if(twitterTweet.length != 0)
     {
@@ -210,6 +208,7 @@
             [self performSelector:@selector(sendInAppSMS_referral) withObject:self afterDelay:5.0f];
         }
     }
+    
     [self detectDeviceOrientation];
 }
 #pragma mark - TExtView Methods

@@ -30,6 +30,14 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    if([[ContentManager sharedManager] isiPad])
+    {
+        nibNameOrNil=@"MyReferralViewController_iPad";
+    }
+    else
+    {
+        nibNameOrNil=@"MyReferralViewController";
+    }
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -42,20 +50,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self addCustomNavigationBar];
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        [[NSBundle mainBundle] loadNibNamed:@"MyReferralViewController_iPad" owner:self options:Nil];
-    }
-    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
-        [self orient:self.interfaceOrientation];
-    }else{
-        [self orient:self.interfaceOrientation];
-    }
-    
     dmc = [[DataMapperController alloc] init];
-    
-    
     userID = [NSNumber numberWithInteger:[[dmc getUserId]integerValue]];
   
     // Do any additional setup after loading the view from its nib.
@@ -64,11 +61,9 @@
     userActiveArr = [[NSMutableArray alloc] init];
     userDateArr = [[NSMutableArray alloc] init];
     
-    
     [self.navigationItem setTitle:@"My Referrals"];
     webServiceHlpr = [[WebserviceController alloc] init];
     webServiceHlpr.delegate = self;
-    
     
     NSDictionary *dictData = @{@"user_id":userID};
     [webServiceHlpr call:dictData controller:@"user" method:@"getearningsdetails"];
@@ -79,7 +74,6 @@
 {
     [super viewWillAppear:animated];
     [navnBar setTheTotalEarning:ObjManager.weeklyearningStr];
-    [self detectDeviceOrientation];
 }
 
 -(void)webserviceCallback:(NSDictionary *)data
@@ -124,11 +118,16 @@
             [userActiveArr addObject:@"pending"];
         }
         
-        [SVProgressHUD dismissWithSuccess:@"Done"];
+        
         [tableView reloadData];
         if(userNameArr.count == 0)
         {
+            [SVProgressHUD dismiss];
             [ObjManager showAlert:@"Message" msg:@"Zero referrals" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+        else
+        {
+            [SVProgressHUD dismissWithSuccess:@"Done"];
         }
     }
 }
@@ -189,7 +188,7 @@
     self.navigationController.navigationBarHidden = TRUE;
     navnBar = [[NavigationBar alloc] init];
     [navnBar loadNav];
-    UIButton *button = [navnBar navBarLeftButton:@"<Back"];
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self action:@selector(navBackButtonClick) forControlEvents:UIControlEventTouchDown];
     UILabel *navTitle = [navnBar navBarTitleLabel:@"My Referrals"];
   
@@ -204,64 +203,6 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
-#pragma mark - Device Orientation
--(void)detectDeviceOrientation
-{
-    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
-        [self orient:self.interfaceOrientation];
-    }else{
-        [self orient:self.interfaceOrientation];
-    }
-}
--(void)orient:(UIInterfaceOrientation)ott
-{
-    frame = tableView.frame;
-    
-    if (ott == UIInterfaceOrientationLandscapeLeft ||
-        ott == UIInterfaceOrientationLandscapeRight)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-            frame.size.width = 480;
-            tableView.frame = frame;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            frame.size.width = 568;
-            tableView.frame = frame;
-        }
-        
-    }
-    else if(ott == UIInterfaceOrientationPortrait || ott == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        if([[UIScreen mainScreen] bounds].size.height == 480.0f)
-        {
-           frame.size.width = 320;
-            tableView.frame = frame;
-        }
-        else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
-        {
-            frame.size.width = 320;
-            tableView.frame = frame;
-        }
-        else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            frame.size.width = 768;
-            tableView.frame = frame;
-        }
-    }
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return YES;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self orient:toInterfaceOrientation];
-}
 
 - (void)didReceiveMemoryWarning
 {

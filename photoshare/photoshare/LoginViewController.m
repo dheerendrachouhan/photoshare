@@ -91,18 +91,22 @@
     
     if(devToken==NULL)
     {
-        //for testing only
-        if([manager isiPad])
+        delegate.isSetDeviceTokenOnServer=YES;
+        delegate.useridforsetdevicetoken=[NSString stringWithFormat:@"%@",userid];
+        //for testing onl;
+       /* if([manager isiPad])
         {
             devToken=@"9f985a9492310454f9fb0afb95f27e10e93997013179c1ecdc072f3ee2d79bb5";
         }
         else
         {
             devToken=@"786f9657d1743c08ea7c3151e3d5309d25f8d1dd85aa02977920345054711a55";
-        }
+            //devToken=@"APA91bGWLNoShFJ84hYHATXUJ957UQGHNbDW3qmhMhYjkSerbrMEySHTXFealKCGitVF0fRHZFjYU7sUN2YMOzljGptXSriUGYrJetA0fbULp3inLJinjkpZvL_hYHuuS8NE5BdFg98V8vQ98lQG3kdb6k9uTwnC7Q";
+        }*/
     }
     if(devToken!=NULL)
     {
+        delegate.isSetDeviceTokenOnServer=NO;
         [delegate setDevieTokenOnServer:devToken userid:[NSString stringWithFormat:@"%@",userid]];
     }
     
@@ -322,12 +326,7 @@
         }
         else
         {
-            NSString *errorMessage=[data objectForKey:@"user_message"];
-            if(errorMessage.length==0)
-            {
-                errorMessage=@"Network Error";
-            }
-            [self networkError:errorMessage];
+            [self networkError:@"Network Error"];
         }
     }
 }

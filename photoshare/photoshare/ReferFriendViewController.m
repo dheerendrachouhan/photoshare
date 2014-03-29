@@ -209,10 +209,7 @@
           [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:row]]]]];
           toolKitReferralStr = [NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
           }
-          
       }
-        
-
     }
     @catch (NSException *exception) {
         
@@ -254,7 +251,6 @@
     }
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        
         return 80.0;
     }
     else
@@ -337,7 +333,7 @@
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             scrollView.frame = CGRectMake(0, 161, 1024, 700);
-            scrollView.contentSize = CGSizeMake(1024, 770);
+            scrollView.contentSize = CGSizeMake(1024, 850);
             scrollView.bounces = NO;
         }
     }
@@ -363,7 +359,6 @@
             scrollView.frame = CGRectMake(0, 161, 768, 780);
             scrollView.contentSize = CGSizeMake(768, 600);
             scrollView.bounces = NO;
-            
         }
     }
     if(![objManager isiPad])
@@ -388,7 +383,6 @@
 {
     [self orient:toInterfaceOrientation];
 }
-
 
 - (void)didReceiveMemoryWarning
 {
