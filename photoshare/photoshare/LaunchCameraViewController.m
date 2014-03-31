@@ -186,11 +186,8 @@
                         [collectionIdArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_id"]];
                         [collectionNameArray addObject:[[collection objectAtIndex:i-1] objectForKey:@"collection_name"]];
                     }
-                    
                 }
-                
             }
-            
         }
     }
     @catch (NSException *exception) {
@@ -349,7 +346,6 @@
     
     return [UIImage imageWithCGImage:image scale:scale orientation:orientation];
 }
-
 
 #pragma mark - Private Helper Methods
 

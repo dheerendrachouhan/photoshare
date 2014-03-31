@@ -179,23 +179,27 @@
 //Web service call back method
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"Device_Token is Register On Server%@",data);
+    NSLog(@"Device_Token is Register On Server -:%@",data);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    
 }
 - (void)applicationWillTerminate:(UIApplication *)application
 {
@@ -225,7 +229,6 @@
                                           [[[UIAlertView alloc] initWithTitle:@"Received link:"                                                                      message:targetURLString                                                                     delegate:self                                                            cancelButtonTitle:@"OK"                                                            otherButtonTitles:nil] show];
                                       }
                                   }];
-    
     return urlWasHandled;
 }
 
@@ -235,11 +238,9 @@
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     for (NSString *pair in pairs) {
         NSArray *kv = [pair componentsSeparatedByString:@"="];
-        NSString *val = [[kv objectAtIndex:1]
-                         stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *val = [[kv objectAtIndex:1]                         stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [params setObject:val forKey:[kv objectAtIndex:0]];
     }
     return params;
 }
-
 @end
