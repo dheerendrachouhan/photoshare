@@ -366,7 +366,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
     }
-   
         return obj_Cell;
 }
 
@@ -431,7 +430,6 @@
             [menu setMenuItems:[NSArray arrayWithObjects:editPhoto,nil]];
             [menu setTargetRect:menucontrollerFrame inView:cell.superview];
             [menu setMenuVisible:YES animated:YES];
-
         }
     }
 }

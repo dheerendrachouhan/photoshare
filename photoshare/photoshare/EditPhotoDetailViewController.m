@@ -277,6 +277,8 @@
             [manager storeData:data :@"photoInfoArray"];
             
             NSDictionary *dicData=@{@"user_id":userid,@"photo_id":self.photoId,@"photo_title":photoTitle,@"photo_description":photodes,@"photo_location":photoLocationString,@"photo_tags":photoTag.text,@"photo_collections":self.collectionId};
+            [manager storeData:@"YES" :@"editphotodetails"];
+            [manager storeData:photoTitle :@"phototitle"];
             
             webservices=[[WebserviceController alloc] init];
             webservices.delegate=self;

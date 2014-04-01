@@ -50,7 +50,7 @@
     [self setUIForIOS6];
     //Add Custom Navigation bar
     [self addCustomNavigationBar];
-    
+    [manager removeData:@"editphotodetails,phototitle"];
     imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.layer.masksToBounds=YES;
     imageView.backgroundColor=[UIColor blackColor];
@@ -129,6 +129,17 @@
         [self savePhotosOnServer:userid filepath:imgData];
         [manager removeData:@"isfromphotodetailcontroller,takephotodetail,photo_data"];
         photoTitleLBL.text=photoTitleStr;
+    }
+    else if ([[manager getData:@"editphotodetails"] isEqualToString:@"YES"])
+    {
+        @try {
+            photoTitleStr=[manager getData:@"phototitle"];
+            photoTitleLBL.text=photoTitleStr;
+            [manager removeData:@"editphotodetails,phototitle"];
+        }
+        @catch (NSException *exception) {
+            
+        }
     }
     else
     {
@@ -543,7 +554,6 @@
 {
     
     pickImage=image;
-    
     
      imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];

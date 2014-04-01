@@ -36,7 +36,6 @@
     [super viewDidLoad];
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
-    
 }
 -(void)viewWillAppear:(BOOL)animated
 {    [super viewWillAppear:animated];
