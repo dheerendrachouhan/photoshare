@@ -245,7 +245,7 @@
     }
     
     if(photodes.length==0) photodes=@"";
-    if(photoTitle.length==0) photoTitle=@"Untitle";
+    if(photoTitle.length==0) photoTitle=@"Untitled";
     if(photoTagstr.length==0) photoTagstr=@"";
     
     if(self.isPhotoAdd || isLaunchCamera)

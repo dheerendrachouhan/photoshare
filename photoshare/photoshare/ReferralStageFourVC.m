@@ -329,7 +329,6 @@
     {
         case 0:
               [self ContactSelectorMethod];
-            //[self loadContacts];
             break;
         case 1:
             [self actionsheetCheeker];
@@ -432,8 +431,9 @@
     FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
     params.link = [NSURL URLWithString:toolkitLink];
     params.name = @"I’ve just joined 123friday this is my video";
-    params.caption = @"123Friday";
+    params.caption = @"  ";
     params.description = @" ";
+    params.picture=[NSURL URLWithString:@"http://my.123friday.com/img/logo.png"];
     // If the Facebook app is installed and we can present the share dialog
     if ([FBDialogs canPresentShareDialogWithParams:params])
     {
@@ -456,7 +456,7 @@
     }
     else
     {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"I’ve just joined 123friday this is my video", @"name",@"123Friday", @"caption",@" ", @"description",toolkitLink, @"link",nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"I’ve just joined 123friday this is my video", @"name",@"  ", @"caption",@" ", @"description",toolkitLink, @"link",@"http://my.123friday.com/img/logo.png",@"picture",nil];
     // Show the feed dialog
     [FBWebDialogs presentFeedDialogModallyWithSession:nil parameters:params
     handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error)
@@ -668,6 +668,7 @@
     [SVProgressHUD dismissWithSuccess:@"Done"];
 }
 
+
 //Email from Contacts
 -(void)mailToFun {
     
@@ -731,12 +732,12 @@
 }
 
 //Message to user
+#pragma mark - Message Methods
 -(void)sendInAppSMS_referral
 {
     [self composedMailMessage];
     referredValue = @"";
     
-	MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
     NSString *message=self.stringStr;
     if(message==NULL || message.length==0)
     {
@@ -746,15 +747,23 @@
     {
         message=[NSString stringWithFormat:@"%@.",message];
     }
+    
+    NSString *msgBody=[NSString stringWithFormat:@"%@I’ve just joined 123friday this is my video, %@.",message,toolkitLink];
+    msgBody = [msgBody stringByTrimmingCharactersInSet:                               [NSCharacterSet whitespaceCharacterSet]];
+    
 	if([MFMessageComposeViewController canSendText])
 	{
-		controller.body = [NSString stringWithFormat:@"%@I’ve just joined 123friday this is my video, %@.",message,toolkitLink];
-        controller.recipients = contactNoSelectedArray;
+        MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
         controller.messageComposeDelegate = self;
+		controller.body = msgBody;
+        controller.recipients = contactNoSelectedArray;
         [[self navigationController] presentViewController:controller animated:NO completion:nil];
 	}
+    else
+    {
+        [objManager showAlert:@"Alert !" msg:@"Your device not support messaging or currently not configured to send messages." cancelBtnTitle:@"Ok" otherBtn:Nil];
+    }
 }
-
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];

@@ -428,8 +428,6 @@
         UIBarButtonItem *toolBarTitle=[[UIBarButtonItem alloc]  initWithCustomView:titleLabe];
         [barItems addObject:flexSpace];
         [barItems addObject:toolBarTitle];
-       
-        
         [barItems addObject:flexSpace];
        
         UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(categoryDoneButtonPressed)];
@@ -440,7 +438,6 @@
     @catch (NSException *exception) {
         NSLog(@"Exception is %@",exception.description);
     }
-
 }
 
 -(void)categoryDoneButtonPressed{

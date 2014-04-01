@@ -26,10 +26,9 @@
 @property (strong, nonatomic) UINavigationController *navControlleraccount;
 @property (strong, nonatomic) UINavigationController *photoGalNav;
 @property(nonatomic,assign)BOOL isSetDeviceTokenOnServer;
-@property(nonatomic,retain)NSString *useridforsetdevicetoken;
-//Device token for Push notification
-@property (strong, nonatomic) NSString *token;
 @property(nonatomic,assign)BOOL isGoToReferFriendController;
-
+@property(nonatomic,retain)NSString *useridforsetdevicetoken;
+//For Push Notifications
+@property (strong, nonatomic) NSString *token;
 -(void)setDevieTokenOnServer:(NSString *)devToken userid:(NSString *)user_id;
 @end

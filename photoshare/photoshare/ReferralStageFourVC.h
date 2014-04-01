@@ -18,7 +18,7 @@
 #import "NavigationBar.h"
 #import "WebserviceController.h"
 @class ContentManager;
-@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, WebserviceDelegate, UITabBarControllerDelegate, UIActionSheetDelegate,UITextViewDelegate>
+@interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate, WebserviceDelegate, UITabBarControllerDelegate, UIActionSheetDelegate,UITextViewDelegate>
 {
     IBOutlet UIButton *facebookBtn;
     IBOutlet UIButton *twitterBtn;

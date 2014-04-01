@@ -201,15 +201,14 @@
     NSLog(@"Video name: %@",[toolkitTitleArr objectAtIndex:row]);
     NSLog(@"%d",row);
     @try {
-        NSNumber  *visible=[toolKitVisiblityArr objectAtIndex:row];
+        //NSNumber  *visible=[toolKitVisiblityArr objectAtIndex:row];
       if(activeIndex!=row)
       {
-          if(visible.integerValue==1)
-          {
+          
           activeIndex=row;
           [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:row]]]]];
           toolKitReferralStr = [NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
-          }
+          
       }
     }
     @catch (NSException *exception) {
@@ -319,14 +318,14 @@
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 480, 300);
-            scrollView.contentSize = CGSizeMake(480, 400);
+            scrollView.contentSize = CGSizeMake(480, 440);
             scrollView.bounces = NO;
             mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
         }
         else if ([[UIScreen mainScreen] bounds].size.height == 568.0f)
         {
             scrollView.frame = CGRectMake(0, 72, 568, 300);
-            scrollView.contentSize = CGSizeMake(568, 440);
+            scrollView.contentSize = CGSizeMake(568, 490);
             scrollView.bounces = NO;
             mypicker.transform = CGAffineTransformMakeScale(1.0, 0.7);
             

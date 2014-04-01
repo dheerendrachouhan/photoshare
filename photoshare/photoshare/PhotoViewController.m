@@ -128,6 +128,7 @@
         
         [self savePhotosOnServer:userid filepath:imgData];
         [manager removeData:@"isfromphotodetailcontroller,takephotodetail,photo_data"];
+        photoTitleLBL.text=photoTitleStr;
     }
     else
     {

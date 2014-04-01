@@ -33,7 +33,6 @@
     }
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     dmc = [[DataMapperController alloc] init];
     objManager = [ContentManager sharedManager];
@@ -137,7 +136,7 @@ tc.navigationController.navigationBar.frame=CGRectMake(0, 15, 320, 90);
 }
 
 #pragma mark - Logout methods
-//logout from server
+//Logout From Server Calling Api
 -(void)logOutFromServer
 {
     @try {
