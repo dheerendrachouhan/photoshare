@@ -552,10 +552,8 @@
 // This is called when the user taps "Done" in the photo editor.
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
-    
     pickImage=image;
-    
-     imgData=UIImagePNGRepresentation(image);
+    imgData=UIImagePNGRepresentation(image);
     [self dismissViewControllerAnimated:YES completion:nil];
    
     [self goToPhotoDetailViewControler];
@@ -681,7 +679,6 @@
             NSString *location = [NSString stringWithFormat:@"%@,%@,%@",  placemark.locality,placemark.administrativeArea,                                  placemark.country];
             
             photoLocationStr=location;
-            
             
             NSLog(@"Current location is %@",location);
         } else {
