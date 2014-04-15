@@ -82,8 +82,8 @@
     contactSelectedArray = [[NSMutableArray alloc] init];
     contactNoSelectedArray = [[NSMutableArray alloc] init];
     
-    messageStr= [NSString stringWithFormat:@"I’ve just joined 123friday this is my video', http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
-    messageStrforMail=[NSString stringWithFormat:@"<a href=http://my.123friday.com/my123/live/toolkit/1/%@>I’ve just joined 123friday this is my video.</a>",[manager getData:@"user_username"]];
+    messageStr= [NSString stringWithFormat:@"Hi, I've just downloaded the 123friday invite only app, its really cool, check it out, http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
+    messageStrforMail=[NSString stringWithFormat:@"<a href=http://my.123friday.com/my123/live/toolkit/1/%@>Hi, I've just downloaded the 123friday invite only app, its really cool, check it out.</a>",[manager getData:@"user_username"]];
     ImageCollection = [[NSMutableArray alloc] init];
     
     if(sharedImage== nil || sharedImage == NULL)
@@ -265,7 +265,7 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
-        [controller setInitialText:@"I’ve just joined 123friday this is my video"];
+        [controller setInitialText:@"Hi, I've just downloaded the 123friday invite only app, its really cool, check it out"];
         [controller addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]]]];
         if(sharedImage != NULL || sharedImage != nil)
         {
@@ -378,10 +378,11 @@
         NSData *data = UIImagePNGRepresentation(sharedImage);
         [mfMail addAttachmentData:data mimeType:@"image/png" fileName:@""];
     }
+    
     [mfMail setSubject:emailTitle];
     [mfMail setMessageBody:messageBody isHTML:YES];
-    [mfMail setToRecipients:toRecipents];
-    
+    //[mfMail setToRecipients:toRecipents];
+    [mfMail setBccRecipients:toRecipents];
     //stop loader
     
     // Present mail view controller on screen

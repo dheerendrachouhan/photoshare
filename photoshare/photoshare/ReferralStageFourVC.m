@@ -141,7 +141,7 @@
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
         {
             SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-            [tweetSheet setInitialText:[NSString stringWithFormat:@"%@ I’ve just joined 123friday this is my video, %@",twitterTweet,toolkitLink]];
+            [tweetSheet setInitialText:[NSString stringWithFormat:@"%@ Hi, I've just downloaded the 123friday invite only app, its really cool, check it out, %@",twitterTweet,toolkitLink]];
             [tweetSheet addImage:[UIImage imageNamed:@"login-logo-log.png"]];
             [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
                 
@@ -430,7 +430,7 @@
     // FALLBACK: publish just a link using the Feed dialog
     FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
     params.link = [NSURL URLWithString:toolkitLink];
-    params.name = @"I’ve just joined 123friday this is my video";
+    params.name = @"Hi, I've just downloaded the 123friday invite only app, its really cool, check it out";
     params.caption = @"  ";
     params.description = @" ";
     params.picture=[NSURL URLWithString:@"http://my.123friday.com/img/logo.png"];
@@ -456,7 +456,7 @@
     }
     else
     {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"I’ve just joined 123friday this is my video", @"name",@"  ", @"caption",@" ", @"description",toolkitLink, @"link",@"http://my.123friday.com/img/logo.png",@"picture",nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Hi, I've just downloaded the 123friday invite only app, its really cool, check it out", @"name",@"  ", @"caption",@" ", @"description",toolkitLink, @"link",@"http://my.123friday.com/img/logo.png",@"picture",nil];
     // Show the feed dialog
     [FBWebDialogs presentFeedDialogModallyWithSession:nil parameters:params
     handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error)
@@ -688,7 +688,7 @@
         message=[NSString stringWithFormat:@"%@.",message];
     }
     
-    NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=%@>I’ve just joined 123friday this is my video.</a>",message,toolkitLink]; // Change the message body to HTML
+    NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=%@>Hi, I've just downloaded the 123friday invite only app, its really cool, check it out.</a>",message,toolkitLink]; // Change the message body to HTML
     // To address
     NSArray *toRecipents = [NSArray arrayWithArray:contactSelectedArray];
         
@@ -697,8 +697,8 @@
     
     [mfMail setSubject:emailTitle];
     [mfMail setMessageBody:messageBody isHTML:YES];
-    [mfMail setToRecipients:toRecipents];
-    
+    //[mfMail setToRecipients:toRecipents];
+    [mfMail setBccRecipients:toRecipents];
     // Present mail view controller on screen
     [[self navigationController] presentViewController:mfMail animated:YES completion:nil];
 }
@@ -748,7 +748,7 @@
         message=[NSString stringWithFormat:@"%@.",message];
     }
     
-    NSString *msgBody=[NSString stringWithFormat:@"%@I’ve just joined 123friday this is my video, %@.",message,toolkitLink];
+    NSString *msgBody=[NSString stringWithFormat:@"%@Hi, I've just downloaded the 123friday invite only app, its really cool, check it out, %@.",message,toolkitLink];
     msgBody = [msgBody stringByTrimmingCharactersInSet:                               [NSCharacterSet whitespaceCharacterSet]];
     
 	if([MFMessageComposeViewController canSendText])

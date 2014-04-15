@@ -88,12 +88,10 @@
        }
        else
        {
-           NSString *peopleRefStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_referrals"]];
            
            NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
            
            totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
-           peopleReferredLabel.text = peopleRefStr;
            
        }
        isGetEarning=NO;

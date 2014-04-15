@@ -90,7 +90,7 @@
         NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
         NSMutableDictionary *dOne = [outPutData valueForKey:@"user_referrals"];
         NSMutableDictionary *userSubScribeDict = [dOne valueForKey:@"subscribed"];
-        NSMutableDictionary *userPendingDict = [dOne valueForKey:@"pending"];
+        //NSMutableDictionary *userPendingDict = [dOne valueForKey:@"pending"];
         for(NSDictionary *val in userSubScribeDict)
         {
             NSLog(@"%@",val);
@@ -102,7 +102,7 @@
                 [userActiveArr addObject:@"joined"];
             }
         }
-        for(NSDictionary *vall in userPendingDict)
+        /*for(NSDictionary *vall in userPendingDict)
         {
             NSLog(@"%@",vall);
             [userNameArr addObject:[vall valueForKey:@"emailaddress"]];
@@ -116,7 +116,7 @@
             
             [userDateArr addObject:nowDaye];
             [userActiveArr addObject:@"pending"];
-        }
+        }*/
         
         
         [tableView reloadData];

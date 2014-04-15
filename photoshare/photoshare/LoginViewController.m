@@ -171,6 +171,7 @@
 }
 //user sign in function
 - (IBAction)userSignInBtn:(id)sender {
+    [self registerForScheme:@"671598942899133"];
     [dmc removeAllData];
     //Without Validation
     [self tapHideKeyboard];
@@ -464,7 +465,6 @@
     }
     return YES;
 }
-
 //RememberMe Function
 - (IBAction)rememberBtnTapped{
     if(!rememberFltr)
@@ -687,6 +687,19 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+#pragma mark - Edit info.plist
+- (BOOL) registerForScheme: (NSString*) scheme {
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Info"
+                                                          ofType:@"plist"];
+    NSMutableDictionary* plist = [NSMutableDictionary dictionaryWithContentsOfFile: plistPath];
+    //NSDictionary* urlType = [NSDictionary dictionaryWithObjectsAndKeys:
+                             //@"com.mycompany.myscheme", @"CFBundleURLName",
+                             //[NSArray arrayWithObject: scheme], @"CFBundleURLSchemes",
+                             //nil];
+    [plist setValue:scheme forKey:@"FacebookAppID"];
+    
+    return [plist writeToFile: plistPath atomically: YES];
 }
 
 @end
