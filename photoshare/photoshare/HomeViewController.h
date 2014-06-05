@@ -1,10 +1,10 @@
-//
-//  HomeViewController.h
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// HomeViewController.h
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
@@ -26,13 +26,14 @@
     UINavigationController *navController;
     NSNumber *publicCollectionId;
     NSNumber *colOwnerId;
-    int folderIndex;
-    ContentManager *manager;    
-    NSNumber *userid;
+    
+    ContentManager *manager;
     WebserviceController *webservices;
     DataMapperController *dmc ;
-    BOOL isGetTheNoOfImagesInPublicFolder;
     
+    int folderIndex;
+    BOOL isGetTheNoOfImagesInPublicFolder;
+    NSNumber *userid;
 }
 @property(nonatomic,retain) id<homeDelagate>delegate;
 

@@ -1,15 +1,15 @@
-//
-//  ShareWithUserViewController.h
-//  photoshare
-//
-//  Created by ignis2 on 10/02/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// ShareWithUserViewController.h
+// photoshare
+// 
+// Created by ignis2 on 10/02/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
 #import "WebserviceController.h"
-@interface ShareWithUserViewController : UIViewController<WebserviceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UITextFieldDelegate,UISearchBarDelegate>
+@interface ShareWithUserViewController : UIViewController<WebserviceDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UITextFieldDelegate,UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     
     IBOutlet UIButton *userAddButton;
@@ -35,6 +35,7 @@
    
     NSMutableArray *searchUserListResult;
     NSMutableArray *searchUserIdResult;
+    NSMutableArray *searchUserRealNameResult;
     UIButton *searchList;
     
     NSMutableArray *searchUserList;    
@@ -44,8 +45,10 @@
     
     UIView *searchView;
 
+    // Creating Table for user List
+    UITableView *searchViewTable;
     
-    //check orientation
+    // check orientation
     UIInterfaceOrientation orientation;
 }
 @property(nonatomic,assign)BOOL isEditFolder;

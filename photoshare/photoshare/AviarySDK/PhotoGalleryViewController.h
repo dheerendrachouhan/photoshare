@@ -1,10 +1,10 @@
-//
-//  PhotoGalleryViewController.h
-//  photoshare
-//
-//  Created by ignis2 on 25/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// PhotoGalleryViewController.h
+// photoshare
+// 
+// Created by ignis2 on 25/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -12,7 +12,7 @@
 #import "ContentManager.h"
 #import "NavigationBar.h"
 #import "SearchPhotoViewController.h"
-//for Aviary
+// for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <QuartzCore/QuartzCore.h>
 #import "AFPhotoEditorController.h"
@@ -21,23 +21,26 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-//for mail send
+// for mail send
 #import <MessageUI/MFMailComposeViewController.h>
+// For Select the Multiple images use Custom ELCImagePicker
+#import "CTAssetsPickerController.h"
 
-@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate,CLLocationManagerDelegate,UITextViewDelegate,MFMailComposeViewControllerDelegate,UIPopoverControllerDelegate>
+#import "UploadMultiplePhotoOnServerViewController.h"
+@interface PhotoGalleryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,AFPhotoEditorControllerDelegate,WebserviceDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate,CLLocationManagerDelegate,UITextViewDelegate,MFMailComposeViewControllerDelegate,UIPopoverControllerDelegate,CTAssetsPickerControllerDelegate,UploadMultiplePhotoOnServerViewControllerDelegate>
 {
-    //get the userf location
+    // GETS the userf location
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
     
-    
-    IBOutlet UIButton *addPhotoBtn;
-    IBOutlet UIButton *deletePhotoBtn;
-    IBOutlet UIButton *sharePhotoBtn;
-    IBOutlet UICollectionView *collectionview;
-    WebserviceController *webServices;
-    SearchPhotoViewController *searchController;
+    IBOutlet UIButton           *addPhotoBtn;
+    IBOutlet UIButton           *deletePhotoBtn;
+    IBOutlet UIButton           *sharePhotoBtn;
+    IBOutlet UICollectionView   *collectionview;
+    IBOutlet UILabel            *emptyMessageLbl;
+    WebserviceController        *webServices;
+    SearchPhotoViewController   *searchController;
     
    
     NSMutableArray *selectedImagesIndex;
@@ -53,8 +56,6 @@
     BOOL isDeleteMode;
     BOOL isShareMode;
     
-    BOOL isAddPhotoMode;
-    BOOL isEditPhotoMode;
     
     BOOL isGetPhotoIdFromServer;
     BOOL isGetPhotoFromServer;
@@ -67,7 +68,6 @@
     
     BOOL isPopFromPhotos;
     BOOL isGoToViewPhoto;
-    BOOL isPickerMode;
     BOOL isMailSendMode;
     
     UIImage *pickImage;
@@ -75,7 +75,7 @@
     BOOL isCameraEditMode;
     BOOL isPhotoPickMode;
     
-    //permission type of collection data
+    // permission type of collection data
     BOOL isWritePermission;
     BOOL isReadPermission;
     BOOL isPhotoOwner;
@@ -86,13 +86,13 @@
     
     ContentManager *manager;
     NavigationBar *navnBar;
-    NSMutableArray *photoAssetUrlArray;
     
+    NSArray *selectedImagesArray;// Select Multiple images from picker 
     
     NSData *imageData;
     UIImage *editedImage;
     
-    //for add photo Detail
+    // for add photo Detail
     UIView *backViewPhotDetail;
     UITextField *photoTitleTF;
     UITextView *photoDescriptionTF;
@@ -101,7 +101,16 @@
     NSString *photoTitleStr;
     NSString *photoDescriptionStr;
     NSString *photoTagStr;
-    NSString *photoLocationStr; //userLoaction is save
+    NSString *photoLocationStr; // userLoaction is save
+    
+    // for Multiple Photo
+    UploadMultiplePhotoOnServerViewController *uploadMultiPlePhoto;
+    
+    NSInteger countRecievedPhoto;
+    BOOL isCallMultiplePhoto;
+    
+    NSNumber *imgIdTemp;
+    UIImage *imgTemp;
 }
 @property(nonatomic,assign)BOOL isPublicFolder;
 @property(nonatomic,assign)int selectedFolderIndex;
@@ -110,8 +119,10 @@
 @property(nonatomic,assign)NSNumber *collectionOwnerId;
 
 @property(nonatomic,retain)NSString *folderName;
-
-//for Aviary
+// For multiple image select
+@property (nonatomic, strong) NSMutableArray *assets;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+// for Aviary
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;
 @property(nonatomic,retain)UIPopoverController *popover;

@@ -1,10 +1,10 @@
-//
-//  JXBarChartView.m
-//  JXBarChartViewExample
-//
-//  Created by jianpx on 7/18/13.
-//  Copyright (c) 2013 PS. All rights reserved.
-//
+// 
+// JXBarChartView.m
+// JXBarChartViewExample
+// 
+// Created by jianpx on 7/18/13.
+// Copyright (c) 2013 PS. All rights reserved.
+// 
 
 #import "JXBarChartView.h"
 
@@ -54,10 +54,10 @@
             _gradient = gradient;
         } else {
             CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-            //blue gradient
+            // blue gradient
             CGFloat locations[] = {0.0, 0.5, 1.0};
             CGFloat colorComponents[] = {
-                0.254, 0.599, 0.82, 1.0, //red, green, blue, alpha
+                0.254, 0.599, 0.82, 1.0, // red, green, blue, alpha
                 0.192, 0.525, 0.75, 1.0,
                 0.096, 0.415, 0.686, 1.0
             };
@@ -116,7 +116,7 @@
         poundBar = 240;
     }
     for (int i = 0; i < count; i++) {
-        //handle and setting textlabel
+        // handle and setting textlabel
         float textMargin_y = (i * (self.barHeight + barMargin)) + starty;
         UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(startx, textMargin_y, textWidth, self.barHeight)];
         textLabel.text = self.textIndicators[i];
@@ -132,7 +132,7 @@
         }
         [self addSubview:textLabel];
         
-        //handle and setting bar
+        // handle and setting bar
         float barMargin_y = (i * (self.barHeight + barMargin)) + starty;
         float v = [self.values[i] floatValue] <= self.maxValue ? [self.values[i] floatValue]: self.maxValue;
         float rate = v / self.maxValue;
@@ -140,7 +140,7 @@
         CGRect barFrame = CGRectMake(startx + textWidth + marginOfTextAndBar, barMargin_y, barWidth, self.barHeight);
         [self drawRectangle:barFrame context:self.context];
         
-        //handle and setting textlabel
+        // handle and setting textlabel
         UILabel *textLabelValue = [[UILabel alloc] initWithFrame:CGRectMake(poundBar, textMargin_y, textWidth, self.barHeight)];
         
         NSNumber *def =self.values[i];

@@ -1,10 +1,10 @@
 //
-//  PhotoViewController.m
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// PhotoViewController.m
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "PhotoViewController.h"
 #import "PhotoShareController.h"
@@ -19,15 +19,6 @@
 @synthesize  isOnlyReadPermission;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"PhotoViewController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"PhotoViewController";
-    }
-
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -37,7 +28,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	
+    // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"PhotoViewController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"PhotoViewController" owner:self options:nil];
+    }
+    
+    // Custom Initialization
     
     webservices=[[WebserviceController alloc] init];
     
@@ -46,14 +49,19 @@
     largeImage=[[LargePhotoViewController alloc] init];
     NSDictionary *dic = [dmc getUserDetails] ;
     userid=[dic objectForKey:@"user_id"];
-    //set UI for IOS 6
+    
     [self setUIForIOS6];
-    //Add Custom Navigation bar
+    
     [self addCustomNavigationBar];
+    
+    
     [manager removeData:@"editphotodetails,phototitle"];
     imageView.contentMode=UIViewContentModeScaleAspectFit;
     imageView.layer.masksToBounds=YES;
     imageView.backgroundColor=[UIColor blackColor];
+    
+    
+    // For View Photo from Gallery view Controller
     if(self.isViewPhoto)
     {
         if(self.isPublicFolder)
@@ -65,6 +73,7 @@
             folderLocationShowLabel.text=[NSString stringWithFormat:@"Your Folders,%@",self.folderName];
         }   
         
+        // Show Loading For Get large Photo From Server
         UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [activityIndicator startAnimating];
         activityIndicator.tag=1100;
@@ -72,6 +81,7 @@
         activityIndicator.center = CGPointMake(CGRectGetWidth(imageView.bounds)/2, CGRectGetHeight(imageView.bounds)/2);
         [imageView addSubview:activityIndicator];
         
+        //Check is Photo is Save In Document Directory
         if([self getImageFromDocumentDirectory:photoId.integerValue]!=(id)nil)
         {
             UIActivityIndicatorView *indeicator=(UIActivityIndicatorView *)[imageView viewWithTag:1100];
@@ -90,7 +100,7 @@
     [imageView addGestureRecognizer:doubleTap];
     
     
-    //photoViewBtnBorderSet
+    // Button Border set
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     photoViewBtn.layer.cornerRadius=5;
     if([manager isiPad])
@@ -106,7 +116,7 @@
         segmentControl.hidden=YES;
         photoViewBtn.hidden=NO;
     }
-    //get photo info from nsuser default
+    // Get photo info from NSUserDefaults
     NSArray *photoDetail=[NSKeyedUnarchiver unarchiveObjectWithData:[manager getData:@"photoInfoArray"]];
     photoTitleStr=[[photoDetail objectAtIndex:self.selectedIndex ] objectForKey:@"collection_photo_title"];
 }
@@ -116,6 +126,8 @@
     [super viewWillAppear:animated];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
     
+    
+    //  If returned From EditPhotoDetailViewController with photo edit
     if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
     {
         [self callGetLocation];
@@ -130,6 +142,7 @@
         [manager removeData:@"isfromphotodetailcontroller,takephotodetail,photo_data"];
         photoTitleLBL.text=photoTitleStr;
     }
+     // If returned From EditPhotoDetailViewController with only photo details edit
     else if ([[manager getData:@"editphotodetails"] isEqualToString:@"YES"])
     {
         @try {
@@ -153,9 +166,12 @@
         {
             [self.navigationController popViewControllerAnimated:NO];
         }
+        
+        // Sets photo title on navtitle label
+        
         photoTitleLBL.text=photoTitleStr;
     }
-   //set the phototitle on navTitleLabel
+   
     
 }
 - (void)didReceiveMemoryWarning
@@ -163,6 +179,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/**
+ *  For IOS6
+ */
 -(void)setUIForIOS6
 {
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
@@ -174,17 +194,21 @@
         folderLocationIndicator.frame=CGRectMake(folderLocationIndicator.frame.origin.x, folderLocationIndicator.frame.origin.y+45, folderLocationIndicator.frame.size.width, folderLocationIndicator.frame.size.height);
     }
 }
-#pragma mark - save and get image from Document directry
+
+/**
+ *  Save Image In Document Directory
+ */
+
 -(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    //Create Folder
+    // Create Folder
     NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"/123FridayImages"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
     {
-        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; // Create folder
     }
     if(self.isPublicFolder)
     {
@@ -196,7 +220,7 @@
     }
     if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
     {
-        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; // Create folder
     }
     if(!self.isPublicFolder)
     {
@@ -204,7 +228,7 @@
     }
     if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
     {
-        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; // Create folder
     }
     NSString *savedImagePath = [dataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_LargePhoto_%@.png",userid,self.photoId]];
     
@@ -213,6 +237,11 @@
     [imgD writeToFile:savedImagePath atomically:NO];
     
 }
+
+/**
+ *  Get Image From Document Directory
+ */
+
 -(UIImage *)getImageFromDocumentDirectory :(NSInteger)index
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,    NSUserDomainMask, YES);
@@ -230,7 +259,9 @@
     return img;
 }
 
-#pragma mark - IBAction methods
+/**
+ * View Photo Button Click
+ */
 - (IBAction)viewPhoto:(id)sender
 {
     if(isoriginalImageGet)
@@ -242,12 +273,16 @@
         [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
     }
 }
+
+/**
+ *  UISegmentedControl value Change
+ */
 - (IBAction)segmentSwitch:(id)sender
 {
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     
-    if (selectedSegment == 0) {//view image
+    if (selectedSegment == 0) {// View image
         
         if(isoriginalImageGet)
         {
@@ -258,7 +293,7 @@
             [manager showAlert:@"Message" msg:@"Photo is Loading" cancelBtnTitle:@"Ok" otherBtn:nil];
         }
     }
-    else if (selectedSegment == 1) {//Edit image
+    else if (selectedSegment == 1) {// Edit image
         photoLocationStr=@"";
         [self callGetLocation];
         
@@ -284,7 +319,7 @@
         }
         
     }
-    else if (selectedSegment == 2) {
+    else if (selectedSegment == 2) {// Share Image
         
         if(isoriginalImageGet)
         {
@@ -298,7 +333,8 @@
     segmentedControl.selectedSegmentIndex = -1;
 }
 
-#pragma mark - Text Feild delegate methods
+#pragma mark - UITextField Delegate Method
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return [textField resignFirstResponder];
@@ -313,24 +349,27 @@
     return YES;
 }
 
-#pragma mark - Fetch the photo from server
+/**
+ *  Get Photo From Server
+ */
 -(void)getImageFromServer
 {
     NSNumber *num = [NSNumber numberWithInt:1] ;
     webservices.delegate=self;
-    NSString *imageReSize=@"1000";
-    if([manager isiPad])
-    {
-        imageReSize=@"2000";
-    }
+    NSString *imageReSize=@"0";
+
     
     NSDictionary *dicData = @{@"user_id":userid,@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.collectionId,@"image_resize":imageReSize};
     
     [webservices call:dicData controller:@"photo" method:@"get"];
 }
-#pragma mark - Webservice Call Back Methods
+
+#pragma mark - WebService Delegate Methods
+
 -(void) webserviceCallbackImage:(UIImage *)image
 {
+    // Opens image from server
+    
     UIActivityIndicatorView *indeicator=(UIActivityIndicatorView *)[imageView viewWithTag:1100];
     [indeicator removeFromSuperview];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -340,8 +379,11 @@
     
     [self saveImageInDocumentDirectry:image index:self.photoId.integerValue];
 }
+
 -(void)webserviceCallback:(NSDictionary *)data
 {
+    // Update photo info locally after saving it on server
+    
     NSLog(@"Data %@",data);
     NSDictionary *outputData=[data objectForKey:@"output_data"];
     if(isSavePhotoOnServer)
@@ -350,7 +392,8 @@
         int exitcode=[[data objectForKey:@"exit_code"] integerValue];
         if(exitcode==1)
         {
-            //update the photo info  in nsuser default
+            // Update photo info array in NSUserDefaults
+            
             NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
             
             NSDictionary *photoDetail=[photoinfoarray lastObject];
@@ -362,7 +405,8 @@
             [dic setObject:[outputData objectForKey:@"image_id"] forKey:@"collection_photo_id"];
             [dic setObject:[photoDetail objectForKey:@"collection_photo_filesize"] forKey:@"collection_photo_filesize"];
             [dic setObject:userid forKey:@"collection_photo_user_id"];
-            //update photo info array in nsuser default
+            
+            
             [photoinfoarray addObject:dic];
             
             NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
@@ -372,7 +416,6 @@
             [manager storeData:[outputData objectForKey:@"image_id"] :@"photoId"];
             if(self.isPublicFolder)
             {
-                //public img count for home page
                 NSNumber *imgCout=[NSNumber numberWithInteger:photoinfoarray.count];
                 [manager storeData:imgCout :@"publicImgIdArray"];
             }
@@ -391,14 +434,18 @@
 }
 
 
-
-#pragma mark - open the aviary editor
+/**
+ *  Open Aviary photo editor
+ */
 -(void)openeditorcontrol
 {
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
 }
 
-#pragma mark - View Image in full screen
+/**
+ *  View image in full screen
+ */
+
 -(void)viewImage
 {
     largeImage.imageLoaded=originalImage;
@@ -407,14 +454,15 @@
 }
 
 
-#pragma mark - Action Sheet delegate Methods
+#pragma mark - UIActionSheet delegate method
+
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(buttonIndex==0)//Edit Photo
+    if(buttonIndex==0)// Edit Photo
     {
         [self launchPhotoEditorWithImage:originalImage highResolutionImage:originalImage];
     }
-    else if(buttonIndex==1)//Edit Detail
+    else if(buttonIndex==1)// Edit Photo Details
     {
         if(isPhotoOwner)
         {
@@ -440,6 +488,11 @@
         }
     }
 }
+
+/**
+ *  Remove imageview
+ */
+
 -(void)removveimageView
 {
     [imgV removeFromSuperview];
@@ -447,6 +500,10 @@
     self.tabBarController.tabBar.hidden=NO;
     
 }
+
+/**
+ *  Share image
+ */
 
 -(void)shareImage:(UIImage *)imageToShare
 {
@@ -464,6 +521,11 @@
     
     [self.navigationController pushViewController:photoShare animated:YES];
 }
+
+/**
+ *  Open Photo Details View Controller
+ */
+
 -(void)goToPhotoDetailViewControler
 {
     EditPhotoDetailViewController *editDetail;
@@ -482,10 +544,11 @@
     [self.navigationController pushViewController:editDetail animated:NO];
 }
 
-//For Aviary Edit Photo
-#pragma mark - Aviary methods
-#pragma mark - Photo Editor Launch Methods
+#pragma mark -  AVIARY Editor Methods
 
+/**
+ *  Photo editor lunch methods
+ */
 - (void) launchEditorWithAsset:(ALAsset *)asset
 {
     UIImage * editingResImage = [self editingResImageForAsset:asset];
@@ -495,48 +558,58 @@
 }
 
 
-#pragma mark - Photo Editor Creation and Presentation
+/**
+ *  Photo editor craetion and presentation
+ */
 - (void) launchPhotoEditorWithImage:(UIImage *)editingResImage highResolutionImage:(UIImage *)highResImage
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     [SVProgressHUD dismiss];
-    // Customize the editor's apperance. The customization options really only need to be set once in this case since they are never changing, so we used dispatch once here.
+    
+    // Customize editors appearance
+    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self setPhotoEditorCustomizationOptions];
     });
     
-    // Initialize the photo editor and set its delegate
+    // Initialize editor and delegates
+    
     AFPhotoEditorController * photoEditor = [[AFPhotoEditorController alloc] initWithImage:editingResImage];
     photoEditor.view.frame=CGRectMake(0, 100, 320, 300);
     [photoEditor setDelegate:self];
     
-    // If a high res image is passed, create the high res context with the image and the photo editor.
+    // If high res image is passed, create high res context for image & photo editor
+    
     if (highResImage) {
         [self setupHighResContextForPhotoEditor:photoEditor withImage:highResImage];
     }
     
-    // Present the photo editor.
+    // Present photo editor
+    
     [self presentViewController:photoEditor animated:YES completion:nil];
 }
 
 - (void) setupHighResContextForPhotoEditor:(AFPhotoEditorController *)photoEditor withImage:(UIImage *)highResImage
 {
-    // Capture a reference to the editor's session, which internally tracks user actions on a photo.
+    // Capture a reference to editor session
+    
     __block AFPhotoEditorSession *session = [photoEditor session];
     
-    // Add the session to our sessions array. We need to retain the session until all contexts we create from it are finished rendering.
+    // Add session to sessions array
+    
     [[self sessions] addObject:session];
     
-    // Create a context from the session with the high res image.
+    // Create a context from session with high res image
+    
     AFPhotoEditorContext *context = [session createContextWithImage:highResImage];
     
     __block PhotoViewController * blockSelf = self;
     
     [context render:^(UIImage *result) {
         if (result) {
-            //UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
+            // UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
         }
         
         [[blockSelf sessions] removeObject:session];
@@ -549,7 +622,9 @@
 
 #pragma Photo Editor Delegate Methods
 
-// This is called when the user taps "Done" in the photo editor.
+/**
+ * This is called when user taps "DONE" in the photo editor
+ */
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
     pickImage=image;
@@ -561,7 +636,9 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
 }
-// This is called when the user taps "Cancel" in the photo editor.
+/**
+ * This is called when user taps "CANCEL" in the photo editor
+ */
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -574,11 +651,13 @@
 
 - (void) setPhotoEditorCustomizationOptions
 {
-    // Set Tool Order
+    // Set tools order
+    
     NSArray * toolOrder = @[kAFEffects, kAFFocus, kAFFrames, kAFStickers, kAFEnhance, kAFOrientation, kAFCrop, kAFAdjustments, kAFSplash, kAFDraw, kAFText, kAFRedeye, kAFWhiten, kAFBlemish, kAFMeme];
     [AFPhotoEditorCustomization setToolOrder:toolOrder];
     
-    // Set Custom Crop Sizes
+    // Set custom crop sizes
+    
     [AFPhotoEditorCustomization setCropToolOriginalEnabled:NO];
     [AFPhotoEditorCustomization setCropToolCustomEnabled:YES];
     NSDictionary * fourBySix = @{kAFCropPresetHeight : @(4.0f), kAFCropPresetWidth : @(6.0f)};
@@ -586,15 +665,17 @@
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
-    // Set Supported Orientations
+    // Set supported orientations
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         NSArray * supportedOrientations = @[@(UIInterfaceOrientationPortrait), @(UIInterfaceOrientationPortraitUpsideDown), @(UIInterfaceOrientationLandscapeLeft), @(UIInterfaceOrientationLandscapeRight)];
         [AFPhotoEditorCustomization setSupportedIpadOrientations:supportedOrientations];
     }
 }
 
-#pragma mark - ALAssets Helper Methods
-
+/**
+ *  ALAssets helper methods
+ */
 - (UIImage *)editingResImageForAsset:(ALAsset*)asset
 {
     CGImageRef image = [[asset defaultRepresentation] fullScreenImage];
@@ -607,24 +688,17 @@
     ALAssetRepresentation * representation = [asset defaultRepresentation];
     
     CGImageRef image = [representation fullResolutionImage];
-    UIImageOrientation orientation = [representation orientation];
+    UIImageOrientation orientations = (UIImageOrientation)[representation orientation];
     CGFloat scale = [representation scale];
     
-    return [UIImage imageWithCGImage:image scale:scale orientation:orientation];
+    return [UIImage imageWithCGImage:image scale:scale orientation:orientations];
 }
 
-- (BOOL) hasValidAPIKey
-{
-    NSString * key = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Aviary-API-Key"];
-    if (![key isEqualToString:@"c1f4f0ae01276a21"]) {
-        [[[UIAlertView alloc] initWithTitle:@"Oops!" message:@"You forgot to add your API key!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-        return NO;
-    }
-    return YES;
-}
 
-#pragma mark - save image on server
-//save Photo on Server Photo With Detaill
+/**
+ *  Store Photo On Server
+ */
+
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)imageData
 {
     webservices=[[WebserviceController alloc] init];
@@ -640,10 +714,9 @@
     [webservices saveFileData:dic controller:@"photo" method:@"store" filePath:imageData] ;
 }
 
-
-
-#pragma mark - Get the user current location
-//get the user location
+/**
+ *  Get User Current Location
+ */
 -(void)callGetLocation
 {
     locationManager = [[CLLocationManager alloc] init];
@@ -657,7 +730,8 @@
     
     [locationManager startUpdatingLocation];
 }
-#pragma mark - CLLocationManagerDelegate
+
+#pragma mark - CLLocationManager delegate Methods
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
@@ -669,7 +743,7 @@
     NSLog(@"didUpdateToLocation: %@", newLocation);
     CLLocation *currentLocation = newLocation;
     
-    // Reverse Geocoding
+    // Reverse Geocoding to get location
     NSLog(@"Resolving the Address");
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
@@ -691,12 +765,16 @@
 }
 
 #pragma mark - Add Custom Navigation Bar
+
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
     
     navnBar = [[NavigationBar alloc] init];
     [navnBar loadNav];
+    
+    // Add custom navigation back button to navigation bar
+    
     UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
@@ -714,7 +792,5 @@
 -(void)navBackButtonClick{
     [[self navigationController] popViewControllerAnimated:YES];
 }
-
-
 
 @end

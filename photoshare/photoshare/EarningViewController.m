@@ -1,10 +1,10 @@
-//
-//  EarningViewController.m
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// EarningViewController.m
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "EarningViewController.h"
 #import "PastPayementViewController.h"
@@ -27,26 +27,30 @@
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"EarningViewController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"EarningViewController";
-    }
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
-    dmc = [[DataMapperController alloc] init];
-    objManager = [ContentManager sharedManager];
+   
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"EarningViewController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"EarningViewController" owner:self options:nil];
+    }
+    dmc = [[DataMapperController alloc] init];
+    objManager = [ContentManager sharedManager];
     [self addCustomNavigationBar];
     
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
@@ -57,6 +61,10 @@
     [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
 }
 
+/**
+ *  Get Earning Details From Server
+ */
+
 -(void)getEarning
 {
     webservice.delegate = self;
@@ -66,6 +74,10 @@
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
    
 }
+
+/**
+ *  Get Income Details From Server
+ */
 -(void)getIncomeFromServer
 {
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
@@ -75,30 +87,33 @@
     [webservice call:dicData controller:@"referral" method:@"calculateincome"];
 }
 
+#pragma mark - WebService Delegate Methods
+
 -(void)webserviceCallback:(NSDictionary *)data
-{ 
+{
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
-    //get the userId
+   
    if(isGetEarning)
    {
+       // Get the earning details from server and set them in the view
+       
        if([data count] == 0 || exitCode == 0)
        {
            [SVProgressHUD dismissWithError:@"Failed To load Data"];
        }
        else
        {
-           
            NSString *totalEarnStr = [NSString stringWithFormat:@"%@",[outPutData valueForKey:@"total_earnings"]];
-           
            totalEarningLabel.text = [@"£" stringByAppendingString:totalEarnStr];
-           
        }
        isGetEarning=NO;
        [self getIncomeFromServer];
    }
     else if(isGetIcomeDetail)
     {
+        // Get the weekly income details from server and set them in the view
+        
         if([data count] == 0 || exitCode == 0)
         {
             [SVProgressHUD dismissWithError:@"Failed To load Data"];
@@ -106,52 +121,43 @@
         else
         {
             NSNumber *dict = [outPutData valueForKey:@"total_expected_income"];
-            
             objManager.weeklyearningStr = [NSString stringWithFormat:@"%@",dict];
-            
             [navnBar setTheTotalEarning:objManager.weeklyearningStr];
-            
             
             [SVProgressHUD dismissWithSuccess:@"Success"];
         }
         isGetIcomeDetail=NO;
-        
     }
-        
 }
 
+#pragma mark - UIButton Action Methods
+
 - (IBAction)viewPastPaymentsBtn:(id)sender {
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     PastPayementViewController *pastPay = [[PastPayementViewController alloc] init];
-    
     [self.navigationController pushViewController:pastPay animated:YES];
-   
 }
 
 - (IBAction)financeCalculatorBtn:(id)sender {
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     FinanceCalculatorViewController *financeCalci = [[FinanceCalculatorViewController alloc] init];
-    
     [self.navigationController pushViewController:financeCalci animated:YES];
 }
 
 - (IBAction)inviteMoreFriendsBtn:(id)sender {
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     ReferFriendViewController *referFriend = [[ReferFriendViewController alloc] init];
-    
     [self.navigationController pushViewController:referFriend animated:YES];
-    
 }
 
 - (IBAction)yourReferrelBtn:(id)sender {
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     MyReferralViewController *mtReffVC = [[MyReferralViewController alloc] init];
-    
     [self.navigationController pushViewController:mtReffVC animated:YES];
 }
 
-
 #pragma mark - Add Custom Navigation Bar
+
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -186,7 +192,9 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - Device Orientation
+
+#pragma mark - Device Orientation Methods
+
 -(void)deviceOrientDetect
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -197,7 +205,6 @@
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 
@@ -251,10 +258,14 @@
     }
    if(![objManager isiPad])
    {
-       //set UI for ios 6
+       // Sets UI for IOS 6
        [self setUIForIOS6];
    }
 }
+
+/**
+ *  For IOS6
+ */
 -(void)setUIForIOS6
 {
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)

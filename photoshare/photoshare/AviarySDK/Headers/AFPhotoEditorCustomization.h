@@ -1,10 +1,10 @@
-//
-//  AFOption.h
-//  AFOptions
-//
-//  Created by Michael Vitrano on 9/5/12.
-//  Copyright (c) 2012 Aviary. All rights reserved.
-//
+// 
+// AFOption.h
+// AFOptions
+// 
+// Created by Michael Vitrano on 9/5/12.
+// Copyright (c) 2012 Aviary. All rights reserved.
+// 
 
 /** @defgroup AFPhotoEditorControllerOptions AFPhotoEditorController Option Dictionary Keys */
 

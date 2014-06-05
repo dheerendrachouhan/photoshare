@@ -1,10 +1,10 @@
-//
-//  PhotoShareController.h
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// PhotoShareController.h
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
@@ -23,6 +23,7 @@
     BOOL fbFilter, twFilter, mailFilter, smsFilter;
     NavigationBar *navnBar;
     NSString *messageStrforMail;
+     NSString *toolkitlink;
 }
 
 @property (nonatomic, strong) UIImage *sharedImage;

@@ -1,7 +1,7 @@
 // AFSerialization.h
-//
+// 
 // Copyright (c) 2013 AFNetworking (http://afnetworking.com)
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -64,9 +64,9 @@
  */
 + (instancetype)serializer;
 
-///-----------------------------------------
-/// @name Configuring Response Serialization
-///-----------------------------------------
+// /-----------------------------------------
+// /@name Configuring Response Serialization
+// /-----------------------------------------
 
 /**
  The acceptable HTTP status codes for responses. When non-`nil`, responses with status codes not contained by the set will result in an error during validation.
@@ -218,6 +218,7 @@
  - `image/x-bmp`
  - `image/x-xbitmap`
  - `image/x-win-bitmap`
+ - `image/jpg`
  */
 @interface AFImageResponseSerializer : AFHTTPResponseSerializer
 

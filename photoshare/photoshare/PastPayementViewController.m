@@ -1,10 +1,10 @@
-//
-//  PastPayementViewController.m
-//  photoshare
-//
-//  Created by ignis3 on 23/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// PastPayementViewController.m
+// photoshare
+// 
+// Created by ignis3 on 23/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "PastPayementViewController.h"
 #import "JXBarChartView.h"
@@ -25,10 +25,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
-    dmc = [[DataMapperController alloc] init];
-    objManager = [ContentManager sharedManager];
+    
     return self;
 }
 
@@ -36,13 +34,20 @@
 {
     [super viewDidLoad];
     
+    // Custom initialization
+    
+    dmc = [[DataMapperController alloc] init];
+    objManager = [ContentManager sharedManager];
     if([objManager isiPad])
     {
+        // Set nib for Ipad device
+        
         [[NSBundle mainBundle] loadNibNamed:@"PastPayementViewController_iPad" owner:self options:nil];
     }
+    
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
     NSLog(@"Userid : %@",userID);
-    //Add Navigation bar
+    
     [self addCustomNavigationBar];
     textIndicators = [[NSMutableArray alloc] init];
     values = [[NSMutableArray alloc] init];
@@ -52,6 +57,8 @@
     NSDictionary *dictData = @{@"user_id":userID};
     [wc call:dictData controller:@"user" method:@"getearningsdetails"] ;
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
+    
+    // Set the scroll view frame according to the screen size
     if([[UIScreen mainScreen] bounds].size.height == 568)
     {
         scrollView.frame = CGRectMake(0, 105, 320, 458);
@@ -67,20 +74,20 @@
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
+#pragma mark - Webservice Delegate Methods
 -(void) webserviceCallback:(NSDictionary *)data
 {
-    [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
-    
-    int exitCode=[[data objectForKey:@"exit_code"] intValue];
-    //get the userId
-    if([data count] == 0 || exitCode == 0)
+    // Get user-id
+    if([[data objectForKey:@"exit_code"] intValue] == 0)
     {
         [SVProgressHUD dismissWithError:@"Failed To load Data"];
     }
     else
     {
+        [SVProgressHUD dismissWithSuccess:@"Data Loaded"];
         NSMutableArray *outPutData=[[data objectForKey:@"output_data"] valueForKey:@"payment_record"];
         
+        // Set Payement record
         for(NSDictionary *dict in outPutData)
         {
             NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
@@ -111,40 +118,38 @@
             if (theno > highestNumber) {
                 highestNumber = theno;
                 numberIndex = [values indexOfObject:theNumber];
+                NSLog(@"Highest index value : %d", numberIndex);
             }
         }
-        int maximumArrayValue = highestNumber;
     
-        CGRect frame;
-        int point = 0;
+        CGRect frame=CGRectMake(0, 0, 0, 0);
+        CGFloat point = 0.0f;
         int bHeight = 0;
         int bMaxWidth = 0;
-        //Initiating the frame of bar graph
+        
         if([[UIScreen mainScreen] bounds].size.height == 568)
         {
             frame = CGRectMake(0, -20, 320, 458);
-            point = 20;
+            point = 20.0f;
             bHeight = 26;
             bMaxWidth = 150;
         }
         else if([[UIScreen mainScreen] bounds].size.height == 480)
         {
             frame = CGRectMake(0, -20, 320, 360);
-            point = 20;
+            point = 20.0f;
             bHeight = 17;
             bMaxWidth = 150;
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             frame = CGRectMake(0, -10, 768, 800);
-            point = 40;
+            point = 40.0f;
             bHeight = 50;
             bMaxWidth = 520;
         }
-        
-        
-        JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:maximumArrayValue textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:bMaxWidth gradient:nil];
-        
+        // Sets the chart bar
+        JXBarChartView *barChartView = [[JXBarChartView alloc] initWithFrame:frame startPoint:CGPointMake(point, point) values:values maxValue:(float)highestNumber textIndicators:textIndicators textColor:[UIColor blackColor] barHeight:bHeight barMaxWidth:bMaxWidth gradient:nil];
         
         [scrollView addSubview:barChartView];
         [SVProgressHUD dismissWithSuccess:@"Loaded"];
@@ -152,6 +157,8 @@
    [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
     
 }
+
+#pragma mark - Add Custom Navigation Bar
 
 -(void)addCustomNavigationBar
 {
@@ -163,9 +170,48 @@
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
-    UILabel *navTitle = [navnBar navBarTitleLabel:@"Past Earnings"];
     
+    CGFloat titleY;
+    CGFloat subtitleY;
+    CGFloat subtitleWidth;
+    CGFloat subFont;
+    
+    // Sets attributes according to he device selected
+    
+    if([objManager isiPad])
+    {
+        titleY=20;
+        subtitleY=30;
+        subFont=18;
+        subtitleWidth=100;
+    }
+    else
+    {
+        titleY=8;
+        subtitleY=16;
+        subFont=9;
+        subtitleWidth=80;
+    }
+    
+    // Sets custom titles on the navbar
+    
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Past Earnings"];
+    navTitle.backgroundColor=[UIColor clearColor];
+    CGRect frame=navTitle.frame;
+    CGRect backFrame=button.frame;
+    backFrame.origin.y=backFrame.origin.y-titleY;
+    button.frame=backFrame;
+    frame.origin.y=frame.origin.y-titleY;
+    navTitle.frame=frame;
+    UILabel *navsubTitle = [navnBar navBarTitleLabel:@"(Paid to you every Friday 10 business days in arrears)"];
+    navsubTitle.backgroundColor=[UIColor clearColor];
+    frame.origin.y=frame.origin.y+subtitleY;
+    frame.origin.x=frame.origin.x-(subtitleWidth/2);
+    frame.size.width=frame.size.width+subtitleWidth;
+    navsubTitle.frame=frame;
+    navsubTitle.font=[UIFont systemFontOfSize:subFont];
     [navnBar addSubview:navTitle];
+    [navnBar addSubview:navsubTitle];
     [navnBar addSubview:button];
     
     [[self view] addSubview:navnBar];
@@ -176,7 +222,19 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
-#pragma mark - Device Orientation
+/**
+ *  For IOS6
+ */
+-(void)setUIForIOS6
+{
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+50);
+    }
+}
+
+#pragma mark - Device Orientation Methods
+
 -(void)deviceOrientDetect
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -237,18 +295,10 @@
         [self setUIForIOS6];
     }
 }
--(void)setUIForIOS6
-{
-    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
-    {
-        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+50);
-    }
-}
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 

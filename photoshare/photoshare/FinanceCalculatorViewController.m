@@ -1,10 +1,10 @@
-//
-//  FinanceCalculatorViewController.m
-//  photoshare
-//
-//  Created by ignis3 on 25/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// FinanceCalculatorViewController.m
+// photoshare
+// 
+// Created by ignis3 on 25/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "FinanceCalculatorViewController.h"
 #import "ContentManager.h"
@@ -31,7 +31,7 @@
     if (self) {
         // Custom initialization
     }
-    objManager = [ContentManager sharedManager];
+    
     return self;
 }
 
@@ -39,6 +39,9 @@
 {
     [super viewDidLoad];
    
+    // Detect device and load nib
+    
+    objManager = [ContentManager sharedManager];
     
     cutomView.layer.borderWidth = 2;
     cutomView.layer.borderColor = [UIColor blackColor].CGColor;
@@ -46,6 +49,7 @@
     rowSecondArr = [[NSMutableArray alloc] init];
     rowThirdArr = [[NSMutableArray alloc] init];
     first=second=third = 0;
+    
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
         if ([[UIScreen mainScreen] bounds].size.height == 568)
@@ -65,6 +69,8 @@
 
     }
     
+    // Initial setup
+    
     [segmentControl setEnabled:NO forSegmentAtIndex:0];
     [segmentControl setEnabled:NO forSegmentAtIndex:2];
     
@@ -75,7 +81,6 @@
     border3.layer.borderColor = [UIColor colorWithRed:0.039 green:0.451 blue:1 alpha:1].CGColor;
     border3.layer.borderWidth = 2.0f;
     
-    //initial set the gems value zero
     firstGem.text = @"00";
     secondGem.text = @"00";
     thirdGem.text = @"00";
@@ -87,6 +92,8 @@
     }
     [self calculateUserGem];
     
+    // Initializes Gems in Picker view to contents
+    
     for(int i=0;i<1000;i++)
     {
         [rowFirstArr addObject:[NSString stringWithFormat:@"%d",i]];
@@ -97,7 +104,6 @@
     myPickerView.dataSource = self;
     myPickerView.layer.borderColor = [UIColor blackColor].CGColor;
     
-    //Add Custom Navigation bar
     [self addCustomNavigationBar];
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -108,7 +114,9 @@
     
 }
 
-//Segment Controll
+/**
+ *  Segment control index change
+ */
 -(IBAction)segmentedControlIndexChanged {
     if(segmentControl.selectedSegmentIndex==0)
     {
@@ -127,9 +135,25 @@
     }
 }
 
-//Function to calculate the gem
+
+- (IBAction)hideViewCustom:(id)sender {
+    [self.cutomView setHidden:NO];
+}
+
+- (IBAction)hidetwoView:(id)sender {
+    [self.cutomView setHidden:NO];
+}
+- (IBAction)hidethreeView:(id)sender {
+    [self.cutomView setHidden:NO];
+}
+
+/**
+ *  Calculates the gem
+ */
+
 -(void)calculateUserGem
 {
+    // General gem calculation
     
     int totalGemCalculated = (first*1) + (first*second) +(first*second*third);
     
@@ -151,6 +175,8 @@
             
         }
     }
+    
+    // Converts Total amount in prefered visual format and set them in the label
     
     NSString *converted = [NSString stringWithFormat:@"%d",totalGemCalculated];
     NSLog(@"count String %d",converted.length);
@@ -177,12 +203,15 @@
     
     amountCalculated.text =[setCurrenyStr stringByAppendingString:countedStr];
 }
+
+#pragma mark - UIPickerView Delegate and DataSource Methods
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 3;
 }
 
-// returns the # of rows in each component..
+
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (component == 0)
@@ -199,7 +228,7 @@
     }
 }
 
-#pragma mark - UIPickerView Delegate
+
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
@@ -233,10 +262,8 @@
     }
 }
 
-//If the user chooses from the pickerview, it calls this function;
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    //Let's print in the console what the user had chosen;
     if(component == 0)
     {
         first  = [[rowFirstArr objectAtIndex:row] integerValue];
@@ -268,7 +295,6 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 58)];
         label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:25];
     }
-    // your frame, so picker gets "colored"
     label.backgroundColor = [UIColor lightGrayColor];
     label.textColor = [UIColor blackColor];
     
@@ -278,24 +304,16 @@
     return label;
 }
 
-- (IBAction)hideViewCustom:(id)sender {
-    [self.cutomView setHidden:NO];
-}
+#pragma mark - Add Custom Navigation Bar
 
-- (IBAction)hidetwoView:(id)sender {
-    [self.cutomView setHidden:NO];
-}
-- (IBAction)hidethreeView:(id)sender {
-    [self.cutomView setHidden:NO];
-}
-
-#pragma  mark - Add Custom Navigation bar
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
     
     navnBar = [[NavigationBar alloc] init];
     [navnBar loadNav];
+    
+    // Set custom navigation buttons for navgation bar
     
     UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
@@ -315,8 +333,8 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+#pragma mark - Device Orientation Methods
 
-#pragma mark - Device Orientation
 -(void)deviceOrientationDetect
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -327,7 +345,6 @@
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 
@@ -384,6 +401,10 @@
     }
     [self setUIForIOS6];
 }
+
+/**
+ *  For IOS6
+ */
 -(void)setUIForIOS6
 {
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
@@ -395,7 +416,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

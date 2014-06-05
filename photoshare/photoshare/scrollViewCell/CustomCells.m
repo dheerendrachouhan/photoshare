@@ -1,10 +1,10 @@
-//
-//  CustomCells.m
-//  wxe
-//
-//  Created by ignis3 on 25/12/13.
-//  Copyright (c) 2013 ignis3. All rights reserved.
-//
+// 
+// CustomCells.m
+// wxe
+// 
+// Created by ignis3 on 25/12/13.
+// Copyright (c) 2013 ignis3. All rights reserved.
+// 
 
 #import "CustomCells.h"
 
@@ -15,8 +15,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        
+    /**
+     *  Customize collection cells according to device
+     */
         if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             _mylabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 250.0f, 80.0f)];

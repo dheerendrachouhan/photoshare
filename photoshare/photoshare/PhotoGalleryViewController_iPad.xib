@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" variant="6xAndEarlier" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoGalleryViewController">
@@ -10,6 +10,7 @@
                 <outlet property="addPhotoBtn" destination="yFA-Yh-Jkb" id="sXn-da-lHc"/>
                 <outlet property="collectionview" destination="dPx-yL-VQe" id="soX-qs-xpr"/>
                 <outlet property="deletePhotoBtn" destination="wQY-LT-Ls5" id="2DK-BG-lvl"/>
+                <outlet property="emptyMessageLbl" destination="CMw-cZ-Adt" id="TVZ-1I-j9t"/>
                 <outlet property="sharePhotoBtn" destination="z13-S6-vNj" id="gIA-oD-Uep"/>
                 <outlet property="view" destination="1" id="O2q-Xe-Rfv"/>
             </connections>
@@ -78,6 +79,13 @@
                         <outlet property="delegate" destination="-1" id="moo-9g-7HQ"/>
                     </connections>
                 </collectionView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click search for pictures using key words via Title &amp; Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CMw-cZ-Adt">
+                    <rect key="frame" x="48" y="205" width="673" height="160"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
         </view>

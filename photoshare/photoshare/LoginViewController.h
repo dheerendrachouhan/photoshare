@@ -1,10 +1,10 @@
-//
-//  LoginViewController.h
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// LoginViewController.h
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
@@ -59,6 +59,8 @@
     CommunityViewController *com;
     AccountViewController *acc;
     CameraViewController *cameravc;
+    
+    
     NSMutableArray *sharingIdArray;
     NSMutableArray *collectionArrayWithSharing;
     int countSharing;

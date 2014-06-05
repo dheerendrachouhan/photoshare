@@ -1,10 +1,10 @@
-//
-//  EditProfileViewController.m
-//  photoshare
-//
-//  Created by Dhiru on 28/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// EditProfileViewController.m
+// photoshare
+// 
+// Created by Dhiru on 28/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "EditProfileViewController.h"
 #import "WebserviceController.h"
@@ -23,24 +23,26 @@
         // Custom initialization
     }
     
-    objManager = [ContentManager sharedManager];
-    
     return self;
 }
 
 - (void)viewDidLoad
 {
+    objManager = [ContentManager sharedManager];
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
   
     wc = [[WebserviceController alloc] init];
     wc.delegate = self;
+    
+    // Set Delegate of UITextField
     
     [name setDelegate:self] ;
     [email setDelegate:self] ;
     
     dmc  = [[DataMapperController alloc] init] ;
     [self getDetails] ;
+    
+    // Tap gestures added to view
     
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapGesture];
@@ -58,6 +60,10 @@
     [self.view endEditing:YES];
 }
 
+
+/**
+ *  Get User Details From Server
+ */
 -(void) getDetails
 {
     
@@ -69,6 +75,9 @@
 
 }
 
+/**
+ *  Save user details button click
+ */
 -(IBAction)saveProfile:(id)sender
 {
     NSString *nameval = name.text ;
@@ -82,18 +91,32 @@
     [wc call:dic controller:@"user" method:@"change"];
     
 }
+/**
+ *  Cancel button Click
+ */
+
+- (IBAction)userCancelButton:(id)sender {
+    UITextField *field = (UITextField *) [self.view viewWithTag:([sender tag] -10)];
+    field.text = @"";
+}
+
+#pragma mark - WebService Delegate Methods
 
 -(void)webserviceCallback:(NSDictionary *)data
 {
-   if([calltype isEqualToString:@"getdetails"] )
-   {
-    name.text = [[[data valueForKey:@"output_data"] objectAtIndex:0] valueForKey:@"user_realname"] ;
-    email.text = [[[data valueForKey:@"output_data"] objectAtIndex:0] valueForKey:@"user_emailaddress"];
-       
-   }
+    // Get Details Response
+    if([calltype isEqualToString:@"getdetails"] )
+    {
+        name.text = [[[data valueForKey:@"output_data"] objectAtIndex:0] valueForKey:@"user_realname"] ;
+        email.text = [[[data valueForKey:@"output_data"] objectAtIndex:0] valueForKey:@"user_emailaddress"];
+    }
+    
+    // Save Details Response
+    
     if([calltype isEqualToString:@"saveprofile"])
     {
-        //update userDetails in NSUserDefaults
+        // Update user details in NSUserDefaults
+        
         NSDictionary *userDetails=[[dmc getUserDetails] mutableCopy];
         [userDetails setValue:name.text forKey:@"user_realname"];
         [userDetails setValue:email.text forKey:@"user_emailaddress"];
@@ -103,47 +126,37 @@
         [alert show];
     
     }
+    
     if([[UIScreen mainScreen] bounds].size.height == 480.0f)
     {
         scrollView.frame = CGRectMake(0, 88, 320, 297);
     }
 }
 
-- (IBAction)userCancelButton:(id)sender { 
-    UITextField *field = (UITextField *) [self.view viewWithTag:([sender tag] -10)];
-    field.text = @"";
-}
 
-//Textfields functions
+#pragma mark - UITextField Delegate Method
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
 }
-#pragma mark - Add Custom Navigation bar
--(void)addCustomNavigationBar
+
+
+
+/**
+ *  For IOS6
+ */
+-(void)setUIForIOS6
 {
-    self.navigationController.navigationBarHidden = TRUE;
-    
-    navnBar = [[NavigationBar alloc] init];
-    [navnBar loadNav];
-    
-    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
-    [button addTarget:self
-               action:@selector(navBackButtonClick)
-     forControlEvents:UIControlEventTouchDown];
-    
-    [navnBar addSubview:button];
-    
-    [[self view] addSubview:navnBar];
-    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+50);
+    }
 }
 
--(void)navBackButtonClick{
-    [[self navigationController] popViewControllerAnimated:YES];
-}
+#pragma mark - Device Orientation Methods
 
-#pragma mark - Device Orientation
 -(void)detectDeviceOrientation
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -202,17 +215,9 @@
         [self setUIForIOS6];
     }
 }
--(void)setUIForIOS6
-{
-    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
-    {
-        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+50);
-    }
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 
@@ -224,7 +229,32 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Add Custom Navigation Bar
+
+-(void)addCustomNavigationBar
+{
+    self.navigationController.navigationBarHidden = TRUE;
+    
+    navnBar = [[NavigationBar alloc] init];
+    [navnBar loadNav];
+    
+    // Set custom back button on navigation bar
+    
+    UIButton *button = [navnBar navBarLeftButton:@"< Back"];
+    [button addTarget:self
+               action:@selector(navBackButtonClick)
+     forControlEvents:UIControlEventTouchDown];
+    
+    [navnBar addSubview:button];
+    
+    [[self view] addSubview:navnBar];
+    [navnBar setTheTotalEarning:objManager.weeklyearningStr];
+}
+
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 @end

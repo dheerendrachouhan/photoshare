@@ -1,9 +1,9 @@
-//
-//  AFPhotoEditorController.h
-//  AviarySDK
-//
-//  Copyright (c) 2012 Aviary, Inc. All rights reserved.
-//
+// 
+// AFPhotoEditorController.h
+// AviarySDK
+// 
+// Copyright (c) 2012 Aviary, Inc. All rights reserved.
+// 
 
 #import "AFPhotoEditorControllerOptions.h"
 #import "AFPhotoEditorSession.h"

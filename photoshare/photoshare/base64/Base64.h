@@ -1,9 +1,9 @@
-//
-//  Base64.h
-//  CryptTest
-//
-//  Created by Kiichi Takeuchi on 4/20/10.
-//  Copyright 2010 ObjectGraph LLC. All rights reserved.
+// 
+// Base64.h
+// CryptTest
+// 
+// Created by Kiichi Takeuchi on 4/20/10.
+// Copyright 2010 ObjectGraph LLC. All rights reserved.
 // 
 // Original Source Code is donated by Cyrus
 // Public Domain License

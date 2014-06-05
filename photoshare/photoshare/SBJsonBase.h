@@ -77,10 +77,10 @@ enum {
  */
  @property(copy,readonly) NSArray* errorTrace;
 
-/// @internal for use in subclasses to add errors to the stack trace
+// /@internal for use in subclasses to add errors to the stack trace
 - (void)addErrorWithCode:(NSUInteger)code description:(NSString*)str;
 
-/// @internal for use in subclasess to clear the error before a new parsing attempt
+// /@internal for use in subclasess to clear the error before a new parsing attempt
 - (void)clearErrorTrace;
 
 @end

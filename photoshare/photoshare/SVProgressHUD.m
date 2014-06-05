@@ -1,11 +1,11 @@
-//
-//  SVProgressHUD.m
-//
-//  Created by Sam Vermette on 27.03.11.
-//  Copyright 2011 Sam Vermette. All rights reserved.
-//
-//  https://github.com/samvermette/SVProgressHUD
-//
+// 
+// SVProgressHUD.m
+// 
+// Created by Sam Vermette on 27.03.11.
+// Copyright 2011 Sam Vermette. All rights reserved.
+// 
+// https://github.com/samvermette/SVProgressHUD
+// 
 
 #import "SVProgressHUD.h" 
 #import <QuartzCore/QuartzCore.h>
@@ -455,7 +455,7 @@ static SVProgressHUD *sharedView = nil;
                              [sharedView release], sharedView = nil;
                              
                              // uncomment to make sure UIWindow is gone from app.windows
-                             //NSLog(@"%@", [UIApplication sharedApplication].windows);
+                             // NSLog(@"%@", [UIApplication sharedApplication].windows);
                          }
                      }];
 }

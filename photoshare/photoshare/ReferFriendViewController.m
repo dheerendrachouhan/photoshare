@@ -1,10 +1,10 @@
-//
-//  ReferFriendViewController.m
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// ReferFriendViewController.m
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "ReferFriendViewController.h"
 #import "ReferralStageFourVC.h"
@@ -37,20 +37,10 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"ReferFriendViewController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"ReferFriendViewController";
-    }
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
-    
-    objManager = [ContentManager sharedManager];
     
     return self;
 }
@@ -58,16 +48,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"ReferFriendViewController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"ReferFriendViewController" owner:self options:nil];
+    }
+    
+    objManager = [ContentManager sharedManager];
     if([UIScreen mainScreen].bounds.size.height==568)
     {
         mypicker.frame=CGRectMake(mypicker.frame.origin.x, mypicker.frame.origin.y+20, mypicker.frame.size.width, mypicker.frame.size.height);
     }
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        [[NSBundle mainBundle] loadNibNamed:@"ReferFriendViewController_iPad" owner:self options:nil];
-    }
+    
+    
+    
+    titleTextView.text=@"Select Invite Videos to refer friends";
+    subTitle.text=@"(Check out the referral video tips too)";
+    
+    
     [self addCustomNavigationBar];
-    //allocate & initializing Array
+    
+    // Allocate & initializing Array
     toolkitIDArr = [[NSMutableArray alloc] init];
     toolkitTitleArr = [[NSMutableArray alloc] init];
     toolkitVimeoIDArr = [[NSMutableArray alloc] init];
@@ -75,33 +82,36 @@
     toolkitreferralsArr = [[NSMutableArray alloc] init];
     toolKitNameArray = [[NSMutableArray alloc] init];
     toolKitVisiblityArr=[[NSMutableArray alloc] init];
-    //
+    
     segmentControllerIndexStr = @"";
     
     userID = [objManager getData:@"user_id"];
-    // Do any additional setup after loading the view from its nib.
-    //Navigation Back Title
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
     self.navigationItem.backBarButtonItem = backButton;
     
+    
+    // Get ToolKit details
     WebserviceController *wb = [[WebserviceController alloc] init];
     wb.delegate = self;
     NSDictionary *dictData = @{@"user_id":userID};
     [wb call:dictData controller:@"toolkit" method:@"getall"] ;
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
     
-    //checking device height
+    // Checking device
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
     {
+        // Customizing frame of webview
+        
         if([[UIScreen mainScreen] bounds].size.height == 480)
         {
-            //custumizing frame of webview for 3.5 inch
+            // FOR 3.5 INCH
             CGRect frame = webViewReferral.frame;
             frame.origin.y = 55;
             frame.size.height = 180;
             webViewReferral.frame = frame;
             
-            //cutomizing frame of uipicker
+            // UIPicker
             CGRect framePick = mypicker.frame;
             framePick.origin.y = 210;
             mypicker.frame = framePick;
@@ -115,13 +125,20 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    activeIndex=0;
     [super viewWillAppear:animated];
+    
+    activeIndex=0;
     [self detectDeviceOrientation];
+    
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
+
+#pragma mark - WebService Delegate Method
+
 -(void) webserviceCallback:(NSDictionary *)data
 {
+    // Check if response was recieved
+    
     int exitCode = [[data valueForKey:@"exit_code"] intValue];
     
     if(exitCode == 0)
@@ -136,35 +153,40 @@
     {
         [SVProgressHUD dismissWithSuccess:@"Success"];
             NSMutableArray *outPutData=[data objectForKey:@"output_data"];
-        
+        // Set The Toolkit Details
         toolkitIDArr = [outPutData valueForKey:@"toolkit_id"];
-        toolkitTitleArr = [outPutData valueForKey:@"toolkit_title"];
-        toolkitVimeoIDArr = [outPutData valueForKey:@"toolkit_vimeo_id"];
-        toolkitEarningArr = [outPutData valueForKey:@"toolkit_earnings"];
-        toolkitreferralsArr = [outPutData valueForKey:@"toolkit_referrals"];
+        toolkitTitleArr = [outPutData valueForKey:@"title"];
+        toolkitVimeoIDArr = [outPutData valueForKey:@"vimeo_id"];
+        toolkitEarningArr = [outPutData valueForKey:@"earnings"];
+        toolkitreferralsArr = [outPutData valueForKey:@"referrals"];
         toolKitVisiblityArr=[outPutData valueForKey:@"visible"];
         [self loadData];
         [mypicker reloadAllComponents];
     }
 }
 
+/**
+ *  Set The Data on WebView
+ */
+
 -(void)loadData
 {
+    // Load video from vimeo by default
+    
     webViewReferral.delegate = self;
     [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:0]]]]];
     toolKitReferralStr = [NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:0],[objManager getData:@"user_username"]];
     mypicker.layer.borderWidth = 1.0;
     mypicker.layer.borderColor = [UIColor blackColor].CGColor;
-    
 }
+
+#pragma mark - UIPickerView Delegate and DataSource Methods
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-
     return 1;
 }
 
-// returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (component ==  0)
@@ -199,16 +221,15 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     NSLog(@"Video name: %@",[toolkitTitleArr objectAtIndex:row]);
-    NSLog(@"%d",row);
+    NSLog(@"%ld",(long)row);
     @try {
-        //NSNumber  *visible=[toolKitVisiblityArr objectAtIndex:row];
+      // Add video referral in message imported from vimeo
+      
       if(activeIndex!=row)
       {
-          
           activeIndex=row;
           [self.webViewReferral loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@",[toolkitVimeoIDArr objectAtIndex:row]]]]];
           toolKitReferralStr = [NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/%@/%@",[toolkitIDArr objectAtIndex:row],[objManager getData:@"user_username"]];
-          
       }
     }
     @catch (NSException *exception) {
@@ -235,14 +256,12 @@
     label.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor whiteColor];
     
-    
     label.textAlignment = NSTextAlignmentCenter;
     label.text = [NSString stringWithFormat:@"%@",[toolkitTitleArr objectAtIndex:row]];
     
     return label;
 }
 
-#pragma mark - UIPickerView Delegate
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
@@ -259,16 +278,19 @@
     }
 }
 
-
-
-//push to referral stage 4 view controller
+/**
+ *  Open ReferralStageFourVC Controller
+ */
 -(void)chooseView
 {
     ReferralStageFourVC *rf4 = [[ReferralStageFourVC alloc] init];
     
     rf4.toolkitLink = toolKitReferralStr;
     [self.navigationController pushViewController:rf4 animated:YES];
+
 }
+
+#pragma mark - Add Custom Navigation Bar
 
 -(void)addCustomNavigationBar
 {
@@ -277,12 +299,15 @@
     navnBar = [[NavigationBar alloc] init];
     [navnBar loadNav];
     
+    // Add custom buttons in navigation bar
+    
+    // Button for back
     UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     UILabel *navTitle = [navnBar navBarTitleLabel:@"Refer Friends"];
-    //Button for Next
+    // Button for next
     UIButton *buttonLeft = [navnBar navBarRightButton:@"Next >"];
     [buttonLeft addTarget:self action:@selector(chooseView) forControlEvents:UIControlEventTouchDown];
     
@@ -300,7 +325,9 @@
     
     [[self navigationController] popViewControllerAnimated:YES];
 }
-#pragma mark - Device Orientation
+
+#pragma mark - Device Orientation Methods
+
 -(void)detectDeviceOrientation
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -366,13 +393,6 @@
         [self setUIForIOS6];
     }
 }
--(void)setUIForIOS6
-{
-    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
-    {
-        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+90);
-    }
-}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -382,6 +402,15 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self orient:toInterfaceOrientation];
+}
+
+-(void)setUIForIOS6
+{
+    // Set for IOS6
+    if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
+    {
+        scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+90);
+    }
 }
 
 - (void)didReceiveMemoryWarning

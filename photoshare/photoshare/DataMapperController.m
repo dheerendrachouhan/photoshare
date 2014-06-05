@@ -1,10 +1,11 @@
-//
-//  DataMapperController.m
-//  photoshare
-//
-//  Created by Dhiru on 29/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// DataMapperController.m
+// photoshare
+// 
+// Created by Dhiru on 29/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
+// 
 
 #import "DataMapperController.h"
 #import "ContentManager.h"
@@ -13,6 +14,9 @@
 
 @end
 
+/**
+ *  This class intefaces with ContentManager to store and retrieve form NSuserDefauts
+ */
 @implementation DataMapperController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -27,7 +31,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
    
 }
 -(id)init
@@ -35,6 +38,10 @@
     objManager=[ContentManager sharedManager];
     return self;
 }
+
+/**
+ *  Setter methods
+ */
 
 -(void) setUserId:(NSString *)userid
 {
@@ -64,6 +71,15 @@
 {
     [objManager storeData:dict :@"user_loginFields"];
 }
+-(void) sethomeIndex
+{
+    NSString *str= @"TRUE";
+    [objManager storeData:str :@"setHomeIndex"];
+}
+
+/**
+ *  Getter Methods
+ */
 
 -(NSString *) getUserId
 {
@@ -94,55 +110,66 @@
     NSDictionary *dictionary = [objManager getData:@"user_loginFields"];
     return dictionary;
 }
-
-
--(void) sethomeIndex
-{
-    NSString *str= @"TRUE";
-    [objManager storeData:str :@"setHomeIndex"];
-}
 -(BOOL) gethomeIndex
 {
     NSString *str = [objManager getData:@"setHomeIndex"];
     return (BOOL)str;
 }
+/**
+ *  Getters
+ */
+
+
 -(void) resetHomeIndex
 {
     NSString *str= @"FALSE";
     [objManager storeData:str :@"setHomeIndex"];
 }
-//store the collection data list
+
+/**
+ *  Stores collection data list
+ */
+
 -(void)setCollectionDataList :(NSMutableArray *)collectionArray
 {
     [objManager storeData:collectionArray :@"collection_data_list"];
 }
+/**
+ *  Gets collection data list
+ */
 -(NSMutableArray *)getCollectionDataList
 {
     return [[objManager getData:@"collection_data_list"] mutableCopy];
 }
 
 
-//Remove all Data From cache when user press Logout Button
-//Delete the 123FridayImages folder from the document directory when user press Logout button
+/**
+ *  Clears NSUserDefaults using ContentManager
+ *  and deletes 123Friday folder from the device
+ */
+
 -(void)removeAllData
 {
     [objManager storeData:@"NO" :@"login"];
        
-    //Get the document directory
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectoryPath = [paths objectAtIndex:0];
-    // Delete the file using NSFileManager
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if([fileManager removeItemAtPath:[documentsDirectoryPath stringByAppendingPathComponent:@"/123FridayImages"] error:nil])
     {
-        NSLog(@"123FridayImagesClearFrom Cache");
+        NSLog(@"123FridayImages Cleared From Cache");
     }
     
     NSString *rememberMe=[self getRemeberMe];
     NSDictionary *remeberFeild=[self getRememberFields];
-    //remove all of the data from nsuser default
+    
+    // Removes all data from NSUserDefaults
+    
     NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+    
+    // Sets remember me in NSUserDefaults
     
     [self setRememberMe:rememberMe];
     [self setRememberFields:remeberFeild];
@@ -151,7 +178,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

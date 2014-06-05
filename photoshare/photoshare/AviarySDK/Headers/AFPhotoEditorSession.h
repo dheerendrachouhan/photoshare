@@ -1,10 +1,10 @@
-//
-//  AFPhotoEditorSession.h
-//  AviarySDK
-//
-//  Created by Cameron Spickert on 3/6/12.
-//  Copyright (c) 2012 Aviary, Inc. All rights reserved.
-//
+// 
+// AFPhotoEditorSession.h
+// AviarySDK
+// 
+// Created by Cameron Spickert on 3/6/12.
+// Copyright (c) 2012 Aviary, Inc. All rights reserved.
+// 
 
 @class AFPhotoEditorContext;
 

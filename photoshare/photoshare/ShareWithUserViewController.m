@@ -1,10 +1,10 @@
-//
-//  ShareWithUserViewController.m
-//  photoshare
-//
-//  Created by ignis2 on 10/02/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// ShareWithUserViewController.m
+// photoshare
+// 
+// Created by ignis2 on 10/02/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "ShareWithUserViewController.h"
 #import "NavigationBar.h"
@@ -22,15 +22,6 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"ShareWithUserViewController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"ShareWithUserViewController";
-    }
-
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -42,21 +33,24 @@
 {
     [super viewDidLoad];
     
+    // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"ShareWithUserViewController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"ShareWithUserViewController" owner:self options:nil];
+    }
+    
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
     
      userid=[manager getData:@"user_id"];
     [self addCustomNavigationBar];
     [self setUIForIOS6];
-    //set the disign of the button , View and Label
-    /*UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
-    float tfBackViewBorderWidth=2;
-    float tfBackViewCornerRadius=5;
     
-    shareSearchView.layer.borderWidth=tfBackViewBorderWidth;
-    shareSearchView.layer.cornerRadius=tfBackViewCornerRadius;
-   shareSearchView.layer.borderColor=tfBackViewBorderColor.CGColor;
-    */
     sharingUserListCollView.layer.borderColor=[UIColor darkGrayColor].CGColor;
     sharingUserListCollView.layer.borderWidth=1;
     
@@ -66,20 +60,32 @@
     saveBtn.layer.cornerRadius=btnCornerRadius;
     saveBtn.layer.borderWidth=btnBorderWidth;
     saveBtn.layer.borderColor=btnBorderColor.CGColor;
-    //initialize the search view and button
     
-    searchView=[[UIView alloc] init];
-    searchView.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    searchView.layer.borderWidth=1.0;
+   
+    // User Search Table
+    if(searchViewTable == nil)
+    {
+        searchViewTable = [[UITableView alloc] initWithFrame:CGRectMake(shareSearchView.frame.origin.x-5, shareSearchView.frame.origin.y+shareSearchView.frame.size.height, shareSearchView.frame.size.width, 180.0f) style:UITableViewStylePlain];
+        
+    }
+    searchViewTable.delegate = self;
+    searchViewTable.dataSource = self;
+    searchViewTable.layer.borderColor = [UIColor grayColor].CGColor;
+    searchViewTable.layer.borderWidth = 1.0f;
+    
+    searchViewTable.autoresizingMask= UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+    [scrollView addSubview:searchViewTable];
+    [searchViewTable setHidden:TRUE];
+    [searchViewTable reloadData];
     
     searchUserListResult=[[NSMutableArray alloc] init];
     searchUserIdResult=[[NSMutableArray alloc] init];
+    searchUserRealNameResult = [[NSMutableArray alloc] init];
     
     sharingUserNameArray=[[NSMutableArray alloc] init];
     sharingUserIdArray=[[NSMutableArray alloc] init];
-    // Do any additional setup after loading the view from its nib.
     
-    //collection view
+    // Register Cell for collectionView
     [sharingUserListCollView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CVCell"];
     NSLog(@"Is edit %d",self.isEditFolder);
     
@@ -87,20 +93,19 @@
     saveBtn.hidden=NO;
     sharingUserListCollView.userInteractionEnabled=YES;
     
-        //check the type of folder mode either "New Folder" or "Edit Folder"
+        // Check for the Edit Folder option
         if(self.isEditFolder)
         {
+            // If the shared folder
             if(self.collectionOwnerId.integerValue!=userid.integerValue)
             {
                 shareSearchView.hidden=YES;
                 saveBtn.hidden=YES;
                 sharingUserListCollView.userInteractionEnabled=NO;
             }
-            
-            
         }
    
-    //check the type of sharing permission "Write Permission" or "Read Permission"
+    // Check the type of sharing pemission "Write Permission" or "Read Permission"
     if(self.isWriteUser)
     {
         [self getWriteSharingUserList];
@@ -110,7 +115,8 @@
         [self getReadSharingUserList];
     }
     
-    //tap getsure on view for dismiss the keyboard
+    // Add TapGesture on View For Dismiss KeyBoard
+    
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
@@ -120,10 +126,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    //set the contentsize
+    
     [self checkOrientation];
+    
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
-    //contant manager Object
     manager = [ContentManager sharedManager];
 }
 
@@ -132,6 +138,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/**
+ * For IOS6
+ */
 -(void)setUIForIOS6
 {
     
@@ -140,32 +150,37 @@
         [[searchBarForUserSearch.subviews objectAtIndex:0] removeFromSuperview];
         scrollView.frame=CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height+60);
     }
-    
-    
-}
-#pragma mark - End View Editing
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
-    
-    [self.view endEditing:YES];
-    //[searchView removeFromSuperview];
 }
 
-#pragma mark - Search Bar Delegate Method
-//search bar Delegate Method
+/**
+ *  Handle Tap Gesture
+ */
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+{
+    [self.view endEditing:YES];
+}
+
+
+#pragma mark - UISearchBar Delegate Methods
+
+
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     NSString *str=searchBar.text;
+    // Check String length is greater than two
     if(str.length>2)
     {
         webservices.delegate=self;
         isSearchUserList=YES;
+        
+        // Search the user by search text. Call webservices
         NSDictionary *dicData=@{@"user_id":userid,@"target_username":str,@"target_user_emailaddress":@""};
         [webservices call:dicData controller:@"user" method:@"search"];
     }
     else
     {
-        [searchView removeFromSuperview];
+        // Hide the Search Table
+        [searchViewTable setHidden:TRUE];
     }
 }
 
@@ -175,10 +190,12 @@
 }
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     if ([searchBar.text isEqualToString:@""]) {
-        [searchView removeFromSuperview];
+        [searchViewTable setHidden:TRUE];
     }
 }
-#pragma mark - Device Orientation
+
+#pragma mark - Device Orientation Methods
+
 -(void)checkOrientation
 {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -187,7 +204,6 @@
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         if([[UIScreen mainScreen] bounds].size.height == 480.0f)
         {
-
             scrollView.contentSize = CGSizeMake(self.view.frame.size.width,300);
             scrollView.scrollEnabled=NO;
             
@@ -203,7 +219,6 @@
         {
             scrollView.contentSize = CGSizeMake(self.view.frame.size.width,500);
             scrollView.scrollEnabled=NO;
-           
         }
     }
     else {
@@ -227,7 +242,6 @@
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 
@@ -236,7 +250,9 @@
        [self checkOrientation];
 }
 
-#pragma mark - Set the data in Array for UICollectionView
+/**
+ *  Get Write Permission users List from NSUserDefaults
+ */
 -(void)getWriteSharingUserList
 {
     NSArray *writeuseridarray=[[manager getData:@"writeUserId"] componentsSeparatedByString:@","];
@@ -247,7 +263,7 @@
             if(![[writeuseridarray objectAtIndex:i] isEqualToString:@"0"])
             {
                 NSLog(@"Collection user details %@",self.collectionUserDetails);
-            NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[writeuseridarray objectAtIndex:i]];
+                NSDictionary *userDetail=[self.collectionUserDetails objectForKey:[writeuseridarray objectAtIndex:i]];
                 if(userDetail==nil)
                 {
                     userDetail=[[manager getData:@"temp_user_details"] objectForKey:[writeuseridarray objectAtIndex:i]];
@@ -258,6 +274,10 @@
         }
     }
 }
+
+/**
+ *  Get Read Permission users List from NSUser defaults
+ */
 -(void)getReadSharingUserList
 {
     NSArray *readuseridarray=[[manager getData:@"readUserId"] componentsSeparatedByString:@","];
@@ -276,31 +296,25 @@
                 [sharingUserIdArray addObject:[userDetail objectForKey:@"user_id"]];
             }
             
-            
         }
     }
 }
-#pragma mark - Webservices call back Methods
+
+#pragma mark - WebService Delegate Methods
+
 -(void)webserviceCallback:(NSDictionary *)data
 {
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     [SVProgressHUD dismiss];
     
+    // Searchg User Response
     if (isSearchUserList)
     {        
         if(exitCode ==1)
         {
-            for (UIView *view in [searchView subviews]) {
-                [view removeFromSuperview];
-            }
-
             NSArray *outPutData=[data objectForKey:@"output_data"];
-            
-            searchView.frame=CGRectMake(shareSearchView.frame.origin.x-5, shareSearchView.frame.origin.y+shareSearchView.frame.size.height, shareSearchView.frame.size.width+10, 25*outPutData.count);
-            searchView.backgroundColor=[UIColor whiteColor];
-            searchView.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-            
-            //remove all objects
+        
+            // Remove all objects from Array
             [searchUserIdResult removeAllObjects];
             [searchUserListResult removeAllObjects];
             
@@ -308,81 +322,101 @@
                 [[outPutData objectAtIndex:i] objectForKey:@"user_username"];
                 NSLog(@"search user List %@", [[outPutData objectAtIndex:i] objectForKey:@"user_username"]);
                 
-                NSString *resultName=[NSString stringWithFormat:@"%@ (%@)",[[outPutData objectAtIndex:i] objectForKey:@"user_username"],[[outPutData objectAtIndex:i] objectForKey:@"user_realname"]];
+                [searchUserRealNameResult addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_realname"]];
                 [searchUserListResult addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_username"]];
                 [searchUserIdResult addObject:[[outPutData objectAtIndex:i] objectForKey:@"user_id"]];
-                searchList=[[UIButton alloc] init];
-                
-                    searchList.frame=CGRectMake(5, i*25, shareSearchView.frame.size.width-10, 20);
-                    searchList.tag=1100+i;
-                
-                if([manager isiPad])
-                {
-                     [searchList.titleLabel setFont:[UIFont fontWithName:@"verdana" size:17]];
-                }
-                else
-                {
-                    [searchList.titleLabel setFont:[UIFont fontWithName:@"verdana" size:13]];
-                }
-                    searchList.contentHorizontalAlignment=UIControlContentHorizontalAlignmentLeft;
-                    [searchList addTarget:self action:@selector(shareWithUserBtnPress:) forControlEvents:UIControlEventTouchUpInside];
-                    [searchList setTitle:resultName forState:UIControlStateNormal];
-                    [searchList setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                    
-                    [searchView addSubview:searchList];
-                    [scrollView addSubview:searchView];
-                }
+            }
+            [searchViewTable setHidden:FALSE];
+            [searchViewTable reloadData];
         }
-        else
-        {
-            [searchView removeFromSuperview];
-        }
+        
+        // Reset BOOL Value
         isShareForWritingWith=NO;
         isShareForReadingWith=NO;
         isSearchUserList=NO;
     }
 }
 
-#pragma mark - set the search user
--(void)shareWithUserBtnPress: (id)sender
+#pragma mark - UITableView delegate and dataSource methods
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    UIButton *btn=(UIButton *)sender;
-    int index=btn.tag-1100;
-    
-    searchBarForUserSearch.text=[searchUserListResult objectAtIndex:index];
-    selectedUserId=[searchUserIdResult objectAtIndex:index];
-    selecteduserName=[searchUserListResult objectAtIndex:index];
-    
-    [searchView removeFromSuperview];
+    if(searchUserListResult.count > 0)
+        return searchUserListResult.count;
+    else
+        return 0;
 }
-#pragma mark - IBAction methods
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier = @"SearchList";
+    
+    UITableViewCell *cell = [searchViewTable dequeueReusableCellWithIdentifier:identifier];
+    if(cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+    }
+    
+    cell.textLabel.text = [searchUserRealNameResult objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [searchUserListResult objectAtIndex:indexPath.row];
+    
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    searchBarForUserSearch.text=[searchUserListResult objectAtIndex:indexPath.row];
+    selectedUserId=[searchUserIdResult objectAtIndex:indexPath.row];
+    selecteduserName=[searchUserListResult objectAtIndex:indexPath.row];
+    [searchViewTable setHidden:TRUE];
+    
+    [searchUserListResult removeAllObjects];
+    [searchUserIdResult removeAllObjects];
+}
+
+/**
+ *  Save Sharing Details
+ */
 -(IBAction)saveSharingUser:(id)sender
 {
-    NSString *useridstr=[sharingUserIdArray componentsJoinedByString:@","];
-    NSMutableDictionary *tempuserDetails=[[NSMutableDictionary alloc] init];
-    for (int i=0; i<sharingUserIdArray.count;i++) {
-       
-        [tempuserDetails setObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharingUserIdArray objectAtIndex:i],@"user_id",[sharingUserNameArray objectAtIndex:i],@"user_username", nil] forKey:[sharingUserIdArray objectAtIndex:i]];
-         
+    NSString *useridstr;
+    if(sharingUserIdArray.count > 0)
+    {
+        useridstr = [sharingUserIdArray componentsJoinedByString:@","];
     }
+    else if(sharingUserIdArray.count == 0)
+    {
+        useridstr = nil;
+    }
+    
+    NSMutableDictionary *tempuserDetails=[[NSMutableDictionary alloc] init];
+    
+    for (int i=0; i<sharingUserIdArray.count;i++) {
+        [tempuserDetails setObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharingUserIdArray objectAtIndex:i],@"user_id",[sharingUserNameArray objectAtIndex:i],@"user_username", nil] forKey:[sharingUserIdArray objectAtIndex:i]];
+    }
+    
     [manager storeData:tempuserDetails :@"temp_user_details"];
+    // For Permission Type Write
     if(isWriteUser)
     {
         [manager storeData:useridstr :@"writeUserId"];
     }
-    else
+    else // For Permission Type Read
     {
         [manager storeData:useridstr :@"readUserId"];
     }
-    
-    NSString *useridstr2=[manager getData:@"readUserId"];
-    useridstr2=[manager getData:@"writeUserId"];
-    
-    
+      
     [self.navigationController popViewControllerAnimated:NO];
 }
 
+/**
+ *  Add user in sharing view
+ */
 -(IBAction)addUserInSharing:(id)sender
 {
     if(searchBarForUserSearch.text.length>0)
@@ -419,7 +453,6 @@
                     searchBarForUserSearch.text=@"";
                 }
             }
-            
         }
         else
         {
@@ -431,10 +464,11 @@
         [manager showAlert:@"Message" msg:@"Enter User Name" cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
     
-    [searchView removeFromSuperview];
+    [searchViewTable setHidden:YES];
 }
 
-#pragma mark - UICollectionView delegate Method
+#pragma mark - UICollectionView DataSource Methods
+
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return sharingUserNameArray.count;
@@ -443,6 +477,8 @@
 {
     static NSString *identifier=@"CVCell";
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    
+    // Remove subviews before adding new subview
     for (UIView *view in [cell.contentView subviews]) {
         [view removeFromSuperview];
     }
@@ -461,9 +497,10 @@
     
      [cell.contentView addSubview:username];
 
-    //user remove button (cross button)
+    // For Edit Folder Option
     if(self.isEditFolder)
     {
+        // Cross Button For Remove User
         if(self.collectionOwnerId.integerValue==userid.integerValue)
         {
             UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-15, 0, 15, 15)];
@@ -473,8 +510,10 @@
             [cell.contentView addSubview:btn];
         }
     }
+    // For Add New Folder option
     else
     {
+        // Cross Button to remove User
         UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(cell.frame.size.width-15, 0, 15, 15)];
         btn.tag=indexPath.row;
         [btn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
@@ -484,12 +523,16 @@
     return cell;
 }
 
-#pragma mark - Remove the share user
+/**
+ *  Remove the user if cross button  click
+ */
 -(void)removeShareUser :(id)sender
 {
     UIButton *btn=(UIButton *)sender;
    
     @try {
+        
+        // Remove From Array
         [sharingUserNameArray removeObjectAtIndex:btn.tag];
         [sharingUserIdArray removeObjectAtIndex:btn.tag];
         [sharingUserListCollView reloadData];
@@ -498,7 +541,9 @@
         NSLog(@"Execption is %@",exception.description);
     }
 }
+
 #pragma mark - Add Custom Navigation Bar
+
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -511,10 +556,49 @@
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
     
-    UILabel *titleLabel =[navnBar navBarTitleLabel:@"Share with User"];
+    CGFloat titleY;
+    CGFloat subtitleY;
+    CGFloat subtitleWidth;
+    CGFloat subFont;
     
+    // Set navbar attributes accordng to device
+    
+    if([manager isiPad])
+    {
+        titleY=30;
+        subtitleY=30;
+        subFont=18;
+        subtitleWidth=130;
+    }
+    else
+    {
+        titleY=8;
+        subtitleY=16;
+        subFont=9;
+        subtitleWidth=110;
+    }
+    
+    // Add custom titles for the Navbar
+    
+    UILabel *navTitle = [navnBar navBarTitleLabel:@"Share with User"];
+    navTitle.backgroundColor=[UIColor clearColor];
+    CGRect frame=navTitle.frame;
+    CGRect backFrame=button.frame;
+    backFrame.origin.y=backFrame.origin.y-titleY;
+    button.frame=backFrame;
+    frame.origin.y=frame.origin.y-titleY;
+    navTitle.frame=frame;
+    UILabel *navsubTitle = [navnBar navBarTitleLabel:@"(Search the user, press on the username and then select add +)"];
+    navsubTitle.backgroundColor=[UIColor clearColor];
+    frame.origin.y=frame.origin.y+subtitleY;
+    frame.origin.x=frame.origin.x-(subtitleWidth/2);
+    frame.size.width=frame.size.width+subtitleWidth;
+    navsubTitle.frame=frame;
+    navsubTitle.font=[UIFont systemFontOfSize:subFont];
+    [navnBar addSubview:navTitle];
+    [navnBar addSubview:navsubTitle];
     [navnBar addSubview:button];
-    [navnBar addSubview:titleLabel];
+    
     [[self view] addSubview:navnBar];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }

@@ -1,10 +1,10 @@
-//
-//  ContentManager.h
-//  schudio
-//
-//  Created by ignis3 on 16/01/14.
-//  Copyright (c) 2014 ignis2. All rights reserved.
-//
+// 
+// ContentManager.h
+// schudio
+// 
+// Created by ignis3 on 16/01/14.
+// Copyright (c) 2014 ignis2. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 

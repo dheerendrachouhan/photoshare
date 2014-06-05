@@ -1,17 +1,17 @@
 // AFURLConnectionOperation.h
-//
+// 
 // Copyright (c) 2013 AFNetworking (http://afnetworking.com)
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -82,18 +82,18 @@
 
 @interface AFURLConnectionOperation : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSCoding, NSCopying>
 
-///-------------------------------
-/// @name Accessing Run Loop Modes
-///-------------------------------
+// /-------------------------------
+// /@name Accessing Run Loop Modes
+// /-------------------------------
 
 /**
  The run loop modes in which the operation will run on the network thread. By default, this is a single-member set containing `NSRunLoopCommonModes`.
  */
 @property (nonatomic, strong) NSSet *runLoopModes;
 
-///-----------------------------------------
-/// @name Getting URL Connection Information
-///-----------------------------------------
+// /-----------------------------------------
+// /@name Getting URL Connection Information
+// /-----------------------------------------
 
 /**
  The request used by the operation's connection.
@@ -110,9 +110,9 @@
  */
 @property (readonly, nonatomic, strong) NSError *error;
 
-///----------------------------
-/// @name Getting Response Data
-///----------------------------
+// /----------------------------
+// /@name Getting Response Data
+// /----------------------------
 
 /**
  The data received during the request.
@@ -131,9 +131,9 @@
  */
 @property (readonly, nonatomic, assign) NSStringEncoding responseStringEncoding;
 
-///-------------------------------
-/// @name Managing URL Credentials
-///-------------------------------
+// /-------------------------------
+// /@name Managing URL Credentials
+// /-------------------------------
 
 /**
  Whether the URL connection should consult the credential storage for authenticating the connection. `YES` by default.
@@ -149,18 +149,18 @@
  */
 @property (nonatomic, strong) NSURLCredential *credential;
 
-///-------------------------------
-/// @name Managing Security Policy
-///-------------------------------
+// /-------------------------------
+// /@name Managing Security Policy
+// /-------------------------------
 
 /**
  The security policy used to evaluate server trust for secure connections.
  */
 @property (nonatomic, strong) AFSecurityPolicy *securityPolicy;
 
-///------------------------
-/// @name Accessing Streams
-///------------------------
+// /------------------------
+// /@name Accessing Streams
+// /------------------------
 
 /**
  The input stream used to read data to be sent during the request.
@@ -176,9 +176,9 @@
  */
 @property (nonatomic, strong) NSOutputStream *outputStream;
 
-///---------------------------------
-/// @name Managing Callback Queues
-///---------------------------------
+// /---------------------------------
+// /@name Managing Callback Queues
+// /---------------------------------
 
 /**
  The dispatch queue for `completionBlock`. If `NULL` (default), the main queue is used.
@@ -190,18 +190,18 @@
  */
 @property (nonatomic, strong) dispatch_group_t completionGroup;
 
-///---------------------------------------------
-/// @name Managing Request Operation Information
-///---------------------------------------------
+// /---------------------------------------------
+// /@name Managing Request Operation Information
+// /---------------------------------------------
 
 /**
  The user info dictionary for the receiver.
  */
 @property (nonatomic, strong) NSDictionary *userInfo;
 
-///------------------------------------------------------
-/// @name Initializing an AFURLConnectionOperation Object
-///------------------------------------------------------
+// /------------------------------------------------------
+// /@name Initializing an AFURLConnectionOperation Object
+// /------------------------------------------------------
 
 /**
  Initializes and returns a newly allocated operation object with a url connection configured with the specified url request.
@@ -212,9 +212,9 @@
  */
 - (instancetype)initWithRequest:(NSURLRequest *)urlRequest;
 
-///----------------------------------
-/// @name Pausing / Resuming Requests
-///----------------------------------
+// /----------------------------------
+// /@name Pausing / Resuming Requests
+// /----------------------------------
 
 /**
  Pauses the execution of the request operation.
@@ -237,9 +237,9 @@
  */
 - (void)resume;
 
-///----------------------------------------------
-/// @name Configuring Backgrounding Task Behavior
-///----------------------------------------------
+// /----------------------------------------------
+// /@name Configuring Backgrounding Task Behavior
+// /----------------------------------------------
 
 /**
  Specifies that the operation should continue execution after the app has entered the background, and the expiration handler for that background task.
@@ -250,9 +250,9 @@
 - (void)setShouldExecuteAsBackgroundTaskWithExpirationHandler:(void (^)(void))handler;
 #endif
 
-///---------------------------------
-/// @name Setting Progress Callbacks
-///---------------------------------
+// /---------------------------------
+// /@name Setting Progress Callbacks
+// /---------------------------------
 
 /**
  Sets a callback to be called when an undetermined number of bytes have been uploaded to the server.
@@ -268,9 +268,9 @@
  */
 - (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block;
 
-///-------------------------------------------------
-/// @name Setting NSURLConnection Delegate Callbacks
-///-------------------------------------------------
+// /-------------------------------------------------
+// /@name Setting NSURLConnection Delegate Callbacks
+// /-------------------------------------------------
 
 /**
  Sets a block to be executed when the connection will authenticate a challenge in order to download its request, as handled by the `NSURLConnectionDelegate` method `connection:willSendRequestForAuthenticationChallenge:`.
@@ -296,7 +296,7 @@
  */
 - (void)setCacheResponseBlock:(NSCachedURLResponse * (^)(NSURLConnection *connection, NSCachedURLResponse *cachedResponse))block;
 
-///
+// /
 
 /**
 
@@ -307,9 +307,9 @@
 
 @end
 
-///----------------
-/// @name Constants
-///----------------
+// /----------------
+// /@name Constants
+// /----------------
 
 /**
  ## SSL Pinning Options
@@ -361,9 +361,9 @@ extern NSString * const AFNetworkingErrorDomain;
 extern NSString * const AFNetworkingOperationFailingURLRequestErrorKey;
 extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 
-///--------------------
-/// @name Notifications
-///--------------------
+// /--------------------
+// /@name Notifications
+// /--------------------
 
 /**
  Posted when an operation begins executing.

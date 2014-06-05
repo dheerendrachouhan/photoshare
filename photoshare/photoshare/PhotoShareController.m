@@ -1,10 +1,10 @@
-//
-//  PhotoShareController.m
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// PhotoShareController.m
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "PhotoShareController.h"
 #import "NavigationBar.h"
@@ -47,27 +47,32 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"PhotoShareController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"PhotoShareController";
-    }
-
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
-    
-    manager = [ContentManager sharedManager];
     
     return self;
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+   // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"PhotoShareController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"PhotoShareController" owner:self options:nil];
+    }
+    
+    // Custom initialization
+    
+    manager = [ContentManager sharedManager];
+    
     [self addCustomNavigationBar];
     [self setUIForIOS6];
     imageView.layer.masksToBounds=YES;
@@ -82,8 +87,12 @@
     contactSelectedArray = [[NSMutableArray alloc] init];
     contactNoSelectedArray = [[NSMutableArray alloc] init];
     
-    messageStr= [NSString stringWithFormat:@"Hi, I've just downloaded the 123friday invite only app, its really cool, check it out, http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
-    messageStrforMail=[NSString stringWithFormat:@"<a href=http://my.123friday.com/my123/live/toolkit/1/%@>Hi, I've just downloaded the 123friday invite only app, its really cool, check it out.</a>",[manager getData:@"user_username"]];
+    toolkitlink= [NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
+    
+    messageStr= [NSString stringWithFormat:@"I've just joined 123friday. Watch my short video. http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]];
+    
+    messageStrforMail=[NSString stringWithFormat:@"I've just joined 123friday. <a href=http://my.123friday.com/my123/live/toolkit/1/%@>Watch my short video.</a>",[manager getData:@"user_username"]];
+    
     ImageCollection = [[NSMutableArray alloc] init];
     
     if(sharedImage== nil || sharedImage == NULL)
@@ -116,8 +125,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    // Custom initialization when view appears
 
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
+    
+    // For Mail
     if([shareValue isEqualToString:@"Share Mail"])
     {
         userSelectedEmail = shareEmailStr;
@@ -132,10 +145,12 @@
         else
         {
             [SVProgressHUD showWithStatus:@"Composing Mail" maskType:SVProgressHUDMaskTypeBlack];
-            [self performSelector:@selector(mailTo) withObject:self afterDelay:3.0];
+            [self performSelector:@selector(mailTofun) withObject:self afterDelay:3.0];
         }
         
     }
+    
+    // For SMS
     else if ([shareValue isEqualToString:@"Share Text"])
     {
         userSelectedPhone = sharePhoneStr;
@@ -155,9 +170,10 @@
     }
 
 }
+
 -(void)setUIForIOS6
 {
-    //Set for ios 6
+    // Set view for IOS 6
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
     {
         imageView.frame=CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y-20, imageView.frame.size.width, imageView.frame.size.height+70);
@@ -165,14 +181,22 @@
     }
     
 }
+
+/**
+ *  Get Photo From Server
+ */
 -(void)getImageFromServer:(NSInteger)index
 {
     NSDictionary *dicData = @{@"user_id":[otherDetailArray objectAtIndex:0],@"photo_id":[sharedImagesArray objectAtIndex:index],@"get_image":@"1",@"collection_id":[otherDetailArray objectAtIndex:1],@"image_resize":@"500"};
     [webSwevice call:dicData controller:@"photo" method:@"get"];
 }
-//Protocol for getting images....
+
+#pragma mark - WebService Delegate Methods
+
 -(void)webserviceCallbackImage:(UIImage *)image
 {
+    // Attaches images brought from server to post
+    
     [ImageCollection addObject:image];
     [SVProgressHUD dismissWithSuccess:@"Attached"];
     imageView.image = image;
@@ -189,7 +213,10 @@
     }
 }
 
-//Filter Reference.
+/**
+ *  Filter reference - Action defination
+ */
+#pragma mark - Action for filters
 - (IBAction)fbFilter_Btn:(id)sender {
     fbFilter = YES;
     twFilter = NO;
@@ -226,6 +253,8 @@
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
 
+#pragma mark - UIActionSheet delegate Method
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (buttonIndex)
@@ -247,7 +276,7 @@
 {
     if(mailFilter)
     {
-        [self mailTo];
+        [self mailTofun];
     }
     else if(smsFilter)
     {
@@ -255,8 +284,12 @@
     }
 }
 
-//FaceBook SDK Implemetation
+/**
+ *  Facebook Post Method
+ */
 - (void)postTofacebook{
+    
+    // Uses SLComposeViewController of type facebook to post/share
     
     [SVProgressHUD showWithStatus:@"Fetching Facebook Account" maskType:SVProgressHUDMaskTypeBlack];
     if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
@@ -265,7 +298,7 @@
         
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
-        [controller setInitialText:@"Hi, I've just downloaded the 123friday invite only app, its really cool, check it out"];
+        [controller setInitialText:@"I've just joined 123friday. Watch my short video."];
         [controller addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://my.123friday.com/my123/live/toolkit/1/%@",[manager getData:@"user_username"]]]];
         if(sharedImage != NULL || sharedImage != nil)
         {
@@ -302,7 +335,9 @@
     }
 }
 
-//Twitter SDK Implemetation
+/**
+ * Twitter Post Method
+ */
 - (void)postToTwitter {
     [SVProgressHUD showWithStatus:@"Fetching Twitter Account" maskType:SVProgressHUDMaskTypeBlack];
     
@@ -312,7 +347,8 @@
         
         SLComposeViewController *tweetsheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         
-        [tweetsheet setInitialText:[NSString stringWithFormat:@"%@",messageStr]];
+        [tweetsheet setInitialText:@"I've just joined 123friday. Watch my short video."];
+        [tweetsheet addURL:[NSURL URLWithString:toolkitlink]];
         
         if(sharedImage != NULL || sharedImage != nil)
         {
@@ -349,22 +385,32 @@
     }
 }
 
-//Email from Contacts
--(void)mailTo {
+/**
+ *  Send Email
+ */
+
+-(void)mailTofun {
     
     [SVProgressHUD dismissWithSuccess:@"Composed"];
     
     shareValue = @"";
     
-    // Email Subject
-    NSString *emailTitle = @"Check This Out!";
-    // Email Content
-    NSString *messageBody = [NSString stringWithFormat:@"%@",messageStrforMail]; // Change the message body to HTML
-    // To address
+    // Email subject
+    
+    NSString *emailTitle = @" ";
+    
+    /**
+     *  Email content
+     *  Change the message body to HTML
+     */
+    NSString *messageBody = [NSString stringWithFormat:@"%@",messageStrforMail];
+    
+    // "TO" address
     NSArray *toRecipents = [NSArray arrayWithArray:contactSelectedArray];
     
     MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
     mfMail.mailComposeDelegate = self;
+    
     if(sharedImagesArray.count>0)
     {
         for(int k=0;k<sharedImagesArray.count;k++)
@@ -381,14 +427,26 @@
     
     [mfMail setSubject:emailTitle];
     [mfMail setMessageBody:messageBody isHTML:YES];
-    //[mfMail setToRecipients:toRecipents];
-    [mfMail setBccRecipients:toRecipents];
-    //stop loader
     
-    // Present mail view controller on screen
+    if(toRecipents.count>0)
+    {
+        [mfMail setToRecipients:[NSArray arrayWithObject:[toRecipents objectAtIndex:0]]];
+        NSMutableArray *torec=[toRecipents mutableCopy];
+        if(torec.count>1)
+        {
+            [torec removeObjectAtIndex:0];
+            [mfMail setBccRecipients:torec];
+        }
+    }
+    
+    // Present MailViewController on screen
+    
     [[self navigationController] presentViewController:mfMail animated:YES completion:nil];
     
 }
+
+#pragma mark - MFMailComposeViewController delegate Method
+
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Your photo has been shared successfully." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -417,11 +475,13 @@
             break;
     }
     
-    // Close the Mail Interface
+    
     [self dismissModals];
 }
 
-//Message to user
+/**
+ *  Send sms
+ */
 -(void)sendInAppSMS
 {
     [SVProgressHUD dismissWithSuccess:@"Composed"];
@@ -452,8 +512,12 @@
 	}
 }
 
+#pragma mark - MFMessageComposeViewController delegate Method
+
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
+    // Handles task according to result of message composer
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Your photo has been shared successfully." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
 	switch (result) {
 		case MessageComposeResultCancelled:
@@ -481,7 +545,8 @@
     NSLog(@"%@",emails);
 }
 
-//alertView
+#pragma mark - UIAlertView delegate Methods
+
 -(void)alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"%li",(long)buttonIndex);
@@ -499,6 +564,9 @@
     }
 }
 
+/**
+ *  Contact Select Method
+ */
 -(void)ContactSelectorMethod
 {
     CFErrorRef error = NULL;
@@ -524,7 +592,12 @@
         
         [alert show];
     }
+    CFRelease(addressBook);
 }
+
+/**
+ *  Load Contacts From ABAddressBookRef
+ */
 
 -(void)loadContacts
 {
@@ -533,7 +606,9 @@
     contactData = [[NSMutableDictionary alloc] init];
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
     
-    if (addressBook != nil)
+    // Load contacts having phone number and email
+    
+    if (addressBook != (__bridge ABAddressBookRef)((id)[NSNull null]))
     {
         NSLog(@"Succesful.");
         
@@ -542,7 +617,6 @@
         NSUInteger i = 0;
         for (i = 0; i < [allContacts count]; i++)
         {
-            
             ABRecordRef contactPerson = (__bridge ABRecordRef)allContacts[i];
             
             NSString *firstName = (__bridge_transfer NSString
@@ -566,7 +640,8 @@
             NSLog(@"Full Name: %@",fullName);
             
             NSString *concatStr = @"";
-            //email
+            NSString *concatStr2 = @"";
+            
             ABMultiValueRef emails = ABRecordCopyValue(contactPerson, kABPersonEmailProperty);
             NSUInteger j = 0;
             for (j = 0; j < ABMultiValueGetCount(emails); j++)
@@ -582,8 +657,6 @@
                 }
             }
             
-            NSString *concatStr2 = @"";
-            
             ABMutableMultiValueRef phones = ABRecordCopyValue(contactPerson, kABPersonPhoneProperty);
             NSUInteger k = 0;
             for(k = 0;k< ABMultiValueGetCount(phones); k++)
@@ -598,8 +671,9 @@
                     concatStr2 = [NSString stringWithFormat:@"%@ , %@",concatStr2,phone];
                 }
             }
+            CFRelease(emails);
+            CFRelease(phones);
             
-            //NSdictionary add
             NSDictionary *dict = @{@"name":fullName,@"email":concatStr,@"phone":concatStr2};
             
             [contactData setObject:dict forKey:[NSString stringWithFormat:@"%d",i]];
@@ -607,7 +681,8 @@
     }
     CFRelease(addressBook);
     
-    //forwarding to controller
+    // Forwarding to controller
+    
     if(mailFilter)
     {
         MailMessageTable *mmVC;
@@ -644,13 +719,16 @@
     }
 }
 
-//dismiss models
+/**
+ *  Dismiss modals
+ */
 -(void)dismissModals
 {
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
-#pragma Add Custom Navigation Bar
+#pragma mark - Add Custom Navigation Bar
+
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -671,7 +749,13 @@
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 
 }
+-(void)navBackButtonClick{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
 
+/**
+ *  Send Mail Details to Server
+ */
 -(void)sendToServer
 {
     if(userSelectedEmail.length != 0)
@@ -688,21 +772,19 @@
     }
 }
 
+#pragma mark - WebService delegate Method
+
 -(void)webserviceCallback:(NSDictionary *)data
 {
     NSLog(@"%@",data);
 }
 
--(void)navBackButtonClick{
-    [[self navigationController] popViewControllerAnimated:YES];
-}
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 @end

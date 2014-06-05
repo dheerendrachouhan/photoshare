@@ -1,17 +1,17 @@
 // AFHTTPRequestOperation.h
-//
+// 
 // Copyright (c) 2013 AFNetworking (http://afnetworking.com)
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,9 +29,9 @@
  */
 @interface AFHTTPRequestOperation : AFURLConnectionOperation
 
-///------------------------------------------------
-/// @name Getting HTTP URL Connection Information
-///------------------------------------------------
+// /------------------------------------------------
+// /@name Getting HTTP URL Connection Information
+// /------------------------------------------------
 
 /**
  The last HTTP response received by the operation's connection.
@@ -50,9 +50,9 @@
  */
 @property (readonly, nonatomic, strong) id responseObject;
 
-///-----------------------------------------------------------
-/// @name Setting Completion Block Success / Failure Callbacks
-///-----------------------------------------------------------
+// /-----------------------------------------------------------
+// /@name Setting Completion Block Success / Failure Callbacks
+// /-----------------------------------------------------------
 
 /**
  Sets the `completionBlock` property with a block that executes either the specified success or failure block, depending on the state of the request on completion. If `error` returns a value, which can be caused by an unacceptable status code or content type, then `failure` is executed. Otherwise, `success` is executed.

@@ -1,10 +1,10 @@
-//
-//  LargePhotoViewController.h
-//  photoshare
-//
-//  Created by ignis2 on 13/03/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// LargePhotoViewController.h
+// photoshare
+// 
+// Created by ignis2 on 13/03/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
@@ -13,9 +13,12 @@
 {
     IBOutlet UIButton *backButton;
     IBOutlet UIImageView *imgView;
+    
     WebserviceController *webservices;
     ContentManager *manager;
+    
     BOOL isGetOriginalPhotoFromServer;
+    
     UIActivityIndicatorView *activityIndicator;
 }
 @property(nonatomic,retain)NSNumber *photoId;

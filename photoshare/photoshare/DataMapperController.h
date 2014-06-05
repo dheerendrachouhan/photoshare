@@ -1,15 +1,15 @@
-//
-//  DataMapperController.h
-//  photoshare
-//
-//  Created by Dhiru on 29/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// DataMapperController.h
+// photoshare
+// 
+// Created by Dhiru on 29/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
 
-//For Device Version Detect
+// For Device Version Detect
 #define IS_IPHONE5 ([[UIScreen mainScreen] bounds].size.height==568)
 #define IS_IPHONE4 ([[UIScreen mainScreen] bounds].size.height==480)
 #define IS_OS_5_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0)
@@ -18,7 +18,7 @@
 
 #define BTN_FONT_COLOR [UIColor colorWithRed:0.12 green:0.478 blue:1.0 alpha:1]
 #define BTN_BORDER_COLOR [UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1]
-//For navigation bar
+// For navigation bar
 #define NavBtnYPosForiPhone 52.0f
 #define NavBtnYPosForiPad 110.0f
 #define NavBtnHeightForiPhone 25

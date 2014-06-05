@@ -1,10 +1,10 @@
-//
-//  AFPhotoEditorContext.h
-//  AviarySDK
-//
-//  Created by Cameron Spickert on 3/6/12.
-//  Copyright (c) 2012 Aviary, Inc. All rights reserved.
-//
+// 
+// AFPhotoEditorContext.h
+// AviarySDK
+// 
+// Created by Cameron Spickert on 3/6/12.
+// Copyright (c) 2012 Aviary, Inc. All rights reserved.
+// 
 
 @class AFPhotoEditorSession;
 
@@ -38,16 +38,16 @@
  */
 @interface AFPhotoEditorContext : NSObject
 
-/// The session that the context was generated from.
+// /The session that the context was generated from.
 @property (nonatomic, weak, readonly) AFPhotoEditorSession *session;
 
-/// The size that the context's image will be output at.
+// /The size that the context's image will be output at.
 @property (nonatomic, assign, readonly) CGSize size;
 
-/// Specifies if the context's rendering has been cancelled.
+// /Specifies if the context's rendering has been cancelled.
 @property (nonatomic, assign, readonly, getter=isCanceled) BOOL canceled;
 
-/// Specifies if the context's session has been modified.
+// /Specifies if the context's session has been modified.
 @property (nonatomic, assign, readonly, getter=isModified) BOOL modified;
 
 /** 

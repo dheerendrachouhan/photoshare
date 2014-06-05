@@ -1,10 +1,10 @@
-//
-//  UserSecurityViewController.m
-//  photoshare
-//
-//  Created by Dhiru on 28/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// UserSecurityViewController.m
+// photoshare
+// 
+// Created by Dhiru on 28/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "UserSecurityViewController.h"
 #import "WebserviceController.h"
@@ -18,21 +18,10 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"UserSecurityViewController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"UserSecurityViewController";
-    }
-
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
-    
-    objManager = [ContentManager sharedManager];
     
     return self;
 }
@@ -40,54 +29,63 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
+    // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"UserSecurityViewController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"UserSecurityViewController" owner:self options:nil];
+    }
+    
+    objManager = [ContentManager sharedManager];
+    
+    // Set delegate
     [oldpass setDelegate:self] ;
     [newpass setDelegate:self] ;
     
     wc = [[WebserviceController alloc] init] ;
     wc.delegate = self;
-    
     dmc = [[DataMapperController alloc] init] ;
-
     
-    
+    // Add tap gesture For dismiss keyboard
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     [self.view addGestureRecognizer:tapGesture];
-    [self addCustomNavigationBar];
     
+    [self addCustomNavigationBar];
 }
+
+/**
+ *  Hide Keyboard
+ */
 -(void)hideKeyboard :(UITapGestureRecognizer *)gesture
 {
     [self.view endEditing:YES];
 }
 
 
+/**
+ *  Request password button action
+ */
 -(IBAction)changepassword:(id)sender
 {
     NSString *oldpassval = oldpass.text ;
     NSString *newpassval = newpass.text;
     
     NSString *userid = [dmc getUserId] ;
+    
+    // Post change password request on server
+    
     NSDictionary *postdic = @{@"user_id":userid,@"user_password":oldpassval,@"user_newpassword":newpassval} ;
-
-    
     [wc call:postdic controller:@"user" method:@"changepassword"];
-
-    
     
 }
-
-
--(void)webserviceCallback:(NSDictionary *)data
-{
-    
-    NSLog(@"data--%@ ",data) ;
-    
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-
+/**
+ *  Cancel button action
+ */
 - (IBAction)userCancelButton:(id)sender {
     
     
@@ -95,12 +93,28 @@
     field.text = @"";
 }
 
-//Textfields functions
+#pragma mark - WebService Delegate Methods
+
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    
+    NSLog(@"data--%@ ",data) ;
+    
+    // Alert if password is changed or not
+    
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[data objectForKey:@"user_message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+#pragma mark - UITextField Delegate Method
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
 }
+
+#pragma mark - Add Custom Navigation Bar
 
 -(void)addCustomNavigationBar
 {
@@ -108,12 +122,17 @@
     
     navnBar = [[NavigationBar alloc] init];
     [navnBar loadNav];
+    
+    // Add custom navigation back button on navigation bar
+    
     UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
                action:@selector(navBackButtonClick)
      forControlEvents:UIControlEventTouchDown];
+    
     [navnBar addSubview:button];
     [[self view] addSubview:navnBar];
+    
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
 }
 
@@ -128,7 +147,8 @@
     [self detectDeviceOrientation];
 }
 
-#pragma mark - Device Orientation
+#pragma mark - Device Orientation Methods
+
 -(void)detectDeviceOrientation
 {
     if(UIDeviceOrientationIsPortrait(self.interfaceOrientation))
@@ -150,7 +170,6 @@
 {
     [self orient:toInterfaceOrientation];
 }
-
 
 -(void)orient:(UIInterfaceOrientation)ott
 {
@@ -202,8 +221,11 @@
         [self setUIForIOS6];
     }
 }
+
+
 -(void)setUIForIOS6
 {
+    // Set for IOS6
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
     {
         scrollView.contentSize=CGSizeMake(scrollView.contentSize.width, scrollView.contentSize.height+50);

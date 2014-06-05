@@ -1,10 +1,10 @@
-//
-//  PhotoViewController.h
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// PhotoViewController.h
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
@@ -12,7 +12,7 @@
 #import "WebserviceController.h"
 #import "LargePhotoViewController.h"
 #import "NavigationBar.h"
-//for Aviary
+// for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <QuartzCore/QuartzCore.h>
 #import "AFPhotoEditorController.h"
@@ -26,7 +26,7 @@
 <WebserviceDelegate,AFPhotoEditorControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate>
 {
     
-    //get the userf location
+    // GETS the userf location
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
@@ -62,9 +62,9 @@
     IBOutlet UILabel *folderLocationIndicator;
     IBOutlet UIButton *photoViewBtn;
     UILabel *photoTitleLBL;
-    UIImageView *imgV;//for view image in full screen
+    UIImageView *imgV;
     
-    //for add photo Detail
+    
     UIView *backViewPhotDetail;
     UITextField *photoTitleTF;
     UITextView *photoDescriptionTF;
@@ -73,17 +73,17 @@
     NSString *photoTitleStr;
     NSString *photoDescriptionStr;
     NSString *photoTagStr;
-    NSString *photoLocationStr; //userLoaction is save
+    NSString *photoLocationStr;
 }
 - (IBAction)segmentSwitch:(id)sender;
 - (IBAction)viewPhoto:(id)sender;
-//for Aviary
+
 
 @property(nonatomic,retain)NSNumber *photoId;
 @property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,assign)NSNumber *collectionOwnerId;
 @property(nonatomic,assign)NSNumber *photoOwnerId;
-@property(nonatomic,assign)int selectedIndex;
+@property(nonatomic,assign)NSInteger selectedIndex;
 @property(nonatomic,retain)UIImage *smallImage;
 @property(nonatomic,retain)NSString *folderName;
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;

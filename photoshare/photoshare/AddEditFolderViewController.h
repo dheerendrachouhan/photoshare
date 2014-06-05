@@ -1,10 +1,10 @@
-//
-//  AddFolderViewController.h
-//  photoshare
-//
-//  Created by ignis2 on 24/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// AddFolderViewController.h
+// photoshare
+// 
+// Created by ignis2 on 24/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
@@ -22,6 +22,7 @@
     IBOutlet UIButton *shareForWritingWithBtn;
     IBOutlet UIButton *shareForReadingWithBtn;
     IBOutlet UIButton *crossBtnForTF;
+    
     NSNumber *userid;
     ContentManager *manager;
     WebserviceController *webservices;
@@ -32,10 +33,16 @@
     BOOL isAdd;
     BOOL isSave;
     BOOL isDelete;
-    
     BOOL isGetPhotoIdFromServer;
     BOOL isGetCollectionDetails;
     BOOL isGetCollectionOwnername;
+    BOOL isDeletePhotoMode;
+    BOOL isGetTheOwnCollectionListData;
+    BOOL isGetTheSharingCollectionListData;
+    BOOL isGetSharingUserId;
+    BOOL isDeleteAllPhoto;
+    
+    int countSharing;
     
     NSString *collectionOwnerName;
     UITextField *activeField;
@@ -44,28 +51,20 @@
     NSMutableDictionary *collectionDetail;
     NSMutableArray *searchUserList;
     
-    BOOL isDeletePhotoMode;
-    
     NSString *user_message;
     
-    //for sharing detail get
     NSMutableArray *collectionArrayWithSharing;
-    BOOL isGetTheOwnCollectionListData;
-    BOOL isGetTheSharingCollectionListData;
-    int countSharing;
-    BOOL isGetSharingUserId;
-    BOOL isDeleteAllPhoto;
-    
     NSMutableArray *sharingIdArray;
     
     NSDictionary *collectionUsersDetail;
-    //orientation
+
     UIInterfaceOrientation orientation;
 }
 
 @property(nonatomic,assign)BOOL isAddFolder;
 @property(nonatomic,assign)BOOL isEditFolder;
 @property(nonatomic,assign)BOOL isFromLaunchCamera;
+
 @property(nonatomic,assign)NSNumber *collectionId;
 @property(nonatomic,retain)NSString *setFolderName;
 @property(nonatomic,assign)NSNumber *collectionOwnerId;

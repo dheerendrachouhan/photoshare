@@ -1,10 +1,10 @@
-//
-//  ReferralStageFourVC.h
-//  photoshare
-//
-//  Created by ignis3 on 27/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// ReferralStageFourVC.h
+// photoshare
+// 
+// Created by ignis3 on 27/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
@@ -17,6 +17,8 @@
 
 #import "NavigationBar.h"
 #import "WebserviceController.h"
+
+
 @class ContentManager;
 @interface ReferralStageFourVC : UIViewController<MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate, WebserviceDelegate, UITabBarControllerDelegate, UIActionSheetDelegate,UITextViewDelegate>
 {
@@ -25,20 +27,30 @@
     IBOutlet UIButton *emailBt;
     IBOutlet UIButton *sendSMSBtn;
     IBOutlet UIImageView *customImage;
+    IBOutlet UITextView *titleTextView;
+    IBOutlet UIView *emailView;
     
-    //For Edit User MEssage
+    // For Edit User MEssage
+    IBOutlet UILabel *eglabel;
     IBOutlet UILabel *editMessageTitleLbl;
     IBOutlet UITextView *userMessage;
     IBOutlet UIButton *editMessageBtn;
     IBOutlet UIScrollView *scrollView;
+ 
     BOOL setterEdit;
     BOOL fbFilter,twFilter,mailFilter,smsFilter;
     
     BOOL isUserMessageEditing;
+    
+    WebserviceController *webservice;
     DataMapperController *dmc;
     ContentManager *objManager;
     NavigationBar *navnBar ;
-    IBOutlet UIView *emailView;
+    
+    
+    BOOL isGetFacebookAppID;
+    UIToolbar *keyboardToolbar;
+    NSMutableArray *twitteruserscrennamelist;
 }
 
 @property (weak, nonatomic) IBOutlet UITextView *emailContacts;

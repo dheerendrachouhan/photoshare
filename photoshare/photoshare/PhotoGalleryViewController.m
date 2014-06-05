@@ -1,10 +1,10 @@
-//
-//  PhotoGalleryViewController.m
-//  photoshare
-//
-//  Created by ignis2 on 25/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// PhotoGalleryViewController.m
+// photoshare
+// 
+// Created by ignis2 on 25/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "PhotoGalleryViewController.h"
 
@@ -19,8 +19,10 @@
 @interface PhotoGalleryViewController ()
 {
     SVProgressHUD *pro;
-    CGRect frame; //frame for button
+    CGRect frame; // frame for button
     NSNumber *selectedPhotoId;
+    
+    UILabel *navsubTitle;
 }
 @end
 
@@ -29,11 +31,6 @@
 @synthesize collectionId,collectionOwnerId,popover;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    nibNameOrNil=@"PhotoGalleryViewController_iPad";
-    else
-    nibNameOrNil=@"PhotoGalleryViewController";
-   
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -44,21 +41,45 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   
-    //initialize the WebService Object
+    
+    // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"PhotoGalleryViewController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"PhotoGalleryViewController" owner:self options:nil];
+    }
+    
+    // For multiple photos
+    
+    uploadMultiPlePhoto=[UploadMultiplePhotoOnServerViewController sharedMultipleUpload];
+    uploadMultiPlePhoto.delegate=self;
+    
+    countRecievedPhoto=0;
+    
+    
     webServices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
+    
     searchController=[[SearchPhotoViewController alloc] init];
+    
+    // Set NO in NSUserDefaults for isEditPhoto key
     [manager storeData:@"NO" :@"isEditPhoto"];
+    
     selectedImagesIndex=[[NSMutableArray alloc] init];
     photoArray=[[NSMutableArray alloc] init];
     photoIdsArray=[[NSMutableArray alloc] init];
     photoInfoArray = [[NSMutableArray alloc] init];
-    //set UIFor ios6
+    
+    // Set UI for IOS6
+    
     [self setUIForIOS6];
     [self addCustomNavigationBar];
     
-    //Set the Design of the Button
+    // Set the Design of the button
     UIColor *btnBorderColor=[UIColor colorWithRed:0.412 green:0.667 blue:0.839 alpha:1];
     float btnBorderWidth=2;
     float btnCornerRadius=8;
@@ -72,38 +93,41 @@
     sharePhotoBtn.layer.borderWidth=btnBorderWidth;
     sharePhotoBtn.layer.borderColor=btnBorderColor.CGColor;
     
-    //Register the UICollection View class
+    // Register cell for the CollectionView
     [collectionview registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CVCell"];
     
-    //Add the Tap Gesture and Longgesture On the CollectionView
+    // Adds the tap gesture & long gesture in CollectionView
+    
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandle:)];
     UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
     [collectionview addGestureRecognizer:tapGesture];
         longPressGesture.minimumPressDuration=0.6;
     [collectionview addGestureRecognizer:longPressGesture];
     
-    //For Aviary Photo Editor
-    // Allocate Asset Library
+    // For Aviary photo editor
+    
     ALAssetsLibrary * assetLibrary = [[ALAssetsLibrary alloc] init];
     [self setAssetLibrary:assetLibrary];
-    // Allocate Sessions Array
     NSMutableArray * sessions = [NSMutableArray new];
     [self setSessions:sessions];
-    // Start the Aviary Editor OpenGL Load
     [AFOpenGLManager beginOpenGLLoad];
     
-    //Set the User Id From Nsuser Default
     userid=[manager getData:@"user_id"];
     
+    // Reset BOOL Value
     isPopFromPhotos=NO;
     isGetPhotoFromServer=NO;
     isGetPhotoIdFromServer=NO;
     isSaveDataOnServer=NO;
     [self getPhotoIdFromServer];
     
-    //set the add ,delete photo btn visibility
+    [emptyMessageLbl setText:@"Click search for pictures using key words via Title & Description"];
+    
+    // Set add/delete photo buttons visibility
+    
     if(![self.folderName isEqualToString:@"Public"] && ![self.folderName isEqualToString:@"public"])
     {
+        emptyMessageLbl.hidden=YES;
         if(self.collectionOwnerId.integerValue==userid.integerValue)
         {
             addPhotoBtn.hidden=NO;
@@ -116,12 +140,20 @@
             sharePhotoBtn.hidden=YES;
         }
     }
+    
+    emptyMessageLbl.hidden=YES;
+    navsubTitle.hidden=YES;
+    
+    isCallMultiplePhoto=NO;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
+    
+    // If returned from EditPhotoDetailViewController with edit photo
+    
     if([[manager getData:@"isfromphotodetailcontroller"] isEqualToString:@"YES"])
     {
         @try {
@@ -152,6 +184,7 @@
                 [self.navigationController popViewControllerAnimated:NO];
             }
         
+            // If returned from EditPhotoDetailViewController with edit only Photo Details
             if([[manager getData:@"isEditPhotoInViewPhoto"] isEqualToString:@"YES"])
             {
                 NSData *photo=[manager getData:@"photo"];
@@ -162,8 +195,9 @@
                 photoInfoArray=photoinfoarray;
                 [collectionview reloadData];
                 [manager storeData:@"NO" :@"isEditPhotoInViewPhoto"];
-                //remove data from nsuser default
-                [manager removeData:@"photo,photoId,isEditPhotoInViewPhoto"];//photo info array is use later
+                
+                // Remove data from NSUserDefaults
+                [manager removeData:@"photo,photoId,isEditPhotoInViewPhoto"];// photo info array is use later
                 
                 [self saveImageInDocumentDirectry:image index:photoArray.count-1];
             }
@@ -185,8 +219,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 -(void)setUIForIOS6
 {
+    // Set for IOS6
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
     {
         collectionview.frame=CGRectMake(collectionview.frame.origin.x, collectionview.frame.origin.y, collectionview.frame.size.width, collectionview.frame.size.height+50);
@@ -195,7 +231,9 @@
         sharePhotoBtn.frame=CGRectMake(sharePhotoBtn.frame.origin.x, sharePhotoBtn.frame.origin.y+50, sharePhotoBtn.frame.size.width, sharePhotoBtn.frame.size.height);
     }
 }
-#pragma mark - Text Feild Delegate Methods
+
+#pragma mark - UITextField Delegate Method
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return [textField resignFirstResponder];
@@ -208,32 +246,34 @@
     return YES;
 }
 
-#pragma mark - openAviary
+/**
+ *  Open Aviary editor
+ */
 -(void)openeditorcontrol
 {
     [self launchPhotoEditorWithImage:pickImage highResolutionImage:pickImage];
     
 }
 
-#pragma mark - SVProgress HUD
 -(void)removeProgressBar
 {
-    //[progressBarGestureView removeFromSuperview];
     [SVProgressHUD dismiss];
 }
 -(void)addProgressBar :(NSString *)message
 {
     [SVProgressHUD showWithStatus:message maskType:SVProgressHUDMaskTypeBlack];
-    
 }
-#pragma mark - IBAction Methods
+
+/**
+ *  Add Button Click
+ */
 -(IBAction)addPhoto:(id)sender
 {
     if(photoArray.count==photoIdsArray.count)
     {
         [self resetButton];
-        isAddPhotoMode=YES;
         UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"From Camera",@"From Phone", nil];
+        actionSheet.tag=10001;
         [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
     }
     else
@@ -243,6 +283,10 @@
     }
     
 }
+
+/**
+ *  Delete Button Click
+ */
 -(IBAction)deletePhoto:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
@@ -261,7 +305,7 @@
         else
         {
             [collectionview reloadData];
-            //sort the index array in descending order
+            // Sort the index array in descending order
             NSSortDescriptor *sortDescriptor;
             sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
@@ -271,6 +315,8 @@
             {
                 deleteImageCount=0;
                 @try {
+                    
+                    // Delete Photo From Server by Selected Photo Id
                     for(int i=0;i<sortedArray.count;i++)
                     {
                         [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:[[sortedArray objectAtIndex:i] integerValue]]];
@@ -280,12 +326,9 @@
                     }
                     NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
                     [manager storeData:dat:@"photoInfoArray"];
-                    if(self.isPublicFolder)
-                    {
-                        //public img count for home page
-                        NSNumber *imgCout=[NSNumber numberWithInteger:photoArray.count];
-                        [manager storeData:imgCout :@"publicImgIdArray"];
-                    }
+                    
+                    
+                    [collectionview reloadData];
                     
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:[NSString stringWithFormat:@"%d Photo deleted",sortedArray.count] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                     [alert show];
@@ -308,25 +351,19 @@
     }
     else
     {
-        if(photoIdsArray.count>0)
-        {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photos are Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-            [alert show];
-        }
-        else
-        {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-            [alert show];
-        }
+        // Alert shows if images have loaded or not
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:(photoIdsArray.count>0?@"Photos are Loading":@"No Photo Available") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        [alert show];
         
     }
     
 }
 
-
+/**
+ *  Share button click
+ */
 -(IBAction)sharePhoto:(id)sender
 {
-   
     if(photoArray.count==photoIdsArray.count)
     {
         UIButton *btn=(UIButton *)sender;
@@ -345,7 +382,9 @@
         else
         {
             [collectionview reloadData];
-            //sort the index array in descending order
+            
+            // Sort the index array in descending order
+            
             NSSortDescriptor *sortDescriptor;
             sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO] ;
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
@@ -362,6 +401,8 @@
                 }
                 NSArray *userDetail = [[NSArray alloc] initWithObjects:userid,collectionId,@1, nil];
                 
+                // Detect device type and set nib for pushed controllers
+                
                 PhotoShareController *photoShare;
                 if([manager isiPad])
                 {
@@ -370,7 +411,6 @@
                 else{
                     photoShare = [[PhotoShareController alloc] initWithNibName:@"PhotoShareController" bundle:nil];
                 }
-                
                 photoShare.otherDetailArray = userDetail;
                 photoShare.sharedImagesArray = photoIdList;
                 
@@ -381,43 +421,32 @@
                 UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Selected" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
                 [alert show];
             }
-            
             [self resetButton];
         }
-
     }
     else
     {
-        if(photoIdsArray.count>0)
-        {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photos are Loading" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-            [alert show];
-        }
-        else
-        {
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"No Photo Available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
-            [alert show];
-        }
-        
+        // Alert shows if images have not loaded
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:(photoIdsArray.count>0?@"Photos are Loading":@"No Photo Available") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+        [alert show];
     }
-
 }
 
-#pragma mark - ActionSheet Delegate method
-//action sheet delegate Method
+#pragma mark - UIActionSheet delegate Method
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     photoLocationStr=@"";
-    if(isAddPhotoMode)
+    NSInteger tag=actionSheet.tag;
+    UIImagePickerController *imagePicker=[[UIImagePickerController alloc] init];
+    imagePicker.delegate=self;
+    if(tag==10001)// Add Button Click
     {
         if(photoArray.count==photoIdsArray.count)
         {
             [self callGetLocation];
             
-            UIImagePickerController *imagePicker=[[UIImagePickerController alloc] init];
-            imagePicker.delegate=self;
             isCameraMode=YES;
-            if(buttonIndex==0)  //From Camera
+            if(buttonIndex==0)// Open Camera
             {
                 if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
                 {
@@ -433,29 +462,18 @@
                     [alert show];
                 }
             }
-            else if(buttonIndex==1)//From Gallery
+            else if(buttonIndex==1)// Open Photos From Device
             {
-              
-                imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-                if([manager isiPad])
-                {
-                    self.popover = [[UIPopoverController alloc]
-                                    initWithContentViewController:imagePicker];
-                    self.popover.delegate = self;
-                    
-                    [self.popover presentPopoverFromRect:CGRectMake(self.view.center.x-100, self.view.center.y-100, 200, 200) inView:self.view permittedArrowDirections:0 animated:YES];
-                }
-                else
-                {
-                    [self presentViewController:imagePicker animated:YES completion:nil];
-                }
+                UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add Photo" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Upload single photo",@"Upload multiple photos", nil];
+                actionSheet.tag=10003;
+                [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+                
             }
-            else if(buttonIndex==2)//Cancel Button
+            else if(buttonIndex==2)// Cancel
             {
                 NSLog(@"Cancel Button Click");
-            }
-            isPickerMode=YES;
-            isAddPhotoMode=NO;
+            }      
+            
         }
         else
         {
@@ -463,18 +481,20 @@
             [alert show];
         }
     }
-    if(isEditPhotoMode)
+    else if(tag==10002)// Edit Button Click
     {
         [self callGetLocation];
-        if(buttonIndex==0)//Edit Photo
+        if(buttonIndex==0)// Edit Photo
         {
             [self getImageFromServerForEdit:selectedEditImageIndex];
         }
-        else if(buttonIndex==1)//Edit Detail
+        else if(buttonIndex==1)// Edit Detail
         {
             if(isPhotoOwner)
             {
                 EditPhotoDetailViewController *editPhotoDetail;
+                
+                // Detect device and load nib for controller being pushed
                 if([manager isiPad])
                 {
                     editPhotoDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
@@ -489,13 +509,120 @@
                 [self.navigationController pushViewController:editPhotoDetail animated:NO];
             }
         }
-        isEditPhotoMode=NO;
+    }
+    else if (tag==10003)// Add Photo Option
+    {
+        if(buttonIndex==0)// With Editor
+        {
+             imagePicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+             if([manager isiPad])
+             {
+                 self.popover = [[UIPopoverController alloc]
+                                 initWithContentViewController:imagePicker];
+                 self.popover.delegate = self;
+             
+                 [self.popover presentPopoverFromRect:CGRectMake(self.view.center.x-100, self.view.center.y-100, 200, 200) inView:self.view permittedArrowDirections:0 animated:YES];
+             }
+             else
+             {
+                 [self presentViewController:imagePicker animated:YES completion:nil];
+             }
+        }
+        else if (buttonIndex==1)// WithOutEditor
+        {
+            [self openCustomImagePicker];
+        }
+        else if (buttonIndex==2)
+        {
+            NSLog(@"Cancel Button Click");
+        }
     }
 }
-#pragma mark - Methods for Fetch and Save Data on server
-//get PhotoId From Server
+
+#pragma mark - Device Orientation
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return YES;
+    } else {
+        return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+    }
+}
+
+/**
+ *  Custom Image Picker For Pick The Multiple Photos
+ */
+
+-(void)openCustomImagePicker
+{
+    [self pickAssets:nil];
+
+}
+
+- (void)pickAssets:(id)sender
+{
+    if (!self.assets)
+        self.assets = [[NSMutableArray alloc] init];
+    
+    CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+    picker.maximumNumberOfSelections = 10;
+    picker.assetsFilter = [ALAssetsFilter allAssets];
+    
+    // Only allow video clips if they are 5 Sec long
+    
+    picker.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(ALAsset* asset, NSDictionary *bindings) {
+        if ([[asset valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+            NSTimeInterval duration = [[asset valueForProperty:ALAssetPropertyDuration] doubleValue];
+            return duration >= 5;
+        } else {
+            return YES;
+        }
+    }];
+    
+    picker.delegate = self;
+    
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+
+/**
+ *  Multiple photo assets picker delegates
+ */
+
+- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+{
+    [picker.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    NSMutableArray *arr=[NSMutableArray arrayWithArray:assets];
+    
+    [self saveMultiplePhotoOnServer:arr];
+}
+
+- (NSArray *)indexPathOfNewlyAddedAssets:(NSArray *)assets
+{
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    
+    for (NSUInteger i = self.assets.count; i < self.assets.count + assets.count ; i++)
+        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    
+    return indexPaths;
+}
+
+
+
+/**
+ *  Get Photos Ids From Server
+ */
+
 -(void)getPhotoIdFromServer
 {
+    [selectedImagesIndex removeAllObjects];
+    [photoArray removeAllObjects];
+    [photoIdsArray removeAllObjects];
+    [photoInfoArray removeAllObjects];
+    [collectionview reloadData];
+
     [self addProgressBar:@"Standby"];
     isGetPhotoIdFromServer=YES;
     
@@ -506,10 +633,13 @@
     [webServices call:dicData controller:@"collection" method:@"get"];
 }
 
-//get Photo From Server
+/**
+ *  Get Photo From Server
+ */
+
+
 -(void)getPhotoFromServer :(int)photoIdIndex
 {
-   
     isGetPhotoFromServer=YES;
     NSDictionary *dicData;
     @try {
@@ -520,13 +650,12 @@
             NSString *imageReSize;
             if([manager isiPad])
             {
-                imageReSize=@"140";
+                imageReSize=@"360";
             }
             else
             {
-                imageReSize=@"80";
+                imageReSize=@"180";
             }
-            //callling First Time Webservice for Get image from server
             webServices.delegate=self;
             NSNumber *num = [NSNumber numberWithInt:1] ;
             selectedPhotoId = [photoIdsArray objectAtIndex:photoIdIndex];
@@ -541,7 +670,11 @@
     }
 }
 
-//save Photo on Server Photo With Detaill
+/**
+ *  Save Photo on Server
+ */
+
+
 -(void)savePhotosOnServer :(NSNumber *)usrId filepath:(NSData *)image
 {
     isSaveDataOnServer=YES;
@@ -554,11 +687,61 @@
         photoLocationStr=@"";
     }
     NSDictionary *dic = @{@"user_id":userid,@"photo_title":photoTitleStr,@"photo_description":photoDescriptionStr,@"photo_location":photoLocationStr,@"photo_tags":photoTagStr,@"photo_collections":self.collectionId};
-    //store data
-    // [webServices call:data controller:@"photo" method:@"store"];
+    
     [webServices saveFileData:dic controller:@"photo" method:@"store" filePath:image] ;
 }
-//deletePhotoFromServer
+
+/**
+ *  Save multiple photo on server
+ */
+
+-(void)saveMultiplePhotoOnServer:(NSMutableArray *)photoA
+{
+    isCallMultiplePhoto=YES;
+    [uploadMultiPlePhoto uploadMultiplePhoto:photoA userId:userid collectionId:self.collectionId];
+}
+
+
+/**
+ *  Response for multiple photo upload
+ */
+
+-(void)responseForMultiPleImageUpload:(UIImage *)img imgid:(NSNumber *)imgid colId:(NSNumber *)colId
+{
+    if(colId.integerValue==self.collectionId.integerValue)
+    {
+        if(isCallMultiplePhoto)
+        {
+            [self updatePhotoInCollectionViewData:imgid image:img cache:NO];
+        }
+        else
+        {
+            imgIdTemp=imgid;
+            imgTemp=img;
+            [self performSelector:@selector(updatePhoto) withObject:nil afterDelay:15.0f];
+        }
+    }
+}
+
+/**
+ *  Update Photo in Collection view
+ */
+-(void)updatePhoto
+{
+    [self updatePhotoInCollectionViewData:imgIdTemp image:imgTemp cache:NO];
+}
+-(void)uploadStatus:(BOOL)status
+{
+    if(status)
+    {
+        // [self performSelector:@selector(getPhotoIdFromServer) withObject:self afterDelay:5.0];
+    }
+}
+
+/**
+ *  Delete Photo From Server
+ */
+
 -(void)deletePhotoFromServer :(NSNumber *)usrId photoId:(NSNumber *)photoId
 {
     [self deletePhotoFromDocumentDirectory:photoId];
@@ -567,9 +750,11 @@
      webServices.delegate=self;
     NSDictionary *dicData=@{@"user_id":userid,@"photo_id":photoId};
     [webServices call:dicData controller:@"photo" method:@"delete"];
-    
 }
 
+/**
+ *  Get Photo From Server
+ */
 -(void)getImageFromServerForEdit :(int)selectedIndex
 {
     isEditImageFromServer=YES;
@@ -585,28 +770,31 @@
     NSDictionary *dicData = @{@"user_id":userid,@"photo_id":[photoIdsArray objectAtIndex:selectedIndex],@"get_image":num,@"image_resize":imageReSize,@"collection_id":self.collectionId};
     
     [self addProgressBar:@"Photo is Loading"];
-    
-    
     [webServices call:dicData controller:@"photo" method:@"get"];
 }
 
-#pragma mark - webservice callBack methods
+#pragma mark - WebService Delegate Methods
+
 -(void) webserviceCallbackImage:(UIImage *)image
 {
-   
+    // Preparing image from server for editing
     [self removeProgressBar];
     @try {
         if(isEditImageFromServer)
         {
-            
             [self launchPhotoEditorWithImage:image highResolutionImage:image];
             isEditImageFromServer=NO;
         }
         else if(isGetPhotoFromServer)
         {
+            countRecievedPhoto++;
+            if(image==NULL)
+            {
+                image=[UIImage imageNamed:@"error.png"];
+            }
             [self saveImageInDocumentDirectry:image index:photoArray.count];
             [photoArray addObject:image];
-            
+                
             int count=photoArray.count;
             NSLog(@"Photo Array Count is : %d",count);
             UIImageView *imgView=(UIImageView *)[collectionview viewWithTag:100+count];
@@ -618,22 +806,25 @@
             {
                 if(!isPopFromPhotos)
                 {
-                    [self getPhotoFromServer:photoArray.count];                   
+                    [self getPhotoFromServer:countRecievedPhoto];
                 }
             }
             else
             {
                 isGetPhotoFromServer=NO;
+                countRecievedPhoto=0;
             }
         }
     }
     @catch (NSException *exception) {
         
     }
-    
 }
+
 -(void)webserviceCallback:(NSDictionary *)data
 {
+    // Checks if photos edited are saved on the server
+    
     NSDictionary *outputData=[data objectForKey:@"output_data"];
     
     int exitcode=[[data objectForKey:@"exit_code"] integerValue];
@@ -643,44 +834,7 @@
         [self removeProgressBar];
         if(exitcode==1)
         {
-            @try {
-                [photoArray addObject:editedImage];
-                [photoIdsArray addObject:[outputData objectForKey:@"image_id"]];
-                //save image in document directory
-                NSData *dta = UIImageJPEGRepresentation(editedImage, 0.1);
-                UIImage *newImage = [UIImage imageWithData:dta];
-                [self saveImageInDocumentDirectry:newImage index:photoIdsArray.count-1];
-                
-                //update the photo info  in nsuser default
-                NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
-                
-                size_t imageSize = CGImageGetBytesPerRow(pickImage.CGImage) * CGImageGetHeight(pickImage.CGImage);
-                
-                NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-                [dic setObject:[NSString stringWithFormat:@"%@",[NSDate date]] forKey:@"collection_photo_added_date"];
-                [dic setObject:photoDescriptionStr forKey:@"collection_photo_description"];
-                [dic setObject:photoTitleStr forKey:@"collection_photo_title"];
-                [dic setObject:[outputData objectForKey:@"image_id"] forKey:@"collection_photo_id"];
-                [dic setObject:[NSString stringWithFormat:@"%zu",imageSize] forKey:@"collection_photo_filesize"];
-                [dic setObject:userid forKey:@"collection_photo_user_id"];
-                //update photo info array in nsuser default
-                [photoinfoarray addObject:dic];
-                
-                NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
-                [manager storeData:data :@"photoInfoArray"];
-                
-                [photoInfoArray addObject:dic];
-                if(self.isPublicFolder)
-                {
-                    //public img count for home page
-                    NSNumber *imgCout=[NSNumber numberWithInteger:photoArray.count];
-                    [manager storeData:imgCout :@"publicImgIdArray"];
-                }
-                [collectionview reloadData];
-            }
-            @catch (NSException *exception) {
-                
-            }
+            [self updatePhotoInCollectionViewData:[outputData objectForKey:@"image_id"]image:editedImage cache:YES];
         }
         else
         {
@@ -699,11 +853,13 @@
         [self removeProgressBar];
         if(exitcode==1)
         {
+            isGetPhotoIdFromServer=NO;
+            
             NSDictionary *collectionContent=[outputData objectForKey:@"collection_contents"];
-            //set the collection details
+            // Set the collection details
             NSString *writeUserIdStr=[[outputData objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
             NSString *readUserIdStr=[[outputData objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
-            //store in nsuserDefault
+            // Stores in NSUserDefaults
             NSArray *writePer=[outputData objectForKey:@"collection_write_user_ids"];
             NSArray *readPer=[outputData objectForKey:@"collection_read_user_ids"];
             isWritePermission=[writePer containsObject:userid];
@@ -718,11 +874,15 @@
             
             if(collectionContent.count>0)
             {
-                //set the photo id
-                [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
+                emptyMessageLbl.hidden=YES;
                 
+                // Sets the photo id
+                
+                [photoIdsArray addObjectsFromArray:[collectionContent allKeys]];
                 [photoInfoArray addObjectsFromArray:[collectionContent allValues]];
-                //store photo info array in nsuser default ARRAY IS store in data format
+                
+                // Stores photo info array in NSUserDefaults
+                
                 NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
                 [manager storeData:dat:@"photoInfoArray"];
                 
@@ -740,9 +900,8 @@
                             [self getPhotoFromServer:i];
                             break;
                         }
-                        
                     }
-                    [collectionview reloadData];
+                    
                 }
                 else
                 {
@@ -754,28 +913,96 @@
             {
                 NSData *dat = [NSKeyedArchiver archivedDataWithRootObject:photoInfoArray];
                 [manager storeData:dat:@"photoInfoArray"];
+                if(self.isPublicFolder)
+                {
+                    emptyMessageLbl.hidden=NO;
+                }
                 
+                 [collectionview reloadData];
                 [SVProgressHUD showSuccessWithStatus:@"No Photos Available"];
             }
             
         }
-        isGetPhotoIdFromServer=NO;
+        
     }
 }
 
+/**
+ *  Update Collection View Data
+ */
 
-#pragma mark - save,delete and get image from Document directry
+-(void)updatePhotoInCollectionViewData:(NSNumber *)photoId image:(UIImage *)image cache:(BOOL)saveinCache
+{
+    @try {
+        // For Photo Detail
+        if(photoDescriptionStr.length==0)
+            photoDescriptionStr=@"";
+        if(photoLocationStr.length==0)
+            photoLocationStr=@"";
+        if(photoTitleStr.length==0)
+            photoTitleStr=@"Untitled";
+        
+        [photoArray addObject:image];
+        [photoIdsArray addObject:photoId];
+        
+        
+        // Save image in document directory
+        NSData *dta = UIImageJPEGRepresentation(image, 0.1);
+        UIImage *newImage = [UIImage imageWithData:dta];
+        if(saveinCache)
+        {
+            [self saveImageInDocumentDirectry:newImage index:photoIdsArray.count-1];
+        }
+        // Update the photo info in NSUserDefaults
+        NSMutableArray *photoinfoarray=[NSKeyedUnarchiver unarchiveObjectWithData:[[manager getData:@"photoInfoArray"] mutableCopy]];
+        
+        size_t imageSize = CGImageGetBytesPerRow(pickImage.CGImage) * CGImageGetHeight(pickImage.CGImage);
+        
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
+        [dic setObject:[NSString stringWithFormat:@"%@",[NSDate date]] forKey:@"collection_photo_added_date"];
+        [dic setObject:photoDescriptionStr forKey:@"collection_photo_description"];
+        [dic setObject:photoTitleStr forKey:@"collection_photo_title"];
+        [dic setObject:photoId forKey:@"collection_photo_id"];
+        [dic setObject:[NSString stringWithFormat:@"%zu",imageSize] forKey:@"collection_photo_filesize"];
+        [dic setObject:userid forKey:@"collection_photo_user_id"];
+        
+        // Update photo info array in NSUserDefaults
+        
+        [photoinfoarray addObject:dic];
+        
+        NSData *data=[NSKeyedArchiver archivedDataWithRootObject:photoinfoarray];
+        [manager storeData:data :@"photoInfoArray"];
+        
+        [photoInfoArray addObject:dic];
+        if(self.isPublicFolder)
+        {
+            // Public img count for home page
+            NSNumber *imgCout=[NSNumber numberWithInteger:photoArray.count];
+            [manager storeData:imgCout :@"publicImgIdArray"];
+        }
+       
+    }
+    @catch (NSException *exception) {
+            }
+   [collectionview reloadData];
+}
+
+/**
+ *  Save Image In Document Directory
+ */
+
 -(void)saveImageInDocumentDirectry:(UIImage *)img index:(NSInteger)index
 {
-    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    //Create Folder
+    
+    // Create Folder
+    
     NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"/123FridayImages"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
     {
-        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
     }
     if(self.isPublicFolder)
     {
@@ -787,7 +1014,7 @@
     }
     if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
     {
-        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
     }
     if(!self.isPublicFolder)
     {
@@ -795,14 +1022,18 @@
     }
     if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
     {
-        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
     }
     NSString *savedImagePath = [dataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_Photo_%@.png",userid,[photoIdsArray objectAtIndex:index]]];
-    UIImage *image = img; // imageView is my image from camera
+    UIImage *image = img;
     NSData *imgData = UIImagePNGRepresentation(image);
     [imgData writeToFile:savedImagePath atomically:NO];
     
 }
+
+/**
+ *  Get Image From Document Directory
+ */
 -(UIImage *)getImageFromDocumentDirectory :(NSInteger)index
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,    NSUserDomainMask, YES);
@@ -820,9 +1051,13 @@
     return img;
    
 }
+
+/**
+ *  Delete Photo From Document Directory
+ */
 -(void)deletePhotoFromDocumentDirectory:(NSNumber *)photoId
 {
-    // Get the Documents directory path
+    // Get documents from directory path
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectoryPath = [paths objectAtIndex:0];
     
@@ -839,7 +1074,7 @@
         largeImagePath=[NSString stringWithFormat:@"/123FridayImages/YourFolder/%@/%@_LargePhoto_%@.png",self.folderName,userid,photoId];
     }
     
-    // Delete the file using NSFileManager
+    // Delete file
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if([fileManager removeItemAtPath:[documentsDirectoryPath stringByAppendingPathComponent:smallImagePath] error:nil])
     {
@@ -850,13 +1085,16 @@
         
     }
 }
-//reset the button hidden no and previous frame
+
+/**
+ *  Reset Button
+ */
 -(void)resetButton
 {
     for (int i=0; i<photoArray.count; i++) {
         UIImageView *chechBoxImf=(UIImageView *)[collectionview viewWithTag:1001];
         [chechBoxImf removeFromSuperview];
-        //Reset the collection view
+        
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:i inSection:0];
         UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
         cell.selected=NO;
@@ -879,8 +1117,10 @@
     
     [selectedImagesIndex removeAllObjects];
 }
+/**
+ *  Taphandle Method for Collection view
+ */
 
-#pragma mark - gesture methods
 -(void)tapHandle:(UITapGestureRecognizer *)gestureRecognizer
 {
     CGPoint p = [gestureRecognizer locationInView:collectionview];
@@ -955,7 +1195,7 @@
                 [selectedImagesIndex removeObject:[NSNumber numberWithInteger:[indexPath row]]];
             }
         }
-        else  //view Image
+        else
         {
             if(photoArray.count>indexPath.row)
             {
@@ -975,6 +1215,11 @@
         [self resetButton];
     }
 }
+
+/**
+ *  Long Press Method For UICollectionView
+ */
+
 -(void)longPressHandle:(UILongPressGestureRecognizer *)gestureRecognizer
 {
     CGPoint p = [gestureRecognizer locationInView:collectionview];
@@ -1000,9 +1245,9 @@
             UICollectionViewCell *cell=[collectionview cellForItemAtIndexPath:indexPath];
             if(collectionOwnerId.integerValue==userid.integerValue)
             {
+                UIMenuController *menu = [UIMenuController sharedMenuController];
                 UIMenuItem *editPhoto = [[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editImage:)];
                 
-                UIMenuController *menu = [UIMenuController sharedMenuController];
                 [menu setMenuItems:[NSArray arrayWithObjects:editPhoto,nil]];
                 [menu setTargetRect:frameForMenuController inView:cell];
                 [menu setMenuVisible:YES animated:YES];
@@ -1048,12 +1293,13 @@
                     NSLog(@"Read Permission");
                 }
             }
-            
         }
-
     }
 }
-#pragma mark - UIMenuController delegate methods
+
+/**
+ *  For UIMenuController
+ */
 - (BOOL) canPerformAction:(SEL)action withSender:(id)sender
 {
     if(isWritePermission)
@@ -1081,16 +1327,20 @@
     {
         if (action == @selector(editImage:))
         return YES;
+        if (action == @selector(reportAbuse:))
+            return YES;
     }
     return NO;
    
 }
-//for UIMenu controller
+
 - (BOOL)canBecomeFirstResponder {
 	return YES;
 }
 
-#pragma mark - UIMenuController item action perform methods
+/**
+ *  Menu Controller Edit button click
+ */
 - (void)edit:(id)sender {
     photoLocationStr=@"";
     [self callGetLocation];
@@ -1098,23 +1348,25 @@
     
     if(photoUserId.integerValue==userid.integerValue)
     {
-        isEditPhotoMode=YES;
         UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:Nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
+        actionSheet.tag=10002;
         [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
     }
     else
     {
         [self getImageFromServerForEdit:selectedEditImageIndex];
-
     }
    	NSLog(@"Photo Edit");
 }
 
 
-//send mail.
+/**
+ *  Menu Controller ReportAbuse button click
+ */
+
 - (void)reportAbuse:(id)sender {
     
-    isMailSendMode=YES;//for photo loading
+    isMailSendMode=YES;// for photo loading
     MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
     controller.mailComposeDelegate = self;
     [controller setToRecipients:[NSArray arrayWithObject:@"reportabuse@123friday.com"]];
@@ -1130,6 +1382,11 @@
     }
 	NSLog(@"Cell was approved");
 }
+
+/**
+ *  Menu Controller Delete button click
+ */
+
 -(void)deleteSelectedPhoto:(id)sender
 {
     [self deletePhotoFromServer:userid photoId:[photoIdsArray objectAtIndex:selectedEditImageIndex]];
@@ -1140,10 +1397,10 @@
     
     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Message" message:@"Photo Deleted" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
     [alert show];
-
 }
-#pragma mark - MailComposer method
-//main delegate method
+
+#pragma mark - MFMailComposeViewController delegate Methods
+
 - (void)mailComposeController:(MFMailComposeViewController*)controller
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError*)error;
@@ -1157,14 +1414,14 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Open Photo View Controller
+/**
+ *  Open photo view controller
+ */
+
 -(void)viewPhoto :(NSIndexPath *)indexPath
 {
     @try {
         PhotoViewController *viewPhoto=[[PhotoViewController alloc] init];
-        
-        NSLog(@"isWritePermission:%hhd",isWritePermission);
-         NSLog(@"isReadPermission:%hhd",isReadPermission);
         
         NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
         if(!isWritePermission && isReadPermission)
@@ -1202,22 +1459,26 @@
     }
 }
 
-#pragma mark - Open Edit option
+/**
+ *  Open edit options
+ */
+
 -(void)editImage:(id)sender
 {
     @try {
-        isEditPhotoMode=YES;
         NSNumber *photoUserId=[[photoInfoArray objectAtIndex:selectedEditImageIndex] objectForKey:@"collection_photo_user_id"];
         if(photoUserId.integerValue==userid.integerValue)
         {
             isPhotoOwner=YES;
             UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo",@"Edit Properties", nil];
+            actionSheet.tag=10002;
             [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
         }
         else
         {
             isPhotoOwner=NO;
             UIActionSheet *actionSheet=[[UIActionSheet alloc] initWithTitle:Nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:Nil otherButtonTitles:@"Edit Photo", nil];
+            actionSheet.tag=10002;
             [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
         }
     }
@@ -1226,9 +1487,16 @@
     }
 }
 
+/**
+ *  Open EditPhotoDetailViewController
+ */
+
 -(void)goToPhotoDetailViewControler
 {
     EditPhotoDetailViewController *editDetail;
+    
+    // Sets view according to the device
+    
     if([manager isiPad])
     {
         editDetail=[[EditPhotoDetailViewController alloc] initWithNibName:@"EditPhotoDetailViewController_iPad" bundle:[NSBundle mainBundle]];
@@ -1244,8 +1512,8 @@
     [self.navigationController pushViewController:editDetail animated:NO];
 }
 
-#pragma mark - ImagePicker Methods
-//imagePicker delegate Method
+#pragma mark - UIImagePickerController Delegate Methods
+
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     if([manager isiPad])
@@ -1261,7 +1529,7 @@
         [self.popover dismissPopoverAnimated:YES];
     }
     NSURL * assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
-    //set the asset url in String
+    // Sets the asset url in String
     assetUrlOfImage=[NSString stringWithFormat:@"%@",assetURL];
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     @try {
@@ -1300,7 +1568,11 @@
     }
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 }
-#pragma mark - SearchViewController
+
+
+/**
+ *  Open SearchView
+ */
 -(void)searchViewOpen
 {
     searchController=nil;
@@ -1309,18 +1581,35 @@
     [self.navigationController pushViewController:searchController animated:NO];
 }
 
-#pragma mark - Collection view methods
+#pragma mark - UICollectionView delegate Methods
+
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+    if(self.isPublicFolder && !isGetPhotoIdFromServer)
+    {
+        if(photoIdsArray.count>0)
+        {
+            emptyMessageLbl.hidden=YES;
+            navsubTitle.hidden=NO;
+        }
+        else
+        {
+            emptyMessageLbl.hidden=NO;
+            navsubTitle.hidden=YES;
+        }
+    }
     return [photoIdsArray count];
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier=@"CVCell";
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    
+    for (UIView *vi in [[cell contentView] subviews]) {
+        [vi removeFromSuperview];
+    }
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
     imgView.tag=101+indexPath.row;
+    imgView.contentMode=UIViewContentModeScaleAspectFill;
     imgView.layer.masksToBounds=YES;
     
     @try {
@@ -1329,7 +1618,7 @@
         {
             UIImage *image=[photoArray objectAtIndex:indexPath.row];
             imgView.image=image;
-            
+       
             [cell.contentView addSubview:imgView];
             
             if([selectedImagesIndex containsObject:[NSNumber numberWithInteger:[indexPath row]]])
@@ -1361,9 +1650,7 @@
 
 
 
-//For Aviary Edit Photo
-#pragma mark - Aviary Methods
-#pragma mark - Photo Editor Launch Methods
+#pragma mark - Aviary Editor Methods
 
 - (void) launchEditorWithAsset:(ALAsset *)asset
 {
@@ -1374,7 +1661,10 @@
 }
 
 
-#pragma mark - Photo Editor Creation and Presentation
+/**
+ *  Photo editor creation and presentation
+ */
+
 - (void) launchPhotoEditorWithImage:(UIImage *)editingResImage highResolutionImage:(UIImage *)highResImage
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
@@ -1385,36 +1675,37 @@
         [self setPhotoEditorCustomizationOptions];
     });
     
-    // Initialize the photo editor and set its delegate
+    // Init photo editor and set delegate
+    
     AFPhotoEditorController * photoEditor = [[AFPhotoEditorController alloc] initWithImage:editingResImage];
     photoEditor.view.frame=CGRectMake(0, 100, 320, 300);
     [photoEditor setDelegate:self];
     
-    // If a high res image is passed, create the high res context with the image and the photo editor.
+    // On high res image, create high res context for image & photo editor
     if (highResImage) {
         [self setupHighResContextForPhotoEditor:photoEditor withImage:highResImage];
     }
     
-    // Present the photo editor.
+    // Presents photo editor
     [self presentViewController:photoEditor animated:NO completion:nil];
 }
 
 - (void) setupHighResContextForPhotoEditor:(AFPhotoEditorController *)photoEditor withImage:(UIImage *)highResImage
 {
-    // Capture a reference to the editor's session, which internally tracks user actions on a photo.
+    // Capture editor session reference for further usage
     __block AFPhotoEditorSession *session = [photoEditor session];
     
-    // Add the session to our sessions array. We need to retain the session until all contexts we create from it are finished rendering.
+    // Add sessions in session array
     [[self sessions] addObject:session];
     
-    // Create a context from the session with the high res image.
+    // Create context from session for high res image
     AFPhotoEditorContext *context = [session createContextWithImage:highResImage];
     
     __block PhotoGalleryViewController * blockSelf = self;
     
     [context render:^(UIImage *result) {
         if (result) {
-            //UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
+            // UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
         }
         
         [[blockSelf sessions] removeObject:session];
@@ -1427,7 +1718,9 @@
 
 #pragma Photo Editor Delegate Methods
 
-// This is called when the user taps "Done" in the photo editor.
+/**
+ *  This method is called when user taps "DONE" in photo editor
+ */
 - (void) photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
    
@@ -1442,7 +1735,9 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
 }
-// This is called when the user taps "Cancel" in the photo editor.
+/**
+ *  This method is called when user taps "CANCEL" in photo editor
+ */
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
     [self dismissViewControllerAnimated:NO completion:nil];
@@ -1451,16 +1746,17 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
-#pragma mark - Photo Editor Customization
-
+/**
+ *  Photo editor customization
+ */
 
 - (void) setPhotoEditorCustomizationOptions
 {
-    // Set Tool Order
+    // Set tool order
     NSArray * toolOrder = @[kAFEffects, kAFFocus, kAFFrames, kAFStickers, kAFEnhance, kAFOrientation, kAFCrop, kAFAdjustments, kAFSplash, kAFDraw, kAFText, kAFRedeye, kAFWhiten, kAFBlemish, kAFMeme];
     [AFPhotoEditorCustomization setToolOrder:toolOrder];
     
-    // Set Custom Crop Sizes
+    // Set custom crop sizes
     [AFPhotoEditorCustomization setCropToolOriginalEnabled:NO];
     [AFPhotoEditorCustomization setCropToolCustomEnabled:YES];
     NSDictionary * fourBySix = @{kAFCropPresetHeight : @(4.0f), kAFCropPresetWidth : @(6.0f)};
@@ -1468,15 +1764,16 @@
     NSDictionary * square = @{kAFCropPresetName: @"Square", kAFCropPresetHeight : @(1.0f), kAFCropPresetWidth : @(1.0f)};
     [AFPhotoEditorCustomization setCropToolPresets:@[fourBySix, fiveBySeven, square]];
     
-    
-    // Set Supported Orientations
+    // Set supported orientation
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         NSArray * supportedOrientations = @[@(UIInterfaceOrientationPortrait), @(UIInterfaceOrientationPortraitUpsideDown), @(UIInterfaceOrientationLandscapeLeft), @(UIInterfaceOrientationLandscapeRight)];
         [AFPhotoEditorCustomization setSupportedIpadOrientations:supportedOrientations];
     }
     
 }
-#pragma mark - ALAssets Helper Methods
+/**
+ *  ALAssets helper methods
+ */
 
 - (UIImage *)editingResImageForAsset:(ALAsset*)asset
 {
@@ -1490,23 +1787,10 @@
     ALAssetRepresentation * representation = [asset defaultRepresentation];
     
     CGImageRef image = [representation fullResolutionImage];
-    UIImageOrientation orientation = [representation orientation];
+    UIImageOrientation orientations = (UIImageOrientation)[representation orientation];
     CGFloat scale = [representation scale];
     
-    return [UIImage imageWithCGImage:image scale:scale orientation:orientation];
-}
-
-
-#pragma mark - Private Helper Methods
-
-- (BOOL) hasValidAPIKey
-{
-    NSString * key = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Aviary-API-Key"];
-    if (![key isEqualToString:@"c1f4f0ae01276a21"]) {
-        [[[UIAlertView alloc] initWithTitle:@"Oops!" message:@"You forgot to add your API key!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-        return NO;
-    }
-    return YES;
+    return [UIImage imageWithCGImage:image scale:scale orientation:orientations];
 }
 
 -(void)dismissModals
@@ -1514,8 +1798,9 @@
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
-#pragma mark - Current Location Methods and CLLocationManagerDelegate
-//get the user location
+/**
+ *  Get location methods
+ */
 -(void)callGetLocation
 {
     locationManager = [[CLLocationManager alloc] init];
@@ -1529,7 +1814,7 @@
     
     [locationManager startUpdatingLocation];
 }
-
+#pragma mark - CLLocationManager delegate Methods
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError: %@", error);
@@ -1539,7 +1824,8 @@
     NSLog(@"didUpdateToLocation: %@", newLocation);
     CLLocation *currentLocation = newLocation;
     
-    // Reverse Geocoding
+    // Reverse geocoding to get location
+    
     NSLog(@"Resolving the Address");
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
@@ -1563,6 +1849,7 @@
 
 
 #pragma mark - Add Custom Navigation Bar
+
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
@@ -1578,11 +1865,56 @@
     UIButton *searchBtn=[navnBar navBarRightButton:@"Search"];
     [searchBtn addTarget:self action:@selector(searchViewOpen) forControlEvents:UIControlEventTouchUpInside];
     
-    UILabel *titleLabel=[navnBar navBarTitleLabel:@"123 Public"];
+    
     if(self.isPublicFolder==YES)
     {
-        [navnBar addSubview:titleLabel];
+        CGFloat titleY;
+        CGFloat subtitleY;
+        CGFloat subtitleWidth;
+        CGFloat subFont;
+        if([manager isiPad])
+        {
+            titleY=20;
+            subtitleY=30;
+            subFont=16;
+            subtitleWidth=100;
+        }
+        else
+        {
+            titleY=8;
+            subtitleY=16;
+            subFont=7.8;
+            subtitleWidth=80;
+        }
+        UILabel *navTitle = [navnBar navBarTitleLabel:@"123 Public"];
+        navTitle.backgroundColor=[UIColor clearColor];
+        
+        CGRect navframe=navTitle.frame;
+        navframe.origin.y=navframe.origin.y-titleY;
+        navTitle.frame=navframe;
+        
+        CGRect backFrame=button.frame;
+        backFrame.origin.y=backFrame.origin.y-titleY;
+        button.frame=backFrame;
+        
+        CGRect searchFrame=searchBtn.frame;
+        searchFrame.origin.y=searchFrame.origin.y-titleY;
+        searchBtn.frame=searchFrame;
+        
+        
+        navsubTitle = [navnBar navBarTitleLabel:@"(Click search for pictures using key words via Title & Description)"];
+        navsubTitle.backgroundColor=[UIColor clearColor];
+        navframe.origin.y=navframe.origin.y+subtitleY;
+        navframe.origin.x=navframe.origin.x-(subtitleWidth/2);
+        navframe.size.width=navframe.size.width+subtitleWidth;
+        navsubTitle.frame=navframe;
+        navsubTitle.font=[UIFont systemFontOfSize:subFont];
+        
+        
+        [navnBar addSubview:navTitle];
+        [navnBar addSubview:navsubTitle];
         [navnBar addSubview:searchBtn];
+        
     }
     else
     {
@@ -1601,7 +1933,6 @@
         
         foldernamelabel.textAlignment=NSTextAlignmentRight;
         foldernamelabel.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
-        //[navnBar addSubview:iconbtn];
         [navnBar addSubview:foldernamelabel];
     }
     

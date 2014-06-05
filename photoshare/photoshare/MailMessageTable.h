@@ -1,10 +1,10 @@
-//
-//  MailMessageTable.h
-//  photoshare
-//
-//  Created by ignis3 on 29/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// MailMessageTable.h
+// photoshare
+// 
+// Created by ignis3 on 29/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "NavigationBar.h"
@@ -14,6 +14,7 @@
     ContentManager *objManager;
     NavigationBar *navnBar;
     NSMutableArray *checkBoxBtn_Arr;
+    
     IBOutlet UIButton *select_deseletBtn;
     IBOutlet UILabel *showTheSelectBtnDisableLbl;
     IBOutlet UISearchBar *searchbar;

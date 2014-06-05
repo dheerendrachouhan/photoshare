@@ -1,9 +1,9 @@
 //
-//  AddFolderViewController.m
-//  photoshare
+// AddFolderViewController.m
+// photoshare
 //
-//  Created by ignis2 on 24/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
+// Created by ignis2 on 24/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
 //
 
 #import "AddEditFolderViewController.h"
@@ -20,18 +20,8 @@
 @synthesize isAddFolder,isEditFolder,collectionId,setFolderName,collectionOwnerId,isFromLaunchCamera;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"AddEditFolderViewController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"AddEditFolderViewController";
-    }
-
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -40,25 +30,32 @@
 {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view from its nib.
+    // Detect device and load nib
     
-    //initialize the photo is array
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"AddEditFolderViewController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"AddEditFolderViewController" owner:self options:nil];
+    }
+    
+    
     photoIdArray=[[NSMutableArray alloc] init];
     collectionDetail=[[NSMutableDictionary alloc] init];
     
-    //contant manager Object
-     manager = [ContentManager sharedManager];
+    manager = [ContentManager sharedManager];
     webservices=[[WebserviceController alloc] init];
+    
     [self addCustomNavigationBar];
     [self setUIForIOS6];
-    //set the write user
+    
     [manager storeData:@"" :@"writeUserId"];
     [manager storeData:@"" :@"readUserId"];
     
-    //set the delgate of text field
     [folderName setDelegate:self];
     
-    //set the disign of the button , View and Label
     UIColor *tfBackViewBorderColor=[UIColor lightGrayColor];
     float tfBackViewBorderWidth=2;
     float tfBackViewCornerRadius=5;
@@ -66,8 +63,7 @@
     folderNameView.layer.borderWidth=tfBackViewBorderWidth;
     folderNameView.layer.cornerRadius=tfBackViewCornerRadius;
     folderNameView.layer.borderColor=tfBackViewBorderColor.CGColor;
-
-    //initialize the array
+    
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing=[[NSMutableArray alloc] init];
     
@@ -86,10 +82,11 @@
     addButton.layer.borderWidth=btnBorderWidth;
     addButton.layer.borderColor=btnBorderColor.CGColor;
     
-    //drop down setting
     userid=[manager getData:@"user_id"];
     shareForReadingWithBtn.hidden=NO;
     shareForWritingWithBtn.hidden=NO;
+    
+    // Check if folder edit option is select
     if(self.isEditFolder)
     {
         crossBtnForTF.hidden=NO;
@@ -98,9 +95,11 @@
         deleteButton.hidden=NO;
         folderName.enabled=YES;
         folderNameView.userInteractionEnabled=YES;
-
+        
         folderName.text=self.setFolderName;
         collectionOwnerNameLbl.text=@"";
+        
+        // Check if selected folder is shared Folder
         if(self.collectionOwnerId.integerValue != userid.integerValue)
         {
             crossBtnForTF.hidden=YES;
@@ -110,6 +109,7 @@
             folderName.enabled=NO;
             folderNameView.userInteractionEnabled=NO;
         }
+        // Check if selected folder is private Folder
         if([self.setFolderName isEqualToString:@"Private"] || [self.setFolderName isEqualToString:@"private"])
         {
             crossBtnForTF.hidden=YES;
@@ -121,8 +121,13 @@
             shareForReadingWithBtn.hidden=YES;
             shareForWritingWithBtn.hidden=YES;
         }
-     [self getCollectionDetail];
+        
+        
+        [self getCollectionDetail];
     }
+    
+    //Check if add folder option is selected
+    
     else if(self.isAddFolder)
     {
         crossBtnForTF.hidden=NO;
@@ -135,9 +140,10 @@
         collectionOwnerNameLbl.text=[dic objectForKey:@"user_realname"];
     }
     
-    //tap getsure on view for dismiss the keyboard
+    // Add TapGesture on view For end editing on touch on view
+    
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
-                                      initWithTarget:self action:@selector(handleSingleTap:)];
+                                      initWithTarget:self action:@selector(endViewEditing:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
 }
@@ -145,7 +151,7 @@
 {
     [super viewWillAppear: animated];
     [self checkOrientation];
-    //contant manager Object
+    
     manager = [ContentManager sharedManager];
     [navnBar setTheTotalEarning:manager.weeklyearningStr];
 }
@@ -154,22 +160,30 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 -(void)setUIForIOS6
 {
+    //For IOS 6
+    
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
     {
         scrollView.frame=CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height+60);
     }
 }
-#pragma mark - End View Editing
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+
+
+/**
+ *  End View Editing
+ */
+- (void)endViewEditing:(UITapGestureRecognizer *) sender
 {
-    //reset the text field
     [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.view endEditing:YES];
 }
 
-#pragma mark - Device Orientation
+#pragma mark - Device Orientation Methods
+
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
@@ -211,28 +225,33 @@
     }
 }
 
-#pragma  mark - Text Field Delegate Methods
+#pragma mark - UITextField Delgate Methods
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    // Set scroll view offset
     activeField = textField;
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
     {
-       [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-30) animated:YES];
+        [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-30) animated:YES];
     }
     else
     {
-       [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-30) animated:NO];
+        [scrollView setContentOffset:CGPointMake(0,folderNameView.center.y-30) animated:NO];
     }
 }
-//called when click on the retun button.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
-{    
+{
     [scrollView setContentOffset:CGPointMake(0,0) animated:YES];
     [textField resignFirstResponder];
     return YES;
 }
 
-#pragma mark - IBAction Methods
+#pragma mark - UIButton Actions Methods
+
+/**
+ *  Clear text of textField on cross button click
+ */
 -(IBAction)clearTextField:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
@@ -244,10 +263,11 @@
     
 }
 
+/**
+ *  Open ShareWithUser view with write permission
+ */
 -(IBAction)shareForWritingWith:(id)sender
 {
-    //set the write user
-    
     ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
     
     sharewith.isWriteUser=YES;
@@ -257,18 +277,26 @@
     sharewith.collectionUserDetails=collectionUsersDetail;
     [self.navigationController pushViewController:sharewith animated:NO];
 }
+
+
+/**
+ *  Open share with user view with read permission
+ */
 -(IBAction)shareForReadingWith:(id)sender
 {
     
     ShareWithUserViewController *sharewith=[[ShareWithUserViewController alloc] init];
-        sharewith.isWriteUser=NO;
+    sharewith.isWriteUser=NO;
     sharewith.collectionId=self.collectionId;
     sharewith.isEditFolder=self.isEditFolder;
     sharewith.collectionOwnerId=self.collectionOwnerId;
     sharewith.collectionUserDetails=collectionUsersDetail;
     [self.navigationController pushViewController:sharewith animated:NO];
 }
-//Btn Action
+
+/**
+ *  Add folder method
+ */
 -(IBAction)addFolder:(id)sender
 {
     if(folderName.text.length==0)
@@ -286,7 +314,9 @@
         
     }
 }
-
+/**
+ *  Edit folder method
+ */
 -(IBAction)saveFolder:(id)sender
 {
     if(folderName.text.length==0)
@@ -303,6 +333,10 @@
         }
     }
 }
+
+/**
+ *  Delete folder method
+ */
 -(IBAction)deleteFolder:(id)sender
 {
     isDeletePhotoMode=YES;
@@ -310,19 +344,100 @@
     [alert show];
 }
 
--(void)alertForFolderNameText
+
+/**
+ *  Create new collection info store on server
+ */
+-(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserI readUserIds:(NSString *)readUserI
 {
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Folder name cannot be blank" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alert show];
+    isAdd=YES;
+    webservices.delegate=self;
+    if(writeUserI==Nil)
+    {
+        writeUserI=@"";
+    }
+    if(readUserI==Nil)
+    {
+        readUserI=@"";
+    }
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserI,@"collection_read_user_ids":readUserI};
+    @try {
+        [webservices call:dicData controller:@"collection" method:@"store"];
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
 }
-#pragma mark - Fetch and store the data on the server
-//get the collection detail from server
+
+
+/**
+ *  Update Collection Info on Server
+ */
+-(void)editCollectionInfoInServer:(NSNumber *)collecId collectionName:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
+{
+    isSave=YES;
+    
+    if (writeUserIds == nil) {
+        writeUserIds=@"";
+    }
+    if([writeUserIds isEqualToString:@"0"])
+    {
+        writeUserIds=@"";
+    }
+    
+    if(readUserIds == nil) {
+        readUserIds=@"";
+    }
+    if([readUserIds isEqualToString:@"0"])
+    {
+        readUserIds=@"";
+    }
+    webservices.delegate=self;
+    
+    NSDictionary *dicData;
+    dicData = @{@"user_id":userid,
+                @"collection_id":collecId,
+                @"collection_name":collectionName,
+                @"collection_sharing":@"0",
+                @"collection_write_user_ids":writeUserIds,
+                @"collection_read_user_ids":readUserIds
+                };
+    
+    // Calling webservice to edit collection info on server
+    
+    @try {
+        [webservices call:dicData controller:@"collection" method:@"change"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+}
+
+
+
+/**
+ *  Delete collection info from server
+ */
+
+-(void)deleteCollectionInfoInServer
+{
+    isDelete=YES;
+    webservices.delegate=self;
+    
+    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
+    [webservices call:dicData controller:@"collection" method:@"delete"];
+}
+
+/**
+ *  Get selected collection details from server
+ */
 -(void)getCollectionDetail
 {
     @try {
         isGetCollectionDetails=YES;
         webservices.delegate=self;
-        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+        [SVProgressHUD showWithStatus:@"Downloading" maskType:SVProgressHUDMaskTypeBlack];
         
         NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
         
@@ -332,100 +447,10 @@
         
     }
 }
-//store collection info in server
--(void)addCollectionInfoInServer:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserI readUserIds:(NSString *)readUserI
-{
-    isAdd=YES;
-    webservices.delegate=self;
-   if(writeUserI==Nil)
-   {
-       writeUserI=@"";
-   }
-    if(readUserI==Nil)
-    {
-        readUserI=@"";
-    }
-     NSDictionary *dicData=@{@"user_id":userid,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserI,@"collection_read_user_ids":readUserI};
-    @try {
-        [webservices call:dicData controller:@"collection" method:@"store"];
 
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
--(void)editCollectionInfoInServer:(NSNumber *)collecId collectionName:(NSString *)collectionName sharing:(NSNumber *)sharing writeUserIds:(NSString *)writeUserIds readUserIds:(NSString *)readUserIds
-{
-    isSave=YES;
-  
-    if (writeUserIds == nil) {
-    writeUserIds=@"";
-    }
-    
-    if(readUserIds == nil)
-    readUserIds=@"";
-    webservices.delegate=self;
-    //edit data
-    NSDictionary *dicData;
-    if([folderName.text isEqualToString:self.setFolderName])
-    {
-        dicData=@{@"user_id":userid,@"collection_id":collecId,@"collection_sharing":@"",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
-    }
-    else
-    {
-        dicData=@{@"user_id":userid,@"collection_id":collecId,@"collection_name":collectionName,@"collection_sharing":@"0",@"collection_write_user_ids":writeUserIds,@"collection_read_user_ids":readUserIds};
-    }
-    
-    @try {
-        [webservices call:dicData controller:@"collection" method:@"change"];
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
--(void)deleteCollectionInfoInServer
-{
-    isDelete=YES;
-    webservices.delegate=self;
-    //delete data
-    NSDictionary *dicData=@{@"user_id":userid,@"collection_id":self.collectionId};
-    [webservices call:dicData controller:@"collection" method:@"delete"];
-}
--(void)getTheCollectionOwnerName
-{
-    NSDictionary *dicData=@{@"user_id":userid,@"target_user_id":self.collectionOwnerId,@"target_username":@""};
-    webservices.delegate=self;
-    isGetCollectionOwnername=YES;
-    [webservices call:dicData controller:@"user" method:@"get"];
-    
-}
--(void)deletePhotoFromServer
-{
-    // Get the Documents directory path
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
-    
-    // Delete the file using NSFileManager
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if([fileManager removeItemAtPath:[documentsDirectoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/123FridayImages/YourFolder/%@",self.setFolderName]] error:nil])
-    {
-        NSLog(@"Delete Success");
-    }
-    else
-    {
-        NSLog(@"Delete Fail");
-    }
-    @try {
-        for (int i=0; i<photoIdArray.count; i++) {
-            
-            NSDictionary *dicData=@{@"user_id":userid,@"photo_id":[photoIdArray objectAtIndex:i]};
-            [webservices call:dicData controller:@"photo" method:@"delete"];
-        }
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
+/**
+ *  Get Sharing collection users id from server
+ */
 -(void)getSharingusersId
 {
     @try {
@@ -438,7 +463,9 @@
         
     }
 }
-//Fetch data From Server
+/**
+ *  Get own collection list
+ */
 -(void)fetchOwnCollectionInfoFromServer
 {
     @try {
@@ -452,6 +479,9 @@
         
     }
 }
+/**
+ *  Get sharing collection list
+ */
 -(void)fetchSharingCollectionInfoFromServer
 {
     @try {
@@ -461,6 +491,9 @@
             for (int i=0; i<sharingIdArray.count; i++) {
                 isGetTheSharingCollectionListData=YES;
                 webservices.delegate=self;
+                
+                // Calling webservice to fetch sharing collection list
+                
                 NSDictionary *dicData=@{@"user_id":userid,@"collection_user_id":[sharingIdArray objectAtIndex:i]};
                 [webservices call:dicData controller:@"collection" method:@"getlist"];
             }
@@ -471,54 +504,110 @@
     }
 }
 
-#pragma mark - Webservice Call Back Method
-//call back Method
+/**
+ *  Get selected collection owner name
+ */
+-(void)getTheCollectionOwnerName
+{
+    NSDictionary *dicData=@{@"user_id":userid,@"target_user_id":self.collectionOwnerId,@"target_username":@""};
+    webservices.delegate=self;
+    isGetCollectionOwnername=YES;
+    [webservices call:dicData controller:@"user" method:@"get"];
+    
+}
+
+/**
+ *  Delete all photos of deleted collection from server
+ */
+
+-(void)deletePhotoFromServer
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if([fileManager removeItemAtPath:[documentsDirectoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/123FridayImages/YourFolder/%@",self.setFolderName]] error:nil])
+    {
+        NSLog(@"Delete Success");
+    }
+    else
+    {
+        NSLog(@"Delete Fail");
+    }
+    @try {
+        for (int i=0; i<photoIdArray.count; i++) {
+            
+            // Calling webservice to delete photo
+            
+            NSDictionary *dicData=@{@"user_id":userid,@"photo_id":[photoIdArray objectAtIndex:i]};
+            [webservices call:dicData controller:@"photo" method:@"delete"];
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+}
+
+-(void)alertForFolderNameText
+{
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Folder name cannot be blank" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+#pragma mark - WebService Delegate Methods
+
 -(void)webserviceCallback:(NSDictionary *)data
 {
     
     int exitCode=[[data objectForKey:@"exit_code"] intValue];
     
-        if (isGetCollectionDetails)
+    // Collection details response
+    
+    if (isGetCollectionDetails)
+    {
+        if(exitCode ==1)
         {
-            if(exitCode ==1)
-            {
+            @try {
+                NSDictionary *outputData=[data objectForKey:@"output_data"];
+                NSDictionary *collectionContent=[[outputData objectForKey:@"collection_contents"] mutableCopy];
+                
+                collectionDetail=[outputData mutableCopy];
+                
+                // Check collection details if it has read of read/write permissions
+                
                 @try {
-                    NSDictionary *outputData=[data objectForKey:@"output_data"];
-                    NSDictionary *collectionContent=[[outputData objectForKey:@"collection_contents"] mutableCopy];
-
-                    collectionDetail=[outputData mutableCopy];
+                    if(collectionContent.count!=0)
+                    {
+                        [photoIdArray addObjectsFromArray:[collectionContent allKeys]];
+                    }
+                    collectionUsersDetail=[collectionDetail objectForKey:@"collection_user_details"];
                     
-                    @try {
-                      if(collectionContent.count!=0)
-                      {
-                          [photoIdArray addObjectsFromArray:[collectionContent allKeys]];
-                      }
-                        collectionUsersDetail=[collectionDetail objectForKey:@"collection_user_details"];
-                        
-                        NSString *writeUserIdStr=[[collectionDetail objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
-                        NSString *readUserIdStr=[[collectionDetail objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
-                        
-                       [manager storeData:writeUserIdStr :@"writeUserId"];
-                       
-                        [manager storeData:readUserIdStr :@"readUserId"];
-                        
-                    }
-                    @catch (NSException *exception) {
-                        
-                    }
+                    NSString *writeUserIdStr=[[collectionDetail objectForKey:@"collection_write_user_ids"] componentsJoinedByString:@","];
+                    NSString *readUserIdStr=[[collectionDetail objectForKey:@"collection_read_user_ids"] componentsJoinedByString:@","];
+                    
+                    [manager storeData:writeUserIdStr :@"writeUserId"];
+                    
+                    [manager storeData:readUserIdStr :@"readUserId"];
+                    
                 }
                 @catch (NSException *exception) {
-                
+                    
                 }
-                isGetCollectionDetails=NO;
-                [self getTheCollectionOwnerName];
             }
-            else
-            {
-                [SVProgressHUD dismiss];
-                [manager showAlert:@"Error" msg:@"Network Error" cancelBtnTitle:@"Ok" otherBtn:Nil];
+            @catch (NSException *exception) {
+                
             }
+            isGetCollectionDetails=NO;
+            [self getTheCollectionOwnerName];
         }
+        else
+        {
+            [SVProgressHUD dismiss];
+            [manager showAlert:@"Error" msg:@"Network Error" cancelBtnTitle:@"Ok" otherBtn:Nil];
+        }
+    }
+    // Collection owner name response
+    
     else if (isGetCollectionOwnername)
     {
         if(exitCode==1)
@@ -540,29 +629,33 @@
         if(exitCode ==1)
         {
             if(isAdd)
-            {               
+            {
                 
-                newCollectionId=[[[data objectForKey:@"output_data"] objectAtIndex:0] objectForKey:@"collection_id"];
+                newCollectionId=[[data objectForKey:@"output_data"] objectForKey:@"collection_id"];
             }
             if(isDelete)
             {
                 isDeleteAllPhoto=YES;
             }
-            //[self updateCollectionDetailInNsUserDefault];
             [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
             user_message=[data objectForKey:@"user_message"];
-            [self getSharingusersId];//for update the collection detail in nsuser default
+            
+            // Updates collection details in NSUserDefaults
+            
+            [self getSharingusersId];
         }
         else
         {
             [manager showAlert:@"Message" msg:[data objectForKey:@"user_message"] cancelBtnTitle:@"Ok" otherBtn:Nil];
         }
-        //reset
+        
         isAdd=NO;
         isSave=NO;
         isDelete=NO;
-
+        
     }
+    // Sharing Collection users id Response
+    
     else if(isGetSharingUserId)
     {
         if(exitCode==1)
@@ -576,19 +669,34 @@
                 }
                 @catch (NSException *exception) {
                     
-                }                
+                }
             }
         }
         isGetSharingUserId=NO;
         [self fetchOwnCollectionInfoFromServer];
     }
+    // OwnCollectionList Response
     else if(isGetTheOwnCollectionListData)
     {
         [collectionArrayWithSharing removeAllObjects];
         if(exitCode==1)
         {
             [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]] ;
-            //nsuser default
+            
+            NSString *dt=NSStringFromClass([self class]);
+            for (int i=0; i<collectionArrayWithSharing.count; i++) {
+                NSDictionary *temp = [collectionArrayWithSharing objectAtIndex:i];
+                for(int k=i+1; k<collectionArrayWithSharing.count; k++)
+                {
+                    
+                    NSDictionary *temp2 = [collectionArrayWithSharing objectAtIndex:k];
+                    if([[temp valueForKey:@"collection_id"] isEqualToString:[temp2 valueForKey:@"collection_id"]])
+                    {
+                        [collectionArrayWithSharing removeObjectAtIndex:k];
+                        dt=[NSString stringWithFormat:@"%@\nMatched index %d & %d",dt,i,k];
+                    }
+                }
+            }NSLog(@"%@",dt);
         }
         else
         {
@@ -610,17 +718,18 @@
                     isDeleteAllPhoto=NO;
                 }
                 
-                 [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+                [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
             }
             else
             {
                 [self updateCollectionDetailInNsUserDefault];
             }
-           
+            
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
             [alertView show];
         }
     }
+    // SharingCollectionList Response
     else if (isGetTheSharingCollectionListData)
     {
         if(exitCode==1)
@@ -634,7 +743,7 @@
         countSharing++;
         if(countSharing==sharingIdArray.count)
         {
-             [SVProgressHUD dismiss];
+            [SVProgressHUD dismiss];
             if(collectionArrayWithSharing.count>0)
             {
                 if(isDeleteAllPhoto)
@@ -642,20 +751,24 @@
                     [self deletePhotoFromServer];
                     isDeleteAllPhoto=NO;
                 }
-            [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
+                [manager storeData:collectionArrayWithSharing :@"collection_data_list"];
             }
             else
             {
                 [self updateCollectionDetailInNsUserDefault];
             }
-           
+            
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"Message" message:user_message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
+            
             [alertView show];
         }
     }
 }
 
-#pragma mark - Update cache data (NSUser default)
+/**
+ *  Update Collection Details in NSUserDefaults
+ */
+
 -(void)updateCollectionDetailInNsUserDefault
 {
     NSMutableArray *collection=[[manager getData:@"collection_data_list"] mutableCopy];
@@ -712,15 +825,18 @@
             }
         }
     }
-    //Reset Bool Value
+    
     isAdd=NO;
     isSave=NO;
     isDelete=NO;
 }
 
-#pragma mark - UIAlert View Delegate Methods
+
+#pragma mark - UIAlertView Delegate Methods
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    // If Collection delete button is clicked
     if(isDeletePhotoMode)
     {
         if(buttonIndex!=[alertView cancelButtonIndex])
@@ -736,7 +852,7 @@
         }
         else
         {
-             isDeletePhotoMode=NO;
+            isDeletePhotoMode=NO;
         }
     }
     else
@@ -747,7 +863,11 @@
         }
     }
 }
-#pragma mark - LaunchCamera SetDetection
+
+/**
+ *  Check if this Controller is Open From LaunchCamera Controller
+ */
+
 -(void)checkIfIsFromLaunchCamera
 {
     [manager removeData:@"temp_user_details,writeUserId,readUserId"];
@@ -757,7 +877,10 @@
         [manager storeData:newCollectionId :@"new_col_id"];
     }
 }
-#pragma mark -Add Custom Navigation Bar
+
+
+#pragma mark - Add Custom Navigation Bar
+
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;

@@ -1,7 +1,7 @@
 // AFNetworkReachabilityManager.h
 // 
 // Copyright (c) 2013 AFNetworking (http://afnetworking.com)
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -63,9 +63,9 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
  */
 @property (readonly, nonatomic, assign, getter = isReachableViaWiFi) BOOL reachableViaWiFi;
 
-///---------------------
-/// @name Initialization
-///---------------------
+// /---------------------
+// /@name Initialization
+// /---------------------
 
 /**
  Returns the shared network reachability manager.
@@ -99,9 +99,9 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
  */
 - (instancetype)initWithReachability:(SCNetworkReachabilityRef)reachability;
 
-///--------------------------------------------------
-/// @name Starting & Stopping Reachability Monitoring
-///--------------------------------------------------
+// /--------------------------------------------------
+// /@name Starting & Stopping Reachability Monitoring
+// /--------------------------------------------------
 
 /**
  Starts monitoring for changes in network reachability status.
@@ -113,18 +113,18 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
  */
 - (void)stopMonitoring;
 
-///-------------------------------------------------
-/// @name Getting Localized Reachability Description
-///-------------------------------------------------
+// /-------------------------------------------------
+// /@name Getting Localized Reachability Description
+// /-------------------------------------------------
 
 /**
  Returns a localized string representation of the current network reachability status.
  */
 - (NSString *)localizedNetworkReachabilityStatusString;
 
-///---------------------------------------------------
-/// @name Setting Network Reachability Change Callback
-///---------------------------------------------------
+// /---------------------------------------------------
+// /@name Setting Network Reachability Change Callback
+// /---------------------------------------------------
 
 /**
  Sets a callback to be executed when the network availability of the `baseURL` host changes.
@@ -135,9 +135,9 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 
 @end
 
-///----------------
-/// @name Constants
-///----------------
+// /----------------
+// /@name Constants
+// /----------------
 
 /**
  ## Network Reachability
@@ -172,9 +172,9 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
  The corresponding value is an `NSNumber` object representing the `AFNetworkReachabilityStatus` value for the current reachability status.
  */
 
-///--------------------
-/// @name Notifications
-///--------------------
+// /--------------------
+// /@name Notifications
+// /--------------------
 
 /**
  Posted when network reachability changes.
@@ -185,9 +185,9 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 extern NSString * const AFNetworkingReachabilityDidChangeNotification;
 extern NSString * const AFNetworkingReachabilityNotificationStatusItem;
 
-///--------------------
-/// @name Functions
-///--------------------
+// /--------------------
+// /@name Functions
+// /--------------------
 
 /**
  Returns a localized string representation of an `AFNetworkReachabilityStatus` value.

@@ -1,10 +1,10 @@
-//
-//  EarningViewController.h
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// EarningViewController.h
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
@@ -15,12 +15,13 @@
 @interface EarningViewController : UIViewController<WebserviceDelegate>
 {
     IBOutlet UILabel *totalEarningLabel;
-    IBOutlet UILabel *projectedEarninglabel;
     IBOutlet UIScrollView *scrollView;
+    
     DataMapperController *dmc;
     ContentManager *objManager;
     WebserviceController *webservice;
     NavigationBar *navnBar;
+    
     BOOL isGetIcomeDetail;
     BOOL isGetEarning;
 }

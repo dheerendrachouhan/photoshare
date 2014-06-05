@@ -1,10 +1,10 @@
-//
-//  LoginViewController.m
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// LoginViewController.m
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "LoginViewController.h"
 
@@ -17,9 +17,6 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if([[ContentManager sharedManager] isiPad])
-    nibNameOrNil=@"LoginViewControlleriPadMini";
-    else  nibNameOrNil=@"LoginViewController";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -30,40 +27,72 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"LoginViewControlleriPadMini" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"LoginViewController" owner:self options:nil];
+    }
+    //Hides the status bar
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     dataFetchView=[[UIView alloc] initWithFrame:self.view.frame];
+    
     [nameTextField setDelegate:self];
     [passwordTextField setDelegate:self];
+    
     rememberFltr = NO;
     usrFlt = NO;
     pwsFlt = NO;
+    
     webservices=[[WebserviceController alloc] init];
+    
     manager=[ContentManager sharedManager];
     dmc = [[DataMapperController alloc] init] ;
+    
     sharingIdArray=[[NSMutableArray alloc] init];
     collectionArrayWithSharing =[[NSMutableArray alloc] init];
+    
     cameravc=[[CameraViewController alloc] init];
-    //Set Layout of the Login Page
+    
+    // Sets login page layout
+    
     signinBtn.layer.cornerRadius = 6.0;
     UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     [nameTextField setLeftViewMode:UITextFieldViewModeAlways];
     [nameTextField setLeftView:spacerView];
+    
     UIView *spacerViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     [passwordTextField setLeftViewMode:UITextFieldViewModeAlways];
     [passwordTextField setLeftView:spacerViews];
     loginBackgroundImage.userInteractionEnabled = YES;
+    
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHideKeyboard)];
     [loginBackgroundImage addGestureRecognizer:singleFingerTap];
     
-    //Check remember Feild
+    
+    // Check if remember option is selected
+    
     NSString *rememberStr = [dmc getRemeberMe];
-    if([rememberStr isEqualToString:@"YES"])rememberFltr = NO;
-    else  rememberFltr = YES;
+    
+    if([rememberStr isEqualToString:@"YES"])
+        rememberFltr = NO;
+    else
+        rememberFltr = YES;
+    
     [self rememberBtnTapped];
+    
+    
     NSDictionary *dict = [dmc getRememberFields];
     nameTextField.text = [dict valueForKey:@"username"];
     passwordTextField.text = [dict valueForKey:@"password"];
+    
     [self registerForKeyboardNotifications];
     [self checkAutoLogin];
 }
@@ -71,10 +100,11 @@
     [super viewWillAppear:animated];
     [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(deviceOrientDetect) userInfo:nil repeats:NO];
 }
--(void)deviceOrientDetect
-{
-    [self orient:self.interfaceOrientation];
-}
+
+/**
+ *  Check Auto Login
+ */
+
 -(void)checkAutoLogin
 {
     if([[manager getData:@"login"] isEqualToString:@"YES"])
@@ -82,32 +112,46 @@
         [self setDeviceTokenOnServerIfUserLogin];
     }
 }
+
+/** 
+ *  Set Device Token On Server if User Login
+ */
+
 -(void)setDeviceTokenOnServerIfUserLogin
 {
     userid=(NSNumber *)[dmc getUserId];
-    //set the device token on the server
+
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *devToken=delegate.token;
     
+    // Check if device token is not recieved
     if(devToken==NULL)
     {
         delegate.isSetDeviceTokenOnServer=YES;
         delegate.useridforsetdevicetoken=[NSString stringWithFormat:@"%@",userid];
     }
+    // Check if device token is recieved
     if(devToken!=NULL)
     {
         delegate.isSetDeviceTokenOnServer=NO;
         [delegate setDevieTokenOnServer:devToken userid:[NSString stringWithFormat:@"%@",userid]];
     }
     
-    //display the DataFetchingProgress
+    // Display the data fetching progress
     [self displayTheDataFetchingView];
     
     [self getSharingusersId];
 }
+
+#pragma mark - Device Orientation Methods
+
+-(void)deviceOrientDetect
+{
+    [self orient:self.interfaceOrientation];
+}
+
 -(void)orient:(UIInterfaceOrientation)ott
 {
-    //set the fetchview frame
     float width= self.view.frame.size.width;
     float height= self.view.frame.size.height;
     
@@ -158,63 +202,86 @@
         }
     }
 }
-//if network error found
+
+
+/**
+ *  Show Network Error and Reset Data Array if no network is present
+ */
 -(void)networkError:(NSString *)alertmessage
 {
     [collectionArrayWithSharing removeAllObjects];
     [sharingIdArray removeAllObjects];
     countSharing=0;
     [self removeDataFetchView];
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:alertmessage delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:alertmessage delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     [alert show];
     
 }
-//user sign in function
+/**
+ *  User sign in operation starts
+ */
 - (IBAction)userSignInBtn:(id)sender {
-    [self registerForScheme:@"671598942899133"];
+    
     [dmc removeAllData];
-    //Without Validation
+ 
     [self tapHideKeyboard];
     
     NSString *username = [nameTextField text];
     NSString *password = [passwordTextField text];
-    if(nameTextField.text.length==0||passwordTextField.text.length==0)
+    if(nameTextField.text.length <= 0 || passwordTextField.text.length <= 0)
     {
         
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter UserName and Password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     }
     
-    else if([nameTextField.text length] > 0 || [passwordTextField.text length] > 0)
+    else
     {
         isGetLoginDetail=YES;
         webservices.delegate = self;
         [SVProgressHUD showWithStatus:@"Login" maskType:SVProgressHUDMaskTypeBlack];
-        NSDictionary *postdic = @{@"username":username, @"password":password} ;
+        NSDictionary *postdic = @{@"username":username, @"password":password,@"platform":@2} ;
         [webservices call:postdic controller:@"authentication" method:@"login"];
     }
 }
 
+#pragma mark - webservices delegate Method
 -(void) webserviceCallback:(NSDictionary *)data
 {
-    //validate the user
+
     NSNumber *exitCode=[data objectForKey:@"exit_code"];
-     NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
+    NSArray *outPutData=[data objectForKey:@"output_data"] ;
    
+    // Login Response
     if(isGetLoginDetail)
     {
         [SVProgressHUD dismiss];
         if(exitCode.integerValue==1)
         {
-            //get the userId
-            NSDictionary *dic=[outPutData objectAtIndex:0];
+            NSDictionary *dic=nil;
+            @try {
+                dic=[outPutData objectAtIndex:0];
+            }
+            @catch (NSException *exception) {
+                dic=[outPutData mutableCopy];
+            }
+            
+            
+            NSString *token=[dic objectForKey:@"token"];
+            NSLog(@"Api Token %@",token);
+            if(token.length>0)
+            {
+                [manager storeData:token :@"token"];
+            }
             userid =[dic objectForKey:@"user_id"];
-            //store user details in nsuser default
+            
+            // Store user details in NSUserDefaults if remember me is selected
+            
             [dmc setUserId:[NSString stringWithFormat:@"%@",userid]] ;
             [dmc setUserName:[NSString stringWithFormat:@"%@",[dic objectForKey:@"user_username"]]];
             [dmc setUserDetails:dic] ;
             
-            NSLog(@"Successful Login");
+            NSLog(@"Login Successful");
             isGetLoginDetail=NO;
             [self setDeviceTokenOnServerIfUserLogin];
         }
@@ -225,10 +292,10 @@
             {
                 errorMessage=@"Network Error";
             }
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            UIAlertView *alertV = [[UIAlertView alloc] initWithTitle:@"Error !" message:errorMessage delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alertV show];
+
         }
-        
     }
     else
     {
@@ -238,17 +305,18 @@
             if(rememberFltr)
             {
                 [dmc setRememberMe:@"YES"];
-                NSDictionary *loginFields = @{@"username":nameTextField.text,@"password":passwordTextField.text};
+                NSDictionary *loginFields = @{@"username":nameTextField.text,@"password":passwordTextField.text,@"platform":@2};
                 [dmc setRememberFields:loginFields];
             }
             else
             {
                 [dmc setRememberMe:@"NO"];
-                NSDictionary *loginFields = @{@"username":@"",@"password":@""};
+                NSDictionary *loginFields = @{@"username":@"",@"password":@"",@"platform":@2};
                 [dmc setRememberFields:loginFields];
             }
-            ////////////////////////
-            //get the collection sharing user id
+            
+            // Collection Sharing Ids Array
+            
             if(isGetSharingUserId)
             {
                     NSMutableArray *outPutData=[data objectForKey:@"output_data"] ;
@@ -266,7 +334,7 @@
                 [self fetchOwnCollectionInfoFromServer];
                 
             }
-            
+            // Own Collection List Array
             else if(isGetTheOwnCollectionListData)
             {
                 [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]];
@@ -279,19 +347,48 @@
                 }
                 else
                 {
-                    //save collectioon detail in nsuser default
+                    // Save collection details in NSuserDefaults
+                    NSString *dt=NSStringFromClass([self class]);
+                    for (int i=0; i<collectionArrayWithSharing.count; i++) {
+                        NSDictionary *temp = [collectionArrayWithSharing objectAtIndex:i];
+                        for(int k=i+1; k<collectionArrayWithSharing.count; k++)
+                        {
+                            
+                            NSDictionary *temp2 = [collectionArrayWithSharing objectAtIndex:k];
+                            if([[temp valueForKey:@"collection_id"] isEqualToString:[temp2 valueForKey:@"collection_id"]])
+                            {
+                                [collectionArrayWithSharing removeObjectAtIndex:k];
+                                dt=[NSString stringWithFormat:@"%@\nMatched index %d & %d",dt,i,k];
+                            }
+                        }
+                    }NSLog(@"%@",dt);
                     [dmc setCollectionDataList:collectionArrayWithSharing];
-                    
                     [self getIncomeFromServer];
                 }
-                
             }
+            
+            // Sharing Collection List Array
             else if (isGetTheSharingCollectionListData)
             {
                 [collectionArrayWithSharing addObjectsFromArray:[data objectForKey:@"output_data"]];
                 countSharing++;
                 if(countSharing==sharingIdArray.count)
                 {
+                    NSString *dt=NSStringFromClass([self class]);
+                    for (int i=0; i<collectionArrayWithSharing.count; i++) {
+                        NSDictionary *temp = [collectionArrayWithSharing objectAtIndex:i];
+                        for(int k=i+1; k<collectionArrayWithSharing.count; k++)
+                        {
+                            
+                            NSDictionary *temp2 = [collectionArrayWithSharing objectAtIndex:k];
+                            if([[temp valueForKey:@"collection_id"] isEqualToString:[temp2 valueForKey:@"collection_id"]])
+                            {
+                                [collectionArrayWithSharing removeObjectAtIndex:k];
+                                dt=[NSString stringWithFormat:@"%@\nMatched index %d & %d",dt,i,k];
+                            }
+                        }
+                    }NSLog(@"%@",dt);
+                    
                     [dmc setCollectionDataList:collectionArrayWithSharing];
                     
                     isGetTheSharingCollectionListData=NO;
@@ -300,6 +397,7 @@
                 }
             }
             
+            // Get Income Array
             else if(isGetIcomeDetail)
             {
                 [self resetAllBoolValue];
@@ -322,14 +420,22 @@
     }
 }
 
+/**
+ *  Display The data Fetch View After Login Success
+ */
+
 -(void)displayTheDataFetchingView
 {
-    //set Fetching View
     dataFetchView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:dataFetchView];
     [SVProgressHUD showWithStatus:@"Data is Loading From Server" maskType:SVProgressHUDMaskTypeBlack];
 
 }
+
+/**
+ *  Remove The data Fetch View After All Data Response Success
+ */
+
 -(void)removeDataFetchView
 {
   
@@ -337,11 +443,14 @@
     [SVProgressHUD dismiss];
 }
 
-#pragma mark - Fetch collection info from server
+/**
+ *  Get Sharing Collection Users Id
+ */
+
 -(void)getSharingusersId
 {
     @try {
-        [SVProgressHUD showWithStatus:@"Fetching" maskType:SVProgressHUDMaskTypeBlack];
+        [SVProgressHUD showWithStatus:@"Downloading" maskType:SVProgressHUDMaskTypeBlack];
         webservices=[[WebserviceController alloc] init];
         isGetSharingUserId=YES;
         webservices.delegate=self;
@@ -349,9 +458,13 @@
         [webservices call:dicData controller:@"collection" method:@"sharing"];
     }
     @catch (NSException *exception) {
-        
     }
 }
+
+/**
+ *  Get Own Collection List
+ */
+
 -(void)fetchOwnCollectionInfoFromServer
 {
     @try {
@@ -365,6 +478,11 @@
         
     }
 }
+
+/**
+ *  Get Sharing Collection List
+ */
+
 -(void)fetchSharingCollectionInfoFromServer
 {
     @try {
@@ -384,6 +502,10 @@
     }
 }
 
+/**
+ *  Get Income From Server
+ */
+
 -(void)getIncomeFromServer
 {
     [self resetAllBoolValue];
@@ -392,24 +514,41 @@
     NSDictionary *dicData=@{@"user_id":userid};
     [webservices call:dicData controller:@"referral" method:@"calculateincome"];
 }
-
+/**
+ *  Reset All Bool Values
+ */
 -(void)resetAllBoolValue
 {
     isGetLoginDetail=NO;
     isGetTheCollectionListData=NO;
     isGetStorage=NO;
 }
+
+/**
+ *  Open Forgot Password Link,when Forgot Password Button is Click
+ */
+
 - (IBAction)forgotPasswordBtn:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://my.123friday.com/my123/account/forgotpassword"]];
 }
 
+#pragma mark - UITextField Delegate Method
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    if([textField isEqual:nameTextField])
+    {
+        [passwordTextField becomeFirstResponder];
+    }
+    else if ([textField isEqual:passwordTextField])
+    {
+        [passwordTextField resignFirstResponder];
+    }
     return YES;
 }
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    
     
     if(textField.tag == 1)
     {
@@ -422,22 +561,9 @@
     return YES;
 }
 
-- (IBAction)userCancelButton:(id)sender {
-    
-        nameTextField.text = @"";
-        usrFlt = NO;
-        [namecancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
-}
-
-- (IBAction)passwordCancelBtn:(id)sender {
-    passwordTextField.text = @"";
-    pwsFlt = NO;
-    [passwordcancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
-}
-
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-  
+    
     if (textField.tag ==1) {
         if([nameTextField.text length] > 0)
         {
@@ -465,7 +591,31 @@
     }
     return YES;
 }
-//RememberMe Function
+
+/**
+ *  UserName textField cross button click
+ */
+
+- (IBAction)userCancelButton:(id)sender {
+    
+        nameTextField.text = @"";
+        usrFlt = NO;
+        [namecancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
+}
+/**
+ *  Password textField cross button click
+ */
+
+- (IBAction)passwordCancelBtn:(id)sender {
+    passwordTextField.text = @"";
+    pwsFlt = NO;
+    [passwordcancelBtn setImage:[UIImage imageNamed:@"cancel_btn.png"] forState:UIControlStateNormal];
+}
+
+/**
+ *  Remember Password button click
+ */
+
 - (IBAction)rememberBtnTapped{
     if(!rememberFltr)
     {
@@ -478,7 +628,11 @@
         rememberFltr = NO;
     }
 }
-//keyboard hide and show on textfields
+
+/**
+ *  Keyboard Notification Method
+ */
+
 - (void)registerForKeyboardNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
     
@@ -490,7 +644,14 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
+
+/**
+ *  Get notification if keyBoard is activated
+ */
+
 - (void)keyboardWasShown:(NSNotification *)notification {
+    loginBackgroundImage.userInteractionEnabled = NO;
+    scrollView.scrollEnabled=NO;
     NSDictionary* info = [notification userInfo];
     
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
@@ -498,6 +659,8 @@
     CGPoint buttonOrigin = signinBtn.frame.origin;
     CGRect visibleRect = self.view.frame;
     visibleRect.size.height -= keyboardSize.height;
+    
+    // Sets scrollview offset according to size of keyboard
     
     if (!CGRectContainsPoint(visibleRect, buttonOrigin)){
         CGPoint scrollPoint;
@@ -507,42 +670,57 @@
             if([[UIScreen mainScreen] bounds].size.height == 480)
             {
                 scrollPoint = CGPointMake(0.0, 250.0);
+                [scrollView setContentOffset:scrollPoint animated:YES];
             }
             else
             {
                 if (UIDeviceOrientationIsPortrait(self.interfaceOrientation))
                 {
                     scrollPoint = CGPointMake(0.0, 150.0);
+                    [scrollView setContentOffset:scrollPoint animated:YES];
                 }
                 else
                 {
                     scrollPoint = CGPointMake(0.0, 200.0);
+                    [scrollView setContentOffset:scrollPoint animated:YES];
                 }
-                
             }
         }
         else if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             scrollPoint = CGPointMake(0.0, 250.0);
+            [scrollView setContentOffset:scrollPoint animated:YES];
         }
-        [scrollView setContentOffset:scrollPoint animated:YES];
+        
     }
 }
 - (void)keyboardWillBeHidden:(NSNotification *)notification {
+    loginBackgroundImage.userInteractionEnabled = YES;
+    scrollView.scrollEnabled=YES;
     [scrollView setContentOffset:CGPointZero animated:YES];
+    [self.view endEditing:YES];
+    
 }
 - (void)viewWillDisappear:(BOOL)animated {
     [self deregisterFromKeyboardNotifications];
     [super viewWillDisappear:animated];
 }
 
+
+/**
+ *  Hide The Keyboard on Tap On The View
+ */
 -(void)tapHideKeyboard
 {
+    [self.view endEditing:YES];
     [nameTextField resignFirstResponder];
     [passwordTextField resignFirstResponder];
     [scrollView setContentOffset:CGPointZero animated:YES];
 }
 
+/**
+ *  Set Tabbar Controller's child controllers to help application navigation
+ */
 -(void)loadData
 {
     delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -586,8 +764,8 @@
     
     UITabBarItem *tabBarItem5 = [[UITabBarItem alloc] initWithTitle:@"Profile" image:image5 tag:5];
     [tabBarItem5 setTitleTextAttributes:textAttr forState:UIControlStateNormal];
-    delegate.tbc = [[UITabBarController alloc] init] ;
     
+    delegate.tbc = [[UITabBarController alloc] init] ;
     [delegate.navControllerhome setTabBarItem:tabBarItem];
     [delegate.navControllerearning setTabBarItem:tabBarItem2];
     [delegate.navControllercamera setTabBarItem:tabBarItem3];
@@ -599,8 +777,12 @@
     [delegate.window setRootViewController:delegate.tbc];
 }
 
+#pragma mark - UITabBarController delegate Method
+
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
+    // Sets child view controllers according to tabBar item click
+    
     UITabBarItem *item = [tabBarController.tabBar selectedItem];
     NSLog(@"Selected item title : %d",item.tag);
     if(item.tag!=4)
@@ -627,14 +809,22 @@
             break;
     }
 }
-#pragma mark - Device Orientation
+
+#pragma mark - Device Orientation Methods
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
 }
 
+/**
+ *  Sets Application orientation and content views size
+ */
+
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+
+    [self tapHideKeyboard];
     [nameTextField resignFirstResponder];
     [passwordTextField resignFirstResponder];
     float width= self.view.frame.size.width;
@@ -687,19 +877,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-}
-#pragma mark - Edit info.plist
-- (BOOL) registerForScheme: (NSString*) scheme {
-    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Info"
-                                                          ofType:@"plist"];
-    NSMutableDictionary* plist = [NSMutableDictionary dictionaryWithContentsOfFile: plistPath];
-    //NSDictionary* urlType = [NSDictionary dictionaryWithObjectsAndKeys:
-                             //@"com.mycompany.myscheme", @"CFBundleURLName",
-                             //[NSArray arrayWithObject: scheme], @"CFBundleURLSchemes",
-                             //nil];
-    [plist setValue:scheme forKey:@"FacebookAppID"];
-    
-    return [plist writeToFile: plistPath atomically: YES];
 }
 
 @end

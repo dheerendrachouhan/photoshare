@@ -1,17 +1,17 @@
 // AFSecurity.h
-//
+// 
 // Copyright (c) 2013 AFNetworking (http://afnetworking.com)
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -51,9 +51,9 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
  */
 @property (nonatomic, assign) BOOL allowInvalidCertificates;
 
-///-----------------------------------------
-/// @name Getting Specific Security Policies
-///-----------------------------------------
+// /-----------------------------------------
+// /@name Getting Specific Security Policies
+// /-----------------------------------------
 
 /**
  Returns the shared default security policy, which does not accept invalid certificates, and does not validate against pinned certificates or public keys.
@@ -62,9 +62,9 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
  */
 + (instancetype)defaultPolicy;
 
-///---------------------
-/// @name Initialization
-///---------------------
+// /---------------------
+// /@name Initialization
+// /---------------------
 
 /**
  Creates and returns a security policy with the specified pinning mode.
@@ -75,9 +75,9 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
  */
 + (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode;
 
-///------------------------------
-/// @name Evaluating Server Trust
-///------------------------------
+// /------------------------------
+// /@name Evaluating Server Trust
+// /------------------------------
 
 /**
  Whether or not the specified server trust should be accepted, based on the security policy. 
@@ -92,9 +92,9 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
 
 @end
 
-///----------------
-/// @name Constants
-///----------------
+// /----------------
+// /@name Constants
+// /----------------
 
 /**
  ## SSL Pinning Modes

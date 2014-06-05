@@ -1,7 +1,7 @@
 // AFSerialization.h
-//
+// 
 // Copyright (c) 2013 AFNetworking (http://afnetworking.com)
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -70,9 +70,9 @@ typedef NS_ENUM(NSUInteger, AFHTTPRequestQueryStringSerializationStyle) {
  */
 @property (nonatomic, assign) NSStringEncoding stringEncoding;
 
-///---------------------------------------
-/// @name Configuring HTTP Request Headers
-///---------------------------------------
+// /---------------------------------------
+// /@name Configuring HTTP Request Headers
+// /---------------------------------------
 
 /**
  Default HTTP header field values to be applied to serialized requests.
@@ -114,9 +114,9 @@ typedef NS_ENUM(NSUInteger, AFHTTPRequestQueryStringSerializationStyle) {
  */
 - (void)clearAuthorizationHeader;
 
-///-------------------------------------------------------
-/// @name Configuring Query String Parameter Serialization
-///-------------------------------------------------------
+// /-------------------------------------------------------
+// /@name Configuring Query String Parameter Serialization
+// /-------------------------------------------------------
 
 /**
  HTTP methods for which serialized requests will encode parameters as a query string. `GET`, `HEAD`, and `DELETE` by default.
@@ -139,9 +139,9 @@ typedef NS_ENUM(NSUInteger, AFHTTPRequestQueryStringSerializationStyle) {
  */
 - (void)setQueryStringSerializationWithBlock:(NSString * (^)(NSURLRequest *request, NSDictionary *parameters, NSError *__autoreleasing *error))block;
 
-///-------------------------------
-/// @name Creating Request Objects
-///-------------------------------
+// /-------------------------------
+// /@name Creating Request Objects
+// /-------------------------------
 
 /**
  Creates an `NSMutableURLRequest` object with the specified HTTP method and URL string.
@@ -280,9 +280,9 @@ extern NSTimeInterval const kAFUploadStream3GSuggestedDelay;
 
 @end
 
-///----------------
-/// @name Constants
-///----------------
+// /----------------
+// /@name Constants
+// /----------------
 
 /**
  ## Throttling Bandwidth for HTTP Request Input Streams

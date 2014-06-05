@@ -1,43 +1,43 @@
-//
-//  EditPhotoDetailViewController.h
-//  photoshare
-//
-//  Created by ignis2 on 06/02/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// EditPhotoDetailViewController.h
+// photoshare
+// 
+// Created by ignis2 on 06/02/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
 #import "ContentManager.h"
 #import <CoreLocation/CoreLocation.h>
 #import "NavigationBar.h"
-@interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate,WebserviceDelegate,UIScrollViewDelegate>
+#import "HomeViewController.h"
+@interface EditPhotoDetailViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate,UIGestureRecognizerDelegate,WebserviceDelegate,UIScrollViewDelegate, UITextViewDelegate>
 {
-    //get the userf location
+    // GETS USER LOCATION
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
     
     IBOutlet UITextField *photoTitletxt;
-   
     IBOutlet UITextView *photoDescriptionTxt;
     IBOutlet UITextField *photoTag;
-    
-    IBOutlet UILabel *headingLabel;
     IBOutlet UIButton *saveButton;
     IBOutlet UIButton *cancelButton;
     IBOutlet UIScrollView *scrollView;
-    
-    NSNumber *userid;
+        
     ContentManager *manager;
     WebserviceController *webservices;
     NavigationBar *navnBar;
+    HomeViewController *home;
+    
     BOOL isPhotoDetailSaveOnServer;
     
     NSString *photoLocationString;
+    NSNumber *userid;
     
-    //check orientation
     UIInterfaceOrientation orientation;
+    
 }
 -(IBAction)savePhotoDetail:(id)sender;
 -(IBAction)cancelPhotoDetail:(id)sender;

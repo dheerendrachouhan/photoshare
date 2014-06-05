@@ -1,7 +1,7 @@
 // AFURLSessionManager.h
 // 
 // Copyright (c) 2013 AFNetworking (http://afnetworking.com)
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -101,27 +101,27 @@
  */
 @property (nonatomic, strong) id <AFURLResponseSerialization> responseSerializer;
 
-///-------------------------------
-/// @name Managing Security Policy
-///-------------------------------
+// /-------------------------------
+// /@name Managing Security Policy
+// /-------------------------------
 
 /**
  The security policy used by created request operations to evaluate server trust for secure connections. `AFURLSessionManager` uses the `defaultPolicy` unless otherwise specified.
  */
 @property (nonatomic, strong) AFSecurityPolicy *securityPolicy;
 
-///--------------------------------------
-/// @name Monitoring Network Reachability
-///--------------------------------------
+// /--------------------------------------
+// /@name Monitoring Network Reachability
+// /--------------------------------------
 
 /**
  The network reachability manager. `AFURLSessionManager` uses the `sharedManager` by default.
  */
 @property (readonly, nonatomic, strong) AFNetworkReachabilityManager *reachabilityManager;
 
-///----------------------------
-/// @name Getting Session Tasks
-///----------------------------
+// /----------------------------
+// /@name Getting Session Tasks
+// /----------------------------
 
 /**
  The data, upload, and download tasks currently run by the managed session.
@@ -143,9 +143,9 @@
  */
 @property (readonly, nonatomic, strong) NSArray *downloadTasks;
 
-///---------------------------------
-/// @name Managing Callback Queues
-///---------------------------------
+// /---------------------------------
+// /@name Managing Callback Queues
+// /---------------------------------
 
 /**
  The dispatch queue for `completionBlock`. If `NULL` (default), the main queue is used.
@@ -157,9 +157,9 @@
  */
 @property (nonatomic, strong) dispatch_group_t completionGroup;
 
-///---------------------
-/// @name Initialization
-///---------------------
+// /---------------------
+// /@name Initialization
+// /---------------------
 
 /**
  Creates and returns a manager for a session created with the specified configuration. This is the designated initializer.
@@ -177,9 +177,9 @@
  */
 - (void)invalidateSessionCancelingTasks:(BOOL)cancelPendingTasks;
 
-///-------------------------
-/// @name Running Data Tasks
-///-------------------------
+// /-------------------------
+// /@name Running Data Tasks
+// /-------------------------
 
 /**
  Creates an `NSURLSessionDataTask` with the specified request.
@@ -190,9 +190,9 @@
 - (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
                             completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler;
 
-///---------------------------
-/// @name Running Upload Tasks
-///---------------------------
+// /---------------------------
+// /@name Running Upload Tasks
+// /---------------------------
 
 /**
  Creates an `NSURLSessionUploadTask` with the specified request for a local file.
@@ -231,9 +231,9 @@
                                                  progress:(NSProgress * __autoreleasing *)progress
                                         completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler;
 
-///-----------------------------
-/// @name Running Download Tasks
-///-----------------------------
+// /-----------------------------
+// /@name Running Download Tasks
+// /-----------------------------
 
 /**
  Creates an `NSURLSessionDownloadTask` with the specified request.
@@ -261,9 +261,9 @@
                                              destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
                                        completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 
-///-----------------------------------------
-/// @name Setting Session Delegate Callbacks
-///-----------------------------------------
+// /-----------------------------------------
+// /@name Setting Session Delegate Callbacks
+// /-----------------------------------------
 
 /**
  Sets a block to be executed when the managed session becomes invalid, as handled by the `NSURLSessionDelegate` method `URLSession:didBecomeInvalidWithError:`.
@@ -279,9 +279,9 @@
  */
 - (void)setSessionDidReceiveAuthenticationChallengeBlock:(NSURLSessionAuthChallengeDisposition (^)(NSURLSession *session, NSURLAuthenticationChallenge *challenge, NSURLCredential * __autoreleasing *credential))block;
 
-///--------------------------------------
-/// @name Setting Task Delegate Callbacks
-///--------------------------------------
+// /--------------------------------------
+// /@name Setting Task Delegate Callbacks
+// /--------------------------------------
 
 /**
  Sets a block to be executed when an HTTP request is attempting to perform a redirection to a different URL, as handled by the `NSURLSessionTaskDelegate` method `URLSession:willPerformHTTPRedirection:newRequest:completionHandler:`.
@@ -311,9 +311,9 @@
  */
 - (void)setTaskDidCompleteBlock:(void (^)(NSURLSession *session, NSURLSessionTask *task, NSError *error))block;
 
-///-------------------------------------------
-/// @name Setting Data Task Delegate Callbacks
-///-------------------------------------------
+// /-------------------------------------------
+// /@name Setting Data Task Delegate Callbacks
+// /-------------------------------------------
 
 /**
  Sets a block to be executed when a data task has received a response, as handled by the `NSURLSessionDataDelegate` method `URLSession:dataTask:didReceiveResponse:completionHandler:`.
@@ -350,9 +350,9 @@
  */
 - (void)setDidFinishEventsForBackgroundURLSessionBlock:(void (^)(NSURLSession *session))block;
 
-///-----------------------------------------------
-/// @name Setting Download Task Delegate Callbacks
-///-----------------------------------------------
+// /-----------------------------------------------
+// /@name Setting Download Task Delegate Callbacks
+// /-----------------------------------------------
 
 /**
  Sets a block to be executed when a download task has completed a download, as handled by the `NSURLSessionDownloadDelegate` method `URLSession:downloadTask:didFinishDownloadingToURL:`.
@@ -379,9 +379,9 @@
 
 #endif
 
-///--------------------
-/// @name Notifications
-///--------------------
+// /--------------------
+// /@name Notifications
+// /--------------------
 
 /**
  Posted when a task begins executing.

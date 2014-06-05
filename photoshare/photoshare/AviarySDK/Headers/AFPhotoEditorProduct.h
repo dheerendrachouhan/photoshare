@@ -1,9 +1,9 @@
-//
-//  AFPhotoEditorProduct.h
-//  AviarySDK
-//
-//  Copyright (c) 2012 Aviary, Inc. All rights reserved.
-//
+// 
+// AFPhotoEditorProduct.h
+// AviarySDK
+// 
+// Copyright (c) 2012 Aviary, Inc. All rights reserved.
+// 
 
 /** @defgroup AFPhotoEditorProducts In-App Purchase Products */
 

@@ -1,10 +1,10 @@
-//
-//  Header.h
-//  AviarySDK
-//
-//  Created by Jack Sisson on 2/12/13.
-//  Copyright (c) 2013 Aviary, Inc. All rights reserved.
-//
+// 
+// Header.h
+// AviarySDK
+// 
+// Created by Jack Sisson on 2/12/13.
+// Copyright (c) 2013 Aviary, Inc. All rights reserved.
+// 
 
 
 /**

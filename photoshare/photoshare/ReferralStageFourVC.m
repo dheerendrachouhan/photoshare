@@ -1,10 +1,10 @@
-//
-//  ReferralStageFourVC.m
-//  photoshare
-//
-//  Created by ignis3 on 27/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+
+// ReferralStageFourVC.m
+// photoshare
+// 
+// Created by ignis3 on 27/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "ReferralStageFourVC.h"
 #import "ContentManager.h"
@@ -14,8 +14,8 @@
 #import "AppDelegate.h"
 #import "MailMessageTable.h"
 #import <FacebookSDK/FacebookSDK.h>
-@interface ReferralStageFourVC ()
 
+@interface ReferralStageFourVC ()
 
 @end
 
@@ -29,15 +29,15 @@
     NSArray *sttt;
     NSString *tweetFail;
     NSNumber *userID;
-    NSMutableArray *contactSelectedArray;  //need to be removed
-    NSMutableArray *contactNoSelectedArray; // need to be removed
+    NSMutableArray *contactSelectedArray;
+    NSMutableArray *contactNoSelectedArray;
     NSMutableDictionary *contactData;
     int totalCount;
     int countVar;
     int messagecount;
     int mailSent;
     BOOL grant;
-    //For Twitter Account
+    
     ACAccountStore *accountStore;
     ACAccountType *accountType;
 }
@@ -50,9 +50,6 @@
     if (self) {
         // Custom initialization
     }
-    dmc = [[DataMapperController alloc] init];
-    objManager = [ContentManager sharedManager];
-    
     return self;
 }
 
@@ -60,22 +57,31 @@
 {
     [super viewDidLoad];
     
+    // Detect device and load nib
     
-    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone)
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"ReferralStageFourVC_iPad" owner:self options:nil];
+    }
+    else
     {
         if ([[UIScreen mainScreen] bounds].size.height == 568)
         {
             [[NSBundle mainBundle] loadNibNamed:@"ReferralStageFourVC" owner:self options:nil];
         }
-        else if([[UIScreen mainScreen] bounds].size.height == 480)
+        else
         {
             [[NSBundle mainBundle] loadNibNamed:@"ReferrelStageFourVC3" owner:self options:nil];
         }
     }
-    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        [[NSBundle mainBundle] loadNibNamed:@"ReferralStageFourVC_iPad" owner:self options:nil];
-    }
+    
+    dmc = [[DataMapperController alloc] init];
+    objManager = [ContentManager sharedManager];
+    
+    titleTextView.text = @"Write your personal message first then choose how to send it.";
+    
+    eglabel.text=@"If you want to personalise your message";
+    editMessageTitleLbl.text=@"Click here! :)";
     _emailContacts.delegate = self;
     _emailMessageBody.delegate = self;
     emailView.hidden = YES;
@@ -85,52 +91,213 @@
     messagecount = 0;
     grant = NO;
     userID = [NSNumber numberWithInteger:[[dmc getUserId] integerValue]];
-    //For twitter Accounts
+    
+    // For twitter account
+    
     tweetFail =@"";
     accountStore = [[ACAccountStore alloc] init];
     accountType=[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     twiiterListArr = [[NSMutableArray alloc] init];
-    firendDictionary = [[NSMutableDictionary alloc] init]; //fabfriendDictionary
-    FBEmailID = [[NSMutableArray alloc] init]; //storing email id of fb selected user
+    firendDictionary = [[NSMutableDictionary alloc] init];
+    FBEmailID = [[NSMutableArray alloc] init];
     contactSelectedArray = [[NSMutableArray alloc] init];
     contactNoSelectedArray = [[NSMutableArray alloc] init];
     setterEdit = NO;
     
+    webservice=[[WebserviceController alloc] init];
+    
     // Do any additional setup after loading the view from its nib.
+    
     [self.navigationItem setTitle:@"Refer Friends"];
-    //Navigation Back Title
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
     self.navigationItem.backBarButtonItem = backButton;
     customImage.layer.cornerRadius = 5;
     
-    //Filter
+    
     fbFilter = NO;
     twFilter = NO;
     mailFilter = NO;
     smsFilter = NO;
     
-        //Checking the screen size
+    // Checking the screen size
     
     countVar =0;
     [userMessage setDelegate:self];
     
     [self addCustomNavigationBar];
     
-    //Add TAp Gesture to the self view for End Editing
+    // Added Tap gesture to dismiss keyboard
+    
     UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditing)];
     [self.view addGestureRecognizer:tapGesture];
+    
+   
+    [self getAppIdFromServer];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+}
+
+/**
+ *  When Keyboard show add custom "DONE" to hide the keyboard
+ */
+
+- (void)keyboardWillShow:(NSNotification *)notification
+
+{
+    CGPoint beginCentre = [[[notification userInfo] valueForKey:@"UIKeyboardCenterBeginUserInfoKey"] CGPointValue];
+    
+    CGPoint endCentre = [[[notification userInfo] valueForKey:@"UIKeyboardCenterEndUserInfoKey"] CGPointValue];
+    
+    CGRect keyboardBounds = [[[notification userInfo] valueForKey:@"UIKeyboardBoundsUserInfoKey"] CGRectValue];
+    
+    UIViewAnimationCurve animationCurve = [[[notification userInfo] valueForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+    
+    NSTimeInterval animationDuration = [[[notification userInfo] valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    if(nil == keyboardToolbar) {
+        
+        keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.width,self.view.bounds.size.width,25)];
+        
+        keyboardToolbar.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+        
+        keyboardToolbar.barStyle = UIBarStyleDefault;
+        
+        keyboardToolbar.tintColor = [UIColor blackColor];
+        
+        UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(0,0,50,25)];
+        [btn setTitle:@"Done" forState:UIControlStateNormal];
+        
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        
+        [[btn titleLabel] setFont:[UIFont fontWithName:@"system" size:11]];
+        
+        [btn addTarget:self action:@selector(endEditing) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIBarButtonItem *barButtonItem =[[UIBarButtonItem alloc] initWithCustomView:btn];
+        
+        UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        
+        NSArray *items = [[NSArray alloc] initWithObjects:flex, barButtonItem, nil];
+        
+        [keyboardToolbar setItems:items];
+        
+        keyboardToolbar.frame = CGRectMake(beginCentre.x - (keyboardBounds.size.width/2),
+                                           
+                                           beginCentre.y - (keyboardBounds.size.height/2) - keyboardToolbar.frame.size.height,
+                                           
+                                           keyboardToolbar.frame.size.width,
+                                           
+                                           keyboardToolbar.frame.size.height);
+        
+        [self.view addSubview:keyboardToolbar];
+        
+        
+        
+    }
+    
+    [UIView beginAnimations:@"RS_showKeyboardAnimation" context:nil];
+    
+    [UIView setAnimationCurve:animationCurve];
+    
+    [UIView setAnimationDuration:animationDuration];
+
+    keyboardToolbar.alpha = 1.0;
+    
+    keyboardToolbar.frame = CGRectMake(endCentre.x - (keyboardBounds.size.width/2),
+                                       
+                                       endCentre.y - (keyboardBounds.size.height/2) - keyboardToolbar.frame.size.height - self.view.frame.origin.y,
+                                       
+                                       keyboardToolbar.frame.size.width,
+                                       
+                                       keyboardToolbar.frame.size.height);
+    
+    [UIView commitAnimations];
+    
+    
+    
+}
+
+/**
+ *  When Keyboard is Hidden, hide the custom done button
+ */
+- (void)keyboardWillHide:(NSNotification *)notification
+
+{
+    
+    [self.view endEditing:YES];
+    
+    [self resetTheScrollviewContent];
+    
+    if (nil == keyboardToolbar ) {
+        return;
+    }
+    
+    CGPoint endCentre = [[[notification userInfo] valueForKey:@"UIKeyboardCenterEndUserInfoKey"] CGPointValue];
+    
+    CGRect keyboardBounds = [[[notification userInfo] valueForKey:@"UIKeyboardBoundsUserInfoKey"] CGRectValue];
+    
+    UIViewAnimationCurve animationCurve = [[[notification userInfo] valueForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+    
+    NSTimeInterval animationDuration = [[[notification userInfo] valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+   
+    [UIView beginAnimations:@"RS_hideKeyboardAnimation" context:nil];
+    
+    [UIView setAnimationCurve:animationCurve];
+    
+    [UIView setAnimationDuration:animationDuration];
+    
+    keyboardToolbar.alpha = 0.0;
+    
+    keyboardToolbar.frame = CGRectMake(endCentre.x - (keyboardBounds.size.width/2),
+                                       
+                                       endCentre.y - (keyboardBounds.size.height/2) - keyboardToolbar.frame.size.height,
+                                       
+                                       keyboardToolbar.frame.size.width,
+                                       
+                                       keyboardToolbar.frame.size.height);
+    [UIView commitAnimations];
+    
+}
+
+/**
+ *  Get FacebookAppID From Server. And Dynamically change the facebook App Id
+ */
+
+-(void)getAppIdFromServer
+{
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    isGetFacebookAppID=YES;
+    webservice.delegate=self;
+    [webservice call:nil controller:@"appmanager" method:@"get_fbid"];
+}
+
+/**
+ *  Set The FacebookAppID , display name in FBSettings
+ */
+-(void)setFBAppId :(NSString *)appId displayName:(NSString *)displayName
+{
+    [FBSettings setDefaultAppID:appId];
+    [FBSettings setDefaultDisplayName:displayName];
+    [FBSettings setDefaultUrlSchemeSuffix:[NSString stringWithFormat:@"fb%@",appId]];
 }
 -(void)endEditing
 {
     [self.view endEditing:YES];
+  
     [self resetTheScrollviewContent];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];   
     
+    
+    // For Twitter
     if(twitterTweet.length != 0)
     {
         if([twitterTweet isEqualToString:@"(null)"])
@@ -138,13 +305,18 @@
             twitterTweet=@"";
         }
         [SVProgressHUD dismissWithSuccess:@"Done"];
+        
+        // Check and Open SLComposeViewController For Twitter
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
         {
             SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-            [tweetSheet setInitialText:[NSString stringWithFormat:@"%@ Hi, I've just downloaded the 123friday invite only app, its really cool, check it out, %@",twitterTweet,toolkitLink]];
+            [tweetSheet setInitialText:[NSString stringWithFormat:@"%@ \n I've just joined 123friday. Watch my short video,",twitterTweet]];
             [tweetSheet addImage:[UIImage imageNamed:@"login-logo-log.png"]];
+            [tweetSheet addURL:[NSURL URLWithString:toolkitLink]];
+            
+            
             [tweetSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
-                
+            
                 FBTWViewController *tw = [[FBTWViewController alloc] init];
                 tw.successType = @"tw";
                 switch (result) {
@@ -165,11 +337,10 @@
         {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
-            
         }
         twitterTweet = @"";
     }
-    
+    // For Email
     if([referredValue isEqualToString:@"Refer Mail"])
     {
         
@@ -185,12 +356,11 @@
         }
         else
         {
-            
             [SVProgressHUD showWithStatus:@"Composing Message" maskType:SVProgressHUDMaskTypeBlack];
             [self performSelector:@selector(mailToFun) withObject:self afterDelay:0.0f];
         }
-        
     }
+    // For SMS
     else if ([referredValue isEqualToString:@"Refer Text"])
     {
         userSelectedPhone = referPhoneStr;
@@ -211,44 +381,67 @@
     
     [self detectDeviceOrientation];
 }
-#pragma mark - TExtView Methods
-//for text view
+
+#pragma mark - UITextView delegate Methods
+
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
     isUserMessageEditing=YES;
     [self setScrollviewContentForTextView];
+    
+}
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    self.stringStr=userMessage.text;
+    NSLog(@"User Message : %@",self.stringStr);
+    
+    return YES;
 }
 
+/**
+ *  Set Scroll View Contentoffset for UITextView
+ */
 -(void)setScrollviewContentForTextView
 {
     if(UIDeviceOrientationIsPortrait(self.interfaceOrientation))
     {
-        [scrollView setContentOffset:CGPointMake(0,100) animated:YES];
+        if(![objManager isiPad])
+        {
+            if([UIScreen mainScreen].bounds.size.height==480)
+            {
+                [scrollView setContentOffset:CGPointMake(0,105) animated:YES];
+            }
+            else
+            {
+                [scrollView setContentOffset:CGPointMake(0,45) animated:YES];
+            }
+        }
+        
     }
     else
     {
-        if([UIScreen mainScreen].bounds.size.height==480)
+        if(![objManager isiPad])
         {
-            [scrollView setContentOffset:CGPointMake(0,150) animated:YES];
+            if([UIScreen mainScreen].bounds.size.height==480)
+            {
+                [scrollView setContentOffset:CGPointMake(0,185) animated:YES];
+            }
+            else
+            {
+                [scrollView setContentOffset:CGPointMake(0,210) animated:YES];
+            }
         }
         else
         {
-            [scrollView setContentOffset:CGPointMake(0,250) animated:YES];
+            [scrollView setContentOffset:CGPointMake(0,280) animated:YES];
         }
+
     }
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    self.stringStr=userMessage.text;
-     NSLog(@"User Message : %@",self.stringStr);
-    if([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        [self resetTheScrollviewContent];
-        return NO;
-    }
-    
-    return YES;
-}
+/** 
+ *  Reset The Scroll View Content Offset
+ */
+
 -(void)resetTheScrollviewContent
 {
     [scrollView setContentOffset:CGPointMake(0,-15) animated:YES];
@@ -260,18 +453,31 @@
     NSLog(@"User Message : %@",self.stringStr);
     isUserMessageEditing=NO;
 }
+
+/**
+ *  When User Edit message button Click
+ */
+
 - (IBAction)editMsg_Btn:(id)sender {
     
     [self showTheUserMessageEditTextView];
     
 }
+
+/**
+ *  Show Edit message TextView
+ */
 -(void)showTheUserMessageEditTextView
 {
     [userMessage becomeFirstResponder];
     editMessageTitleLbl.hidden=YES;
     editMessageBtn.hidden=YES;
     userMessage.hidden=NO;
+    eglabel.hidden=YES;
 }
+/**
+ *  Hide The Edit Message TextView
+ */
 -(void)hideTheUserMessageEditTextView
 {
     [userMessage resignFirstResponder];
@@ -279,24 +485,35 @@
     editMessageBtn.hidden=NO;
     userMessage.text=@"";
     userMessage.hidden=YES;
+    eglabel.hidden=NO;
 }
-//Filter Reference.
+/**
+ *  Action for Facebook
+ */
 - (IBAction)fbFilter_Btn:(id)sender {
+    [self endEditing];
     fbFilter = YES;
     twFilter = NO;
     mailFilter = NO;
     smsFilter = NO;
+    [self postTofacebook];
 }
-
+/**
+ *  Action for Twitter
+ */
 - (IBAction)twFilter_Btn:(id)sender {
-    
+    [self endEditing];
     twFilter = YES;
     fbFilter = NO;
     mailFilter = NO;
     smsFilter = NO;
 }
 
+/**
+ *  Action for Email
+ */
 - (IBAction)emailFilter_Btn:(id)sender {
+     [self endEditing];
     self.stringStr=userMessage.text;
      NSLog(@"User Message : %@",self.stringStr);
     mailFilter = YES;
@@ -308,8 +525,11 @@
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
-
+/**
+ *  Action for SMS
+ */
 - (IBAction)smsFilter_Btn:(id)sender {
+     [self endEditing];
     self.stringStr=userMessage.text;
     NSLog(@"User Message : %@",self.stringStr);
     smsFilter = YES;
@@ -322,6 +542,8 @@
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
+
+#pragma mark - UIActionSheet Delegate Method
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -352,22 +574,26 @@
 }
 
 
-#pragma mark - FaceBook Methods
-// Implement the loginViewShowingLoggedInUser: delegate method to modify your app's UI for a logged-in user experience
+#pragma mark - Facebook Delegate Methods
+
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     // If the user is logged in, they can post to Facebook using API calls, so we show the buttons
     [_FacebookShareLinkWithAPICallsButton setHidden:NO];
-    //[_StatusUpdateWithAPICallsButton setHidden:NO];
+    // [_StatusUpdateWithAPICallsButton setHidden:NO];
 }
 
-// Implement the loginViewShowingLoggedOutUser: delegate method to modify your app's UI for a logged-out user experience
+/**
+ *  Method to modify your app's UI for logged-out users
+ */
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
     // If the user is NOT logged in, they can't post to Facebook using API calls, so we show the buttons
     [_FacebookShareLinkWithAPICallsButton setHidden:YES];
-    //[_StatusUpdateWithAPICallsButton setHidden:YES];
+    // [_StatusUpdateWithAPICallsButton setHidden:YES];
 }
 
-// You need to override loginView:handleError in order to handle possible errors that can occur during login
+/**
+ *  Overriden method to handle error
+ */
 - (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
     NSString *alertMessage, *alertTitle;
     
@@ -377,21 +603,18 @@
     if ([FBErrorUtility shouldNotifyUserForError:error]) {
         alertTitle = @"Facebook error";
         alertMessage = [FBErrorUtility userMessageForError:error];
-        
         // This code will handle session closures since that happen outside of the app.
         // You can take a look at our error handling guide to know more about it
         // https://developers.facebook.com/docs/ios/errors
     } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
         alertTitle = @"Session Error";
         alertMessage = @"Your current session is no longer valid. Please log in again.";
-        
         // If the user has cancelled a login, we will do nothing.
         // You can also choose to show the user a message if cancelling login will result in
         // the user not being able to complete a task they had initiated in your app
         // (like accessing FB-stored information or posting to Facebook)
     } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
         NSLog(@"user cancelled login");
-        
         // For simplicity, this sample handles other errors with a generic message
         // You can checkout our error handling guide for more detailed information
         // https://developers.facebook.com/docs/ios/errors
@@ -400,7 +623,6 @@
         alertMessage = @"Please try again later.";
         NSLog(@"Unexpected error:%@", error);
     }
-    
     if (alertMessage) {
         [[[UIAlertView alloc] initWithTitle:alertTitle
                                     message:alertMessage
@@ -410,8 +632,9 @@
     }
 }
 
-
-// A function for parsing URL parameters returned by the Feed Dialog.
+/**
+ *  Function for parsing url parameters returned by the feed dialog
+ */
 - (NSDictionary*)parseURLParams:(NSString *)query {
     NSArray *pairs = [query componentsSeparatedByString:@"&"];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
@@ -424,47 +647,20 @@
     return params;
 }
 
-//FaceBook SDK Implemetation
-- (IBAction)postTofacebook:(id)sender {
-
-    // FALLBACK: publish just a link using the Feed dialog
-    FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
-    params.link = [NSURL URLWithString:toolkitLink];
-    params.name = @"Hi, I've just downloaded the 123friday invite only app, its really cool, check it out";
-    params.caption = @"  ";
-    params.description = @" ";
-    params.picture=[NSURL URLWithString:@"http://my.123friday.com/img/logo.png"];
-    // If the Facebook app is installed and we can present the share dialog
-    if ([FBDialogs canPresentShareDialogWithParams:params])
-    {
-        // Present share dialog
-        [FBDialogs presentShareDialogWithLink:params.link name:params.name
-         caption:params.caption description:params.description picture:params.picture clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error)
-        {
-         if(error)
-         {
-             // An error occurred, we need to handle the error
-            // See: https://developers.facebook.com/docs/ios/errors
-            NSLog(@"Error publishing story: %@", error.description);
-         }
-         else
-         {
-             // Success
-             NSLog(@"result %@", results);
-         }
-        }];
-    }
-    else
-    {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Hi, I've just downloaded the 123friday invite only app, its really cool, check it out", @"name",@"  ", @"caption",@" ", @"description",toolkitLink, @"link",@"http://my.123friday.com/img/logo.png",@"picture",nil];
+/**
+ *  Post On Facebook
+ */
+- (void)postTofacebook{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"I've joined 123friday.", @"name",@" ", @"caption",@"Watch my short video.", @"description",toolkitLink, @"link",@"http://my.123friday.com/img/facebook.png",@"picture",nil];
     // Show the feed dialog
+    
     [FBWebDialogs presentFeedDialogModallyWithSession:nil parameters:params
-    handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error)
+                                              handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error)
     {
         if (error)
         {
             // An error occurred, we need to handle the error
-            // See: https://developers.facebook.com/docs/ios/errors NSLog(@"Error publishing story: %@", error.description);
+            // See: https://developers.facebook.com/docs/ios/errors
         }
         else
         {
@@ -489,22 +685,40 @@
                     NSString *result = [NSString stringWithFormat: @"Posted story, id: %@", [urlParams valueForKey:@"post_id"]];
                     FBTWViewController *fb = [[FBTWViewController alloc] init];
                     fb.successType = @"fb";
-                    [self.navigationController pushViewController:fb animated:YES];                    NSLog(@"result %@", result);
+                    [self.navigationController pushViewController:fb animated:YES];
+                    NSLog(@"result %@", result);
                 }
             }
         }
     }];
-    }
 }
-#pragma mark - Twitter Account Methods
+/**
+ *  Post On Twitter
+ */
 
-//Twitter SDK Implemetation
 - (IBAction)postToTwitter:(id)sender {
     self.stringStr=userMessage.text;
-    [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
-    //Get Twitter Accounts
-    [self getTwitterAccounts];
+    
+    NSMutableArray *arr = [objManager getData:@"twFriendList"];
+    
+    if(arr.count > 0)
+    {
+        sttt = arr;
+        totalCount =[sttt count];
+        [twiiterListArr removeAllObjects];
+        [self goToTwittertable];
+    }
+    else
+    {
+        [SVProgressHUD showWithStatus:@"Downloading Data" maskType:SVProgressHUDMaskTypeBlack];
+        // Get Twitter Account
+        [self getTwitterAccounts];
+    }
 }
+
+/**
+ *  Get Twitter Account
+ */
 -(void)getTwitterAccounts {
     NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
     
@@ -517,7 +731,7 @@
                 NSLog(@"%@",twitterAccount.username);
                 NSLog(@"%@",twitterAccount.identifier);
                 [self performSelectorInBackground:@selector(getTwitterFriendsIDListForThisAccount:) withObject:twitterAccount.username];
-                [SVProgressHUD showWithStatus:@"Fetching Data" maskType:SVProgressHUDMaskTypeBlack];
+                [SVProgressHUD showWithStatus:@"Downloading Data" maskType:SVProgressHUDMaskTypeBlack];
             }
         }
     }];
@@ -529,60 +743,62 @@
         [twAl show];
     }
 }
+
+
 -(void) getTwitterFriendsIDListForThisAccount:(NSString *)myAccount{
-           if (grant) {
-            NSArray *accounts = [accountStore accountsWithAccountType:accountType];
-            // Check if the users has setup at least one Twitter account
-            if (accounts.count > 0)
-            {
-                ACAccount *twitterAccount = [accounts objectAtIndex:0];
+    
+    if (grant) {
+    
+        NSArray *accounts = [accountStore accountsWithAccountType:accountType];
+        
+        // Check if the users has setup at least one Twitter account
+        
+        if (accounts.count > 0)
+        {
+            ACAccount *twitterAccount = [accounts objectAtIndex:0];
             
-                // Creating a request to get the info about a user on Twitter
-                SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://api.twitter.com/1/friends/ids.json"] parameters:[NSDictionary dictionaryWithObject:myAccount forKey:@"screen_name"]];
+            // Creating a request to get the info about a user on Twitter
+            SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://api.twitter.com/1/friends/ids.json"] parameters:[NSDictionary dictionaryWithObject:myAccount forKey:@"screen_name"]];
                 
-                [twitterInfoRequest setAccount:twitterAccount];
+            [twitterInfoRequest setAccount:twitterAccount];
                 // Making the request
-                [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        // Check if we reached the reate limit
-                        if ([urlResponse statusCode] == 429) {
-                            NSLog(@"Rate limit reached");
-                            return;
+            [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Check if we reached the reate limit
+                    if ([urlResponse statusCode] == 429) {
+                        NSLog(@"Rate limit reached");
+                        [SVProgressHUD dismissWithError:@"Rate limit reached" afterDelay:3.0f];
+                        return;
+                    }
+                    // Check if there was an error
+                    if (error) {
+                        [SVProgressHUD dismissWithError:error.localizedDescription afterDelay:3.0f];
+                        NSLog(@"Error: %@", error.localizedDescription);
+                        return;
+                    }
+                    // Check if there is some response data
+                    if (responseData) {
+                        NSError *error = nil;
+                        NSArray *TWData = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
+                            
+                        sttt = [(NSDictionary *)TWData objectForKey:@"ids"];
+                        totalCount =[sttt count];
+                        [twiiterListArr removeAllObjects];
+                        
+                        if(totalCount == 0)
+                        {
+                            [SVProgressHUD dismissWithError:@"No Twitter ID's Found"];
+                            [objManager showAlert:@"Alert" msg:@"No Twitter ID Found or There are zero Follower in your Twitter account" cancelBtnTitle:@"Ok" otherBtn:nil];
                         }
-                        // Check if there was an error
-                        if (error) {
-                            NSLog(@"Error: %@", error.localizedDescription);
-                            return;
-                        }
-                        // Check if there is some response data
-                        if (responseData) {
-                            
-                            NSError *error = nil;
-                            NSArray *TWData = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
-                            
-                            
-                            sttt = [(NSDictionary *)TWData objectForKey:@"ids"];
-                            totalCount =[sttt count];
-                            [twiiterListArr removeAllObjects];
-                            /*for(int i=0;i<[sttt count];i++)
-                            {
-                                NSLog(@"data== %@ ID = %@",TWData, [sttt objectAtIndex:i]);
-                                [self getFollowerNameFromID:[sttt objectAtIndex:i]];
-                            }*/
-                            
-                            if(totalCount == 0)
-                            {
-                                [SVProgressHUD dismissWithError:@"No Twitter ID's Found"];
-                                [objManager showAlert:@"Alert" msg:@"No Twitter ID Found or There are zero Follower in your Twitter account" cancelBtnTitle:@"Ok" otherBtn:nil];
-                            }
-                            [self goToTwittertable];
-                        }
-                    });
-                }];
-            }
-        } else {
-            NSLog(@"No access granted");
+                        [self goToTwittertable];
+                    }
+                });
+            }];
         }
+    }
+    else {
+      NSLog(@"No access granted");
+    }
 }
 
 -(void)getFollowerNameFromID:(NSString *)ID{
@@ -592,29 +808,38 @@
         if (granted) {
             
             NSArray *accounts = [accountStore accountsWithAccountType:accountType];
-            // Check if the users has setup at least one Twitter account
+            // Check if user has a single account setup
             if (accounts.count > 0)
             {
                 ACAccount *twitterAccount = [accounts objectAtIndex:0];
-                // Creating a request to get the info about a user on Twitter
+                
+                // Creating request to getinfo about user on twitter
+                
                 SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/users/show.json"] parameters:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@",ID] forKey:@"user_id"]];
                 
                 [twitterInfoRequest setAccount:twitterAccount];
-                // Making the request
+
                 [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        // Check if we reached the reate limit
+                        
+                        // Check if we have reached the rate limit
+                        
                         if ([urlResponse statusCode] == 429) {
                             NSLog(@"Rate limit reached");
                             [SVProgressHUD dismissWithError:@"Rate limit reached"];
                             return;
                         }
+                        
                         // Check if there was an error
+                        
                         if (error) {
+                            [SVProgressHUD dismissWithError:error.localizedDescription afterDelay:3.0f];
                             NSLog(@"Error: %@", error.localizedDescription);
                             return;
                         }
+                        
                         // Check if there is some response data
+                        
                         if (responseData) {
                             
                             NSError *error = nil;
@@ -623,7 +848,6 @@
                             NSLog(@"friendsdata value is %@", friendsdata);
                             
                             NSString *stt= [@"@" stringByAppendingString:[friendsdata objectForKey:@"screen_name"]];
-                            
                             [twiiterListArr addObject:stt];
                             
                             if(totalCount > countVar)
@@ -650,6 +874,9 @@
         }
     }];
 }
+/**
+ *  Open Twitter Table For Select The Friends
+ */
 -(void)goToTwittertable
 {
     TwitterTable *tw = [[TwitterTable alloc] init];
@@ -662,34 +889,38 @@
     countVar = 0;
 }
 
-#pragma mark - Mail Functions
+
 -(void)disMissProgress
 {
     [SVProgressHUD dismissWithSuccess:@"Done"];
 }
 
 
-//Email from Contacts
+
+/**
+ *  Send referral by Email
+ */
 -(void)mailToFun {
     
     self.stringStr=userMessage.text;
     [self composedMailMessage];
     referredValue = @"";
-    // Email Subject
-    NSString *emailTitle = @"Check This Out!";
-    // Email Content
+    // Email subjects
+    NSString *emailTitle = @" ";
+    // Email content
     NSString *message=self.stringStr;
+    NSString *messageBody =nil;
     if(message==NULL || message.length==0)
     {
-        message=@"";
+        messageBody= [NSString stringWithFormat:@"I'm using 123friday! Watch this short video then give me a call or message me :-)  <a href=%@>123friday video</a>",toolkitLink];
     }
     else
     {
         message=[NSString stringWithFormat:@"%@.",message];
+        messageBody= [NSString stringWithFormat:@"%@ <a href=%@>123friday video</a>",message,toolkitLink];
     }
     
-    NSString *messageBody = [NSString stringWithFormat:@"%@ <a href=%@>Hi, I've just downloaded the 123friday invite only app, its really cool, check it out.</a>",message,toolkitLink]; // Change the message body to HTML
-    // To address
+    // "To" address
     NSArray *toRecipents = [NSArray arrayWithArray:contactSelectedArray];
         
     MFMailComposeViewController *mfMail = [[MFMailComposeViewController alloc] init];
@@ -697,11 +928,24 @@
     
     [mfMail setSubject:emailTitle];
     [mfMail setMessageBody:messageBody isHTML:YES];
-    //[mfMail setToRecipients:toRecipents];
-    [mfMail setBccRecipients:toRecipents];
-    // Present mail view controller on screen
+    if(toRecipents.count>0)
+    {
+        [mfMail setToRecipients:[NSArray arrayWithObject:[toRecipents objectAtIndex:0]]];
+        NSMutableArray *torec=[toRecipents mutableCopy];
+        if(torec.count>1)
+        {
+            [torec removeObjectAtIndex:0];
+            [mfMail setBccRecipients:torec];
+        }
+    }
+    
+    // Present mail view controller on the screen
+    
     [[self navigationController] presentViewController:mfMail animated:YES completion:nil];
 }
+
+#pragma mark - MFMailComposeViewController Delegate Methods
+
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
@@ -727,28 +971,31 @@
             break;
     }
     
-    // Close the Mail Interface
+    // Close the mail interface
     [self dismissModals];
 }
 
-//Message to user
-#pragma mark - Message Methods
+/**
+ *  Send referral by SMS
+ */
 -(void)sendInAppSMS_referral
 {
     [self composedMailMessage];
     referredValue = @"";
     
     NSString *message=self.stringStr;
+    NSString *msgBody=nil;
     if(message==NULL || message.length==0)
     {
-        message=@"";
+        msgBody=[NSString stringWithFormat:@"I'm using 123friday! Watch this short video then give me a call or message me :-) %@",toolkitLink];
     }
     else
     {
         message=[NSString stringWithFormat:@"%@.",message];
+        msgBody=[NSString stringWithFormat:@"%@ %@",message,toolkitLink];
     }
     
-    NSString *msgBody=[NSString stringWithFormat:@"%@Hi, I've just downloaded the 123friday invite only app, its really cool, check it out, %@.",message,toolkitLink];
+    
     msgBody = [msgBody stringByTrimmingCharactersInSet:                               [NSCharacterSet whitespaceCharacterSet]];
     
 	if([MFMessageComposeViewController canSendText])
@@ -764,6 +1011,9 @@
         [objManager showAlert:@"Alert !" msg:@"Your device not support messaging or currently not configured to send messages." cancelBtnTitle:@"Ok" otherBtn:Nil];
     }
 }
+
+#pragma mark - MFMessageComposeViewController Delegate Methods
+
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
@@ -794,6 +1044,9 @@
     [SVProgressHUD dismissWithSuccess:@"Composed"];
 }
 
+/**
+ *  Load Contacts From ABAddressBookRef
+ */
 
 -(void)ContactSelectorMethod
 {
@@ -820,7 +1073,13 @@
        
         [alert show];
     }
+    
+    CFRelease(addressBook);
 }
+
+/**
+ *  Load All Contacts From ABAddressBookRef
+ */
 
 -(void)loadContacts
 {
@@ -829,7 +1088,7 @@
     contactData = [[NSMutableDictionary alloc] init];
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
     
-    if (addressBook != nil)
+    if (addressBook != (__bridge ABAddressBookRef)((id)[NSNull null]))
     {
         NSLog(@"Succesful.");
         
@@ -862,7 +1121,8 @@
             NSLog(@"Full Name: %@",fullName);
             
             NSString *concatStr = @"";
-            //email
+            NSString *concatStr2 = @"";
+            
             ABMultiValueRef emails = ABRecordCopyValue(contactPerson, kABPersonEmailProperty);
             NSUInteger j = 0;
             for (j = 0; j < ABMultiValueGetCount(emails); j++)
@@ -877,8 +1137,6 @@
                     concatStr = [NSString stringWithFormat:@"%@,%@",concatStr,email];
                 }
             }
-            
-            NSString *concatStr2 = @"";
             
             ABMutableMultiValueRef phones = ABRecordCopyValue(contactPerson, kABPersonPhoneProperty);
             NSUInteger k = 0;
@@ -895,7 +1153,9 @@
                 }
             }
             
-            //NSdictionary add
+            CFRelease(emails);
+            CFRelease(phones);
+            
             NSDictionary *dict = @{@"name":fullName,@"email":concatStr,@"phone":concatStr2};
             
             [contactData setObject:dict forKey:[NSString stringWithFormat:@"%d",i]];
@@ -903,7 +1163,8 @@
     }
     CFRelease(addressBook);
     
-    //forwarding to controller
+    // Forwarding to controller
+    
     if(mailFilter)
     {
         MailMessageTable *mmVC;
@@ -920,7 +1181,6 @@
         mmVC.filterType = @"Refer Mail";
         
         [self.navigationController pushViewController:mmVC animated:YES];
-       /// [contactData removeAllObjects];
     }
     else if (smsFilter)
     {
@@ -943,7 +1203,9 @@
     }
 }
 
-//alertView
+/**
+ *  Alert view delegates
+ */
 -(void)alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"%li",(long)buttonIndex);
@@ -963,13 +1225,17 @@
 
 
 
-//dismiss models
+/**
+ *  Dismiss models
+ */
 -(void)dismissModals
 {
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
-//API calling
+/**
+ *  Send Email detail To The Server
+ */
 
  -(void)mailToServer
 {
@@ -980,7 +1246,7 @@
     NSString *message=self.stringStr;
     if(message==NULL)
     {
-        message=@"";
+        message = [NSString stringWithFormat:@""];
     }
     
     for(int sm=0;sm<contactSelectedArray.count;sm++)
@@ -989,6 +1255,8 @@
         [wbh call:dictData controller:@"broadcast" method:@"sendmail"];
     }
 }
+
+#pragma mark - Add Custom Navigation Bar
 
 -(void)addCustomNavigationBar
 {
@@ -1013,10 +1281,12 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+/**
+ *  Actions defined for email
+ */
 - (IBAction)sendEmailView:(id)sender {
      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"You have successfully referred your friends." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Refer more people", nil];
     [alert show];
-    
     [self mailToServer];
     emailView.hidden = YES;
     referredValue = @"";
@@ -1032,18 +1302,42 @@
     referEmailStr = @"";
 }
 
--(void)webserviceCallback:(NSDictionary *)data
-{
-    NSLog(@"WebService Data -- %@",data);
-    mailSent++;
-}
+
 - (IBAction)addmoreBtn:(id)sender
 {
     [self ContactSelectorMethod];
 }
 
+#pragma mark - WebService Delegate Methods
 
-#pragma mark - Device Orientation
+-(void)webserviceCallback:(NSDictionary *)data
+{
+    // Recieve FacebookAppID from server
+    NSLog(@"WebService Data -- %@",data);
+    NSNumber *exit_code=[data objectForKey:@"exit_code"];
+    if(isGetFacebookAppID)
+    {
+        @try {
+            if(exit_code.integerValue==1)
+            {
+                // Save details recieved to FBSettings
+                [self setFBAppId:[[data objectForKey:@"output_data"] objectForKey:@"fb_appid"] displayName:@"123Friday"];
+            }
+        }
+        @catch (NSException *exception) {
+            
+        }
+        [SVProgressHUD dismiss];
+        isGetFacebookAppID=NO;
+    }
+    else
+    {
+        mailSent++;
+    }
+}
+
+#pragma mark - Device Orientation Methods
+
 -(void)detectDeviceOrientation
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -1051,11 +1345,9 @@
     }else{
         [self orient:self.interfaceOrientation];
     }
-    
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 
@@ -1070,6 +1362,7 @@
 
 -(void)orient:(UIInterfaceOrientation)ott
 {
+    [self endEditing];
     if (ott == UIInterfaceOrientationLandscapeLeft ||
         ott == UIInterfaceOrientationLandscapeRight)
     {
@@ -1124,6 +1417,10 @@
         [self setUIForIOS6];
     }
 }
+
+/**
+ *  For IOS6
+ */
 -(void)setUIForIOS6
 {
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
@@ -1134,7 +1431,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -1,10 +1,10 @@
-//
-//  LargePhotoViewController.m
-//  photoshare
-//
-//  Created by ignis2 on 13/03/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// LargePhotoViewController.m
+// photoshare
+// 
+// Created by ignis2 on 13/03/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "LargePhotoViewController.h"
 #import "ContentManager.h"
@@ -17,16 +17,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if([[ContentManager sharedManager] isiPad])
-    {
-        nibNameOrNil=@"LargePhotoViewController_iPad";
-    }
-    else
-    {
-        nibNameOrNil=@"LargePhotoViewController";
-    }
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -34,14 +25,36 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Detect device and load nib
+    
+    if([[ContentManager sharedManager] isiPad])
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"LargePhotoViewController_iPad" owner:self options:nil];
+    }
+    else
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"LargePhotoViewController" owner:self options:nil];
+    }
+    
     webservices=[[WebserviceController alloc] init];
     manager=[ContentManager sharedManager];
-}
--(void)viewWillAppear:(BOOL)animated
-{    [super viewWillAppear:animated];
-    self.tabBarController.tabBar.hidden=YES;
     
+    // Set The Loading Indicator
+    activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [imgView addSubview:activityIndicator];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden=YES;
      [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+    
+    
+    // Check if called from PhotoViewController or SearchPhotoViewController
     if(self.isFromPhotoViewC)
     {
         imgView.image=self.imageLoaded;
@@ -49,15 +62,16 @@
     else
     {
         imgView.image=nil;
-        activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        
         [activityIndicator startAnimating];
         activityIndicator.tag=1100;
         activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |                                        UIViewAutoresizingFlexibleRightMargin |                                        UIViewAutoresizingFlexibleTopMargin |                                        UIViewAutoresizingFlexibleBottomMargin);
         activityIndicator.center = CGPointMake(CGRectGetWidth(imgView.bounds)/2, CGRectGetHeight(imgView.bounds)/2);
-        [imgView addSubview:activityIndicator];
+        [activityIndicator setAlpha:1];
+        
+        
         [self getPhoto];
     }
-   
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -67,48 +81,58 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
+/**
+ *  Request Large image from server
+ */
+
 -(void)getPhoto
 {
-    //[SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
     isGetOriginalPhotoFromServer=YES;
-    NSString *resize=@"320";
-    if ([manager isiPad])
-    {
-        resize=@"768";
-    }
+    NSString *resize=@"0";
+   
     [self getPhotoFromServer:resize];
 }
 -(void)getPhotoFromServer :(NSString *)resize
 {
+    // Get Larger version photo from server
     
     NSDictionary *dicData;
     
     @try {
-            webservices.delegate=self;
-            NSNumber *num = [NSNumber numberWithInt:1] ;
-            
-            dicData = @{@"user_id":[manager getData:@"user_id"],@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.colId,@"image_resize":resize};
-            [webservices call:dicData controller:@"photo" method:@"get"];
+        webservices.delegate=self;
+        NSNumber *num = [NSNumber numberWithInt:1] ;
+        
+        dicData = @{@"user_id":[manager getData:@"user_id"],@"photo_id":self.photoId,@"get_image":num,@"collection_id":self.colId,@"image_resize":resize};
+        [webservices call:dicData controller:@"photo" method:@"get"];
     }
     @catch (NSException *exception) {
         NSLog(@"Exception is found :%@",exception.description);
     }
 }
+
+#pragma mark - WebService Delegate Methods
+
 -(void)webserviceCallbackImage:(UIImage *)image
 {
+    // Displays the incoming requsted image from server
     if(isGetOriginalPhotoFromServer)
     {
-        [activityIndicator removeFromSuperview];
+        [activityIndicator setAlpha:0];
+        
         imgView.image=image;
         isGetOriginalPhotoFromServer=NO;
     }
 }
 -(void)webserviceCallback:(NSDictionary *)data
 {
-    NSLog(@"Call BAck In Large Image view %@",data);
+    NSLog(@"Call Back In Large Image view %@",data);
 }
+
+/**
+ *  Back Button Action
+ */
 -(IBAction)backBtnAction:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];

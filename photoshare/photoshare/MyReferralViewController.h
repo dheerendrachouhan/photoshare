@@ -1,10 +1,10 @@
-//
-//  MyReferralViewController.h
-//  photoshare
-//
-//  Created by ignis3 on 25/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// MyReferralViewController.h
+// photoshare
+// 
+// Created by ignis3 on 25/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
@@ -13,11 +13,11 @@
 @class ContentManager;
 @interface MyReferralViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,WebserviceDelegate>
 {
-    IBOutlet UITableView *tableView;
+    IBOutlet UITableView *tableViews;
     DataMapperController *dmc;
     ContentManager *ObjManager;
     NavigationBar *navnBar;
 }
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UITableView *tableViews;
 
 @end

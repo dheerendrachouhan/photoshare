@@ -1,10 +1,10 @@
-//
-//  photoshareTests.m
-//  photoshareTests
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// photoshareTests.m
+// photoshareTests
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <XCTest/XCTest.h>
 

@@ -1,16 +1,16 @@
-//
-//  LaunchCameraViewController.h
-//  photoshare
-//
-//  Created by ignis2 on 03/02/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// LaunchCameraViewController.h
+// photoshare
+// 
+// Created by ignis2 on 03/02/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "ContentManager.h"
 #import "DataMapperController.h"
 #import "WebserviceController.h"
-//for Aviary
+// for Aviary
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <QuartzCore/QuartzCore.h>
 #import "AFPhotoEditorController.h"
@@ -26,7 +26,7 @@
     IBOutlet UIPickerView *categoryPickerView;
     IBOutlet UIImageView *imgView;
     
-    //get the userf location
+    // GETS the userf location
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
@@ -49,23 +49,23 @@
 
     BOOL isCameraEditMode;
     BOOL isPhotoSavingMode;
+    BOOL isGetSharedCollList;
     
     
-    //fore new folder create when pick image
     NSString *photoTitleStr;
     NSString *photoDescriptionStr;
     NSString *photoTagStr;
-    NSString *photoLocationStr; //userLoaction is save
+    NSString *photoLocationStr;
     
     UIInterfaceOrientation orientation;
     UILabel *titleLabe;
 }
 @property(nonatomic,retain)UIImage *pickerimage;
-//for Aviary
+// for Aviary
 @property (nonatomic, strong) ALAssetsLibrary * assetLibrary;
 @property (nonatomic, strong) NSMutableArray * sessions;
 
-//for popover
+// for popover
 @property (nonatomic, strong) UIPopoverController * popover;
 @property (nonatomic, assign) BOOL shouldReleasePopover;
 

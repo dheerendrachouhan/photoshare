@@ -1,10 +1,10 @@
-//
-//  ReferFriendViewController.h
-//  photoshare
-//
-//  Created by Dhiru on 22/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// ReferFriendViewController.h
+// photoshare
+// 
+// Created by Dhiru on 22/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import <UIKit/UIKit.h>
 #import "WebserviceController.h"
@@ -15,9 +15,13 @@
 @interface ReferFriendViewController : UIViewController <WebserviceDelegate,UIWebViewDelegate,UIWebViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 {
     IBOutlet UIWebView *webViewReferral;
+    IBOutlet UITextView *titleTextView;
+    IBOutlet UILabel *subTitle;
+    IBOutlet UIScrollView *scrollView;
+    
     ContentManager *objManager;
     NavigationBar *navnBar;
-    IBOutlet UIScrollView *scrollView;
+    
     int activeIndex;
 }
 

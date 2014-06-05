@@ -1,15 +1,15 @@
-//
-//  TMailMessageTable.m
-//  photoshare
-//
-//  Created by ignis3 on 29/01/14.
-//  Copyright (c) 2014 ignis. All rights reserved.
-//
+// 
+// TMailMessageTable.m
+// photoshare
+// 
+// Created by ignis3 on 29/01/14.
+// Copyright (c) 2014 ignis. All rights reserved.
+// 
 
 #import "MailMessageTable.h"
 #import "SVProgressHUD.h"
-#import "ReferralStageFourVC.h" //for text and mail composition
-#import "PhotoShareController.h" //for text and mail composition
+#import "ReferralStageFourVC.h" // for text and mail composition
+#import "PhotoShareController.h" // for text and mail composition
 #import "ContentManager.h"
 #import "SVProgressHUD.h"
 
@@ -28,9 +28,10 @@
     NSMutableArray *arSelectedRows;
     NSMutableArray *searchSelectedIndexArr;
     NSTimer *timer;
-    BOOL check;
     
+    BOOL check;
     BOOL isSearching;
+    
     CGRect frame;
     NSMutableArray *filteredList;
     NSMutableArray *filteredContact;
@@ -47,18 +48,19 @@
         // Custom initialization
     }
     
-    objManager = [ContentManager sharedManager];
-    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    objManager = [ContentManager sharedManager];
     // Do any additional setup after loading the view from its nib.
     [self setUIForIOS6];
     check = YES;
     isSearching = NO;
+    
+    // Initialize
     filteredList = [[NSMutableArray alloc] init];
     filteredContact = [[NSMutableArray alloc] init];
     filteredPhone = [[NSMutableArray alloc] init];
@@ -71,7 +73,7 @@
     finalSelectArr = [[NSMutableArray alloc] init];
     searchSelectedIndexArr=[[NSMutableArray alloc] init];
     [SVProgressHUD showWithStatus:@"Loading Contacts" maskType:SVProgressHUDMaskTypeBlack];
-    //This function is for Referral Portion
+
     if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
     {
         [select_deseletBtn setHidden:NO];
@@ -131,9 +133,13 @@
     [navnBar setTheTotalEarning:objManager.weeklyearningStr];
     [self detectDeviceOrientation];
 }
+
+/**
+ *  For IOS6
+ */
 -(void)setUIForIOS6
 {
-    //Set for ios 6
+   
     if(!IS_OS_7_OR_LATER && IS_OS_6_OR_LATER)
     {
     
@@ -144,6 +150,10 @@
     }
     
 }
+
+/**
+ *  Filter contact for search string
+ */
 - (void)filterListForSearchText:(NSString *)searchText
 {
     [filteredList removeAllObjects];
@@ -168,117 +178,24 @@
     }
 }
 
-
-- (IBAction)doneBtnPressed:(id)sender {
-    if([filterType isEqualToString:@"Refer Mail"])
-    {
-        ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
-        rf.referEmailStr = StringTweet;
-        rf.referredValue = @"Refer Mail";
-        [self.navigationController popToViewController:rf animated:YES];
-    }
-    else if([filterType isEqualToString:@"Refer Text"])
-    {
-        ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
-        rf.referPhoneStr = StringTweet;
-        rf.referredValue = @"Refer Text";
-        [self.navigationController popToViewController:rf animated:YES];
-    }
-    else if([filterType isEqualToString:@"Share Mail"])
-    {
-        @try {
-            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:3];
-            psVC.shareEmailStr = StringTweet;
-            psVC.shareValue = @"Share Mail";
-            [self.navigationController popToViewController:psVC animated:YES];
-        }
-        @catch (NSException *exception) {
-            NSLog( @"NSException caught" );
-            NSLog( @"Name: %@", exception.name);
-            NSLog( @"Reason: %@", exception.reason );
-        }
-        
-        @try {
-            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:2];
-            psVC.shareEmailStr = StringTweet;
-            psVC.shareValue = @"Share Mail";
-            [self.navigationController popToViewController:psVC animated:YES];
-        }
-        @catch (NSException *exception) {
-            NSLog( @"NSException caught" );
-            NSLog( @"Name: %@", exception.name);
-            NSLog( @"Reason: %@", exception.reason );
-        }
-        
-        @try {
-            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:4];
-            psVC.shareEmailStr = StringTweet;
-            psVC.shareValue = @"Share Mail";
-            [self.navigationController popToViewController:psVC animated:YES];
-        }
-        @catch (NSException *exception) {
-            NSLog( @"NSException caught" );
-            NSLog( @"Name: %@", exception.name);
-            NSLog( @"Reason: %@", exception.reason );
-        }
-    }
-    else if([filterType isEqualToString:@"Share Text"])
-    {
-        @try {
-            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:3];
-            psVC.sharePhoneStr = StringTweet;
-            psVC.shareValue = @"Share Text";
-            [self.navigationController popToViewController:psVC animated:YES];
-        }
-        @catch (NSException *exception) {
-            NSLog( @"NSException caught" );
-            NSLog( @"Name: %@", exception.name);
-            NSLog( @"Reason: %@", exception.reason );
-        }
-        @try {
-            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:2];
-            psVC.sharePhoneStr = StringTweet;
-            psVC.shareValue = @"Share Text";
-            [self.navigationController popToViewController:psVC animated:YES];
-        }
-        @catch (NSException *exception) {
-            NSLog( @"NSException caught" );
-            NSLog( @"Name: %@", exception.name);
-            NSLog( @"Reason: %@", exception.reason );
-        }
-        @try {
-            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:4];
-            psVC.sharePhoneStr = StringTweet;
-            psVC.shareValue = @"Share Text";
-            [self.navigationController popToViewController:psVC animated:YES];
-        }
-        @catch (NSException *exception) {
-            NSLog( @"NSException caught" );
-            NSLog( @"Name: %@", exception.name);
-            NSLog( @"Reason: %@", exception.reason );
-        }
-    }
-}
+#pragma mark - UITableView delegate and datasource Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     if (isSearching)
-    {
         return [filteredList count];
-    }
     else
     {
         if([contactName count] == 0)
-        {
             return 0;
-        }
         else
-        {
             return contactName.count;
-        }
     }
 }
+
+/**
+ *  This method is used to select contacts where we will be sending invitaion
+ */
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -296,15 +213,14 @@
     }
     cell.textLabel.frame=CGRectMake(cell.textLabel.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width-45, cell.textLabel.frame.size.height);
     cell.detailTextLabel.frame=CGRectMake(cell.detailTextLabel.frame.origin.x, cell.detailTextLabel.frame.origin.y, cell.detailTextLabel.frame.size.width-50, cell.detailTextLabel.frame.size.height);
-    
+    // For E-mail
     if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
     {
         NSString *title;
         NSString *contacts;
         if (isSearching && [filteredList count]) {
             
-                       
-            //If the user is searching, use the list in our filteredList array.
+            // If the user is searching, use the list in our filteredList array.
             title = [filteredList objectAtIndex:indexPath.row];
             contacts = [filteredContact objectAtIndex:indexPath.row];
             
@@ -320,17 +236,16 @@
         {
             contacts=@"";
         }
-        
         cell.textLabel.text = title;
         cell.detailTextLabel.text = contacts;
-        
     }
+    // For SMS
     else if([filterType isEqualToString:@"Refer Text"] || [filterType isEqualToString:@"Share Text"])
     {
         NSString *title;
         NSString *contacts;
         if (isSearching && [filteredList count]) {
-            //If the user is searching, use the list in our filteredList array.
+            // If the user is searching, use the list in our filteredList array.
             title = [filteredList objectAtIndex:indexPath.row];
             contacts = [filteredPhone objectAtIndex:indexPath.row];
             
@@ -350,8 +265,10 @@
         cell.detailTextLabel.text = contacts;
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-   //Add Check Box
+   
     UIImageView *checkBoxImg=(UIImageView *)[cell viewWithTag:1001];
+    
+    // If searching contact list
     if(isSearching)
     {
         @try {
@@ -361,8 +278,6 @@
                 if([selectedUserArr containsObject:[filteredContact objectAtIndex:indexPath.row]])
                 {
                     checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
-                    NSLog(@"Index Path %d",indexPath.row);
-                    
                 }
                 else
                 {
@@ -374,8 +289,6 @@
                 if([selectedUserArr containsObject:[filteredPhone objectAtIndex:indexPath.row]])
                 {
                     checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
-                    NSLog(@"Index Path %d",indexPath.row);
-                    
                 }
                 else
                 {
@@ -392,8 +305,6 @@
         if([arSelectedRows containsObject:[NSNumber numberWithInt:[indexPath row]]])
         {
             checkBoxImg.image=[UIImage imageNamed:@"iconr3.png"];
-            NSLog(@"Index Path %d",indexPath.row);
-            
         }
         else
         {
@@ -402,12 +313,17 @@
     }
     return cell;
 }
-
+/**
+ *  Implements functionaly to not let select above
+ *  maximum limit and to ensure non duplicacy of selection
+ */
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     BOOL isSelect;
     UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
+    
+    // For Contact Searching
     if(isSearching)
     {
         if(![searchSelectedIndexArr containsObject:[NSNumber numberWithInt:indexPath.row]])
@@ -455,7 +371,7 @@
                 [selectedUserArr addObject:[contactEmail objectAtIndex:indexPath.row]];
             }
             @try {
-                //Remove Duplicates From Array
+                // Remove duplicates from array
                 NSMutableArray *uniqueArray = [NSMutableArray array];
                 
                 [uniqueArray addObjectsFromArray:[[NSSet setWithArray:selectedUserArr] allObjects]];
@@ -555,7 +471,7 @@
                 [selectedUserArr addObject:[contactPhone objectAtIndex:indexPath.row]];
             }
             @try {
-                //Remove Duplicates From Array
+                // Remove Duplicates From Array
                 NSMutableArray *uniqueArray = [NSMutableArray array];
                 
                 [uniqueArray addObjectsFromArray:[[NSSet setWithArray:selectedUserArr] allObjects]];
@@ -574,6 +490,9 @@
             }
             finalSelectArr = [NSMutableArray arrayWithArray:selectedUserArr];
             [arSelectedRows addObject:[NSNumber numberWithInt:index]];
+            
+            // Checks maximum number of selectable contacts
+            
             if(arSelectedRows.count > 10)
             {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Maximum limit reached" message:@"You can select only 10 contacts per text." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:Nil, nil];
@@ -645,15 +564,113 @@
     
 }
 
+/**
+ *  Done Button Click
+ */
 
-//Testing Area
+- (IBAction)doneBtnPressed:(id)sender {
+    if([filterType isEqualToString:@"Refer Mail"])
+    {
+        ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
+        rf.referEmailStr = StringTweet;
+        rf.referredValue = @"Refer Mail";
+        [self.navigationController popToViewController:rf animated:YES];
+    }
+    else if([filterType isEqualToString:@"Refer Text"])
+    {
+        ReferralStageFourVC *rf = (ReferralStageFourVC *)[self.navigationController.viewControllers objectAtIndex:2];
+        rf.referPhoneStr = StringTweet;
+        rf.referredValue = @"Refer Text";
+        [self.navigationController popToViewController:rf animated:YES];
+    }
+    else if([filterType isEqualToString:@"Share Mail"])
+    {
+        @try {
+            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:3];
+            psVC.shareEmailStr = StringTweet;
+            psVC.shareValue = @"Share Mail";
+            [self.navigationController popToViewController:psVC animated:YES];
+        }
+        @catch (NSException *exception) {
+            NSLog( @"NSException caught" );
+            NSLog( @"Name: %@", exception.name);
+            NSLog( @"Reason: %@", exception.reason );
+        }
+        
+        @try {
+            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:2];
+            psVC.shareEmailStr = StringTweet;
+            psVC.shareValue = @"Share Mail";
+            [self.navigationController popToViewController:psVC animated:YES];
+        }
+        @catch (NSException *exception) {
+            NSLog( @"NSException caught" );
+            NSLog( @"Name: %@", exception.name);
+            NSLog( @"Reason: %@", exception.reason );
+        }
+        
+        @try {
+            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:4];
+            psVC.shareEmailStr = StringTweet;
+            psVC.shareValue = @"Share Mail";
+            [self.navigationController popToViewController:psVC animated:YES];
+        }
+        @catch (NSException *exception) {
+            NSLog( @"NSException caught" );
+            NSLog( @"Name: %@", exception.name);
+            NSLog( @"Reason: %@", exception.reason );
+        }
+    }
+    else if([filterType isEqualToString:@"Share Text"])
+    {
+        @try {
+            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:3];
+            psVC.sharePhoneStr = StringTweet;
+            psVC.shareValue = @"Share Text";
+            [self.navigationController popToViewController:psVC animated:YES];
+        }
+        @catch (NSException *exception) {
+            NSLog( @"NSException caught" );
+            NSLog( @"Name: %@", exception.name);
+            NSLog( @"Reason: %@", exception.reason );
+        }
+        @try {
+            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:2];
+            psVC.sharePhoneStr = StringTweet;
+            psVC.shareValue = @"Share Text";
+            [self.navigationController popToViewController:psVC animated:YES];
+        }
+        @catch (NSException *exception) {
+            NSLog( @"NSException caught" );
+            NSLog( @"Name: %@", exception.name);
+            NSLog( @"Reason: %@", exception.reason );
+        }
+        @try {
+            PhotoShareController *psVC = (PhotoShareController *)[self.navigationController.viewControllers objectAtIndex:4];
+            psVC.sharePhoneStr = StringTweet;
+            psVC.shareValue = @"Share Text";
+            [self.navigationController popToViewController:psVC animated:YES];
+        }
+        @catch (NSException *exception) {
+            NSLog( @"NSException caught" );
+            NSLog( @"Name: %@", exception.name);
+            NSLog( @"Reason: %@", exception.reason );
+        }
+    }
+}
 
+/**
+ *  Select All Contact Button Select
+ */
 - (IBAction)selectAllbtn:(id)sender {
     
     NSMutableString *tweetString = [[NSMutableString alloc] init];
     
+    // For e-mail
     if([filterType isEqualToString:@"Refer Mail"] || [filterType isEqualToString:@"Share Mail"])
     {
+        
+        // If contact not selected then select all contact
         if(check)
         {
             for (NSInteger s = 0; s < self.table.numberOfSections; s++)
@@ -665,7 +682,6 @@
                     UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
                     imgView.image=[UIImage imageNamed:@"iconr3.png"];
                     
-                    //[[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
                     [arSelectedRows addObject:[NSNumber numberWithInteger:r]];
                     if([tweetString length])
                     {
@@ -680,6 +696,7 @@
             check = NO;
             [select_deseletBtn setTitle:@"Deselect All" forState:UIControlStateNormal];
         }
+        // If contact selected then de-select all contact
         else
         {
             for (NSInteger s = 0; s < self.table.numberOfSections; s++)
@@ -690,7 +707,6 @@
                     
                     UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
                     imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
-                    //[[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
                     [arSelectedRows removeObject:[NSNumber numberWithInteger:r]];
                 }
             }
@@ -700,9 +716,10 @@
             [select_deseletBtn setTitle:@"Select All" forState:UIControlStateNormal];
         }
     }
-    
+    // For SMS
     else if([filterType isEqualToString:@"Refer Text"] || [filterType isEqualToString:@"Share Text"])
     {
+        // If contact not selected then select all contact
         if(check)
         {
             for (NSInteger s = 0; s < self.table.numberOfSections; s++)
@@ -713,7 +730,6 @@
                     
                     UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
                     imgView.image=[UIImage imageNamed:@"iconr3.png"];
-                    //[[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryCheckmark];
                     [arSelectedRows addObject:[NSNumber numberWithInteger:r]];
                     if([tweetString length])
                     {
@@ -727,7 +743,7 @@
             check = NO;
             [select_deseletBtn setTitle:@"Deselect All" forState:UIControlStateNormal];
         }
-        else
+        else // If contact are selected then de-select all contact
         {
             for (NSInteger s = 0; s < self.table.numberOfSections; s++)
             {
@@ -737,7 +753,6 @@
                     
                     UIImageView *imgView=(UIImageView *)[cell viewWithTag:1001];
                     imgView.image=[UIImage imageNamed:@"iconr3_uncheck.png"];
-                   // [[self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:r inSection:s]] setAccessoryType:UITableViewCellAccessoryNone];
                     [arSelectedRows removeObject:[NSNumber numberWithInteger:r]];
                 }
             }
@@ -749,17 +764,20 @@
     }
 }
 
-#pragma mark - UISearchDisplayControllerDelegate
+#pragma mark - UISearchBar Controller Delegate Methods
+
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-    //When the user taps the search bar, this means that the controller will begin searching.
+    
+    // When the user taps the search bar, this means that the controller will begin searching.
     isSearching = YES;
     [searchSelectedIndexArr removeAllObjects];
 }
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
-    //When the user taps the Cancel Button, or anywhere aside from the view.
+
     [searchSelectedIndexArr removeAllObjects];
     isSearching = NO;
+
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
@@ -771,7 +789,6 @@
 {
     [self filterListForSearchText:searchString]; // The method we made in step 7
     
-    // Return YES to cause the search result table view to be reloaded.
     return YES;
 }
 
@@ -779,18 +796,20 @@
 {
     [self filterListForSearchText:[self.searchDisplayController.searchBar text]]; // The method we made in step 7
     
-    // Return YES to cause the search result table view to be reloaded.
     return YES;
 }
 
 
-// Custom Navigation Bar
+#pragma mark - Add Custom Navigation Bar
+
 -(void)addCustomNavigationBar
 {
     self.navigationController.navigationBarHidden = TRUE;
     
     navnBar = [[NavigationBar alloc] init];
     [navnBar loadNav];
+    
+    // Add custom navigation buttons on navigation bar
     
     UIButton *button = [navnBar navBarLeftButton:@"< Back"];
     [button addTarget:self
@@ -813,8 +832,8 @@
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+#pragma mark - Device Orientation Methods
 
-#pragma mark - Device Orientation
 -(void)detectDeviceOrientation
 {
     if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
@@ -880,7 +899,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
